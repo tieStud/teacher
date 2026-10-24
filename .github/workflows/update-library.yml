@@ -24,84 +24,485 @@ jobs:
           from pathlib import Path
           import html, re
 
+          # Builds index.html (the instructor library) from every top-level activity folder.
+          # Each folder's index.html may declare these optional metas (all fall back gracefully):
+          #   activity-status   active | editing   (default: editing)
+          #   activity-category e.g. "חשיבה ביקורתית" (default: "כללי")
+          #   activity-ages     e.g. "ה׳–ט׳"
+          #   activity-duration e.g. "45 דק׳"
+          #   activity-icon     one emoji (default: 📚)
+          #   activity-desc     one short line
+          # The card name is the <title> text before the first "—", "–" or "|".
+          # Output must stay deterministic: no dates, no randomness, stable sort orders.
+
           root = Path(".")
           ignored = {".git", ".github"}
-          items = []
 
+          GRADE_LABELS = {1: "א׳", 2: "ב׳", 3: "ג׳", 4: "ד׳", 5: "ה׳", 6: "ו׳", 7: "ז׳", 8: "ח׳",
+                          9: "ט׳", 10: "י׳", 11: "י״א", 12: "י״ב"}
+          GRADE_LETTERS = {"א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9,
+                           "י": 10, "יא": 11, "יב": 12}
+          PALETTE = {
+              "teal": ("#0f766e", "#e3f1ee"),
+              "orange": ("#c2630f", "#fdf0e3"),
+              "violet": ("#6a55c9", "#efecfb"),
+              "rose": ("#c2415a", "#fce9ed"),
+              "sky": ("#2f6fb8", "#e7f0fa"),
+              "mint": ("#2f8f7d", "#e4f4f0"),
+              "slate": ("#5b6574", "#f1eee8"),
+          }
+          STRIPES = {"teal": "#0f766e", "orange": "#f4a259", "violet": "#8c7ae6",
+                     "rose": "#e76f86", "sky": "#4c8bd6", "mint": "#5bb5a2",
+                     "slate": "#b8b1a5"}
+          KNOWN_COLORS = {
+              "בסיס AI": "teal",
+              "חשיבה ביקורתית": "orange",
+              "פרומפטים": "violet",
+              "בטיחות ואתיקה": "rose",
+              "השוואת כלים": "sky",
+              "יזמות": "mint",
+          }
+          COLOR_ORDER = ["teal", "orange", "violet", "rose", "sky", "mint"]
+          DEFAULT_CATEGORY = "כללי"
+
+
+          def color_for(category):
+              if category == DEFAULT_CATEGORY:
+                  return "slate"
+              if category in KNOWN_COLORS:
+                  return KNOWN_COLORS[category]
+              return COLOR_ORDER[sum(ord(ch) for ch in category) % len(COLOR_ORDER)]
+
+
+          def read_metas(text):
+              metas = {}
+              for tag in re.findall(r"<meta\b[^>]*>", text, re.I):
+                  attrs = {}
+                  for am in re.finditer(r'([\w-]+)\s*=\s*("([^"]*)"|\'([^\']*)\')', tag):
+                      value = am.group(3) if am.group(3) is not None else am.group(4)
+                      attrs[am.group(1).lower()] = html.unescape(value)
+                  name = attrs.get("name", "").strip().lower()
+                  if name.startswith("activity-") and name not in metas:
+                      metas[name] = re.sub(r"\s+", " ", attrs.get("content", "")).strip()
+              return metas
+
+
+          def grade_number(token):
+              token = re.sub(r"[׳״'\"`\s.]", "", token)
+              if token.isdigit():
+                  return None
+              return GRADE_LETTERS.get(token)
+
+
+          def parse_grades(ages):
+              if not ages:
+                  return None
+              parts = [p for p in re.split(r"\s*[–—\-]\s*|\s+עד\s+", ages) if p.strip()]
+              nums = [grade_number(p) for p in parts]
+              nums = [n for n in nums if n]
+              if not nums:
+                  return None
+              return min(nums), max(nums)
+
+
+          items = []
           for folder in sorted(root.iterdir(), key=lambda p: p.name.lower()):
               if not folder.is_dir() or folder.name.startswith(".") or folder.name in ignored:
                   continue
               index_file = folder / "index.html"
               display = folder.name.replace("-", " ").replace("_", " ")
-              status = "editing"
+              metas = {}
               if index_file.exists():
                   text = index_file.read_text(encoding="utf-8", errors="ignore")
                   m = re.search(r"<title>(.*?)</title>", text, re.I | re.S)
                   if m:
-                      title = re.sub(r"\s+", " ", m.group(1)).strip()
+                      title = html.unescape(re.sub(r"\s+", " ", m.group(1)).strip())
                       title = re.split(r"\s*[|—–]\s*", title)[0].strip()
                       if title:
                           display = title
-                  sm = re.search(r'<meta\s+name=["\']activity-status["\']\s+content=["\'](active|editing)["\']', text, re.I)
-                  if not sm:
-                      sm = re.search(r'<meta\s+content=["\'](active|editing)["\']\s+name=["\']activity-status["\']', text, re.I)
-                  if sm:
-                      status = sm.group(1).lower()
-              items.append((folder.name, display, status))
+                  metas = read_metas(text)
+              status = metas.get("activity-status", "").lower()
+              if status not in ("active", "editing"):
+                  status = "editing"
+              category = metas.get("activity-category") or DEFAULT_CATEGORY
+              items.append({
+                  "folder": folder.name,
+                  "name": display,
+                  "status": status,
+                  "category": category,
+                  "ages": metas.get("activity-ages", ""),
+                  "grades": parse_grades(metas.get("activity-ages", "")),
+                  "duration": metas.get("activity-duration", ""),
+                  "icon": metas.get("activity-icon") or "📚",
+                  "desc": metas.get("activity-desc", ""),
+              })
 
-          cards = []
-          for folder, display, status in items:
-              safe_folder = html.escape(folder, quote=True)
-              safe_display = html.escape(display)
-              if status == "active":
-                  cards.append(f"""
-          <a class="card" href="./{safe_folder}/">
-            <div class="icon">📚</div>
-            <strong>{safe_display}</strong>
-          </a>""")
-              else:
-                  cards.append(f"""
-          <div class="card disabled" aria-disabled="true">
-            <div class="icon">📁</div>
-            <strong>{safe_display}</strong>
-            <span class="editing">בעריכה</span>
-          </div>""")
+          esc = html.escape
+
+          # Categories: alphabetical, the default "כללי" group last.
+          categories = sorted({it["category"] for it in items}, key=lambda c: (c == DEFAULT_CATEGORY, c))
+          total = len(items)
+          active_count = sum(1 for it in items if it["status"] == "active")
+          editing_count = total - active_count
+
+          all_grades = sorted({g for it in items if it["grades"] for g in range(it["grades"][0], it["grades"][1] + 1)})
+
+
+          def card_html(it):
+              color = color_for(it["category"])
+              ink, soft = PALETTE[color]
+              gmin, gmax = it["grades"] if it["grades"] else (0, 0)
+              search_text = " ".join([it["name"], it["desc"], it["category"], it["folder"].replace("-", " ")])
+              meta_bits = []
+              if it["ages"]:
+                  meta_bits.append('<span class="m"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M7 11.5V16c0 1.5 2.5 3 5 3s5-1.5 5-3v-4.5"/></svg>' + esc(it["ages"]) + "</span>")
+              if it["duration"]:
+                  meta_bits.append('<span class="m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>' + esc(it["duration"]) + "</span>")
+              status_badge = '<span class="badge-edit">בעריכה</span>' if it["status"] == "editing" else '<span class="go" aria-hidden="true">←</span>'
+              desc = '<p class="desc">' + esc(it["desc"]) + "</p>" if it["desc"] else ""
+              return (
+                  '\n        <a class="card' + (" is-editing" if it["status"] == "editing" else "") + '" href="./' + esc(it["folder"], quote=True) + '/"'
+                  + ' style="--c:' + STRIPES[color] + ";--ci:" + ink + ";--cs:" + soft + '"'
+                  + ' data-status="' + it["status"] + '" data-cat="' + esc(it["category"], quote=True) + '"'
+                  + ' data-gmin="' + str(gmin) + '" data-gmax="' + str(gmax) + '"'
+                  + ' data-search="' + esc(search_text.lower(), quote=True) + '">'
+                  + '\n          <div class="top"><span class="ico" aria-hidden="true">' + esc(it["icon"]) + "</span>"
+                  + '<span class="cat">' + esc(it["category"]) + "</span></div>"
+                  + '\n          <h3>' + esc(it["name"]) + "</h3>"
+                  + ("\n          " + desc if desc else "")
+                  + '\n          <div class="foot"><div class="meta">' + "".join(meta_bits) + "</div>" + status_badge + "</div>"
+                  + "\n        </a>"
+              )
+
+
+          groups = []
+          for cat in categories:
+              members = [it for it in items if it["category"] == cat]
+              members.sort(key=lambda it: (it["status"] != "active", it["name"].lower(), it["folder"]))
+              color = color_for(cat)
+              groups.append(
+                  '\n    <section class="group" data-group="' + esc(cat, quote=True) + '" style="--c:' + STRIPES[color] + '">'
+                  + '\n      <header class="ghead"><span class="dot"></span><h2>' + esc(cat) + '</h2><span class="gcount">' + str(len(members)) + "</span></header>"
+                  + '\n      <div class="grid">'
+                  + "".join(card_html(it) for it in members)
+                  + "\n      </div>\n    </section>"
+              )
+
+          chips = ['<button type="button" class="chip is-on" data-cat="" aria-pressed="true">הכל <span>' + str(total) + "</span></button>"]
+          for cat in categories:
+              n = sum(1 for it in items if it["category"] == cat)
+              chips.append('<button type="button" class="chip" data-cat="' + esc(cat, quote=True) + '" aria-pressed="false" style="--c:' + STRIPES[color_for(cat)] + '"><i></i>' + esc(cat) + " <span>" + str(n) + "</span></button>")
+
+          grade_options = ['<option value="">כל הכיתות</option>']
+          for g in all_grades:
+              grade_options.append('<option value="' + str(g) + '">כיתה ' + GRADE_LABELS.get(g, str(g)) + "</option>")
 
           page = """<!doctype html>
           <html lang="he" dir="rtl">
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width,initial-scale=1">
+            <meta name="theme-color" content="#fbfaf7">
             <title>Tech It Easy — ספריית פעילויות למדריך</title>
+            <!-- GENERATED by .github/workflows/update-library.yml. Do not edit by hand: change the activity folders' metas instead. -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
             <style>
+              :root{
+                --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+                --teal:#0f766e;--teal-soft:#e3f1ee;--warn:#a16207;--warn-bg:#fdf3d7;
+                --shadow:0 6px 18px rgba(31,42,55,.06);--shadow-h:0 10px 26px rgba(31,42,55,.10);
+                --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+              }
               *{box-sizing:border-box}
-              body{margin:0;min-height:100vh;font-family:Arial,"Segoe UI",sans-serif;background:#07101f;color:#fff;padding:32px 20px}
-              .wrap{width:min(1100px,100%);margin:auto;text-align:center}
-              .badge{display:inline-block;margin-bottom:14px;padding:7px 13px;border-radius:999px;border:1px solid #2e4d78;background:#0d1930;color:#31e8ff;font-weight:700}
-              h1{margin:0 0 10px;font-size:clamp(34px,5vw,58px)}
-              p{margin:0 0 34px;color:#b9c8df;font-size:18px}
-              .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
-              .card{min-height:210px;border:1px solid #2e4d78;border-radius:22px;background:#0d1930;color:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:28px;transition:.2s ease}
-              a.card:hover{transform:translateY(-6px) scale(1.02);border-color:#31e8ff;box-shadow:0 16px 40px rgba(49,232,255,.18);background:#10213f}
-              .disabled{opacity:.48;cursor:not-allowed}
-              .icon{font-size:48px}
-              .card strong{font-size:25px;text-transform:none}
-              .editing{font-size:14px;font-weight:900;padding:7px 11px;border-radius:999px;color:#ffe0a3;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.25)}
+              html{-webkit-text-size-adjust:100%}
+              body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;overflow-x:hidden}
+              a{color:inherit}
+              .bg{position:absolute;inset:0 0 auto 0;height:640px;overflow:hidden;z-index:0;pointer-events:none}
+              .bg i{position:absolute;top:-220px;left:-180px;width:560px;height:560px;border-radius:50%;background:#e6f4f1}
+              .wrap{position:relative;z-index:1;width:min(1180px,100%);margin:0 auto;padding:0 28px}
+              .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
+              .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+              .mark{width:42px;height:42px;border-radius:12px;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.5px}
+              .brand b{display:block;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.1}
+              .brand small{display:block;color:var(--muted);font-size:13.5px}
+              .ext{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1px solid var(--line);border-radius:12px;background:var(--card);text-decoration:none;font-weight:500;font-size:14.5px;color:var(--ink);box-shadow:var(--shadow);transition:.18s ease}
+              .ext:hover{border-color:var(--teal);color:var(--teal)}
+              .hero{padding:44px 0 30px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+              .kicker{display:inline-block;padding:6px 13px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-weight:700;font-size:14px;margin-bottom:16px}
+              h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(34px,4.6vw,56px);line-height:1.05;letter-spacing:-.5px}
+              h1 em{font-style:normal;color:var(--teal)}
+              .mbr{display:none}
+              .stat em{font-style:normal}
+              .lead{margin:14px 0 0;color:var(--muted);font-size:18px;max-width:560px}
+              .stats{display:flex;gap:10px}
+              .stat{min-width:104px;padding:14px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow)}
+              .stat b{display:block;font-family:var(--display);font-weight:700;font-size:30px;line-height:1}
+              .stat span{display:block;margin-top:6px;color:var(--muted);font-size:13.5px}
+              .stat.teal b{color:var(--teal)}
+              .tools{position:sticky;top:0;z-index:5;margin:0 -28px;padding:14px 28px;background:rgba(251,250,247,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+              .tools.stuck{border-bottom-color:var(--line)}
+              .row{display:flex;gap:12px;align-items:center}
+              .search{position:relative;flex:1}
+              .search svg{position:absolute;right:16px;top:50%;width:20px;height:20px;transform:translateY(-50%);stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round}
+              .search input{width:100%;height:52px;padding:0 48px 0 44px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;font-size:16.5px;box-shadow:var(--shadow);outline:none;transition:.18s}
+              .search input::placeholder{color:var(--dim)}
+              .search input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,118,110,.14)}
+              .search kbd{position:absolute;left:14px;top:50%;transform:translateY(-50%);font:600 12px var(--body);color:var(--dim);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;background:var(--paper)}
+              select{height:52px;padding:0 16px 0 40px;border:1px solid var(--line);border-radius:14px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235b6574' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat left 16px center;color:var(--ink);font:inherit;font-size:15.5px;font-weight:500;box-shadow:var(--shadow);outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;min-width:150px}
+              .seg{display:flex;padding:4px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow);height:52px}
+              .seg button{border:0;background:none;font:inherit;font-size:14.5px;font-weight:500;color:var(--muted);padding:0 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
+              .seg button.is-on{background:var(--teal-soft);color:var(--teal);font-weight:700}
+              .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+              .chip{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;transition:.15s}
+              .chip i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+              .chip span{color:var(--dim);font-size:13px;font-weight:500}
+              .chip:hover{border-color:#cfc9bf}
+              .chip.is-on{background:var(--ink);border-color:var(--ink);color:#fff}
+              .chip.is-on span{color:#c9d0d9}
+              .chip.is-on i{box-shadow:0 0 0 2px #fff}
+              .chip:focus-visible,.seg button:focus-visible,.card:focus-visible,.ext:focus-visible,.reset:focus-visible{outline:3px solid rgba(15,118,110,.35);outline-offset:2px}
+              .bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+              .count{margin:0;color:var(--muted);font-size:14.5px}
+              .view{display:flex;padding:3px;border:1px solid var(--line);border-radius:11px;background:var(--card)}
+              .view button{display:inline-flex;align-items:center;gap:6px;border:0;background:none;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);padding:6px 11px;border-radius:8px;cursor:pointer}
+              .view button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+              .view button.is-on{background:var(--paper2);color:var(--ink);font-weight:700}
+              .view button:focus-visible{outline:3px solid rgba(15,118,110,.35);outline-offset:1px}
+              .flat #groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:18px;margin-top:22px}
+              .flat .group,.flat .grid{display:contents}
+              .flat .ghead{display:none}
+              .flat .card.is-editing{order:1}
+              .count b{color:var(--ink)}
+              .group{margin-top:30px}
+              .ghead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+              .ghead .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+              .ghead h2{margin:0;font-family:var(--display);font-weight:700;font-size:21px}
+              .gcount{color:var(--dim);font-size:14px;font-weight:500}
+              .ghead::after{content:"";flex:1;height:1px;background:var(--line);margin-inline-start:6px}
+              .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:18px}
+              .card{position:relative;display:flex;flex-direction:column;min-height:218px;padding:22px 22px 18px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);text-decoration:none;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+              .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+              .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h);border-color:#dcd6cc}
+              .top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+              .ico{width:48px;height:48px;border-radius:14px;background:var(--cs);display:grid;place-items:center;font-size:25px;line-height:1}
+              .cat{padding:4px 10px;border-radius:999px;background:var(--cs);color:var(--ci);font-size:13px;font-weight:700;white-space:nowrap}
+              .card h3{margin:16px 0 0;font-family:var(--display);font-weight:700;font-size:21px;line-height:1.2}
+              .desc{margin:7px 0 0;color:var(--muted);font-size:15px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+              .foot{margin-top:auto;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+              .meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:14px;font-weight:500}
+              .m{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+              .m svg{width:16px;height:16px;fill:none;stroke:var(--dim);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+              .go{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--paper2);color:var(--ink);font-weight:700;transition:.2s}
+              .card:hover .go{background:var(--teal);color:#fff;transform:translateX(-3px)}
+              .badge-edit{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--warn-bg);color:var(--warn);font-size:13px;font-weight:700}
+              .badge-edit::before{content:"";width:7px;height:7px;border-radius:50%;background:#d69e2e}
+              .card.is-editing{background:#fdfcfa;border-style:dashed;border-color:#ddd6ca;box-shadow:none}
+              .card.is-editing::before{opacity:.35}
+              .card.is-editing .ico,.card.is-editing .cat{filter:saturate(.55)}
+              .card.is-editing h3{color:#3d4756}
+              .card.is-editing:hover{box-shadow:var(--shadow);border-style:solid}
+              .empty{display:none;margin:40px 0 0;padding:48px 24px;border:1px dashed var(--line);border-radius:18px;text-align:center;color:var(--muted);background:var(--card)}
+              .empty b{display:block;font-family:var(--display);font-size:20px;color:var(--ink);margin-bottom:6px}
+              .reset{margin-top:16px;border:0;border-radius:12px;padding:11px 18px;background:var(--teal);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+              [hidden]{display:none !important}
+              footer{margin:56px 0 0;padding:22px 0 34px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--dim);font-size:13.5px}
+              @media (max-width:860px){
+                .hero{grid-template-columns:1fr;padding-top:26px;gap:22px}
+                .row{flex-wrap:wrap}
+                .search{flex-basis:100%}
+                select{flex:1}
+              }
+              @media (max-width:560px){
+                .wrap{padding:0 16px}
+                .tools{position:static;margin:0 -16px;padding:4px 16px 0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+                .topbar{padding:16px 0}
+                .ext span{display:none}
+                .brand small{font-size:12.5px}
+                .lead{font-size:16.5px}
+                .mbr{display:inline}
+                .dsk{display:none}
+                .card{padding:20px 18px 16px}
+                .card h3{margin-top:12px}
+                .stats{gap:8px}
+                .stat{flex:1;min-width:0;padding:12px 14px}
+                .stat b{font-size:26px}
+                .search input{height:48px}
+                .search kbd{display:none}
+                select,.seg{height:46px}
+                select{min-width:0}
+                .seg button{padding:0 11px}
+                .chips{flex-wrap:nowrap;overflow-x:auto;margin:12px -16px 0;padding:0 16px 2px;scrollbar-width:none}
+                .chips::-webkit-scrollbar{display:none}
+                .chip{flex:none}
+                .grid{grid-template-columns:1fr;gap:14px}
+                .card{min-height:0}
+                .group{margin-top:28px}
+              }
+              @media (prefers-reduced-motion:reduce){*{transition:none !important}}
             </style>
           </head>
-          <body>
-            <main class="wrap">
-              <div class="badge">Tech It Easy</div>
-              <h1>ספריית פעילויות למדריך</h1>
-              <p>הספרייה מתעדכנת אוטומטית לפי תיקיות הפעילויות</p>
-              <div class="grid">
-          """ + "\n".join(cards) + """
+          <body class="flat">
+            <div class="bg" aria-hidden="true"><i></i></div>
+            <div class="wrap">
+              <header class="topbar">
+                <a class="brand" href="./">
+                  <span class="mark">TIE</span>
+                  <span><b>Tech It Easy</b><small>ספריית פעילויות למדריך</small></span>
+                </a>
+                <a class="ext" href="https://tiestud.github.io/lab/" target="_blank" rel="noopener">🎮 <span>מעבדת התלמידים</span> ↗</a>
+              </header>
+
+              <section class="hero">
+                <div>
+                  <span class="kicker">Tech It Easy · ספריית פעילויות למדריך</span>
+                  <h1>כל הפעילויות,<br class="mbr"> <em>במקום אחד</em></h1>
+                  <p class="lead">מצגת לכיתה, פעילות לתלמידים ומערך מלא למדריך. חפשו לפי שם, סננו לפי נושא וכיתה.</p>
+                </div>
+                <div class="stats">
+                  <div class="stat"><b>__TOTAL__</b><span>פעילויות</span></div>
+                  <div class="stat teal"><b>__ACTIVE__</b><span>מוכנות<em class="dsk"> להעברה</em></span></div>
+                  <div class="stat"><b>__CATS__</b><span>נושאים</span></div>
+                </div>
+              </section>
+
+              <div class="tools" id="tools">
+                <div class="row">
+                  <label class="search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+                    <input id="q" type="search" placeholder="חיפוש פעילות, נושא או מילה…" autocomplete="off" aria-label="חיפוש פעילות">
+                    <kbd>/</kbd>
+                  </label>
+                  <select id="grade" aria-label="סינון לפי כיתה">
+                    __GRADES__
+                  </select>
+                  __SEG__
+                </div>
+                <div class="chips" role="group" aria-label="סינון לפי נושא">
+                  __CHIPS__
+                </div>
               </div>
-            </main>
+
+              <div class="bar">
+                <p class="count" id="count" aria-live="polite">מציג <b>__TOTAL__</b> פעילויות</p>
+                <div class="view" role="group" aria-label="תצוגה">
+                  <button type="button" data-view="flat" class="is-on" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>רשת</button>
+                  <button type="button" data-view="grouped" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/></svg>לפי נושא</button>
+                </div>
+              </div>
+
+              <main id="groups">__GROUPS__
+              </main>
+
+              <div class="empty" id="empty">
+                <b>לא נמצאו פעילויות</b>
+                נסו מילה אחרת או הסירו חלק מהסינונים.
+                <div><button type="button" class="reset" id="reset">ניקוי כל הסינונים</button></div>
+              </div>
+
+              <footer>
+                <span>Tech It Easy · ספריית פעילויות למדריך</span>
+                <span>הספרייה מתעדכנת אוטומטית לפי תיקיות הפעילויות</span>
+              </footer>
+            </div>
+
+            <script>
+            (function(){
+              var state = {q:"", cat:"", grade:0, status:""};
+              var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+              var groups = Array.prototype.slice.call(document.querySelectorAll(".group"));
+              var q = document.getElementById("q");
+              var grade = document.getElementById("grade");
+              var count = document.getElementById("count");
+              var empty = document.getElementById("empty");
+              var tools = document.getElementById("tools");
+              var total = cards.length;
+
+              function norm(s){ return String(s || "").toLowerCase().replace(/[\\u0591-\\u05C7]/g, "").replace(/[׳״'"`\\-–—]/g, " ").replace(/\\s+/g, " ").trim(); }
+
+              function apply(){
+                var words = norm(state.q).split(" ").filter(Boolean);
+                var shown = 0;
+                cards.forEach(function(card){
+                  var hay = norm(card.getAttribute("data-search"));
+                  var ok = words.every(function(w){ return hay.indexOf(w) !== -1; });
+                  if (ok && state.cat) ok = card.getAttribute("data-cat") === state.cat;
+                  if (ok && state.status) ok = card.getAttribute("data-status") === state.status;
+                  if (ok && state.grade){
+                    var lo = +card.getAttribute("data-gmin"), hi = +card.getAttribute("data-gmax");
+                    ok = lo > 0 && state.grade >= lo && state.grade <= hi;
+                  }
+                  card.hidden = !ok;
+                  if (ok) shown++;
+                });
+                groups.forEach(function(g){
+                  g.hidden = !g.querySelector(".card:not([hidden])");
+                });
+                count.innerHTML = shown === total ? "מציג <b>" + total + "</b> פעילויות" : "מציג <b>" + shown + "</b> מתוך " + total + " פעילויות";
+                empty.style.display = shown ? "none" : "block";
+              }
+
+              function pick(selector, attr, key){
+                var buttons = Array.prototype.slice.call(document.querySelectorAll(selector));
+                buttons.forEach(function(b){
+                  b.addEventListener("click", function(){
+                    state[key] = b.getAttribute(attr) || "";
+                    buttons.forEach(function(x){ var on = x === b; x.classList.toggle("is-on", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+                    apply();
+                  });
+                });
+                return buttons;
+              }
+
+              var chipButtons = pick(".chip", "data-cat", "cat");
+              var segButtons = pick(".seg button", "data-status", "status");
+              q.addEventListener("input", function(){ state.q = q.value; apply(); });
+              grade.addEventListener("change", function(){ state.grade = +grade.value || 0; apply(); });
+              document.getElementById("reset").addEventListener("click", function(){
+                q.value = ""; grade.value = ""; state = {q:"", cat:"", grade:0, status:""};
+                chipButtons[0].click(); if (segButtons.length) segButtons[0].click();
+              });
+              document.addEventListener("keydown", function(e){
+                if (e.key === "/" && document.activeElement !== q){ e.preventDefault(); q.focus(); }
+                else if (e.key === "Escape" && document.activeElement === q){ q.value = ""; state.q = ""; apply(); }
+              });
+              var viewButtons = Array.prototype.slice.call(document.querySelectorAll(".view button"));
+              function setView(v){
+                document.body.classList.toggle("flat", v !== "grouped");
+                viewButtons.forEach(function(b){ var on = b.getAttribute("data-view") === (v === "grouped" ? "grouped" : "flat"); b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+              }
+              viewButtons.forEach(function(b){ b.addEventListener("click", function(){ var v = b.getAttribute("data-view"); setView(v); try { localStorage.setItem("tie-library-view", v); } catch (e) {} }); });
+              try { var saved = localStorage.getItem("tie-library-view"); if (saved) setView(saved); } catch (e) {}
+              if ("IntersectionObserver" in window){
+                var sentinel = document.createElement("div");
+                tools.parentNode.insertBefore(sentinel, tools);
+                new IntersectionObserver(function(entries){ tools.classList.toggle("stuck", !entries[0].isIntersecting); }).observe(sentinel);
+              }
+              apply();
+            })();
+            </script>
           </body>
           </html>
           """
+
+          seg_html = ("""<div class="seg" role="group" aria-label="סינון לפי מצב">
+                    <button type="button" class="is-on" data-status="" aria-pressed="true">הכל</button>
+                    <button type="button" data-status="active" aria-pressed="false">מוכנות</button>
+                    <button type="button" data-status="editing" aria-pressed="false">בעריכה (""" + str(editing_count) + """)</button>
+                  </div>""") if editing_count else ""
+
+          page = (page
+                  .replace("__SEG__", seg_html)
+                  .replace("__GROUPS__", "".join(groups))
+                  .replace("__CHIPS__", "\n        ".join(chips))
+                  .replace("__GRADES__", "\n          ".join(grade_options))
+                  .replace("__TOTAL__", str(total))
+                  .replace("__ACTIVE__", str(active_count))
+                  .replace("__EDITING__", str(editing_count))
+                  .replace("__CATS__", str(len(categories))))
           Path("index.html").write_text(page, encoding="utf-8")
+          print("library:", total, "activities,", active_count, "active,", len(categories), "categories")
           PY
 
       - name: Commit updated index

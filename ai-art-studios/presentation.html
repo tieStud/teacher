@@ -1,0 +1,1347 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>פתיחת הגלריה: סטודיו AI | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== פתיחת הגלריה: סטודיו AI — lesson additions (kit styles above untouched) · light gallery look ===== */
+:root{--s1:#4c8bd6;--s2:#8c7ae6;--s3:#f4a259;--s4:#e76f86;--gold:#c9a24a;--gold-ink:#8a6a1f;--frame:#2b2f36}
+.slide.tight h2{font-size:clamp(30px,3.7vw,52px);margin:8px 0 8px}
+.slide.tight .lead{font-size:clamp(17px,1.55vw,22px);line-height:1.5;margin-bottom:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px;max-width:1220px;align-items:start}
+.row2>*{min-width:0}
+.row2.w37{grid-template-columns:1.1fr .9fr}
+.mini{font-size:15px;color:var(--muted);margin-top:8px}
+/* ---------- gallery primitives ---------- */
+.frame{position:relative;background:#fff;padding:10px;border:1px solid #d9d3c7;border-radius:4px;
+ box-shadow:0 0 0 6px #f3efe7,0 0 0 7px #d9d3c7,0 14px 28px -10px rgba(31,42,55,.28)}
+.frame.dark{box-shadow:0 0 0 7px var(--frame),0 0 0 8px #11141a,0 16px 30px -12px rgba(31,42,55,.35)}
+.frame.gold{box-shadow:0 0 0 7px #d8b968,0 0 0 9px #b8923e,0 16px 30px -12px rgba(138,106,31,.35)}
+.frame>svg,.frame>canvas{display:block;width:100%;height:auto;border-radius:2px}
+.plaque{display:inline-block;margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:4px;padding:6px 12px;font-size:14px;line-height:1.35;color:var(--muted);box-shadow:var(--shadow-sm);text-align:right}
+.plaque b{display:block;font-family:var(--display);color:var(--ink);font-size:15.5px}
+.spot{position:absolute;top:-34px;left:50%;width:64%;height:44px;transform:translateX(-50%);pointer-events:none;
+ background:radial-gradient(ellipse at 50% 0,rgba(253,230,138,.55),transparent 70%)}
+/* ---------- hero: invitation ---------- */
+.heroWrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:34px;align-items:center}
+.ticket{position:relative;background:linear-gradient(180deg,#fffdf7,#fff);border:1px solid #ead9ab;border-radius:22px;padding:22px 26px 20px;box-shadow:var(--shadow-lg);max-width:560px}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:30px;height:30px;border-radius:50%;background:var(--paper);border:1px solid #ead9ab;transform:translateY(-50%)}
+.ticket::before{right:-16px;clip-path:inset(0 50% 0 0)}.ticket::after{left:-16px;clip-path:inset(0 0 0 50%)}
+.ticket .tk{font-family:var(--display);font-weight:700;color:var(--gold-ink);font-size:15px;letter-spacing:.4px}
+.ticket .tt{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.5vw,36px);line-height:1.15;margin:6px 0 10px}
+.ticket .row{display:flex;flex-wrap:wrap;gap:8px 18px;border-top:1.5px dashed #e3cf98;padding-top:10px;color:var(--muted);font-size:16px}
+.ticket .row b{color:var(--ink)}
+.hangWall{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:34px 30px;padding:30px 14px 6px}
+.hangWall .frame{transform:rotate(var(--r,0deg))}
+.hangWall .frame::before{content:"";position:absolute;top:-30px;left:50%;width:1px;height:24px;background:#b9b2a6}
+.hangWall .frame::after{content:"";position:absolute;top:-33px;left:calc(50% - 4px);width:8px;height:8px;border-radius:50%;background:#b9b2a6}
+.art{aspect-ratio:4/3;border-radius:2px;overflow:hidden;position:relative}
+/* abstract CSS artworks */
+.a1{background:radial-gradient(circle at 70% 30%,#fde68a 0 13%,transparent 14%),linear-gradient(180deg,#9cc3ea 0 58%,#3f7cc0 58% 100%)}
+.a1::after{content:"";position:absolute;inset:auto 0 0 0;height:42%;background:repeating-linear-gradient(170deg,transparent 0 12px,rgba(255,255,255,.35) 12px 14px)}
+.a2{background:conic-gradient(from 30deg at 40% 60%,#8c7ae6,#e76f86,#f4a259,#5bb5a2,#8c7ae6)}
+.a2::after{content:"";position:absolute;inset:18%;border-radius:50%;background:#fffaf0;mix-blend-mode:soft-light}
+.a3{background:#1f2a37;display:grid;gap:5px;padding:5px;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr)}
+.a3 i{display:block;background:#fbf6ec}
+.a4{background:repeating-radial-gradient(circle at 30% 80%,#1f2a37 0 1.5px,#fff 2px 9px)}
+.a4::after{content:"";position:absolute;right:14%;top:16%;width:38%;height:56%;background:#e76f86;border-radius:50% 50% 8px 8px;mix-blend-mode:multiply}
+/* ---------- chips / lights ---------- */
+.studioTag{width:max-content;max-width:100%;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:16px;color:#fff;background:var(--accent-ink)}
+.tool{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:16px;color:var(--ink);box-shadow:var(--shadow-sm);direction:ltr}
+.toolRow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.light{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-weight:700;font-size:16px;border:1px solid}
+.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+/* ---------- studio sprint slide ---------- */
+.studio{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:22px;margin-top:10px;align-items:stretch}
+.phaseList{display:grid;gap:10px}
+.ph{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.ph .when{direction:ltr;unicode-bidi:isolate;font-family:var(--display);font-weight:800;font-size:15px;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:10px;padding:6px 8px;text-align:center;line-height:1.2}
+.ph p{margin:0;font-size:clamp(16px,1.5vw,20px);line-height:1.45;color:var(--ink)}
+.ph p small{display:block;color:var(--muted);font-size:.85em;margin-top:2px}
+.side{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.side .timer{width:auto;justify-content:space-between;margin-top:0}
+.side .box{font-size:16px;padding:12px 16px}
+.side .box b{font-family:var(--display)}
+.produce{border:2px dashed var(--accent-line);border-radius:16px;padding:12px 16px;background:var(--accent-wash);font-size:16px;line-height:1.45}
+.produce b{display:block;font-family:var(--display);font-size:17px;color:var(--accent-ink);margin-bottom:2px}
+.bigNum{font-family:var(--display);font-weight:800;font-size:clamp(54px,7vw,100px);line-height:1;color:var(--accent-ink)}
+/* ---------- themes grid ---------- */
+.themes{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px;max-width:1220px}
+.theme{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center;box-shadow:var(--shadow-sm);position:relative}
+.theme .em{font-size:36px;line-height:1.1}
+.theme b{display:block;font-family:var(--display);font-size:19px;margin-top:4px}
+.theme small{position:absolute;top:6px;right:9px;font-family:var(--display);font-weight:700;color:var(--dim);font-size:13px}
+.envelope{display:flex;gap:16px;align-items:center;margin-top:16px;background:#fffaf0;border:1px solid #f0dcaa;border-radius:18px;padding:12px 18px;max-width:1220px}
+.envelope .em{font-size:40px}
+.envelope p{margin:0;font-size:clamp(17px,1.6vw,21px);line-height:1.45}
+/* ---------- series compare ---------- */
+.tiles4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 6px}
+.tiles4 span{aspect-ratio:1;display:grid;place-items:center;font-size:clamp(28px,3.4vw,50px);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-sm)}
+.box.good .tiles4 span{background:#f7fbf8}
+/* ---------- prompt mixer ---------- */
+.mixer{display:grid;gap:10px;margin-top:12px;max-width:1220px}
+.mixRow{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+.mixRow .k{font-family:var(--display);font-weight:700;font-size:18px;display:flex;align-items:center;gap:8px}
+.mixRow .k i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--c);color:#fff;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:16px;color:var(--ink);transition:.15s}
+.chip:hover{border-color:var(--c);transform:translateY(-1px)}
+.chip.on{background:color-mix(in srgb,var(--c) 14%,#fff);border-color:var(--c);color:color-mix(in oklab,var(--c) 60%,#1f2a37);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 15%,transparent)}
+.mixOut{display:flex;gap:12px;align-items:stretch;margin-top:4px}
+.mixOut .prompt{flex:1;margin-top:0}
+.mixOut .prompt em{font-style:normal;font-weight:700;border-bottom:3px solid var(--c);padding-bottom:1px}
+.mixBtns{display:flex;flex-direction:column;gap:8px;justify-content:center}
+/* ---------- Anadol data art ---------- */
+.caseGrid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:28px;align-items:center;margin-top:10px}
+.facts{display:grid;gap:9px}
+.fact{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow-sm);font-size:clamp(16px,1.5vw,20px);line-height:1.4}
+.fact .n{font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);color:var(--accent-ink);min-width:3.6em;text-align:center}
+.src{font-size:13px;color:var(--dim);margin-top:8px;direction:ltr;text-align:right}
+/* ---------- 4 styles demo ---------- */
+.styles4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:20px;max-width:1240px}
+.styles4 figure{margin:0;text-align:center}
+.styles4 .frame{padding:7px}
+.styles4 figcaption{margin-top:14px;font-family:var(--display);font-weight:700;font-size:18px}
+.styles4 figcaption small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:14.5px;line-height:1.35;margin-top:2px}
+.styles4 canvas{image-rendering:pixelated;aspect-ratio:4/3}
+.baseLine{margin-top:12px}
+/* ---------- padlet steps ---------- */
+.mock{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.mock .mbar{display:flex;gap:6px;align-items:center;padding:8px 12px;background:var(--paper2);border-bottom:1px solid var(--line);font-size:13px;color:var(--muted);direction:ltr}
+.mock .mbar i{width:10px;height:10px;border-radius:50%;background:#e2ddd3;display:inline-block}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
+.col{background:var(--paper);border-radius:12px;padding:8px;display:grid;gap:8px;align-content:start}
+.col h4{margin:0;font-family:var(--display);font-size:15px}
+.post{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px;font-size:12.5px;line-height:1.3;color:var(--muted)}
+.post .pic{position:relative;overflow:hidden;aspect-ratio:4/3;border-radius:6px;margin-bottom:4px}
+.post b{color:var(--ink);display:block;font-size:13px}
+.post.add{display:grid;place-items:center;border:2px dashed var(--accent-line);color:var(--accent-ink);font-weight:800;font-size:22px;background:var(--accent-wash);min-height:46px}
+/* ---------- challenge ---------- */
+.rules{counter-reset:r;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;max-width:1220px}
+.rule{counter-increment:r;display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 14px;box-shadow:var(--shadow-sm);font-size:clamp(16px,1.55vw,20px);line-height:1.4}
+.rule::before{content:counter(r);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fdf3d7;color:#8a5300;font-family:var(--display);font-weight:800;font-size:19px;border:1px solid #efd9a0}
+.slide .tableWrap{flex-shrink:0}
+table.t.compact td,table.t.compact th{padding:8px 14px}table.t.compact{font-size:clamp(15px,1.5vw,19px)}
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--accent-ink);white-space:nowrap}
+table.t tr.sum td{background:var(--accent-wash);font-weight:700}
+table.rub{font-size:clamp(14px,1.3vw,18px)}
+table.rub td{vertical-align:top;line-height:1.35}
+table.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+table.rub tr.reveal td{transition:none}
+/* ---------- prizes ---------- */
+.prizes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+.prize{text-align:center;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 14px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.prize::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--pc,var(--gold))}
+.prize .em{font-size:50px;line-height:1}
+.prize b{display:block;font-family:var(--display);font-size:22px;margin:10px 0 6px}
+.prize p{margin:0;color:var(--muted);font-size:16px;line-height:1.45}
+.prize .who{margin-top:12px;font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink);min-height:1.3em;border-top:1px dashed var(--line);padding-top:10px}
+.prize.big{grid-column:span 4;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;text-align:right;padding:18px 24px;background:linear-gradient(180deg,#fffaf0,#fff);border-color:#ead9ab}
+.prize.big .em{font-size:70px}
+.prize.big b{font-size:28px;margin:0 0 4px}
+.prize.big .who{border:0;padding:0;margin:6px 0 0;font-size:clamp(28px,3vw,44px);color:var(--gold-ink)}
+/* ---------- live scoreboard / counters ---------- */
+.sbTools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.sbTools .mini{margin:0 6px}
+table.score{font-size:clamp(14px,1.35vw,19px)}
+table.score th{font-size:.82em;line-height:1.2;text-align:center}
+table.score th small{display:block;font-family:var(--body);font-weight:500;color:var(--dim);font-size:.9em}
+table.score td{text-align:center;font-variant-numeric:tabular-nums;padding:8px 10px}
+table.score td.nm{text-align:right;font-family:var(--display);font-weight:700;white-space:nowrap}
+table.score td.tot{font-family:var(--display);font-weight:800;font-size:1.25em;color:var(--teal);background:var(--teal-soft)}
+table.score tr.r1 td.nm::after{content:" 🥇"}table.score tr.r2 td.nm::after{content:" 🥈"}table.score tr.r3 td.nm::after{content:" 🥉"}
+table.score tr.r1 td{background:#fffaf0}
+.counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:14px}
+.ctr{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px 14px;box-shadow:var(--shadow-sm)}
+.ctr h4{margin:0 0 8px;font-family:var(--display);font-size:19px}
+.ctr .ln{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0;border-top:1px solid var(--line2);font-size:15px;color:var(--muted)}
+.ctr .ln:first-of-type{border-top:0}
+.ctr .ln span:first-child{flex:1;white-space:nowrap;font-size:14.5px}
+.ctr .ln button{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font-weight:800;font-size:18px;line-height:1;color:var(--ink)}
+.ctr .ln button:hover{background:var(--accent-soft);border-color:var(--accent-line)}
+.ctr .ln output{min-width:2ch;text-align:center;font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink)}
+/* ---------- editable link ---------- */
+.linkBox{display:flex;align-items:center;gap:12px;margin-top:12px;background:#fff;border:2px solid var(--accent-line);border-radius:16px;padding:10px 16px;max-width:900px;box-shadow:var(--shadow-sm)}
+.linkBox .em{font-size:28px}
+.linkBox [contenteditable]{flex:1;font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,34px);color:var(--accent-ink);direction:ltr;text-align:left;outline:none;min-height:1.2em}
+.linkBox [contenteditable]:empty::before{content:attr(data-ph);color:var(--dim);font-weight:600}
+.linkBox small{color:var(--dim);font-size:13px}
+/* ---------- checklist ---------- */
+.ck{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.ck li{position:relative;padding-inline-start:32px;font-size:clamp(16px,1.5vw,19px);line-height:1.4}
+.ck li::before{content:"";position:absolute;right:0;top:3px;width:20px;height:20px;border:2px solid var(--accent-ink);border-radius:6px}
+/* ---------- statue / misc ---------- */
+.statues{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;max-width:1100px}
+.statue{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;text-align:center;box-shadow:var(--shadow)}
+.statue .em{font-size:56px;line-height:1}
+.statue b{display:block;font-family:var(--display);font-size:22px;margin-top:8px}
+.statue p{margin:4px 0 0;color:var(--muted);font-size:16px}
+.walk{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.walk .step{padding:14px}
+.music{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;border-radius:999px;background:#efecfb;color:var(--violet-ink);font-weight:700;font-size:16px}
+.music i{display:inline-flex;gap:3px;align-items:flex-end;height:18px}
+.music i b{display:block;width:4px;background:var(--violet);border-radius:2px;height:40%}
+.slide.active .music i b{animation:eq 1s ease-in-out infinite}
+.music i b:nth-child(2){animation-delay:-.3s!important}.music i b:nth-child(3){animation-delay:-.6s!important}.music i b:nth-child(4){animation-delay:-.15s!important}
+@keyframes eq{0%,100%{height:30%}50%{height:100%}}
+.endWall{display:flex;gap:26px;justify-content:center;margin:26px 0 8px;flex-wrap:wrap}
+.endWall .frame{width:150px}
+@media (max-height:800px){
+ .heroWrap{gap:24px}.hangWall{gap:26px 22px;padding-top:24px}
+ .studio{gap:16px}.ph{padding:9px 13px;grid-template-columns:84px 1fr}.ph p{font-size:16px}
+ .themes{gap:9px;margin-top:10px}.theme{padding:9px 8px}.theme .em{font-size:30px}.theme b{font-size:17px}
+ .styles4{gap:18px;margin-top:14px}.styles4 figcaption{font-size:16px;margin-top:10px}
+ .rules{gap:8px;margin-top:10px}.rule{padding:8px 12px}
+ .prize{padding:14px 12px 12px}.prize .em{font-size:40px}.prize b{font-size:19px}
+ .mixer{gap:7px}.chip{padding:5px 12px;font-size:15px}
+}
+@media (max-width:1100px){.heroWrap,.caseGrid,.studio,.row2{grid-template-columns:1fr}.themes{grid-template-columns:repeat(3,1fr)}.styles4,.prizes,.walk{grid-template-columns:1fr 1fr}.prize.big{grid-column:span 2}.rules{grid-template-columns:1fr}}
+</style>
+<style>
+.roles5 .card{padding:16px 14px 14px}.roles5 .card strong{font-size:20px;margin:8px 0 4px}.roles5 .card p{font-size:16px;line-height:1.42}.roles5 .card .emoji{width:46px;height:46px;font-size:25px}
+.quests .card{padding:15px 14px 13px}.quests .card strong{font-size:19px;margin:8px 0 4px}.quests .card p{font-size:15.5px}.quests .card .emoji{width:44px;height:44px;font-size:24px}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🖼️</div><div><b>פתיחת הגלריה: סטודיו AI</b><small>אגף האמנים הצעירים · ערב הפתיחה הלילה</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ============ 1 · פתיחה ============ -->
+<section class="slide hero" data-topic="ההזמנה" data-title="פתיחת הגלריה" data-accent="#c9a24a">
+  <div class="heroWrap">
+    <div>
+      <span class="kicker">🖼️ Tech It Easy · אגף האמנים הצעירים</span>
+      <h2>פתיחת <span class="cyan">הגלריה</span></h2>
+      <div class="ticket">
+        <div class="tk">✉️ הזמנה אישית · כניסה לאמנים בלבד</div>
+        <div class="tt">מוזיאון העיר פותח אגף לאמנים צעירים שעובדים עם מכונות. ערב הפתיחה: <span class="mark-hl">הלילה.</span></div>
+        <div class="row"><span>🕗 <b>בעוד 90 דקות</b></span><span>🎨 <b>4 סטודיואים</b></span><span>🏛️ <b>קיר כבוד אחד</b></span></div>
+      </div>
+    </div>
+    <div class="hangWall" aria-hidden="true">
+      <div class="frame" style="--r:-2deg"><div class="art a1"></div></div>
+      <div class="frame dark" style="--r:1.5deg"><div class="art a2"></div></div>
+      <div class="frame gold" style="--r:1deg"><div class="art a3"><i style="grid-area:1/1/3/4;background:#e76f86"></i><i style="grid-area:1/4/2/7"></i><i style="grid-area:2/4/4/6;background:#fde68a"></i><i style="grid-area:2/6/5/7;background:#4c8bd6"></i><i style="grid-area:3/1/5/3"></i><i style="grid-area:3/3/5/4;background:#1f2a37"></i><i style="grid-area:4/4/5/6"></i></div></div>
+      <div class="frame" style="--r:-1deg"><div class="art a4"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · Odd One Out ============ -->
+<section class="slide tight" data-topic="ההזמנה" data-title="מי לא שייך?" data-accent="#8c7ae6">
+  <span class="kicker">🕵️ משחק פתיחה · Odd One Out</span>
+  <h2>ארבע יצירות. <span class="violet">אחת מהן</span> נוצרה במכונה.</h2>
+  <p class="lead">שלוש יצירות אמיתיות ממוזיאונים, ואחת שיצר AI. הצביעו: איזו מהן לא שייכת?</p>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">1️⃣</div><strong>יצירה 1</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">2️⃣</div><strong>יצירה 2</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">3️⃣</div><strong>יצירה 3</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">4️⃣</div><strong>יצירה 4</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="vote" style="grid-template-columns:repeat(2,minmax(0,280px));margin-top:12px">
+    <div class="voteItem"><div class="emoji">🧑‍🎨</div><strong>הכיתה צדקה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🤖</div><strong>המכונה הטעתה אותנו</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+</section>
+
+<!-- ============ 3 · מה הסגיר ============ -->
+<section class="slide" data-topic="ההזמנה" data-title="מה הסגיר?" data-accent="#8c7ae6">
+  <span class="kicker">🔎 עין של אוצר</span>
+  <h2>מה <span class="violet">הסגיר</span> את המכונה?</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">✋ <b>ידיים ואצבעות</b>: חמש? שש? אצבעות שמתמזגות זו בזו.</div>
+    <div class="revealCard reveal">🔤 <b>אותיות וכתב</b>: שלטים וחתימות שנראים כמו כתב, אבל אי אפשר לקרוא אותם.</div>
+    <div class="revealCard reveal">🫠 <b>פרטים שנמסים</b>: קצוות של חפצים שנבלעים ברקע, דוגמה שמשתבשת.</div>
+    <div class="revealCard reveal">💡 <b>אור שלא מסתדר</b>: צל לכיוון אחד ושמש בכיוון אחר.</div>
+    <div class="revealCard reveal">✨ <b>מושלם מדי</b>: חלק, מבריק ונקי. בלי משיכת מכחול אחת שלא במקום.</div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף רמז</div>
+</section>
+
+<!-- ============ 4 · אמת או המצאה ============ -->
+<section class="slide tight" data-topic="ההזמנה" data-title="אמת או המצאה" data-accent="#8c7ae6">
+  <span class="kicker">🧐 אמת או המצאה?</span>
+  <h2>מכונות ואמנות: מה באמת קרה?</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="1"><span>כבר בשנות ה-70 צייר בשם הרולד כהן בנה תוכנה בשם AARON, שציירה בעצמה ציורים שהוצגו במוזיאונים.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. כהן עבד על AARON עשרות שנים. מכונות שמציירות הן לא המצאה של השנים האחרונות.</div></div>
+    <div class="tfRow" data-true="1"><span>ב-2018 נמכר בבית המכירות כריסטיס דיוקן שנוצר בעזרת אלגוריתם, ב-432,500 דולר.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. "הדיוקן של אדמונד דה בלאמי" של הקבוצה הצרפתית Obvious. ההערכה לפני המכירה הייתה כמה אלפי דולרים בלבד.</div></div>
+    <div class="tfRow" data-true="0"><span>ב-2024 הלובר בפריז החליף את כל הציורים שלו בהעתקים שיצר AI, כדי לשמור על המקוריים.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. המקוריים תלויים במקומם. ככה נשמעת "עובדה" שמישהו המציא: מספר, מקום ושנה, ואין שום מקור.</div></div>
+  </div>
+</section>
+
+<!-- ============ 5 · המשימה של היום ============ -->
+<section class="slide" data-topic="ההזמנה" data-title="המשימה של היום" data-accent="#c9a24a">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור, על הקיר של כל קבוצה תהיה <span class="cyan">סדרה</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🖼️</div><strong>4 יצירות, נושא אחד</strong><p>אחת מכל סטודיו. לפחות אחת ביד או ב-AutoDraw.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>טקסט אמן</strong><p>עד 50 מילים: מה הרעיון ולמה בחרתם כך.</p></div>
+    <div class="card"><div class="emoji">🧱</div><strong>קיר בגלריה</strong><p>ב-Padlet: מתחת לכל יצירה הכלי והפרומפט.</p></div>
+    <div class="card"><div class="emoji">🥂</div><strong>ערב פתיחה</strong><p>מבקרים, מדבקות, ניחושים ופרסי אוצרים.</p></div>
+  </div>
+</section>
+
+<!-- ============ 6 · התפקידים ============ -->
+<section class="slide tight" data-topic="קבוצות האמנים" data-title="התפקידים בסטודיו" data-accent="#5bb5a2">
+  <span class="kicker">👥 קבוצת האמנים שלכם</span>
+  <h2>חמישה תפקידים, <span class="cyan">סטודיו אחד</span></h2>
+  <div class="cards roles5" style="grid-template-columns:repeat(5,1fr)">
+    <div class="card"><div class="emoji">🎨</div><strong>אמן/ית ראשי/ת</strong><p>שומר/ת על הנושא ועל הזמן, מחליט/ה איזו גרסה נכנסת לסדרה. רק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">💬</div><strong>כותב/ת פרומפטים</strong><p>מנסח/ת את התיאורים בכל סטודיו ושומר/ת כל פרומפט ליד היצירה.</p></div>
+    <div class="card"><div class="emoji">✏️</div><strong>צייר/ת</strong><p>אחראי/ת על היצירה ביד ועל AutoDraw. מצלם/ת רק את הדף.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>אוצר/ת</strong><p>בוחר/ת את סדר היצירות, כותב/ת את טקסט האמן ומעלה לקיר.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מארח/ת הגלריה</strong><p>מגיש/ה בטופס ומספר/ת על הסדרה בערב הפתיחה.</p></div>
+  </div>
+  <div class="row2" style="align-items:center">
+    <div class="task" style="margin-top:0"><strong>⏱ שתי דקות</strong><p>1. כרטיסי התפקיד עוברים בסבב. 2. בוחרים שם לסטודיו: חיה + מילה (למשל "סטודיו ינשוף כחול"). 3. כותבים אותו על שלט השולחן.</p></div>
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- ============ 7 · הגרלת הנושא ============ -->
+<section class="slide tight" data-topic="קבוצות האמנים" data-title="הנושא הסודי" data-accent="#5bb5a2">
+  <span class="kicker">✉️ הגרלת הנושא</span>
+  <h2>עשרה אגפים במוזיאון. <span class="cyan">אחד</span> שלכם.</h2>
+  <div class="themes">
+    <div class="theme"><small>1</small><div class="em">🌃</div><b>העיר בלילה</b></div>
+    <div class="theme"><small>2</small><div class="em">🐙</div><b>חיות הים</b></div>
+    <div class="theme"><small>3</small><div class="em">🥞</div><b>ארוחת בוקר</b></div>
+    <div class="theme"><small>4</small><div class="em">⛈️</div><b>מזג אוויר</b></div>
+    <div class="theme"><small>5</small><div class="em">💭</div><b>חלום</b></div>
+    <div class="theme"><small>6</small><div class="em">🪐</div><b>החלל</b></div>
+    <div class="theme"><small>7</small><div class="em">🍄</div><b>יער קסום</b></div>
+    <div class="theme"><small>8</small><div class="em">🍉</div><b>השוק</b></div>
+    <div class="theme"><small>9</small><div class="em">🤖</div><b>רובוטים</b></div>
+    <div class="theme"><small>10</small><div class="em">🚂</div><b>מסע ברכבת</b></div>
+  </div>
+  <div class="envelope"><span class="em">🤫</span><p><b>האמן/ית הראשי/ת שולף/ת מעטפה.</b> הנושא סודי: לא אומרים אותו בקול ולא כותבים אותו על הקיר. בערב הפתיחה המבקרים ינסו לנחש אותו רק מהיצירות.</p></div>
+</section>
+
+<!-- ============ 8 · מה זו סדרה ============ -->
+<section class="slide" data-topic="אמן מכוון מכונה" data-title="מה זו סדרה?" data-accent="#0f766e">
+  <span class="kicker">🧠 מושג: סדרה</span>
+  <h2>ארבע תמונות זה עוד לא <span class="cyan">סדרה</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ ארבע תמונות</span><div class="tiles4"><span>🚗</span><span>🍕</span><span>🐘</span><span>🌋</span></div>כל אחת יפה, אבל אין ביניהן קשר. אי אפשר לנחש על מה זה.</div>
+    <div class="box good"><span class="label">✓ סדרה</span><div class="tiles4"><span>🌱</span><span>🌿</span><span>🌳</span><span>🍂</span></div>נושא אחד, וכל יצירה מוסיפה משהו: זמן שעובר, מבט מקרוב, מצב רוח אחר.</div>
+  </div>
+  <p class="lead" style="margin-top:16px"><b>אמנים עובדים בסדרות:</b> מונה צייר עשרות פעמים את אותן ערימות חציר, בשעות ובעונות שונות. הנושא נשאר, והאור משתנה.</p>
+</section>
+
+<!-- ============ 9 · ארבע מילות קסם ============ -->
+<section class="slide" data-topic="אמן מכוון מכונה" data-title="ארבע מילות קסם" data-accent="#0f766e">
+  <span class="kicker">🪄 איך מכוונים מכונה</span>
+  <h2>ארבע <span class="cyan">מילות קסם</span> בכל פרומפט</h2>
+  <div class="cards" style="grid-template-columns:repeat(4,1fr)">
+    <div class="card reveal" style="--stripe:var(--sky)"><div class="emoji">🎯</div><strong>נושא</strong><p>מה רואים, ומה קורה? "מגדלור על צוק, גלים מתנפצים".</p></div>
+    <div class="card reveal" style="--stripe:var(--violet)"><div class="emoji">🖌️</div><strong>סגנון</strong><p>באיזו טכניקה? צבעי מים, פיקסלים, קולאז׳, פחם.</p></div>
+    <div class="card reveal" style="--stripe:var(--orange)"><div class="emoji">💡</div><strong>אור</strong><p>מתי ואיך? שקיעה כתומה, ערפל בוקר, פנס אחד בחושך.</p></div>
+    <div class="card reveal" style="--stripe:var(--rose)"><div class="emoji">📐</div><strong>קומפוזיציה</strong><p>מאיפה מסתכלים? מלמעלה, מקרוב, מחלון, מרחוק.</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" לכל מילה</div>
+</section>
+
+<!-- ============ 10 · מכונת הפרומפטים ============ -->
+<section class="slide tight" data-topic="אמן מכוון מכונה" data-title="מכונת הפרומפטים" data-accent="#0f766e">
+  <span class="kicker">🎛️ מכונת הפרומפטים</span>
+  <h2>בוחרים מילה מכל שורה, ו<span class="cyan">הפרומפט נבנה</span></h2>
+  <div class="mixer" id="mixer">
+    <div class="mixRow" style="--c:#4c8bd6"><div class="k"><i>🎯</i>נושא</div><div class="chips" data-k="0">
+      <button class="chip on">מגדלור על צוק</button><button class="chip">חתול שישן על אדן חלון</button><button class="chip">שוק פירות צבעוני</button><button class="chip">רכבת שחוצה גשר</button></div></div>
+    <div class="mixRow" style="--c:#8c7ae6"><div class="k"><i>🖌️</i>סגנון</div><div class="chips" data-k="1">
+      <button class="chip on">בצבעי מים</button><button class="chip">בפיקסל-ארט של משחק ישן</button><button class="chip">כקולאז׳ של נייר גזור</button><button class="chip">בציור פחם שחור-לבן</button></div></div>
+    <div class="mixRow" style="--c:#f4a259"><div class="k"><i>💡</i>אור</div><div class="chips" data-k="2">
+      <button class="chip on">באור שקיעה כתום</button><button class="chip">בערפל של בוקר</button><button class="chip">באור פנס אחד בלילה</button><button class="chip">בצהריים שמשיים</button></div></div>
+    <div class="mixRow" style="--c:#e76f86"><div class="k"><i>📐</i>קומפוזיציה</div><div class="chips" data-k="3">
+      <button class="chip on">במבט מרחוק</button><button class="chip">במבט מלמעלה</button><button class="chip">בתקריב</button><button class="chip">דרך חלון</button></div></div>
+    <div class="mixOut"><div class="prompt" id="mixPrompt"></div><div class="mixBtns"><button class="ghost" id="mixRnd">🎲 ערבוב</button></div></div>
+  </div>
+</section>
+
+<!-- ============ 11 · שפרו את הפרומפט ============ -->
+<section class="slide quiz tight" data-topic="אמן מכוון מכונה" data-title="איזה פרומפט מדויק?" data-answer="3" data-accent="#0f766e">
+  <span class="kicker">⚡ ראשים ממוספרים</span>
+  <h2>איזה פרומפט ייתן תמונה שאתם <span class="cyan">שולטים</span> בה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>תצייר לי משהו יפה על הים.</span></button>
+    <button class="option"><span class="letter">ב</span><span>ים, ים, ים, הרבה כחול, מדהים, אמנות, מושלם, 4K.</span></button>
+    <button class="option"><span class="letter">ג</span><span>ציור בצבעי מים של סירת דייגים קטנה בים שקט, אור זריחה ורוד, מבט מהחוף, בלי אנשים ובלי טקסט.</span></button>
+    <button class="option"><span class="letter">ד</span><span>תעשה כמו הציור המפורסם ההוא עם הים, אתה יודע איזה.</span></button>
+  </div>
+  <div class="explain">✓ נכון! יש בו את כל ארבע המילים: נושא (סירה בים שקט), סגנון (צבעי מים), אור (זריחה ורודה) וקומפוזיציה (מבט מהחוף). ועוד גבול ברור: בלי אנשים ובלי טקסט.</div>
+</section>
+
+<!-- ============ 12 · רפיק אנדול ============ -->
+<section class="slide tight" data-topic="אמן מכוון מכונה" data-title="מקרה: אנדול ב-MoMA" data-accent="#4c8bd6">
+  <span class="kicker">🏛️ השראה אמיתית · ניו יורק</span>
+  <h2>מה <span class="cyan">חולמת</span> מכונה שראתה מוזיאון שלם?</h2>
+  <div class="caseGrid">
+    <div>
+      <div class="frame dark" style="max-width:560px;margin:8px auto 0"><canvas id="dataArt" width="560" height="380" aria-label="הדמיה של יצירת נתונים זורמת"></canvas></div>
+      <div style="text-align:center"><span class="plaque"><b>Unsupervised · רפיק אנדול</b>הדמיה בהשראת היצירה. היצירה עצמה: מסך ענק של כ-7×7 מטרים.</span></div>
+    </div>
+    <div>
+      <div class="facts">
+        <div class="fact"><span class="n">138,151</span><span>רשומות מהאוסף של המוזיאון לאמנות מודרנית (MoMA): יותר מ-200 שנות אמנות.</span></div>
+        <div class="fact"><span class="n">11/2022</span><span>היצירה נפתחה בלובי המוזיאון. המכונה "חולמת" צורות חדשות, והן זזות ומשתנות כל הזמן.</span></div>
+        <div class="fact"><span class="n">×4</span><span>התערוכה הוארכה ארבע פעמים, ונמשכה כמעט שנה.</span></div>
+        <div class="fact"><span class="n">10/2023</span><span>היצירה נכנסה לאוסף הקבוע: היצירה הגנרטיבית הראשונה באוסף של MoMA.</span></div>
+      </div>
+      <div class="src">Source: en.wikipedia.org/wiki/Refik_Anadol</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 · מי האמן ============ -->
+<section class="slide" data-topic="אמן מכוון מכונה" data-title="מי האמן כאן?" data-accent="#4c8bd6">
+  <span class="kicker">💬 דיון קצר</span>
+  <h2>אז מי <span class="cyan">האמן</span> כאן?</h2>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card reveal" style="--stripe:var(--sky)"><div class="emoji">👨‍💻</div><strong>אנדול</strong><p>הוא בחר את הנתונים, בנה את המערכת, החליט על הצבעים, על הגודל ועל המקום.</p></div>
+    <div class="card reveal" style="--stripe:var(--violet)"><div class="emoji">🤖</div><strong>המכונה</strong><p>היא יצרה את הצורות. אף אחד לא צייר אותן אחת-אחת.</p></div>
+    <div class="card reveal" style="--stripe:var(--orange)"><div class="emoji">🖼️</div><strong>אלפי האמנים באוסף</strong><p>בלי היצירות שלהם לא היה ממה ללמוד.</p></div>
+  </div>
+  <div class="task reveal"><strong>💡 מה זה אומר עלינו היום?</strong><p>יצירה הופכת לשלכם כשאתם מחליטים: איזה נושא, איזו גרסה נכנסת ואיזו נפסלת, באיזה סדר ולמה. המכונה מציעה. <b>אתם האוצרים.</b></p></div>
+</section>
+
+<!-- ============ 14 · ארבעת הסטודיואים ============ -->
+<section class="slide" data-topic="הסטודיואים והאתגר" data-title="ארבעת הסטודיואים" data-accent="#c9a24a">
+  <span class="kicker">🗺️ מפת הסבב</span>
+  <h2>ארבעה סטודיואים, <span class="cyan">11 דקות</span> בכל אחד</h2>
+  <div class="steps">
+    <div class="step" style="--accent-ink:#2f6db5"><strong>🗣️ מעבדת התיאור</strong><p>משחק Say What You See, ואז תמונה ראשונה של הנושא ב-Gemini.</p></div>
+    <div class="step" style="--accent-ink:#6a55c9"><strong>🔀 רמיקס</strong><p>Art Remix: לוקחים יצירת מופת ומכניסים לתוכה את הנושא שלכם.</p></div>
+    <div class="step" style="--accent-ink:#c2630f"><strong>🎨 ארבעה סגנונות</strong><p>Gemini: אותו נושא בארבעה סגנונות. רק אחד נכנס לסדרה.</p></div>
+    <div class="step" style="--accent-ink:#be3455"><strong>✋ יד האמן</strong><p>ציור ביד, AutoDraw או שילוב של שניהם. בלי מחולל תמונות.</p></div>
+  </div>
+  <p class="lead" style="margin-top:16px">בין סטודיו לסטודיו: <b>דקת מעבר</b> עם מוזיקה. עד סוף כל סטודיו, היצירה כבר על הקיר.</p>
+</section>
+
+<!-- ============ 15 · הדגמה: 4 סגנונות ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="אותו נושא, 4 סגנונות" data-accent="#f4a259">
+  <span class="kicker">🎨 הצצה לסטודיו 3</span>
+  <h2>אותו מגדלור. <span class="orange">ארבע שפות.</span></h2>
+  <div class="styles4" id="styles4">
+    <figure><div class="frame"><svg viewBox="0 0 320 240" data-style="water"></svg></div><figcaption>צבעי מים<small>"...עכשיו בצבעי מים, קצוות רכים"</small></figcaption></figure>
+    <figure><div class="frame dark"><canvas width="320" height="240" data-style="pixel"></canvas></div><figcaption>פיקסל-ארט<small>"...עכשיו בפיקסל-ארט של משחק ישן, 16 צבעים"</small></figcaption></figure>
+    <figure><div class="frame"><svg viewBox="0 0 320 240" data-style="collage"></svg></div><figcaption>קולאז׳<small>"...עכשיו כקולאז׳ של נייר צבעוני גזור"</small></figcaption></figure>
+    <figure><div class="frame gold"><svg viewBox="0 0 320 240" data-style="charcoal"></svg></div><figcaption>פחם<small>"...עכשיו ציור פחם בשחור-לבן, צללים חזקים"</small></figcaption></figure>
+  </div>
+  <div class="prompt baseLine">צור ציור של מגדלור על צוק מעל ים כחול, אור שקיעה כתום, שחפים בשמיים, מבט מרחוק, בלי טקסט ובלי אנשים.</div>
+  <p class="mini">ההדגמה הזאת צוירה בקוד, עם ארבעה פילטרים. ב-Gemini ההבדלים יהיו הרבה יותר עשירים. הכלל: <b>הנושא נשאר, רק הסגנון מתחלף.</b></p>
+</section>
+
+<!-- ============ 16 · Padlet ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="איך מעלים לקיר" data-accent="#5bb5a2">
+  <button class="helpBtn" data-help="padlet" aria-label="הוראות">?</button>
+  <span class="kicker">🧱 הקיר שלכם בגלריה · Padlet</span>
+  <h2>כל יצירה עולה לקיר <span class="cyan">עם הכלי והפרומפט</span></h2>
+  <div class="row2 w37">
+    <div class="mock" aria-hidden="true">
+      <div class="mbar"><i></i><i></i><i></i>&nbsp; padlet.com · ערב הפתיחה</div>
+      <div class="cols3">
+        <div class="col"><h4>קיר 1 · 🦉 ינשוף כחול</h4><div class="post"><div class="pic a1"></div><b>1 · מעבדת התיאור</b>Gemini · "מגדלור על צוק..."</div><div class="post"><div class="pic a2"></div><b>2 · רמיקס</b>Art Remix · "ליל כוכבים" + ...</div></div>
+        <div class="col"><h4>קיר 2 · 🦊 שועל זהב</h4><div class="post"><div class="pic a4"></div><b>1 · מעבדת התיאור</b>Gemini · "..."</div><div class="post add">+</div></div>
+        <div class="col"><h4>קיר 3 · 🐙 תמנון סגול</h4><div class="post add">+</div></div>
+      </div>
+    </div>
+    <div class="steps" style="grid-template-columns:1fr;gap:8px;margin-top:0">
+      <div class="step" style="display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:10px 14px"><p style="margin:0"><b>פותחים את הקישור לקיר</b> מהשקף הבא או מהלוח.</p></div>
+      <div class="step" style="display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:10px 14px"><p style="margin:0">לוחצים <b>+</b> בעמודה של הקיר שלכם (המספר שעל השולחן).</p></div>
+      <div class="step" style="display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:10px 14px"><p style="margin:0">מעלים את התמונה. בכותרת: <b>מספר הסטודיו ושמו</b>.</p></div>
+      <div class="step" style="display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:10px 14px"><p style="margin:0">בטקסט: <b>הכלי + הפרומפט המלא</b> (או השיטה) ← <b>פרסום</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17 · כללי הסטודיו + קישורים ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="כללי הסטודיו" data-accent="#5bb5a2">
+  <span class="kicker">🛡️ כללי הסטודיו</span>
+  <h2>שלושה דברים שלא נכנסים <span class="cyan">לגלריה</span></h2>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card" style="--stripe:var(--rose)"><div class="emoji">🙅</div><strong>אנשים אמיתיים</strong><p>לא מפורסמים, לא חברים, לא מורים. דמויות מומצאות זה מצוין.</p></div>
+    <div class="card" style="--stripe:var(--orange)"><div class="emoji">📵</div><strong>תמונות שלכם</strong><p>לא מעלים תמונות של תלמידים. מצלמים רק את הדף של הציור.</p></div>
+    <div class="card" style="--stripe:var(--violet)"><div class="emoji">™️</div><strong>לוגו של מותג</strong><p>בלי סמלים של חברות ובלי דמויות מסרטים ומשחקים.</p></div>
+  </div>
+  <div class="row2" style="margin-top:14px">
+    <div class="linkBox"><span class="em">🧱</span><div contenteditable="true" spellcheck="false" data-key="padlet" data-ph="padlet.com/..."></div></div>
+    <div class="linkBox"><span class="em">📝</span><div contenteditable="true" spellcheck="false" data-key="form" data-ph="forms.gle/..."></div></div>
+  </div>
+  <p class="mini">🧱 הקיר בגלריה · 📝 טופס ההגשה. טיפ פרטיות: לא מקלידים שמות מלאים, כתובות או טלפונים, באף כלי.</p>
+</section>
+
+<!-- ============ 18 · האתגר ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="האתגר: קיר הכבוד" data-accent="#c9a24a">
+  <button class="helpBtn" data-help="challenge" aria-label="הוראות">?</button>
+  <span class="kicker">🏛️ האתגר</span>
+  <h2>קיר <span class="cyan">הכבוד</span> של המוזיאון</h2>
+  <p class="lead">יצירה אחת תיבחר לקיר הכבוד בכניסה. אלה החוקים:</p>
+  <div class="rules">
+    <div class="rule">4 יצירות, כולן על הנושא שהוגרל, אחת מכל סטודיו.</div>
+    <div class="rule">לפחות יצירה אחת ביד או ב-AutoDraw.</div>
+    <div class="rule">מתחת לכל יצירה: הכלי והפרומפט, או השיטה.</div>
+    <div class="rule">בלי אנשים אמיתיים, בלי תמונות של תלמידים ובלי לוגו של מותג.</div>
+    <div class="rule">בערב הפתיחה: 3 מדבקות לכל מבקר. אסור להדביק על הקיר של הקבוצה שלך.</div>
+    <div class="rule">מגישים בטופס עד שהטיימר של "אצירה והגשה" מגיע לאפס.</div>
+  </div>
+</section>
+
+<!-- ============ 19 · ניקוד ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="טבלת הניקוד" data-accent="#c9a24a">
+  <span class="kicker">🔢 הניקוד ידוע מראש</span>
+  <h2>איך צוברים <span class="cyan">נקודות</span></h2>
+  <div class="tableWrap"><table class="t compact">
+    <thead><tr><th>מה</th><th>נקודות</th><th>מתי</th></tr></thead>
+    <tbody>
+      <tr><td>🖼️ כל יצירה בסדרה, עם כלי ופרומפט כתובים</td><td class="pts">2 · עד 8</td><td>בהגשה</td></tr>
+      <tr><td>🗣️ Say What You See: כל שלב שעברתם</td><td class="pts">1 · עד 3</td><td>סטודיו 1</td></tr>
+      <tr><td>✍️ טקסט אמן של עד 50 מילים</td><td class="pts">2</td><td>בהגשה</td></tr>
+      <tr><td>⭐ כל מדבקה מהמבקרים</td><td class="pts">1 · עד 10</td><td>ערב הפתיחה</td></tr>
+      <tr><td>🔮 מבקר שניחש נכון את הנושא שלכם</td><td class="pts">1 · עד 5</td><td>ערב הפתיחה</td></tr>
+      <tr><td>🕵️ ניחשתם נכון נושא של קבוצה אחרת</td><td class="pts">1 · עד 5</td><td>ערב הפתיחה</td></tr>
+      <tr><td>🏛️ ציון האוצרים לפי המחוון (4 קריטריונים × 4)</td><td class="pts">עד 16</td><td>בסוף</td></tr>
+      <tr class="sum"><td>סה״כ אפשרי · שובר שוויון: ציון האוצרים, ואז מדבקות</td><td class="pts">49</td><td></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 20 · מחוון ============ -->
+<section class="slide tight" data-topic="הסטודיואים והאתגר" data-title="המחוון" data-accent="#c9a24a">
+  <span class="kicker">📊 ככה האוצרים יחליטו</span>
+  <h2>המחוון: <span class="cyan">4 קריטריונים, 4 רמות</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th></th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>סדרה ונושא</td><td>יצירות בלי קשר ביניהן</td><td>קשר חלש, קשה לנחש את הנושא</td><td>4 יצירות, כולן על הנושא</td><td>רעיון שמתפתח מיצירה ליצירה, ומבקרים מזהים את הנושא</td></tr>
+      <tr class="reveal"><td>שליטה בכלים</td><td>יצירה אחת או שתיים, בלי ניסוי</td><td>4 יצירות, בלי שיפור בין ניסיונות</td><td>בכל סטודיו לפחות 2 ניסיונות, ובחירה מנומקת</td><td>פרומפטים מדויקים (סגנון, אור, קומפוזיציה) ושיפור שרואים בין גרסאות</td></tr>
+      <tr class="reveal"><td>טקסט אמן ותצוגה</td><td>אין טקסט</td><td>טקסט שמתאר רק מה רואים</td><td>עד 50 מילים שמסבירות את הרעיון</td><td>מסביר את הרעיון ואת הבחירות. תצוגה מסודרת, עם כלי ופרומפט לכל יצירה</td></tr>
+      <tr class="reveal"><td>שקיפות AI וצוות</td><td>לא ברור מה ה-AI עשה</td><td>כתוב רק "השתמשנו ב-AI"</td><td>כלי ופרומפט לכל יצירה, וכל תפקיד תרם</td><td>כתוב גם מה שינינו בעצמנו ואיזו גרסה פסלנו ולמה</td></tr>
+    </tbody>
+  </table></div>
+  <div class="clickHint">לחצו "הבא" לכל שורה</div>
+</section>
+
+<!-- ============ 21 · פרסים ============ -->
+<section class="slide" data-topic="הסטודיואים והאתגר" data-title="הפרסים" data-accent="#c9a24a">
+  <span class="kicker">🏆 ארבע דרכים לנצח</span>
+  <h2>הפרסים של <span class="cyan">ערב הפתיחה</span></h2>
+  <div class="prizes">
+    <div class="prize" style="--pc:#c9a24a"><div class="em">🏛️</div><b>קיר הכבוד</b><p>הכי הרבה נקודות בסך הכול.</p></div>
+    <div class="prize" style="--pc:#f4a259"><div class="em">⭐</div><b>פרס המבקרים</b><p>הכי הרבה מדבקות.</p></div>
+    <div class="prize" style="--pc:#e76f86"><div class="em">✋</div><b>יד האמן</b><p>היצירה הידנית הטובה ביותר, לפי האוצרים.</p></div>
+    <div class="prize" style="--pc:#4c8bd6"><div class="em">🔗</div><b>הסדרה הכי אחידה</b><p>הכי הרבה מבקרים ניחשו את הנושא.</p></div>
+  </div>
+  <p class="lead" style="margin-top:16px">ועוד תואר כבוד, בלי נקודות: <b>📈 הכי שיפרו</b>, הקבוצה שהשתפרה הכי הרבה ממבט האוצרים ועד הסוף.</p>
+</section>
+
+<!-- ============ 22 · סטודיו 1 ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים" data-title="סטודיו 1 · מעבדת התיאור" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="s1" aria-label="הוראות">?</button>
+  <span class="studioTag">סטודיו 1 מתוך 4 · 11 דקות</span>
+  <h2>🗣️ מעבדת <span class="cyan">התיאור</span></h2>
+  <div class="toolRow"><span class="tool">🖼️ Arts &amp; Culture · Say What You See</span><span class="tool">✨ gemini.google.com</span><span class="light g">🟢 AI כשותף</span></div>
+  <div class="studio">
+    <div class="phaseList">
+      <div class="ph"><span class="when">0–6</span><p><b>משחק:</b> רואים תמונה ומתארים אותה במילים, עד שהמכונה יוצרת תמונה דומה. 3 ניסיונות לכל תמונה. מחליפים מקליד/ה בכל תמונה.<small>כל שלב שעברתם = נקודה (עד 3). צלמו מסך של השלב האחרון.</small></p></div>
+      <div class="ph"><span class="when">6–10</span><p><b>היצירה הראשונה:</b> מתארים סצנה מהנושא הסודי שלכם כאילו אתם רואים אותה: מה מקדימה, מה ברקע, צבעים, אור. לפחות 25 מילים, ושולחים ל-Gemini.<small>מנסים 2 גרסאות. האמן/ית הראשי/ת בוחר/ת אחת.</small></p></div>
+      <div class="ph"><span class="when">10–11</span><p><b>לקיר:</b> מורידים את התמונה ומעלים ל-Padlet, עם הכלי והפרומפט המלא. רושמים בדף הסדרה.</p></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="produce"><b>🖼️ יוצאים מכאן עם</b>יצירה 1 על הקיר + מספר השלבים במשחק.</div>
+      <div class="box"><b>💬 כותב/ת הפרומפטים</b> מנסח/ת. <b>✏️ הצייר/ת</b> בודק/ת מה חסר בתמונה.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 23 · מעבר ============ -->
+<section class="slide center" data-topic="סבב הסטודיואים" data-title="מעבר לסטודיו 2" data-accent="#8c7ae6">
+  <span class="kicker">🎵 דקת מעבר</span>
+  <h2>יצירה 1 על הקיר? <span class="violet">עוברים לסטודיו 2</span></h2>
+  <div class="bigNum">1 ← 2</div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="lead" style="margin-top:12px">הצייר/ת לוקח/ת את כרטיס סטודיו 2 מהשולחן של המדריך. מי שהקליד/ה עכשיו מעביר/ה את המקלדת.</p>
+  <div class="music"><i><b></b><b></b><b></b><b></b></i> מוזיקת מעבר</div>
+</section>
+
+<!-- ============ 24 · סטודיו 2 ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים" data-title="סטודיו 2 · רמיקס" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="s2" aria-label="הוראות">?</button>
+  <span class="studioTag">סטודיו 2 מתוך 4 · 11 דקות</span>
+  <h2>🔀 רמיקס <span class="violet">ליצירת מופת</span></h2>
+  <div class="toolRow"><span class="tool">🖼️ Arts &amp; Culture · Art Remix</span><span class="light g">🟢 AI כשותף</span></div>
+  <div class="studio">
+    <div class="phaseList">
+      <div class="ph"><span class="when">0–3</span><p><b>בוחרים יצירה:</b> מדפדפים ביצירות של הניסוי ובוחרים אחת שאפשר להכניס לתוכה את הנושא שלכם.</p></div>
+      <div class="ph"><span class="when">3–9</span><p><b>מחליפים חלקים:</b> משנים מילים בתיאור של היצירה ומכניסים את העולם שלכם. במקום "ספינות" אולי "לווייתנים"? יוצרים לפחות 2 גרסאות.<small>מה נשאר מהמקור, ומה הפך לשלכם?</small></p></div>
+      <div class="ph"><span class="when">9–11</span><p><b>לקיר:</b> מורידים את הגרסה שנבחרה (או צילום מסך) ומעלים. בטקסט: שם היצירה המקורית + מה החלפתם.</p></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="produce"><b>🖼️ יוצאים מכאן עם</b>יצירה 2 על הקיר: יצירת מופת עם הנושא שלכם בפנים.</div>
+      <div class="box"><b>🏷️ האוצר/ת</b> מתחיל/ה לרשום רעיונות לטקסט האמן: מה חוזר בשתי היצירות?</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 25 · מבט אוצרים ============ -->
+<section class="slide tight" data-topic="מבט אוצרים" data-title="מבט אוצרים" data-accent="#5bb5a2">
+  <span class="kicker">👀 נקודת ביקורת · 4 דקות</span>
+  <h2>מבט <span class="cyan">אוצרים</span>: האם רואים את הנושא?</h2>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card" style="--stripe:var(--sky)"><div class="emoji">🔄</div><strong>1. מראים</strong><p>כל קבוצה מראה לקבוצה השכנה את שתי היצירות הראשונות. בלי להגיד מילה.</p></div>
+    <div class="card" style="--stripe:var(--violet)"><div class="emoji">🔮</div><strong>2. מנחשים</strong><p>השכנים מנחשים: "הנושא שלכם הוא..." (מתוך עשרת הנושאים). אחר כך מתחלפים.</p></div>
+    <div class="card" style="--stripe:var(--orange)"><div class="emoji">🔧</div><strong>3. מחליטים</strong><p>לא ניחשו? רושמים בדף הסדרה מה נחזק בסטודיו 3 ו-4.</p></div>
+  </div>
+  <div class="row2" style="align-items:center">
+    <div class="box"><b>אני אוהב/ת...</b> · <b>הלוואי ש...</b> · <b>אני תוהה...</b> &nbsp;— משפט אחד מכל סוג לקבוצה השכנה.</div>
+    <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- ============ 26 · פסל חי ============ -->
+<section class="slide center" data-topic="מבט אוצרים" data-title="קום, תזוז: פסל חי" data-accent="#e76f86">
+  <span class="kicker">🕺 דקה של תנועה</span>
+  <h2>כל קבוצה הופכת ל<span class="red">פסל חי</span></h2>
+  <p class="lead">קמים, ושוב יצירת מופת. 10 שניות בלי לזוז!</p>
+  <div class="statues">
+    <div class="statue reveal"><div class="em">🤔</div><b>"החושב"</b><p>הפסל של רודן</p></div>
+    <div class="statue reveal"><div class="em">😱</div><b>"הצעקה"</b><p>הציור של מונק</p></div>
+    <div class="statue reveal"><div class="em">🌊</div><b>"הגל הגדול"</b><p>ההדפס של הוקוסאי. כל הקבוצה היא גל אחד!</p></div>
+  </div>
+</section>
+
+<!-- ============ 27 · סטודיו 3 ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים 2" data-title="סטודיו 3 · ארבעה סגנונות" data-accent="#f4a259">
+  <button class="helpBtn" data-help="s3" aria-label="הוראות">?</button>
+  <span class="studioTag">סטודיו 3 מתוך 4 · 11 דקות</span>
+  <h2>🎨 אותו נושא, <span class="orange">ארבעה סגנונות</span></h2>
+  <div class="toolRow"><span class="tool">✨ gemini.google.com · תמונות</span><span class="light g">🟢 AI כשותף</span></div>
+  <div class="studio">
+    <div class="phaseList">
+      <div class="ph"><span class="when">0–2</span><p><b>פרומפט בסיס:</b> כותבים סצנה מהנושא, עם כל ארבע מילות הקסם. זה הפרומפט שלא משתנה.</p></div>
+      <div class="ph"><span class="when">2–8</span><p><b>ארבעה סגנונות:</b> בהודעות המשך: "אותו נושא בדיוק, עכשיו בסגנון ___". צבעי מים, פיקסל-ארט, קולאז׳, פחם, או סגנון משלכם.<small>מסדרים את ארבע התוצאות זו ליד זו.</small></p></div>
+      <div class="ph"><span class="when">8–11</span><p><b>האוצרים בוחרים אחת:</b> איזה סגנון מתאים לסדרה? מעלים לקיר ורושמים בדף הסדרה למה בחרתם ואיזו פסלתם.</p></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="produce"><b>🖼️ יוצאים מכאן עם</b>יצירה 3 על הקיר + גרסה שפסלתם ולמה.</div>
+      <div class="box"><b>🎨 האמן/ית הראשי/ת</b> מחליט/ה. כל אחד אומר במשפט איזו גרסה הוא/היא בוחר/ת.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 28 · מעבר ============ -->
+<section class="slide center" data-topic="סבב הסטודיואים 2" data-title="מעבר לסטודיו 4" data-accent="#e76f86">
+  <span class="kicker">🎵 דקת מעבר</span>
+  <h2>יצירה 3 על הקיר? <span class="red">עוברים לסטודיו 4</span></h2>
+  <div class="bigNum">3 ← 4</div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="lead" style="margin-top:12px">הצייר/ת לוקח/ת דפי ציור וטושים. המסכים יורדים לחצי.</p>
+  <div class="music"><i><b></b><b></b><b></b><b></b></i> מוזיקת מעבר</div>
+</section>
+
+<!-- ============ 29 · סטודיו 4 ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים 2" data-title="סטודיו 4 · יד האמן" data-accent="#e76f86">
+  <button class="helpBtn" data-help="s4" aria-label="הוראות">?</button>
+  <span class="studioTag">סטודיו 4 מתוך 4 · 11 דקות</span>
+  <h2>✋ יד <span class="red">האמן</span></h2>
+  <div class="toolRow"><span class="tool">✏️ autodraw.com</span><span class="tool">🖍️ דף וטושים</span><span class="light y">🟡 AutoDraw מציע</span><span class="light r">🔴 ציור ביד</span></div>
+  <div class="studio">
+    <div class="phaseList">
+      <div class="ph"><span class="when">0–1</span><p><b>בוחרים דרך:</b> ✋ ציור ביד · ✏️ AutoDraw · 🔀 שילוב (למשל רקע ביד וחפצים מ-AutoDraw, או להפך).</p></div>
+      <div class="ph"><span class="when">1–9</span><p><b>יוצרים:</b> ביצירה הזאת אין מחולל תמונות. איך ממשיכים את הסדרה? אותם צבעים? אותה דמות? מבט מזווית אחרת?<small>במקביל: האוצר/ת כותב/ת את טקסט האמן (השקף הבא).</small></p></div>
+      <div class="ph"><span class="when">9–11</span><p><b>לקיר:</b> מצלמים <b>רק את הדף</b>, או מורידים מ-AutoDraw (☰ ← Download). בטקסט: השיטה.</p></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="produce"><b>🖼️ יוצאים מכאן עם</b>יצירה 4 על הקיר + טיוטה של טקסט האמן.</div>
+      <div class="box"><b>✏️ הצייר/ת</b> מוביל/ה. כולם מציירים חלק, ואף אחד לא יושב בצד.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 30 · טקסט אמן ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים 2" data-title="טקסט אמן ב-50 מילים" data-accent="#e76f86">
+  <span class="kicker">✍️ טקסט אמן · עד 50 מילים · 🟡</span>
+  <h2>לא מה <span class="red">רואים</span>. מה <span class="cyan">חשבתם</span>.</h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ מתאר מה רואים</span>"יש פה ארבע תמונות של חתול. אחת צבעונית ואחת בשחור-לבן. עשינו אותן ב-AI ובציור."</div>
+    <div class="box good"><span class="label">✓ מסביר רעיון ובחירות</span>"תשע נשמות: חתול אחד שעובר מבית לבית. בכל יצירה בחרנו שפה אחרת, כי כל בית מרגיש אחרת: צבעי מים לבית החם, פיקסלים לבית של הגיימר, ציור יד לבית האחרון, שבו הוא נשאר. ויתרנו על גרסה מציאותית, כי היא הייתה קרה מדי."</div>
+  </div>
+  <div class="row2" style="margin-top:12px">
+    <div class="box" style="font-size:18px"><b>תבנית:</b> "הסדרה ___ מספרת על ___. בחרנו ___ כי ___. ויתרנו על ___ כי ___."</div>
+    <div class="prompt" style="margin-top:0;font-size:18px">הנה טקסט האמן שלנו: [טקסט]. קצר אותו ל-50 מילים ושמור על הרעיון. אל תוסיף רעיונות חדשים.</div>
+  </div>
+  <p class="mini">כותבים קודם לבד. Gemini רק מקצר, ואתם בודקים שהרעיון נשאר שלכם.</p>
+</section>
+
+<!-- ============ 31 · משימות צד ============ -->
+<section class="slide tight" data-topic="סבב הסטודיואים 2" data-title="משימות צד" data-accent="#5bb5a2">
+  <span class="kicker">🌟 סיימתם? משימות צד</span>
+  <h2>האגף שלכם יכול להיות <span class="cyan">עוד יותר עשיר</span></h2>
+  <div class="cards quests" style="grid-template-columns:repeat(5,1fr)">
+    <div class="card"><div class="emoji">🖼️</div><strong>יצירה חמישית</strong><p>"גרסת לילה" או "גרסת חורף" של היצירה האהובה עליכם, בכל כלי.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>שמות ליצירות</strong><p>לכל יצירה שם של מוזיאון: עד 4 מילים, בלי המילה של הנושא.</p></div>
+    <div class="card"><div class="emoji">💰</div><strong>תווית מחיר דמיונית</strong><p>כמה "שקלי גלריה" שווה כל יצירה, ולמה? משפט לכל אחת.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>סיור קולי</strong><p>30 שניות שהמארח/ת יגיד/תגיד ליד הקיר. מתאמנים בקול.</p></div>
+    <div class="card"><div class="emoji">🧑‍🎨</div><strong>בעיני אמן מפורסם</strong><p>מחפשים ב-Arts &amp; Culture אמן/ית שצייר/ה נושא דומה. מה אפשר ללמוד מהם?</p></div>
+  </div>
+</section>
+
+<!-- ============ 32 · אצירה והגשה ============ -->
+<section class="slide tight" data-topic="אצירה והגשה" data-title="אצירה והגשה" data-accent="#0f766e">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📥 אצירה והגשה · 5 דקות</span>
+  <h2>מסדרים את הקיר <span class="cyan">ומגישים</span></h2>
+  <div class="row2">
+    <div>
+      <ul class="ck">
+        <li>4 יצירות בקיר, בסדר שהאוצר/ת בחר/ה.</li>
+        <li>מתחת לכל יצירה: הכלי + הפרומפט המלא או השיטה.</li>
+        <li>פוסט פתיחה בראש העמודה: <b>סטודיו [שם] · [שם הסדרה]</b>, ובו טקסט האמן (עד 50 מילים).</li>
+        <li>הנושא לא מופיע בשום מקום בקיר!</li>
+        <li>שורת AI: <b>מה ה-AI עשה · מה אנחנו עשינו</b>.</li>
+      </ul>
+      <div class="timer" data-seconds="300"><output>05:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+    <div>
+      <div class="box"><b>🎤 המארח/ת מגיש/ה בטופס "הגשת סדרה":</b> שם הסטודיו, הנושא (רק בטופס), קישור לקיר, 4 הפרומפטים או השיטות, טקסט האמן ושורת ה-AI.</div>
+      <div class="linkBox"><span class="em">📝</span><div contenteditable="true" spellcheck="false" data-key="form" data-ph="forms.gle/..."></div></div>
+      <p class="mini">אין מחשב? מגישים את דף הסדרה ואת שורת ה-AI על נייר.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 33 · ערב הפתיחה: חוקים ============ -->
+<section class="slide tight" data-topic="ערב הפתיחה" data-title="ערב הפתיחה: החוקים" data-accent="#c9a24a">
+  <button class="helpBtn" data-help="night" aria-label="הוראות">?</button>
+  <span class="kicker">🥂 ערב הפתיחה</span>
+  <h2>הדלתות נפתחות. <span class="cyan">ככה מסתובבים:</span></h2>
+  <div class="walk">
+    <div class="step"><strong>👀 20 שניות</strong><p>המארח/ת מראה רק את התמונות, בגדול. עוד לא קוראים כלום.</p></div>
+    <div class="step"><strong>🔮 מנחשים</strong><p>בכרטיס המבקר: "הנושא לדעתי..." מתוך 10 הנושאים.</p></div>
+    <div class="step"><strong>📖 קוראים</strong><p>טקסט האמן והפרומפטים. שואלים את המארח/ת שאלה אחת.</p></div>
+    <div class="step"><strong>⭐ מדביקים</strong><p>3 מדבקות לערב כולו, על שלט הקיר. לא אצלכם!</p></div>
+  </div>
+  <div class="row2" style="margin-top:14px">
+    <div class="box"><b>🔄 החלפת משמרת:</b> באמצע הזמן המארח/ת מתחלף/ת עם האוצר/ת, כדי שגם הם יסיירו.</div>
+    <div class="box"><b>💬 בכרטיס המבקר:</b> לכל קיר, מה הכי הפתיע אתכם? משפט קצר.</div>
+  </div>
+</section>
+
+<!-- ============ 34 · ערב הפתיחה: טיימר ============ -->
+<section class="slide center" data-topic="ערב הפתיחה" data-title="הגלריה פתוחה" data-accent="#c9a24a">
+  <span class="kicker">🥂 הגלריה פתוחה</span>
+  <h2>ברוכים הבאים <span class="cyan">לאגף האמנים הצעירים</span></h2>
+  <div class="endWall" aria-hidden="true">
+    <div class="frame"><div class="art a1"></div></div><div class="frame gold"><div class="art a2"></div></div><div class="frame dark"><div class="art a4"></div></div>
+  </div>
+  <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <div class="music"><i><b></b><b></b><b></b><b></b></i> בדקה 3: החלפת משמרת מארחים</div>
+</section>
+
+<!-- ============ 35 · חשיפה וספירה ============ -->
+<section class="slide tight" data-topic="פרסי האוצרים" data-title="חשיפת הנושאים" data-accent="#8c7ae6">
+  <span class="kicker">🔮 חשיפת הנושאים</span>
+  <h2>המארח/ת חושף/ת. <span class="violet">מי ניחש נכון?</span></h2>
+  <p class="lead">כל מארח/ת אומר/ת בקול: "הנושא שלנו היה...!" מי שניחש נכון מרים יד, וגם מסמן ✓ בכרטיס המבקר שלו. סופרים עד 5 ידיים.</p>
+  <div class="counters" id="counters"></div>
+</section>
+
+<!-- ============ 36 · כרטיס יציאה ============ -->
+<section class="slide tight" data-topic="פרסי האוצרים" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟 כרטיס יציאה · כל אחד לבד</span>
+  <h2>לפני ההכרזה: <span class="red">כרטיס יציאה</span></h2>
+  <div class="task">
+    <strong>🔴 בלי AI · 2 דקות</strong>
+    <ol>
+      <li>דבר אחד שלמדתי היום.</li>
+      <li>שאלה אחת שנשארה לי.</li>
+      <li>כמה הבנתי? 0–5, ומה תרמתי לקבוצה.</li>
+      <li><b>איזו החלטה שלכם הפכה את היצירה לשלכם, ולא של המכונה?</b></li>
+    </ol>
+  </div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ============ 37 · לוח הניקוד ============ -->
+<section class="slide tight" data-topic="פרסי האוצרים" data-title="לוח הניקוד" data-accent="#c9a24a">
+  <span class="kicker">🔢 לוח הניקוד</span>
+  <h2>הנקודות של <span class="cyan">ערב הפתיחה</span></h2>
+  <div class="tableWrap"><table class="t score" id="scoreTable"></table></div>
+  <div class="sbTools"><button class="ghost" id="sbAdd">+ קבוצה</button><button class="ghost" id="sbDel">− קבוצה</button><button class="ghost" id="sbReset">↺ איפוס</button><span class="mini">לוחצים על מספר או על שם כדי לשנות.</span></div>
+</section>
+
+<!-- ============ 38 · קיר הכבוד ============ -->
+<section class="slide tight" data-topic="פרסי האוצרים" data-title="קיר הכבוד" data-accent="#c9a24a">
+  <span class="kicker">🏆 פרסי האוצרים</span>
+  <h2>והפרסים <span class="cyan">הולכים ל...</span></h2>
+  <div class="prizes">
+    <div class="prize reveal" style="--pc:#f4a259"><div class="em">⭐</div><b>פרס המבקרים</b><p>הכי הרבה מדבקות</p><div class="who" data-award="st"></div></div>
+    <div class="prize reveal" style="--pc:#4c8bd6"><div class="em">🔗</div><b>הסדרה הכי אחידה</b><p>הכי הרבה ניחושים נכונים</p><div class="who" data-award="gu"></div></div>
+    <div class="prize reveal" style="--pc:#e76f86"><div class="em">✋</div><b>יד האמן</b><p>בחירת האוצרים</p><div class="who" contenteditable="true" data-key="hand" spellcheck="false"></div></div>
+    <div class="prize reveal" style="--pc:#8c7ae6"><div class="em">📈</div><b>הכי שיפרו</b><p>ממבט האוצרים ועד הסוף</p><div class="who" contenteditable="true" data-key="improve" spellcheck="false"></div></div>
+    <div class="prize big reveal"><div class="em">🏛️</div><div><b>קיר הכבוד של המוזיאון</b><p>הכי הרבה נקודות בסך הכול. היצירה שלהם תלויה בכניסה.</p><div class="who" data-award="tot"></div></div></div>
+  </div>
+</section>
+
+<!-- ============ 39 · סיום ============ -->
+<section class="slide center" data-topic="פרסי האוצרים" data-title="הגלריה נשארת פתוחה" data-accent="#0f766e">
+  <span class="kicker">🌙 סוף ערב הפתיחה</span>
+  <h2>המכונה הציעה. <span class="cyan">אתם החלטתם.</span></h2>
+  <p class="lead">הקיר נשאר פתוח: אפשר להראות אותו בבית, להדפיס את הסדרה לתערוכה במסדרון, או להוסיף לה יצירה חמישית.</p>
+  <div class="endWall" aria-hidden="true">
+    <div class="frame gold"><div class="art a3"><i style="grid-area:1/1/3/4;background:#e76f86"></i><i style="grid-area:1/4/2/7"></i><i style="grid-area:2/4/4/6;background:#fde68a"></i><i style="grid-area:2/6/5/7;background:#4c8bd6"></i><i style="grid-area:3/1/5/3"></i><i style="grid-area:3/3/5/4;background:#1f2a37"></i><i style="grid-area:4/4/5/6"></i></div></div>
+    <div class="frame"><div class="art a1"></div></div>
+    <div class="frame dark"><div class="art a2"></div></div>
+    <div class="frame"><div class="art a4"></div></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-padlet"><h3>🧱 איך מעלים יצירה לקיר</h3><ol>
+<li>פותחים את הקישור לקיר (בשקף "כללי הסטודיו" או על הלוח). לא צריך להתחבר.</li>
+<li>מוצאים את העמודה של הקיר שלכם (המספר שעל השולחן) ולוחצים <b>+</b>.</li><li>הפוסט הראשון בעמודה הוא <b>פוסט הפתיחה</b>: כותרת "סטודיו [שם] · [שם הסדרה]", ובטקסט את טקסט האמן. אפשר לכתוב אותו עכשיו ולהשלים בסוף.</li>
+<li>מעלים את התמונה: גוררים לחלון, או לוחצים על סמל ההעלאה ובוחרים קובץ מהמחשב או מהטלפון.</li>
+<li>בכותרת: <b>מספר הסטודיו ושמו</b>, למשל "2 · רמיקס".</li>
+<li>בטקסט: <b>הכלי + הפרומפט המלא</b>. ביצירה ביד: השיטה ("טושים על דף", "AutoDraw + ציור").</li>
+<li>לוחצים <b>פרסום</b>. טעיתם? שלוש הנקודות על הפוסט ← עריכה.</li>
+</ol></template>
+
+<template id="help-challenge"><h3>🏛️ קיר הכבוד: הפרטים</h3><ul>
+<li><b>הנושא סודי.</b> הוא כתוב רק בדף הסדרה ובטופס ההגשה. בפוסט הפתיחה כותבים שם לסדרה, לא את הנושא.</li>
+<li><b>4 יצירות</b>: אחת מכל סטודיו. ביצירה 4 אין מחולל תמונות: רק יד או AutoDraw.</li>
+<li><b>ניחושים:</b> בערב הפתיחה כל מבקר מנחש את הנושא של כל קיר. ניחוש נכון = נקודה לקבוצה שלו, וגם נקודה לקבוצה שקירה נוחש.</li>
+<li><b>מדבקות:</b> 3 לכל מבקר לערב כולו. אפשר לשים את שלוש המדבקות על קיר אחד או לחלק. על הקיר של הקבוצה שלכם: אסור.</li>
+<li><b>ציון האוצרים</b> לפי המחוון: עד 4 נקודות בכל קריטריון.</li>
+<li>שובר שוויון: ציון האוצרים, ואחריו מספר המדבקות.</li>
+</ul></template>
+
+<template id="help-s1"><h3>🗣️ סטודיו 1: מעבדת התיאור</h3><ol>
+<li>פותחים את <b>Say What You See</b> ב-Google Arts &amp; Culture (הקישור על הכרטיס) ולוחצים על הכפתור שמתחיל את הניסוי.</li>
+<li>מופיעה תמונה. מתארים אותה בתיבה: מה יש בה, צבעים, סגנון, רקע. שולחים.</li>
+<li>המכונה יוצרת תמונה מהתיאור ומראה עד כמה היא דומה למקור. יש <b>3 ניסיונות</b> לכל תמונה, וכל שלב קשה יותר.</li>
+<li>הממשק באנגלית. אפשר לנסות לכתוב בעברית. לא עובד טוב? כותבים באנגלית פשוטה, או מתרגמים ב-Google Translate.</li>
+<li>בדקה 6 עוברים ל-<b>gemini.google.com</b>: "צור תמונה של..." + תיאור הסצנה מהנושא שלכם (לפחות 25 מילים).</li>
+<li>מורידים: עכבר על התמונה ← <b>הורדה בגודל מלא</b>. מעלים לקיר עם הפרומפט.</li>
+</ol></template>
+
+<template id="help-s2"><h3>🔀 סטודיו 2: רמיקס</h3><ol>
+<li>פותחים את <b>Art Remix</b> ב-Google Arts &amp; Culture (הקישור על הכרטיס).</li>
+<li>בוחרים יצירה. מתחתיה מופיע תיאור קצר של מה שיש בה.</li>
+<li>מחליפים מילים בתיאור כדי להכניס את הנושא שלכם, ויוצרים גרסה חדשה. מנסים לפחות פעמיים.</li>
+<li>שומרים את הגרסה הנבחרת: כפתור הורדה, או צילום מסך של התמונה בלבד.</li>
+<li>בטקסט בקיר: <b>שם היצירה המקורית והאמן/ית + מה החלפתם</b>.</li>
+<li><b>Art Remix לא נפתח?</b> עוברים ל-Gemini: "צור גרסה של הציור 'ליל כוכבים' של ואן גוך, באותו סגנון, אבל במקום הכפר יש ___."</li>
+</ol></template>
+
+<template id="help-s3"><h3>🎨 סטודיו 3: ארבעה סגנונות</h3><ol>
+<li>פותחים את <b>gemini.google.com</b> וכותבים "צור תמונה של..." (או בוחרים "תמונות" בסרגל הצד).</li>
+<li>פרומפט הבסיס: נושא + סגנון + אור + קומפוזיציה + "בלי טקסט ובלי אנשים אמיתיים".</li>
+<li>הודעות המשך, אחת אחרי השנייה:<br>"אותו נושא בדיוק, עכשיו בסגנון פיקסל-ארט של משחק ישן, 16 צבעים."<br>"אותו נושא בדיוק, עכשיו כקולאז׳ של נייר צבעוני גזור, רקע לבן."<br>"אותו נושא בדיוק, עכשיו ציור פחם בשחור-לבן עם צללים חזקים."</li>
+<li>עוד סגנונות: ויטראז׳, פסיפס, רישום בעט כדורי, גלויה ישנה, פלסטלינה, הדפס יפני.</li>
+<li>בוחרים אחת לסדרה, מורידים (<b>הורדה בגודל מלא</b>) ומעלים לקיר.</li>
+<li>אין יצירת תמונות בחשבון? עובדים מהחשבון של חבר/ה לקבוצה.</li>
+</ol></template>
+
+<template id="help-s4"><h3>✋ סטודיו 4: יד האמן</h3><ol>
+<li><b>AutoDraw:</b> נכנסים ל-<b>autodraw.com</b> ← <b>Start Drawing</b>.</li>
+<li>בוחרים את הכלי <b>AutoDraw</b> ומשרבטים. למעלה מופיע <b>Do you mean</b>: לוחצים על הצעה, והיא מחליפה את השרבוט.</li>
+<li>משלימים עם צבע (דלי), צורות וטקסט. ביטול: Ctrl/⌘ + Z.</li>
+<li>שומרים: <b>☰ ← Download</b>.</li>
+<li><b>ציור ביד:</b> דף לבן, טושים או צבעים. מצלמים מלמעלה באור טוב, <b>רק את הדף</b>, בלי ידיים ופנים.</li>
+<li><b>שילוב:</b> מדפיסים או מעתיקים חפצים מ-AutoDraw לציור, או מצלמים את הציור ומוסיפים לו פרטים. בטקסט בקיר כותבים מה נעשה ביד.</li>
+</ol></template>
+
+<template id="help-submit"><h3>📥 מה מגישים בטופס</h3><ol>
+<li>שם הסטודיו ושמות חברי הקבוצה (שם פרטי בלבד).</li>
+<li>הנושא הסודי (מופיע רק בטופס).</li>
+<li>קישור לקיר ב-Padlet.</li>
+<li>4 הפרומפטים או השיטות, לפי הסדר בקיר.</li>
+<li>טקסט האמן (עד 50 מילים).</li>
+<li>שורת AI: <b>מה ה-AI עשה · מה אנחנו עשינו</b>, ואיזו גרסה פסלתם ולמה.</li>
+<li>המארח/ת לוחץ/ת <b>שליחה</b> ומראה למדריך את מסך האישור.</li>
+</ol></template>
+
+<template id="help-night"><h3>🥂 ערב הפתיחה: פרוטוקול</h3><ul>
+<li><b>המארח/ת</b> עומד/ת ליד הקיר עם המכשיר. כשמבקרים מגיעים: פותח/ת את היצירות בגדול, אחת אחרי השנייה, 20 שניות בלי הסברים.</li>
+<li><b>המבקרים</b> כותבים ניחוש בכרטיס המבקר, ורק אחר כך קוראים ושואלים.</li>
+<li>המארח/ת לא מגלה את הנושא ולא רומז. אפשר לספר איך עבדתם.</li>
+<li><b>מדבקות</b> מדביקים על שלט הקיר המודפס שליד המכשיר. 3 לכל מבקר לערב כולו.</li>
+<li>בדקה 3: <b>החלפת משמרת</b>. האוצר/ת נכנס/ת למארח, והמארח/ת יוצא/ת לסייר.</li>
+<li>רואים קיר בלי מבקרים? לכו אליו. כל קיר צריך קהל.</li>
+</ul></template>
+
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="fWater" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.2" result="b"/>
+      <feColorMatrix in="b" type="saturate" values="0.8" result="c"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="9" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 0.97  0 0 0 0 0.9  0 0 0 -0.9 0.95" result="paper"/>
+      <feBlend in="c" in2="paper" mode="multiply"/>
+    </filter>
+    <filter id="fCollage" x="-5%" y="-5%" width="110%" height="110%">
+      <feComponentTransfer in="SourceGraphic" result="p">
+        <feFuncR type="discrete" tableValues="0.12 0.35 0.62 0.86 1"/>
+        <feFuncG type="discrete" tableValues="0.12 0.35 0.62 0.86 1"/>
+        <feFuncB type="discrete" tableValues="0.12 0.35 0.62 0.86 1"/>
+      </feComponentTransfer>
+      <feTurbulence type="turbulence" baseFrequency="0.09" numOctaves="1" seed="2" result="n"/>
+      <feDisplacementMap in="p" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feDropShadow in="d" dx="1.6" dy="2" stdDeviation="0.5" flood-color="#1f2a37" flood-opacity="0.45"/>
+    </filter>
+    <filter id="fCharcoal" x="0" y="0" width="100%" height="100%">
+      <feColorMatrix in="SourceGraphic" type="saturate" values="0" result="g"/>
+      <feComponentTransfer in="g" result="k">
+        <feFuncR type="linear" slope="1.7" intercept="-0.32"/><feFuncG type="linear" slope="1.7" intercept="-0.32"/><feFuncB type="linear" slope="1.7" intercept="-0.32"/>
+      </feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.75  0 0 0 0 0.75  0 0 0 0 0.75  0 0 0 0 1" result="ng"/>
+      <feBlend in="k" in2="ng" mode="multiply" result="m"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.4" numOctaves="2" seed="3" result="s"/>
+      <feDisplacementMap in="m" in2="s" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+/* ===== פתיחת הגלריה — lesson script (after the engine): 1) prompt mixer 2) data-art canvas 3) 4-styles demo
+   4) saved editable links / award names 5) live scoreboard + counters + awards (saved in this browser) ===== */
+(()=>{
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const NS='ai-art-studios:';
+
+/* ---------- 1. prompt mixer ---------- */
+const mixer=document.getElementById('mixer');
+if(mixer){
+ const rows=[...mixer.querySelectorAll('.chips')],out=document.getElementById('mixPrompt');
+ const cols=['#4c8bd6','#8c7ae6','#f4a259','#e76f86'];
+ const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+ const render=()=>{const v=rows.map(r=>(r.querySelector('.chip.on')||r.querySelector('.chip')).textContent);
+  const em=(i)=>'<em style="--c:'+cols[i]+'">'+esc(v[i])+'</em>';
+  out.innerHTML='צור ציור של '+em(0)+' '+em(1)+', '+em(2)+', '+em(3)+', בלי טקסט ובלי אנשים.'};
+ rows.forEach(r=>r.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{r.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');render()}));
+ document.getElementById('mixRnd').onclick=()=>{rows.forEach(r=>{const cs=[...r.querySelectorAll('.chip')];cs.forEach(x=>x.classList.remove('on'));cs[Math.floor(Math.random()*cs.length)].classList.add('on')});render()};
+ render();
+}
+
+/* ---------- 2. data-art canvas (inspired by flowing "data paintings") ---------- */
+const cv=document.getElementById('dataArt');
+if(cv&&cv.getContext){
+ const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,slide=cv.closest('.slide');
+ const pal=['#0f766e','#8c7ae6','#f4a259','#e76f86','#4c8bd6','#5bb5a2'];
+ const P=[...Array(520)].map(()=>({x:Math.random()*W,y:Math.random()*H,c:pal[Math.floor(Math.random()*pal.length)],l:Math.random()*200}));
+ ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);let t=0;
+ const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const step=()=>{if(slide.classList.contains('active')){
+   t+=0.004;ctx.fillStyle='rgba(255,255,255,0.035)';ctx.fillRect(0,0,W,H);ctx.lineWidth=1.7;
+   for(const p of P){const a=(Math.sin(p.x*0.009+t*3)+Math.cos(p.y*0.011-t*2))*Math.PI;
+    const nx=p.x+Math.cos(a)*1.8,ny=p.y+Math.sin(a)*1.8;ctx.strokeStyle=p.c;ctx.globalAlpha=.75;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(nx,ny);ctx.stroke();
+    p.x=nx;p.y=ny;p.l--;if(p.l<0||p.x<0||p.x>W||p.y<0||p.y>H){p.x=Math.random()*W;p.y=Math.random()*H;p.l=100+Math.random()*200}}
+   ctx.globalAlpha=1}
+  if(!reduce)requestAnimationFrame(step)};
+ if(reduce){slide.classList.add('active');for(let i=0;i<220;i++)step();slide.classList.remove('active')}else requestAnimationFrame(step);
+}
+
+/* ---------- 3. the same lighthouse in four styles ---------- */
+const SCENE=`<defs><linearGradient id="SKY" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb8e8"/><stop offset=".55" stop-color="#f9c784"/><stop offset="1" stop-color="#f4a259"/></linearGradient>
+<linearGradient id="SEA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f7cc0"/><stop offset="1" stop-color="#244f86"/></linearGradient></defs>
+<rect width="320" height="240" fill="url(#SKY)"/>
+<ellipse cx="250" cy="52" rx="34" ry="11" fill="#fff" opacity=".85"/><ellipse cx="226" cy="58" rx="22" ry="8" fill="#fff" opacity=".8"/>
+<circle cx="238" cy="160" r="30" fill="#fde68a"/>
+<polygon points="70,72 300,30 300,104" fill="#fff3c4" opacity=".55"/>
+<rect y="158" width="320" height="82" fill="url(#SEA)"/>
+<path d="M150 176q12-6 24 0t24 0M210 196q12-6 24 0t24 0M130 214q12-6 24 0t24 0M240 222q12-6 24 0" stroke="#fff" stroke-width="2.4" fill="none" opacity=".6" stroke-linecap="round"/>
+<path d="M0 240V146q34-12 66-2l40 14q24 14 18 82z" fill="#7a6552"/><path d="M0 150q34-12 66-2l40 14q-30-4-50-8t-56 4z" fill="#5bb5a2"/>
+<polygon points="47,150 73,150 67,80 53,80" fill="#fff"/>
+<polygon points="49.6,128 70.4,128 69.2,114 50.8,114" fill="#e76f86"/><polygon points="52.1,100 67.9,100 67.2,90 52.8,90" fill="#e76f86"/>
+<rect x="51" y="66" width="18" height="14" fill="#fde68a" stroke="#1f2a37" stroke-width="1.5"/>
+<polygon points="48,66 72,66 60,53" fill="#be3455"/><rect x="45" y="80" width="30" height="3" fill="#1f2a37"/>
+<path d="M180 70q5-6 10 0q5-6 10 0M205 52q4-5 8 0q4-5 8 0M160 46q4-5 8 0q4-5 8 0" stroke="#1f2a37" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+const host=document.getElementById('styles4');
+if(host){
+ const F={water:'fWater',collage:'fCollage',charcoal:'fCharcoal'};
+ host.querySelectorAll('svg[data-style]').forEach(sv=>{const k=sv.dataset.style;
+  const sc=SCENE.replace(/id="SKY"/,'id="SKY-'+k+'"').replace(/url\(#SKY\)/,'url(#SKY-'+k+')').replace(/id="SEA"/,'id="SEA-'+k+'"').replace(/url\(#SEA\)/,'url(#SEA-'+k+')');
+  sv.innerHTML=(k==='water'||k==='collage'?'<rect width="320" height="240" fill="#fffaf0"/>':'')+'<g filter="url(#'+F[k]+')">'+sc+'</g>'});
+ const c=host.querySelector('canvas[data-style=pixel]');
+ if(c){try{const svg='<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240">'+SCENE+'</svg>';
+  const img=new Image();const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
+  img.onload=()=>{const s=document.createElement('canvas');s.width=64;s.height=48;const sx=s.getContext('2d');sx.drawImage(img,0,0,64,48);
+   try{const d=sx.getImageData(0,0,64,48);for(let i=0;i<d.data.length;i+=4){for(let j=0;j<3;j++)d.data[i+j]=Math.round(d.data[i+j]/64)*64>255?255:Math.round(d.data[i+j]/64)*64}sx.putImageData(d,0,0)}catch(e){}
+   const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(s,0,0,320,240);URL.revokeObjectURL(url)};
+  img.src=url}catch(e){}}
+}
+
+/* ---------- 4. saved editable fields (links, chosen award names) ---------- */
+document.querySelectorAll('[contenteditable][data-key]').forEach(el=>{const k=NS+'f:'+el.dataset.key;const v=LS.get(k,'');if(v)el.textContent=v;
+ el.addEventListener('input',()=>{LS.set(k,el.textContent.trim());document.querySelectorAll('[contenteditable][data-key="'+el.dataset.key+'"]').forEach(o=>{if(o!==el)o.textContent=el.textContent})});
+ el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur()}})});
+
+/* ---------- 5. live scoreboard ---------- */
+const COLS=[{k:'art',t:'🖼️ יצירות',m:8},{k:'swys',t:'🗣️ SWYS',m:3},{k:'txt',t:'✍️ טקסט',m:2},{k:'st',t:'⭐ מדבקות',m:10},{k:'gu',t:'🔮 ניחשו אותנו',m:5},{k:'gs',t:'🕵️ ניחשנו',m:5},{k:'cur',t:'🏛️ אוצרים',m:16}];
+const DEF=['🦉 ינשוף','🦊 שועל','🐙 תמנון','🦋 פרפר','🐝 דבורה','🦄 חד-קרן'];
+const BK=NS+'board:v1';
+const blank=n=>{const o={n};COLS.forEach(c=>o[c.k]=0);return o};
+let S=LS.get(BK,null);if(!S||!Array.isArray(S.teams)||!S.teams.length)S={teams:DEF.map(n=>blank('סטודיו '+n))};
+const save=()=>{LS.set(BK,S);awards()};
+const pts=(t,c)=>Math.min(Math.max(0,Number(t[c.k])||0),c.m);
+const total=t=>COLS.reduce((a,c)=>a+pts(t,c),0);
+const tb=document.getElementById('scoreTable');
+function ranks(){const tot=S.teams.map(total);const sorted=[...new Set(tot)].sort((a,b)=>b-a);
+ tb&&tb.querySelectorAll('tr[data-i]').forEach(r=>{const i=+r.dataset.i;r.querySelector('.tot').textContent=tot[i];const rk=sorted.indexOf(tot[i]);r.className=tot[i]>0&&rk<3?'r'+(rk+1):''})}
+function table(){if(!tb)return;
+ let h='<thead><tr><th style="text-align:right">קבוצה</th>'+COLS.map(c=>'<th>'+c.t+'<small>עד '+c.m+'</small></th>').join('')+'<th>סה״כ<small>49</small></th></tr></thead><tbody>';
+ S.teams.forEach((t,i)=>{h+='<tr data-i="'+i+'"><td class="nm" contenteditable="true" spellcheck="false" data-f="n"></td>'+COLS.map(c=>'<td contenteditable="true" data-f="'+c.k+'">'+(t[c.k]||0)+'</td>').join('')+'<td class="tot"></td></tr>'});
+ tb.innerHTML=h+'</tbody>';
+ tb.querySelectorAll('tr[data-i]').forEach(r=>{const t=S.teams[+r.dataset.i];r.querySelector('.nm').textContent=t.n});
+ tb.querySelectorAll('td[contenteditable]').forEach(td=>{const i=+td.parentNode.dataset.i,f=td.dataset.f;
+  td.addEventListener('input',()=>{if(f==='n')S.teams[i].n=td.textContent.trim();else S.teams[i][f]=parseInt(td.textContent.replace(/[^\d]/g,''),10)||0;save();ranks();counters()});
+  td.addEventListener('blur',()=>{if(f!=='n')td.textContent=S.teams[i][f]||0});
+  td.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();td.blur()}})});
+ ranks()}
+const cbox=document.getElementById('counters');
+function counters(){if(!cbox)return;
+ const L=[['st','⭐ מדבקות'],['gu','🔮 ניחשו אותנו'],['gs','🕵️ ניחשנו נכון']];
+ cbox.innerHTML=S.teams.map((t,i)=>'<div class="ctr"><h4></h4>'+L.map(([k,l])=>'<div class="ln"><span>'+l+'</span><button data-i="'+i+'" data-k="'+k+'" data-d="-1">−</button><output>'+(t[k]||0)+'</output><button data-i="'+i+'" data-k="'+k+'" data-d="1">+</button></div>').join('')+'</div>').join('');
+ cbox.querySelectorAll('.ctr h4').forEach((h,i)=>h.textContent=S.teams[i].n);
+ cbox.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{const t=S.teams[+b.dataset.i],k=b.dataset.k;const max=k==='st'?99:5;
+  t[k]=Math.min(max,Math.max(0,(Number(t[k])||0)+Number(b.dataset.d)));b.parentNode.querySelector('output').textContent=t[k];save();table()})}
+function awards(){const best=(f)=>{const v=S.teams.map(f);const m=Math.max(...v);return m>0?S.teams.filter((t,i)=>v[i]===m).map(t=>t.n).join(' · '):'—'};
+ const map={st:t=>Number(t.st)||0,gu:t=>Number(t.gu)||0,tot:t=>total(t)};
+ if(S.teams.length){const tv=S.teams.map(total),m=Math.max(...tv);
+  // tie on total: curators' score, then stickers
+  let top=S.teams.filter((t,i)=>tv[i]===m);
+  if(top.length>1){const c=Math.max(...top.map(t=>pts(t,COLS[6])));top=top.filter(t=>pts(t,COLS[6])===c)}
+  if(top.length>1){const s=Math.max(...top.map(t=>Number(t.st)||0));top=top.filter(t=>(Number(t.st)||0)===s)}
+  document.querySelectorAll('[data-award]').forEach(el=>{const a=el.dataset.award;el.textContent=a==='tot'?(m>0?top.map(t=>t.n).join(' · '):'—'):best(map[a])})}}
+document.getElementById('sbAdd')?.addEventListener('click',()=>{S.teams.push(blank('סטודיו '+(S.teams.length+1)));save();table();counters()});
+document.getElementById('sbDel')?.addEventListener('click',()=>{if(S.teams.length>1){S.teams.pop();save();table();counters()}});
+document.getElementById('sbReset')?.addEventListener('click',()=>{if(confirm('לאפס את כל הנקודות ואת שמות הקבוצות?')){S={teams:DEF.map(n=>blank('סטודיו '+n))};save();table();counters()}});
+table();counters();awards();
+})();
+</script>
+
+</body>
+</html>

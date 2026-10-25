@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · כנס הקומיקס | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== כנס הקומיקס — lesson additions for print (template styles above untouched) ===== */
+.ph .l i{background:#1f2a37}
+.inkbox{border:2px solid #1f2a37;border-radius:2.5mm;box-shadow:1.2mm 1.2mm 0 #1f2a37;background:#fff}
+.ht{background:radial-gradient(circle,rgba(244,162,89,.28) .35mm,transparent .5mm) 0 0/2.8mm 2.8mm,#fff}
+.burstT{position:relative;display:inline-grid;place-items:center}
+.burstT svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.burstT span{position:relative;font-family:var(--display);font-weight:800}
+/* role cards: comic stripes */
+.r-ed{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-wr{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-il{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.r-lay{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-bo{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+/* hero cards */
+.k-pow{--c:#e3a82b;--cs:#fdf3d7;--c-ink:#8a5300}
+.k-weak{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.k-place{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.cards.hc{grid-template-rows:repeat(4,1fr)}
+.cc.hcard{border:0}
+.cc.hcard b{font-size:12.5pt}
+.cc.hcard .em{font-size:26pt}
+.cc.hcard .back{font-size:8pt;color:var(--dim)}
+/* character sheet */
+.views3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;flex:1}
+.view{border:1.5px dashed var(--line2);border-radius:3mm;position:relative;background:linear-gradient(#f3f0ea 1px,transparent 1px) 0 0/5mm 5mm,linear-gradient(90deg,#f3f0ea 1px,transparent 1px) 0 0/5mm 5mm,#fff}
+.view b{position:absolute;bottom:2mm;left:50%;transform:translateX(-50%);background:#1f2a37;color:#fff;font-family:var(--display);font-size:9.5pt;border-radius:1.5mm;padding:.3mm 3mm;white-space:nowrap}
+.view .ghost{position:absolute;inset:6mm 8mm 9mm;opacity:.13}
+.dnaRow{display:grid;grid-template-columns:34mm 1fr;gap:2mm;align-items:end;margin-bottom:1.5mm;font-size:10pt}
+.dnaRow b{font-family:var(--display)}
+.dnaRow .lines{min-height:8.5mm;height:8.5mm}
+/* script table */
+table.scr{width:100%;border-collapse:collapse;font-size:9.4pt}
+table.scr th,table.scr td{border:1px solid var(--line2);padding:1.4mm 2mm;text-align:right;vertical-align:top}
+table.scr th{font-family:var(--display);background:var(--paper2);font-size:9pt}
+table.scr td.n{width:9mm;text-align:center;font-family:var(--display);font-weight:800;font-size:12pt;vertical-align:middle}
+table.scr td.sh{width:20mm;font-size:8.6pt;color:var(--muted)}
+table.scr td.sh span{display:block}
+table.scr tbody tr{height:18.5mm}
+.wc{display:inline-block;border:1px solid var(--ink);border-radius:1mm;padding:0 1.5mm;font-size:8pt;color:var(--muted);margin-top:1mm}
+/* thumbnails */
+.thumbs{direction:rtl;display:grid;grid-template-columns:repeat(4,1fr);gap:3.5mm;flex:1}
+.tb2{display:flex;flex-direction:column;gap:1.2mm}
+.tb2 .fr{flex:1;border:1.6px solid #1f2a37;border-radius:1.5mm;position:relative;min-height:38mm}
+.tb2 .fr i{position:absolute;top:1mm;right:1.5mm;font-style:normal;font-family:var(--display);font-weight:800;font-size:9pt;color:var(--dim)}
+.tb2 .fr.big{background:#fffaf0}
+.tb2 .lines{min-height:8.5mm;height:8.5mm}
+.arrowNote{display:flex;align-items:center;gap:3mm;font-size:9.4pt;color:var(--muted)}
+/* blank comic page */
+.comicPage{flex:1;display:grid;gap:3.5mm;grid-template-columns:repeat(6,1fr);grid-template-rows:1.1fr 1fr 1.25fr 1fr;direction:rtl}
+.comicPage>div{border:2.2px solid #1f2a37;border-radius:1mm;position:relative}
+.comicPage>div i{position:absolute;top:1mm;right:1.5mm;font-style:normal;font-family:var(--display);font-weight:800;font-size:8pt;color:#b9b2a6}
+.cp1{grid-column:span 4}.cp2{grid-column:span 2}.cp3{grid-column:span 2}.cp4{grid-column:span 2}.cp5{grid-column:span 2}.cp6{grid-column:span 6}.cp7{grid-column:span 3}.cp8{grid-column:span 3}
+/* balloons to cut */
+.balGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5mm 8mm;padding:0 4mm;flex:1;align-content:start}
+.balGrid svg{width:100%;height:auto;display:block}
+.sfxRow{display:flex;flex-wrap:wrap;gap:3mm 6mm;justify-content:center;align-items:center;margin-top:3mm}
+.sfxO{font-family:var(--display);font-weight:800;color:#fff;-webkit-text-stroke:2.2px #1f2a37;paint-order:stroke fill;line-height:1}
+/* booth sign */
+.tent .top,.tent>div{gap:3mm}
+.tent .pub{font-family:var(--display);font-weight:800;font-size:15pt;color:var(--muted)}
+.tent .nm2{width:120mm;border-bottom:1.6px solid var(--ink);height:13mm}
+.tent .hero2{font-size:11pt;color:var(--muted)}
+.tent .come{font-family:var(--display);font-weight:800;font-size:22pt}
+/* signature sheet */
+table.sig{width:100%;border-collapse:collapse;font-size:9.6pt}
+table.sig th,table.sig td{border:1px solid var(--line2);padding:1mm 2mm;text-align:right}
+table.sig th{font-family:var(--display);background:var(--paper2);font-size:9pt}
+table.sig td{height:8.3mm}
+table.sig td.c{text-align:center;color:#c9c2b6;font-size:13pt}
+table.sig td.k{width:9mm;text-align:center;color:var(--dim);font-size:8.5pt}
+/* visitor badge */
+.badges{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.vb{padding:4mm 5mm;display:flex;flex-direction:column;gap:1.8mm;position:relative}
+.vb .hd{display:flex;justify-content:space-between;align-items:center}
+.vb .hd b{font-family:var(--display);font-weight:800;font-size:13pt}
+.vb .dots{display:flex;gap:4mm;justify-content:center;margin:1mm 0}
+.vb .dots span{width:15mm;height:15mm;border-radius:50%;border:1.6px dashed #1f2a37;display:grid;place-items:center;font-size:7.5pt;color:var(--dim);text-align:center;line-height:1.1}
+.vb p{font-size:9pt}
+.sq{padding:4mm 5mm;display:flex;flex-direction:column;gap:1.5mm}
+.sq .em{font-size:20pt;line-height:1}
+.sq b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.sq p{font-size:9.4pt}
+.sq .tag{font-size:8.4pt;color:var(--muted);margin-top:auto}
+/* editors meeting */
+.mtg{grid-template-rows:repeat(3,1fr);flex:1}
+.mt{padding:4mm 5mm;display:flex;flex-direction:column;gap:1.6mm;font-size:9.6pt}
+.mt .hd{display:flex;justify-content:space-between;align-items:center}
+.mt .hd b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.mt .q{display:grid;grid-template-columns:1fr auto;gap:2mm;align-items:center}
+.mt .yn{display:flex;gap:2mm;font-size:9pt}
+.mt .yn span{border:1.2px solid var(--ink);border-radius:1mm;padding:0 2mm}
+/* certificates */
+.certs{display:grid;grid-template-rows:1fr 1fr;gap:6mm;flex:1}
+.cert{position:relative;border:2.5px solid #1f2a37;border-radius:3mm;box-shadow:1.6mm 1.6mm 0 #1f2a37;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2.2mm;padding:6mm 10mm;
+ background:radial-gradient(circle,rgba(244,162,89,.22) .4mm,transparent .55mm) 0 0/3mm 3mm,#fff}
+.cert.gold{background:radial-gradient(circle,rgba(227,168,43,.30) .4mm,transparent .55mm) 0 0/3mm 3mm,#fffaf0}
+.cert.sky{background:radial-gradient(circle,rgba(76,139,214,.22) .4mm,transparent .55mm) 0 0/3mm 3mm,#fff}
+.cert.rose{background:radial-gradient(circle,rgba(231,111,134,.2) .4mm,transparent .55mm) 0 0/3mm 3mm,#fff}
+.cert .mast{position:absolute;top:0;inset-inline:0;background:#1f2a37;color:#fff;font-family:var(--display);font-weight:700;font-size:9.5pt;padding:1.6mm 4mm;display:flex;justify-content:space-between}
+.cert .em{font-size:30pt;line-height:1;margin-top:5mm}
+.cert h3{font-family:var(--display);font-weight:800;font-size:22pt;line-height:1.1}
+.cert .to{font-size:11pt;color:var(--muted)}
+.cert .nm{width:115mm;border-bottom:1.6px solid var(--ink);height:10mm}
+.cert .why{font-size:10pt;max-width:150mm}
+.cert .sign{display:flex;gap:18mm;font-size:9pt;color:var(--muted);margin-top:2mm}
+.cert .sign span{border-top:1px solid var(--ink);padding-top:1mm;min-width:40mm}
+.cert .bz{position:absolute;left:6mm;bottom:5mm;width:30mm;height:20mm}
+table.tb.cmp th,table.tb.cmp td{padding:1.1mm 2mm;font-size:9pt}
+table.tb.cmp td.e{height:7.2mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">💥</span><div>חומרים להדפסה · כנס הקומיקס<small>90 דק׳ · 6 הוצאות · שעת הדוכנים</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף הדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28–30 תלמידים ב-6 הוצאות. כמויות לכיתה אחרת: לפי מספר ההוצאות.</p></div>
+  <table class="tb cmp">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 להוצאה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3–4</td><td>כרטיסי תפקיד + חוקי המדבקות</td><td>1 סט להוצאה (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>5–7</td><td>כרטיסי גיבור: כוחות, חולשות, מקומות</td><td>1 סט לכיתה</td><td>בריסטול, צבעוני אם אפשר</td><td>כן, 3 ערמות</td></tr>
+      <tr><td>8</td><td>גיליון דמות ריק</td><td>1 להוצאה + 2 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>דף תסריט לפי משבצות</td><td>1 להוצאה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>דף תמבנייל</td><td>2 להוצאה (12)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>דף קומיקס ריק (גרסת נייר)</td><td>רק אם צריך: 1 להוצאה</td><td>A3 אם אפשר</td><td>לא</td></tr>
+      <tr><td>12</td><td>בלונים ואפקטים לגזירה</td><td>רק בגרסת נייר: 1 להוצאה</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>13</td><td>ישיבת עורכים</td><td>2 עמודים (6 כרטיסים)</td><td>רגיל</td><td>כן, לשלישים</td></tr>
+      <tr><td>14</td><td>שלט דוכן</td><td>1 להוצאה (6)</td><td>בריסטול</td><td>קיפול</td></tr>
+      <tr><td>15</td><td>דף החתימות של הדוכן</td><td>1 להוצאה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>16</td><td>תגי מבקר/ת</td><td>5 עמודים (30 תגים)</td><td>רגיל</td><td>כן, ל-6</td></tr>
+      <tr><td>17</td><td>משימות צד</td><td>1 עמוד</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>18</td><td>מחוון</td><td>1 להוצאה + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>19</td><td>שורת AI</td><td>2 עמודים (8)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>20</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>21</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>22–24</td><td>תעודות (6 סוגים)</td><td>1 סט</td><td>נייר עבה</td><td>כן, לחצאים</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 על כל שולחן (דוכן)</h3>
+      <ul class="check"><li>כרטיס משימה, מחוון ושלט דוכן</li><li>דף תסריט, 2 דפי תמבנייל, גיליון דמות ריק</li><li>דף החתימות + עט</li><li>2 עפרונות, מחק, 2 טושים שחורים</li><li>סלוטייפ לתליית הגיליון</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>3 קופסאות כרטיסי גיבור (צהוב · ורוד · כחול)</li><li>מדבקות עגולות: 3 לתלמיד + 10</li><li>תגי מבקר וכרטיסי משימות צד</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד, תעודות ופעמון</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>כרטיסי הגיבור: מניחים 3 דפים זה על זה וגוזרים יחד. כל ערמה בקופסה לפי פס הצבע: <b>צהוב = כוח מוזר · ורוד = חולשה · כחול = מקום</b>. המספר בפינה (P1, W1, L1) עוזר להחזיר כרטיס שנפל.</p></div>
+</section>
+
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיס המשימה</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏆 האתגר: הגיבור החדש של השנה</span><h2>כנס <span>הקומיקס</span></h2></div><p>הכנס הגדול מגיע לבית הספר, ולכל הוצאה יש דוכן אחד וגיליון אחד לחשוף בו גיבור חדש. המבקרים יחלקו מדבקות חתימה, ומארגני הכנס יעניקו את פרס "הגיבור החדש של השנה".</p></div>
+  <div class="grid2">
+    <div class="box"><h3>📖 מה מגישים (צ׳קליסט)</h3><ul class="check" style="font-size:9.6pt"><li>6–8 משבצות + שער, PDF ב-Drive (צפייה)</li><li>דמות ראשית אחת שנראית אותו דבר בכל משבצת</li><li>לפחות 4 בלונים, כל אחד עד 12 מילים</li><li>לפחות 2 אפקטים קוליים כתובים</li><li>סוף עם הפתעה או "המשך יבוא"</li><li>פוסט בדוכן ב-Padlet + טופס "רישום לכנס"</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li></ul></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.1pt;line-height:1.35"><li>6–8 משבצות + שער, ודמות ראשית אחת שנשארת עקבית.</li><li>כל הטקסט בבלונים נכתב בידי הצוות ומוקלד בעברית בכלי העימוד (לא בתוך תמונת AI).</li><li>בלי דמויות מוכרות מסדרות, סרטים או משחקים, ובלי אנשים אמיתיים.</li><li>לכל מבקר/ת 3 מדבקות חתימה, רק לגיליון שקרא/ה, ואסור לתת להוצאה של עצמך.</li><li>בדוכן מציגים עד דקה לכל קבוצת מבקרים, ונותנים לקרוא בשקט.</li><li>מגישים עד הדקה שעל הטיימר. מה שלא הוגש לא מקבל דוכן.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <table class="tb cmp"><thead><tr><th>מה</th><th style="width:40mm">נקודות</th></tr></thead><tbody>
+      <tr><td>6–8 משבצות + שער</td><td>4</td></tr>
+      <tr><td>דמות עקבית בכל המשבצות (בדיקת המדריך)</td><td>3</td></tr>
+      <tr><td>לפחות 4 בלונים ו-2 אפקטים קוליים</td><td>3</td></tr>
+      <tr><td>מדבקות חתימה מהמבקרים</td><td>1 לכל מדבקה, עד 10</td></tr>
+      <tr><td>"מה קרה בסיפור?": מבקר/ת שסיפר/ה את העלילה נכון</td><td>1 לכל מבקר/ת, עד 3</td></tr>
+      <tr><td>ציון מארגני הכנס לפי המחוון (4 קריטריונים × 1–4)</td><td>4–16</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.2mm;font-size:8.8pt;color:var(--muted)">מנצח: הניקוד הגבוה (מתוך 39) · תיקו: יותר "מה קרה", ואז יותר מדבקות · ועוד 4 תארים: ✍️ 🎨 📖 ⭐</p></div>
+  <div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb cmp"><tbody>
+      <tr><td style="width:34mm"><b>🧭 עורך/ת ראשי/ת</b></td><td>מוביל/ה את התמבנייל, מאשר/ת כל משבצת, בודק/ת עקביות, מארח/ת בסבב 1.</td></tr>
+      <tr><td><b>✍️ תסריטאי/ת</b></td><td>דף התסריט: מה קורה ובלון בכל משבצת. סופר/ת מילים. מארח/ת בסבב 2.</td></tr>
+      <tr><td><b>🎨 מאייר/ת</b></td><td>גיליון דמות ומשבצות ב-Gemini (או ביד), עם משפט ה-DNA בכל פרומפט.</td></tr>
+      <tr><td><b>📐 מעמד/ת ומלטש/ת</b></td><td>מסגרות, בלונים ואפקטים ב-Canva או ב-Slides, שער וייצוא PDF.</td></tr>
+      <tr><td><b>🎪 מנהל/ת הדוכן</b></td><td>תיקייה ב-Drive, שלט, פוסט ב-Padlet, טופס, דף החתימות. מארח/ת בסבב 1.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:3mm">
+    <div class="box soft" style="padding:2.5mm 3mm"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1mm;font-size:8.8pt">6 משבצות בתבנית מוכנה. פתיחות לבלונים: "רגע, מה...?!" · "רק לא..." · "ומה אם...?" · "אופס."</p></div>
+    <div class="box soft" style="padding:2.5mm 3mm"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1mm;font-size:8.8pt">8 משבצות, לפחות משבצת רחבה אחת ותקריב אחד.</p></div>
+    <div class="box soft" style="padding:2.5mm 3mm"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1mm;font-size:8.8pt">8 משבצות + משבצת ענקית לשיא + משבצת בלי מילים + נבל/ה.</p></div>
+  </div>
+</section>
+
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיסי תפקיד</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. בהוצאה של 4: מנהל/ת הדוכן גם מעמד/ת. בהוצאה של 6: שני מאיירים.</p>
+  <div class="cutgrid roles"><article class="role r-ed"><div class="rh"><span class="ic">🧭</span><div><b>עורך/ת ראשי/ת</b><small>מחזיק/ה את המצפן</small></div></div>
+      <p class="mis">המשימה שלי: שההוצאה מתחילה מהר, עומדת בזמן, ושהגיליון ברור ועקבי.</p><h4>מה אני עושה היום</h4><ul><li>ספרינט 1: מוביל/ה את התמבנייל ומאשר/ת כל משבצת.</li><li>ספרינט 2: בודק/ת שהדמות זהה בכל משבצת. משבצת שונה נפסלת.</li><li>מכריז/ה "נשארו 5 דקות". <b>רק אני</b> קורא/ת למדריך.</li><li>בכנס: מארח/ת בסבב 1.</li></ul>
+      <div class="say">💬 "איזו משבצת הכי חשובה?" · "איפה סימן ההיכר?" · "בואו נחליט ונתקדם."</div><p class="no">✗ לא מחליט/ה לבד ולא מצייר/ת במקום המאייר/ת.</p><p class="bonus">✓ הצלחתי כש: הגשנו בזמן, והקוראים הבינו את הסיפור.</p></article><article class="role r-wr"><div class="rh"><span class="ic">✍️</span><div><b>תסריטאי/ת</b><small>הסיפור והמילים</small></div></div>
+      <p class="mis">המשימה שלי: שלגיליון יש התחלה, בעיה וסוף מפתיע, ושכל בלון קצר וחי.</p><h4>מה אני עושה היום</h4><ul><li>ממלא/ת את דף התסריט: מה קורה + בלון בכל משבצת.</li><li>סופר/ת מילים: עד 12 בבלון. ארוך? מחלקים.</li><li>מקליד/ה את הבלונים עם המעמד/ת, בסדר מימין לשמאל.</li><li>בכנס: מארח/ת בסבב 2.</li></ul>
+      <div class="say">💬 "מה הבעיה של הגיבור?" · "זה מצחיק יותר אם...?" · "זה ארוך מדי, בואו נקצר."</div><p class="no">✗ לא נותן/ת ל-AI לכתוב את הדיאלוג.</p><p class="bonus">✓ הצלחתי כש: קורא/ת צחק/ה מבלון שכתבתי.</p></article><article class="role r-il"><div class="rh"><span class="ic">🎨</span><div><b>מאייר/ת</b><small>הגיבור והמשבצות</small></div></div>
+      <p class="mis">המשימה שלי: שהגיבור נראה אותו דבר בכל משבצת, ושכל משבצת מספרת משהו.</p><h4>מה אני עושה היום</h4><ul><li>יוצר/ת גיליון דמות ב-Gemini (או ביד).</li><li>בכל פרומפט: "אותה דמות בדיוק" + משפט ה-DNA + "בלי טקסט".</li><li>תמונה שהדמות בה השתנתה: צילום מסך ופוסלים.</li><li>בכנס: מארח/ת בסבב 2.</li></ul>
+      <div class="say">💬 "זו עדיין אותה דמות?" · "צריך פה תקריב." · "הפרומפט כלל את כל ה-DNA?"</div><p class="no">✗ לא מעלה תמונות של אנשים אמיתיים ולא כותב/ת פרטים אישיים.</p><p class="bonus">✓ הצלחתי כש: העורך/ת לא פסל/ה אף משבצת בעימוד.</p></article><article class="role r-lay"><div class="rh"><span class="ic">📐</span><div><b>מעמד/ת ומלטש/ת</b><small>מסדר/ת את הדף</small></div></div>
+      <p class="mis">המשימה שלי: שהגיליון קריא, מסודר ונראה כמו קומיקס אמיתי.</p><h4>מה אני עושה היום</h4><ul><li>פותח/ת תבנית ב-Canva או קובץ A4 ב-Slides.</li><li>מסגרות, בלונים ואפקטים קוליים (גדולים ועבים).</li><li>משבצת גדולה לרגע החשוב, שער עם שם הגיליון.</li><li>מייצא/ת PDF. בכנס: מארח/ת בסבב 2.</li></ul>
+      <div class="say">💬 "באיזה סדר העין קוראת?" · "האפקט יכול לצאת מהמסגרת." · "PDF מוכן!"</div><p class="no">✗ לא משתמש/ת ברכיב עם 👑 (חוסם הורדה).</p><p class="bonus">✓ הצלחתי כש: ה-PDF יצא בזמן וכל בלון קריא.</p></article></div>
+</section>
+
+<section class="page" id="p-roles2" data-label="דוכן וחוקים">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיסי תפקיד · המשך</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, וכרטיסי הכנס שנשארים על השולחן.</p>
+  <div class="cutgrid roles"><article class="role r-bo"><div class="rh"><span class="ic">🎪</span><div><b>מנהל/ת הדוכן</b><small>הקול של ההוצאה בכנס</small></div></div>
+      <p class="mis">המשימה שלי: שההוצאה רשומה לכנס, שהדוכן מוכן ושהקוראים מקבלים קבלת פנים.</p><h4>מה אני עושה היום</h4><ul><li>פותח/ת תיקייה ב-Drive ומכין/ה את שלט הדוכן.</li><li>מעלה פוסט ל-Padlet וממלא/ת את טופס "רישום לכנס".</li><li>תולה את הגיליון ומחזיק/ה את דף החתימות.</li><li>בכנס: מארח/ת בסבב 1, וסופר/ת חתימות בסוף.</li></ul>
+      <div class="say">💬 "רוצים להכיר גיבור חדש?" · "מה קרה בסיפור, במשפט אחד?" · "תודה על החתימה!"</div><p class="no">✗ לא סופר/ת חתימה מאיש/ת ההוצאה שלנו.</p><p class="bonus">✓ הצלחתי כש: כל קורא/ת יצא/ה מהדוכן עם חיוך.</p></article>
+    <article class="role" style="--c:#e3a82b;--cs:#fdf3d7;--c-ink:#8a5300"><div class="rh"><span class="ic">⭐</span><div><b>חוקי המדבקות</b><small>לכל מבקר/ת 3 חתימות</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.4mm"><li>קוראים את הגיליון בשקט, עד הסוף.</li><li>מספרים למארחים במשפט אחד: מה קרה בסיפור?</li><li>מדבקה רק לגיליון שקראתם, ושם בדף החתימות.</li><li>אסור לתת להוצאה של עצמכם.</li><li>3 מדבקות בסך הכול. אפשר את כולן לאותו גיליון.</li></ol>
+      <p class="bonus">⭐ כל מדבקה = נקודה (עד 10) · כל "מה קרה" נכון = נקודה (עד 3)</p></article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa"><div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm"><div class="r"><b>🔴 בלי AI</b>הסיפור, התמבנייל, הבלונים וכרטיס היציאה.</div><div class="y"><b>🟡 AI לרעיונות</b>רק להוצאה תקועה: 3 רעיונות לעלילה, ומשנים לפחות 2 דברים.</div><div class="g"><b>🟢 AI כשותף</b>איור המשבצות ב-Gemini, ותמיד בודקים עקביות.</div></div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט לא כותבים פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p></article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee"><div class="rh"><span class="ic">🧬</span><div><b>משפט ה-DNA</b><small>מדביקים בכל פרומפט, בלי לקצר</small></div></div>
+      <p style="font-size:9.6pt">מי הדמות + בגדים וצבעים + סימן היכר. למשל:</p>
+      <div class="say" style="font-size:9.4pt">"ילדה בת 11 עם שיער קצר וסגול, קפוצ׳ון צהוב עם ברק כחול על החזה, ג׳ינס כחול ונעלי ספורט אדומות, משקפי מגן כתומים על המצח"</div>
+      <p style="font-size:9.4pt"><b>כל משבצת:</b> "אותה דמות בדיוק" + ה-DNA + מה קורה + זווית + "בלי טקסט ובלי בלוני דיבור".</p></article>
+  </div>
+</section>
+
+<section class="page" id="p-pow" data-label="כרטיסי גיבור: כוח">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיסי גיבור: כוח</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה. כל הוצאה שולפת כרטיס אחד מכל קופסה, ומותר להחליף כרטיס אחד, פעם אחת.</p>
+  <div class="cutgrid cards hc"><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P1</span><span class="em">🔌</span><b>לדבר עם מכשירי חשמל</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P2</span><span class="em">👻</span><b>להיות בלתי נראים, רק כשאף אחד לא מסתכל</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P3</span><span class="em">⏸️</span><b>לעצור את הזמן לשלוש שניות בדיוק</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P4</span><span class="em">🐱</span><b>לשמוע מה חתולים חושבים</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P5</span><span class="em">🎈</span><b>לנפח כל דבר כמו בלון</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P6</span><span class="em">🖼️</span><b>לקפוץ לתוך ציורים</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P7</span><span class="em">🟩</span><b>להזיז חפצים במבט, רק ירוקים</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P8</span><span class="em">✍️</span><b>להפוך ציור באוויר לחפץ אמיתי</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P9</span><span class="em">🌦️</span><b>לשלוט במזג האוויר בחדר אחד</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P10</span><span class="em">🦜</span><b>לחקות כל קול ששומעים</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P11</span><span class="em">🌱</span><b>לגדל צמח ענק בשנייה</b><small class="back">הגיבור יכול...</small></div><div class="cc hcard k-pow"><span class="cat">⚡ כוח מוזר</span><span class="no">P12</span><span class="em">⏪</span><b>להחזיר את הזמן 10 שניות אחורה</b><small class="back">הגיבור יכול...</small></div></div>
+</section>
+
+<section class="page" id="p-weak" data-label="כרטיסי גיבור: חולשה">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיסי גיבור: חולשה</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה. כל הוצאה שולפת כרטיס אחד מכל קופסה, ומותר להחליף כרטיס אחד, פעם אחת.</p>
+  <div class="cutgrid cards hc"><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W1</span><span class="em">🤧</span><b>מתעטשים כשמישהו משקר</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W2</span><span class="em">😴</span><b>נרדמים כשמישהו שר</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W3</span><span class="em">🍔</span><b>הכוח נעלם כשרעבים</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W4</span><span class="em">🦆</span><b>מפחדים מברווזים</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W5</span><span class="em">🌈</span><b>כל שימוש בכוח משנה את צבע השיער</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W6</span><span class="em">💃</span><b>רוקדים בלי שליטה כשיש מוזיקה</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W7</span><span class="em">🦩</span><b>הכוח עובד רק בעמידה על רגל אחת</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W8</span><span class="em">🎵</span><b>מדברים רק בחרוזים כשלחוצים</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W9</span><span class="em">🧲</span><b>נדבקים לכל מגנט</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W10</span><span class="em">📳</span><b>מקבלים שיהוקים מכל צליל של התראה</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W11</span><span class="em">🔋</span><b>הכוח נגמר אחרי 3 שימושים ביום</b><small class="back">אבל יש בעיה...</small></div><div class="cc hcard k-weak"><span class="cat">🙈 חולשה מצחיקה</span><span class="no">W12</span><span class="em">🤫</span><b>לא מצליחים לשמור סוד</b><small class="back">אבל יש בעיה...</small></div></div>
+</section>
+
+<section class="page" id="p-place" data-label="כרטיסי גיבור: מקום">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיסי גיבור: מקום</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה. כל הוצאה שולפת כרטיס אחד מכל קופסה, ומותר להחליף כרטיס אחד, פעם אחת.</p>
+  <div class="cutgrid cards hc"><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L1</span><span class="em">🏛️</span><b>ספרייה עירונית</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L2</span><span class="em">🏫</span><b>חצר בית הספר</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L3</span><span class="em">🍉</span><b>שוק צבעוני</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L4</span><span class="em">🛰️</span><b>תחנת חלל</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L5</span><span class="em">🏴‍☠️</span><b>ספינת פיראטים</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L6</span><span class="em">🗼</span><b>מגדל מים ישן</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L7</span><span class="em">🛍️</span><b>קניון בלילה</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L8</span><span class="em">🌳</span><b>יער של עצי ענק</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L9</span><span class="em">🧪</span><b>מעבדת מדע</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L10</span><span class="em">🏝️</span><b>אי בודד</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L11</span><span class="em">🚇</span><b>רכבת תחתית</b><small class="back">הסיפור קורה ב...</small></div><div class="cc hcard k-place"><span class="cat">📍 מקום</span><span class="no">L12</span><span class="em">🏡</span><b>הבית של סבתא</b><small class="back">הסיפור קורה ב...</small></div></div>
+</section>
+
+<section class="page" id="p-sheet" data-label="גיליון דמות">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · גיליון דמות</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🪪 ספרינט 1 · מאייר/ת · גם בלי מחשב</span><h2>גיליון הדמות של <span class="fill l"></span></h2></div><p>מציירים את הגיבור מלפנים, מהצד ומאחור. כל משבצת בגיליון חייבת להיראות כמו הדף הזה. הקו הדק הוא רק עזר לפרופורציות.</p></div>
+  <div class="box" style="margin-bottom:3.5mm"><h3>🎰 כרטיס הגיבור שלנו</h3><div class="grid3"><p>⚡ כוח: <span class="fill"></span></p><p>🙈 חולשה: <span class="fill"></span></p><p>📍 מקום: <span class="fill"></span></p></div></div>
+  <div class="views3"><div class="view"><svg class="ghost" viewBox="0 0 40 62" preserveAspectRatio="xMidYMid meet"><g fill="none" stroke="#1f2a37" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="10" r="7.5"/><path d="M20 18 V39 M20 25 L8 32 M20 25 L32 32 M20 39 L12 57 M20 39 L28 57"/></g></svg><b>מלפנים</b></div><div class="view"><svg class="ghost" viewBox="0 0 40 62" preserveAspectRatio="xMidYMid meet"><g fill="none" stroke="#1f2a37" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="10" r="7.5"/><path d="M20 18 V39 M20 25 L8 32 M20 25 L32 32 M20 39 L12 57 M20 39 L28 57"/></g></svg><b>מהצד</b></div><div class="view"><svg class="ghost" viewBox="0 0 40 62" preserveAspectRatio="xMidYMid meet"><g fill="none" stroke="#1f2a37" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="10" r="7.5"/><path d="M20 18 V39 M20 25 L8 32 M20 25 L32 32 M20 39 L12 57 M20 39 L28 57"/></g></svg><b>מאחור</b></div></div>
+  <div class="box" style="margin-top:3.5mm"><h3>🧬 ה-DNA של הגיבור</h3>
+    <div class="dnaRow"><b>🧍 מי (גיל, גוף, שיער)</b><div class="lines h1"></div></div>
+    <div class="dnaRow"><b>👕 בגדים וצבעים</b><div class="lines h1"></div></div>
+    <div class="dnaRow"><b>⭐ סימן היכר אחד</b><div class="lines h1"></div></div>
+    <div class="dnaRow"><b>😃 הבעה אופיינית</b><div class="lines h1"></div></div>
+    <p style="font-size:9.2pt;color:var(--muted);margin-top:1mm">משפט ה-DNA = מי + בגדים + סימן היכר, בשורה אחת. מעתיקים אותו לכל פרומפט, בכל משבצת.</p>
+    <div class="lines h2" style="margin-top:1mm"></div></div>
+</section>
+
+<section class="page" id="p-script" data-label="דף תסריט">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף תסריט לפי משבצות</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">✍️ ספרינט 1 · תסריטאי/ת · 🔴 בלי AI</span><h2>התסריט: <span class="fill l"></span></h2></div><p>שם הגיליון למעלה. משבצת = רגע אחד. בלון = עד 12 מילים. סדר הקריאה: מימין לשמאל.</p></div>
+  <table class="scr">
+    <thead><tr><th>#</th><th style="width:58mm">מה קורה במשבצת</th><th>זווית</th><th>בלון (מי מדבר + מה)</th><th style="width:28mm">אפקט קולי</th></tr></thead>
+    <tbody><tr><td class="n">1</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">2</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">3</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">4</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">5</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">6</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">7</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr><td class="n">8</td><td></td><td class="sh"><span>☐ רחבה</span><span>☐ בינונית</span><span>☐ תקריב</span></td><td><span class="wc">מילים: ___ / 12</span></td><td></td></tr><tr style="height:16mm"><td class="n">שער</td><td colspan="4">שם הגיליון + הגיבור + משפט פיתוי: <span class="fill xl"></span></td></tr></tbody>
+  </table>
+  <div class="grid2" style="margin-top:3mm"><div class="box soft"><h3>✓ בדיקת התסריטאי/ת</h3><ul class="check"><li>יש התחלה, בעיה וסוף מפתיע</li><li>לפחות 4 בלונים ו-2 אפקטים</li><li>אף בלון לא עובר 12 מילים</li></ul></div><div class="box soft"><h3>💡 משבצת הכי חשובה</h3><p style="font-size:9.4pt">מספר: ___ · היא תהיה הכי גדולה בגיליון.</p></div></div>
+</section>
+
+<section class="page" id="p-thumb" data-label="דף תמבנייל">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף תמבנייל</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📄 ספרינט 1 · עד דקה 8 · עיפרון בלבד</span><h2>תמבנייל: <span>סקיצה קטנה של כל הגיליון</span></h2></div><p>אנשי מקלות, חץ ומילה. 30 שניות למשבצת. מתחת לכל משבצת: מה קורה, במילים ספורות. את היופי עושים אחר כך.</p></div>
+  <div class="arrowNote"><span style="font-size:16pt">⬅</span> קוראים מימין לשמאל: משבצת 1 בימין למעלה. משבצת 7 מסומנת כגדולה, אבל אתם מחליטים איזו.</div>
+  <div class="thumbs" style="margin-top:3mm"><div class="tb2"><div class="fr"><i>1</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>2</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>3</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>4</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>5</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>6</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr big"><i>7</i></div><div class="lines h1"></div></div><div class="tb2"><div class="fr"><i>8</i></div><div class="lines h1"></div></div></div>
+  <div class="grid2" style="margin-top:3.5mm"><div class="box"><h3>📕 השער</h3><div class="sketch" data-label="סקיצת השער" style="height:34mm"></div></div><div class="box"><h3>🧐 לישיבת העורכים</h3><ul class="check"><li>מבינים את הסיפור בלי הסבר?</li><li>יש בעיה, ושיא, וסוף?</li><li>יש רחבה אחת ותקריב אחד?</li></ul></div></div>
+</section>
+
+<section class="page" id="p-comic" data-label="דף קומיקס ריק">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף קומיקס ריק · גרסת נייר</div><div class="r">הגיליון: <span class="fill"></span></div></div>
+  <p class="cutnote">אפשר להגדיל ל-A3 במכונת הצילום. מציירים לפי התמבנייל, מדביקים בלונים ואפקטים מהתבנית, וכותבים בטוש שחור.</p>
+  <div class="comicPage"><div class="cp1"><i>1</i></div><div class="cp2"><i>2</i></div><div class="cp3"><i>3</i></div><div class="cp4"><i>4</i></div><div class="cp5"><i>5</i></div><div class="cp6"><i>6</i></div><div class="cp7"><i>7</i></div><div class="cp8"><i>8</i></div></div>
+</section>
+
+<section class="page" id="p-balloons" data-label="בלונים ואפקטים">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · בלונים ואפקטים לגזירה</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ גרסת נייר: גוזרים, כותבים בטוש (עד 12 מילים) ומדביקים מעל המשבצת. את האפקטים צובעים בצבע חזק לפני הגזירה.</p>
+  <div class="balGrid">
+    <div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 104 98 L74 124 L80 97 C38 92 8 76 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 96 98 L126 124 L120 97 C162 92 192 76 192 54 Z" fill="none"/><path d="M100 8 C152 8 192 28 192 54 C192 80 160 94 120 97 L126 124 L96 98 C48 98 8 80 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 104 98 L74 124 L80 97 C38 92 8 76 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div>
+    <div><svg viewBox="0 0 200 140"><g fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"><path d="M44 84 C16 84 12 54 36 48 C30 22 62 10 78 26 C88 4 128 4 136 24 C154 8 188 22 182 48 C200 56 192 88 164 86 C158 104 126 106 116 92 C102 108 70 106 64 90 C56 96 46 92 44 84 Z"/><circle cx="56" cy="108" r="8"/><circle cx="42" cy="124" r="5"/></g></svg></div><div><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 140"><g fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"><path d="M44 84 C16 84 12 54 36 48 C30 22 62 10 78 26 C88 4 128 4 136 24 C154 8 188 22 182 48 C200 56 192 88 164 86 C158 104 126 106 116 92 C102 108 70 106 64 90 C56 96 46 92 44 84 Z"/><circle cx="56" cy="108" r="8"/><circle cx="42" cy="124" r="5"/></g></svg></div>
+    <div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 96 98 L126 124 L120 97 C162 92 192 76 192 54 Z" fill="none"/><path d="M100 8 C152 8 192 28 192 54 C192 80 160 94 120 97 L126 124 L96 98 C48 98 8 80 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 104 98 L74 124 L80 97 C38 92 8 76 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div>
+    <div><svg viewBox="0 0 200 80"><rect x="4" y="4" width="192" height="72" fill="#fdf3d7" stroke="#1f2a37" stroke-width="4"/></svg></div><div><svg viewBox="0 0 200 80"><rect x="4" y="4" width="192" height="72" fill="#fdf3d7" stroke="#1f2a37" stroke-width="4"/></svg></div><div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 96 98 L126 124 L120 97 C162 92 192 76 192 54 Z" fill="none"/><path d="M100 8 C152 8 192 28 192 54 C192 80 160 94 120 97 L126 124 L96 98 C48 98 8 80 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div>
+    <div><svg viewBox="0 0 200 140"><g fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"><path d="M44 84 C16 84 12 54 36 48 C30 22 62 10 78 26 C88 4 128 4 136 24 C154 8 188 22 182 48 C200 56 192 88 164 86 C158 104 126 106 116 92 C102 108 70 106 64 90 C56 96 46 92 44 84 Z"/><circle cx="56" cy="108" r="8"/><circle cx="42" cy="124" r="5"/></g></svg></div><div><svg viewBox="0 0 200 130"><path d="M100 8 C152 8 192 28 192 54 C192 80 152 98 104 98 L74 124 L80 97 C38 92 8 76 8 54 C8 28 48 8 100 8 Z" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div><div><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fff" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>🔊 אפקטים לצביעה ולגזירה</h3><div class="sfxRow"><span class="sfxO" style="font-size:34pt">בום!</span><span class="sfxO" style="font-size:30pt">טראח!</span><span class="sfxO" style="font-size:22pt">ששש...</span><span class="sfxO" style="font-size:28pt">אאוץ׳!</span><span class="sfxO" style="font-size:28pt">וווש!</span><span class="sfxO" style="font-size:30pt">זבנג!</span><span class="sfxO" style="font-size:28pt">אפצ׳י!</span><span class="sfxO" style="font-size:36pt">קבוום!!</span></div></div>
+</section>
+
+<section class="page" id="p-meeting" data-label="ישיבת עורכים">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · ישיבת עורכים · 3 בעמוד</div><div class="r">דקה 46</div></div>
+  <p class="cutnote">✂ לגזור לשלישים. השכנים ממלאים ומחזירים להוצאה הנבדקת. המציגים רק מקשיבים ורושמים, בלי להתווכח.</p>
+  <div class="cutgrid mtg"><div class="mt"><div class="hd"><b>🧐 ישיבת עורכים</b><span>הוצאה נבדקת: <span class="fill"></span> · בודקת: <span class="fill"></span></span></div>
+      <div class="q"><span>1. מבינים את הסיפור מהתמבנייל, בלי הסבר?</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <div class="q"><span>2. הדמות נראית אותו דבר בשתי המשבצות? (שיער · בגדים · סימן היכר)</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <p><b>מה שהבנו מהסיפור (משפט אחד):</b></p><div class="lines h1"></div>
+      <p><b>💬 הלוואי ש...</b></p><div class="lines h1"></div>
+      <p><b>👍 הדבר הכי טוב בגיליון שלכם:</b></p><div class="lines h1"></div>
+      <p style="margin-top:auto;font-size:8.8pt;color:var(--muted)">🧑‍🏫 רמה (המדריך מסמן): סיפור ① ② ③ ④ · דמות ① ② ③ ④</p></div><div class="mt"><div class="hd"><b>🧐 ישיבת עורכים</b><span>הוצאה נבדקת: <span class="fill"></span> · בודקת: <span class="fill"></span></span></div>
+      <div class="q"><span>1. מבינים את הסיפור מהתמבנייל, בלי הסבר?</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <div class="q"><span>2. הדמות נראית אותו דבר בשתי המשבצות? (שיער · בגדים · סימן היכר)</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <p><b>מה שהבנו מהסיפור (משפט אחד):</b></p><div class="lines h1"></div>
+      <p><b>💬 הלוואי ש...</b></p><div class="lines h1"></div>
+      <p><b>👍 הדבר הכי טוב בגיליון שלכם:</b></p><div class="lines h1"></div>
+      <p style="margin-top:auto;font-size:8.8pt;color:var(--muted)">🧑‍🏫 רמה (המדריך מסמן): סיפור ① ② ③ ④ · דמות ① ② ③ ④</p></div><div class="mt"><div class="hd"><b>🧐 ישיבת עורכים</b><span>הוצאה נבדקת: <span class="fill"></span> · בודקת: <span class="fill"></span></span></div>
+      <div class="q"><span>1. מבינים את הסיפור מהתמבנייל, בלי הסבר?</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <div class="q"><span>2. הדמות נראית אותו דבר בשתי המשבצות? (שיער · בגדים · סימן היכר)</span><span class="yn"><span>כן</span><span>חלקית</span><span>לא</span></span></div>
+      <p><b>מה שהבנו מהסיפור (משפט אחד):</b></p><div class="lines h1"></div>
+      <p><b>💬 הלוואי ש...</b></p><div class="lines h1"></div>
+      <p><b>👍 הדבר הכי טוב בגיליון שלכם:</b></p><div class="lines h1"></div>
+      <p style="margin-top:auto;font-size:8.8pt;color:var(--muted)">🧑‍🏫 רמה (המדריך מסמן): סיפור ① ② ③ ④ · דמות ① ② ③ ④</p></div></div>
+</section>
+
+<section class="page" id="p-sign" data-label="שלט דוכן">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · שלט דוכן · מקפלים לאורך הקו האמצעי</div><div class="r">1 להוצאה</div></div>
+  <div class="tent"><div class="top"><div class="burstT" style="width:78mm;height:36mm"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg><span style="font-size:15pt">גיבור חדש!</span></div><p class="pub">הוצאת</p><div class="nm2"></div><p class="hero2">מציגה את הגיבור: <span class="fill l"></span></p><p class="come">📖 בואו לקרוא!</p></div><div><div class="burstT" style="width:78mm;height:36mm"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/></svg><span style="font-size:15pt">גיבור חדש!</span></div><p class="pub">הוצאת</p><div class="nm2"></div><p class="hero2">מציגה את הגיבור: <span class="fill l"></span></p><p class="come">📖 בואו לקרוא!</p></div></div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם ההוצאה ואת שם הגיבור משני הצדדים</p>
+</section>
+
+<section class="page" id="p-sig" data-label="דף חתימות">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף החתימות של הדוכן</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⭐ נשאר בדוכן · מנהל/ת הדוכן אחראי/ת</span><h2>דף החתימות של <span class="fill l"></span></h2></div><p>מבקר/ת קורא/ת, מספר/ת במשפט אחד מה קרה, כותב/ת שם ומדביק/ה מדבקה בעיגול. סיפר/ה נכון? המארח/ת מסמן/ת ✓.</p></div>
+  <table class="sig"><thead><tr><th style="width:9mm">#</th><th>שם המבקר/ת (לא מההוצאה שלנו)</th><th style="width:26mm">⭐ מדבקה</th><th style="width:30mm">🗣️ "מה קרה" נכון</th></tr></thead><tbody><tr><td class="k">1</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">2</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">3</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">4</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">5</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">6</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">7</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">8</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">9</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">10</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">11</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">12</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">13</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">14</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">15</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">16</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">17</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">18</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">19</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">20</td><td></td><td class="c">○</td><td class="c">☐</td></tr><tr><td class="k">21</td><td></td><td class="c">○</td><td class="c">☐</td></tr></tbody></table>
+  <div class="grid3" style="margin-top:3mm"><div class="box soft"><h3>סה״כ מדבקות</h3><p style="font-size:16pt;font-weight:800">____</p></div><div class="box soft"><h3>סה״כ ✓ "מה קרה"</h3><p style="font-size:16pt;font-weight:800">____</p></div><div class="box soft"><h3>"נכון" זה...</h3><p style="font-size:8.8pt">משפט שמזכיר את הגיבור, את הבעיה ומה קרה בסוף.</p></div></div>
+</section>
+
+<section class="page" id="p-badge" data-label="תג מבקר/ת">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · תגי מבקר/ת · 6 בעמוד</div><div class="r">1 לכל תלמיד/ה</div></div>
+  <p class="cutnote">✂ לגזור. מדביקים את 3 המדבקות בעיגולים, ומעבירים כל מדבקה לדף החתימות של הדוכן שקראתם. אין מדבקות? מציירים כוכב בדף החתימות.</p>
+  <div class="cutgrid badges"><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div><div class="vb"><div class="hd"><b>🎟 תג מבקר/ת</b><span>כנס הקומיקס</span></div><p>שם: <span class="fill"></span> · הוצאה: <span class="fill s"></span></p>
+      <div class="dots"><span>מדבקה<br>1</span><span>מדבקה<br>2</span><span>מדבקה<br>3</span></div>
+      <p>📖 קראתי את: <span class="fill"></span></p><p>⭐ הגיבור שהכי אזכור: <span class="fill"></span></p><p>🗣️ מה קרה בסיפור שהכי אהבתי (משפט אחד):</p><div class="lines h2"></div></div></div>
+</section>
+
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · משימות צד</div><div class="r">קופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. הוצאה שסיימה שולפת כרטיס. משימות צד לא נותנות נקודות, אבל נתלות בדוכן ומשפיעות על התארים.</p>
+  <div class="cutgrid badges"><div class="sq"><span class="em">🦹</span><b>נבל/ה לגיבור</b><p>גיליון דמות לנבל/ה: כוח, חולשה וסימן היכר. איך הוא/היא קשור/ה לחולשה של הגיבור?</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div><div class="sq"><span class="em">🔙</span><b>שער אחורי</b><p>תקציר של 25 מילים בדיוק שלא מגלה את הסוף, ו"ציטוט" של מבקר/ת מדומה.</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div><div class="sq"><span class="em">🏢</span><b>מי אנחנו</b><p>עמוד ההוצאה: לוגו ב-AutoDraw, שם וחבר/ה ותפקיד, ומשפט "אנחנו מוציאים קומיקס על...".</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div><div class="sq"><span class="em">🤐</span><b>משבצת אילמת</b><p>משבצת בלי אף מילה שמספרת רגש. בדוכן הקוראים מנחשים איזה רגש.</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div><div class="sq"><span class="em">📱</span><b>וובטון</b><p>3 משבצות אחת מתחת לשנייה, לגלילה בטלפון. מה משתנה כשקוראים מלמעלה למטה?</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div><div class="sq"><span class="em">🎬</span><b>משבצת זזה</b><p>ב-Google Slides: אנימציית "הופעה" לבלון ולאפקט במשבצת אחת.</p><p style="margin-top:2mm;font-size:9pt"><b>מה עשינו:</b></p><div class="lines h3"></div><p class="tag">🎁 משימת צד · נתלית בדוכן · ☐ סיימנו</p></div></div>
+</section>
+
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · המחוון</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך מארגני הכנס <span>מחליטים</span></h2></div><p>בישיבת העורכים המדריך מסמן רמה ב-2 הקריטריונים הראשונים. בשעת הדוכנים: כל ה-4. הציון = סכום 4 הקריטריונים (4–16 נקודות).</p></div>
+  <table class="rub">
+    <colgroup><col style="width:20%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">סיפור במשבצות<small>מבינים בלי הסבר?</small></td><td>המשבצות לא מתחברות לסיפור</td><td>יש סדר, אבל קשה להבין בלי הסבר</td><td>סיפור ברור עם התחלה, אמצע וסוף</td><td>סיפור ברור עם קצב: משבצת גדולה לרגע החשוב וסוף מפתיע</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">דמות וסגנון<small>אותו גיבור בכל משבצת</small></td><td>הדמות משתנה מכל משבצת לאחרת</td><td>הדמות דומה, הסגנון לא אחיד</td><td>דמות וסגנון עקביים לאורך הסטריפ</td><td>דמות עקבית עם "סימן היכר" בולט והבעות שמשתנות לפי הרגש</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">טקסט, בלונים ואפקטים<small>המילים שלנו</small></td><td>אין בלונים או טקסט לא קריא</td><td>יש בלונים, ארוכים מדי או בלי סדר קריאה</td><td>בלונים קצרים, סדר קריאה מימין לשמאל ואפקטים קוליים</td><td>דיאלוג חי ומצחיק, כל בלון עד 12 מילים, ואפקטים שמעוצבים כחלק מהציור</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עבודת צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב "השתמשנו ב-AI"</td><td>כל תפקיד ביצע את החלק שלו, כתוב מה ה-AI צייר ומה הצוות שינה</td><td>התפקידים עזרו זה לזה, ויש דוגמה לתמונה שנפסלה כי הדמות לא הייתה עקבית</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🏅 מהמחוון לנקודות</h3><p>סכום הרמות ב-4 הקריטריונים = 4 עד 16 נקודות בלוח הניקוד של הכנס. למשל 3 + 4 + 3 + 3 = 13.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד שהכי כדאי לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "תקע" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> 6 משבצות באותו גודל. תקע מתעטשת כשהאיש במעיל משקר, והוא נתפס. הדמות זהה בכולן, 5 בלונים קצרים, "אפצ׳י!" ו"טראח!" באותיות גדולות. שורת AI: "Gemini צייר, אנחנו כתבנו."</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> 8 משבצות: פתיחה רחבה בלילה, תקריב מופתע, ומשבצת ענקית שבה "טראח!" יוצא מהמסגרת. סוף מפתיע ו"המשך יבוא...". ההבעות של תקע משתנות. שורת AI: "פסלנו 3 תמונות כי הקפוצ׳ון יצא ירוק (צילום מסך מצורף)."</p></div></div>
+</section>
+
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · שורת AI · 4 בעמוד</div><div class="r">מצורפת לגיליון</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה נתלית ליד הגיליון בדוכן, ואותן שתי שורות נכנסות לטופס "רישום לכנס".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1"><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span> · גיליון: <span class="fill s"></span></span></div>
+      <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+      <div class="foot"><span>כלי: <span class="fill"></span> · תמונות שנפסלו: <span class="fill s"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span> · גיליון: <span class="fill s"></span></span></div>
+      <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+      <div class="foot"><span>כלי: <span class="fill"></span> · תמונות שנפסלו: <span class="fill s"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span> · גיליון: <span class="fill s"></span></span></div>
+      <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+      <div class="foot"><span>כלי: <span class="fill"></span> · תמונות שנפסלו: <span class="fill s"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span> · גיליון: <span class="fill s"></span></span></div>
+      <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+      <div class="foot"><span>כלי: <span class="fill"></span> · תמונות שנפסלו: <span class="fill s"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div></div>
+</section>
+
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקה 86, לפני הטקס, כל אחד לבד.</p>
+  <div class="cutgrid exits"><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>כנס הקומיקס</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על סיפור בקומיקס:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזו משבצת בקומיקס שלנו הכי מספרת את הסיפור, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איור</span><span>עימוד</span><span>בלונים</span><span>דוכן</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>כנס הקומיקס</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על סיפור בקומיקס:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזו משבצת בקומיקס שלנו הכי מספרת את הסיפור, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איור</span><span>עימוד</span><span>בלונים</span><span>דוכן</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>כנס הקומיקס</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על סיפור בקומיקס:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזו משבצת בקומיקס שלנו הכי מספרת את הסיפור, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איור</span><span>עימוד</span><span>בלונים</span><span>דוכן</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>כנס הקומיקס</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על סיפור בקומיקס:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזו משבצת בקומיקס שלנו הכי מספרת את הסיפור, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איור</span><span>עימוד</span><span>בלונים</span><span>דוכן</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div></div>
+</section>
+
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוחות במצגת (שקפים 34, 36)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקור האמת אם המחשב נכבה. תיקו: יותר "מה קרה", ואז יותר מדבקות.</p></div>
+  <table class="tb cmp" style="font-size:9pt">
+    <thead><tr><th style="width:34mm">הוצאה</th><th>משבצות + שער<br><small>4</small></th><th>עקביות<br><small>3</small></th><th>בלונים + אפקטים<br><small>3</small></th><th>מדבקות<br><small>עד 10</small></th><th>מה קרה<br><small>עד 3</small></th><th>מחוון<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>39</small></th><th>מקום</th><th>תואר</th></tr></thead>
+    <tbody><tr><td class="e">1. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7. <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>📊 המחוון לפי קריטריון (בישיבת העורכים: 1–2 · בדוכנים: כולם)</h3>
+    <table class="tb cmp" style="font-size:9pt"><thead><tr><th style="width:34mm">הוצאה</th><th>סיפור (ביקורת)</th><th>דמות (ביקורת)</th><th>סיפור</th><th>דמות</th><th>טקסט</th><th>צוות ו-AI</th><th>סכום</th></tr></thead>
+    <tbody><tr><td class="e">1.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ ישיבת עורכים (דקה 46): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 תארים (תואר קטגוריה אחד להוצאה)</h3><div class="stack" style="gap:1.6mm;font-size:9.4pt"><p>🦸 הגיבור החדש של השנה: <span class="fill"></span></p><p>✍️ הבלון הכי מצחיק: <span class="fill"></span></p><p>🎨 הסגנון הכי ייחודי: <span class="fill"></span></p><p>📖 הסוף הכי מפתיע: <span class="fill"></span></p><p>⭐ הכי הרבה חתימות: <span class="fill"></span></p></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm"><div class="box soft"><h3>🗒️ בלון מצחיק שכדאי לזכור</h3><div class="lines h1"></div></div><div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div></div>
+</section>
+
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · תעודות · 2 בעמוד</div><div class="r">✂ לגזור לחצאים</div></div>
+  <div class="certs"><div class="cert gold"><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">🦸</span><h3>הגיבור החדש של השנה</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על הגיבור עם הניקוד הגבוה בכנס: סיפור ברור, דמות שלא נשכחת וקוראים שחזרו לעוד.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div><div class="cert rose"><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">✍️</span><h3>הבלון הכי מצחיק</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על הבלון שגרם לכל הכנס לצחוק בקול.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div></div>
+</section>
+
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · תעודות · 2 בעמוד</div><div class="r">✂ לגזור לחצאים</div></div>
+  <div class="certs"><div class="cert sky"><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">🎨</span><h3>הסגנון הכי ייחודי</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על גיליון שאי אפשר להתבלבל בו: סגנון משלכם מהמשבצת הראשונה עד האחרונה.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div><div class="cert "><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">📖</span><h3>הסוף הכי מפתיע</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על סוף שאף קורא לא ראה מגיע.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div></div>
+</section>
+
+<section class="page" id="p-cert3" data-label="תעודות 3">
+  <div class="ph"><div class="l"><i>💥</i>כנס הקומיקס · תעודות · 2 בעמוד</div><div class="r">✂ לגזור לחצאים</div></div>
+  <div class="certs"><div class="cert gold"><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">⭐</span><h3>הכי הרבה חתימות</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על הדוכן שהקוראים הכי אהבו, לפי דף החתימות.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div><div class="cert sky"><div class="mast"><span>💥 כנס הקומיקס</span><span>Tech It Easy</span></div><span class="em">📚</span><h3>הוצאה רשמית בכנס</h3><p class="to">מוענק להוצאת</p><div class="nm"></div><p class="why">על הוצאת גיליון קומיקס מקורי, עם גיבור חדש, דוכן וקוראים אמיתיים.</p><div class="sign"><span>תאריך</span><span>מארגני הכנס</span></div><div class="bz burstT"><svg viewBox="0 0 200 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="100.0,4.0 113.1,24.7 136.7,9.0 137.3,31.6 167.9,23.3 155.9,44.3 188.7,44.7 165.9,61.0 196.0,70.0 165.9,79.0 188.7,95.3 155.9,95.7 167.9,116.7 137.3,108.4 136.7,131.0 113.1,115.3 100.0,136.0 86.9,115.3 63.3,131.0 62.7,108.4 32.1,116.7 44.1,95.7 11.3,95.3 34.1,79.0 4.0,70.0 34.1,61.0 11.3,44.7 44.1,44.3 32.1,23.3 62.7,31.6 63.3,9.0 86.9,24.7" fill="#fcd34d" stroke="#1f2a37" stroke-width="5" stroke-linejoin="round"/></svg><span style="font-size:10pt">בום!</span></div></div></div>
+</section>
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

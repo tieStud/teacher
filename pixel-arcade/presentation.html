@@ -1,0 +1,1412 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ערב הארקייד | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== ערב הארקייד — lesson additions (kit styles above are untouched) · light theme, pixel accents ===== */
+.slide.tight h2{font-size:clamp(30px,3.8vw,54px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px;max-width:1220px;align-items:start}
+.row2>*{min-width:0}
+.row2.r46{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+.row2.r64{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+.note{color:var(--muted);font-size:16px;margin-top:10px}
+.note b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips span{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:16px;color:var(--ink);box-shadow:var(--shadow-sm)}
+.chips span.hot{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-ink)}
+/* pixel corners: stepped border look for arcade panels */
+.px{position:relative;border:3px solid var(--ink);border-radius:0;box-shadow:6px 6px 0 rgba(31,42,55,.12)}
+/* sprites rendered from data */
+svg.spr{display:block;image-rendering:pixelated;shape-rendering:crispEdges}
+.scrTile{display:grid;place-items:center;background:#1f2a37;border-radius:12px;padding:10px;margin:0 auto 6px;width:92px;height:92px;box-shadow:inset 0 0 0 3px #2c3a4b}
+.scrTile svg{width:64px;height:64px}
+/* ---------- opening hall of cabinets ---------- */
+.heroRow{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:30px;align-items:center}
+.arcHero h2{font-size:clamp(44px,5.4vw,84px)!important;white-space:nowrap}
+.arcHero .lead{font-size:clamp(16px,1.5vw,21px)}
+.arcHero .tags{margin-top:14px}.arcHero .tags span{font-size:16px;padding:7px 14px}
+.hall{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 14px;padding:16px;border-radius:24px;background:linear-gradient(180deg,#f4f1ea,#fbfaf7);border:1px solid var(--line)}
+.cab{--c:var(--violet);display:flex;flex-direction:column;align-items:center}
+.cab .marq{width:100%;text-align:center;font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.3px;color:#fff;background:var(--c);border-radius:10px 10px 3px 3px;padding:4px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cab .body{width:100%;background:color-mix(in srgb,var(--c) 16%,#fff);border:2px solid color-mix(in srgb,var(--c) 55%,#fff);border-top:0;border-radius:0 0 8px 8px;padding:8px 9px 10px;display:grid;gap:7px}
+.cab .scr{height:74px;border-radius:6px;background:#1f2a37;display:grid;place-items:center;color:#9fb0c3;font-family:var(--display);font-weight:700;font-size:13px;box-shadow:inset 0 0 0 3px #2c3a4b;overflow:hidden}
+.cab .scr svg{width:46px;height:46px}
+.cab .scr .blink{animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.cab .ctl{display:flex;justify-content:center;align-items:center;gap:7px}
+.cab .ctl i{width:16px;height:16px;border-radius:50%;background:#1f2a37;box-shadow:0 3px 0 #0e151d}
+.cab .ctl b{width:11px;height:11px;border-radius:50%;background:var(--c)}
+.cab .ctl b+b{background:var(--orange)}
+.hall .cab:nth-child(6n+1){--c:#8c7ae6}.hall .cab:nth-child(6n+2){--c:#e76f86}.hall .cab:nth-child(6n+3){--c:#0f766e}
+.hall .cab:nth-child(6n+4){--c:#c2630f}.hall .cab:nth-child(6n+5){--c:#2f6db5}.hall .cab:nth-child(6n+6){--c:#23826f}
+.sndBtn{margin-top:16px}
+/* ---------- vote with pixel screens ---------- */
+.vote.classic .voteItem small{display:block;color:var(--muted);font-size:15px;margin:-6px 0 10px;line-height:1.35}
+/* ---------- journey strip ---------- */
+.journey{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;max-width:1200px;align-items:center}
+.journey span{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:16px}
+.journey i{font-style:normal;color:var(--dim);font-weight:800}
+.journey span.end{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
+/* ---------- cards variants ---------- */
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:19px}.cards.five .card p{font-size:15.5px}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.compact{margin-top:14px;gap:12px}.cards.compact .card{padding:14px 16px}.cards.compact .card p{font-size:16.5px}.cards.compact .card strong{font-size:20px;margin:8px 0 4px}
+.card .q{display:block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:16px}
+.card code,.revealCard code,.task code,.box code,.step code,.modalBox code{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:0 6px;color:var(--ink)}
+/* ---------- cabinet theme cards ---------- */
+.themes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px;max-width:1220px}
+.theme{--c:var(--violet);position:relative;border:2px solid var(--line);border-radius:18px;padding:13px 16px 12px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s,opacity .2s;text-align:right}
+.theme::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;border-radius:16px 16px 0 0;background:var(--c)}
+.theme .th{display:flex;align-items:center;gap:10px}
+.theme .th span{font-size:32px;line-height:1}
+.theme .th b{font-family:var(--display);font-weight:800;font-size:22px}
+.theme ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px;font-size:16px;color:var(--muted)}
+.theme ul li b{color:var(--ink)}
+.theme.taken{opacity:.42}
+.theme.taken::after{content:"נלקח ✓";position:absolute;left:12px;top:12px;font-family:var(--display);font-weight:700;font-size:14px;color:var(--good);background:var(--good-bg);border-radius:999px;padding:2px 10px}
+.theme.spin{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent)}
+.theme.pick{border-color:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 28%,transparent),var(--shadow-hover);transform:translateY(-3px)}
+.themes .theme:nth-child(1){--c:#4c8bd6}.themes .theme:nth-child(2){--c:#f4a259}.themes .theme:nth-child(3){--c:#0f766e}
+.themes .theme:nth-child(4){--c:#5bb5a2}.themes .theme:nth-child(5){--c:#8c7ae6}.themes .theme:nth-child(6){--c:#e76f86}
+.ctlRow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+/* ---------- pixel editor ---------- */
+.pxEd{display:flex;gap:14px;align-items:flex-start}
+.pxGrid{display:grid;grid-template-columns:repeat(16,1fr);width:min(380px,30vw);aspect-ratio:1;border:3px solid var(--ink);background:
+ conic-gradient(#f1eee8 25%,#fff 0 50%,#f1eee8 0 75%,#fff 0) 0 0/calc(100%/8) calc(100%/8);user-select:none;touch-action:none;cursor:crosshair;box-shadow:6px 6px 0 rgba(31,42,55,.12)}
+.pxGrid i{display:block;border-right:1px solid rgba(31,42,55,.08);border-bottom:1px solid rgba(31,42,55,.08)}
+.pal{display:grid;grid-template-columns:repeat(2,38px);gap:7px}
+.pal button{width:38px;height:38px;border-radius:10px;border:2px solid var(--line);cursor:pointer;box-shadow:var(--shadow-sm)}
+.pal button.on{outline:3px solid var(--ink);outline-offset:2px}
+.pal button.er{background:repeating-linear-gradient(45deg,#fff 0 5px,#f1eee8 5px 10px);font-size:16px}
+.factList{display:grid;gap:10px;margin-top:4px}
+.fact{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.6vw,21px);line-height:1.4}
+.fact .n{flex:none;font-family:var(--display);font-weight:800;font-size:clamp(22px,2.2vw,30px);color:var(--accent-ink);min-width:92px;text-align:center;direction:ltr}
+/* ---------- MakeCode-like blocks ---------- */
+.blocks{direction:ltr;display:grid;gap:4px;justify-items:start;text-align:left}
+.blk{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:5px;color:#fff;font-weight:700;font-size:clamp(14px,1.35vw,18px);line-height:1.3;font-family:var(--body);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.blk.hat{border-radius:16px 16px 5px 5px;padding-top:9px}
+.blk .slot{background:rgba(255,255,255,.95);color:var(--ink);border-radius:999px;padding:0 9px;font-weight:700}
+.blk .img{display:inline-grid;place-items:center;width:28px;height:24px;background:#fff;border-radius:5px}
+.blk .img svg{width:20px;height:20px}
+.in1{margin-left:22px}.in2{margin-left:44px}
+.c-sp{background:#3f6fd8}.c-ct{background:#c2410c}.c-gm{background:#7445bf}.c-in{background:#b03f64}.c-lg{background:#2a72b5}.c-lp{background:#14804a}.c-sc{background:#4b6584}.c-an{background:#a1550b}.c-mu{background:#b4367f}
+.blkCap{font-size:15px;color:var(--muted);margin-top:6px;line-height:1.4}
+.step .blocks{margin-top:8px;justify-items:stretch}.step .blk{display:block;font-size:13px;padding:4px 8px;line-height:1.55;max-width:100%}.step .blk .slot{display:inline-block;padding:0 6px;line-height:1.3}.step .blk .img{vertical-align:middle;width:24px;height:20px}.step .in1{margin-left:10px}
+.evRow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:center;margin-top:16px}
+.bigWhen{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.9vw,42px);line-height:1.2;color:var(--ink)}
+.bigWhen .w{color:var(--accent-ink)}
+.bigWhen .t{color:var(--orange-ink)}
+/* ---------- playable demo ---------- */
+.gameWrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;margin-top:10px}
+.gameBox{position:relative;width:min(480px,40vw);aspect-ratio:4/3;border:4px solid var(--ink);border-radius:10px;background:#1f2a37;overflow:hidden;box-shadow:8px 8px 0 rgba(31,42,55,.14)}
+.gameBox canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.gameHud{position:absolute;inset:6px 8px auto 8px;display:flex;justify-content:space-between;color:#fff;font-family:var(--display);font-weight:800;font-size:18px;direction:ltr;pointer-events:none}
+.gameOver{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:10px;background:rgba(31,42,55,.78);color:#fff;text-align:center;font-family:var(--display)}
+.gameOver b{font-size:34px;font-weight:800;letter-spacing:.5px}
+.gameOver p{margin:0;font-size:17px;color:#dfe6ee;max-width:320px}
+.gameOver.hide{display:none}
+.keys{direction:ltr;justify-content:flex-end;display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.keys kbd{display:inline-grid;place-items:center;min-width:40px;height:40px;padding:0 8px;border:2px solid var(--ink);border-bottom-width:5px;border-radius:9px;background:#fff;font-family:var(--display);font-weight:800;font-size:17px;color:var(--ink)}
+/* ---------- palette strip ---------- */
+.palStrip{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;direction:ltr}
+.palStrip span{display:grid;place-items:end center;width:52px;height:48px;border-radius:8px;border:1px solid rgba(31,42,55,.18);font:700 10.5px ui-monospace,Menlo,monospace;color:#1f2a37;padding-bottom:3px}
+.palStrip span.dk{color:#fff}
+/* compare with sprites */
+.sprRow{display:flex;align-items:flex-end;gap:16px;justify-content:center;padding:14px;margin:6px 0 10px;background:#1f2a37;border-radius:12px;min-height:120px}
+.box ul{margin:4px 0 0;padding-inline-start:22px;font-size:.92em}
+/* ---------- case (Celeste) ---------- */
+.caseFig{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
+.caseFig svg{display:block;width:100%;height:auto}
+.caseFig figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+.tl2{display:grid;gap:10px}
+.tl2 div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:start;border:1px solid var(--line);border-radius:16px;padding:11px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.55vw,20px);line-height:1.45}
+.tl2 b.y{font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,26px);color:var(--accent-ink)}
+/* ---------- prompt with copy ---------- */
+.prompt.copy{position:relative;padding-left:120px}
+.copyBtn{position:absolute;left:14px;top:14px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;font-weight:700;font-size:15px;color:var(--ink)}
+.copyBtn.done{color:var(--good);border-color:#86cfa0;background:var(--good-bg)}
+.formula{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1200px}
+.formula div{border:2px solid var(--accent-line);background:var(--accent-soft);border-radius:16px;padding:12px 16px;font-size:18px;line-height:1.45}
+.formula div b{display:block;font-family:var(--display);font-size:22px;color:var(--accent-ink)}
+/* ---------- tables ---------- */
+.slide.compactT table.t{font-size:clamp(14px,1.35vw,18px)}
+.slide.compactT table.t th,.slide.compactT table.t td{padding:8px 12px}
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--accent-ink);white-space:nowrap}
+table.rubT{font-size:clamp(13px,1.15vw,16px)!important;table-layout:fixed}
+table.rubT th,table.rubT td{padding:7px 10px!important;vertical-align:top;line-height:1.35}
+table.rubT td:first-child{font-family:var(--display);font-weight:700;background:var(--paper2);width:15%}
+table.rubT tr.reveal{transition:opacity .4s}
+/* ---------- live scoreboard ---------- */
+table.live input[type=text]{width:100%;min-width:96px;max-width:150px;font:inherit;font-weight:700;border:1px solid var(--line);border-radius:9px;padding:4px 8px;background:#fff;color:var(--ink)}
+table.live input[type=number]{width:74px;font:inherit;font-weight:800;text-align:center;border:1px solid var(--line);border-radius:9px;padding:4px 6px;background:#fff;color:var(--ink)}
+table.live td,table.live th{text-align:center;white-space:nowrap}
+table.live td:first-child,table.live th:first-child{text-align:right}
+table.live th small{display:block;font-weight:500;font-size:12.5px;color:var(--dim)}
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-weight:800;font-size:17px;line-height:1;padding:0}
+.stp button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.stp output{min-width:26px;font-family:var(--display);font-weight:800;font-size:19px;font-variant-numeric:tabular-nums}
+.tgs{display:inline-flex;gap:4px}.tg{min-width:40px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--dim);font-weight:800;font-size:15px;padding:0 8px}
+.tg.on{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+td.tot{font-family:var(--display);font-weight:800;font-size:1.25em;color:var(--accent-ink)}
+td.calc{font-family:var(--display);font-weight:700}
+tr.r1 td{background:#fdf6e3}tr.r2 td{background:#f5f5f4}tr.r3 td{background:#fbf1ea}
+.medal{display:inline-block;min-width:22px}
+.liveBar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px;max-width:1200px}
+.liveBar .note{margin:0}
+table.scoreT th,table.scoreT td{padding:6px 7px!important}
+table.scoreT .stp button{width:26px;height:26px;font-size:15px}
+table.scoreT .stp output{min-width:20px;font-size:17px}
+table.scoreT .tg{min-width:34px;height:30px;padding:0 4px}
+table.scoreT input[type=text]{min-width:80px;max-width:122px}
+/* tickets */
+.tix{display:grid;grid-template-columns:repeat(var(--cols,6),minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.tixCard{border:2px solid var(--line);border-radius:18px;padding:12px 12px 10px;background:var(--card);box-shadow:var(--shadow);text-align:center}
+.tixCard .stp output{font-size:26px}
+.tixCard strong{display:block;font-family:var(--display);font-weight:800;font-size:19px;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tixCard .lbl{font-size:14px;color:var(--muted);font-weight:700;margin-top:6px}
+.tixCard .stp output{font-size:30px;min-width:44px}
+.tixCard .stp button{width:36px;height:36px}
+.tixCard.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* records */
+table.recs td:nth-child(3) input{width:110px}
+table.recs select{font:inherit;font-weight:700;border:1px solid var(--line);border-radius:9px;padding:4px 6px;background:#fff;color:var(--ink);max-width:200px}
+table.recs td.medalC{font-size:24px}
+/* stopwatch */
+.sw{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:10px 14px;border-radius:18px;border:2px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.sw output{font-family:var(--display);font-weight:800;font-size:clamp(34px,3.8vw,52px);font-variant-numeric:tabular-nums;min-width:4.2ch;text-align:center;direction:ltr}
+.sw .verdict{font-weight:800;font-size:18px;padding:5px 12px;border-radius:999px}
+.sw .verdict.ok{background:var(--good-bg);color:var(--good)}.sw .verdict.no{background:var(--bad-bg);color:var(--bad)}
+/* big timers */
+.bigTimer .timer{padding:12px 16px 12px 24px}
+.bigTimer .timer output{font-size:clamp(56px,7vw,104px)}
+.twoT{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center}
+.twoT .timer output{font-size:clamp(46px,5.2vw,76px)}
+.twoT .lbl{display:block;font-family:var(--display);font-weight:700;color:var(--muted);font-size:17px;text-align:center;margin-top:12px}
+/* ceremony */
+.revealCard.prize{padding:8px 18px}
+.prize{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
+.prize .em{font-size:34px}
+.prize b{font-family:var(--display);font-size:clamp(19px,1.9vw,25px)}
+.prize small{display:block;color:var(--muted);font-size:15px}
+.prize .who{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.1vw,28px);color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:12px;padding:4px 14px;min-width:150px;text-align:center}
+.revealCard.mainPrize{border:2px solid #e3b341;border-inline-start-width:6px;background:linear-gradient(180deg,#fffaf0,#fff)}
+/* closing */
+.continue{font-family:var(--display);font-weight:800;font-size:clamp(46px,6.5vw,96px);letter-spacing:.04em;direction:ltr;color:var(--ink)}
+.continue span{color:var(--accent-ink)}
+.press{font-family:var(--display);font-weight:800;letter-spacing:.2em;color:var(--accent-ink);direction:ltr;animation:blink 1.2s steps(2) infinite;font-size:20px;margin-top:6px}
+.hall.mini{grid-template-columns:repeat(6,1fr);max-width:1000px;margin:16px auto 0;padding:12px}
+.hall.mini .cab .scr{height:54px}.hall.mini .cab .scr svg{width:34px;height:34px}
+/* traffic light */
+.lights{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.lights span{padding:7px 14px;border-radius:12px;font-weight:700;font-size:16.5px;border:1px solid var(--line)}
+.lights .r{background:var(--bad-bg);border-color:#f2cdbb;color:#8a2c07}.lights .y{background:var(--warn-bg);border-color:#efd9a0;color:#7a4a05}.lights .g{background:var(--good-bg);border-color:#bfe3cb;color:#14532d}
+.miles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;max-width:1200px}
+.miles div{border:2px dashed var(--accent-line);border-radius:16px;padding:10px 16px;background:var(--accent-wash,#fff);font-size:18px;line-height:1.45}
+.miles b{font-family:var(--display);color:var(--accent-ink);display:block;font-size:19px}
+.grid2b{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;max-width:1220px}
+.grid2b .revealCard{font-size:clamp(15px,1.5vw,19px)}
+.grid2b .revealCard b{display:block;font-family:var(--display);font-size:1.08em;margin-bottom:2px}
+.mcard{border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:8px 8px 0 rgba(31,42,55,.12);overflow:hidden;max-width:520px}
+.mcard .mt{background:#e76f86;color:#fff;font-family:var(--display);font-weight:800;font-size:26px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.mcard .mt small{font-size:14px;font-weight:600;opacity:.95}
+.mcard .mb{padding:14px 16px;font-size:20px;line-height:1.5}
+.mcard .mb .wc{display:inline-block;margin-top:8px;font-size:15px;font-weight:700;color:var(--good);background:var(--good-bg);border-radius:999px;padding:2px 10px}
+.mcard .keys kbd{min-width:34px;height:34px;font-size:15px}
+@media (max-height:800px){
+ .cab .scr{height:58px}.hall{gap:12px 10px;padding:12px}
+ .pxGrid{width:min(320px,28vw)}
+ .gameBox{width:min(420px,36vw)}
+ .theme{padding:10px 14px 10px}.theme ul{font-size:15px}.theme .th b{font-size:20px}
+ .fact{padding:8px 14px}
+ .tl2 div{padding:8px 12px}
+ .stp button{width:28px;height:28px}
+ .cards.three.compact .card{padding:10px 14px}.cards.three.compact .card .emoji{width:38px;height:38px;font-size:21px;border-radius:11px}.cards.three.compact .card strong{margin:5px 0 3px}
+ .bigTimer .timer output{font-size:clamp(50px,6vw,86px)}
+}
+@media (max-width:1100px){.heroRow,.row2,.row2.r46,.row2.r64,.evRow,.gameWrap{grid-template-columns:1fr}.cards.five{grid-template-columns:repeat(3,1fr)}.themes{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">👾</div><div><b>ערב הארקייד</b><small>סטודיו, פיקסלים ובלוקים: בונים מכונת משחק</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ============ 1–4 · פתיחה ============ -->
+<section class="slide hero arcHero" data-topic="פתיחה" data-title="ערב הארקייד" data-accent="#8c7ae6">
+  <div class="heroRow">
+    <div>
+      <span class="kicker">👾 Tech It Easy · משחקים וקוד</span>
+      <h2>ערב <span class="violet">הארקייד</span></h2>
+      <p class="lead">אולם הארקייד של העיר נסגר לשיפוצים. לערב הפתיחה המחודש מחכים <b>6 ארונות ריקים</b>. כל צוות הוא סטודיו קטן שמקבל ארון אחד ושיעור אחד כדי למלא אותו במשחק. המכונה שתאסוף הכי הרבה נקודות תקבל את <b>המקום המרכזי, ליד הכניסה</b>.</p>
+      <div class="tags"><span>🎨 מציירים פיקסלים</span><span>💻 בונים בבלוקים</span><span>🧪 בודקים על שחקנים</span><span>🎟️ פותחים את האולם</span></div>
+      <button class="ghost sndBtn" data-snd="intro">🔊 INSERT COIN</button>
+    </div>
+    <div class="hall" data-hall="empty"></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="באיזה משחק הייתם משחקים?" data-accent="#8c7ae6">
+  <span class="kicker">🗳️ הצבעה · יד אחת לכל אחד</span>
+  <h2>יש לכם מטבע <span class="violet">אחד</span>. באיזו מכונה משחקים?</h2>
+  <p class="lead">שלושה משחקי ארקייד שכולם עדיין מכירים, גם 40 שנה אחרי שיצאו.</p>
+  <div class="vote classic">
+    <div class="voteItem"><div class="scrTile"><svg class="spr" data-spr="alien"></svg></div><strong>Space Invaders · 1978</strong><small>פולשים יורדים מלמעלה. יורים בהם לפני שהם מגיעים למטה.</small><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="scrTile"><svg class="spr" data-spr="pac"></svg></div><strong>Pac-Man · 1980</strong><small>אוכלים נקודות במבוך ובורחים מארבע רוחות.</small><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="scrTile"><svg class="spr" data-spr="tetris" data-blk="1"></svg></div><strong>Tetris · 1984</strong><small>מסדרים צורות נופלות לשורות מלאות, וזה הולך ומאיץ.</small><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="מה המשותף לכולם?" data-accent="#8c7ae6">
+  <span class="kicker">🔍 בלשי משחקים</span>
+  <h2>מה <span class="violet">המשותף</span> לשלושתם?</h2>
+  <p class="lead">חשבו 20 שניות עם השכן/ה. כל "הבא" חושף סוד אחד של משחק ממכר.</p>
+  <div class="revealList">
+    <div class="revealCard reveal">🎯 <b>מטרה פשוטה.</b> מבינים מה עושים תוך שניות, בלי חוברת הוראות.</div>
+    <div class="revealCard reveal">🔢 <b>ניקוד.</b> מספר על המסך שאומר כמה הצלחת, ושיא שרוצים לשבור.</div>
+    <div class="revealCard reveal">📈 <b>הולך וקשה.</b> מהר יותר, יותר אויבים, פחות זמן.</div>
+    <div class="revealCard reveal">🔁 <b>"עוד פעם אחת!"</b> מפסידים מהר, ומיד רוצים לנסות שוב.</div>
+    <div class="revealCard reveal" style="border-inline-start-color:var(--orange)">🤓 <b>סוד מ-1978:</b> ב-Space Invaders הפולשים מאיצים כשנשארים פחות מהם, כי למחשב יש פחות מה לצייר. המתכנן, טומוהירו נישיקאדו, השאיר את זה בכוונה: ככה זה מותח יותר.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#8c7ae6">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף הערב, בכל ארון יש <span class="violet">משחק אמיתי</span></h2>
+  <div class="cards four compact">
+    <div class="card"><div class="emoji">🔗</div><strong>משחק שעובד בקישור</strong><p>נבנה ב-MakeCode Arcade, ואפשר לשחק בו מכל מחשב או טלפון.</p></div>
+    <div class="card"><div class="emoji">🎨</div><strong>2 ספרייטים מקוריים</strong><p>שחקן, ואויב או פריט, שציירתם בעצמכם פיקסל אחרי פיקסל.</p></div>
+    <div class="card"><div class="emoji">❤️</div><strong>ניקוד, חיים או טיימר, וסוף</strong><p>יש מטרה, יש לחץ, ויש מסך ניצחון או הפסד.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>שם וכרטיס מכונה</strong><p>שם למשחק והוראות של עד 15 מילים, שתלויות ליד המכונה.</p></div>
+  </div>
+  <div class="journey"><span>🏢 סטודיו</span><i>←</i><span>🎨 ספרינט 1</span><i>←</i><span>🧪 בדיקת מכונה</span><i>←</i><span>🔧 ספרינט 2</span><i>←</i><span>🎟️ האולם נפתח</span><i>←</i><span class="end">🏆 טקס הפרסים</span></div>
+</section>
+
+<!-- ============ 5–6 · הסטודיו ============ -->
+<section class="slide tight" data-topic="הסטודיו" data-title="התפקידים בסטודיו" data-accent="#e76f86">
+  <span class="kicker">🏢 הסטודיו שלכם</span>
+  <h2>חמישה תפקידים, <span class="red">מכונה אחת</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🕹️</div><strong>מנהל/ת הסטודיו</strong><p>מחזיק/ה את הזמן ואת רשימת המשימות, מחליט/ה מה נכנס עכשיו ומה לגרסה הבאה. רק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">🎨</div><strong>אמן/ית פיקסלים</strong><p>מצייר/ת את הספרייטים ב-Piskel ומעביר/ה אותם ל-MakeCode. שומר/ת על צבעים אחידים.</p></div>
+    <div class="card"><div class="emoji">💻</div><strong>מתכנת/ת</strong><p>בונה את המכניקה בבלוקים: תנועה, התנגשויות, ניקוד, חיים או טיימר ומסך סיום.</p></div>
+    <div class="card"><div class="emoji">🧪</div><strong>בודק/ת משחק</strong><p>משחק/ת בכל גרסה, רושם/ת באגים בדף הבאגים. מדבר/ת עם Gemini כשנתקעים.</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>מפעיל/ת המכונה</strong><p>כותב/ת את כרטיס המכונה, מגיש/ה בטופס ועומד/ת ליד המכונה במרתון.</p></div>
+  </div>
+  <p class="note">👥 <b>סטודיו של 4:</b> הבודק/ת הוא/היא גם מפעיל/ת המכונה. <b>סטודיו של 6:</b> שני מתכנתים, "נהג/ת" ו"נווט/ת", שמתחלפים כל 7 דקות.</p>
+  <div class="ctlRow"><span class="chips" style="margin:0"><span class="hot">✍️ 3 דקות: שם לסטודיו, ומי מקבל איזה כרטיס</span></span>
+  <div class="timer" data-seconds="180" style="margin:0"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<section class="slide tight" data-topic="הסטודיו" data-title="בחרו ארון" data-accent="#e76f86">
+  <button class="helpBtn" data-help="cab" aria-label="הוראות">?</button>
+  <span class="kicker">🎰 כל סטודיו מקבל ארון אחד</span>
+  <h2>בחרו <span class="red">ארון</span></h2>
+  <div class="themes" id="themes">
+    <div class="theme"><div class="th"><span>🚀</span><b>חלל</b></div><ul><li><b>גיבור:</b> אסטרונאוט/ית או חללית</li><li><b>אויב:</b> מטאוריטים</li><li><b>פריט:</b> כוכבים</li><li><b>טוויסט:</b> החמצן נגמר (טיימר)</li></ul></div>
+    <div class="theme"><div class="th"><span>🍳</span><b>מטבח</b></div><ul><li><b>גיבור:</b> שף/ית</li><li><b>אויב:</b> זבובים</li><li><b>פריט:</b> מצרכים למתכון</li><li><b>טוויסט:</b> ההזמנות מגיעות מהר יותר</li></ul></div>
+    <div class="theme"><div class="th"><span>🌊</span><b>ים</b></div><ul><li><b>גיבור:</b> צוללן/ית או דג</li><li><b>אויב:</b> מדוזות</li><li><b>פריט:</b> פנינים</li><li><b>טוויסט:</b> האוויר במכל יורד</li></ul></div>
+    <div class="theme"><div class="th"><span>🌲</span><b>יער</b></div><ul><li><b>גיבור:</b> שועל/ה</li><li><b>אויב:</b> נחיל דבורים</li><li><b>פריט:</b> פירות יער</li><li><b>טוויסט:</b> הלילה יורד</li></ul></div>
+    <div class="theme"><div class="th"><span>🏙️</span><b>עיר</b></div><ul><li><b>גיבור:</b> שליח/ה על קורקינט</li><li><b>אויב:</b> בורות ויונים</li><li><b>פריט:</b> חבילות</li><li><b>טוויסט:</b> התנועה מאיצה</li></ul></div>
+    <div class="theme"><div class="th"><span>🍭</span><b>ממלכת הממתקים</b></div><ul><li><b>גיבור:</b> דובון גומי</li><li><b>אויב:</b> מברשות שיניים</li><li><b>פריט:</b> סוכריות</li><li><b>טוויסט:</b> כל סוכרייה מאיצה אותך</li></ul></div>
+  </div>
+  <div class="ctlRow"><button class="btn" id="cabDraw">🎰 הגרלת ארון</button><button class="ghost" id="cabReset">↺ איפוס</button><span class="note" style="margin:0">לחיצה על כרטיס מסמנת אותו "נלקח". מותר לשנות את הגיבור, לא את העולם.</span></div>
+</section>
+
+<!-- ============ 7–19 · מיני-שיעור ============ -->
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="מה זה ספרייט?" data-accent="#0f766e">
+  <span class="kicker">🧩 מושג 1 · ספרייט</span>
+  <h2>ספרייט = דמות או חפץ <span class="cyan">שזז במשחק</span></h2>
+  <div class="row2 r46">
+    <div class="pxEd">
+      <div class="pxGrid" id="pxGrid" aria-label="רשת ציור 16 על 16"></div>
+      <div class="pal" id="pxPal"></div>
+    </div>
+    <div>
+      <div class="factList">
+        <div class="fact"><span class="n">16×16</span><span>גודל של ספרייט רגיל: 256 משבצות. כל משבצת היא פיקסל אחד.</span></div>
+        <div class="fact"><span class="n">160×120</span><span>גודל המסך של MakeCode Arcade, בפיקסלים. כלומר 10 ספרייטים לרוחב.</span></div>
+        <div class="fact"><span class="n">16</span><span>צבעים בלבד במכונה, ואחד מהם "שקוף". ככה כל המשחקים נראים כמו ארקייד אמיתי.</span></div>
+      </div>
+      <p class="note">✏️ נסו: לחצו וגררו על הרשת. ספרייט יכול לזוז, להתנגש, להחליף תמונה ולהיעלם.</p>
+      <div class="ctlRow"><button class="ghost" id="pxSample">🤖 ספרייט לדוגמה</button><button class="ghost" id="pxClear">🧽 ניקוי</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="הלולאה של כל משחק" data-accent="#0f766e">
+  <span class="kicker">🔁 מושג 2 · לולאת המשחק</span>
+  <h2>כל משחק ארקייד הוא <span class="cyan">אותה לולאה</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🕹️ השחקן זז</strong><p>חצים או מקשים מזיזים את הספרייט שלכם.</p></div>
+    <div class="step"><strong>👾 משהו מתקרב</strong><p>אויבים או פריטים נוצרים שוב ושוב.</p></div>
+    <div class="step"><strong>💥 התנגשות</strong><p>שני ספרייטים נוגעים זה בזה.</p></div>
+    <div class="step"><strong>❤️ ניקוד או חיים</strong><p>פריט מוסיף נקודות, אויב מוריד חיים.</p></div>
+    <div class="step"><strong>🏁 סוף</strong><p>ניצחון או הפסד, ואז: "עוד פעם אחת!"</p></div>
+  </div>
+  <p class="lead" style="margin-top:16px">היום אתם בונים בדיוק את חמשת השלבים האלה. כל השאר זה <b>קישוט וליטוש</b>.</p>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="אירוע = &quot;כאשר...&quot;" data-accent="#0f766e">
+  <span class="kicker">⚡ מושג 3 · אירוע</span>
+  <h2>אירוע = <span class="cyan">"כאשר... אז..."</span></h2>
+  <div class="evRow">
+    <div>
+      <div class="bigWhen"><span class="w">כאשר</span> השחקן נוגע באויב,<br><span class="t">אז</span> חיים פחות 1, והאויב נעלם.</div>
+      <p class="lead" style="margin-top:14px">הקוד שבתוך אירוע <b>מחכה</b>. הוא רץ רק ברגע שהדבר קורה, וכל פעם שהוא קורה.</p>
+      <div class="chips"><span>⏱️ כאשר עוברות 2 שניות</span><span>🅰️ כאשר לוחצים A</span><span>💔 כאשר החיים נגמרים</span><span>⌛ כאשר הטיימר נגמר</span></div>
+    </div>
+    <div>
+      <div class="blocks">
+        <div class="blk hat c-sp">on sprite of kind <span class="slot">Player</span> overlaps otherSprite of kind <span class="slot">Enemy</span></div>
+        <div class="blk c-in in1">change life by <span class="slot">-1</span></div>
+        <div class="blk c-sp in1">destroy <span class="slot">otherSprite</span></div>
+      </div>
+      <p class="blkCap">ככה זה נראה ב-MakeCode Arcade: בלוק "כאשר" (למעלה), ובתוכו שני בלוקים של "אז".</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="הדגמה: מכונה ב-4 בלוקים" data-accent="#0f766e">
+  <button class="helpBtn" data-help="blocks" aria-label="הוראות">?</button>
+  <span class="kicker">🖥️ הדגמה חיה · arcade.makecode.com</span>
+  <h2>מכונה שלמה ב-<span class="cyan">4 בלוקים</span></h2>
+  <div class="steps" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="step"><strong>תנועה</strong><p>יוצרים שחקן ומזיזים אותו בחצים.</p>
+      <div class="blocks"><div class="blk c-sp">set mySprite to sprite <span class="img"><svg class="spr" data-spr="robot"></svg></span> of kind <span class="slot">Player</span></div><div class="blk c-ct">move mySprite with buttons</div><div class="blk c-sp">set mySprite stay in screen <span class="slot">ON</span></div></div></div>
+    <div class="step"><strong>יצירה</strong><p>כל 2 שניות אויב נכנס מהצד.</p>
+      <div class="blocks"><div class="blk hat c-gm">on game update every <span class="slot">2000</span> ms</div><div class="blk c-sp in1">set projectile to projectile <span class="img"><svg class="spr" data-spr="ghost"></svg></span> from side vx <span class="slot">-60</span> vy <span class="slot">0</span></div><div class="blk c-sp in1">set projectile y to <span class="slot">pick random 10 to 110</span></div><div class="blk c-sp in1">set projectile kind to <span class="slot">Enemy</span></div></div></div>
+    <div class="step"><strong>התנגשות</strong><p>נגיעה באויב מורידה חיים.</p>
+      <div class="blocks"><div class="blk hat c-sp">on sprite of kind <span class="slot">Player</span> overlaps … <span class="slot">Enemy</span></div><div class="blk c-in in1">change life by <span class="slot">-1</span></div><div class="blk c-sp in1">destroy otherSprite</div></div></div>
+    <div class="step"><strong>סוף</strong><p>3 חיים, 30 שניות. שורדים = ניצחון.</p>
+      <div class="blocks"><div class="blk c-in">set life to <span class="slot">3</span></div><div class="blk c-in">start countdown <span class="slot">30</span> (s)</div><div class="blk hat c-in">on countdown end</div><div class="blk c-gm in1">game over <span class="slot">WIN</span></div></div></div>
+  </div>
+  <p class="note">💡 כשהחיים מגיעים ל-0, המשחק נגמר בהפסד לבד. ניקוד? עוד אירוע אחד: פריט מסוג <b>Food</b>, ובהתנגשות איתו <code>change score by 1</code>.</p>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="נסו את המכונה לדוגמה" data-accent="#0f766e">
+  <span class="kicker">🕹️ מי בא לשחק? · מכונה לדוגמה</span>
+  <h2>ככה נראים <span class="cyan">4 בלוקים</span> כשהם רצים</h2>
+  <div class="gameWrap">
+    <div class="gameBox" id="gameBox">
+      <canvas id="gameCv" width="160" height="120"></canvas>
+      <div class="gameHud"><span id="gLife">❤️❤️❤️</span><span id="gScore">⭐ 0 / 10</span></div>
+      <div class="gameOver" id="gameOver"><b id="gTitle">ROBO DASH</b><p id="gMsg">אספו 10 מטבעות. כל רוח מורידה חיים.</p><button class="btn" id="gStart">▶ התחלה</button></div>
+    </div>
+    <div>
+      <div class="revealList" style="margin-top:0">
+        <div class="revealCard">🕹️ <b>תנועה:</b> חצים או W A S D</div>
+        <div class="revealCard">👻 <b>יצירה:</b> רוח חדשה כל 1.5 שניות, ומטבע כל 2 שניות</div>
+        <div class="revealCard">💥 <b>התנגשות:</b> רוח = ❤️ פחות 1 · מטבע = ⭐ ועוד 1</div>
+        <div class="revealCard">🏁 <b>סוף:</b> 10 מטבעות = ניצחון · 0 חיים = הפסד</div>
+      </div>
+      <p class="note">🔍 שימו לב: כל מטבע מאיץ קצת את הרוחות. מצאתם באג? ספרו לנו!</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="Piskel בארבעה צעדים" data-accent="#0f766e">
+  <button class="helpBtn" data-help="piskel" aria-label="הוראות">?</button>
+  <span class="kicker">🎨 piskelapp.com · חינם בדפדפן</span>
+  <h2>Piskel: <span class="cyan">לוח הסקיצות</span> של אמן/ית הפיקסלים</h2>
+  <div class="steps" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="step"><strong>גודל</strong><p><b>Create Sprite</b>, ואז בתפריט מימין <b>Resize</b>: משנים ל-<b>16×16</b> (ברירת המחדל היא 32×32).</p></div>
+    <div class="step"><strong>ציור</strong><p>עיפרון, דלי ומחק. רק בצבעים של המכונה (למטה). פריים נוסף = אנימציה.</p></div>
+    <div class="step"><strong>שמירה</strong><p><b>Export</b> ואז PNG או GIF: הקובץ להגשה ולכרטיס המכונה.</p></div>
+    <div class="step"><strong>למכונה</strong><p>ב-MakeCode לוחצים על הריבוע שבבלוק הספרייט, ומעתיקים פיקסל אחרי פיקסל כשהחלונות זה ליד זה.</p></div>
+  </div>
+  <div class="palStrip" id="palStrip"></div>
+  <p class="note">🎨 16 הצבעים של MakeCode Arcade (הראשון שקוף). ב-Piskel מקלידים את הקוד בבוחר הצבעים, וכך הציור נראה זהה במכונה.</p>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="פיקסלים בסגנון אחד" data-accent="#0f766e">
+  <span class="kicker">✨ טריק של מעצבים</span>
+  <h2>משחק נראה מקצועי כשיש לו <span class="cyan">סגנון אחד</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ כל ספרייט מעולם אחר</span>
+      <div class="sprRow" id="sprBad"></div>
+      <ul><li>גדלים שונים, צבעים אקראיים</li><li>אחד עם קו מתאר ואחד בלי</li><li>השחקן לא מבין מי טוב ומי רע</li></ul></div>
+    <div class="box good"><span class="label">✓ סט אחד, פלטה אחת</span>
+      <div class="sprRow" id="sprGood"></div>
+      <ul><li>כולם 16×16, עם קו מתאר שחור</li><li>3–4 צבעים לכל ספרייט</li><li>צבע חם לאויב, צבע רגוע לשחקן</li></ul></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="מקרה: Celeste" data-accent="#4c8bd6">
+  <span class="kicker">⛰️ מקרה אמיתי · Celeste</span>
+  <h2>משחק שזכה בפרס, והתחיל <span class="cyan">באב-טיפוס של 3 ימים</span></h2>
+  <div class="row2 r46">
+    <figure class="caseFig" style="margin:0">
+      <svg viewBox="0 0 160 100" aria-label="הר בפיקסלים">
+        <rect width="160" height="100" fill="#1d2b53"/>
+        <g fill="#fff"><rect x="12" y="10" width="2" height="2"/><rect x="40" y="18" width="2" height="2"/><rect x="128" y="8" width="2" height="2"/><rect x="146" y="26" width="2" height="2"/><rect x="96" y="14" width="2" height="2"/><rect x="70" y="6" width="2" height="2"/></g>
+        <polygon points="0,100 30,62 46,74 80,22 104,56 118,46 160,100" fill="#5c406c"/>
+        <polygon points="80,22 90,36 84,34 78,40 72,34 68,38" fill="#fff"/>
+        <polygon points="118,46 126,56 120,55 114,58 110,54" fill="#fff"/>
+        <polygon points="0,100 22,82 40,92 70,70 96,88 120,76 160,100" fill="#003fad"/>
+        <rect x="76" y="14" width="8" height="8" fill="#ff2121"/><rect x="78" y="12" width="4" height="2" fill="#78dc52"/><rect x="78" y="16" width="2" height="2" fill="#fff609"/><rect x="82" y="18" width="2" height="2" fill="#fff609"/>
+      </svg>
+      <figcaption>איור בהשראת המשחק · Celeste יצא במקור ב-PICO-8: מסך של 128×128 פיקסלים ו-16 צבעים</figcaption>
+    </figure>
+    <div class="tl2">
+      <div><b class="y">2015</b><span>מאדי תורסון ונואל ברי בונים משחק טיפוס קטן ב-<b>3 ימים</b>, במערכת PICO-8. משחק קטן, הר אחד, דמות אחת.</span></div>
+      <div><b class="y">2018</b><span>אחרי שהגרסה הקטנה עבדה, הם הרחיבו אותה למשחק מלא. Celeste זכה בפרס <b>המשחק העצמאי הטוב ביותר</b> ב-The Game Awards.</span></div>
+      <div class="reveal" style="border-color:var(--accent-line);background:var(--accent-soft)"><b class="y">❓</b><span><b>מה עדיף בשיעור אחד: משחק קטן שעובד, או משחק גדול שחצי ממנו לא עובד? למה?</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight quiz" data-topic="איך בונים מכונה" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1 מתוך 3</span>
+  <h2>מה זה <span class="cyan">ספרייט</span>?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>קובץ מוזיקה שמתנגן ברקע של המשחק</span></button>
+    <button class="option"><span class="letter">ב</span><span>דמות או חפץ במשחק שיכולים לזוז, להתנגש ולהשתנות</span></button>
+    <button class="option"><span class="letter">ג</span><span>תמונת הרקע של השלב, שלא זזה</span></button>
+    <button class="option"><span class="letter">ד</span><span>השם שנותנים למשחק כשמשתפים אותו</span></button>
+  </div>
+  <div class="explain">✓ נכון! השחקן, האויב והמטבע הם כולם ספרייטים. הרקע הוא לא ספרייט.</div>
+</section>
+
+<section class="slide tight quiz" data-topic="איך בונים מכונה" data-title="ראשים ממוספרים 2" data-answer="3" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2 מתוך 3</span>
+  <h2>מתי רץ הקוד <span class="cyan">שבתוך הבלוק הזה?</span></h2>
+  <div class="blocks" style="justify-items:end"><div class="blk hat c-gm" style="font-size:22px">on game update every <span class="slot">2000</span> ms</div></div>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>פעם אחת, כשהמשחק מתחיל</span></button>
+    <button class="option"><span class="letter">ב</span><span>רק כשלוחצים על הכפתור A</span></button>
+    <button class="option"><span class="letter">ג</span><span>כל 2 שניות, כל עוד המשחק רץ</span></button>
+    <button class="option"><span class="letter">ד</span><span>רק כשהשחקן מפסיד</span></button>
+  </div>
+  <div class="explain">✓ נכון! 2000 מילישניות = 2 שניות. זה האירוע שיוצר אויבים שוב ושוב. רוצים יותר אויבים? מקטינים את המספר.</div>
+</section>
+
+<section class="slide tight quiz" data-topic="איך בונים מכונה" data-title="ראשים ממוספרים 3" data-answer="2" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3 מתוך 3</span>
+  <h2>נגיעה אחת ברוח, והחיים יורדים <span class="cyan">מ-3 ל-0 בבת אחת</span>. למה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>המחשב איטי מדי</span></button>
+    <button class="option"><span class="letter">ב</span><span>אירוע ההתנגשות רץ שוב ושוב כל עוד הם נוגעים, כי הרוח לא נעלמת</span></button>
+    <button class="option"><span class="letter">ג</span><span>הרוח מצוירת גדולה מדי</span></button>
+    <button class="option"><span class="letter">ד</span><span>צריך להתחיל עם 10 חיים</span></button>
+  </div>
+  <div class="explain">✓ נכון! זה הבאג הכי נפוץ בארקייד. הפתרון: בתוך אירוע ההתנגשות שמים <b>destroy otherSprite</b>, כך שהרוח נעלמת אחרי נגיעה אחת.</div>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="איך מדברים עם Gemini על באג" data-accent="#4c8bd6">
+  <span class="kicker">🐞 Gemini = חבר לבאגים</span>
+  <h2>באג? מספרים ל-Gemini <span class="cyan">3 דברים</span></h2>
+  <div class="formula">
+    <div><b>1. מה קורה</b>"כשהשחקן נוגע באויב, האויב לא נעלם."</div>
+    <div><b>2. מה רצינו שיקרה</b>"שהאויב ייעלם וירדו חיים פעם אחת."</div>
+    <div><b>3. מה כבר ניסינו</b>"בדקנו שה-kind של האויב הוא Enemy."</div>
+  </div>
+  <div class="prompt copy"><button class="copyBtn">📋 העתקה</button><span class="ptext">אני בונה משחק ב-MakeCode Arcade עם בלוקים. האויב לא נעלם כשהשחקן נוגע בו. רציתי שהוא ייעלם וירד לשחקן חיים אחד. כבר בדקנו ש-kind של האויב הוא Enemy. מה כדאי לבדוק? אל תכתוב לי קוד שלם: תשאל אותי שאלות ותסביר איזה בלוק לחפש.</span></div>
+  <p class="note">🔒 טיפ: לא כותבים בצ׳אט פרטים אישיים. מתארים את הבלוקים במילים.</p>
+</section>
+
+<section class="slide tight" data-topic="איך בונים מכונה" data-title="Gemini עוזר, לא כותב" data-accent="#4c8bd6">
+  <span class="kicker">🚦 הכלל של הערב</span>
+  <h2>Gemini <span class="cyan">עוזר</span>. הוא לא <span class="red">כותב</span> את המשחק.</h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ ככה לא</span>"תכתוב לי משחק ארקייד שלם עם חללית ומטאוריטים."
+      <ul><li>מקבלים קוד שאף אחד בסטודיו לא יודע להסביר</li><li>זה כבר לא המשחק שלכם</li><li>שובר את חוק 4 של האתגר</li></ul></div>
+    <div class="box good"><span class="label">✓ ככה כן</span>"למה האויב לא נעלם? תשאל אותי שאלות."
+      <ul><li>מבינים איזה בלוק חסר, ומתקנים בעצמכם</li><li>במרתון יודעים להסביר למה זה עובד</li><li>נכנס לשורת ה-AI בהגשה, ושווה נקודות במחוון</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ 20–24 · האתגר ============ -->
+<section class="slide tight" data-topic="האתגר" data-title="האתגר: המכונה המרכזית" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר של הערב</span>
+  <h2>המכונה <span class="yellow">המרכזית</span></h2>
+  <p class="lead"><b>המטרה:</b> משחק ארקייד שזר מבין תוך 20 שניות, ושרוצים לחזור אליו שוב ושוב.</p>
+  <div class="task"><strong>📏 החוקים</strong><ol>
+    <li>המשחק עובד בקישור שיתוף, בלי הסבר של יותר ממשפט אחד.</li>
+    <li>לפחות 2 ספרייטים מקוריים. ספרייטים מהגלריה מותרים רק לרקע ולאפקטים.</li>
+    <li>חייבים ניקוד, וגם חיים או טיימר, וגם מסך סיום.</li>
+    <li>Gemini עוזר רק בבאגים: מתארים מה קורה, והוא שואל ומסביר. לא מדביקים קוד שלם שהוא כתב.</li>
+    <li>במרתון כל שחקן נותן כרטיס אחד לכל היותר לכל מכונה, ולא למכונה של הסטודיו שלו.</li>
+    <li>שיא נרשם בטבלה רק אם מפעיל/ת המכונה ראה/תה אותו.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight compactT" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🔢 ידוע מראש · לא משתנה באמצע</span>
+  <h2>איך אוספים <span class="yellow">נקודות</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>מה</th><th>מתי בודקים</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎨 ספרייט מקורי שנמצא במשחק</td><td>בדיקת מכונה</td><td class="pts">2 לכל ספרייט (עד 6)</td></tr>
+      <tr><td>❤️ ניקוד · חיים או טיימר · מסך סיום</td><td>בדיקת מכונה</td><td class="pts">2 לכל רכיב (עד 6)</td></tr>
+      <tr><td>⏱️ שחקן זר מבין איך משחקים תוך 20 שניות</td><td>בדיקת מכונה</td><td class="pts">4</td></tr>
+      <tr><td>🐞 באג שתוקן בין בדיקת המכונה למרתון (מתועד בדף הבאגים)</td><td>הגשה</td><td class="pts">1 לכל באג (עד 3)</td></tr>
+      <tr><td>📊 המחוון של המדריך/ה (4 קריטריונים × 1–4)</td><td>במרתון</td><td class="pts">עד 16</td></tr>
+      <tr><td>🎟️ כרטיס שחקן במרתון</td><td>ספירה בסוף</td><td class="pts">1 לכל כרטיס</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">🏆 <b>מנצחים:</b> הכי הרבה נקודות. <b>בתיקו:</b> יותר כרטיסי שחקן.</p>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון · כל "הבא" חושף שורה</span>
+  <h2>ככה נקבעת <span class="yellow">הרמה</span></h2>
+  <div class="tableWrap"><table class="t rubT">
+    <thead><tr><th>קריטריון</th><th>🌱 מתחיל · 1</th><th>🌿 מתפתח · 2</th><th>🌳 מיומן · 3</th><th>🚀 מצטיין · 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🕹️ מכניקה ומשחקיות</td><td>המשחק לא נפתח, או שאין בו מה לעשות</td><td>אפשר לזוז, אבל אין מטרה ברורה</td><td>יש מטרה, ניקוד, חיים או טיימר ומסך סיום שעובדים</td><td>יש אתגר שהולך וקשה, ורוצים לשחק שוב</td></tr>
+      <tr class="reveal"><td>🎨 עיצוב פיקסלים</td><td>רק ספרייטים מהגלריה</td><td>ספרייט מקורי אחד</td><td>2 ספרייטים מקוריים בסגנון אחיד</td><td>ספרייטים מקוריים עם אנימציה או מצבים, ורקע שמתאים</td></tr>
+      <tr class="reveal"><td>🧪 בדיקה ותיקון</td><td>אף אחד לא בדק</td><td>נבדק, אבל לא שינו כלום</td><td>שחקן זר בדק, ותוקן לפחות באג אחד</td><td>באגים מתועדים לפני ואחרי, וההוראות שופרו לפי הבדיקה</td></tr>
+      <tr class="reveal"><td>🤝 צוות ושקיפות AI</td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב "השתמשנו ב-AI"</td><td>כל תפקיד עשה את חלקו, כתוב באיזה באג Gemini עזר</td><td>כתוב מה Gemini הציע, מה ניסינו ומה לא עבד, וכל הסטודיו יודע להסביר את הקוד</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="חוקי המרתון" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="marathon" aria-label="הוראות">?</button>
+  <span class="kicker">🎟️ סוף השיעור: מרתון הפלייטסט</span>
+  <h2>כשהאולם נפתח, <span class="yellow">כולם שחקנים</span></h2>
+  <div class="steps" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    <div class="step"><strong>🎟️ 3 + 1</strong><p>כל אחד מקבל 3 כרטיסי שחקן וכרטיס פיקסל זהב אחד.</p></div>
+    <div class="step"><strong>🕹️ משחקים</strong><p>עוברים בין המכונות. כשיש תור: ניסיון אחד ופנים לבא/ה בתור.</p></div>
+    <div class="step"><strong>🎟️ נותנים</strong><p>כרטיס אחד לכל היותר למכונה, ולא לסטודיו שלכם.</p></div>
+    <div class="step"><strong>🏅 שיאים</strong><p>שיא נרשם רק אם מפעיל/ת המכונה ראה/תה אותו.</p></div>
+    <div class="step"><strong>🔄 החלפה</strong><p>באמצע המרתון המפעילים מתחלפים, כדי שגם הם ישחקו.</p></div>
+  </div>
+  <p class="note">🖌️ את <b>כרטיס הפיקסל הזהב</b> נותנים למכונה עם הספרייטים הכי יפים. הוא קובע את פרס הפיקסל.</p>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="הפרסים של הערב" data-accent="#e3a82b">
+  <span class="kicker">🏆 חמש דרכים לנצח</span>
+  <h2>הפרסים <span class="yellow">של הערב</span></h2>
+  <div class="cards compact" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    <div class="card"><div class="emoji">🏆</div><strong>המכונה המרכזית</strong><p>הניקוד הכולל הגבוה ביותר. המקום ליד הכניסה.</p></div>
+    <div class="card"><div class="emoji">🎟️</div><strong>פרס הקהל</strong><p>הכי הרבה כרטיסי שחקן.</p></div>
+    <div class="card"><div class="emoji">🖌️</div><strong>פרס הפיקסל</strong><p>הכי הרבה כרטיסי פיקסל זהב.</p></div>
+    <div class="card"><div class="emoji">🐞</div><strong>ציידי הבאגים</strong><p>הסטודיו שתיקן ותיעד הכי הרבה באגים.</p></div>
+    <div class="card"><div class="emoji">🥇</div><strong>שיא הערב</strong><p>השחקן/ית עם הניקוד הגבוה ביותר בטבלת השיאים.</p></div>
+  </div>
+  <p class="lead" style="margin-top:14px">שימו לב: גם סטודיו שלא ינצח בניקוד הכולל יכול לקחת פרס. ו<b>שיא הערב</b> פתוח לכל שחקן/ית.</p>
+</section>
+
+<!-- ============ 25–27 · ספרינט 1 ============ -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: ספרייטים ומכניקה" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="blocks" aria-label="הוראות">?</button>
+  <span class="kicker">🎨💻 ספרינט 1 · 20 דקות</span>
+  <h2>ספרייטים <span class="green">ומכניקה</span></h2>
+  <div class="miles">
+    <div><b>⏱️ עד דקה 10</b>שחקן שזז בחצים, ואויב אחד שמופיע כל כמה שניות.</div>
+    <div><b>🏁 עד סוף הספרינט</b>2 ספרייטים מקוריים במשחק, התנגשות, ניקוד, וחיים או טיימר.</div>
+  </div>
+  <div class="chips"><span>🎨 אמן/ית: Piskel ← MakeCode</span><span>💻 מתכנת/ת: הלולאה הבסיסית</span><span>🧪 בודק/ת: משחק/ת בכל גרסה</span><span>🕹️ מנהל/ת: הזמן והרשימה</span><span>📣 מפעיל/ת: שם וכרטיס מכונה</span></div>
+  <div class="lights"><span class="r">🔴 רעיון וציור: בלי AI</span><span class="y">🟡 באגים: Gemini שואל ומסביר</span></div>
+  <div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="עזרה: הבלוקים שתצטרכו" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="blocks" aria-label="הוראות">?</button>
+  <span class="kicker">🧰 איפה כל בלוק נמצא</span>
+  <h2>הבלוקים <span class="green">שתצטרכו</span></h2>
+  <div class="cards three compact">
+    <div class="card"><div class="emoji">🕹️</div><strong>תנועה</strong><p><b>Controller:</b> <code>move mySprite with buttons</code><br><b>Sprites:</b> <code>stay in screen</code></p></div>
+    <div class="card"><div class="emoji">👾</div><strong>יצירה</strong><p><b>Game:</b> <code>on game update every … ms</code><br><b>Sprites:</b> <code>projectile from side</code></p></div>
+    <div class="card"><div class="emoji">💥</div><strong>התנגשות</strong><p><b>Sprites:</b> <code>on sprite of kind … overlaps …</code> + <code>destroy</code></p></div>
+    <div class="card"><div class="emoji">⭐</div><strong>ניקוד</strong><p><b>Info:</b> <code>change score by 1</code>. פריט מסוג <b>Food</b> שנותן נקודה.</p></div>
+    <div class="card"><div class="emoji">❤️</div><strong>חיים</strong><p><b>Info:</b> <code>set life to 3</code> · <code>change life by -1</code>. ב-0: הפסד אוטומטי.</p></div>
+    <div class="card"><div class="emoji">⏳</div><strong>טיימר וסוף</strong><p><b>Info:</b> <code>start countdown</code> · <code>on countdown end</code><br><b>Game:</b> <code>game over WIN</code></p></div>
+  </div>
+  <p class="note">🔎 לא מוצאים בלוק? יש חיפוש מעל רשימת הקטגוריות. מקלידים מילה באנגלית, למשל <b>overlaps</b>.</p>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="מרפאת הבאגים" data-accent="#2f9e80">
+  <span class="kicker">🩺 לפני שקוראים למדריך</span>
+  <h2>מרפאת <span class="green">הבאגים</span></h2>
+  <div class="grid2b">
+    <div class="revealCard reveal"><b>🧍 הדמות לא זזה</b>חסר <code>move mySprite with buttons</code>, או שהוא לא מחובר בתוך <code>on start</code>.</div>
+    <div class="revealCard reveal"><b>👻 האויב לא נעלם</b>חסר <code>destroy otherSprite</code> בתוך אירוע ההתנגשות.</div>
+    <div class="revealCard reveal"><b>💔 החיים נגמרים בבת אחת</b>האירוע רץ כל עוד הם נוגעים. מעלימים את האויב בנגיעה הראשונה.</div>
+    <div class="revealCard reveal"><b>🙈 אין התנגשות בכלל</b>ה-kind לא תואם: האויב נוצר כ-Projectile, והאירוע מחכה ל-Enemy.</div>
+    <div class="revealCard reveal"><b>🚪 השחקן בורח מהמסך</b>חסר <code>stay in screen ON</code>.</div>
+    <div class="revealCard reveal"><b>🫥 לא רואים את הספרייט</b>הוא צויר בצבע השקוף, או באותו צבע של הרקע.</div>
+  </div>
+  <p class="note">🧪 הבודק/ת רושם/ת כל באג בדף הבאגים: מה קרה · מה ניסינו · תוקן?</p>
+</section>
+
+<!-- ============ 28–30 · בדיקת מכונה ============ -->
+<section class="slide tight" data-topic="בדיקת מכונה" data-title="בדיקת מכונה" data-accent="#4c8bd6">
+  <span class="kicker">🧪 נקודת ביקורת · 6 דקות</span>
+  <h2>בדיקת <span class="cyan">מכונה</span>: שחקן זר, בלי הסבר</h2>
+  <div class="row2 r64">
+    <div class="task" style="margin-top:0"><strong>הפרוטוקול</strong><ol>
+      <li>שחקן/ית מהסטודיו השכן מקבל/ת את המחשב. <b>אף מילה</b>.</li>
+      <li>הבודק/ת מפעיל/ה סטופר. כשהשחקן/ית אומר/ת "הבנתי!" ומסביר/ה במשפט מה המטרה, עוצרים.</li>
+      <li>משחקים 60 שניות.</li>
+      <li>הבודק/ת רושם/ת <b>2 באגים</b> או בלבולים בדף הבאגים.</li>
+      <li>מחליפים תפקידים: עכשיו אתם השחקנים אצלם.</li>
+    </ol></div>
+    <div>
+      <div class="sw" id="sw"><output>0.0</output><button class="btn" data-sw="go">▶ השחקן/ית מתחיל/ה</button><button class="ghost" data-sw="got">💡 הבנתי!</button><button class="ghost" data-sw="reset">↺</button><span class="verdict" id="swV" hidden></span></div>
+      <p class="note">⏱️ עד 20 שניות = <b>4 נקודות</b>. יותר? ההוראות או המסך הראשון צריכים שיפור.</p>
+      <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight compactT liveS" data-topic="בדיקת מכונה" data-title="לוח הניקוד: אחרי הבדיקה" data-accent="#4c8bd6">
+  <span class="kicker">📋 לוח הניקוד · מתעדכן חי</span>
+  <h2>איפה כל סטודיו <span class="cyan">עומד עכשיו?</span></h2>
+  <div class="tableWrap"><table class="t live scoreT"></table></div>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ סטודיו</button><button class="ghost" data-act="delTeam">− סטודיו</button><span class="note scoreLine"></span></div>
+</section>
+
+<section class="slide center" data-topic="בדיקת מכונה" data-title="קום, תזוז: פיקסל אנושי" data-accent="#e76f86">
+  <span class="kicker">🧍 דקה של תנועה · כולם עומדים</span>
+  <h2>פיקסל <span class="red">אנושי</span></h2>
+  <p class="lead">כל "הבא" הוא ספרייט חדש. יש 5 שניות לקפוא בתנוחה. בכל ספרייט יש שני פריימים: מתחלפים ביניהם בקצב, וזו אנימציה!</p>
+  <div class="cards three" style="max-width:1000px;width:100%">
+    <div class="card reveal"><div class="emoji">🦖</div><strong>דינוזאור שקופץ</strong><p>פריים 1: כפוף · פריים 2: באוויר</p></div>
+    <div class="card reveal"><div class="emoji">👻</div><strong>רוח שמרחפת</strong><p>פריים 1: ידיים למעלה · פריים 2: גלים</p></div>
+    <div class="card reveal"><div class="emoji">🤖</div><strong>רובוט שנפגע</strong><p>מצב רגיל ← מצב "פגיעה". ואז: שבים למקום!</p></div>
+  </div>
+</section>
+
+<!-- ============ 31–35 · ספרינט 2 ============ -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: תיקונים וליטוש" data-accent="#8c7ae6">
+  <span class="kicker">🔧 ספרינט 2 · 15 דקות</span>
+  <h2>תיקונים <span class="violet">וליטוש</span></h2>
+  <div class="task" style="margin-top:6px"><strong>לפי הסדר הזה</strong><ol>
+    <li>מתקנים את 2 הבאגים מבדיקת המכונה, ומסמנים "תוקן" בדף הבאגים.</li>
+    <li>מוסיפים אתגר שהולך וקשה (השקף הבא).</li>
+    <li>מוודאים שיש מסך סיום: ניצחון והפסד.</li>
+    <li>המפעיל/ה כותב/ת את כרטיס המכונה: שם + עד 15 מילים.</li>
+    <li>בדקה 13: משתפים קישור ומגישים בטופס. אחרי ההגשה ממשיכים ללטש.</li>
+  </ol></div>
+  <div class="lights"><span class="r">🔴 כרטיס המכונה: קודם כותבים לבד</span><span class="y">🟡 Gemini: באגים, וקיצור ההוראות ל-15 מילים</span></div>
+  <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="איך משחק נהיה קשה יותר" data-accent="#8c7ae6">
+  <span class="kicker">📈 הסוד של "עוד פעם אחת"</span>
+  <h2>איך משחק נהיה <span class="violet">קשה יותר</span></h2>
+  <div class="grid2b">
+    <div class="revealCard reveal"><b>🏎️ מהירות שעולה</b>האויב נכנס מהר יותר ככל שהניקוד עולה: במקום <code>vx -60</code>, שמים <code>-60 - score</code>.</div>
+    <div class="revealCard reveal"><b>👾👾 עוד אויבים</b>שני אירועי <code>on game update</code>: אחד כל 2000 ms, ושני כל 3500 ms.</div>
+    <div class="revealCard reveal"><b>⏳ פחות זמן</b>כל פריט מוסיף שניות לטיימר, וכשלא אוספים, הזמן נגמר.</div>
+    <div class="revealCard reveal"><b>🌟 בונוס נדיר</b>מטבע זהב שמופיע רק פעם ב-10 שניות ושווה 5 נקודות.</div>
+    <div class="revealCard reveal"><b>🎯 אויב שרודף</b>הבלוק <code>set myEnemy follow mySprite</code> גורם לאויב לרדוף אחרי השחקן.</div>
+    <div class="revealCard reveal"><b>🗺️ שלב שני</b>בניקוד 10 מחליפים רקע ומוסיפים אויב חדש.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#8c7ae6">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>משימות <span class="violet">צד</span> למכונה שכבר עובדת</h2>
+  <div class="cards three compact">
+    <div class="card"><div class="emoji">🎞️</div><strong>אנימציה</strong><p>ציירו 2–3 פריימים לשחקן. <b>Animation:</b> <code>animate … frames … interval</code>.</p></div>
+    <div class="card"><div class="emoji">🔊</div><strong>צליל בהתנגשות</strong><p><b>Music:</b> <code>play sound</code> בתוך אירוע ההתנגשות.</p></div>
+    <div class="card"><div class="emoji">🎬</div><strong>מסך פתיחה</strong><p><b>Game:</b> <code>splash</code> עם שם המשחק בתחילת <code>on start</code>.</p></div>
+    <div class="card"><div class="emoji">🗺️</div><strong>שלב שני</strong><p>רקע אחר ואויב חדש כשמגיעים לניקוד מסוים.</p></div>
+    <div class="card"><div class="emoji">💥</div><strong>אפקט</strong><p><code>destroy otherSprite with … effect</code>: פיצוץ, לבבות או ניצוצות.</p></div>
+    <div class="card"><div class="emoji">🧑‍🤝‍🧑</div><strong>עזרה לסטודיו שכן</strong><p>הבודק/ת שלכם בודק/ת להם עוד סבב. נחשב בקריטריון הצוות.</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="כרטיס המכונה" data-accent="#e76f86">
+  <span class="kicker">🏷️ תלוי ליד המכונה במרתון</span>
+  <h2>כרטיס המכונה: <span class="red">עד 15 מילים</span></h2>
+  <div class="row2">
+    <div class="mcard">
+      <div class="mt">🍭 מרד הדובונים <small>סטודיו סוכר</small></div>
+      <div class="mb">חצים לזוז. אספו סוכריות, ברחו ממברשת השיניים. שרדו 30 שניות!
+        <div class="keys"><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd></div>
+        <span class="wc">✓ 10 מילים</span></div>
+    </div>
+    <div>
+      <div class="task" style="margin-top:0"><strong>מה יש בכרטיס</strong><ol><li>שם המשחק (עד 3 מילים) ושם הסטודיו</li><li>איך זזים: אילו מקשים</li><li>המטרה: מה אוספים, ממה בורחים</li><li>איך מנצחים</li></ol></div>
+      <div class="prompt copy" style="font-size:clamp(15px,1.4vw,18px)"><button class="copyBtn">📋 העתקה</button><span class="ptext">הנה הוראות המשחק שלנו: [טקסט]. קצר אותן לעד 15 מילים בעברית, כך שילד/ה שלא מכיר/ה את המשחק יבין/תבין. תן 3 גרסאות.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="הגשה" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="share" aria-label="הוראות">?</button>
+  <span class="kicker">📨 מפעיל/ת המכונה מגיש/ה · עד סוף הספרינט</span>
+  <h2>הגשת <span class="green">מכונה</span></h2>
+  <div class="row2">
+    <div class="task" style="margin-top:0"><strong>📝 הטופס "הגשת מכונה"</strong><ol>
+      <li>שם הסטודיו ושם המשחק</li>
+      <li>קישור שיתוף מ-MakeCode Arcade</li>
+      <li>קובץ PNG של הספרייטים מ-Piskel</li>
+      <li>כרטיס המכונה (עד 15 מילים)</li>
+      <li>כמה באגים תיקנו (לפי דף הבאגים)</li>
+      <li>שורת AI: מה Gemini עשה · מה אנחנו עשינו</li>
+    </ol></div>
+    <div>
+      <div class="steps" style="grid-template-columns:1fr;gap:8px;margin-top:0">
+        <div class="step" style="padding:12px 16px"><strong>Share בסרגל העליון של MakeCode</strong><p>שם המשחק: <b>סטודיו [שם] · [שם המשחק]</b></p></div>
+        <div class="step" style="padding:12px 16px"><strong>יוצרים קישור ומעתיקים</strong><p>בודקים שהוא נפתח בלשונית חדשה, ומדביקים בטופס.</p></div>
+      </div>
+      <p class="note">💾 MakeCode שומר את הפרויקט רק בדפדפן הזה. הקישור הוא הגיבוי שלכם.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 36–40 · האולם נפתח ============ -->
+<section class="slide center bigTimer" data-topic="האולם נפתח" data-title="האולם נפתח!" data-accent="#e3a82b">
+  <span class="kicker">🎟️ מרתון הפלייטסט</span>
+  <h2>האולם <span class="yellow">נפתח!</span></h2>
+  <div class="chips" style="justify-content:center"><span>🎟️ כרטיס אחד לכל היותר לכל מכונה</span><span>🚫 לא לסטודיו שלכם</span><span>🏅 שיא רק בעדות המפעיל/ה</span><span>🖌️ פיקסל זהב: לספרייטים הכי יפים</span></div>
+  <div class="twoT">
+    <div><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lbl">חצי ראשון · מפעילים א׳</span></div>
+    <div><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lbl">חצי שני · מתחלפים!</span></div>
+  </div>
+  <div class="ctlRow" style="justify-content:center"><button class="ghost" id="musicBtn">🎵 מוזיקת ארקייד</button></div>
+</section>
+
+<section class="slide tight compactT liveS" data-topic="האולם נפתח" data-title="טבלת השיאים" data-accent="#e3a82b">
+  <span class="kicker">🏅 טבלת השיאים · מתעדכנת חי</span>
+  <h2>מי מחזיק/ה את <span class="yellow">השיא</span>?</h2>
+  <div class="tableWrap"><table class="t live recs" id="recTable"></table></div>
+  <div class="liveBar"><button class="btn" data-act="addRec">＋ שיא חדש</button><button class="ghost" data-act="sortRec">↕ מיון לפי ניקוד</button><span class="note">המפעיל/ה מדווח/ת: שם השחקן/ית, המכונה והניקוד שראה/תה.</span></div>
+</section>
+
+<section class="slide tight liveS" data-topic="האולם נפתח" data-title="ספירת הכרטיסים" data-accent="#e3a82b">
+  <span class="kicker">🎟️ כל מפעיל/ה סופר/ת בקול</span>
+  <h2>ספירת <span class="yellow">הכרטיסים</span></h2>
+  <div class="tix" id="tixGrid"></div>
+  <p class="note">🎟️ כרטיס שחקן = נקודה ללוח הניקוד. 🖌️ פיקסל זהב קובע את פרס הפיקסל.</p>
+</section>
+
+<section class="slide tight compactT liveS" data-topic="האולם נפתח" data-title="לוח הניקוד הסופי" data-accent="#e3a82b">
+  <span class="kicker">🏆 לוח הניקוד הסופי</span>
+  <h2>מי לוקח את <span class="yellow">המקום המרכזי?</span></h2>
+  <div class="tableWrap"><table class="t live scoreT"></table></div>
+  <div class="liveBar"><span class="note scoreLine"></span><button class="ghost" data-act="resetAll" style="margin-inline-start:auto">↺ איפוס לכיתה חדשה</button></div>
+</section>
+
+<section class="slide tight" data-topic="האולם נפתח" data-title="והמכונה המרכזית היא..." data-accent="#e3a82b">
+  <span class="kicker">🎉 טקס הפרסים</span>
+  <h2>והמכונה המרכזית <span class="yellow">היא...</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal prize"><span class="em">🐞</span><span><b>ציידי הבאגים</b><small>הכי הרבה באגים שתוקנו ותועדו</small></span><span class="who" data-win="bugs">—</span></div>
+    <div class="revealCard reveal prize"><span class="em">🖌️</span><span><b>פרס הפיקסל</b><small>הכי הרבה כרטיסי פיקסל זהב</small></span><span class="who" data-win="pixel">—</span></div>
+    <div class="revealCard reveal prize"><span class="em">🥇</span><span><b>שיא הערב</b><small>הניקוד הגבוה בטבלת השיאים</small></span><span class="who" data-win="record">—</span></div>
+    <div class="revealCard reveal prize"><span class="em">🎟️</span><span><b>פרס הקהל</b><small>הכי הרבה כרטיסי שחקן</small></span><span class="who" data-win="crowd">—</span></div>
+    <div class="revealCard reveal prize mainPrize"><span class="em">🏆</span><span><b>המכונה המרכזית</b><small>הניקוד הכולל הגבוה ביותר</small></span><span class="who" data-win="main">—</span></div>
+  </div>
+  <button class="ghost sndBtn" data-snd="win" style="position:absolute;left:22px;top:22px;margin:0">🔊 תרועה</button>
+</section>
+
+<!-- ============ 41–43 · סיכום ============ -->
+<section class="slide tight" data-topic="סיכום" data-title="מה למדנו מהשחקנים?" data-accent="#0f766e">
+  <span class="kicker">💬 תחקיר · כל "הבא" שאלה אחת</span>
+  <h2>מה למדנו <span class="cyan">מהשחקנים?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🔁 מה גרם לשחקנים <b>לחזור</b> למכונה מסוימת? מה היה בה שאין בשלכם?</div>
+    <div class="revealCard reveal">🕵️ איזה באג גילה שחקן זר, <b>שאתם לא ראיתם</b> אף פעם? למה לא ראיתם אותו?</div>
+    <div class="revealCard reveal">✂️ מה <b>הורדתם</b> מהתכנית כדי שהמשחק יעבוד בזמן? היה שווה?</div>
+    <div class="revealCard reveal">🤖 מתי Gemini באמת עזר, ומתי היה מהיר יותר לבדוק לבד?</div>
+    <div class="revealCard reveal">⛰️ ומה הצעד הבא של המכונה שלכם, אם היו לכם עוד 3 ימים, כמו ל-Celeste?</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="סיכום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד · 🔴 בלי AI</span>
+  <h2>כרטיס <span class="red">יציאה</span></h2>
+  <div class="task"><strong>על הכרטיס או בטופס</strong><ol>
+    <li>איזה באג היה הכי מעצבן היום, ואיך מצאתם אותו?</li>
+    <li>הסבירו במשפט: מה זה "אירוע" במשחק? תנו דוגמה מהמשחק שלכם.</li>
+    <li>מה תרמתם לסטודיו היום? (ציור, קוד, בדיקה, הפעלה, ניהול)</li>
+    <li>כמה נהניתם? 0–5 ⭐</li>
+  </ol></div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide center" data-topic="סיכום" data-title="CONTINUE?" data-accent="#8c7ae6">
+  <span class="kicker">👾 האולם נסגר להערב</span>
+  <div class="continue">CONTINUE? <span id="contN">9</span></div>
+  <p class="lead">האולם נסגר, אבל המכונות שלכם לא: <b>הקישור עובד גם בבית</b>. שלחו אותו למשפחה, ובקשו מהם לשבור את השיא שלכם.</p>
+  <div class="hall mini" data-hall="named"></div>
+  <div class="press">PRESS START</div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-cab"><h3>🎰 איך בוחרים ארון?</h3><ol><li>כל סטודיו מקבל עולם אחד. אין שני סטודיו באותו עולם.</li><li>רוצים לבחור? מנהל/ת הסטודיו מרים/ה יד, והראשון/ה בוחר/ת. לא מסכימים? לוחצים "הגרלת ארון".</li><li>הגיבור, האויב והפריט בכרטיס הם רק הצעה. מותר לשנות אותם, כל עוד הם שייכים לעולם.</li><li>הטוויסט הוא רעיון ל"הולך וקשה". שומרים אותו לספרינט 2.</li></ol></template>
+<template id="help-blocks"><h3>🧰 המכונה הבסיסית, צעד אחר צעד</h3><ol>
+<li>נכנסים ל-<b>arcade.makecode.com</b> ← <b>New Project</b> ← נותנים שם.</li>
+<li><b>Sprites</b> ← גוררים <code>set mySprite to sprite of kind Player</code> לתוך <code>on start</code>. לוחצים על הריבוע האפור ומציירים את השחקן (16×16).</li>
+<li><b>Controller</b> ← <code>move mySprite with buttons</code> מתחת לו. <b>Sprites</b> ← <code>set mySprite stay in screen ON</code>.</li>
+<li><b>Info</b> ← <code>set life to 3</code> לתוך <code>on start</code>.</li>
+<li><b>Game</b> ← <code>on game update every 500 ms</code>, ומשנים ל-2000. בתוכו: <b>Sprites</b> ← <code>set projectile to projectile from side with vx -60 vy 0</code>, ואחריו <code>set projectile y to</code> עם <b>Math</b> ← <code>pick random 10 to 110</code>. מציירים את האויב, ומוסיפים <code>set projectile kind to Enemy</code>.</li>
+<li><b>Sprites</b> ← <code>on sprite of kind Player overlaps otherSprite of kind Enemy</code>. בתוכו: <b>Info</b> ← <code>change life by -1</code>, ו-<b>Sprites</b> ← <code>destroy otherSprite</code>.</li>
+<li>ניקוד: אותו דבר עם פריט מסוג <b>Food</b>, ובהתנגשות <code>change score by 1</code>.</li>
+<li>סוף: <b>Info</b> ← <code>start countdown 30</code> ב-<code>on start</code>, ו-<code>on countdown end</code> ← <b>Game</b> ← <code>game over WIN</code>.</li>
+<li>בודקים בסימולטור משמאל: חצים במקלדת = הג׳ויסטיק.</li></ol></template>
+<template id="help-piskel"><h3>🎨 Piskel, צעד אחר צעד</h3><ol>
+<li>נכנסים ל-<b>piskelapp.com</b> ← <b>Create Sprite</b>. לא צריך להירשם.</li>
+<li>בסרגל מימין: <b>Resize</b> ← רוחב 16, גובה 16 ← <b>Resize</b>.</li>
+<li>בוחרים צבע ראשי ← מקלידים קוד מ-16 הצבעים של המכונה (למשל <code>#ff2121</code>).</li>
+<li>מציירים: עיפרון, דלי צבע, מחק. <b>Ctrl+Z</b> מבטל.</li>
+<li>אנימציה: <b>Add new frame</b> משמאל ← משנים מעט ← רואים תצוגה מקדימה למעלה.</li>
+<li>שמירה: <b>Export</b> ← <b>PNG</b> ← <b>Download</b> (או GIF לאנימציה).</li>
+<li>במכונה: פותחים את עורך הספרייט ב-MakeCode ליד חלון Piskel, ומעתיקים פיקסל אחרי פיקסל. ב-16×16 זה לוקח בערך 3 דקות.</li></ol></template>
+<template id="help-rules"><h3>🏆 המכונה המרכזית: כל הפרטים</h3><ol>
+<li><b>בדיקת מכונה (באמצע):</b> המדריך/ה מסמן/ת ספרייטים מקוריים (2 לכל אחד, עד 6), רכיבים (ניקוד, חיים או טיימר, מסך סיום: 2 לכל אחד), והבנה תוך 20 שניות (4).</li>
+<li><b>באגים:</b> כל באג שנמצא בבדיקה ותוקן עד המרתון, ומסומן בדף הבאגים: נקודה (עד 3).</li>
+<li><b>מחוון:</b> 4 קריטריונים, 1–4 כל אחד, עד 16. המדריך/ה משחק/ת בכל מכונה במרתון.</li>
+<li><b>מרתון:</b> כל כרטיס שחקן = נקודה. כרטיס אחד לכל היותר לכל מכונה, ולא לסטודיו שלך.</li>
+<li><b>יושרה:</b> קוד שלם שהודבק מ-Gemini, או כרטיסים שניתנו לסטודיו של עצמך, לא נספרים.</li>
+<li><b>תיקו:</b> מנצח הסטודיו עם יותר כרטיסי שחקן.</li></ol></template>
+<template id="help-marathon"><h3>🎟️ מרתון הפלייטסט</h3><ol>
+<li>כל מכונה פתוחה על המשחק, במסך מלא, וכרטיס המכונה לידה. ליד המכונה: קופסה או כוס לכרטיסים.</li>
+<li>מפעיל/ת אחד/ת נשאר/ת ליד המכונה ומסביר/ה <b>במשפט אחד בלבד</b>. כל השאר יוצאים לשחק.</li>
+<li>כשיש תור: ניסיון אחד לכל שחקן/ית, ואז מפנים מקום.</li>
+<li>אהבתם? משאירים כרטיס שחקן בקופסה. כרטיס אחד לכל היותר למכונה.</li>
+<li>שבר/ה שיא? המפעיל/ה רושם/ת בדף השיאים: שם, ניקוד, חתימה.</li>
+<li>באמצע: "החלפה!" מפעיל/ה אחר/ת מהסטודיו נכנס/ת, והראשון/ה יוצא/ת לשחק.</li></ol></template>
+<template id="help-share"><h3>🔗 קישור שיתוף מ-MakeCode Arcade</h3><ol>
+<li>בסרגל העליון לוחצים <b>Share</b> (סמל השיתוף).</li>
+<li>כותבים את שם המשחק: <b>סטודיו [שם] · [שם המשחק]</b>.</li>
+<li>לוחצים <b>Share Project</b> (יצירת קישור), ואז <b>Copy</b>.</li>
+<li>פותחים את הקישור בלשונית חדשה ובודקים שהמשחק עולה.</li>
+<li>מדביקים בטופס "הגשת מכונה". עדכנתם את המשחק אחרי ההגשה? משתפים שוב, ומגישים את הקישור החדש.</li>
+<li>גיבוי: <b>Download</b> שומר את הפרויקט כקובץ תמונה (PNG) שאפשר לפתוח שוב ב-MakeCode.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== ערב הארקייד — lesson add-on (runs after the engine; the engine is untouched) =====
+   pixel sprites (inline SVG from data) · pixel editor · cabinet draw · playable demo machine ·
+   stopwatch · live scoreboard / high scores / tickets / prizes (saved in this browser) · chiptune sounds. */
+(()=>{
+/* ---------- MakeCode Arcade default palette ---------- */
+const PAL={'.':null,w:'#ffffff',r:'#ff2121',p:'#ff93c4',o:'#ff8135',y:'#fff609',t:'#249ca3',g:'#78dc52',b:'#003fad',c:'#87f2ff',v:'#8e2ec4',m:'#a4839f',d:'#5c406c',s:'#e5cdc4',n:'#91463d',k:'#000000'};
+const PAL_LIST=[['.','שקוף'],['w','#ffffff'],['r','#ff2121'],['p','#ff93c4'],['o','#ff8135'],['y','#fff609'],['t','#249ca3'],['g','#78dc52'],['b','#003fad'],['c','#87f2ff'],['v','#8e2ec4'],['m','#a4839f'],['d','#5c406c'],['s','#e5cdc4'],['n','#91463d'],['k','#000000']];
+const SPR={
+ robot:["......yy......","......kk......","..kkkkkkkkkk..","..kwwwwwwwwk..","..kwkkwwkkwk..","..kwkcwwkcwk..","..kwwwwwwwwk..","..kwwrrrrwwk..","..kkkkkkkkkk..",".kkttttttttkk.","kkttttyyttttkk","k.kttttttttk.k","..kttttttttk..","..kkkkkkkkkk..","..kbbk..kbbk..","..kkkk..kkkk.."],
+ ghost:["................",".....vvvvvv.....","...vvvvvvvvvv...","..vvvvvvvvvvvv..","..vvwwvvvvwwvv..",".vvwwwwvvwwwwvv.",".vvwwkkvvwwkkvv.",".vvwwkkvvwwkkvv.",".vvvwwvvvvwwvvv.",".vvvvvvvvvvvvvv.",".vvvvvvvvvvvvvv.",".vvvvvvvvvvvvvv.",".vvvvvvvvvvvvvv.",".vvvvvvvvvvvvvv.",".vv.vvv..vvv.vv.",".v...vv..vv...v."],
+ coin:["................","................",".....kkkkkk.....","....kyyyyyyk....","...kyywwyyyyk...","...kywyyyyyok...","...kywyyoyyok...","...kyyyyoyyok...","...kyyyyoyyok...","...kyyyyoyyok...","...kyyyyyyyok...","...kyyyyyyook...","....kyoooook....",".....kkkkkk.....","................","................"],
+ heart:["................","................","..kkkk....kkkk..",".krrrrk..krrrrk.","krrwwrrkkrrrrrrk","krwwrrrrrrrrrrrk","krwrrrrrrrrrrrrk","krrrrrrrrrrrrrrk",".krrrrrrrrrrrrk.","..krrrrrrrrrrk..","...krrrrrrrrk...","....krrrrrrk....",".....krrrrk.....","......krrk......",".......kk.......","................"],
+ alien:["..g.....g..","...g...g...","..ggggggg..",".gg.ggg.gg.","ggggggggggg","g.ggggggg.g","g.g.....g.g","...gg.gg..."],
+ pac:["....yyyyy....","..yyyyyyyyy..",".yyyyykyyyyy.",".yyyyyyyyy...","yyyyyyyy.....","yyyyyy.......","yyyy.........","yyyyyy.......","yyyyyyyy.....",".yyyyyyyyy...",".yyyyyyyyyyy.","..yyyyyyyyy..","....yyyyy...."],
+ tetris:["vvv.yy",".v..yy","o.....","o.cccc","oo...."],
+ /* off-style set for the "one style" slide */
+ blob:["..pppp..",".pppppp.","pp.pp.pp","pppppppp","pp....pp",".pppppp."],
+ bigstar:["......o......",".....ooo.....",".....ooo.....","....ooooo....","ooooooooooooo",".ooooooooooo.","..ooooooooo..","...ooooooo...","...ooo.ooo...","..ooo...ooo..",".oo.......oo.","o...........o"],
+};
+function sprSVG(svg,name){const d=SPR[name];if(!d)return;const h=d.length,w=Math.max(...d.map(r=>r.length));
+ svg.setAttribute('viewBox',`0 0 ${w} ${h}`);let out='';const blk=svg.dataset.blk;
+ d.forEach((row,y)=>[...row].forEach((ch,x)=>{const c=PAL[ch];if(c)out+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${c}"${blk?' stroke="#1f2a37" stroke-width=".08"':''}/>`}));
+ svg.innerHTML=out}
+document.querySelectorAll('svg.spr[data-spr]').forEach(s=>sprSVG(s,s.dataset.spr));
+const mk=(name,size)=>{const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('class','spr');s.style.width=size+'px';s.style.height=size+'px';sprSVG(s,name);return s};
+
+/* palette strip (Piskel slide) */
+const ps=document.getElementById('palStrip');
+if(ps)PAL_LIST.forEach(([k,hex],i)=>{const sp=document.createElement('span');
+ if(k==='.'){sp.style.background='repeating-conic-gradient(#e9e5de 0 25%,#fff 0 50%) 0 0/12px 12px';sp.textContent='שקוף'}
+ else{sp.style.background=hex;sp.textContent=hex.slice(1);if(['k','b','v','d','n','t'].includes(k))sp.classList.add('dk')}
+ ps.appendChild(sp)});
+
+/* one-style compare */
+const sb=document.getElementById('sprBad'),sg=document.getElementById('sprGood');
+if(sb){sb.append(mk('robot',70),mk('bigstar',34),mk('blob',96),mk('alien',40))}
+if(sg){sg.append(mk('robot',64),mk('ghost',64),mk('coin',64),mk('heart',64))}
+
+/* ---------- pixel editor (slide 7) ---------- */
+const grid=document.getElementById('pxGrid'),pal=document.getElementById('pxPal');
+if(grid&&pal){let cur='#ff2121',down=false;const cells=[];
+ for(let i=0;i<256;i++){const c=document.createElement('i');grid.appendChild(c);cells.push(c)}
+ const colors=['#000000','#ffffff','#ff2121','#ff8135','#fff609','#78dc52','#249ca3','#003fad','#8e2ec4','#ff93c4'];
+ colors.forEach((hex,i)=>{const b=document.createElement('button');b.style.background=hex;b.title=hex;if(hex===cur)b.classList.add('on');b.onclick=()=>{cur=hex;pal.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')};pal.appendChild(b)});
+ const er=document.createElement('button');er.className='er';er.textContent='🧽';er.title='מחק';er.onclick=()=>{cur=null;pal.querySelectorAll('button').forEach(x=>x.classList.remove('on'));er.classList.add('on')};pal.appendChild(er);
+ const paint=e=>{const t=document.elementFromPoint(e.clientX,e.clientY);if(t&&t.parentElement===grid)t.style.background=cur||''};
+ grid.addEventListener('pointerdown',e=>{down=true;paint(e);e.preventDefault()});
+ grid.addEventListener('pointermove',e=>{if(down)paint(e)});
+ window.addEventListener('pointerup',()=>down=false);
+ const load=name=>{const d=SPR[name];cells.forEach(c=>c.style.background='');const ox=Math.floor((16-d[0].length)/2),oy=Math.floor((16-d.length)/2);
+  d.forEach((row,y)=>[...row].forEach((ch,x)=>{const c=PAL[ch];if(c)cells[(y+oy)*16+x+ox].style.background=c}))};
+ document.getElementById('pxSample').onclick=()=>load('robot');
+ document.getElementById('pxClear').onclick=()=>cells.forEach(c=>c.style.background='');
+}
+
+/* ---------- cabinet draw (slide 6) ---------- */
+const themes=[...document.querySelectorAll('#themes .theme')];
+const LSK='tie-arcade-v1:'+location.pathname;
+let S=null;try{S=JSON.parse(localStorage.getItem(LSK)||'null')}catch(e){}
+const blank=n=>({name:n,spr:0,c1:0,c2:0,c3:0,und:0,bugs:0,rub:0,tix:0,gold:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(i=>blank('סטודיו '+i)),recs:[{p:'',m:0,s:''}],taken:[]});
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();
+S.recs=S.recs||[];S.taken=S.taken||[];
+const save=()=>{try{localStorage.setItem(LSK,JSON.stringify(S))}catch(e){}};
+const paintTaken=()=>themes.forEach((t,i)=>t.classList.toggle('taken',S.taken.includes(i)));
+themes.forEach((t,i)=>t.onclick=()=>{t.classList.remove('pick');S.taken=S.taken.includes(i)?S.taken.filter(x=>x!==i):[...S.taken,i];save();paintTaken()});
+paintTaken();
+const drawBtn=document.getElementById('cabDraw');
+if(drawBtn)drawBtn.onclick=()=>{const left=themes.map((t,i)=>i).filter(i=>!S.taken.includes(i));if(!left.length)return;
+ themes.forEach(t=>t.classList.remove('pick','spin'));const pickI=left[Math.floor(Math.random()*left.length)];let n=0;const total=14+Math.floor(Math.random()*left.length);
+ drawBtn.disabled=true;const tick=()=>{themes.forEach(t=>t.classList.remove('spin'));const i=left[n%left.length];themes[i].classList.add('spin');blip(520+(n%5)*60,.05);n++;
+  if(n<total||left[(n-1)%left.length]!==pickI)setTimeout(tick,60+n*9);else{themes[i].classList.remove('spin');themes[i].classList.add('pick');S.taken.push(i);save();setTimeout(()=>{paintTaken();themes[i].classList.add('pick')},10);drawBtn.disabled=false;sfx('coin')}};tick()};
+const cabReset=document.getElementById('cabReset');if(cabReset)cabReset.onclick=()=>{S.taken=[];save();themes.forEach(t=>t.classList.remove('pick','spin'));paintTaken()};
+
+/* ---------- sound (WebAudio, no files) ---------- */
+let AC=null;const ac=()=>{try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC};
+document.addEventListener('pointerdown',()=>ac(),{once:true});
+function tone(f,t0,dur,type='square',vol=.05){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,a.currentTime+t0);
+ g.gain.setValueAtTime(vol,a.currentTime+t0);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+t0+dur);o.connect(g);g.connect(a.destination);o.start(a.currentTime+t0);o.stop(a.currentTime+t0+dur+.02)}
+function blip(f,d){tone(f,0,d||.06,'square',.025)}
+function sfx(k){if(!ac())return;
+ if(k==='coin'){tone(988,0,.07);tone(1319,.07,.18)}
+ else if(k==='hit'){tone(220,0,.12,'sawtooth',.05);tone(150,.1,.18,'sawtooth',.05)}
+ else if(k==='intro'){[523,659,784,1047,784,1047].forEach((f,i)=>tone(f,i*.11,.12));tone(1319,.7,.45,'triangle',.06)}
+ else if(k==='win'){[523,523,523,659,784,659,784,1047].forEach((f,i)=>tone(f,i*.12,.14));tone(1047,1.0,.6,'triangle',.06)}
+ else if(k==='lose'){[392,330,262,196].forEach((f,i)=>tone(f,i*.18,.2,'triangle',.06))}
+ else if(k==='alarm'){[0,.25,.5].forEach(t=>{tone(880,t,.15);tone(660,t+.12,.1)})}}
+document.querySelectorAll('[data-snd]').forEach(b=>b.addEventListener('click',()=>sfx(b.dataset.snd)));
+/* timer finished → short alarm */
+document.querySelectorAll('.timer').forEach(t=>{let was=false;new MutationObserver(()=>{const o=t.classList.contains('over')&&t.classList.contains('running');if(o&&!was)sfx('alarm');was=o}).observe(t,{attributes:true,attributeFilter:['class']})});
+/* marathon music loop */
+let music=null;const mb=document.getElementById('musicBtn');
+const MEL=[659,0,784,659,0,523,587,0,659,0,784,880,784,659,587,523,0,523,587,659,0,587,523,494,523,0,659,784,1047,0,784,0];
+const BAS=[131,131,196,196,175,175,196,196];
+if(mb)mb.onclick=()=>{if(music){clearInterval(music);music=null;mb.textContent='🎵 מוזיקת ארקייד';return}
+ let i=0;mb.textContent='⏸ עצירת מוזיקה';music=setInterval(()=>{const f=MEL[i%MEL.length];if(f)tone(f,0,.14,'square',.018);if(i%4===0)tone(BAS[(i/4)%BAS.length],0,.3,'triangle',.04);i++},170)};
+
+/* ---------- playable demo machine (slide 11) ---------- */
+const cv=document.getElementById('gameCv');
+if(cv){const ctx=cv.getContext('2d');const slide=cv.closest('.slide');const ov=document.getElementById('gameOver'),gT=document.getElementById('gTitle'),gM=document.getElementById('gMsg'),gS=document.getElementById('gStart');
+ const lifeEl=document.getElementById('gLife'),scEl=document.getElementById('gScore');
+ const img={};['robot','ghost','coin'].forEach(n=>{const d=SPR[n];const c=document.createElement('canvas');c.width=d[0].length;c.height=d.length;const x=c.getContext('2d');d.forEach((row,yy)=>[...row].forEach((ch,xx)=>{if(PAL[ch]){x.fillStyle=PAL[ch];x.fillRect(xx,yy,1,1)}}));img[n]=c});
+ const stars=[...Array(26)].map(()=>({x:Math.random()*160,y:Math.random()*120,s:Math.random()*.6+.2}));
+ let G=null,keys={},raf=0,last=0;
+ const newGame=()=>({p:{x:18,y:52},en:[],co:[],life:3,score:0,tE:0,tC:.8,inv:0,run:true});
+ const hud=()=>{lifeEl.textContent='❤️'.repeat(Math.max(0,G.life))+'🖤'.repeat(Math.max(0,3-G.life));scEl.textContent='⭐ '+G.score+' / 10'};
+ const hit=(a,b)=>a.x<b.x+12&&a.x+12>b.x&&a.y<b.y+12&&a.y+12>b.y;
+ function end(win){G.run=false;cancelAnimationFrame(raf);sfx(win?'win':'lose');gT.textContent=win?'YOU WIN!':'GAME OVER';gM.textContent=win?'10 מטבעות! מה הייתם מוסיפים כדי שזה יהיה קשה יותר?':'הרוחות ניצחו. עוד פעם אחת?';gS.textContent='↺ עוד פעם';ov.classList.remove('hide')}
+ function step(ts){if(!G||!G.run)return;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;
+  if(!slide.classList.contains('active')){G.run=false;gT.textContent='PAUSE';gM.textContent='המשחק נעצר.';gS.textContent='▶ המשך';ov.classList.remove('hide');return}
+  const sp=78;const p=G.p;
+  if(keys.l)p.x-=sp*dt;if(keys.r)p.x+=sp*dt;if(keys.u)p.y-=sp*dt;if(keys.d)p.y+=sp*dt;
+  p.x=Math.max(0,Math.min(146,p.x));p.y=Math.max(0,Math.min(104,p.y));
+  G.tE-=dt;G.tC-=dt;G.inv=Math.max(0,G.inv-dt);
+  if(G.tE<=0){G.tE=1.5;G.en.push({x:162,y:4+Math.random()*100,vx:-(42+G.score*5)})}
+  if(G.tC<=0){G.tC=2;G.co.push({x:162,y:6+Math.random()*96,vx:-34})}
+  G.en.forEach(e=>e.x+=e.vx*dt);G.co.forEach(c=>c.x+=c.vx*dt);
+  G.en=G.en.filter(e=>{if(e.x<-18)return false;if(G.inv<=0&&hit(p,e)){G.life--;G.inv=1;sfx('hit');hud();return false}return true});
+  G.co=G.co.filter(c=>{if(c.x<-18)return false;if(hit(p,c)){G.score++;sfx('coin');hud();return false}return true});
+  ctx.fillStyle='#1d2b53';ctx.fillRect(0,0,160,120);
+  stars.forEach(s=>{s.x-=s.s*20*dt;if(s.x<0)s.x=160;ctx.fillStyle=s.s>.55?'#ffffff':'#5c6b8a';ctx.fillRect(Math.round(s.x),Math.round(s.y),1,1)});
+  G.co.forEach(c=>ctx.drawImage(img.coin,Math.round(c.x),Math.round(c.y)));
+  G.en.forEach(e=>ctx.drawImage(img.ghost,Math.round(e.x),Math.round(e.y)));
+  if(!(G.inv>0&&Math.floor(G.inv*10)%2))ctx.drawImage(img.robot,Math.round(p.x),Math.round(p.y));
+  if(G.life<=0)return end(false);if(G.score>=10)return end(true);
+  raf=requestAnimationFrame(step)}
+ const drawIdle=()=>{ctx.fillStyle='#1d2b53';ctx.fillRect(0,0,160,120);stars.forEach(s=>{ctx.fillStyle=s.s>.55?'#fff':'#5c6b8a';ctx.fillRect(Math.round(s.x),Math.round(s.y),1,1)});ctx.drawImage(img.robot,18,52);ctx.drawImage(img.ghost,110,30);ctx.drawImage(img.coin,84,74)};
+ drawIdle();
+ gS.onclick=()=>{if(!G||G.life<=0||G.score>=10)G=newGame();G.run=true;hud();ov.classList.add('hide');keys={};last=performance.now();ac();raf=requestAnimationFrame(step);gS.blur()};
+ const map={ArrowLeft:'l',ArrowRight:'r',ArrowUp:'u',ArrowDown:'d',a:'l',d:'r',w:'u',s:'d',A:'l',D:'r',W:'u',S:'d','ש':'l','ג':'r',"'":'u','ד':'d'};
+ const kh=(e,v)=>{if(!G||!G.run||!slide.classList.contains('active'))return;const k=map[e.key];if(!k)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();keys[k]=v};
+ window.addEventListener('keydown',e=>kh(e,true),true);window.addEventListener('keyup',e=>kh(e,false),true);
+}
+
+/* ---------- stopwatch (slide 28) ---------- */
+const sw=document.getElementById('sw');
+if(sw){const o=sw.querySelector('output'),v=document.getElementById('swV');let t0=0,iv=null;
+ sw.addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(!b)return;const a=b.dataset.sw;
+  if(a==='go'){clearInterval(iv);t0=performance.now();v.hidden=true;iv=setInterval(()=>{o.textContent=((performance.now()-t0)/1000).toFixed(1)},100)}
+  if(a==='got'&&iv){clearInterval(iv);iv=null;const s=(performance.now()-t0)/1000;o.textContent=s.toFixed(1);v.hidden=false;
+   if(s<=20){v.className='verdict ok';v.textContent='✓ עד 20 שניות: 4 נקודות';sfx('coin')}else{v.className='verdict no';v.textContent='עוד לא: שפרו את ההוראות';sfx('lose')}}
+  if(a==='reset'){clearInterval(iv);iv=null;o.textContent='0.0';v.hidden=true}})}
+
+/* ---------- live scoreboard ---------- */
+const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const total=t=>num(t.spr)*2+(num(t.c1)+num(t.c2)+num(t.c3))*2+num(t.und)*4+num(t.bugs)+num(t.rub)+num(t.tix);
+const stp=(i,f,max)=>`<span class="stp"><button data-step="${f}" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output data-c="${f}" data-i="${i}">${S.teams[i][f]||0}</output><button data-step="${f}" data-i="${i}" data-d="1" data-max="${max}" aria-label="יותר">+</button></span>`;
+const tg=(i,f,pts,ic)=>`<button class="tg" data-tog="${f}" data-pts="${pts}" data-ic="${ic||''}" data-i="${i}"></button>`;
+function renderScore(){document.querySelectorAll('table.scoreT').forEach(el=>{
+ el.innerHTML='<thead><tr><th>סטודיו</th><th>ספרייטים<small>2 לכל אחד</small></th><th>רכיבים<small>⭐ ניקוד · ❤️ חיים/טיימר · 🏁 סוף · 2 לכל אחד</small></th><th>20 שניות<small>4</small></th><th>באגים<small>עד 3</small></th><th>מחוון<small>עד 16</small></th><th>🎟️ כרטיסים<small>1 לכל</small></th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-srow="${i}"><td><span class="medal" data-c="medal" data-i="${i}"></span><input type="text" data-f="name" data-i="${i}" value="${esc(t.name)}" aria-label="שם הסטודיו"></td><td>${stp(i,'spr',3)}</td><td><span class="tgs">${tg(i,'c1',2,'⭐')}${tg(i,'c2',2,'❤️')}${tg(i,'c3',2,'🏁')}</span></td><td>${tg(i,'und',4)}</td><td>${stp(i,'bugs',3)}</td><td>${stp(i,'rub',16)}</td><td>${stp(i,'tix',99)}</td><td class="tot" data-c="tot" data-i="${i}"></td></tr>`).join('')+'</tbody>'})}
+function renderTix(){const el=document.getElementById('tixGrid');if(!el)return;const n=S.teams.length;el.style.setProperty('--cols',n<=6?n:Math.ceil(n/2));
+ el.innerHTML=S.teams.map((t,i)=>`<div class="tixCard" data-ti="${i}"><strong data-c="name" data-i="${i}">${esc(t.name)}</strong>${stp(i,'tix',99)}<div class="lbl">🎟️ כרטיסי שחקן</div><div style="margin-top:8px">${stp(i,'gold',99)}</div><div class="lbl">🖌️ פיקסל זהב</div></div>`).join('')}
+function renderRecs(){const el=document.getElementById('recTable');if(!el)return;
+ const opts=i=>S.teams.map((t,k)=>`<option value="${k}"${num(S.recs[i].m)===k?' selected':''}>${esc(t.name)}</option>`).join('');
+ el.innerHTML='<thead><tr><th>מקום</th><th>שחקן/ית</th><th>ניקוד</th><th>במכונה של</th><th></th></tr></thead><tbody>'+
+ (S.recs.length?S.recs.map((r,i)=>`<tr><td class="medalC" data-rm="${i}"></td><td><input type="text" data-rf="p" data-ri="${i}" value="${esc(r.p)}" placeholder="שם פרטי" aria-label="שם"></td><td><input type="number" data-rf="s" data-ri="${i}" value="${esc(r.s)}" aria-label="ניקוד"></td><td><select data-rf="m" data-ri="${i}" aria-label="מכונה">${opts(i)}</select></td><td><button class="ghost" data-delrec="${i}" aria-label="מחיקה" style="padding:4px 10px">✕</button></td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;color:var(--muted)">עוד אין שיאים. לוחצים "＋ שיא חדש".</td></tr>')+'</tbody>'}
+const best=f=>{const v=S.teams.map(t=>num(t[f]));const top=Math.max(...v);return top>0?S.teams.filter((t,i)=>v[i]===top).map(t=>t.name).join(' + '):'—'};
+function update(){
+ const T=S.teams.map(total);const order=[...T.keys()].sort((a,b)=>T[b]-T[a]||num(S.teams[b].tix)-num(S.teams[a].tix));const rank={};order.forEach((i,k)=>rank[i]=k);const any=T.some(x=>x>0);
+ document.querySelectorAll('[data-c]').forEach(el=>{const i=Number(el.dataset.i),t=S.teams[i];if(!t)return;const c=el.dataset.c;
+  if(c==='name')el.textContent=t.name;else if(c==='tot')el.textContent=T[i];
+  else if(c==='medal')el.textContent=any&&T[i]>0&&rank[i]<3?['🥇','🥈','🥉'][rank[i]]+' ':'';
+  else el.textContent=t[c]||0});
+ document.querySelectorAll('.tg[data-tog]').forEach(b=>{const v=num(S.teams[Number(b.dataset.i)]?.[b.dataset.tog]);b.classList.toggle('on',!!v);b.textContent=b.dataset.ic?(v?'✓'+b.dataset.ic:b.dataset.ic):(v?'✓ '+b.dataset.pts:'0')});
+ document.querySelectorAll('input[data-f]').forEach(el=>{if(el!==document.activeElement)el.value=S.teams[Number(el.dataset.i)]?.[el.dataset.f]??''});
+ document.querySelectorAll('table.scoreT tr[data-srow]').forEach(r=>{const i=Number(r.dataset.srow);r.className=any&&T[i]>0&&rank[i]<3?'r'+(rank[i]+1):''});
+ const topT=Math.max(0,...S.teams.map(t=>num(t.tix)));document.querySelectorAll('.tixCard').forEach(c=>c.classList.toggle('lead1',topT>0&&num(S.teams[Number(c.dataset.ti)].tix)===topT));
+ document.querySelectorAll('.scoreLine').forEach(l=>l.textContent=any?'🥇 מובילים: '+S.teams[order[0]].name+' · '+T[order[0]]+' נקודות. בתיקו: יותר כרטיסי שחקן.':'הנקודות מתעדכנות מכל הלוחות. ✓ = הרכיב נמצא במשחק.');
+ /* records ranking */
+ const rs=S.recs.map((r,i)=>({i,s:r.s===''?null:num(r.s)})).filter(x=>x.s!==null).sort((a,b)=>b.s-a.s);const rr={};rs.forEach((x,k)=>rr[x.i]=k);
+ document.querySelectorAll('[data-rm]').forEach(el=>{const k=rr[Number(el.dataset.rm)];el.textContent=k===undefined?'':(k<3?['🥇','🥈','🥉'][k]:k+1)});
+ /* prizes */
+ const W={main:any?S.teams[order[0]].name:'—',crowd:best('tix'),pixel:best('gold'),bugs:best('bugs'),
+  record:rs.length?`${S.recs[rs[0].i].p||'?'} · ${rs[0].s}`:'—'};
+ document.querySelectorAll('[data-win]').forEach(el=>el.textContent=W[el.dataset.win]);
+ /* named cabinets on the closing slide */
+ document.querySelectorAll('.hall[data-hall="named"]').forEach(h=>h.querySelectorAll('.marq').forEach((m,i)=>m.textContent=S.teams[i]?.name||'ארון '+(i+1)));
+}
+function renderAll(){renderScore();renderTix();renderRecs();buildHalls();update()}
+
+/* cabinets */
+const SCR=['robot','ghost','coin','alien','heart','pac'];
+function buildHalls(){document.querySelectorAll('.hall').forEach(h=>{const named=h.dataset.hall==='named';const n=named?Math.max(6,Math.min(S.teams.length,6)):6;h.innerHTML='';
+ for(let i=0;i<n;i++){const c=document.createElement('div');c.className='cab';c.innerHTML=`<div class="marq">ארון ${i+1}</div><div class="body"><div class="scr"></div><div class="ctl"><i></i><b></b><b></b></div></div>`;
+  const scr=c.querySelector('.scr');if(named)scr.appendChild(mk(SCR[i%SCR.length],40));else scr.innerHTML='<span class="blink">▮ ריק</span>';h.appendChild(c)}})}
+
+/* events */
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.matches('input[data-f]')){const t=S.teams[Number(el.dataset.i)];if(!t)return;t[el.dataset.f]=el.value;save();update();document.querySelectorAll('#recTable select').forEach((s,k)=>{s.options[Number(el.dataset.i)]&&(s.options[Number(el.dataset.i)].textContent=el.value)});return}
+ if(el.matches('[data-rf]')){const r=S.recs[Number(el.dataset.ri)];if(!r)return;r[el.dataset.rf]=el.dataset.rf==='m'?Number(el.value):el.value;save();update()}});
+document.addEventListener('change',e=>{const el=e.target;if(el.matches('select[data-rf]')){const r=S.recs[Number(el.dataset.ri)];if(r){r.m=Number(el.value);save();update()}}});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.step){const t=S.teams[Number(b.dataset.i)];const f=b.dataset.step;const max=Number(b.dataset.max||b.parentElement.querySelector('[data-max]')?.dataset.max||99);
+  const nv=Math.max(0,Math.min(max,num(t[f])+Number(b.dataset.d)));if(nv>num(t[f]))blip(f==='tix'||f==='gold'?880:660);t[f]=nv;save();update();return}
+ if(b.dataset.tog){const t=S.teams[Number(b.dataset.i)];t[b.dataset.tog]=num(t[b.dataset.tog])?0:1;if(t[b.dataset.tog])blip(880);save();update();return}
+ if(b.dataset.delrec!==undefined){S.recs.splice(Number(b.dataset.delrec),1);save();renderRecs();update();return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==='addTeam'&&S.teams.length<10){S.teams.push(blank('סטודיו '+(S.teams.length+1)));save();renderAll()}
+ if(a==='delTeam'&&S.teams.length>2){const l=S.teams[S.teams.length-1];if(!total(l)||confirm('למחוק את "'+l.name+'" עם הנקודות שלו?')){S.teams.pop();S.recs.forEach(r=>{if(r.m>=S.teams.length)r.m=0});save();renderAll()}}
+ if(a==='addRec'){S.recs.push({p:'',m:0,s:''});save();renderRecs();update();const ins=document.querySelectorAll('#recTable input[data-rf="p"]');ins[ins.length-1]?.focus()}
+ if(a==='sortRec'){S.recs.sort((x,y)=>(y.s===''?-1e9:num(y.s))-(x.s===''?-1e9:num(x.s)));save();renderRecs();update()}
+ if(a==='resetAll'&&confirm('לאפס את כל הניקוד, השיאים והכרטיסים? (לכיתה חדשה)')){const names=S.teams.map(t=>t.name);S=fresh();S.teams=names.map(n=>blank(n));save();renderAll();paintTaken()}
+});
+
+/* copy buttons */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',async()=>{const txt=b.parentElement.querySelector('.ptext').innerText.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)}));
+
+/* CONTINUE countdown on the closing slide */
+const cn=document.getElementById('contN');
+if(cn){const sl=cn.closest('.slide');let n=9;setInterval(()=>{if(!sl.classList.contains('active')){n=9;cn.textContent=9;return}n=n<=0?9:n-1;cn.textContent=n},1000)}
+
+renderAll();
+})();
+</script>
+</body>
+</html>

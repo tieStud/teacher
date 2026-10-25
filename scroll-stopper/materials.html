@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · מעבדת הפרסומות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+
+/* ===== mock ads (fictional brands only) · shared by the deck and the printable materials · sized in em ===== */
+.ad{--ac:#0f766e;position:relative;font-family:"Heebo",Arial,sans-serif;font-size:16px;background:#fff;border:1px solid #e2ddd4;border-radius:1em;overflow:hidden;color:#1f2a37;text-align:right;line-height:1.35;box-shadow:0 1px 2px rgba(31,42,55,.05),0 10px 26px -12px rgba(31,42,55,.22)}
+.ad *{box-sizing:border-box}
+.ad-top{display:flex;align-items:center;gap:.55em;padding:.55em .75em}
+.ad-av{flex:none;width:2.2em;height:2.2em;border-radius:50%;display:grid;place-items:center;font-size:1em;background:linear-gradient(135deg,var(--a1,#f4a259),var(--a2,#e76f86));box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--a2,#e76f86)}
+.ad-top b{display:block;font-family:"Rubik",Arial,sans-serif;font-weight:700;font-size:.92em;line-height:1.15}
+.ad-top small{display:block;color:#8a93a1;font-size:.72em}
+.ad-top .spons{color:#5b6574;font-weight:700}
+.ad-top .dots{margin-inline-start:auto;color:#a39b8e;font-weight:800;letter-spacing:.08em}
+.ad-vis{position:relative;min-height:7.2em;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--v1,#fde8d4),var(--v2,#fbd1dc))}
+.ad-emo{font-size:3.6em;line-height:1;filter:drop-shadow(0 .08em .12em rgba(0,0,0,.18))}
+.ad-emo.sm{font-size:2.6em}
+.ad-txt{padding:.55em .8em .35em;font-size:.92em}
+.ad-txt b{font-family:"Rubik",Arial,sans-serif}
+.ad-head{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.12em;line-height:1.2;padding:.5em .8em 0}
+.ad-cta{display:flex;gap:.45em;padding:.35em .8em .6em}
+.ad-btn{flex:1;text-align:center;border-radius:.55em;padding:.45em .5em;font-weight:700;font-size:.86em;background:var(--ac);color:#fff}
+.ad-btn.ghost2{background:#fff;color:#1f2a37;border:1px solid #d9d3c8}
+.ad-fine{padding:0 .8em .55em;color:#b3aca2;font-size:.56em;line-height:1.3}
+.ad-timer{position:absolute;top:.45em;left:.45em;background:#1f2a37;color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;border-radius:.35em;padding:.12em .45em;font-size:1.05em;direction:ltr}
+.ad-burst{position:absolute;top:.4em;right:.45em;width:3.3em;height:3.3em;border-radius:50%;display:grid;place-items:center;background:#e11d48;color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.9em;transform:rotate(-12deg);box-shadow:0 .2em .5em rgba(225,29,72,.35)}
+.ad-chip{display:inline-block;border-radius:999px;padding:.12em .55em;font-size:.72em;font-weight:700;background:#fdebe3;color:#c2410c}
+.ad-chip.gray{background:#f1eee8;color:#5b6574}
+.ad-chip.green{background:#e7f6ec;color:#15803d}
+.ad-stars{color:#e3a82b;letter-spacing:.04em}
+.ad-rev{border-top:1px solid #efebe4;padding:.38em .8em;font-size:.76em;display:flex;gap:.45em;align-items:baseline}
+.ad-rev i{font-style:normal;color:#8a93a1;font-size:.9em;margin-inline-start:auto;white-space:nowrap}
+.ad-rev u{text-decoration:none;font-weight:700}
+.ad-store{display:flex;gap:.6em;align-items:center;padding:.55em .8em}
+.ad-icon{flex:none;width:3.2em;height:3.2em;border-radius:.8em;display:grid;place-items:center;font-size:1.6em;background:linear-gradient(135deg,#8c7ae6,#4c8bd6)}
+.ad-store b{display:block;font-family:"Rubik",Arial,sans-serif;font-size:1.05em}
+.ad-store small{display:block;color:#5b6574;font-size:.76em}
+.ad-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:.35em;padding:0 .8em .5em}
+.ad-shots span{aspect-ratio:3/4;border-radius:.45em;display:grid;place-items:center;font-size:1.7em;background:radial-gradient(circle at 30% 25%,#fff7c2,transparent 45%),linear-gradient(160deg,#6a55c9,#1e3a8a 60%,#0f172a);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+/* news disguise */
+.ad-news .mast{display:flex;align-items:center;justify-content:space-between;padding:.45em .8em;border-bottom:3px solid #be3455;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1em}
+.ad-news .mast small{font-family:"Heebo",Arial,sans-serif;font-weight:500;color:#8a93a1;font-size:.7em}
+.ad-news .nkick{color:#be3455;font-weight:800;font-size:.72em;padding:.5em .8em 0}
+.ad-news .ad-head{font-size:1.18em;padding-top:.15em}
+.ad-news .by{color:#8a93a1;font-size:.7em;padding:.15em .8em .4em}
+/* popup with a trap button */
+.ad-pop{padding:.9em .9em .7em;text-align:center;background:linear-gradient(180deg,#fff,#fbfaf7)}
+.ad-pop .gift{font-size:2.6em;line-height:1}
+.ad-pop .phd{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.3em;margin:.2em 0}
+.ad-pop .yes{display:block;margin:.55em auto .35em;border-radius:.7em;padding:.6em;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.05em;background:linear-gradient(180deg,#22c55e,#15803d);color:#fff;box-shadow:0 .25em .7em rgba(21,128,61,.35)}
+.ad-pop .no{display:block;color:#b8b2a8;font-size:.62em;text-decoration:underline}
+.ad-pop .chk{display:flex;gap:.35em;justify-content:center;align-items:center;font-size:.7em;color:#5b6574;margin-top:.45em}
+.ad-pop .chk i{font-style:normal;display:inline-grid;place-items:center;width:1.2em;height:1.2em;border-radius:.25em;background:#15803d;color:#fff;font-size:.85em}
+/* video thumbnail (clickbait) */
+.ad-thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:linear-gradient(135deg,#fde047,#f97316 55%,#dc2626)}
+.ad-thumb .face{position:absolute;right:6%;bottom:-4%;font-size:4em;line-height:1}
+.ad-thumb .obj{position:absolute;left:12%;top:18%;font-size:2.6em}
+.ad-thumb .arrow{position:absolute;left:34%;top:30%;font-size:2.1em;color:#fff;transform:rotate(200deg);text-shadow:0 0 .12em #000}
+.ad-thumb .yell{position:absolute;top:.35em;right:.45em;left:40%;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.05em;line-height:1.1;color:#fff;-webkit-text-stroke:.06em #111;paint-order:stroke fill}
+.ad-thumb .dur{position:absolute;left:.45em;bottom:.45em;background:rgba(0,0,0,.78);color:#fff;font-size:.7em;font-weight:700;border-radius:.3em;padding:.05em .35em;direction:ltr}
+.ad-thumb .play{position:absolute;inset:0;display:grid;place-items:center;font-size:2em;color:rgba(255,255,255,.9)}
+.ad-vtitle{padding:.5em .8em .2em;font-weight:700;font-size:.9em;line-height:1.3}
+.ad-vmeta{padding:0 .8em .55em;color:#8a93a1;font-size:.72em}
+/* before / after */
+.ad-ba{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#e7e3dc}
+.ad-ba>div{position:relative;background:#f4f1ea;display:grid;place-items:center;min-height:7em}
+.ad-ba .lbl{position:absolute;top:.35em;right:.4em;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.72em;background:#fff;border-radius:999px;padding:.05em .55em}
+.ad-ba .dull{filter:grayscale(.85) brightness(.92)}
+.ad-ba svg{width:100%;height:100%;display:block}
+/* honest bottle */
+.ad-facts{list-style:none;margin:0;padding:.2em .8em .3em;font-size:.82em;display:grid;gap:.18em}
+.ad-facts li::before{content:"✓ ";color:#15803d;font-weight:800}
+/* the investigator's paper-clip note (lab cards only) */
+.ad-note{margin:.15em .6em .6em;padding:.45em .65em;border-radius:.5em;background:#fff8d6;border:1px dashed #e3c766;font-size:.74em;line-height:1.35;color:#5a4a12}
+.ad-note b{font-family:"Rubik",Arial,sans-serif}
+/* exhibit letter tag */
+.ex-tag{position:absolute;top:.5em;left:.5em;z-index:3;width:1.9em;height:1.9em;border-radius:.5em;display:grid;place-items:center;background:#1f2a37;color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.95em}
+.ad-top+.ex-tag{top:.55em}
+
+
+/* ===== מעבדת הפרסומות · materials additions ===== */
+.page .ad{font-size:10.6pt;box-shadow:none;border-color:#d9d3c8}
+.page .ad .ad-note{font-size:.78em}
+.page .ad .ad-fine{font-size:.62em;color:#9a9388}
+.exgrid{display:grid;grid-template-columns:1fr 1fr;gap:6mm 7mm;flex:1;align-content:start}
+.exgrid.one{grid-template-columns:1fr 1fr}
+.excard{break-inside:avoid;display:flex;flex-direction:column;gap:2mm}
+.exl{display:flex;align-items:center;gap:3mm}
+.exl b{display:inline-grid;place-items:center;height:8mm;padding:0 3mm;border-radius:2mm;background:var(--ink);color:#fff;font-family:var(--display);font-weight:800;font-size:11pt}
+.exl span{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.tkgrid{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.tk{display:flex;gap:3mm;align-items:flex-start;border:1px solid var(--line2);border-radius:3mm;padding:2.6mm 3mm;break-inside:avoid;background:#fff}
+.tk .n{flex:none;width:8mm;height:8mm;border-radius:2mm;display:grid;place-items:center;background:var(--ink);color:#fff;font-family:var(--display);font-weight:800;font-size:11pt}
+.tk .e{flex:none;font-size:17pt;line-height:1}
+.tk b{font-family:var(--display);font-size:11pt}
+.tk p{font-size:9pt;color:var(--muted);margin-top:.6mm}
+.tk p.q{color:#be3455;font-weight:700}
+table.rep td{height:16.5mm;vertical-align:middle}
+table.rep td.lt,table.hunt td.lt,table.keyt td.lt{font-family:var(--display);font-weight:800;font-size:13pt;text-align:center}
+.codes{display:flex;gap:1.6mm}
+.codes i{font-style:normal;width:8.5mm;height:8.5mm;border:1.3px solid var(--ink);border-radius:2mm;display:grid;place-items:center;font-family:var(--display);font-weight:800;color:var(--teal)}
+.agv{display:flex;gap:1.2mm}
+.agv i{font-style:normal;width:6.5mm;height:6.5mm;border:1.2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:8.6pt;font-weight:700}
+.exrow{background:#f3faf8}
+.exs{font-size:8.8pt;color:var(--teal-deep);font-weight:700}
+table.hunt td{height:19mm}
+table.keyt td{font-size:9pt;vertical-align:middle}
+table.keyt td.kc{font-family:var(--display);font-weight:800;color:var(--teal-deep);text-align:center}
+.prods{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.prod{position:relative;padding:3.5mm 4mm;display:flex;flex-direction:column;gap:1mm;font-size:9.3pt}
+.prod .no{position:absolute;top:2.5mm;left:3mm;color:var(--dim);font-weight:700;font-size:8pt}
+.prod .em{font-size:26pt;line-height:1}
+.prod b{font-family:var(--display);font-weight:800;font-size:13pt}
+.prod small{color:var(--muted);font-size:9pt}
+.prod ul{margin:.6mm 0 0;padding:0;list-style:none}
+.prod li::before{content:"✓ ";color:var(--good);font-weight:800}
+.prod .wk{margin-top:auto;background:var(--bad-bg);border-radius:1.6mm;padding:1.6mm 2.2mm;font-size:9.2pt}
+.slips{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.slip{padding:4mm 5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.slip b{font-family:var(--display);font-weight:800;font-size:12pt}
+.slip small{margin-top:auto;color:var(--bad);font-weight:700;font-size:8.4pt}
+.shields{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.shc{padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;font-size:10pt}
+.shtop{display:flex;align-items:flex-end;gap:2mm}.shtop b{font-family:var(--display);font-weight:800;font-size:12.5pt;color:var(--teal-deep)}
+.abc{list-style:none;margin:0;padding:0;display:grid;gap:1mm}
+.abc li{display:flex;gap:2mm;align-items:center;font-weight:700}
+.abc i{font-style:normal;width:6mm;height:6mm;border-radius:1.6mm;display:grid;place-items:center;background:var(--teal-soft);color:var(--teal-deep);font-family:var(--display);font-weight:800}
+.sel{font-weight:700;margin-top:1mm}
+.qs{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm 2mm;font-size:8.6pt;line-height:1.3}
+.rule{font-weight:700}
+.fine{font-size:7.8pt;color:var(--muted);margin-top:auto}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="dgSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dbeefe"/><stop offset="1" stop-color="#fdf4e3"/></linearGradient>
+  <radialGradient id="dgFur" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#ffe2a8"/><stop offset=".55" stop-color="#eab05a"/><stop offset="1" stop-color="#c98a33"/></radialGradient>
+  <symbol id="dogScene" viewBox="0 0 320 200">
+    <rect width="320" height="200" fill="url(#dgSky)"/>
+    <circle cx="38" cy="34" r="27" fill="#fcd34d" opacity=".28"/><circle cx="38" cy="34" r="17" fill="#fcd34d"/>
+    <rect y="150" width="320" height="50" fill="#d6ead0"/>
+    <ellipse cx="74" cy="166" rx="80" ry="9" fill="#1f2a37" opacity=".17"/>
+    <path d="M206 108 C 228 96, 236 84, 251 71" stroke="#d99b3c" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <rect x="240" y="72" width="46" height="80" rx="11" fill="#5bb5a2"/>
+    <rect x="252" y="58" width="22" height="17" rx="4" fill="#0f766e"/>
+    <rect x="245" y="96" width="36" height="36" rx="5" fill="#fff"/>
+    <text x="263" y="111" text-anchor="middle" font-family="Arial" font-weight="700" font-size="6.4" fill="#0f766e">SHAMPPOO</text>
+    <text x="263" y="123" text-anchor="middle" font-family="Arial" font-weight="700" font-size="6.4" fill="#be3455">PRVVOTII</text>
+    <g fill="#d99b3c"><rect x="104" y="128" width="13" height="30" rx="6"/><rect x="125" y="130" width="13" height="28" rx="6"/><rect x="146" y="131" width="13" height="27" rx="6"/><rect x="167" y="130" width="13" height="28" rx="6"/><rect x="188" y="128" width="13" height="30" rx="6"/></g>
+    <ellipse cx="152" cy="116" rx="62" ry="28" fill="url(#dgFur)"/>
+    <ellipse cx="140" cy="104" rx="34" ry="8" fill="#fff" opacity=".45"/>
+    <circle cx="92" cy="92" r="27" fill="url(#dgFur)"/>
+    <ellipse cx="106" cy="78" rx="10" ry="19" transform="rotate(25 106 78)" fill="#b97a2a"/>
+    <ellipse cx="68" cy="99" rx="11" ry="9" fill="#f3c27a"/>
+    <ellipse cx="61" cy="96" rx="5" ry="4" fill="#1f2a37"/>
+    <circle cx="84" cy="85" r="3.6" fill="#1f2a37"/><circle cx="85.2" cy="83.8" r="1.2" fill="#fff"/>
+    <path d="M64 106 q8 6 16 0" stroke="#1f2a37" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="72" cy="111" rx="4" ry="5" fill="#f472b6"/>
+    <g fill="#f59e0b" opacity=".85"><path d="M190 64 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/><path d="M128 60 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/><path d="M58 56 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/><path d="M226 120 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/></g>
+  </symbol>
+</defs></svg>
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · מעבדת הפרסומות<small>חשיבה ביקורתית · 90 דקות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · דף הדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-7 צוותים. לכיתה אחרת: לפי מספר הצוותים והתלמידים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>ארגז הטריקים (דף עזר)</td><td>1 לצוות (7) + 1 לקיר</td><td>רגיל, עדיף צבעוני</td><td>לא</td></tr>
+      <tr><td><bdi dir="ltr"><bdi dir="ltr" style="white-space:nowrap">4–6</bdi></bdi></td><td>תיק הראיות: מוצגים A–I</td><td>סט לצוות (7 סטים = 21 דפים)</td><td>רגיל, בצבע</td><td>לא (שדכן פינה)</td></tr>
+      <tr><td>7</td><td>דוח המעבדה</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>כרטיסי מוצרים</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן, 12 כרטיסים</td></tr>
+      <tr><td>9</td><td>דף הסטודיו</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>הפתק הסודי + מעטפה</td><td>1 עמוד (8 פתקים)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>11</td><td>דף הציד: תפסו את הטריק</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>מחוון</td><td>1 לצוות (7) + 1 למדריך</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>14</td><td>המגן שלי</td><td>7 עמודים (28 כרטיסים)</td><td>בריסטול, אם יש</td><td>כן, לרבעים</td></tr>
+      <tr><td>15</td><td>כרטיסי יציאה</td><td>7 עמודים (28 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td><bdi dir="ltr"><bdi dir="ltr" style="white-space:nowrap">16–17</bdi></bdi></td><td>דף ניקוד ומפתח תשובות</td><td>1 כל אחד</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td><bdi dir="ltr"><bdi dir="ltr" style="white-space:nowrap">18–19</bdi></bdi></td><td>כרטיסי תפקיד (רק אם לכיתה אין)</td><td>1 סט לצוות</td><td>בריסטול</td><td>כן</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>כרטיס משימה, ארגז הטריקים ותיק הראיות (A–I)</li><li>דוח מעבדה, דף סטודיו ודף ציד</li><li>מחוון ורצועת שורת AI</li><li>מעטפה קטנה לפתק הסודי</li><li>2 טושים, עט לכל תלמיד</li><li>4 כרטיסי מגן ו-4 כרטיסי יציאה</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>סט כרטיסי מוצרים (גיבוי למכונה במצגת)</li><li>מפתח התשובות ודף הניקוד, עט</li><li>8 פתקים סודיים</li><li>קופסה למעטפות הסודיות</li><li>פרסים קטנים או מדבקות ל-4 התארים</li><li>מחשב עם המצגת, הטופס פתוח בלשונית</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ טיפ הכנה</h3><p>את תיק הראיות מדפיסים פעם אחת בצבע ושומרים בשקיות ניילון לשיעורים הבאים: אף אחד לא כותב עליו. כותבים רק בדוח המעבדה.</p></div>
+</section>
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔬 תיק 404 · סודי</span><h2>כרטיס <span>המשימה</span></h2></div><p>הפיד של אפליקציית "גלילון" התמלא במודעות חשודות. אתם צוות חוקרים במעבדת הפרסומות: מפרקים מודעות, בונים בעצמכם, ותופסים טריקים לפני שהם תופסים אתכם.</p></div>
+  <div class="grid3">
+    <div class="box"><h3>🔬 1 · פענוח התיק</h3><ol class="clean" style="font-size:9.4pt"><li>9 מוצגים (A–I). לכל אחד עד 3 מספרי טריקים.</li><li>ליד כל מספר ראיה: מילה, מספר או פרט.</li><li>"הערת חוקר" היא ראיה.</li><li>לפחות מוצג אחד כנה.</li><li>🔴 בלי AI.</li></ol></div>
+    <div class="box"><h3>🎨 2 · המודעה הכפולה</h3><ol class="clean" style="font-size:9.4pt"><li>מוצר מטורף מהמכונה.</li><li>שקף 1 כנה: רק עובדות, "פרסומת", המחיר או החולשה, 2 מגנטים.</li><li>שקף 2 מתוחכם: בדיוק 3 טריקים שרואים.</li><li>3 המספרים: בטופס ובפתק הסודי.</li></ol></div>
+    <div class="box"><h3>🎯 3 · תפסו את הטריק</h3><ol class="clean" style="font-size:9.4pt"><li>כל מודעה מתוחכמת 45 שניות על המסך.</li><li>רושמים עד 3 מספרים + ראיה.</li><li>היוצרים חושפים ומצביעים.</li><li>טריק שאי אפשר להצביע עליו לא נחשב.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th>מה</th><th style="width:36mm">נקודות</th></tr></thead><tbody>
+      <tr><td>טריק נכון עם ראיה בדוח המעבדה</td><td>1 לכל טריק (עד 3 במוצג)</td></tr>
+      <tr><td>מצאתם את המוצג הכנה והסברתם לפי אג״ב · תיקון כנה למוצג אחד</td><td>2 · 2</td></tr>
+      <tr><td>הגשה בטופס בזמן, לפי המפרט · רמה במחוון × 2</td><td>3 · <bdi dir="ltr" style="white-space:nowrap">2–8</bdi></td></tr>
+      <tr><td>תפסתם טריק נכון במודעה של צוות אחר (עם ראיה)</td><td>1 לכל טריק</td></tr>
+      <tr><td>טריק שלכם שפחות מחצי מהצוותים תפסו (והוא באמת נראה)</td><td>1 לכל טריק (עד 3)</td></tr>
+      <tr><td>הצבעת הכיתה על המודעה הכנה · כל הצוות מילא מגן וכרטיס יציאה</td><td>3/2/1 · 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.5mm;font-size:8.8pt;color:var(--muted)">🏆 הכי הרבה נקודות = אלופי המעבדה (שובר שוויון: יותר מוצגים שנחקרו עד הסוף) · 🦅 עין הנץ · 🎭 אשפי ההסוואה · 💚 כנים ומושכים</p></div>
+  <div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb" style="font-size:9pt"><tbody>
+      <tr><td style="width:32mm"><b>🧭 מנכ״ל/ית</b></td><td>מחלק/ת את המוצגים לזוגות, שומר/ת על הזמן, מוביל/ה את ההחלטה על 3 הטריקים.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>בודק/ת שלכל מספר יש ראיה מדויקת. בסטודיו: מבחן אג״ב למודעה הכנה.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>בונה את שתי המודעות ב-Slides, ובודק/ת שכל טריק באמת נראה.</td></tr>
+      <tr><td><b>🎤 מציג/ה ומתעד/ת</b></td><td>כותב/ת בדוח, ממלא/ת את הפתק הסודי, מגיש/ה בטופס וחושף/ת בתחרות.</td></tr>
+      <tr><td><b>🤖 אחראי/ת AI</b></td><td>יוצר/ת את התמונות ב-Gemini, בודק/ת טקסט משובש, ממלא/ת שורת AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">מתחילים מהדוגמה הפתורה (מוצג A) בדוח, ומשתמשים במשפט: "הטריק הוא __ כי כתוב __".</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">עובדים לפי הכרטיס. מטרה: 6 מוצגים לפחות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">במודעה המתוחכמת, טריק אחד חייב להיות בעיצוב ולא בטקסט. הצלחתם? +1 בעמודת "צד".</p></div>
+  </div>
+</section>
+<section class="page" id="p-box" data-label="ארגז הטריקים">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · ארגז הטריקים</div><div class="r">דף עזר · נשאר על השולחן</div></div>
+  <div class="pt"><div><span class="kick">🧰 כל מה שחוקר/ת צריך/ה</span><h2>ארגז <span>הטריקים</span></h2></div><p>10 טריקים, מבחן אחד ו-6 מגנטים. כותבים בדוח רק את המספר של הטריק.</p></div>
+  <div class="tkgrid"><div class="tk"><span class="n">1</span><span class="e">⏰</span><div><b>שעון לחץ</b><p>"המבצע נגמר בעוד 04:59!", שעון שחוזר להתחלה</p><p class="q">🛑 מה יקרה אם אחכה יום?</p></div></div><div class="tk"><span class="n">2</span><span class="e">📦</span><div><b>"נשארו רק 2!"</b><p>מחסור מזויף: "כמעט אזל מהמלאי"</p><p class="q">🛑 איך אני יודע/ת שזה נכון?</p></div></div><div class="tk"><span class="n">3</span><span class="e">🐑</span><div><b>"כולם כבר קנו"</b><p>"2,341 צופים עכשיו", "כל הכיתה שלך כבר הזמינה", "100% אהבו"</p><p class="q">🛑 מי ספר? ולמה זה משנה לי?</p></div></div><div class="tk"><span class="n">4</span><span class="e">⭐</span><div><b>כוכבים מזויפים</b><p>ביקורות מושלמות, באותו סגנון, באותו יום, בלי פרטים</p><p class="q">🛑 יש גם ביקורות עם פרטים וחסרונות?</p></div></div><div class="tk"><span class="n">5</span><span class="e">🤳</span><div><b>משפיען בלי "ממומן"</b><p>קיבל/ה כסף, מתנה או קוד הנחה, ולא אמר/ה</p><p class="q">🛑 קיבל/ה משהו בתמורה?</p></div></div><div class="tk"><span class="n">6</span><span class="e">🎭</span><div><b>פרסומת בתחפושת</b><p>נראית כמו כתבה, טיפ, חידון או סרטון רגיל</p><p class="q">🛑 מי כתב את זה, ומה הוא מוכר?</p></div></div><div class="tk"><span class="n">7</span><span class="e">🪄</span><div><b>מושלם מדי</b><p>תמונה ערוכה או תמונת AI שלא מראה את המוצר האמיתי</p><p class="q">🛑 ככה זה נראה באמת?</p></div></div><div class="tk"><span class="n">8</span><span class="e">🔍</span><div><b>האותיות הקטנות</b><p>"חינם*", ובקטן: אחרי שבוע משלמים כל חודש</p><p class="q">🛑 מה כתוב בקטן?</p></div></div><div class="tk"><span class="n">9</span><span class="e">😱</span><div><b>פיתיון רגשי</b><p>"לא תאמינו!", הפחדה, בושה, "אל תישארו בחוץ"</p><p class="q">🛑 איזה רגש מנסים להדליק בי?</p></div></div><div class="tk"><span class="n">10</span><span class="e">🪤</span><div><b>כפתור מלכודת</b><p>"כן" ענק ו"לא" זעיר, תיבה שכבר מסומנת, ביטול מוסתר</p><p class="q">🛑 איפה כפתור ה"לא"?</p></div></div></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box" style="border-color:#bfdcd7;background:#f3faf8"><h3>🧪 מבחן אג״ב: שלוש פעמים כן = פרסומת הוגנת</h3>
+      <p style="font-size:9.6pt"><b>א · אמת?</b> אפשר לבדוק? יש מספר אמיתי, מקור, צילום של המוצר עצמו?<br><b>ג · גלוי?</b> רואים מיד שזו פרסומת? כתוב "ממומן", "פרסומת" או "שיתוף פעולה"?<br><b>ב · בחירה?</b> יש זמן לחשוב וכפתור "לא" שאפשר למצוא?</p></div>
+    <div class="box"><h3>🧲 6 מגנטים לעין (מותרים!)</h3>
+      <p style="font-size:9.6pt">👀 פנים ועיניים · 🎨 צבע וניגוד · 🎬 תנועה · ❓ שאלה · 🔢 מספר · 😮 הפתעה</p>
+      <p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">מגנט עוצר את הגלילה. טריק משקר, מסתיר או לוחץ. גם מודעה כנה צריכה מגנטים.</p></div>
+  </div>
+</section>
+<section class="page" id="p-ex1" data-label="תיק הראיות 1">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · תיק הראיות</div><div class="r">1 מתוך 3 · לא כותבים על הדף</div></div>
+  <div class="exgrid"><div class="excard"><div class="exl"><b>מוצג A</b><span>ג׳ט-שוז · מבצע בזק</span></div><div class="ad" style="--ac:#e11d48">
+  <div class="ad-top"><span class="ad-av" style="--a1:#fb7185;--a2:#e11d48">👟</span><div><b>ג׳ט-שוז</b><small class="spons">ממומן</small></div><span class="dots">•••</span></div>
+  <div class="ad-vis" style="--v1:#ffe4e6;--v2:#fecdd3"><span class="ad-emo">👟</span><span class="ad-timer">04:59</span><span class="ad-burst"><bdi dir="ltr">-50%</bdi></span></div>
+  <div class="ad-head">⚡ מבצע בזק! נעלי הקפיצה שכולם מדברים עליהן</div>
+  <div class="ad-txt">נשארו רק <b>3 זוגות</b> במידה שלך · 👁 <b>2,341</b> אנשים צופים עכשיו</div>
+  <div class="ad-cta"><span class="ad-btn">קנו עכשיו, לפני שייגמר!</span></div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> רעננו את הדף, והשעון חזר ל-04:59. גם למחרת בבוקר היה כתוב "נשארו רק 3".</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג B</b><span>נוי_גיימינג · האוזניות</span></div><div class="ad">
+  <div class="ad-top"><span class="ad-av" style="--a1:#a78bfa;--a2:#6a55c9">🎮</span><div><b>נוי_גיימינג ✔</b><small>412 אלף עוקבים</small></div><span class="dots">•••</span></div>
+  <div class="ad-vis" style="--v1:#ede9fe;--v2:#c7d2fe"><span class="ad-emo">🎧</span></div>
+  <div class="ad-txt">וואו. האוזניות של <b>בום-בייס</b> פשוט שינו לי את החיים 😍🎧 הכי טובות שיש!!! כל החברים שלי כבר קנו, אל תישארו בחוץ 😉</div>
+  <div class="ad-txt" style="padding-top:0"><span class="ad-chip gray">קוד הנחה NOY20 בקישור בביו</span></div>
+  <div class="ad-txt" style="color:#8a93a1;font-size:.72em;padding-top:0">❤️ 18,204 · 💬 931</div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> בום-בייס שלחה לנוי את האוזניות במתנה, ומשלמת לה על כל קנייה עם הקוד. בפוסט לא כתוב "ממומן" ולא "שיתוף פעולה".</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג C</b><span>"חדשות היום" · קריספי-מוח</span></div><div class="ad ad-news">
+  <div class="mast">📰 חדשות היום <small>לפני שעה</small></div>
+  <div class="nkick">מחקר חדש</div>
+  <div class="ad-head">ילדים שאוכלים "קריספי-מוח" בבוקר מקבלים ציונים גבוהים ב-40%!</div>
+  <div class="by">מאת: מערכת הבריאות · 3 דקות קריאה</div>
+  <div class="ad-vis" style="--v1:#fef3c7;--v2:#fde68a;min-height:5em"><span class="ad-emo sm">🥣🎓</span></div>
+  <div class="ad-txt">"התוצאות הדהימו אותנו", אומרים המומחים. המחקר מוכיח שהדגנים המיוחדים "מעירים את המוח".</div>
+  <div class="ad-fine">תוכן שיווקי בשיתוף קריספי-מוח בע״מ</div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> לא מצאנו את המחקר בשום מקום. אין שם של חוקר, של אוניברסיטה או של "המומחים".</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג D</b><span>דרקון-סיטי · חנות האפליקציות</span></div><div class="ad">
+  <div class="ad-store"><span class="ad-icon">🐉</span><div><b>דרקון-סיטי</b><small>משחק · חינם · עם רכישות בתוך המשחק</small><small><span class="ad-stars">★★★★★</span> 4.9 · "מיליון הורדות השבוע!"</small></div></div>
+  <div class="ad-shots"><span>🐉</span><span>🏰</span><span>🔥</span></div>
+  <div class="ad-rev"><span class="ad-stars">★★★★★</span><u>משחק מעולה!!!</u><i>user1234 · 3.3</i></div>
+  <div class="ad-rev"><span class="ad-stars">★★★★★</span><u>משחק מעולה!!!</u><i>user1235 · 3.3</i></div>
+  <div class="ad-rev"><span class="ad-stars">★★★★★</span><u>משחק מעולה ממליץ!!!</u><i>user1236 · 3.3</i></div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> הורדנו את המשחק. הגרפיקה בו פשוטה ומרובעת, בכלל לא כמו בתמונות.</div>
+</div></div></div>
+</section>
+<section class="page" id="p-ex2" data-label="תיק הראיות 2">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · תיק הראיות</div><div class="r">2 מתוך 3 · לא כותבים על הדף</div></div>
+  <div class="exgrid"><div class="excard"><div class="exl"><b>מוצג E</b><span>גלילון פלוס · 7 ימים חינם</span></div><div class="ad">
+  <div class="ad-pop"><div class="gift">🎁</div><div class="phd">גלילון פלוס: 7 ימים חינם!</div><div style="font-size:.78em;color:#5b6574">בלי פרסומות, עם פילטרים מיוחדים</div>
+    <span class="yes">כן! אני רוצה לנצח 🏆</span><span class="no">לא תודה, אני אוהב/ת להפסיד</span>
+    <div class="chk"><i>✓</i> שלחו לי הצעות מיוחדות לטלפון</div></div>
+  <div class="ad-fine">*אחרי 7 ימים: 39.90 ₪ לחודש, מתחדש אוטומטית. ביטול בשיחת טלפון בלבד, בימים א׳–ה׳ בין 9:00 ל-10:00.</div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> כדי לסרב צריך למצוא את השורה האפורה הקטנה. התיבה "שלחו לי הצעות" כבר הייתה מסומנת.</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג F</b><span>בורגר-על</span></div><div class="ad" style="--ac:#c2630f">
+  <div class="ad-top"><span class="ad-av" style="--a1:#fdba74;--a2:#c2630f">🍔</span><div><b>בורגר-על</b><small class="spons">ממומן</small></div><span class="dots">•••</span></div>
+  <div class="ad-vis" style="--v1:#fff7ed;--v2:#fed7aa;min-height:7.6em"><span class="ad-emo" style="font-size:4.6em">🍔</span><span class="ad-chip" style="position:absolute;bottom:.5em;right:.6em;background:#fff;color:#c2630f">✨ טרי · ענק · מושלם</span></div>
+  <div class="ad-head">הבורגר הכי גדול בעיר! רק 39 ₪</div>
+  <div class="ad-cta"><span class="ad-btn">הזמינו עכשיו</span></div>
+  <div class="ad-fine">*התמונה להמחשה בלבד. המחיר לא כולל משלוח (18 ₪) ולא כולל צ׳יפס.</div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> בקופסה שהגיעה: בורגר קטן ושטוח, בערך חצי מהגודל שבתמונה. בסוף שילמנו 57 ₪.</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג G</b><span>"לא תאמינו מה קרה במיקרוגל"</span></div><div class="ad">
+  <div class="ad-thumb"><span class="obj">📦</span><span class="arrow">➜</span><span class="face">😱</span><span class="yell">לא תאמינו מה קרה במיקרוגל!!</span><span class="play">▶</span><span class="dur">10:07</span></div>
+  <div class="ad-vtitle">לא תאמינו מה קרה כשהוא שם את זה במיקרוגל 😱😱 (מספר 7 ישגע אתכם)</div>
+  <div class="ad-vmeta">ערוץ "ניסויים מטורפים" · 2.1 מיליון צפיות</div>
+  <div class="ad-txt" style="font-size:.8em;padding-top:0">בתיאור: 🌈 סליים זוהר. <b>כל הכיתה שלך כבר הזמינה!</b> רק היום 1+1</div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> בסרטון אין מיקרוגל בכלל. כל 10 הדקות הן פרסומת לסליים זוהר.</div>
+</div></div><div class="excard"><div class="exl"><b>מוצג H</b><span>זרם · בקבוק מים</span></div><div class="ad" style="--ac:#0f766e">
+  <div class="ad-top"><span class="ad-av" style="--a1:#5bb5a2;--a2:#0f766e">💧</span><div><b>זרם · בקבוקים</b><small class="spons">ממומן · פרסומת</small></div><span class="dots">•••</span></div>
+  <div class="ad-vis" style="--v1:#e3f1ee;--v2:#cdeae4"><span class="ad-emo">🧴</span><span class="ad-chip gray" style="position:absolute;bottom:.5em;right:.6em;background:#fff">📷 צילום של הבקבוק עצמו</span></div>
+  <ul class="ad-facts"><li>שומר על מים קרים עד 12 שעות (במבחן שלנו: <bdi dir="ltr" style="white-space:nowrap">10–12</bdi> שעות ביום חם)</li><li>79 ₪, משלוח 15 ₪</li><li><span class="ad-stars">★★★★</span> 4.3 מתוך 512 ביקורות</li></ul>
+  <div class="ad-rev"><span class="ad-stars">★★★★</span><span>"בקבוק מעולה, אבל המכסה קצת קשה לפתיחה."</span><i>דנה</i></div>
+  <div class="ad-cta"><span class="ad-btn">לפרטים</span><span class="ad-btn ghost2">לא עכשיו</span></div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> בדקנו באתר החנות: המחיר, המשלוח והביקורות זהים למה שכתוב במודעה.</div>
+</div></div></div>
+</section>
+<section class="page" id="p-ex3" data-label="תיק הראיות 3">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · תיק הראיות</div><div class="r">3 מתוך 3 · לא כותבים על הדף</div></div>
+  <div class="exgrid one"><div class="excard"><div class="exl"><b>מוצג I</b><span>פרוותי · שמפו לכלבים</span></div><div class="ad" style="--ac:#8c7ae6">
+  <div class="ad-top"><span class="ad-av" style="--a1:#c4b5fd;--a2:#8c7ae6">🐕</span><div><b>פרוותי · שמפו לכלבים</b><small class="spons">ממומן</small></div><span class="dots">•••</span></div>
+  <div class="ad-ba"><div><span class="lbl">לפני</span><span class="ad-emo sm dull">🐕</span></div><div><span class="lbl">אחרי</span><svg viewBox="0 0 320 200" aria-hidden="true"><use href="#dogScene"/></svg></div></div>
+  <div class="ad-head">תוצאות תוך יום אחד! 100% מהכלבים אהבו</div>
+  <div class="ad-cta"><span class="ad-btn">לפרווה מושלמת</span></div>
+  <div class="ad-note">📎 <b>הערת חוקר:</b> הגדלנו את תמונת "אחרי": לכלב יש 5 רגליים, והכיתוב על הבקבוק משובש. מי בדק "100% מהכלבים"? לא כתוב.</div>
+</div></div>
+    <div class="stack">
+      <div class="box soft"><h3>🔎 איך כותבים ראיה טובה</h3><p style="font-size:9.6pt">❌ "המודעה מלחיצה."<br>✅ "טריק 1: השעון 04:59 חוזר להתחלה כשמרעננים."</p><p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">ראיה = משהו שאפשר להצביע עליו באצבע: מילה, מספר, כפתור, פרט בתמונה או "הערת החוקר".</p></div>
+      <div class="box"><h3>🧠 שאלות שעוזרות לחקור</h3><ul class="clean" style="font-size:9.6pt"><li>מה הרגשתי ב-5 השניות הראשונות?</li><li>מה המודעה רוצה שאעשה?</li><li>מה <b>לא</b> כתוב כאן?</li><li>מה כתוב בקטן?</li><li>אם אחכה יום, מה יקרה?</li></ul></div>
+      <div class="box" style="border-color:#bfe3cb;background:#f3fbf6"><h3>💚 רמז</h3><p style="font-size:9.6pt">פרסומת כנה לא חייבת להיות משעממת. היא פשוט עוברת את שלוש השאלות של אג״ב. ויש גם חיסרון בביקורות שלה.</p></div>
+    </div>
+  </div>
+</section>
+<section class="page" id="p-report" data-label="דוח המעבדה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · דוח המעבדה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 ספרינט 1 · 16 דקות · בלי AI</span><h2>דוח <span>המעבדה</span></h2></div><p>לכל מוצג: עד 3 מספרים מארגז הטריקים, וראיה לכל מספר. באג״ב מקיפים אות שעוברת ומוחקים אות שנכשלת.</p></div>
+  <table class="tb rep">
+    <thead><tr><th style="width:11mm">מוצג</th><th style="width:33mm">מספרי טריקים</th><th>הראיה (מה בדיוק כתוב או רואים?)</th><th style="width:25mm">אג״ב</th><th style="width:12mm">נק׳</th></tr></thead>
+    <tbody>
+      <tr class="exrow"><td class="lt">A</td><td><div class="codes"><i>1</i><i></i><i></i></div></td><td><span class="exs">דוגמה: 1 = השעון 04:59 חוזר להתחלה כשמרעננים · עכשיו המשיכו אתם</span></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr>
+      <tr><td class="lt">B</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">C</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">D</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">E</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">F</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">G</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">H</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr><tr><td class="lt">I</td><td><div class="codes"><i></i><i></i><i></i></div></td><td></td><td><div class="agv"><i>א</i><i>ג</i><i>ב</i></div></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>💚 המוצג הכנה הוא: <span class="fill s"></span></h3><p style="font-size:9.4pt;line-height:2.2">א · אמת כי <span class="fill l"></span><br>ג · גלוי כי <span class="fill l"></span><br>ב · בחירה כי <span class="fill l"></span></p></div>
+    <div class="box"><h3>✏️ תיקון כנה למוצג: <span class="fill s"></span></h3><p style="font-size:9pt;color:var(--muted)">כתבו מחדש את הכותרת או הטקסט כך שיעבור אג״ב.</p><div class="lines h3"></div></div>
+  </div>
+  <div class="box soft" style="margin-top:4mm"><h3>✓ לפני נקודת הביקורת</h3><ul class="check" style="grid-template-columns:1fr 1fr;display:grid"><li>לפחות 5 מוצגים עם מספרים וראיות</li><li>לכל מספר יש ראיה</li><li>מצאנו את המוצג הכנה</li><li>החוקר/ת בדק/ה את כל הראיות</li></ul></div>
+</section>
+<section class="page" id="p-products" data-label="כרטיסי מוצרים">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · כרטיסי מוצרים</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור. גיבוי למכונת המוצרים שבמצגת: כל צוות שולף כרטיס אחד. ✓ = עובדות שמותר להשתמש בהן · ⚠️ = החולשה שהמודעה הכנה לא מסתירה.</p>
+  <div class="cutgrid prods"><div class="prod"><span class="no">P1</span><span class="em">🧦</span><b>גרב-GPS</b><small>גרביים שהאפליקציה מוצאת</small><ul><li>מוצאת גרב אבודה באפליקציה תוך דקה</li><li>אפשר לכבס במכונה</li><li>סוללה ל-3 חודשים</li></ul><p class="wk">⚠️ 49 ₪ לזוג, והסוללה מוחלפת רק במעבדה</p></div><div class="prod"><span class="no">P2</span><span class="em">☂️</span><b>מטריית-דיג׳יי</b><small>מטרייה שמנגנת כשיורד גשם</small><ul><li>20 שירים מובנים</li><li>עמידה ברוח רגילה</li><li>נטענת ב-USB</li></ul><p class="wk">⚠️ הרמקול חלש, וברחוב רועש כמעט לא שומעים</p></div><div class="prod"><span class="no">P3</span><span class="em">✏️</span><b>עיפרון-בודק</b><small>רוטט כשכותבים שגיאת כתיב</small><ul><li>עברית ואנגלית</li><li>שבוע שלם על טעינה אחת</li><li>25 ₪</li></ul><p class="wk">⚠️ לא מזהה כתב יד מבולגן</p></div><div class="prod"><span class="no">P4</span><span class="em">🍕</span><b>מסטיק-פיצה</b><small>מסטיק בטעם פיצה</small><ul><li>הטעם מחזיק 10 דקות</li><li>8 מסטיקים בחבילה</li><li>12 ₪</li></ul><p class="wk">⚠️ אחרי 10 דקות יש לו טעם של קרטון</p></div><div class="prod"><span class="no">P5</span><span class="em">🕶️</span><b>משקפי-שמש לכלבים</b><small>משקפי שמש עם רצועה רכה</small><ul><li>3 מידות</li><li>רצועה רכה שלא לוחצת</li><li>מגינים מסנוור</li></ul><p class="wk">⚠️ רוב הכלבים מורידים אותם תוך 5 דקות</p></div><div class="prod"><span class="no">P6</span><span class="em">🎒</span><b>תיק-מסדר</b><small>תיק שהתאים שלו נפתחים מהאפליקציה</small><ul><li>6 תאים</li><li>עמיד במים</li><li>199 ₪</li></ul><p class="wk">⚠️ שוקל 2 ק״ג כשהוא ריק</p></div><div class="prod"><span class="no">P7</span><span class="em">☁️</span><b>כרית-ענן</b><small>כרית שמשנה צבע לפי החום</small><ul><li>רכה מאוד</li><li>4 צבעים</li><li>אפשר לכבס, 89 ₪</li></ul><p class="wk">⚠️ מתנפחת לגמרי רק יום אחרי שפותחים</p></div><div class="prod"><span class="no">P8</span><span class="em">🧃</span><b>בקבוק-נודניק</b><small>מזכיר לשתות, עם בדיחות</small><ul><li>500 מ״ל</li><li>30 בדיחות שונות</li><li>טעינה פעם בשבוע</li></ul><p class="wk">⚠️ אי אפשר לכבות את הבדיחות</p></div><div class="prod"><span class="no">P9</span><span class="em">🦖</span><b>דינו-מעורר</b><small>שעון מעורר שבורח על גלגלים</small><ul><li>מחזיק לילה שלם</li><li>3 צלילים</li><li>69 ₪</li></ul><p class="wk">⚠️ נתקע לפעמים מתחת למיטה</p></div><div class="prod"><span class="no">P10</span><span class="em">🌈</span><b>סליים-נקי</b><small>סליים שלא נדבק לשטיח ולבגדים</small><ul><li>5 צבעים</li><li>מחזיק חודש בקופסה סגורה</li><li>19 ₪</li></ul><p class="wk">⚠️ מתייבש תוך יום אם שוכחים לסגור</p></div><div class="prod"><span class="no">P11</span><span class="em">🎧</span><b>אוזני-חתול</b><small>אוזניות שמשמיעות לחתול ציפורים</small><ul><li>מידה אחת לכל החתולים</li><li>2 שעות סוללה</li><li>קולות של 12 ציפורים</li></ul><p class="wk">⚠️ רוב החתולים מנסים לאכול אותן</p></div><div class="prod"><span class="no">P12</span><span class="em">🧹</span><b>רובו-מטאטא רוקד</b><small>מטאטא רובוטי שרוקד בזמן הניקוי</small><ul><li>מנקה חדר ב-15 דקות</li><li>10 ריקודים</li><li>249 ₪</li></ul><p class="wk">⚠️ רועש כמו מיקסר</p></div></div>
+</section>
+<section class="page" id="p-studio" data-label="דף הסטודיו">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · דף הסטודיו</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟢 ספרינט 2 · 17 דקות · AI לתמונות</span><h2>המודעה <span>הכפולה</span></h2></div><p>מתכננים כאן, בונים ב-Slides. אין מחשב? מציירים את שתי המודעות במסגרות, והמדריך מצלם להקרנה.</p></div>
+  <div class="box"><p>📦 המוצר שלנו: <span class="fill l"></span> &nbsp; ⚠️ החולשה: <span class="fill xl"></span></p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box" style="border-color:#bfe3cb"><h3>💚 שקף 1 · המודעה הכנה</h3>
+      <p style="font-size:9.2pt">2 המגנטים שלנו: ☐ פנים ☐ צבע ☐ תנועה ☐ שאלה ☐ מספר ☐ הפתעה</p>
+      <p style="font-size:9.2pt;margin-top:1mm">הכותרת:</p><div class="lines h1"></div>
+      <div class="sketch" data-label="סקיצה (או המודעה עצמה, בלי מחשב)" style="height:84mm;margin-top:2mm"></div>
+      <p style="font-size:9.2pt;margin-top:2mm">🧪 אג״ב: ☐ רק עובדות מהכרטיס ☐ כתוב "פרסומת" ☐ המחיר או החולשה כתובים ☐ כפתור "לא" נראה</p></div>
+    <div class="box" style="border-color:#f2cdbb"><h3>🎭 שקף 2 · המודעה המתוחכמת</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th style="width:14mm">טריק מס׳</th><th>איפה הוא מסתתר במודעה?</th></tr></thead><tbody><tr><td class="e"></td><td></td></tr><tr><td class="e"></td><td></td></tr><tr><td class="e"></td><td></td></tr></tbody></table>
+      <div class="sketch" data-label="סקיצה (או המודעה עצמה, בלי מחשב)" style="height:84mm;margin-top:2mm"></div>
+      <p style="font-size:9.2pt;margin-top:2mm">🤝 חוק הוגנות: אפשר להצביע על כל טריק באצבע? ☐ כן</p></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✓ מפרט לפני הגשה</h3><ul class="check" style="font-size:9.2pt"><li>שקף 1 כנה, שקף 2 מתוחכם, שקף 3 שורת AI</li><li>3 טריקים, וכל אחד נראה</li><li>תמונת AI במודעה הכנה מסומנת "נוצר ב-AI"</li><li>שיתוף: "כל מי שיש לו את הקישור · צופה"</li><li>פתק סודי במעטפה, אצל המדריך</li></ul></div>
+    <div class="box"><h3>💬 הפרומפט לתמונה (אחראי/ת AI)</h3><p style="font-size:8.8pt;color:var(--muted)">מוצר · סגנון · רקע · "בלי טקסט ובלי אנשים"</p><div class="lines h3"></div></div>
+  </div>
+</section>
+<section class="page" id="p-secret" data-label="הפתק הסודי">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · הפתק הסודי</div><div class="r">8 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. המתעד/ת ממלא/ת בסוף ספרינט 2. המדריך משווה לטופס ההגשה ומשתמש בפתק בזמן החשיפה.</p>
+  <div class="cutgrid slips"><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div><div class="slip"><b>🤫 המפתח הסודי</b><p>צוות: <span class="fill"></span> · מוצר: <span class="fill"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><p>טריק מס׳ <span class="fill s"></span> איפה: <span class="fill l"></span></p><small>✉ מקפלים, למעטפה, ומוסרים למדריך. לא מראים לאף צוות!</small></div></div>
+</section>
+<section class="page" id="p-hunt" data-label="דף הציד">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · דף הציד</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎯 תפסו את הטריק</span><h2>דף <span>הציד</span></h2></div><p>45 שניות לכל מודעה. כותבים עד 3 מספרים, וליד כל אחד ראיה במילה אחת. מתייעצים רק בלחש. על המודעה של הצוות שלכם לא כותבים.</p></div>
+  <table class="tb hunt">
+    <thead><tr><th style="width:11mm">סבב</th><th style="width:30mm">הצוות על המסך</th><th>טריק 1: מס׳ + ראיה</th><th>טריק 2: מס׳ + ראיה</th><th>טריק 3: מס׳ + ראיה</th><th style="width:17mm">תפסנו ✓</th></tr></thead>
+    <tbody><tr><td class="lt">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">6</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">7</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lt">8</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🗳️ ההצבעה שלי (כל אחד לבד)</h3><p style="font-size:9.6pt">המודעה הכנה שהכי בא לי ללחוץ עליה, לא של הצוות שלי: <span class="fill"></span></p><p style="font-size:9.6pt;margin-top:2mm">למה? <span class="fill xl"></span></p></div>
+    <div class="box soft"><h3>📊 סיכום הצוות</h3><p style="font-size:9.6pt;line-height:2.2">סה״כ טריקים שתפסנו: <span class="fill s"></span><br>הטריק שהכי קשה היה לתפוס: מס׳ <span class="fill s"></span><br>למה? <span class="fill l"></span></p></div>
+  </div>
+</section>
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>העבודה שלכם</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם בשורה הראשונה. בהגשה: הערכה עצמית בטופס. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:21%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">🔎 ראיות<small>דוח המעבדה</small></td><td>מספרים בלי ראיה</td><td>ראיה לחלק מהמספרים</td><td>ראיה מדויקת לכל מספר, ב-5 מוצגים לפחות</td><td>כמו 3, וגם המוצג הכנה נמצא ויש תיקון כנה למוצג אחד</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">💚 המודעה הכנה<small>אג״ב + מגנטים</small></td><td>טענה לא נכונה, או שלא רואים שזו פרסומת</td><td>נכונה וגלויה, אבל אין בה סיבה לעצור</td><td>עוברת אג״ב (כולל המחיר או החולשה), ויש בה 2 מגנטים</td><td>כמו 3, והחולשה מוצגת בחוכמה (למשל בהומור כנה) כך שעדיין רוצים ללחוץ</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎭 המודעה המתוחכמת<small>3 טריקים</small></td><td>פחות מ-3 טריקים, או טריק שלא רואים</td><td>3 טריקים, אחד לא ברור</td><td>3 טריקים מהארגז, ואפשר להצביע על כל אחד</td><td>כמו 3, ולפחות טריק אחד הוסתר היטב והצוות מסביר איך הוא עובד על הקונה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🤖 שקיפות AI<small>שורת AI</small></td><td>לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI"</td><td>כתוב באיזה כלי ולמה, ותמונת AI במודעה הכנה מסומנת "נוצר ב-AI"</td><td>כמו 3, ומה שינינו אחרי ה-AI, וטעות שלו שתפסנו ותיקנו (למשל טקסט משובש)</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 2: <b>1 = 2 · 2 = 4 · 3 = 6 · 4 = 8</b> נקודות בלוח הניקוד של היום.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: מודעה כנה ל"מסטיק-פיצה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "❓ בא לך פיצה בהפסקה? מסטיק-פיצה · 8 מסטיקים ב-12 ₪ · טעם של פיצה למשך 10 דקות · פרסומת". צבע אדום חזק ושאלה: 2 מגנטים. נכון, גלוי, בלי לחץ.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> אותו דבר, ובפינה: "10 דקות של פיצה. אחר כך? קרטון. לפחות אנחנו כנים 😅". החולשה כתובה, בהומור, והכיתה עדיין רוצה לנסות.</p></div></div>
+</section>
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · שורת AI</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לשקף 3 בקובץ ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1"><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · מוצר: <span class="fill s"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini ☐ Canva ☐ אחר <span class="fill s"></span></span><span>טעות של ה-AI שתיקנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · מוצר: <span class="fill s"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini ☐ Canva ☐ אחר <span class="fill s"></span></span><span>טעות של ה-AI שתיקנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · מוצר: <span class="fill s"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini ☐ Canva ☐ אחר <span class="fill s"></span></span><span>טעות של ה-AI שתיקנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · מוצר: <span class="fill s"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini ☐ Canva ☐ אחר <span class="fill s"></span></span><span>טעות של ה-AI שתיקנו: <span class="fill"></span></span></div></div></div>
+</section>
+<section class="page" id="p-shield" data-label="המגן שלי">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · המגן שלי</div><div class="r">4 בעמוד · 1 לתלמיד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור. כל הצוות מילא מגן וכרטיס יציאה = 2 נקודות.</p>
+  <div class="cutgrid shields"><div class="shc"><div class="shtop"><b>🛡️ המגן של</b><span class="fill"></span></div><ol class="abc"><li><i>א</i>זה אמת? אפשר לבדוק?</li><li><i>ג</i>כתוב שזו פרסומת?</li><li><i>ב</i>יש לי זמן ובחירה?</li></ol><p class="sel">בוחרים 2 שאלות לטריקים שהכי עובדים עליי:</p><div class="qs"><span>☐ ⏰ מה יקרה אם אחכה יום?</span><span>☐ 📦 איך אני יודע/ת שזה נכון?</span><span>☐ 🐑 מי ספר? ולמה זה משנה לי?</span><span>☐ ⭐ יש גם ביקורות עם פרטים וחסרונות?</span><span>☐ 🤳 קיבל/ה משהו בתמורה?</span><span>☐ 🎭 מי כתב את זה, ומה הוא מוכר?</span><span>☐ 🪄 ככה זה נראה באמת?</span><span>☐ 🔍 מה כתוב בקטן?</span><span>☐ 😱 איזה רגש מנסים להדליק בי?</span><span>☐ 🪤 איפה כפתור ה"לא"?</span></div><p class="rule">📜 הכלל שלי:</p><div class="lines h2"></div><p class="fine">🔴 כל אחד לבד, בלי AI · שומרים בכיס, בתיק או ליד הטלפון</p></div><div class="shc"><div class="shtop"><b>🛡️ המגן של</b><span class="fill"></span></div><ol class="abc"><li><i>א</i>זה אמת? אפשר לבדוק?</li><li><i>ג</i>כתוב שזו פרסומת?</li><li><i>ב</i>יש לי זמן ובחירה?</li></ol><p class="sel">בוחרים 2 שאלות לטריקים שהכי עובדים עליי:</p><div class="qs"><span>☐ ⏰ מה יקרה אם אחכה יום?</span><span>☐ 📦 איך אני יודע/ת שזה נכון?</span><span>☐ 🐑 מי ספר? ולמה זה משנה לי?</span><span>☐ ⭐ יש גם ביקורות עם פרטים וחסרונות?</span><span>☐ 🤳 קיבל/ה משהו בתמורה?</span><span>☐ 🎭 מי כתב את זה, ומה הוא מוכר?</span><span>☐ 🪄 ככה זה נראה באמת?</span><span>☐ 🔍 מה כתוב בקטן?</span><span>☐ 😱 איזה רגש מנסים להדליק בי?</span><span>☐ 🪤 איפה כפתור ה"לא"?</span></div><p class="rule">📜 הכלל שלי:</p><div class="lines h2"></div><p class="fine">🔴 כל אחד לבד, בלי AI · שומרים בכיס, בתיק או ליד הטלפון</p></div><div class="shc"><div class="shtop"><b>🛡️ המגן של</b><span class="fill"></span></div><ol class="abc"><li><i>א</i>זה אמת? אפשר לבדוק?</li><li><i>ג</i>כתוב שזו פרסומת?</li><li><i>ב</i>יש לי זמן ובחירה?</li></ol><p class="sel">בוחרים 2 שאלות לטריקים שהכי עובדים עליי:</p><div class="qs"><span>☐ ⏰ מה יקרה אם אחכה יום?</span><span>☐ 📦 איך אני יודע/ת שזה נכון?</span><span>☐ 🐑 מי ספר? ולמה זה משנה לי?</span><span>☐ ⭐ יש גם ביקורות עם פרטים וחסרונות?</span><span>☐ 🤳 קיבל/ה משהו בתמורה?</span><span>☐ 🎭 מי כתב את זה, ומה הוא מוכר?</span><span>☐ 🪄 ככה זה נראה באמת?</span><span>☐ 🔍 מה כתוב בקטן?</span><span>☐ 😱 איזה רגש מנסים להדליק בי?</span><span>☐ 🪤 איפה כפתור ה"לא"?</span></div><p class="rule">📜 הכלל שלי:</p><div class="lines h2"></div><p class="fine">🔴 כל אחד לבד, בלי AI · שומרים בכיס, בתיק או ליד הטלפון</p></div><div class="shc"><div class="shtop"><b>🛡️ המגן של</b><span class="fill"></span></div><ol class="abc"><li><i>א</i>זה אמת? אפשר לבדוק?</li><li><i>ג</i>כתוב שזו פרסומת?</li><li><i>ב</i>יש לי זמן ובחירה?</li></ol><p class="sel">בוחרים 2 שאלות לטריקים שהכי עובדים עליי:</p><div class="qs"><span>☐ ⏰ מה יקרה אם אחכה יום?</span><span>☐ 📦 איך אני יודע/ת שזה נכון?</span><span>☐ 🐑 מי ספר? ולמה זה משנה לי?</span><span>☐ ⭐ יש גם ביקורות עם פרטים וחסרונות?</span><span>☐ 🤳 קיבל/ה משהו בתמורה?</span><span>☐ 🎭 מי כתב את זה, ומה הוא מוכר?</span><span>☐ 🪄 ככה זה נראה באמת?</span><span>☐ 🔍 מה כתוב בקטן?</span><span>☐ 😱 איזה רגש מנסים להדליק בי?</span><span>☐ 🪤 איפה כפתור ה"לא"?</span></div><p class="rule">📜 הכלל שלי:</p><div class="lines h2"></div><p class="fine">🔴 כל אחד לבד, בלי AI · שומרים בכיס, בתיק או ליד הטלפון</p></div></div>
+</section>
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · כרטיס יציאה</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות <bdi dir="ltr" style="white-space:nowrap">84–88</bdi>, כל אחד לבד, אחרי כרטיס המגן.</p>
+  <div class="cutgrid exits"><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הפרסומות</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">שאלת השיעור: מה ההבדל בין שכנוע למניפולציה? תנו דוגמה.</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>ראיות</span><span>רעיונות</span><span>בנייה</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הפרסומות</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">שאלת השיעור: מה ההבדל בין שכנוע למניפולציה? תנו דוגמה.</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>ראיות</span><span>רעיונות</span><span>בנייה</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הפרסומות</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">שאלת השיעור: מה ההבדל בין שכנוע למניפולציה? תנו דוגמה.</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>ראיות</span><span>רעיונות</span><span>בנייה</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הפרסומות</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">שאלת השיעור: מה ההבדל בין שכנוע למניפולציה? תנו דוגמה.</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>ראיות</span><span>רעיונות</span><span>בנייה</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div></div>
+</section>
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · אותן עמודות כמו בלוח הניקוד שבמצגת</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. הלוח במצגת הוא התצוגה לכיתה, והדף הזה הוא הגיבוי.</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:15mm">צוות</th><th>מעבדה<br><small>1 לכל</small></th><th>כנה<br><small>2</small></th><th>תיקון<br><small>2</small></th><th>הגשה<br><small>3</small></th><th>מחוון<br><small><bdi dir="ltr" style="white-space:nowrap">2–8</bdi></small></th><th>תפסנו<br><small>1 לכל</small></th><th>לא נתפס<br><small>עד 3</small></th><th>הצבעה<br><small>3/2/1</small></th><th>מגן<br><small>2</small></th><th>צד<br><small>עד 2</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:11mm">מקום</th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🎯 תפסו את הטריק: ספירה לכל סבב</h3><p style="font-size:8.8pt;color:var(--muted)">בכל טריק כותבים כמה צוותים תפסו אותו. פחות מחצי מהצוותים האחרים (למשל <bdi dir="ltr" style="white-space:nowrap">0–2</bdi> מתוך 6) = נקודה ליוצרים, אם הטריק באמת נראה.</p>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:12mm">סבב</th><th style="width:26mm">צוות יוצר</th><th>טריק א: מס׳ · כמה תפסו</th><th>טריק ב: מס׳ · כמה תפסו</th><th>טריק ג: מס׳ · כמה תפסו</th><th style="width:22mm">נק׳ ליוצרים</th></tr></thead><tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ נקודת ביקורת (דקה 42): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 תארים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🏆 אלופים: <span class="fill s"></span></p><p>🦅 עין הנץ: <span class="fill s"></span></p><p>🎭 הסוואה: <span class="fill s"></span></p><p>💚 כנים: <span class="fill s"></span></p></div></div>
+  </div>
+</section>
+<section class="page" id="p-key" data-label="מפתח תשובות">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · מפתח תשובות</div><div class="r">למדריך · לא לחלק</div></div>
+  <div class="pt"><div><span class="kick">🗝️ למדריך · פתרון התיק</span><h2>מפתח <span>התשובות</span></h2></div><p>מספר נספר רק עם ראיה שמתאימה לו. עד 3 מספרים למוצג. מקסימום במעבדה: 20 נקודות טריקים + 2 על המוצג הכנה + 2 על תיקון כנה.</p></div>
+  <table class="tb keyt">
+    <thead><tr><th style="width:10mm">מוצג</th><th style="width:38mm">מה זה</th><th style="width:24mm">טריקים</th><th>הראיות (בסדר המספרים)</th><th style="width:16mm">א · ג · ב</th></tr></thead>
+    <tbody><tr><td class="lt">A</td><td><b>ג׳ט-שוז · מבצע בזק</b></td><td class="kc">1 · 2 · 3</td><td>שעון שחוזר ל-04:59 · "נשארו רק 3", גם למחרת · "2,341 צופים"</td><td class="kc">✗ ✓ ✗</td></tr><tr><td class="lt">B</td><td><b>נוי_גיימינג · האוזניות</b></td><td class="kc">5 · 9 · 3</td><td>מתנה + תשלום + קוד NOY20 בלי "ממומן" · "אל תישארו בחוץ", "שינו לי את החיים" · "כל החברים שלי כבר קנו"</td><td class="kc">✗ ✗ ✗</td></tr><tr><td class="lt">C</td><td><b>"חדשות היום" · קריספי-מוח</b></td><td class="kc">6 · 8</td><td>נראית ככתבת חדשות "מאת מערכת הבריאות" · "תוכן שיווקי" קטן ואפור. (גם: "40%" בלי מקור)</td><td class="kc">✗ ✗ ✓</td></tr><tr><td class="lt">D</td><td><b>דרקון-סיטי · חנות האפליקציות</b></td><td class="kc">4 · 7 · 3</td><td>3 ביקורות כמעט זהות מאותו יום · תמונות שלא דומות למשחק · "מיליון הורדות השבוע!"</td><td class="kc">✗ ✓ ✓</td></tr><tr><td class="lt">E</td><td><b>גלילון פלוס · 7 ימים חינם</b></td><td class="kc">10 · 9 · 8</td><td>"כן" ענק מול "לא" זעיר + תיבה מסומנת · "אני אוהב/ת להפסיד" · 39.90 ₪ בקטן, ביטול בטלפון</td><td class="kc">✗ ✓ ✗</td></tr><tr><td class="lt">F</td><td><b>בורגר-על</b></td><td class="kc">7 · 8</td><td>בורגר ענק בתמונה, חצי בקופסה · "להמחשה בלבד", משלוח 18 ₪ בקטן</td><td class="kc">✗ ✓ ✓</td></tr><tr><td class="lt">G</td><td><b>"לא תאמינו מה קרה במיקרוגל"</b></td><td class="kc">9 · 6 · 3 · 1</td><td>"לא תאמינו!!" ו-😱 · סרטון "ניסוי" שהוא פרסומת · "כל הכיתה שלך כבר הזמינה" · "רק היום 1+1" (רק 3 נספרים)</td><td class="kc">✗ ✗ ✗</td></tr><tr><td class="lt">H</td><td><b>זרם · בקבוק מים</b></td><td class="kc">כנה (0)</td><td>אמת: מספרים שאפשר לבדוק + "במבחן שלנו" · גלוי: "ממומן · פרסומת" · בחירה: "לא עכשיו" באותו גודל. ביקורת עם חיסרון = סימן לאמינות</td><td class="kc">✓ ✓ ✓</td></tr><tr><td class="lt">I</td><td><b>פרוותי · שמפו לכלבים</b></td><td class="kc">7 · 3</td><td>תמונת AI: 5 רגליים, טקסט משובש, צל לכיוון השמש, זנב שנבלע בבקבוק · "100% מהכלבים אהבו"</td><td class="kc">✗ ✓ ✓</td></tr></tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⚖️ תשובות גבוליות: מקבלים אם יש ראיה טובה</h3><ul class="clean" style="font-size:9.2pt"><li><b>A + 9:</b> "קנו עכשיו, לפני שייגמר!" כלחץ רגשי.</li><li><b>B + 7:</b> רק אם הצוות מסביר שהתמונה נראית מושלמת מדי.</li><li><b>C + 3:</b> "המומחים" ו"התוצאות הדהימו אותנו".</li><li><b>F + 3:</b> "הבורגר הכי גדול בעיר!" כהגזמה בלי מקור.</li><li><b>I + 8:</b> הטענה "תוצאות תוך יום" בלי שום הסבר.</li><li><b>H:</b> טריק שנמצא ב-H לא נספר. הסבירו למה זו פרסומת כנה.</li></ul></div>
+    <div class="box soft"><h3>💡 משפטים לחשיפה</h3><ul class="clean" style="font-size:9.2pt"><li>"מי מצא את טריק 1? הרימו יד. מה הראיה?"</li><li>"מי חשב שזה טריק אחר? למה?"</li><li>"עכשיו אג״ב: איזו אות נכשלה?"</li><li>ב-H: "מי מצא כאן טריקים? מה גרם לכם לחשוד?"</li></ul></div>
+  </div>
+</section>
+<!-- ===================== 1. ROLE CARDS (4) ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · כרטיסי תפקיד</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ רק אם לכיתה עוד אין כרטיסי תפקיד: להדפיס על בריסטול ולגזור. מה כל תפקיד עושה היום כתוב בכרטיס המשימה.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🧭</span><div><b>מנכ״ל/ית</b><small>מחזיק/ה את המצפן</small></div></div>
+      <p class="mis">המשימה שלי: שהצוות מתחיל מהר, שכולם יודעים מה הם עושים ושעומדים בזמן. אני מתאם/ת, לא בוס.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מקריא/ה בקול את כרטיס המשימה, ובודק/ת שכל אחד יודע מה התפקיד שלו.</li><li>שומר/ת על הטיימר: "נשארו 5 דקות".</li><li>דואג/ת שכל אחד ידבר בכל שלב.</li><li>בוויכוח: "כל אחד 30 שניות, ואז מחליטים."</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכל הצוות ניסה.</li></ul>
+      <div class="say">💬 "מה המטרה שלנו עכשיו?" · "עוד לא שמענו את ___." · "בואו נחליט ונתקדם."</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא עושה את העבודה במקום אחרים.</p>
+      <p class="bonus">✓ הצלחתי כש: כל חברי הצוות דיברו בהצגה, והגשנו בזמן</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">🔍</span><div><b>חוקר/ת</b><small>העובדות והמקורות</small></div></div>
+      <p class="mis">המשימה שלי: שאנחנו עונים על השאלה הנכונה, ושכל מה שאנחנו אומרים נכון.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מוביל/ה ראיונות, סקרים וחיפוש מידע.</li><li>רושם/ת ציטוטים מדויקים, לא סיכומים.</li><li>בודק/ת כל עובדה ומספר, גם מה שה-AI כתב, במקור נוסף.</li><li>כשהצוות מתלהב: "איך אנחנו יודעים שזה נכון?"</li></ul>
+      <div class="say">💬 "זה נתון או ניחוש?" · "מה הוא אמר בדיוק?" · "מאיפה המספר הזה?"</div>
+      <p class="no">✗ לא ממציא/ה תשובה, ציטוט או מספר.</p>
+      <p class="bonus">✓ הצלחתי כש: תפסנו טעות (גם של ה-AI) והראינו מקור</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">🛠️</span><div><b>בונה</b><small>מרעיון למשהו שאפשר לנסות</small></div></div>
+      <p class="mis">המשימה שלי: להפוך רעיונות לסקיצה, לאב-טיפוס, לשקף, לאתר או לאפליקציה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>"נהג/ת" של המכשיר בבנייה, ומעביר/ה את המקלדת לפי הסבב.</li><li><b>רק אני</b> לוקח/ת חומרים, ומחזיר/ה אותם לארגז בסוף.</li><li>שואל/ת: "מה הדבר הכי קטן שאפשר לבנות כדי לבדוק?"</li><li>בונה מהר ומחוספס: "מספיק טוב כדי לבדוק."</li></ul>
+      <div class="say">💬 "בואו נשרטט במקום להתווכח." · "מה נבדוק קודם?" · "זה עובד? בואו ננסה."</div>
+      <p class="no">✗ לא בונה לבד בלי לשאול את הצוות.</p>
+      <p class="bonus">✓ הצלחתי כש: מישהו מצוות אחר השתמש בתוצר בלי הסבר</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">🎤</span><div><b>מציג/ה ומתעד/ת</b><small>הזיכרון והקול של הצוות</small></div></div>
+      <p class="mis">המשימה שלי: לשמור את מה שהצוות החליט ועשה, ולהגיש אותו.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>כותב/ת את ההחלטות ואת התוצר בקובץ הצוות.</li><li>בנקודת הביקורת: "סיימנו ___, תקועים ב___."</li><li><b>מגיש/ה</b> בטופס, עם שם הקובץ הנכון.</li><li>מארגן/ת את ההצגה: מי אומר מה ומתי.</li><li>מחזיק/ה את מעטפת הצוות, ומכניס/ה אליה את הדפים.</li></ul>
+      <div class="say">💬 "כולם רשמו?" · "מה ההחלטה הסופית? אני כותב/ת." · "אני פותח/ת, ואז ___."</div>
+      <p class="no">✗ לא מגיש/ה בלי שהצוות ראה את התוצר הסופי.</p>
+      <p class="bonus">✓ הצלחתי כש: ההגשה נכנסה בזמן, וההצגה עמדה בזמן</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS (AI + rotation + norms + sizes) ===================== -->
+<section class="page" id="p-roles2" data-label="תפקיד AI וסבב">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הפרסומות · כרטיסי תפקיד, המשך</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, כרטיס הסבב וכרטיס הנורמות. שלושתם נשארים בארגז הצוות.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🤖</span><div><b>אחראי/ת AI</b><small>שותף חכם, לא מכונת תשובות</small></div></div>
+      <p class="mis">המשימה שלי: שהצוות משתמש ב-AI בחוכמה, בודק אותו, ואומר בגלוי מה ה-AI עשה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מזכיר/ה את הרמזור: 🔴 בלי AI · 🟡 רעיונות וטיוטות · 🟢 שותף שבודקים.</li><li>מנסח/ת את הפרומפט: תפקיד, משימה, פרטים, פורמט.</li><li>ממלא/ת בהגשה את שורת ה-AI: <b>מה ה-AI עשה · מה אנחנו עשינו</b>.</li><li>טיפ פרטיות: בלי פרטים אישיים ובלי תמונות של אנשים אמיתיים.</li></ul>
+      <div class="say">💬 "מה אנחנו לא מסכימים איתו?" · "בדקנו במקום נוסף?" · "איזה פרומפט נתן את זה?"</div>
+      <p class="no">✗ לא מעתיק/ה את התשובה הראשונה כמו שהיא.</p>
+      <p class="bonus">✓ הצלחתי כש: שינינו ושיפרנו את מה שה-AI הציע, ויודעים להסביר מה</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">🔄</span><div><b>כרטיס הסבב</b><small>כל אחד עובר בכל התפקידים</small></div></div>
+      <table class="tb" style="font-size:8.6pt">
+        <thead><tr><th>שיעור</th><th>🧭</th><th>🔍</th><th>🛠️</th><th>🎤</th><th>🤖</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.8pt;color:var(--muted)">כותבים שם פרטי בכל משבצת. בצוות של 4: הבונה לוקח/ת גם את ה-AI. בצוות של 3: המנכ״ל/ית לוקח/ת גם את התיעוד.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות הצוות</b><small>חלות על כולם, בכל שיעור</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל הצוות סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את הצוות לפני שקוראים למדריך, ורק המנכ״ל/ית קורא/ת.</li>
+      </ol>
+      <p class="bonus">🤝 צוות ששומר על הנורמות מועמד לתואר "רוח צוות"</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>חושבים לבד: סיעור ראשון, רפלקציה, כרטיס יציאה.</div>
+        <div class="y"><b>🟡 AI לרעיונות ולטיוטות</b>ה-AI מציע, ואנחנו מחליטים ועורכים.</div>
+        <div class="g"><b>🟢 AI כשותף</b>בונים איתו, ותמיד בודקים מה הוא עשה.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט לא כותבים פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+  </div>
+</section>
+
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

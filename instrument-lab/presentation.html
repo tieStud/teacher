@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>מעבדת הכלים המומצאים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== מעבדת הכלים המומצאים · lesson-specific additions (kit engine styles above are untouched) · light theme ===== */
+:root{--gold:#e3a82b;--gold-ink:#8a5300;--gold-soft:#fdf5e1}
+.topline{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.light{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font:700 16px var(--display);border:1px solid}
+.light.r{background:#fdebe3;border-color:#f2cdbb;color:#9a3412}.light.y{background:#fdf3d7;border-color:#f0dcaa;color:#854d0e}.light.g{background:#e7f6ec;border-color:#bfe3cb;color:#166534}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}.cards.five .card{padding:16px}.cards.five .card p{font-size:16px}.cards.five .card strong{font-size:20px}
+.card .who{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:16px;color:var(--ink);line-height:1.45}
+.card .who b{color:var(--accent-ink)}
+.punch{margin-top:18px;max-width:1150px;border-radius:18px;padding:14px 22px;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft);font:700 clamp(19px,2.1vw,28px) var(--display);color:var(--ink);line-height:1.38}
+.punch b{color:var(--accent-ink)}
+.note{margin-top:12px;color:var(--muted);font-size:17px;max-width:1100px}
+.slide.tight h2{font-size:clamp(32px,4.2vw,60px);margin:12px 0 10px}
+.slide .tableWrap{flex-shrink:0}
+/* play buttons (sound) */
+.play{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:7px 15px;font:700 16px var(--display);transition:.15s}
+.play:hover{background:#fff;box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.play.on{background:var(--accent-ink);color:#fff;border-color:var(--accent-ink)}
+.play.big{font-size:20px;padding:11px 22px}
+.soundTip{display:inline-flex;align-items:center;gap:6px;color:var(--dim);font-size:15px;font-weight:700}
+/* ---------- hero: museum plaque ---------- */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:34px;align-items:center;max-width:1260px}
+.plaque{position:relative;border-radius:26px;padding:26px 26px 22px;background:linear-gradient(180deg,#fffdf7,#fff8ea);border:1px solid #efdcae;box-shadow:var(--shadow-lg);text-align:center}
+.plaque::before{content:"";position:absolute;inset:10px;border:1.5px solid #ead19a;border-radius:18px;pointer-events:none}
+.plaque .pk{display:inline-block;font:700 14px var(--display);letter-spacing:.06em;color:var(--gold-ink);background:#fff;border:1px solid #efdcae;border-radius:999px;padding:3px 13px}
+.plaque b{display:block;font:800 clamp(26px,2.6vw,38px) var(--display);margin:12px 0 4px;color:var(--ink);line-height:1.15}
+.plaque p{margin:0 0 12px;color:var(--muted);font-size:17px}
+.eq{display:flex;align-items:flex-end;justify-content:center;gap:6px;height:92px;margin:6px 0 14px}
+.eq i{display:block;width:13px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--c,#8c7ae6),color-mix(in srgb,var(--c,#8c7ae6) 45%,#fff));height:30%;animation:eqb 1.6s ease-in-out infinite;animation-delay:calc(var(--d) * -0.17s)}
+.eq i:nth-child(4n+1){--c:#8c7ae6}.eq i:nth-child(4n+2){--c:#e76f86}.eq i:nth-child(4n+3){--c:#f4a259}.eq i:nth-child(4n+4){--c:#5bb5a2}
+.eq.loud i{animation-duration:.55s}
+@keyframes eqb{0%,100%{height:22%}50%{height:96%}}
+/* ---------- theremin svg + vote ---------- */
+.mystery{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.3fr);gap:24px;align-items:center;max-width:1240px;margin-top:6px}
+.mystery .art{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#fff,#faf7f1);box-shadow:var(--shadow);padding:10px}
+.mystery .art svg{display:block;width:100%;height:auto;max-height:330px}
+.mystery .vote{grid-template-columns:1fr 1fr;margin-top:0}
+.mystery .voteItem{padding:12px}.mystery .voteItem .emoji{font-size:30px}.mystery .voteItem strong{font-size:18.5px;margin:4px 0 8px;line-height:1.3}
+/* ---------- theremin pad ---------- */
+.thereGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;align-items:stretch;max-width:1240px;margin-top:8px}
+.thereGrid .revealList{margin-top:0;align-content:start}
+.pad{position:relative;min-height:300px;border-radius:24px;border:1px solid var(--line);overflow:hidden;cursor:crosshair;touch-action:none;user-select:none;
+ background:linear-gradient(90deg,#f3f0ff 0%,#fdf2f5 60%,#fff4e8 100%);box-shadow:var(--shadow)}
+.pad::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 100%);pointer-events:none}
+.pad .rod{position:absolute;left:18px;top:16px;bottom:16px;width:8px;border-radius:6px;background:linear-gradient(90deg,#9aa3ad,#dfe3e8,#8b939c);z-index:1}
+.pad .rodL{position:absolute;left:34px;top:12px;font:700 14px var(--display);color:var(--muted);z-index:1}
+.pad .loop{position:absolute;right:30px;left:60px;bottom:14px;height:16px;border:5px solid #a3abb4;border-radius:999px;z-index:1}
+.pad .loopL{position:absolute;right:30px;bottom:38px;font:700 14px var(--display);color:var(--muted);z-index:1}
+.pad .dot{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:radial-gradient(circle,#fff 0 22%,var(--violet) 24% 60%,transparent 62%);box-shadow:0 0 0 8px rgba(140,122,230,.18);z-index:2;opacity:0;transition:opacity .2s}
+.pad.on .dot{opacity:1}
+.pad .padMsg{position:absolute;inset:auto 0 50% 0;transform:translateY(50%);text-align:center;font:800 clamp(20px,2.2vw,30px) var(--display);color:var(--violet-ink);z-index:2;pointer-events:none}
+.pad.on .padMsg{display:none}
+.meters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.meter{flex:1;min-width:180px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:8px 12px;font:700 15px var(--display);color:var(--muted)}
+.meter .mb{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:6px}.meter .mb i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--violet),var(--rose));transition:width .08s}
+/* ---------- url pill ---------- */
+.url{display:inline-block;margin-top:6px;padding:8px 18px;border-radius:14px;background:#fff;border:2px solid var(--accent-line);font:800 clamp(20px,2.3vw,32px) var(--display);direction:ltr;unicode-bidi:isolate;color:var(--accent-ink)}
+/* ---------- sprint layout ---------- */
+.sprint{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start;max-width:1230px;margin-top:6px}
+.sprint .task{margin-top:12px}
+.side{display:grid;gap:10px;margin-top:12px}
+.side .timer{width:100%;justify-content:center;margin-top:0;flex-wrap:wrap}
+.side .timer output{font-size:clamp(40px,4.4vw,62px)}
+.mile{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px 14px;font-size:16.5px;line-height:1.4;box-shadow:var(--shadow-sm)}
+.mile b{color:var(--accent-ink)}
+/* ---------- slot machine (inspiration card) ---------- */
+.machine{margin-top:14px;max-width:1220px;border-radius:26px;padding:16px;border:1px solid var(--line);background:linear-gradient(180deg,#f6f3ff,#fffdf9);box-shadow:var(--shadow),inset 0 5px 0 var(--violet)}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.slot{--sc:var(--violet);position:relative;min-height:170px;border-radius:20px;border:1px solid color-mix(in srgb,var(--sc) 35%,#fff);background:#fff;box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column}
+.slot[data-kind=mat]{--sc:var(--sky)}.slot[data-kind=move]{--sc:var(--rose)}.slot[data-kind=place]{--sc:var(--mint)}
+.slot .lbl{padding:8px 14px;font:700 18px var(--display);color:color-mix(in oklab,var(--sc) 55%,#1f2a37);background:color-mix(in srgb,var(--sc) 12%,#fff);border-bottom:1px solid color-mix(in srgb,var(--sc) 25%,#fff);text-align:center}
+.slot .win{position:relative;flex:1;display:grid;place-items:center}
+.slot .win::before{content:"?";position:absolute;inset:0;display:grid;place-items:center;font:800 84px var(--display);color:color-mix(in srgb,var(--sc) 30%,#fff)}
+.slotVal{position:relative;z-index:1;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:#fff;padding:10px}
+.slotVal.show{display:flex}
+.slotVal .e{font-size:54px;line-height:1.1}
+.slotVal .v{font:800 clamp(22px,2.3vw,32px) var(--display);color:var(--ink);text-align:center;line-height:1.15}
+.slot.spinning .slotVal{animation:roll .12s linear infinite}
+@keyframes roll{0%{transform:translateY(-8px);filter:blur(1.5px)}100%{transform:translateY(8px);filter:blur(1.5px)}}
+.slot.landed{animation:pop .35s ease}
+@keyframes pop{50%{transform:scale(1.04)}}
+.machineBar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+.machineBar .hint{color:var(--muted);font-size:17px}
+.exLine{margin-top:12px;max-width:1220px;border-radius:16px;padding:11px 18px;border:1px solid #bfe3cb;background:var(--good-bg);font-size:clamp(17px,1.75vw,22px);line-height:1.45;color:#14532d}
+.exLine b{color:var(--good)}
+/* ---------- sound property cards ---------- */
+.props .card{display:flex;flex-direction:column;gap:6px}
+.props .card .play{align-self:flex-start;margin-top:auto}
+.props .card .vs{font-size:16px;color:var(--ink);background:var(--paper2);border-radius:10px;padding:6px 10px;margin:4px 0 6px}
+/* ---------- ear quiz ---------- */
+.ear{display:grid;gap:12px;margin-top:16px;max-width:1220px}
+.earRow{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:12px 16px;background:#fff;box-shadow:var(--shadow-sm);transition:.2s}
+.earRow .n{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:800 19px var(--display);color:#fff;background:var(--accent-ink)}
+.earRow .pair{display:flex;gap:8px}
+.earRow .opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.earRow .opts button{border:1px solid var(--line);border-radius:12px;padding:8px 14px;background:var(--paper);font-weight:700;font-size:17px;color:var(--ink);transition:.15s}
+.earRow .opts button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.earRow .opts button.right{background:var(--good);border-color:var(--good);color:#fff}
+.earRow .opts button.wrong{background:var(--bad-bg);border-color:#efb69b;color:var(--bad);animation:shake .35s}
+.earRow .why{grid-column:1/-1;display:none;font-size:17px;color:#14532d;background:var(--good-bg);border-radius:12px;padding:8px 12px}
+.earRow.done{border-color:#86cfa0}.earRow.done .why{display:block}
+/* ---------- formula: what makes an instrument ---------- */
+.formula{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch;margin-top:18px;max-width:1220px}
+.formula .op{display:grid;place-items:center;font:800 40px var(--display);color:var(--accent-ink)}
+.formula .card{text-align:center}.formula .card .emoji{width:66px;height:66px;font-size:36px;border-radius:20px}
+.instTable{margin-top:14px}
+/* ---------- case: years ---------- */
+.caseGrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start;max-width:1240px}
+.years{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.yr{border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:18px;background:#fff;padding:11px 16px;box-shadow:var(--shadow-sm)}
+.yr b{display:block;font:800 26px var(--display);color:var(--accent-ink);line-height:1.1}
+.yr p{margin:5px 0 0;font-size:17.5px;line-height:1.45;color:var(--ink)}
+.caseArt{border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:12px;margin:12px 0 0}
+.caseArt svg{display:block;width:100%;height:auto}
+.caseArt figcaption{font-size:14px;color:var(--muted);text-align:center;margin-top:4px}
+/* ---------- numbered heads picker ---------- */
+.picker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:12px;margin-top:14px;padding:8px 10px 8px 16px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-sm)}
+.picker output{min-width:56px;text-align:center;font:800 40px var(--display);color:var(--accent-ink)}
+.picker span{color:var(--muted);font-size:16px;max-width:360px;line-height:1.35}
+/* ---------- planning sheet mock ---------- */
+.planSheet{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:18px;margin-top:12px;max-width:1240px;border:1px solid var(--line);border-radius:22px;padding:16px;background:#fff;box-shadow:var(--shadow);position:relative}
+.planSheet::before{content:"דף התכנון · מעבדת הזוהר";position:absolute;top:-13px;right:22px;background:var(--accent-ink);color:#fff;font:700 14px var(--display);border-radius:999px;padding:3px 12px}
+.planSheet .draw{border:1.5px dashed var(--line);border-radius:16px;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 18px),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 18px);padding:8px;display:flex;flex-direction:column;gap:8px}
+.planSheet .draw svg{width:100%;height:auto;max-height:200px}
+.planSheet .how{font-size:16.5px;line-height:1.45;color:var(--ink);background:var(--paper);border-radius:12px;padding:8px 12px}
+.planSheet .how b{color:var(--accent-ink)}
+table.ctl{font-size:clamp(15px,1.4vw,18px)}table.ctl th,table.ctl td{padding:6px 12px}
+table.ctl td:first-child{font:800 18px var(--display);color:var(--accent-ink);text-align:center;width:70px}
+/* ---------- crystal waterfall (playable) ---------- */
+.crystal{direction:ltr;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;align-items:end;height:290px;max-width:1150px;margin-top:16px;padding:16px 18px 14px;border-radius:24px;border:1px solid var(--line);
+ background:linear-gradient(180deg,#f7f5ff,#fff 65%);box-shadow:var(--shadow)}
+.crystal button{--c:#8c7ae6;position:relative;height:var(--h);border:0;border-radius:16px 16px 10px 10px;cursor:pointer;
+ background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#fff),color-mix(in srgb,var(--c) 55%,#fff));
+ box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--c) 45%,#fff),inset 8px 0 0 rgba(255,255,255,.55),var(--shadow-sm);transition:transform .12s,box-shadow .12s,filter .12s;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:10px;color:var(--ink)}
+.crystal button .k{font:800 26px var(--display);width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+.crystal button .nm{font:700 15px var(--display);margin-top:6px;color:color-mix(in oklab,var(--c) 50%,#1f2a37)}
+.crystal button.hit{transform:translateY(-6px) scale(1.03);filter:saturate(1.6) brightness(1.04);box-shadow:inset 0 0 0 2px var(--c),0 0 0 6px color-mix(in srgb,var(--c) 22%,transparent),0 14px 30px -8px color-mix(in srgb,var(--c) 60%,transparent)}
+.crystalBar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+.crystalBar .hint{color:var(--muted);font-size:17px}
+/* ---------- prompt + copy ---------- */
+.prompt{position:relative;padding-left:120px}
+.prompt:has(.ptag)::before{content:none}
+.prompt.small{font-size:clamp(16px,1.55vw,20.5px)}
+.prompt .ptag{display:block;font:700 15px var(--display);color:var(--accent-ink);margin-bottom:2px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.src{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.src span{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:15.5px;font-weight:700;color:var(--ink);box-shadow:var(--shadow-sm)}
+.src span i{font-style:normal;color:var(--accent-ink)}
+/* ---------- graphic scores ---------- */
+.score{position:relative;margin-top:14px;max-width:1220px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:12px 14px 10px;overflow:hidden}
+.score svg{display:block;width:100%;height:auto}
+.scoreBar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+.scoreBar .hint{color:var(--muted);font-size:16.5px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;max-width:1220px}
+.legend span{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:16px;font-weight:700;color:var(--ink);box-shadow:var(--shadow-sm)}
+.legend svg{width:30px;height:20px}
+.lane-on{animation:laneOn .25s ease}
+@keyframes laneOn{50%{transform:scale(1.25)}}
+.compare .box svg{display:block;width:100%;height:auto;margin-top:6px}
+/* ---------- spec checklist ---------- */
+.spec{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;max-width:1150px}
+.spec li{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px 18px;font-size:clamp(16.5px,1.7vw,22px);box-shadow:var(--shadow-sm)}
+.spec li span::before{content:"☐ ";color:var(--accent-ink);font-weight:800}
+.spec li em{font-style:normal;flex:none;font:800 17px var(--display);color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:999px;padding:3px 12px}
+.linkRow{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+.linkRow .lbl{font:700 18px var(--display);color:var(--muted)}
+.linkBox{display:inline-block;min-width:380px;max-width:100%;padding:8px 16px;border:2px dashed var(--accent-line);border-radius:14px;background:#fff;font:800 clamp(22px,2.4vw,32px) var(--display);direction:ltr;unicode-bidi:isolate;color:var(--accent-ink);outline:none}
+.linkBox:empty::before{content:attr(data-ph);color:var(--dim);font:600 17px var(--body);direction:rtl;unicode-bidi:isolate}
+.linkBox:focus{border-style:solid;border-color:var(--accent)}
+.fname{display:inline-block;padding:6px 14px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font:700 18px var(--display);color:var(--ink)}
+/* ---------- concert steps + stage clock ---------- */
+.fairSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px;max-width:1220px}
+.fairSteps div{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px;box-shadow:var(--shadow);text-align:center}
+.fairSteps .em{display:block;font-size:34px;line-height:1.2}
+.fairSteps .n{display:block;font:800 26px var(--display);color:var(--accent-ink)}
+.fairSteps p{margin:4px 0 0;font-size:17.5px;color:var(--ink);line-height:1.4}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:center;max-width:1240px;margin-top:8px}
+.stageName{display:block;min-height:1.2em;font:800 clamp(38px,5vw,72px) var(--display);color:var(--ink);border-bottom:3px dashed var(--line);outline:none;line-height:1.15}
+.stageName:empty::before{content:attr(data-ph);color:var(--dim)}
+.stageName:focus{border-bottom-color:var(--accent)}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.phase{border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px 12px;box-shadow:var(--shadow-sm);transition:.25s}
+.phase b{display:block;font:800 18px var(--display);color:var(--ink)}
+.phase small{display:block;color:var(--muted);font-size:14.5px;line-height:1.35}
+.phase .bar{height:8px;margin-top:8px}
+.phase.now{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.phase.past{opacity:.55}
+.clock{border:1px solid var(--line);border-radius:26px;background:#fff;box-shadow:var(--shadow-lg);padding:18px;text-align:center}
+.clock .ph{font:700 20px var(--display);color:var(--accent-ink);min-height:1.4em}
+.clock output{display:block;font:800 clamp(64px,7.5vw,104px) var(--display);font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.05}
+.clock .tot{color:var(--muted);font-size:16px;font-weight:700;margin-bottom:10px}
+.clock .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.clock.over output{color:var(--bad)}
+/* ---------- live scoreboard ---------- */
+.boardWrap{margin-top:12px}
+table.board th{text-align:center;font-size:14.5px;line-height:1.2;padding:8px 6px}
+table.board th small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--dim)}
+table.board th:first-child{text-align:right}
+table.board td{padding:7px 8px}
+table.board td.name{font-weight:700;min-width:150px;background:#fffef9}
+table.board td.n{text-align:center;cursor:pointer;font:800 22px var(--display);font-variant-numeric:tabular-nums;user-select:none;color:var(--ink);transition:background .15s}
+table.board td.n:hover{background:var(--good-bg)}
+table.board td.n.z{color:#c9c3b8}
+.minus table.board td.n:hover{background:var(--bad-bg)}
+table.board td.tot{text-align:center;font:800 26px var(--display);background:var(--teal-soft);color:var(--teal-deep);font-variant-numeric:tabular-nums}
+table.board tr.top td.tot::after{content:" 🏛️";font-size:20px}
+table.board tr.top td.name{background:#fff6dc}
+.boardBar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.boardBar .hint{color:var(--muted);font-size:15px}
+.boardBar .modeBtn.on{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+table.pts td{padding:6px 16px;font-size:clamp(16px,1.5vw,20px)}table.pts th{padding:8px 16px}table.pts td:last-child{font-weight:800;font-family:var(--display);color:var(--accent-ink);white-space:nowrap}
+table.guess td[contenteditable]{text-align:center;font:800 22px var(--display)}
+table.guess td.lab[contenteditable]{text-align:right;font:700 19px var(--body)}
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1220px}
+.award{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:20px;background:#fff;padding:14px 18px;box-shadow:var(--shadow)}
+.award.main{grid-column:1/-1;border-color:#efdcae;background:linear-gradient(180deg,#fffdf6,#fff7e6)}
+.award .em{font-size:44px;line-height:1}
+.award b{display:block;font:800 22px var(--display);color:var(--ink)}
+.award small{display:block;color:var(--muted);font-size:15px}
+.award [contenteditable]{display:block;margin-top:4px;min-height:1.4em;border-bottom:2px dashed var(--line);font:800 22px var(--display);color:var(--accent-ink);outline:none}
+.award [contenteditable]:empty::before{content:"שם המעבדה";color:var(--dim);font-weight:600}
+.vote.labs{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.vote.labs .voteItem strong{outline:none;border-bottom:2px dashed transparent}.vote.labs .voteItem strong:focus{border-bottom-color:var(--accent)}
+.exitQ{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.exitQ div{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px 16px;box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,21px);line-height:1.45}
+.exitQ div b{color:var(--accent-ink)}
+.exitQ .hot{grid-column:1/-1;border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}
+@media (max-height:800px){
+ .plaque{padding:18px 20px 16px}.eq{height:70px;margin:4px 0 10px}.plaque p{font-size:15.5px}
+ .mystery .art svg{max-height:270px}.mystery .voteItem{padding:9px}
+ .pad{min-height:250px}
+ .slot{min-height:140px}.slotVal .e{font-size:42px}.slot .win::before{font-size:66px}.machine{padding:12px;margin-top:10px}
+ .side .timer output{font-size:44px}.mile{padding:8px 12px;font-size:15.5px}
+ .crystal{height:240px;margin-top:10px}
+ .ear{gap:8px;margin-top:10px}.earRow{padding:9px 14px}
+ .years{gap:9px;margin-top:8px}.yr{padding:8px 13px}.yr b{font-size:22px}.yr p{font-size:16px}
+ .spec{gap:6px}.spec li{padding:8px 16px}
+ table.board td{padding:5px 8px}table.board td.n{font-size:20px}table.board td.tot{font-size:22px}
+ .punch{margin-top:12px;padding:11px 18px}
+ table.pts td{padding:4px 14px;font-size:16px}table.pts th{padding:5px 14px}
+ .fairSteps{margin-top:12px}.fairSteps div{padding:10px}
+ .formula{margin-top:12px}.planSheet{padding:12px}
+ .award{padding:10px 14px}.award .em{font-size:36px}
+}
+@media (max-width:1100px){.cards.four,.cards.five,.cards.three{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.sprint,.heroGrid,.mystery,.thereGrid,.caseGrid,.stage,.planSheet{grid-template-columns:1fr}}
+@media (max-width:760px){.slots,.fairSteps,.awards,.exitQ,.phases{grid-template-columns:1fr}.formula{grid-template-columns:1fr}.formula .op{display:none}.crystal{gap:6px}.earRow{grid-template-columns:1fr}.prompt{padding-left:22px;padding-top:56px}.linkBox{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🎛️</div><div><b>מעבדת הכלים המומצאים</b><small>ממציאים · בונים ב-Canvas · מנגנים בקונצרט</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ===================== A · פתיחה ===================== -->
+<section class="slide hero" data-topic="פתיחה" data-title="המוזיאון מחפש כלים" data-accent="#8c7ae6">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🏛️ מוזיאון הכלים המומצאים · הזמנה למעבדות</span>
+      <h2 style="font-size:clamp(44px,5.6vw,86px)">מעבדת הכלים <span class="violet">המומצאים</span></h2>
+      <p class="lead">המוזיאון פותח אגף חדש: <b>"המוזיקה של המחר"</b>. הוא מחפש כלי נגינה שאף אחד עוד לא ראה. היום כל מעבדה ממציאה כלי, בונה גרסה שאפשר באמת לנגן בה, מלחינה לו יצירה קצרה ומנגנת אותה בקונצרט.</p>
+      <div class="tags"><span>📐 ממציאים</span><span>🎛️ בונים</span><span>🎼 מלחינים</span><span>🎤 מנגנים</span></div>
+    </div>
+    <div class="plaque">
+      <span class="pk">אגף חדש · בקרוב</span>
+      <b>המוזיקה של המחר</b>
+      <p>כלי אחד ייבחר לתצוגה בכניסה למוזיאון</p>
+      <div class="eq" id="heroEq" aria-hidden="true"><i style="--d:1"></i><i style="--d:4"></i><i style="--d:2"></i><i style="--d:6"></i><i style="--d:3"></i><i style="--d:7"></i><i style="--d:5"></i><i style="--d:8"></i><i style="--d:2"></i><i style="--d:5"></i><i style="--d:1"></i><i style="--d:6"></i></div>
+      <button class="play big" data-sfx="fanfare">🔊 צליל הפתיחה של המוזיאון</button>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="איך מנגנים בזה?" data-accent="#8c7ae6">
+  <span class="kicker">🤔 חידת פתיחה · מצביעים באצבעות <bdi dir="ltr">1–4</bdi></span>
+  <h2 style="font-size:clamp(32px,4.2vw,58px)">איך מנגנים <span class="violet">בכלי הזה?</span></h2>
+  <div class="mystery">
+    <div class="art">
+      <svg viewBox="0 0 340 250" role="img" aria-label="ציור של כלי נגינה מסתורי: קופסת עץ על רגל, מוט מתכת זקוף בצד אחד ולולאת מתכת בצד השני">
+        <rect x="0" y="0" width="340" height="250" fill="none"/>
+        <line x1="170" y1="168" x2="170" y2="226" stroke="#7b5a3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="170" y1="226" x2="128" y2="242" stroke="#7b5a3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="170" y1="226" x2="212" y2="242" stroke="#7b5a3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="268" y1="118" x2="268" y2="14" stroke="#8b939c" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="268" cy="12" r="5" fill="#b8c0c8"/>
+        <path d="M78 140 C 40 140, 18 132, 18 122 C 18 110, 52 108, 70 118" fill="none" stroke="#8b939c" stroke-width="6" stroke-linecap="round"/>
+        <rect x="70" y="112" width="210" height="58" rx="10" fill="#e2b07e" stroke="#a8743f" stroke-width="3"/>
+        <rect x="80" y="122" width="190" height="10" rx="5" fill="#cf9a63"/>
+        <circle cx="112" cy="152" r="7" fill="#fff" stroke="#a8743f" stroke-width="2.5"/><line x1="112" y1="152" x2="116" y2="147" stroke="#a8743f" stroke-width="2.5"/>
+        <circle cx="140" cy="152" r="7" fill="#fff" stroke="#a8743f" stroke-width="2.5"/><line x1="140" y1="152" x2="136" y2="147" stroke="#a8743f" stroke-width="2.5"/>
+        <circle cx="236" cy="152" r="4" fill="#5bb5a2"/>
+        <text x="250" y="98" font-family="Rubik,Arial" font-size="20" font-weight="800" fill="#6a55c9">?</text>
+        <text x="30" y="98" font-family="Rubik,Arial" font-size="20" font-weight="800" fill="#6a55c9">?</text>
+      </svg>
+    </div>
+    <div class="vote">
+      <div class="voteItem"><div class="emoji">🌬️</div><strong>1 · נושפים לתוך הקופסה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+      <div class="voteItem"><div class="emoji">🥁</div><strong>2 · מקישים על העץ</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+      <div class="voteItem"><div class="emoji">👋</div><strong>3 · מזיזים ידיים באוויר, בלי לגעת</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+      <div class="voteItem"><div class="emoji">🎚️</div><strong>4 · מסובבים את הכפתורים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="לנגן בלי לגעת" data-accent="#8c7ae6">
+  <span class="kicker">✨ התשובה: 3 · זה תרמין</span>
+  <h2 style="font-size:clamp(32px,4.2vw,58px)">מנגנים <span class="violet">בלי לגעת</span></h2>
+  <div class="thereGrid">
+    <div class="revealList">
+      <div class="revealCard reveal">📡 <b>המוט הזקוף:</b> שולט בגובה הצליל. ככל שהיד קרובה יותר, הצליל גבוה יותר.</div>
+      <div class="revealCard reveal">➰ <b>הלולאה:</b> שולטת בעוצמה. מקרבים יד, והצליל נחלש.</div>
+      <div class="revealCard reveal">🧙 <b>הנגן/ית:</b> שתי ידיים באוויר, כמו קוסם. אין מקשים, אין מיתרים.</div>
+    </div>
+    <div>
+      <div class="pad" id="therePad">
+        <span class="rod"></span><span class="rodL">📡 גובה</span>
+        <span class="loop"></span><span class="loopL">➰ עוצמה</span>
+        <span class="dot"></span>
+        <span class="padMsg">לחצו כאן, ואז הזיזו את העכבר 👋</span>
+      </div>
+      <div class="meters"><div class="meter">🎵 גובה<div class="mb"><i id="mPitch"></i></div></div><div class="meter">🔊 עוצמה<div class="mb"><i id="mVol"></i></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="Blob Opera" data-accent="#8c7ae6">
+  <span class="kicker">🎭 השראה · כלי שאין בעולם</span>
+  <h2 style="font-size:clamp(32px,4.2vw,58px)">אופרה של <span class="violet">ארבע טיפות</span></h2>
+  <div class="sprint">
+    <div>
+      <p class="lead">ב-Blob Opera של Google Arts &amp; Culture ארבע "טיפות" שרות אופרה: סופרן, מצו, טנור ובס. מכונה למדה איך שרים מהקלטות של זמרי אופרה אמיתיים, ואנחנו רק <b>גוררים</b>.</p>
+      <div class="task"><strong>🎮 דקה של נגינה: מי בא לנצח?</strong><ol><li>גוררים טיפה <b>למעלה ולמטה</b>: מה משתנה?</li><li>גוררים <b>קדימה ואחורה</b>: מה עוד משתנה?</li><li>שאלה לכולם: מה אתם שולטים בו, ומה המכונה עושה לבד?</li></ol></div>
+      <span class="url">Arts &amp; Culture · Blob Opera</span>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">⬆️⬇️ <b>למעלה ולמטה</b> = גובה הצליל</div>
+      <div class="mile">↔️ <b>קדימה ואחורה</b> = התנועה של הפה: "אָ", "אוּ", "אִי"</div>
+      <div class="mile">💡 גם זה <b>כלי</b>: דרך חדשה לשלוט בצליל.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#8c7ae6">
+  <span class="kicker">🎯 בסוף השיעור לכל מעבדה יהיו</span>
+  <h2>ארבעה דברים <span class="violet">ששמים בתצוגה</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">📐</div><strong>דף תכנון</strong><p>ציור של הכלי, איך מנגנים בו, וטבלה: כל מקש ואיזה צליל הוא מנגן.</p></div>
+    <div class="card"><div class="emoji">🎛️</div><strong>כלי שמנגן</strong><p>גרסה דיגיטלית ב-Gemini Canvas: 8 צלילים לפחות ואפקט מיוחד אחד.</p></div>
+    <div class="card"><div class="emoji">🎼</div><strong>יצירה קצרה</strong><p><bdi dir="ltr">20–30</bdi> שניות, כתובה ב"תווים גרפיים": צורות, קווים וצבעים.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>הופעה בקונצרט</strong><p>הקהל מנחש איך מנגנים, ואז אתם מדגימים ומנגנים.</p></div>
+  </div>
+  <div class="punch">🏛️ הכלי עם הכי הרבה נקודות ייבחר <b>לכלי של המוזיאון</b>, ויש עוד 3 פרסים.</div>
+</section>
+
+<!-- ===================== B · מעבדות ותפקידים ===================== -->
+<section class="slide" data-topic="המעבדות" data-title="התפקידים במעבדה" data-accent="#0f766e">
+  <button class="helpBtn" data-help="roles" aria-label="הוראות">?</button>
+  <span class="kicker">🧪 המעבדה שלכם · 5 תפקידים</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מי עושה <span class="cyan">מה היום?</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧪</div><strong>ממציא/ה ראשי/ת</strong><p>מחזיק/ה את החזון ואת הזמן, מחליט/ה מה נכנס לכלי.</p><span class="who"><b>רק הוא/היא</b> קורא/ת למדריך.</span></div>
+    <div class="card"><div class="emoji">📐</div><strong>מתכנן/ת</strong><p>מצייר/ת את הכלי בדף התכנון ומגדיר/ה כל פקד.</p><span class="who"><b>שואל/ת:</b> "איזה מקש? איזה צליל?"</span></div>
+    <div class="card"><div class="emoji">💬</div><strong>בונה ב-Canvas</strong><p>כותב/ת את הפרומפטים ובודק/ת כל פקד מול הדף.</p><span class="who"><b>שואל/ת:</b> "זה עובד כמו שכתוב?"</span></div>
+    <div class="card"><div class="emoji">🎼</div><strong>מלחין/ה</strong><p>כותב/ת את היצירה בתווים גרפיים ומתאמן/ת עם הנגנים.</p><span class="who"><b>שואל/ת:</b> "איפה השיא?"</span></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מנהל/ת הקונצרט</strong><p>מגיש/ה בטופס, מציג/ה את הכלי לקהל ומנצח/ת.</p><span class="who"><b>שואל/ת:</b> "מי מנגן מתי?"</span></div>
+  </div>
+  <div class="topline" style="margin-top:14px"><div class="timer" data-seconds="180" style="margin-top:0"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lead" style="font-size:19px">3 דקות: מחלקים כרטיסים ובוחרים <b>שם למעבדה</b> (למשל "מעבדת הזוהר").</span></div>
+</section>
+
+<section class="slide" data-topic="המעבדות" data-title="כרטיס השראה" data-accent="#0f766e">
+  <span class="kicker">🎲 כרטיס השראה · כל מעבדה שולפת אחד</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">חומר · תנועה · <span class="cyan">מקום</span></h2>
+  <div class="machine">
+    <div class="slots">
+      <div class="slot" data-kind="mat"><div class="lbl">🧱 מה החומר?</div><div class="win"><div class="slotVal"><span class="e"></span><span class="v"></span></div></div></div>
+      <div class="slot" data-kind="move"><div class="lbl">🖐️ איך מנגנים?</div><div class="win"><div class="slotVal"><span class="e"></span><span class="v"></span></div></div></div>
+      <div class="slot" data-kind="place"><div class="lbl">🗺️ איפה הוא חי?</div><div class="win"><div class="slotVal"><span class="e"></span><span class="v"></span></div></div></div>
+    </div>
+    <div class="machineBar"><button class="btn spinBtn" style="font-size:20px;padding:11px 22px">🎰 הגרלה למעבדה הבאה</button><span class="hint">הכלי שלכם חייב להשתמש בשלושתם. אפשר להחליף כרטיס אחד, פעם אחת.</span></div>
+  </div>
+  <div class="exLine">💡 <b>דוגמה:</b> קרח + נושפים + במערה ← "נשיפת הנטיפים": נושפים על נטיפי קרח, וכל נטיף שר בגובה אחר. ככל שהנטיף ארוך, הצליל נמוך.</div>
+</section>
+
+<!-- ===================== C · מיני-שיעור ===================== -->
+<section class="slide" data-topic="מה הופך משהו לכלי" data-title="ארבע תכונות של צליל" data-accent="#4c8bd6">
+  <span class="kicker">🔊 המושג · מקשיבים לכל אחד</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">ארבע תכונות <span class="cyan">של כל צליל</span></h2>
+  <div class="cards four props">
+    <div class="card"><div class="emoji">🎵</div><strong>גובה</strong><p>עבה ונמוך או דק וגבוה.</p><span class="vs">🐻 דוב ↔ 🐦 ציפור</span><button class="play" data-sfx="pitch">▶ נמוך ← גבוה</button></div>
+    <div class="card"><div class="emoji">🔊</div><strong>עוצמה</strong><p>חלש או חזק.</p><span class="vs">🤫 לחישה ↔ 📣 צעקה</span><button class="play" data-sfx="vol">▶ חלש ← חזק</button></div>
+    <div class="card"><div class="emoji">🎨</div><strong>גוון</strong><p>ה"צבע" של הצליל: אותו תו, כלי אחר.</p><span class="vs">🪈 חליל ↔ 📯 זמזם</span><button class="play" data-sfx="timbre">▶ רך ← חד</button></div>
+    <div class="card"><div class="emoji">⏱️</div><strong>משך</strong><p>קצר וקופצני או ארוך ונמתח.</p><span class="vs">💧 טיפה ↔ 🌊 גל</span><button class="play" data-sfx="dur">▶ קצר ← ארוך</button></div>
+  </div>
+  <div class="punch">🎛️ <b>כלי נגינה</b> הוא דרך לשלוט בתכונות האלה בעזרת הגוף.</div>
+</section>
+
+<section class="slide" data-topic="מה הופך משהו לכלי" data-title="נחשו את התכונה" data-accent="#4c8bd6">
+  <span class="kicker">👂 משחק אוזניים · כל שולחן מחליט יחד</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">שומעים א׳ ואז ב׳. <span class="cyan">מה השתנה?</span></h2>
+  <div class="ear">
+    <div class="earRow" data-ans="pitch"><span class="n">1</span><div class="pair"><button class="play" data-ear="1a">▶ א׳</button><button class="play" data-ear="1b">▶ ב׳</button></div>
+      <div class="opts"><button data-v="pitch">🎵 גובה</button><button data-v="vol">🔊 עוצמה</button><button data-v="timbre">🎨 גוון</button><button data-v="dur">⏱️ משך</button></div>
+      <div class="why">✓ גובה: אותו כלי ואותה עוצמה, אבל ב׳ גבוה יותר (מ"דו" ל"סול").</div></div>
+    <div class="earRow" data-ans="timbre"><span class="n">2</span><div class="pair"><button class="play" data-ear="2a">▶ א׳</button><button class="play" data-ear="2b">▶ ב׳</button></div>
+      <div class="opts"><button data-v="pitch">🎵 גובה</button><button data-v="vol">🔊 עוצמה</button><button data-v="timbre">🎨 גוון</button><button data-v="dur">⏱️ משך</button></div>
+      <div class="why">✓ גוון: אותו תו בדיוק, אבל א׳ רך כמו חליל וב׳ חד ומזמזם.</div></div>
+    <div class="earRow" data-ans="vol"><span class="n">3</span><div class="pair"><button class="play" data-ear="3a">▶ א׳</button><button class="play" data-ear="3b">▶ ב׳</button></div>
+      <div class="opts"><button data-v="pitch">🎵 גובה</button><button data-v="vol">🔊 עוצמה</button><button data-v="timbre">🎨 גוון</button><button data-v="dur">⏱️ משך</button></div>
+      <div class="why">✓ עוצמה: אותו תו ואותו כלי, אבל ב׳ חזק הרבה יותר.</div></div>
+  </div>
+</section>
+
+<section class="slide" data-topic="מה הופך משהו לכלי" data-title="המתכון לכלי" data-accent="#4c8bd6">
+  <span class="kicker">🧪 המתכון של הממציאים</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מה הופך משהו <span class="cyan">לכלי נגינה?</span></h2>
+  <div class="formula">
+    <div class="card" style="--stripe:var(--sky)"><div class="emoji">〰️</div><strong>מקור צליל</strong><p>משהו שרוטט: מיתר, עור של תוף, אוויר בצינור, או מחשב.</p></div>
+    <div class="op">+</div>
+    <div class="card" style="--stripe:var(--violet)"><div class="emoji">🎚️</div><strong>שליטה</strong><p>דרך לשנות גובה, עוצמה, גוון ומשך.</p></div>
+    <div class="op">+</div>
+    <div class="card" style="--stripe:var(--rose)"><div class="emoji">🙌</div><strong>תנועת נגינה</strong><p>מה הגוף עושה: לוחץ, נושף, פורט, מניף.</p></div>
+  </div>
+  <div class="tableWrap instTable"><table class="t"><thead><tr><th>כלי</th><th>מה רוטט?</th><th>איך משנים גובה?</th><th>תנועת הנגינה</th></tr></thead><tbody>
+    <tr><td>🎸 גיטרה</td><td>מיתר</td><td>אצבע מקצרת את המיתר</td><td>פורטים</td></tr>
+    <tr class="reveal"><td>🥁 תוף</td><td>עור מתוח</td><td>תוף קטן = גבוה יותר</td><td>מכים</td></tr>
+    <tr class="reveal"><td>📡 תרמין</td><td>חשמל במכשיר</td><td>מקרבים יד למוט</td><td>מניפים באוויר</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="slide" data-topic="מה הופך משהו לכלי" data-title="מקרה: התרמין" data-accent="#4c8bd6">
+  <span class="kicker">📜 סיפור אמיתי · התרמין</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">הכלי שמנגנים בו <span class="cyan">באוויר</span></h2>
+  <div class="caseGrid">
+    <div>
+      <div class="years">
+        <div class="yr"><b>1920</b><p>הממציא לב טרמן (במערב: לאון תרמין) מציג כלי חשמלי שמנגנים בו בלי לגעת.</p></div>
+        <div class="yr"><b>1928</b><p>הוא רושם פטנט על הכלי בארצות הברית.</p></div>
+        <div class="yr"><b>2 אנטנות</b><p>מוט אחד לגובה, לולאה אחת לעוצמה. הידיים לא נוגעות בכלום.</p></div>
+        <div class="yr"><b>עד היום</b><p>הצליל ה"חייזרי" שלו הופיע בהרבה סרטי מדע בדיוני, ויש לו נגנים בכל העולם.</p></div>
+      </div>
+      <div class="punch">💭 התרמין שינה את הדרך שבה "נוגעים" בכלי. <b>איזו דרך נגינה חדשה הכלי שלכם ימציא?</b></div>
+    </div>
+    <figure class="caseArt">
+      <svg viewBox="0 0 300 230" aria-hidden="true">
+        <line x1="150" y1="150" x2="150" y2="210" stroke="#7b5a3a" stroke-width="7" stroke-linecap="round"/><line x1="150" y1="210" x2="112" y2="224" stroke="#7b5a3a" stroke-width="6" stroke-linecap="round"/><line x1="150" y1="210" x2="188" y2="224" stroke="#7b5a3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="236" y1="100" x2="236" y2="10" stroke="#8b939c" stroke-width="7" stroke-linecap="round"/>
+        <path d="M68 122 C 34 122, 14 114, 14 104 C 14 92, 46 90, 62 100" fill="none" stroke="#8b939c" stroke-width="6" stroke-linecap="round"/>
+        <rect x="60" y="96" width="186" height="54" rx="10" fill="#e2b07e" stroke="#a8743f" stroke-width="3"/>
+        <path d="M262 40 q 14 10 0 22 q -14 12 0 24" fill="none" stroke="#8c7ae6" stroke-width="4" stroke-linecap="round"/>
+        <path d="M282 30 q 18 16 0 32 q -18 16 0 32" fill="none" stroke="#c9bff5" stroke-width="4" stroke-linecap="round"/>
+        <text x="200" y="26" font-family="Rubik,Arial" font-size="18" font-weight="700" fill="#5b6574" text-anchor="end">גובה</text>
+        <text x="40" y="84" font-family="Rubik,Arial" font-size="18" font-weight="700" fill="#5b6574" text-anchor="middle">עוצמה</text>
+      </svg>
+      <figcaption>מקור: Wikipedia · Theremin</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="slide quiz" data-topic="מה הופך משהו לכלי" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1 מתוך 3</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">נגנית תרמין מקרבת את היד <span class="cyan">אל המוט הזקוף</span>. מה קורה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">1</span><span>הצליל נחלש</span></button>
+    <button class="option"><span class="letter">2</span><span>הצליל נהיה גבוה יותר</span></button>
+    <button class="option"><span class="letter">3</span><span>הצליל נהיה ארוך יותר</span></button>
+    <button class="option"><span class="letter">4</span><span>הכלי מפסיק לנגן</span></button>
+  </div>
+  <div class="explain">✓ נכון! המוט שולט בגובה: יד קרובה = צליל גבוה. הלולאה היא זו ששולטת בעוצמה.</div>
+  <div class="picker"><output>?</output><button class="ghost pickBtn">🎲 מי עונה?</button><span>כל שולחן מתייעץ 20 שניות. המספר שעולה עונה בשם השולחן.</span></div>
+</section>
+
+<section class="slide quiz" data-topic="מה הופך משהו לכלי" data-title="ראשים ממוספרים 2" data-answer="3" data-accent="#4c8bd6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2 מתוך 3</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">חליל ומשרוקית מנגנים <span class="cyan">אותו תו, באותה עוצמה</span>. מה שונה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">1</span><span>הגובה</span></button>
+    <button class="option"><span class="letter">2</span><span>העוצמה</span></button>
+    <button class="option"><span class="letter">3</span><span>הגוון</span></button>
+    <button class="option"><span class="letter">4</span><span>שום דבר, הם נשמעים אותו דבר</span></button>
+  </div>
+  <div class="explain">✓ נכון! גוון הוא ה"צבע" של הצליל. בזכותו מזהים כלי גם כשהוא מנגן אותו תו כמו כלי אחר.</div>
+  <div class="picker"><output>?</output><button class="ghost pickBtn">🎲 מי עונה?</button><span>מספר חדש בכל שאלה. מי שעונה נכון מקבל מחיאות כפיים מהכיתה.</span></div>
+</section>
+
+<!-- ===================== D · הדגמה ===================== -->
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="דף התכנון: דוגמה" data-accent="#e76f86">
+  <span class="kicker">📐 דוגמה פתורה · כך נראה דף תכנון מלא</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">"מפל הקריסטל" <span class="red">על נייר</span></h2>
+  <div class="planSheet">
+    <div class="draw">
+      <svg viewBox="0 0 400 190" aria-hidden="true">
+        <path d="M10 22 Q 200 0 390 22" fill="none" stroke="#4c8bd6" stroke-width="3" stroke-dasharray="6 6"/>
+        <g font-family="Rubik,Arial" font-size="14" font-weight="800" text-anchor="middle" fill="#1f2a37">
+          <rect x="22" y="34" width="34" height="140" rx="9" fill="#ece8fb" stroke="#8c7ae6" stroke-width="2"/><text x="39" y="166">1</text>
+          <rect x="68" y="46" width="34" height="128" rx="9" fill="#e8f0fb" stroke="#4c8bd6" stroke-width="2"/><text x="85" y="166">2</text>
+          <rect x="114" y="58" width="34" height="116" rx="9" fill="#e5f4f0" stroke="#5bb5a2" stroke-width="2"/><text x="131" y="166">3</text>
+          <rect x="160" y="70" width="34" height="104" rx="9" fill="#fdf0e3" stroke="#f4a259" stroke-width="2"/><text x="177" y="166">4</text>
+          <rect x="206" y="82" width="34" height="92" rx="9" fill="#fce9ed" stroke="#e76f86" stroke-width="2"/><text x="223" y="166">5</text>
+          <rect x="252" y="94" width="34" height="80" rx="9" fill="#ece8fb" stroke="#8c7ae6" stroke-width="2"/><text x="269" y="166">6</text>
+          <rect x="298" y="106" width="34" height="68" rx="9" fill="#e8f0fb" stroke="#4c8bd6" stroke-width="2"/><text x="315" y="166">7</text>
+          <rect x="344" y="118" width="34" height="56" rx="9" fill="#e5f4f0" stroke="#5bb5a2" stroke-width="2"/><text x="361" y="166">8</text>
+        </g>
+        <text x="200" y="188" font-family="Heebo,Arial" font-size="13" fill="#5b6574" text-anchor="middle">עמודה גבוהה = צליל נמוך · עמודה נמוכה = צליל גבוה</text>
+      </svg>
+      <div class="how"><b>כרטיס ההשראה:</b> זכוכית · מקישים · מתחת למפל.<br><b>איך מנגנים:</b> מקישים על עמודות זכוכית שהמים זורמים עליהן. מקש 0 פותח "מערה" שמחזירה הד.</div>
+    </div>
+    <div class="tableWrap" style="margin-top:0"><table class="t ctl"><thead><tr><th>פקד</th><th>מה הוא עושה</th><th>מה רואים</th></tr></thead><tbody>
+      <tr><td><bdi dir="ltr">1–8</bdi></td><td>8 תווים בסולם: דו רה מי פה סול לה סי דו׳ (מנמוך לגבוה)</td><td>העמודה מאירה</td></tr>
+      <tr><td>עכבר</td><td>לחיצה על עמודה מנגנת אותה</td><td>העמודה קופצת</td></tr>
+      <tr><td>0</td><td>✨ אפקט: מדליק ומכבה הד שחוזר 3 פעמים ונחלש</td><td>כיתוב "הד פועל"</td></tr>
+    </tbody></table>
+    <p class="note" style="margin-top:10px">✓ ציור · ✓ איך מנגנים · ✓ כל פקד מוגדר · ✓ אפקט אחד. <b>עכשיו</b> אפשר לפתוח את Canvas.</p></div>
+  </div>
+</section>
+
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="נסו: מפל הקריסטל" data-accent="#e76f86">
+  <span class="kicker">🎹 ככה נראה כלי מוכן · נסו בעצמכם</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">מקשים <bdi dir="ltr">1–8</bdi>, לחיצה, <span class="red">ו-0 להד</span></h2>
+  <div class="crystal" id="crystal"></div>
+  <div class="crystalBar"><button class="play" id="echoBtn">✨ הד: כבוי</button><button class="play" data-sfx="scale">▶ סולם מלא</button><span class="hint">מי בא לנגן "יונתן הקטן"? <bdi dir="ltr">5 3 3 · 4 2 2 · 1 2 3 4 5 5 5</bdi></span></div>
+</section>
+
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="מתכנון לפרומפט" data-accent="#e76f86">
+  <span class="kicker">💬 הפרומפט · כל משפט מגיע מדף התכנון</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">מעתיקים את הדף <span class="red">למילים</span></h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptag">💬 פרומפט ראשון ל-Canvas</span><span class="ptext">צור כלי נגינה בשם "מפל הקריסטל", בעברית ומימין לשמאל: 8 עמודות זכוכית בצבעים שונים, מהגבוהה לנמוכה. המקשים <bdi dir="ltr">1–8</bdi> במקלדת, או לחיצה בעכבר, מנגנים 8 תווים בסולם מז׳ורי מהנמוך לגבוה (דו עד דו גבוה), והעמודה מאירה כשהיא מנגנת. כתוב על כל עמודה את המקש שלה. מקש 0 מדליק ומכבה הד שחוזר 3 פעמים ונחלש, ויש כיתוב "הד פועל". בלי צלילים מקבצים חיצוניים: צור את הצלילים בקוד.</span></div>
+  <div class="src"><span><i>📐 מהציור:</i> 8 עמודות, צבעים, גבוהה לנמוכה</span><span><i>🎛️ מהטבלה:</i> מקשים <bdi dir="ltr">1–8</bdi>, עכבר, 0</span><span><i>🎵 מהצלילים:</i> סולם מז׳ורי, דו עד דו</span><span><i>✨ מהאפקט:</i> הד 3 פעמים</span><span><i>🛟 תמיד:</i> עברית, בלי קבצים חיצוניים</span></div>
+</section>
+
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="Canvas בארבעה צעדים" data-accent="#e76f86">
+  <span class="kicker">🛠️ ככה בונים · הדגמה על המקרן</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">Canvas <span class="red">בארבעה צעדים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>פותחים Canvas</strong><p><bdi dir="ltr">gemini.google.com</bdi> ← הכפתור <b>+</b> ליד תיבת ההנחיה ← <b>Canvas</b>.</p></div>
+    <div class="step"><strong>מדביקים ושולחים</strong><p>את הפרומפט מדף התכנון. מחכים שהכלי יופיע בחלונית מימין או משמאל.</p></div>
+    <div class="step"><strong>בודקים כל פקד</strong><p>לוחצים על כל מקש לפי הטבלה ומסמנים ✓ או ✗ בדף. לחיצה ראשונה בתוך הכלי מפעילה את הצליל.</p></div>
+    <div class="step"><strong>משתפים</strong><p>סמל השיתוף ← <b>העתקת קישור</b>. הקישור נכנס לטופס ההגשה.</p></div>
+  </div>
+  <div class="punch">✗ ליד פקד? לא כותבים פרומפט חדש מההתחלה. מתקנים <b>רק אותו</b>: בשקף הבא.</div>
+</section>
+
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="תיקון פקד אחד" data-accent="#e76f86">
+  <span class="kicker">🎯 "בחירה ושאלה" · תיקון ממוקד</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מתקנים <span class="red">פקד אחד בכל פעם</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ מבקשים הכול</span>"זה לא עובד טוב, תתקן הכול ותעשה את זה יותר יפה."<span style="display:block;margin-top:10px;font-size:.85em;color:var(--muted)">Canvas בונה הכול מחדש, ופקדים שעבדו פתאום נשברים.</span></div>
+    <div class="box good"><span class="label">✓ מסמנים ומבקשים דבר אחד</span>לוחצים על <b>"בחירה ושאלה"</b>, מסמנים את עמודה 5, וכותבים: "העמודה הזאת מנגנת צליל גבוה מדי. הורד אותה באוקטבה אחת ואל תשנה שום דבר אחר."<span style="display:block;margin-top:10px;font-size:.85em;color:var(--muted)">רק העמודה הזאת משתנה. כל השאר נשאר.</span></div>
+  </div>
+  <div class="punch">🧾 כל תיקון שעבד נרשם בדף התכנון. זה בדיוק מה שהשופטים מחפשים בשורת ה-AI.</div>
+</section>
+
+<section class="slide" data-topic="מנייר ל-Canvas" data-title="לפני שמנגנים" data-accent="#e76f86">
+  <span class="kicker">🎧 חמישה טיפים לפני שמתחילים</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">לפני <span class="red">שמנגנים</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🖱️ <b>אין צליל?</b> לוחצים פעם אחת בתוך הכלי. דפדפנים מפעילים צליל רק אחרי לחיצה.</div>
+    <div class="revealCard reveal">🎧 <b>אוזניות או עוצמה נמוכה:</b> שבע מעבדות מנגנות יחד. עוצמת מחשב עד 30%.</div>
+    <div class="revealCard reveal">🔗 <b>הקישור ציבורי:</b> בלי שמות, בלי תמונות ובלי פרטים אישיים בתוך הכלי.</div>
+    <div class="revealCard reveal">🧩 <b>בקשה אחת בכל פעם:</b> פרומפט קצר וממוקד עובד יותר טוב מעשרה שינויים יחד.</div>
+    <div class="revealCard reveal">💾 <b>Canvas שומר לבד:</b> אפשר לחזור לגרסה קודמת אם תיקון הרס משהו.</div>
+  </div>
+</section>
+
+<section class="slide quiz" data-topic="מנייר ל-Canvas" data-title="ראשים ממוספרים 3" data-answer="4" data-accent="#e76f86">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3 מתוך 3</span>
+  <h2 style="font-size:clamp(28px,3.4vw,44px)">Canvas בנה את הכלי, אבל <span class="red">מקש 5 מנגן צליל לא נכון</span>. מה עושים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">1</span><span>מוחקים הכול ומתחילים צ׳אט חדש</span></button>
+    <button class="option"><span class="letter">2</span><span>כותבים "תתקן את הכלי"</span></button>
+    <button class="option"><span class="letter">3</span><span>משנים את דף התכנון כדי שיתאים לטעות</span></button>
+    <button class="option"><span class="letter">4</span><span>"בחירה ושאלה" על מקש 5, ובקשה אחת מדויקת</span></button>
+  </div>
+  <div class="explain">✓ נכון! מסמנים רק את מה ששבור, אומרים מה לא בסדר ומה צריך להיות, ו"אל תשנה שום דבר אחר".</div>
+  <div class="picker"><output>?</output><button class="ghost pickBtn">🎲 מי עונה?</button><span>המספר שעולה עונה, ומסביר למה.</span></div>
+</section>
+
+<!-- ===================== E · האתגר ===================== -->
+<section class="slide" data-topic="האתגר" data-title="הכלי של המוזיאון" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏛️ האתגר · הכלי של המוזיאון</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">שישה חוקים, <span class="yellow">ידועים מראש</span></h2>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>מתכננים על נייר <b>לפני</b> שפותחים את Canvas.</li>
+    <li>לפחות <b>8 צלילים</b> ו<b>אפקט מיוחד אחד</b>, וכל פקד רשום בדף התכנון.</li>
+    <li>יצירה של <b><bdi dir="ltr">20–30</bdi> שניות</b>, כתובה בתווים גרפיים, ומנגנים לפי הדף.</li>
+    <li>בקונצרט הקהל <b>מנחש על פתק</b> איך מנגנים, לפני ההדגמה.</li>
+    <li>הקישור ציבורי: <b>אין</b> בכלי שמות, תמונות או פרטים אישיים.</li>
+    <li>מגישים בטופס <b>עד הדקה שעל הטיימר</b>.</li>
+  </ol></div>
+  <div class="punch">🎯 מטרה: כלי שמישהו אחר מצליח לנגן בו <b>רק לפי דף התכנון</b>, ויצירה שהקהל זוכר.</div>
+</section>
+
+<section class="slide" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד · עד 37 נקודות לכל מעבדה</span>
+  <h2 style="font-size:clamp(28px,3.4vw,44px)">על מה <span class="yellow">מקבלים נקודות</span></h2>
+  <div class="tableWrap"><table class="t pts"><thead><tr><th>מה</th><th>נקודות</th></tr></thead><tbody>
+    <tr><td>🎛️ כל פקד שעובד ותואם לדף התכנון</td><td>1 לכל פקד (עד 8)</td></tr>
+    <tr><td>🎵 לפחות 8 צלילים או תווים</td><td>3</td></tr>
+    <tr><td>✨ אפקט מיוחד שעובד</td><td>2</td></tr>
+    <tr><td>🕵️ כל מעבדה בקהל שניחשה נכון איך מנגנים</td><td>1 לכם (עד 5) + 1 למנחשים</td></tr>
+    <tr><td>🎼 יצירה של <bdi dir="ltr">20–30</bdi> שניות לפי התווים הגרפיים</td><td>3</td></tr>
+    <tr><td>⚖️ ציון חבר השופטים לפי המחוון (4 שורות × 4 רמות)</td><td>עד 16</td></tr>
+  </tbody></table></div>
+  <div class="punch" style="font-size:clamp(17px,1.8vw,23px)">⚖️ <b>שובר שוויון:</b> יותר ניחושים נכונים של הקהל. כלי ברור = כלי שמנחשים.</div>
+</section>
+
+<section class="slide" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון · כך השופטים מחליטים</span>
+  <h2 style="font-size:clamp(28px,3.2vw,42px)">ארבע שורות, <span class="yellow">ארבע רמות</span></h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.3vw,17px)"><thead><tr><th style="width:15%">קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead><tbody>
+    <tr class="reveal"><td><b>📐 המצאה ותכנון</b></td><td>אין דף תכנון, או כלי רגיל</td><td>ציור בלי הגדרת פקדים</td><td>ציור, איך מנגנים וכל פקד מוגדר</td><td>רעיון מקורי שמסביר גם למה הכלי נשמע כך</td></tr>
+    <tr class="reveal"><td><b>🎛️ כלי שעובד</b></td><td>הכלי לא מנגן</td><td>חלק מהפקדים עובדים</td><td>8 צלילים לפחות, אפקט, ופקדים שתואמים לתכנון</td><td>נוח לנגינה, עם תיקונים מ"בדיקת המכשיר"</td></tr>
+    <tr class="reveal"><td><b>🎼 יצירה וביצוע</b></td><td>אין יצירה</td><td>ניגון חופשי בלי תווים</td><td><bdi dir="ltr">20–30</bdi> שניות לפי התווים הגרפיים</td><td>יש התחלה, שיא וסוף, וכמה נגנים מתואמים</td></tr>
+    <tr class="reveal"><td><b>🤝 צוות ושקיפות AI</b></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI"</td><td>כתוב מה Canvas בנה ומה הצוות תכנן והלחין</td><td>כתוב אילו פרומפטים תיקנו טעויות, וכל תפקיד תרם</td></tr>
+  </tbody></table></div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף שורה</div>
+</section>
+
+<!-- ===================== F · ספרינט 1 ===================== -->
+<section class="slide" data-topic="ספרינט 1" data-title="תכנון ובנייה" data-accent="#f4a259">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <div class="topline"><span class="kicker">⏱️ ספרינט 1 · 22 דקות</span><span class="light r">🔴 דקות <bdi dir="ltr">0–8</bdi>: בלי AI</span><span class="light g">🟢 דקות <bdi dir="ltr">8–22</bdi>: AI כשותף</span></div>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מתכננים <span class="yellow">ובונים</span></h2>
+  <div class="sprint">
+    <div>
+      <div class="task"><strong>מה עושים</strong><ol>
+        <li>📐 דף התכנון: שם, ציור, "איך מנגנים", טבלת פקדים ואפקט.</li>
+        <li>✍️ הממציא/ה הראשי/ת חותם/ת על הדף, ורק אז פותחים Canvas.</li>
+        <li>💬 פרומפט ראשון לפי הדף (יש תבנית בשורה התחתונה של הדף).</li>
+        <li>✓✗ בודקים כל פקד מול הטבלה ומתקנים פקד אחד בכל פעם.</li>
+      </ol></div>
+      <p class="note">🎼 המלחין/ה כבר מתחיל/ה לחשוב: איזה רגע ביצירה יהיה השיא?</p>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="1320"><output>22:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">⏰ <b>עד דקה 8:</b> דף תכנון מלא וחתום</div>
+      <div class="mile">⏰ <b>עד דקה 15:</b> הכלי מנגן צליל ראשון</div>
+      <div class="mile">⏰ <b>עד דקה 22:</b> כל פקד בדוק, ✓ או ✗ בדף</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="ספרינט 1" data-title="Canvas לא מבין?" data-accent="#f4a259">
+  <span class="kicker">🛟 עזרה · לפני שקוראים למדריך</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">Canvas <span class="yellow">לא מבין?</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🔢</div><strong>מספרים, לא מילים</strong><p>לא "צליל יפה", אלא "8 תווים, דו עד דו, המקשים <bdi dir="ltr">1–8</bdi>".</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>פקד אחד בכל בקשה</strong><p>"בחירה ושאלה" על הפקד, ו"אל תשנה שום דבר אחר".</p></div>
+    <div class="card"><div class="emoji">🔇</div><strong>אין צליל בכלל?</strong><p>"הכלי לא משמיע צליל כשלוחצים. בדוק במסוף מה השגיאה ותקן רק אותה."</p></div>
+    <div class="card"><div class="emoji">🖥️</div><strong>מה השגיאה?</strong><p>"הצגת המסוף" מראה שגיאות באדום. מעתיקים את השורה ל-Canvas.</p></div>
+    <div class="card"><div class="emoji">⏪</div><strong>תיקון הרס משהו?</strong><p>"הצגת השינויים האחרונים", וחוזרים לגרסה שעבדה.</p></div>
+    <div class="card"><div class="emoji">🧭</div><strong>עדיין תקוע?</strong><p>3 ניסיונות, ואז הממציא/ה הראשי/ת מרים/ה יד.</p></div>
+  </div>
+</section>
+
+<!-- ===================== G · בדיקת המכשיר ===================== -->
+<section class="slide" data-topic="בדיקת המכשיר" data-title="בדיקת המכשיר" data-accent="#5bb5a2">
+  <button class="helpBtn" data-help="check" aria-label="הוראות">?</button>
+  <span class="kicker">🔬 נקודת ביקורת · 7 דקות</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">השכנים מנגנים, <span class="green">אתם שותקים</span></h2>
+  <div class="sprint">
+    <div class="steps" style="margin-top:12px;grid-template-columns:1fr 1fr">
+      <div class="step"><strong>מחליפים</strong><p>2 נגנים עוברים למעבדה השכנה, עם דף "בדיקת המכשיר".</p></div>
+      <div class="step"><strong>מנגנים לפי הדף</strong><p>רק לפי דף התכנון של המעבדה. בעלי הכלי לא מסבירים.</p></div>
+      <div class="step"><strong>סופרים</strong><p>כמה פקדים עובדים כמו שכתוב? מסמנים ✓ או ✗ לכל פקד.</p></div>
+      <div class="step"><strong>שיפור אחד</strong><p>"היה יותר קל לנגן אם..." וחוזרים הביתה.</p></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">🎛️ <b>תוצר הביניים:</b> כלי שמנגן + דף תכנון</div>
+      <div class="mile">📝 בסוף: "<b>__ מתוך __</b> פקדים עובדים"</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide center" data-topic="בדיקת המכשיר" data-title="תזמורת גוף" data-accent="#5bb5a2">
+  <span class="kicker">🕺 קום, תזוז · תזמורת הגוף</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">כל שורה בכיתה היא <span class="green">כלי אחר</span></h2>
+  <p class="lead" style="margin:0 auto">קמים. מנגנים את מה שמופיע בשורה שלכם כשהפס עובר עליו. ⟵ קוראים מימין לשמאל.</p>
+  <div class="score" data-score="body" style="width:100%"></div>
+  <div class="scoreBar" style="justify-content:center"><button class="play big" data-run="body">▶ מנצחים!</button><span class="hint">עיגול = נקישה אחת · קו ארוך = צליל נמשך · משולש שגדל = מחלש לחזק</span></div>
+</section>
+
+<!-- ===================== H · ספרינט 2 ===================== -->
+<section class="slide" data-topic="ספרינט 2" data-title="תווים גרפיים" data-accent="#8c7ae6">
+  <span class="kicker">🎼 המושג · תווים שכל אחד יכול לקרוא</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">תווים רגילים מול <span class="violet">תווים גרפיים</span></h2>
+  <div class="compare">
+    <div class="box"><span class="label">🎼 תווים רגילים</span>מדויקים, אבל צריך ללמוד לקרוא אותם.
+      <svg viewBox="0 0 400 110" aria-hidden="true"><g stroke="#8a93a1" stroke-width="1.5"><line x1="10" y1="25" x2="390" y2="25"/><line x1="10" y1="40" x2="390" y2="40"/><line x1="10" y1="55" x2="390" y2="55"/><line x1="10" y1="70" x2="390" y2="70"/><line x1="10" y1="85" x2="390" y2="85"/></g>
+      <g fill="#1f2a37"><ellipse cx="70" cy="85" rx="9" ry="6.5"/><ellipse cx="130" cy="70" rx="9" ry="6.5"/><ellipse cx="190" cy="62" rx="9" ry="6.5"/><ellipse cx="250" cy="47" rx="9" ry="6.5"/><ellipse cx="310" cy="40" rx="9" ry="6.5"/></g>
+      <g stroke="#1f2a37" stroke-width="2.5"><line x1="79" y1="85" x2="79" y2="45"/><line x1="139" y1="70" x2="139" y2="30"/><line x1="199" y1="62" x2="199" y2="22"/><line x1="241" y1="47" x2="241" y2="87"/><line x1="301" y1="40" x2="301" y2="80"/></g></svg></div>
+    <div class="box good" style="border-color:#d9d1f7;background:linear-gradient(180deg,#f7f5ff,#fff)"><span class="label" style="color:var(--violet-ink);background:#efecfb">🎨 תווים גרפיים</span>צורות, קווים וצבעים. כל אחד מבין מהר.
+      <svg viewBox="0 0 400 110" aria-hidden="true"><path d="M380 92 L 300 92" stroke="#4c8bd6" stroke-width="8" stroke-linecap="round"/><circle cx="270" cy="70" r="8" fill="#e76f86"/><circle cx="240" cy="58" r="11" fill="#e76f86"/><circle cx="205" cy="44" r="15" fill="#e76f86"/><path d="M170 30 l -14 14 l -14 -14 l -14 14 l -14 -14" fill="none" stroke="#f4a259" stroke-width="5" stroke-linejoin="round"/><path d="M90 60 q -10 -16 -20 0 q -10 16 -20 0 q -10 -16 -20 0" fill="none" stroke="#8c7ae6" stroke-width="5" stroke-linecap="round"/></svg></div>
+  </div>
+  <div class="legend">
+    <span><svg viewBox="0 0 30 20"><circle cx="15" cy="10" r="6" fill="#e76f86"/></svg>צורה = צליל אחד</span>
+    <span>⬆️ גבוה בדף = צליל גבוה</span>
+    <span><svg viewBox="0 0 30 20"><circle cx="8" cy="10" r="3" fill="#8a93a1"/><circle cx="21" cy="10" r="8" fill="#8a93a1"/></svg>גדול = חזק</span>
+    <span><svg viewBox="0 0 30 20"><line x1="3" y1="10" x2="27" y2="10" stroke="#4c8bd6" stroke-width="5" stroke-linecap="round"/></svg>ארוך = נמשך</span>
+    <span><svg viewBox="0 0 30 20"><path d="M28 10 q -4 -7 -8 0 q -4 7 -8 0 q -4 -7 -8 0" fill="none" stroke="#8c7ae6" stroke-width="3"/></svg>גל = אפקט</span>
+    <span>🎨 צבע = נגן</span>
+  </div>
+</section>
+
+<section class="slide" data-topic="ספרינט 2" data-title="יצירה לדוגמה" data-accent="#8c7ae6">
+  <span class="kicker">🎧 יצירה לדוגמה · 24 שניות ל"מפל הקריסטל"</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">התחלה, <span class="violet">שיא</span> וסוף</h2>
+  <div class="score" data-score="piece"></div>
+  <div class="scoreBar"><button class="play big" data-run="piece">▶ נגנו את הדף</button><span class="hint">⟵ קוראים מימין לשמאל · גבוה בדף = צליל גבוה · עיגול גדול = חזק · גל = הד</span></div>
+  <p class="note">שימו לב: ההתחלה שקטה ועולה, השיא גבוה וחזק עם הד, והסוף יורד ונעלם. ככה נשמעת יצירה, ולא רק "לחיצות".</p>
+</section>
+
+<section class="slide" data-topic="ספרינט 2" data-title="תיקונים, הלחנה וחזרות" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <div class="topline"><span class="kicker">⏱️ ספרינט 2 · 15 דקות</span><span class="light g">🟢 Canvas: AI כשותף</span><span class="light r">🔴 היצירה: בלי AI</span></div>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מתקנים, מלחינים <span class="violet">ומתאמנים</span></h2>
+  <div class="sprint">
+    <div>
+      <div class="task"><strong>מה עושים (במקביל)</strong><ol>
+        <li>💬 הבונה מתקן/ת את הפקדים שקיבלו ✗ ואת השיפור מהשכנים.</li>
+        <li>✨ האפקט המיוחד עובד? אם לא, זה התיקון הבא.</li>
+        <li>🎼 המלחין/ה כותב/ת יצירה של <bdi dir="ltr">20–30</bdi> שניות בדף התווים הגרפיים.</li>
+        <li>🎤 מנהל/ת הקונצרט קובע/ת מי מנגן מה, ומריץ/ה 2 חזרות עם שעון.</li>
+      </ol></div>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">⏰ <b>עד דקה 6:</b> תיקונים + אפקט עובד</div>
+      <div class="mile">⏰ <b>עד דקה 11:</b> היצירה כתובה בדף</div>
+      <div class="mile">⏰ <b>עד דקה 15:</b> 2 חזרות מלאות + הגשה</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#8c7ae6">
+  <span class="kicker">🚀 סיימתם? שולפים משימת צד</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">עוד <span class="violet">כמה צלילים</span> לתצוגה</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🌀</div><strong>אפקט שני</strong><p>מחוון שמשנה את הגוון: משמאל רך כמו חליל, מימין חד כמו משרוקית.</p></div>
+    <div class="card"><div class="emoji">⏺️</div><strong>מצב הקלטה</strong><p>כפתור שמקליט את מה שניגנתם, וכפתור שמנגן את זה שוב.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>תווית מוזיאון</strong><p>שם הכלי, "איך מנגנים" ב-15 מילים, ושנת ההמצאה: 2026.</p></div>
+    <div class="card"><div class="emoji">📡</div><strong>מצב תרמין</strong><p>גובה הצליל לפי מיקום העכבר על המסך, בלי ללחוץ.</p></div>
+    <div class="card"><div class="emoji">🥁</div><strong>לופ תופים</strong><p>הקלטת היצירה ב-BandLab עם לופ תופים מתחת.</p></div>
+    <div class="card"><div class="emoji">👯</div><strong>דואט</strong><p>חלק שני ביצירה לנגן/ית נוסף/ת, בצבע אחר בדף התווים.</p></div>
+  </div>
+</section>
+
+<!-- ===================== I · הגשה ===================== -->
+<section class="slide" data-topic="הגשה" data-title="הגשה" data-accent="#0f766e">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📤 מנהל/ת הקונצרט מגיש/ה · טופס "הגשת כלי"</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">מגישים <span class="cyan">לפני הקונצרט</span></h2>
+  <div class="linkRow"><span class="lbl">🔗 הטופס:</span><span class="linkBox" contenteditable="true" spellcheck="false" data-key="form" data-ph="כאן מקלידים את הקישור הקצר לטופס"></span></div>
+  <ul class="spec">
+    <li><span>שם המעבדה ושם הכלי</span><em>חובה</em></li>
+    <li><span>קישור שיתוף ל-Canvas (בודקים שהוא נפתח!)</span><em>חובה</em></li>
+    <li><span>צילום של דף התכנון ושל דף התווים הגרפיים</span><em>חובה</em></li>
+    <li><span>כמה פקדים עובדים מתוך כמה שתוכננו</span><em>__ / __</em></li>
+    <li><span>🤖 מה ה-AI עשה · מה אנחנו עשינו</span><em>שורה אחת</em></li>
+  </ul>
+  <div class="linkRow"><span class="lbl">📝 שם הקובץ:</span><span class="fname">מעבדת [שם] · כלי · [שם הכלי]</span></div>
+</section>
+
+<!-- ===================== J · הקונצרט ===================== -->
+<section class="slide" data-topic="הקונצרט" data-title="איך עובד הקונצרט" data-accent="#e76f86">
+  <span class="kicker">🎟️ ערב הקונצרט · 90 שניות לכל מעבדה</span>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">מנחשים, מדגימים, <span class="red">מנגנים</span></h2>
+  <div class="fairSteps">
+    <div><span class="em">👀</span><span class="n">15 שנ׳</span><p>הכלי על המסך, בשקט. כל מעבדה בקהל כותבת על פתק: <b>איך מנגנים בזה?</b></p></div>
+    <div><span class="em">🎛️</span><span class="n">20 שנ׳</span><p>ההדגמה: מה כל פקד עושה. הקהל בודק את הפתקים.</p></div>
+    <div><span class="em">🎼</span><span class="n">30 שנ׳</span><p>היצירה, לפי דף התווים הגרפיים שמוחזק מול הקהל.</p></div>
+    <div><span class="em">👏</span><span class="n">25 שנ׳</span><p>מחיאות כפיים. מי שניחש נכון מרים פתק. השופטים מסמנים.</p></div>
+  </div>
+  <div class="punch">🕵️ ניחוש נכון = <b>נקודה לכם וגם למעבדה המציגה</b>. לכן משתלם לבנות כלי ברור.</div>
+</section>
+
+<section class="slide" data-topic="הקונצרט" data-title="על הבמה" data-accent="#e76f86">
+  <span class="kicker">🎤 על הבמה עכשיו</span>
+  <div class="stage">
+    <div>
+      <span class="stageName" contenteditable="true" spellcheck="false" data-key="stage" data-ph="שם המעבדה ושם הכלי"></span>
+      <div class="phases" id="phases">
+        <div class="phase" data-s="15"><b>👀 ניחוש</b><small>בשקט, על פתק</small><div class="bar"><i></i></div></div>
+        <div class="phase" data-s="20"><b>🎛️ הדגמה</b><small>מה כל פקד עושה</small><div class="bar"><i></i></div></div>
+        <div class="phase" data-s="30"><b>🎼 יצירה</b><small><bdi dir="ltr">20–30</bdi> שניות</small><div class="bar"><i></i></div></div>
+        <div class="phase" data-s="25"><b>👏 מחיאות</b><small>ניחושים ושופטים</small><div class="bar"><i></i></div></div>
+      </div>
+    </div>
+    <div class="clock" id="stageClock">
+      <div class="ph" id="stagePh">מוכנים?</div>
+      <output id="stageOut">00:15</output>
+      <div class="tot" id="stageTot">סה״כ 01:30</div>
+      <div class="row"><button class="btn" id="stageGo">▶ התחלה</button><button class="ghost" id="stageReset">↺ מעבדה הבאה</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="הקונצרט" data-title="ניחושי הקהל" data-accent="#e76f86">
+  <span class="kicker">🕵️ ניחושי הקהל · סופרים פתקים</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">כמה מעבדות <span class="red">ניחשו נכון?</span></h2>
+  <div class="tableWrap"><table class="t guess"><thead><tr><th>המעבדה שהציגה</th><th style="width:22%">ניחשו נכון (עד 5)</th><th>מי ניחש? (נקודה לכל מעבדה)</th></tr></thead><tbody>
+    <tr><td class="lab" contenteditable="true">מעבדה 1</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 2</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 3</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 4</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 5</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 6</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+    <tr><td class="lab" contenteditable="true">מעבדה 7</td><td contenteditable="true"></td><td contenteditable="true" style="text-align:right;font:500 18px var(--body)"></td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="slide" data-topic="הקונצרט" data-title="הצליל הכי מוזר" data-accent="#e76f86">
+  <span class="kicker">👽 פרס הקהל · כל תלמיד מצביע פעם אחת, לא למעבדה שלו</span>
+  <h2 style="font-size:clamp(28px,3.4vw,46px)">איזה כלי השמיע <span class="red">את הצליל הכי מוזר?</span></h2>
+  <div class="vote labs">
+    <div class="voteItem"><div class="emoji">🎛️</div><strong contenteditable="true" spellcheck="false">מעבדה 1</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🎺</div><strong contenteditable="true" spellcheck="false">מעבדה 2</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪗</div><strong contenteditable="true" spellcheck="false">מעבדה 3</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🎻</div><strong contenteditable="true" spellcheck="false">מעבדה 4</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪘</div><strong contenteditable="true" spellcheck="false">מעבדה 5</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🎷</div><strong contenteditable="true" spellcheck="false">מעבדה 6</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪈</div><strong contenteditable="true" spellcheck="false">מעבדה 7</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+</section>
+
+<section class="slide" data-topic="הקונצרט" data-title="לוח הניקוד" data-accent="#e76f86">
+  <span class="kicker">📊 לוח הניקוד · לחיצה על תא מוסיפה נקודה</span>
+  <h2 style="font-size:clamp(28px,3.2vw,44px)">מי בונה את <span class="red">הכלי של המוזיאון?</span></h2>
+  <div class="boardWrap" data-board></div>
+</section>
+
+<!-- ===================== K · טקס וסיום ===================== -->
+<section class="slide" data-topic="טקס וסיום" data-title="טקס הפרסים" data-accent="#e3a82b">
+  <span class="kicker">🏛️ המוזיאון החליט</span>
+  <h2 style="font-size:clamp(30px,3.6vw,50px)">והכלי שייכנס <span class="yellow">לתצוגה הוא...</span></h2>
+  <div class="awards">
+    <div class="award main reveal"><span class="em">🏛️</span><div><b>הכלי של המוזיאון</b><small>הכי הרבה נקודות בלוח הניקוד</small><span contenteditable="true" spellcheck="false" data-key="aw1"></span></div></div>
+    <div class="award reveal"><span class="em">👽</span><div><b>הצליל הכי מוזר</b><small>הצבעת הקהל</small><span contenteditable="true" spellcheck="false" data-key="aw2"></span></div></div>
+    <div class="award reveal"><span class="em">🎼</span><div><b>התווים הגרפיים הכי ברורים</b><small>חבר השופטים</small><span contenteditable="true" spellcheck="false" data-key="aw3"></span></div></div>
+    <div class="award reveal" style="grid-column:1/-1"><span class="em">🤝</span><div><b>הנגנים הכי מתואמים</b><small>חבר השופטים</small><span contenteditable="true" spellcheck="false" data-key="aw4"></span></div></div>
+  </div>
+</section>
+
+<section class="slide" data-topic="טקס וסיום" data-title="כרטיס יציאה" data-accent="#0f766e">
+  <div class="topline"><span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד</span><span class="light r">🔴 בלי AI</span></div>
+  <h2 style="font-size:clamp(30px,3.8vw,52px)">רגע לפני <span class="cyan">שהאורות כבים</span></h2>
+  <div class="exitQ">
+    <div><b>1.</b> דבר אחד שלמדתי היום על צליל או על כלים.</div>
+    <div><b>2.</b> שאלה אחת שנשארה לי.</div>
+    <div><b>3.</b> כמה הבנתי? <bdi dir="ltr">0–5</bdi>, ומה תרמתי למעבדה.</div>
+    <div><b>4.</b> איזה פקד הכי שמחתי לשמוע מתעורר?</div>
+    <div class="hot">🔴 <b>שאלת השיעור:</b> מה תכננתם על הנייר שהמכונה לא הצליחה לבנות, ולמה לדעתכם?</div>
+  </div>
+  <div class="timer" data-seconds="150"><output>02:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide center hero" data-topic="טקס וסיום" data-title="המוזיאון נסגר" data-accent="#8c7ae6">
+  <span class="kicker">🌙 המוזיאון נסגר להלילה</span>
+  <h2>הכלים <span class="violet">ממשיכים לנגן</span></h2>
+  <p class="lead" style="margin:0 auto">הקישור שלכם עובד גם בבית. נגנו את היצירה למישהו, ובקשו ממנו לנחש איך מנגנים לפני שאתם מסבירים.</p>
+  <div class="tags" style="justify-content:center"><span>🎻 תזמורת של 3 כלים</span><span>🥁 לופ תופים ב-BandLab</span><span>🏛️ דף מוזיאון ב-Google Sites</span></div>
+  <div class="eq" style="margin-top:22px" aria-hidden="true"><i style="--d:3"></i><i style="--d:1"></i><i style="--d:5"></i><i style="--d:2"></i><i style="--d:7"></i><i style="--d:4"></i><i style="--d:6"></i><i style="--d:2"></i><i style="--d:8"></i><i style="--d:3"></i></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-roles"><h3>🧪 מקימים מעבדה (3 דקות)</h3><ol><li>הכרטיסים עוברים לפי הסדר שעל השולחן. כל אחד קורא בשקט את הכרטיס שלו.</li><li>בצוות של 4: הבונה ב-Canvas הוא גם המתכנן/ת.</li><li>בוחרים שם למעבדה: "מעבדת ___". כותבים אותו על השלט.</li><li>הממציא/ה הראשי/ת מרים/ה את השלט כשהמעבדה מוכנה.</li></ol></template>
+<template id="help-rules"><h3>🏛️ הכלי של המוזיאון: פירוט</h3><ul><li><b>פקד</b> = כל דבר שמנגן או משנה צליל: מקש במקלדת, כפתור, מחוון, לחיצה בעכבר.</li><li><b>"תואם לדף"</b> = הפקד עושה בדיוק מה שכתוב בטבלת הפקדים.</li><li><b>אפקט מיוחד</b> = הד, עיוות, שינוי גוון, או אור/צבע שמגיב לצליל.</li><li>בקונצרט: מעבדה שניחשה נכון מקבלת נקודה, וגם המעבדה המציגה (עד 5 לכלי).</li><li>שופטים: המדריך/ה, המורה ונציג/ה מתחלף/ת. כל אחד מסמן רמה במחוון, ולוקחים את הממוצע.</li></ul></template>
+<template id="help-sprint1"><h3>⏱️ ספרינט 1: מי עושה מה</h3><ul><li><b>🧪 ממציא/ה ראשי/ת:</b> מקריא/ה את כרטיס ההשראה, שומר/ת על הזמן, חותם/ת על הדף בדקה 8.</li><li><b>📐 מתכנן/ת:</b> מצייר/ת וממלא/ת את טבלת הפקדים.</li><li><b>💬 בונה ב-Canvas:</b> בדקות 0–8 מכין/ה את הפרומפט מהדף. מדקה 8 בונה ובודק/ת.</li><li><b>🎼 מלחין/ה:</b> מציע/ה צלילים לטבלה וחושב/ת על השיא של היצירה.</li><li><b>🎤 מנהל/ת הקונצרט:</b> מסמן/ת ✓ או ✗ ליד כל פקד בזמן הבדיקה.</li></ul></template>
+<template id="help-check"><h3>🔬 בדיקת המכשיר</h3><ol><li>2 נגנים עוברים למעבדה השכנה (כיוון השעון). השאר נשארים ליד הכלי שלהם.</li><li>מקבלים רק את דף התכנון. בעלי הכלי לא מדברים!</li><li>מנסים כל פקד שבטבלה ומסמנים ✓ או ✗ בדף "בדיקת המכשיר".</li><li>כותבים שיפור אחד: "היה יותר קל לנגן אם...".</li><li>חוזרים הביתה ומוסרים את הדף.</li></ol></template>
+<template id="help-sprint2"><h3>⏱️ ספרינט 2: מי עושה מה</h3><ul><li><b>💬 בונה ב-Canvas:</b> מתקן/ת פקדים שקיבלו ✗, אחד בכל פעם.</li><li><b>🎼 מלחין/ה:</b> כותב/ת את היצירה בדף התווים הגרפיים: התחלה, שיא וסוף.</li><li><b>📐 מתכנן/ת:</b> מעדכן/ת את הדף בכל תיקון, ועוזר/ת להלחין.</li><li><b>🎤 מנהל/ת הקונצרט:</b> מחלק/ת מי מנגן מה, מריץ/ה חזרות עם שעון ומגיש/ה בטופס.</li><li><b>🧪 ממציא/ה ראשי/ת:</b> מחליט/ה מה עוד נכנס, ומה כבר לא.</li></ul></template>
+<template id="help-submit"><h3>📤 איך מגישים</h3><ol><li>ב-Canvas: סמל השיתוף ← "העתקת קישור". פותחים את הקישור בלשונית חדשה ובודקים שהכלי עובד.</li><li>מצלמים בטלפון או במחשב את דף התכנון ואת דף התווים.</li><li>ממלאים את הטופס. שם הקובץ: מעבדת [שם] · כלי · [שם הכלי].</li><li>שורת AI: "Canvas בנה ___. אנחנו תכננו ___, הלחנו ___ ותיקנו ___."</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== מעבדת הכלים המומצאים · lesson add-on (runs after the engine; the engine is untouched) =====
+   1) tiny Web Audio synth (no files) + sound buttons, 2) ear quiz, 3) theremin pad, 4) playable "crystal waterfall",
+   5) inspiration slot machine, 6) graphic scores (body orchestra + sample piece) with a moving playhead,
+   7) concert stage clock, 8) live scoreboard, 9) remembered text boxes, 10) copy buttons, 11) numbered-heads picker. */
+(()=>{
+const store={get(k,d){try{const v=localStorage.getItem('tie-instr:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem('tie-instr:'+k,JSON.stringify(v))}catch(e){}}};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const activeSlide=()=>$('#deck .slide.active');
+
+/* ---------- 1) synth ---------- */
+const AC=window.AudioContext||window.webkitAudioContext;let ctx=null,master=null;
+function ac(){if(!AC)return null;if(!ctx){ctx=new AC();master=ctx.createGain();master.gain.value=.9;const comp=ctx.createDynamicsCompressor();master.connect(comp);comp.connect(ctx.destination)}
+ if(ctx.state==='suspended')ctx.resume();return ctx}
+const SCALE=[261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25];
+function tone(freq,o={}){const c=ac();if(!c)return;const {t=0,dur=.5,vol=.3,type='triangle',bell=false,echo=false}=o;
+ const reps=echo?4:1;
+ for(let r=0;r<reps;r++){const t0=c.currentTime+t+r*.26,v=vol*Math.pow(.45,r);
+  const g=c.createGain();g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(Math.max(v,.0002),t0+.012);g.gain.exponentialRampToValueAtTime(.0001,t0+dur);g.connect(master);
+  const osc=c.createOscillator();osc.type=type;osc.frequency.value=freq;osc.connect(g);osc.start(t0);osc.stop(t0+dur+.05);
+  if(bell){const g2=c.createGain();g2.gain.setValueAtTime(.0001,t0);g2.gain.exponentialRampToValueAtTime(Math.max(v*.35,.0002),t0+.01);g2.gain.exponentialRampToValueAtTime(.0001,t0+dur*.5);g2.connect(master);
+   const o2=c.createOscillator();o2.type='sine';o2.frequency.value=freq*2.01;o2.connect(g2);o2.start(t0);o2.stop(t0+dur*.5+.05)}}}
+const SFX={
+ fanfare(){[0,2,4,7].forEach((n,i)=>tone(SCALE[n%8]*(n>=7?2:1)*2,{t:i*.16,dur:1.1,vol:.28,type:'sine',bell:true,echo:i===3}));
+  const eq=$('#heroEq');if(eq){eq.classList.add('loud');setTimeout(()=>eq.classList.remove('loud'),2200)}},
+ pitch(){[130.81,261.63,523.25].forEach((f,i)=>tone(f,{t:i*.55,dur:.5,vol:.3}))},
+ vol(){[.04,.13,.38].forEach((v,i)=>tone(392,{t:i*.55,dur:.5,vol:v}))},
+ timbre(){tone(440,{dur:.8,vol:.32,type:'sine'});tone(440,{t:.95,dur:.8,vol:.13,type:'sawtooth'})},
+ dur(){tone(392,{dur:.12,vol:.3});tone(392,{t:.4,dur:.12,vol:.3});tone(392,{t:.85,dur:1.6,vol:.3})},
+ scale(){SCALE.forEach((f,i)=>{tone(f*2,{t:i*.22,dur:.7,vol:.26,type:'sine',bell:true});setTimeout(()=>flash(i),i*220)})}
+};
+const EAR={'1a':[261.63,{vol:.3}],'1b':[392,{vol:.3}],'2a':[440,{vol:.32,type:'sine'}],'2b':[440,{vol:.12,type:'square'}],'3a':[440,{vol:.06}],'3b':[440,{vol:.38}]};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sfx]');if(b&&SFX[b.dataset.sfx]){SFX[b.dataset.sfx]();return}
+ const q=e.target.closest('[data-ear]');if(q){const [f,o]=EAR[q.dataset.ear];tone(f,Object.assign({dur:.75},o))}});
+
+/* ---------- 2) ear quiz ---------- */
+$$('.earRow').forEach(r=>$$('.opts button',r).forEach(b=>b.onclick=()=>{if(r.classList.contains('done'))return;
+ if(b.dataset.v===r.dataset.ans){b.classList.add('right');r.classList.add('done')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}}));
+
+/* ---------- 3) theremin pad ---------- */
+const pad=$('#therePad');let tOsc=null,tGain=null,tVib=null;
+function padStop(){if(!tOsc)return;const c=ac();tGain.gain.setTargetAtTime(.0001,c.currentTime,.05);const o=tOsc,v=tVib;setTimeout(()=>{try{o.stop();v.stop()}catch(e){}},300);tOsc=null;pad.classList.remove('on');
+ $('#mPitch').style.width='0';$('#mVol').style.width='0'}
+function padMove(e){if(!tOsc)return;const r=pad.getBoundingClientRect();const x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),y=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
+ const near=1-x,loud=1-y;const f=160*Math.pow(1100/160,near);const c=ac();
+ tOsc.frequency.setTargetAtTime(f,c.currentTime,.03);tGain.gain.setTargetAtTime(.02+.33*loud*loud,c.currentTime,.04);
+ const d=$('.dot',pad);d.style.left=(x*100)+'%';d.style.top=(y*100)+'%';$('#mPitch').style.width=(near*100)+'%';$('#mVol').style.width=(loud*100)+'%'}
+if(pad){pad.addEventListener('pointerdown',e=>{if(tOsc){padStop();return}const c=ac();if(!c)return;
+  tOsc=c.createOscillator();tOsc.type='sine';tGain=c.createGain();tGain.gain.value=.0001;tOsc.connect(tGain);tGain.connect(master);
+  tVib=c.createOscillator();tVib.frequency.value=5.5;const vg=c.createGain();vg.gain.value=4;tVib.connect(vg);vg.connect(tOsc.frequency);
+  tOsc.start();tVib.start();pad.classList.add('on');padMove(e)});
+ pad.addEventListener('pointermove',padMove);pad.addEventListener('pointerleave',()=>{if(tOsc)tGain.gain.setTargetAtTime(.0001,ac().currentTime,.05)})}
+
+/* ---------- 4) crystal waterfall ---------- */
+const CR=$('#crystal');let echoOn=false;const NAMES=['דו','רה','מי','פה','סול','לה','סי','דו׳'];const COLORS=['#8c7ae6','#4c8bd6','#5bb5a2','#f4a259','#e76f86','#8c7ae6','#4c8bd6','#5bb5a2'];
+if(CR){CR.innerHTML=NAMES.map((n,i)=>'<button style="--c:'+COLORS[i]+';--h:'+(100-i*8)+'%" data-n="'+i+'" aria-label="'+n+'"><span class="k">'+(i+1)+'</span><span class="nm">'+n+'</span></button>').join('');
+ CR.addEventListener('pointerdown',e=>{const b=e.target.closest('button');if(b)strike(Number(b.dataset.n))})}
+function flash(i){const b=CR&&CR.querySelector('[data-n="'+i+'"]');if(!b)return;b.classList.remove('hit');void b.offsetWidth;b.classList.add('hit');setTimeout(()=>b.classList.remove('hit'),240)}
+function strike(i){tone(SCALE[i]*2,{dur:.9,vol:.27,type:'sine',bell:true,echo:echoOn});flash(i)}
+const echoBtn=$('#echoBtn');function setEcho(v){echoOn=v;if(echoBtn){echoBtn.textContent=v?'✨ הד: פועל':'✨ הד: כבוי';echoBtn.classList.toggle('on',v)}}
+if(echoBtn)echoBtn.onclick=()=>setEcho(!echoOn);
+document.addEventListener('keydown',e=>{const s=activeSlide();if(!s||!s.contains(CR)||e.target.matches('input,textarea,[contenteditable]'))return;
+ if(/^[1-8]$/.test(e.key)){e.preventDefault();strike(Number(e.key)-1)}else if(e.key==='0'){e.preventDefault();setEcho(!echoOn)}});
+
+/* ---------- 5) inspiration slot machine ---------- */
+const POOL={mat:[['🧊','קרח'],['💧','מים'],['🪵','עץ'],['🎈','גומי'],['🔩','מתכת'],['☁️','ענן'],['🪨','אבן'],['📄','נייר'],['🍮','ג׳לי'],['🏖️','חול'],['🪶','נוצות'],['🫧','בועות סבון']],
+ move:[['🌀','מסובבים'],['🌬️','נושפים'],['🧵','מותחים'],['🫨','מנערים'],['👆','מקישים'],['🛝','מחליקים'],['🤏','לוחצים וסוחטים'],['🦘','קופצים עליו'],['🧲','גוררים'],['👋','מניפים בלי לגעת'],['🥣','מערבבים'],['👏','מוחאים כפיים לידו']],
+ place:[['🌊','מתחת למים'],['🚀','בחלל'],['🌴','ביער גשם'],['🏜️','במדבר'],['🚉','בתחנת רכבת'],['🐚','בתוך צדף'],['🌕','על הירח'],['🍳','במטבח'],['🌋','בהר געש'],['📚','בספרייה שקטה'],['🌃','על גג בלילה'],['💻','בתוך מחשב']]};
+const bags={};const draw=k=>{if(!bags[k]||!bags[k].length)bags[k]=POOL[k].slice().sort(()=>Math.random()-.5);return bags[k].pop()};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+$$('.machine').forEach(m=>{const btn=$('.spinBtn',m);let busy=false;
+ btn.onclick=()=>{if(busy)return;busy=true;btn.disabled=true;const slots=$$('.slot',m);
+  slots.forEach((s,i)=>{const val=$('.slotVal',s),pool=POOL[s.dataset.kind];val.classList.add('show');s.classList.remove('landed');s.classList.add('spinning');
+   const iv=setInterval(()=>{const p=rnd(pool);$('.e',val).textContent=p[0];$('.v',val).textContent=p[1];if(ctx)tone(900+Math.random()*500,{dur:.04,vol:.04,type:'square'})},90);
+   setTimeout(()=>{clearInterval(iv);const p=draw(s.dataset.kind);$('.e',val).textContent=p[0];$('.v',val).textContent=p[1];s.classList.remove('spinning');void s.offsetWidth;s.classList.add('landed');
+    tone(SCALE[[0,2,4][i]]*2,{dur:.6,vol:.22,type:'sine',bell:true});if(i===slots.length-1){busy=false;btn.disabled=false}},900+i*550)})}});
+
+/* ---------- 6) graphic scores ---------- */
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n}
+const SCORES={
+ piece:{T:24,W:1200,H:300,x0:1150,x1:40,sections:[[0,8,'התחלה','#e5f4f0'],[8,16,'שיא','#fce9ed'],[16,24,'סוף','#e8f0fb']],
+  ev:[{t:0,n:0,v:.35},{t:1,n:2,v:.4},{t:2,n:4,v:.45},{t:3,n:2,v:.4},{t:4,n:4,v:.5},{t:5,n:5,v:.55},{t:6,n:4,v:.5,d:1.6},
+      {t:8.5,n:5,v:.7},{t:9.2,n:6,v:.8},{t:9.9,n:7,v:1,e:1},{t:11.3,n:7,v:1,e:1},{t:12.4,n:6,v:.85},{t:13,n:7,v:1,e:1},{t:14.3,n:5,v:.9},{t:14.3,n:7,v:.9},{t:15.2,n:4,v:.8,e:1},
+      {t:16.6,n:4,v:.6},{t:17.6,n:3,v:.5},{t:18.6,n:2,v:.45},{t:19.6,n:1,v:.38},{t:20.6,n:0,v:.32,d:2.6}]},
+ body:{T:20,W:1200,H:250,x0:1030,x1:30,lanes:[['👏 שורה 1','מחיאות','#e76f86'],['🦶 שורה 2','רקיעות','#f4a259'],['🤫 שורה 3','"שששש"','#4c8bd6'],['🎵 שורה 4','זמזום "מממ"','#8c7ae6']],
+  ev:[{l:0,t:0},{l:0,t:1},{l:0,t:2},{l:0,t:3},{l:1,t:4},{l:1,t:5.5},{l:2,t:2,d:2,k:'line'},{l:3,t:6,d:3.5,k:'line'},{l:1,t:7},{l:1,t:8.5},
+      {l:0,t:10},{l:0,t:10.5},{l:0,t:11},{l:0,t:11.5},{l:0,t:12},{l:1,t:10},{l:1,t:11},{l:1,t:12},{l:2,t:12.5,d:3.5,k:'grow'},{l:3,t:13,d:3.5,k:'grow'},{l:0,t:13.5},{l:1,t:13.5},{l:0,t:14.5},{l:1,t:14.5},{l:0,t:15.5},{l:1,t:15.5},
+      {l:3,t:16.5,d:2.6,k:'fade'},{l:2,t:16.5,d:1.5,k:'fade'},{l:0,t:19.4},{l:1,t:19.4},{l:2,t:19.4},{l:3,t:19.4}]}
+};
+function buildScore(box){const S=SCORES[box.dataset.score];if(!S)return;const svg=el('svg',{viewBox:'0 0 '+S.W+' '+S.H,role:'img','aria-label':'תווים גרפיים'});box.innerHTML='';box.appendChild(svg);
+ const X=t=>S.x0-(t/S.T)*(S.x0-S.x1);S.X=X;S.nodes=[];
+ if(S.sections){const Y=n=>S.H-60-n*24;S.Y=Y;
+  S.sections.forEach(([a,b,lbl,c])=>{el('rect',{x:X(b),y:14,width:X(a)-X(b),height:S.H-48,rx:14,fill:c,opacity:.75},svg);const t=el('text',{x:(X(a)+X(b))/2,y:S.H-12,'text-anchor':'middle','font-family':'Rubik,Arial','font-size':20,'font-weight':800,fill:'#5b6574'},svg);t.textContent=lbl});
+  for(let n=0;n<8;n++)el('line',{x1:S.x1,x2:S.x0,y1:Y(n),y2:Y(n),stroke:'#e7e3dc','stroke-width':1,'stroke-dasharray':'3 7'},svg);
+  const up=el('text',{x:S.x0+30,y:Y(7)+6,'text-anchor':'middle','font-family':'Rubik,Arial','font-size':15,'font-weight':700,fill:'#8a93a1'},svg);up.textContent='גבוה';
+  const dn=el('text',{x:S.x0+30,y:Y(0)+6,'text-anchor':'middle','font-family':'Rubik,Arial','font-size':15,'font-weight':700,fill:'#8a93a1'},svg);dn.textContent='נמוך';
+  S.ev.forEach(e=>{const g=el('g',{},svg);const x=X(e.t),y=Y(e.n),r=7+e.v*13,c=COLORS[e.n];
+   if(e.d)el('line',{x1:x,x2:X(e.t+e.d),y1:y,y2:y,stroke:c,'stroke-width':6+e.v*6,'stroke-linecap':'round',opacity:.85},g);
+   if(e.e){let d='M'+(x-r-4)+' '+y;for(let k=0;k<3;k++){const xx=x-r-4-k*16;d+=' q -4 -9 -8 0 q -4 9 -8 0'}el('path',{d,fill:'none',stroke:c,'stroke-width':3.5,'stroke-linecap':'round',opacity:.8},g)}
+   const ci=el('circle',{cx:x,cy:y,r,fill:c},g);S.nodes.push({e,ci,r})})}
+ else{const LH=52,top=14;S.lanes.forEach(([lbl,sub,c],i)=>{const y=top+i*LH;el('rect',{x:S.x1-10,y,width:S.x0-S.x1+20,height:LH-8,rx:12,fill:c,opacity:.08,class:'laneBg'},svg);
+   const t=el('text',{x:S.W-12,y:y+22,'text-anchor':'start',direction:'rtl','font-family':'Rubik,Arial','font-size':19,'font-weight':800,fill:'#1f2a37'},svg);t.textContent=lbl;
+   const t2=el('text',{x:S.W-12,y:y+40,'text-anchor':'start',direction:'rtl','font-family':'Heebo,Arial','font-size':14,fill:'#5b6574'},svg);t2.textContent=sub});
+  S.ev.forEach(e=>{const c=S.lanes[e.l][2],y=top+e.l*LH+(LH-8)/2,x=X(e.t);let node;
+   if(e.k==='line')node=el('line',{x1:x,x2:X(e.t+e.d),y1:y,y2:y,stroke:c,'stroke-width':9,'stroke-linecap':'round'},svg);
+   else if(e.k==='grow')node=el('path',{d:'M'+x+' '+y+' L'+X(e.t+e.d)+' '+(y-17)+' L'+X(e.t+e.d)+' '+(y+17)+' Z',fill:c,opacity:.85},svg);
+   else if(e.k==='fade')node=el('path',{d:'M'+x+' '+(y-17)+' L'+X(e.t+e.d)+' '+y+' L'+x+' '+(y+17)+' Z',fill:c,opacity:.85},svg);
+   else node=el('circle',{cx:x,cy:y,r:10,fill:c},svg);S.nodes.push({e,ci:node,r:10})});
+  [5,10,15].forEach(s=>{const t=el('text',{x:X(s),y:S.H-8,'text-anchor':'middle','font-family':'Rubik,Arial','font-size':14,'font-weight':700,fill:'#8a93a1'},svg);t.textContent=s+' שנ׳'})}
+ S.head=el('line',{x1:S.x0,x2:S.x0,y1:6,y2:S.H-34,stroke:'#1f2a37','stroke-width':3,opacity:0},svg);S.svg=svg}
+$$('.score[data-score]').forEach(buildScore);
+let running=null;
+function stopScore(){if(!running)return;cancelAnimationFrame(running.raf);running.S.head.setAttribute('opacity',0);running.btn.textContent=running.label;running.btn.classList.remove('on');running.S.nodes.forEach(n=>{n.ci.style.opacity=''});running=null}
+function runScore(btn){const S=SCORES[btn.dataset.run];if(!S)return;if(running){const same=running.S===S;stopScore();if(same)return}
+ const c=ac();const start=performance.now();const label=btn.textContent;btn.textContent='⏹ עצירה';btn.classList.add('on');S.head.setAttribute('opacity',.85);
+ const done=new Set();running={S,btn,label,raf:0};
+ const step=now=>{const t=(now-start)/1000;if(t>S.T+.4){stopScore();return}const x=S.X(Math.min(t,S.T));S.head.setAttribute('x1',x);S.head.setAttribute('x2',x);
+  S.nodes.forEach((n,i)=>{if(!done.has(i)&&t>=n.e.t){done.add(i);n.ci.style.opacity='.45';
+   if(S.Y)tone(SCALE[n.e.n]*2,{dur:n.e.d?Math.max(.9,n.e.d):.75,vol:.08+.24*n.e.v,type:'sine',bell:true,echo:!!n.e.e});
+   else if(!n.e.k&&c)tone(1400,{dur:.05,vol:.05,type:'square'})}});
+  running.raf=requestAnimationFrame(step)};
+ running.raf=requestAnimationFrame(step)}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-run]');if(b)runScore(b)});
+
+/* stop sounds when the slide changes */
+const mo=new MutationObserver(()=>{const s=activeSlide();if(pad&&tOsc&&!s.contains(pad))padStop();if(running&&!s.contains(running.btn))stopScore()});
+$$('#deck .slide').forEach(s=>mo.observe(s,{attributes:true,attributeFilter:['class']}));
+
+/* ---------- 7) concert stage clock ---------- */
+const phs=$$('#phases .phase');const P=phs.map(p=>Number(p.dataset.s));const TOT=P.reduce((a,b)=>a+b,0);let sLeft=TOT,sIv=null;
+const fmt=s=>String(Math.floor(Math.max(0,s)/60)).padStart(2,'0')+':'+String(Math.max(0,s)%60).padStart(2,'0');
+function stageRender(){const used=TOT-sLeft;let acc=0,cur=-1;P.forEach((d,i)=>{const p=phs[i];const a=acc,b=acc+d;acc=b;const inP=used>=a&&used<b;if(inP)cur=i;
+  p.classList.toggle('now',inP&&(sIv||used>0));p.classList.toggle('past',used>=b);$('.bar i',p).style.width=(Math.min(1,Math.max(0,(used-a)/d))*100)+'%'});
+ const out=$('#stageOut'),ph=$('#stagePh');if(!out)return;
+ if(sLeft<=0){out.textContent='00:00';ph.textContent='👏 תודה! המעבדה הבאה';$('#stageClock').classList.add('over')}
+ else{let a2=0;for(let i=0;i<P.length;i++){if(used<a2+P[i]){out.textContent=fmt(a2+P[i]-used);ph.textContent=(sIv||used>0)?$('b',phs[i]).textContent:'מוכנים?';break}a2+=P[i]}$('#stageClock').classList.remove('over')}
+ $('#stageTot').textContent='סה״כ נשאר '+fmt(sLeft)}
+let lastPhase=-1;
+function stageTick(){sLeft--;const used=TOT-sLeft;let acc=0,cur=P.length;for(let i=0;i<P.length;i++){if(used<acc+P[i]){cur=i;break}acc+=P[i]}
+ if(cur!==lastPhase){lastPhase=cur;tone(cur>=P.length?392:784,{dur:.5,vol:.18,type:'sine',bell:true})}
+ if(sLeft<=0){clearInterval(sIv);sIv=null;$('#stageGo').textContent='▶ התחלה'}stageRender()}
+if($('#stageGo')){$('#stageGo').onclick=()=>{if(sIv){clearInterval(sIv);sIv=null;$('#stageGo').textContent='▶ המשך'}else{if(sLeft<=0)sLeft=TOT;ac();sIv=setInterval(stageTick,1000);$('#stageGo').textContent='⏸ עצירה';stageRender()}};
+ $('#stageReset').onclick=()=>{clearInterval(sIv);sIv=null;sLeft=TOT;lastPhase=-1;$('#stageGo').textContent='▶ התחלה';stageRender()};stageRender()}
+
+/* ---------- 8) live scoreboard ---------- */
+const COLS=[['ctl','🎛️ פקדים','0–8',1,8],['eight','🎵 8 צלילים','0/3',3,3],['fx','✨ אפקט','0/2',2,2],['guessed','🕵️ ניחשו אותנו','עד 5',1,5],['guess','🔎 ניחשנו','1 לכל',1,99],['piece','🎼 יצירה','0/3',3,3],['jury','⚖️ שופטים','עד 16',1,16]];
+let B=store.get('board',null);
+if(!B||!Array.isArray(B.teams))B={n:7,minus:false,teams:Array.from({length:8},(_,i)=>({name:'מעבדה '+(i+1),s:{}}))};
+const save=()=>store.set('board',B);
+const tot=t=>COLS.reduce((a,[k])=>a+(Number(t.s[k])||0),0);
+function render(){$$('[data-board]').forEach(w=>{const teams=B.teams.slice(0,B.n);const max=Math.max(...teams.map(tot));
+ let h='<div class="tableWrap'+(B.minus?' minus':'')+'"><table class="t board"><thead><tr><th>מעבדה <small>לחצו לשינוי השם</small></th>'+
+  COLS.map(([k,l,s])=>'<th>'+l+'<small><bdi dir="ltr">'+s+'</bdi></small></th>').join('')+'<th>סה״כ</th></tr></thead><tbody>';
+ teams.forEach((t,i)=>{const T=tot(t);h+='<tr class="'+(max>0&&T===max?'top':'')+'"><td class="name" contenteditable="true" spellcheck="false" data-i="'+i+'"></td>'+
+  COLS.map(([k])=>{const v=Number(t.s[k])||0;return '<td class="n'+(v?'':' z')+'" data-i="'+i+'" data-k="'+k+'">'+v+'</td>'}).join('')+'<td class="tot">'+T+'</td></tr>'});
+ h+='</tbody></table></div><div class="boardBar"><button class="ghost modeBtn'+(B.minus?' on':'')+'">'+(B.minus?'➖ מצב הורדה':'➕ מצב הוספה')+'</button>'+
+  '<button class="ghost" data-act="less">− מעבדה</button><button class="ghost" data-act="more">+ מעבדה</button><button class="ghost" data-act="reset">↺ איפוס</button>'+
+  '<span class="hint">8 צלילים, אפקט ויצירה קופצים בבת אחת (3 / 2 / 3). הסה״כ מתעדכן לבד.</span></div>';
+ w.innerHTML=h;$$('td.name',w).forEach(td=>{td.textContent=B.teams[td.dataset.i].name})})}
+document.addEventListener('click',e=>{const w=e.target.closest('[data-board]');if(!w)return;const td=e.target.closest('td.n');
+ if(td){const t=B.teams[td.dataset.i],col=COLS.find(c=>c[0]===td.dataset.k);const cur=Number(t.s[col[0]])||0;
+  t.s[col[0]]=B.minus?Math.max(0,cur-col[3]):Math.min(col[4],cur+col[3]);save();render();return}
+ if(e.target.closest('.modeBtn')){B.minus=!B.minus;save();render();return}
+ const a=e.target.closest('[data-act]');if(!a)return;
+ if(a.dataset.act==='less')B.n=Math.max(2,B.n-1);if(a.dataset.act==='more')B.n=Math.min(8,B.n+1);
+ if(a.dataset.act==='reset'){if(!confirm('לאפס את כל הנקודות? שמות המעבדות יישארו.'))return;B.teams.forEach(t=>t.s={})}
+ save();render()});
+document.addEventListener('input',e=>{const td=e.target.closest('[data-board] td.name');if(!td)return;B.teams[td.dataset.i].name=td.textContent.trim()||('מעבדה '+(Number(td.dataset.i)+1));save()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[contenteditable]')){e.preventDefault();e.target.blur()}},true);
+render();
+
+/* ---------- 9) remembered text (form link, stage name, award winners) ---------- */
+$$('[contenteditable][data-key]').forEach(el2=>{const k='txt:'+el2.dataset.key;el2.textContent=store.get(k,'');
+ el2.addEventListener('input',()=>store.set(k,el2.textContent.trim()));el2.addEventListener('blur',()=>{if(!el2.textContent.trim())el2.textContent=''})});
+
+/* ---------- 10) copy prompt ---------- */
+$$('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=$('.ptext',b.parentElement).textContent.trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+
+/* ---------- 11) numbered heads ---------- */
+let last=0;$$('.pickBtn').forEach(b=>b.onclick=()=>{const o=$('output',b.parentElement);let n;do{n=1+Math.floor(Math.random()*5)}while(n===last);last=n;
+ let k=0;const iv=setInterval(()=>{o.textContent=1+Math.floor(Math.random()*5);if(++k>8){clearInterval(iv);o.textContent=n}},70)});
+})();
+</script>
+</body>
+</html>

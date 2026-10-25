@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · מעבדת הכלים המומצאים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== מעבדת הכלים המומצאים · materials additions ===== */
+.k-mat{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-move{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-place{--c:#5bb5a2;--cs:#e3f3ef;--c-ink:#23826f}
+.k-side{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.cc .tip2{font-size:8.2pt;color:var(--muted);line-height:1.3}
+table.tb.ctl td{height:7.4mm;vertical-align:middle}
+table.tb.ctl td.k{width:18mm;text-align:center;font-family:var(--display);font-weight:800;color:var(--teal)}
+table.tb.ctl td.ok{width:13mm;text-align:center;color:var(--dim);font-size:8.5pt}
+.ex-fill{font-family:"Segoe Print","Comic Sans MS",var(--body);color:#2f6db5;font-size:10pt}
+.chk{display:flex;flex-direction:column;gap:2mm;padding:5mm 5.5mm}
+.chk .head{display:flex;justify-content:space-between;align-items:center}
+.chk .head b{font-family:var(--display);font-weight:800;font-size:13pt}
+.grid8{display:grid;grid-template-columns:repeat(5,1fr);gap:1.6mm}
+.grid8 div{border:1px solid var(--line2);border-radius:2mm;padding:1.4mm 2mm;font-size:9pt;display:flex;justify-content:space-between;align-items:center}
+.grid8 div i{font-style:normal;color:var(--dim);font-size:8.5pt}
+/* graphic score sheet */
+.gscore{position:relative;border:1.2px solid var(--line2);border-radius:3mm;overflow:hidden;display:grid;grid-template-columns:22mm 1fr}
+.gscore .lanes{display:grid;grid-template-rows:repeat(3,1fr)}
+.gscore .lab{display:flex;flex-direction:column;justify-content:center;padding:2mm 2.5mm;border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);background:var(--paper);font-size:8.6pt}
+.gscore .lab b{font-family:var(--display);font-size:10pt}
+.gscore .lab:last-child{border-bottom:0}
+.gscore .area{position:relative;display:grid;grid-template-rows:repeat(3,1fr)}
+.gscore .area>div{border-bottom:1px solid var(--line2);background-image:repeating-linear-gradient(to left,transparent 0,transparent calc(10% - 1px),#e2ddd3 calc(10% - 1px),#e2ddd3 10%)}
+.gscore .area>div:last-child{border-bottom:0}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);margin-right:22mm;font-family:var(--display);font-weight:700;font-size:9pt;text-align:center;color:var(--muted)}
+.zones span{padding:1mm 0;border-radius:2mm;margin:0 1mm}
+.zones span:nth-child(1){background:#e5f4f0}.zones span:nth-child(2){background:#fce9ed}.zones span:nth-child(3){background:#e8f0fb}
+.ticks{display:grid;grid-template-columns:repeat(10,1fr);margin-right:22mm;font-size:8pt;color:var(--dim);text-align:right}
+.ticks span{border-right:1px solid var(--line2);padding-right:1mm}
+.leg{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm 4mm;font-size:9.2pt}
+.leg div{display:flex;align-items:center;gap:2.5mm}
+.leg svg{width:12mm;height:6mm;flex:none}
+/* guess strips */
+.strips{grid-template-rows:repeat(8,1fr);flex:1}
+.strip{display:grid;grid-template-columns:30mm 1fr 26mm;align-items:center;gap:3mm;padding:2mm 4mm;font-size:9.4pt}
+.strip b{font-family:var(--display);font-size:10.5pt}
+.strip .ln{border-bottom:1px solid var(--ink);height:6mm}
+.strip .ok{font-size:8.6pt;color:var(--muted);text-align:center}
+/* museum labels */
+.labels{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.mlabel{padding:6mm;display:flex;flex-direction:column;gap:2.5mm;position:relative}
+.mlabel::before{content:"";position:absolute;inset:3mm;border:1.2px solid #ead19a;border-radius:2mm;pointer-events:none}
+.mlabel .mk{font-family:var(--display);font-weight:700;font-size:8pt;color:#8a5300;letter-spacing:.05em}
+.mlabel b{font-family:var(--display);font-weight:800;font-size:15pt}
+/* certificates */
+.certs{display:grid;grid-template-rows:1fr 1fr;gap:8mm;flex:1}
+.cert{position:relative;border:1.4px solid #e5cf98;border-radius:4mm;background:linear-gradient(180deg,#fffdf6,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3mm;padding:8mm 14mm}
+.cert::before{content:"";position:absolute;inset:3.5mm;border:1px dashed #e5cf98;border-radius:3mm;pointer-events:none}
+.cert .em{font-size:34pt;line-height:1}
+.cert .mk{font-family:var(--display);font-weight:700;font-size:9pt;color:#8a5300;letter-spacing:.06em}
+.cert h3{font-family:var(--display);font-weight:800;font-size:22pt;margin:0}
+.cert p{font-size:10.5pt;color:var(--muted);max-width:140mm}
+.cert .nm{width:110mm;border-bottom:1.4px solid var(--ink);height:11mm}
+.cert .sig{display:flex;gap:20mm;font-size:9pt;color:var(--muted);margin-top:2mm}
+.judge td{height:12mm}
+.judge td.c{text-align:center;color:var(--dim);font-size:8pt}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · מעבדת הכלים המומצאים<small>90 דק׳ · יצירה עם AI · 21 עמודים</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<!-- ===================== 0. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של <bdi dir="ltr">28–32</bdi> תלמידים ב-7 מעבדות של <bdi dir="ltr">4–5</bdi>. לכיתה אחרת: לפי מספר המעבדות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td><bdi dir="ltr">2–3</bdi></td><td>כרטיסי תפקיד, נורמות ורמזור</td><td>1 סט למעבדה (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה</td><td>1 למעבדה (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף תכנון כלי</td><td>1 למעבדה + 3 רזרבה (10)</td><td>רגיל, עדיף A3</td><td>לא</td></tr>
+      <tr><td>6</td><td>דוגמה פתורה: מפל הקריסטל</td><td>1 לכל 2 מעבדות (4)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td><bdi dir="ltr">7–9</bdi></td><td>כרטיסי השראה: חומר, תנועה, מקום</td><td>1 סט לכיתה</td><td>בריסטול צבעוני</td><td>כן, 3 ערמות</td></tr>
+      <tr><td>10</td><td>דף "בדיקת המכשיר"</td><td>4 עמודים (8 דפים)</td><td>רגיל</td><td>כן, לחצאים</td></tr>
+      <tr><td>11</td><td>דף התווים הגרפיים</td><td>1 למעבדה + 3 רזרבה (10)</td><td>רגיל, עדיף A3</td><td>לא</td></tr>
+      <tr><td>12</td><td>פתקי ניחוש "איך מנגנים"</td><td>1 עמוד למעבדה (7)</td><td>רגיל</td><td>כן, לרצועות</td></tr>
+      <tr><td>13</td><td>דף שיפוט</td><td>1 לכל שופט (3)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>14</td><td>מחוון</td><td>1 למעבדה + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>כרטיסי משימות צד</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>16</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>17</td><td>כרטיס יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>18</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>19</td><td>תוויות מוזיאון (משימת צד)</td><td>2 עמודים (8)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td><bdi dir="ltr">20–21</bdi></td><td>תעודות פרסים</td><td>1 מכל עמוד</td><td>בריסטול</td><td>כן, לחצאים</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בארגז של כל מעבדה</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + שלט מעבדה</li><li>כרטיס משימה, דף תכנון ודף תווים</li><li>מחוון ופתקי ניחוש</li><li>טושים ב-4 צבעים, עיפרון, מחק</li><li>זוג אוזניות לפחות (או מפצל אוזניות)</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>3 ערמות כרטיסי השראה</li><li>קופסת משימות צד</li><li>דפי בדיקת המכשיר ודפי שיפוט</li><li>רמקול למחשב המקרן</li><li>כרטיסי יציאה, רצועות AI ותעודות</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 1. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · מעבדת הכלים המומצאים</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. כל כרטיס מתאים לתפקיד הקבוע בצוות (בסוגריים), ובשיעור הבא עובר לאדם שמשמאל.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🧪</span><div><b>ממציא/ה ראשי/ת</b><small>(מנכ״ל/ית) · החזון והזמן</small></div></div>
+      <p class="mis">המשימה שלי: שהמעבדה ממציאה כלי אחד ברור, מסיימת אותו בזמן ומגיעה לקונצרט מוכנה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מקריא/ה את כרטיס המשימה ואת כרטיס ההשראה.</li><li>מנהל/ת סיעור של 3 דקות: "איך מנגנים בכלי שלנו?"</li><li>חותם/ת על דף התכנון בדקה 8, ורק אז פותחים Canvas.</li><li>מחליט/ה מה נכנס לכלי ומה כבר לא.</li><li><b>רק אני</b> קורא/ת למדריך.</li></ul>
+      <div class="say">💬 "מה הדבר הכי מוזר שהכלי שלנו יכול לעשות?" · "זה נכנס או לא?"</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא בונה במקום הבונה.</p>
+      <p class="bonus">✓ הצלחתי כש: הדף נחתם בזמן, והגשנו לפני הקונצרט</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">📐</span><div><b>מתכנן/ת</b><small>(חוקר/ת) · הציור והפקדים</small></div></div>
+      <p class="mis">המשימה שלי: שכל אחד יבין איך מנגנים בכלי רק מהדף.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מצייר/ת את הכלי ומסמן/ת בחצים איפה נוגעים.</li><li>ממלא/ת את טבלת הפקדים: מקש, צליל, מה רואים.</li><li>בודק/ת שיש 8 צלילים ואפקט אחד.</li><li>מעדכן/ת את הדף בכל תיקון שעובד.</li></ul>
+      <div class="say">💬 "איזה מקש? איזה צליל? מה רואים כשלוחצים?"</div>
+      <p class="no">✗ לא כותב/ת "צליל יפה". כותב/ת "דו נמוך", "מקש 3".</p>
+      <p class="bonus">✓ הצלחתי כש: השכנים ניגנו בכלי רק לפי הדף שלי</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">💬</span><div><b>בונה ב-Canvas</b><small>(בונה) · מהדף לכלי</small></div></div>
+      <p class="mis">המשימה שלי: להפוך את דף התכנון לכלי שמנגן באמת.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>כותב/ת את הפרומפט הראשון מתוך הדף.</li><li>בודק/ת כל פקד מול הטבלה ומסמן/ת ✓ או ✗.</li><li>מתקן/ת פקד אחד בכל פעם, עם "בחירה ושאלה".</li><li>משתף/ת: "העתקת קישור", ובודק/ת שהקישור נפתח.</li></ul>
+      <div class="say">💬 "זה עובד כמו שכתוב?" · "אל תשנה שום דבר אחר."</div>
+      <p class="no">✗ לא מוסיף/ה דברים שלא בדף בלי לשאול את הצוות.</p>
+      <p class="bonus">✓ הצלחתי כש: כל הפקדים בטבלה קיבלו ✓</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">🎼</span><div><b>מלחין/ה</b><small>(מציג/ה ומתעד/ת) · היצירה</small></div></div>
+      <p class="mis">המשימה שלי: יצירה של <bdi dir="ltr">20–30</bdi> שניות שיש בה התחלה, שיא וסוף.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מציע/ה צלילים לטבלה כבר בספרינט 1.</li><li>כותב/ת את היצירה בדף התווים הגרפיים.</li><li>מכין/ה מקרא: איזו צורה = איזה מקש.</li><li>מתאמן/ת עם הנגנים ובודק/ת זמן בשעון.</li></ul>
+      <div class="say">💬 "איפה השיא?" · "בואו ננגן לפי הדף, לא לפי הזיכרון."</div>
+      <p class="no">✗ לא נותן/ת ל-AI להלחין. היצירה שלנו.</p>
+      <p class="bonus">✓ הצלחתי כש: ניגנו את היצירה לפי הדף, בזמן</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS 2 ===================== -->
+<section class="page" id="p-roles2" data-label="תפקיד 5, נורמות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, הנורמות, הרמזור ומה עושים כשיש 4 או 6 במעבדה.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🎤</span><div><b>מנהל/ת הקונצרט</b><small>(אחראי/ת AI) · הבמה וההגשה</small></div></div>
+      <p class="mis">המשימה שלי: שהמעבדה מגישה בזמן, עולה לבמה מוכנה ומספרת בכנות מה ה-AI עשה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מסמן/ת ✓ ✗ ליד כל פקד בזמן הבדיקה.</li><li>מחלק/ת מי מנגן מה, ומריץ/ה 2 חזרות עם שעון.</li><li>מגיש/ה בטופס, כולל שורת AI: מה Canvas בנה ומה אנחנו עשינו.</li><li>בקונצרט: מציג/ה את הכלי ומנצח/ת.</li></ul>
+      <div class="say">💬 "מי מנגן מתי?" · "איזה פרומפט תיקן את זה?"</div>
+      <p class="no">✗ לא מגיש/ה בלי שכל המעבדה ניגנה בכלי הסופי.</p>
+      <p class="bonus">✓ הצלחתי כש: ההגשה נכנסה לפני הקונצרט, וההופעה עמדה ב-90 שניות</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות המעבדה</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל המעבדה סיימה.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>עוצמת הצליל נמוכה: שבע מעבדות מנגנות יחד.</li>
+        <li>שואלים את המעבדה לפני שקוראים למדריך.</li>
+      </ol>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בכל שקף ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>דף התכנון (דקות <bdi dir="ltr">0–8</bdi>), היצירה בתווים גרפיים, כרטיס היציאה.</div>
+        <div class="y"><b>🟡 AI לרעיונות</b>מותר לשאול את Gemini רעיון לאפקט, ואנחנו מחליטים.</div>
+        <div class="g"><b>🟢 AI כשותף</b>Canvas בונה את הכלי לפי הדף שלנו, ואנחנו בודקים כל פקד.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: הקישור ציבורי. בכלי אין שמות, תמונות או פרטים אישיים.</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">🔄</span><div><b>כמה אנחנו?</b><small>חלוקה לפי גודל המעבדה</small></div></div>
+      <ul style="font-size:9.8pt"><li><b>4 במעבדה:</b> הבונה ב-Canvas הוא גם המתכנן/ת.</li><li><b>3 במעבדה:</b> הממציא/ה הראשי/ת הוא גם מנהל/ת הקונצרט, והבונה גם מתכנן/ת.</li><li><b>6 במעבדה:</b> שני בונים, "נהג/ת" ו"נווט/ת", מתחלפים כל 7 דקות.</li></ul>
+      <p style="font-size:9pt;color:var(--muted);margin-top:2mm">בקונצרט כולם מנגנים: גם מי שלא בנה מקבל לפחות מקש אחד ביצירה.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים · כרטיס המשימה</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏛️ האתגר</span><h2>הכלי <span>של המוזיאון</span></h2></div><p>מוזיאון הכלים המומצאים פותח את האגף "המוזיקה של המחר". כל מעבדה מתכננת כלי שאף אחד לא ראה, בונה גרסה שאפשר לנגן בה ומלחינה לו יצירה קצרה. בערב הקונצרט הקהל ינסה לנחש איך מנגנים בכל כלי, וכלי אחד ייבחר לתצוגה בכניסה.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 מה מגישים</h3><ul class="clean"><li>דף תכנון: ציור, "איך מנגנים", טבלת פקדים.</li><li>כלי ב-Gemini Canvas: 8 צלילים לפחות + אפקט מיוחד, וקישור שיתוף.</li><li>יצירה של <bdi dir="ltr">20–30</bdi> שניות בתווים גרפיים.</li><li>הופעה חיה בקונצרט (רשות: הקלטה ב-BandLab).</li></ul></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>מתכננים על נייר לפני שפותחים את Canvas.</li><li>8 צלילים לפחות ואפקט אחד, וכל פקד רשום בדף.</li><li>היצירה <bdi dir="ltr">20–30</bdi> שניות, ומנגנים לפי הדף.</li><li>בקונצרט הקהל מנחש על פתק איך מנגנים, לפני ההדגמה.</li><li>בכלי אין שמות, תמונות או פרטים אישיים.</li><li>מגישים בטופס עד הדקה שעל הטיימר.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:38mm">נקודות</th></tr></thead><tbody>
+      <tr><td>כל פקד שעובד ותואם לדף התכנון</td><td>1 לכל פקד (עד 8)</td></tr>
+      <tr><td>לפחות 8 צלילים או תווים</td><td>3</td></tr>
+      <tr><td>אפקט מיוחד שעובד</td><td>2</td></tr>
+      <tr><td>כל מעבדה בקהל שניחשה נכון איך מנגנים (גם המנחשים מקבלים 1)</td><td>1 לכל ניחוש (עד 5)</td></tr>
+      <tr><td>יצירה של <bdi dir="ltr">20–30</bdi> שניות לפי התווים הגרפיים</td><td>3</td></tr>
+      <tr><td>חבר השופטים לפי המחוון (4 שורות × 4 רמות)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">🏛️ הכי הרבה נקודות = הכלי של המוזיאון. שובר שוויון: יותר ניחושים נכונים. פרסים נוספים: 👽 הצליל הכי מוזר (הקהל) · 🎼 התווים הכי ברורים · 🤝 הנגנים הכי מתואמים (השופטים).</p></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">מתחילים מהדוגמה "מפל הקריסטל" ומשנים בה 3 דברים: חומר, צלילים ואפקט.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">כלי משלכם לפי כרטיס ההשראה, 8 צלילים ואפקט אחד.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">בלי מקלדת מספרים: נגינה בעכבר בלבד (גרירה, מיקום, מהירות). יצירה לשני נגנים.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 4. PLANNING SHEET ===================== -->
+<section class="page" id="p-plan" data-label="דף תכנון כלי">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים · דף תכנון כלי</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 דקות <bdi dir="ltr">0–8</bdi> · בלי AI · חותמים ורק אז פותחים Canvas</span><h2>שם הכלי: <span class="fill"></span></h2></div></div>
+  <div class="stack grow">
+    <div class="box"><h3>🎲 כרטיס ההשראה שלנו</h3><div class="grid3"><p>🧱 חומר: <span class="fill"></span></p><p>🖐️ תנועה: <span class="fill"></span></p><p>🗺️ מקום: <span class="fill"></span></p></div></div>
+    <div class="grid2" style="grid-template-columns:1fr 1.15fr">
+      <div class="sketch" data-label="1. ציור הכלי · חצים: איפה נוגעים / לוחצים" style="min-height:62mm"></div>
+      <div class="stack">
+        <div class="box"><h3>2. איך מנגנים? (משפט אחד)</h3><div class="lines h2"></div></div>
+        <div class="box"><h3>3. למה הוא נשמע ככה?</h3><p style="font-size:8.8pt;color:var(--muted)">מה רוטט בכלי? מה משנה את הגובה?</p><div class="lines h2"></div></div>
+      </div>
+    </div>
+    <div class="box"><h3>4. טבלת הפקדים · לפחות 8 צלילים + אפקט</h3>
+      <table class="tb ctl"><thead><tr><th style="width:18mm">פקד</th><th>מה הוא עושה (צליל / גובה / אפקט)</th><th style="width:44mm">מה רואים</th><th style="width:13mm">Canvas</th><th style="width:13mm">שכנים</th></tr></thead>
+      <tbody>
+        <tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr><tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr>
+        <tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr><tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr>
+        <tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr><tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr>
+        <tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr><tr><td class="k"></td><td></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr>
+        <tr><td class="k">✨</td><td><b>אפקט:</b></td><td></td><td class="ok">✓ ✗</td><td class="ok">✓ ✗</td></tr>
+      </tbody></table></div>
+    <div class="box soft"><h3>5. תבנית לפרומפט הראשון</h3><p style="font-size:9.4pt;line-height:1.75">צור כלי נגינה בשם "<span class="fill"></span>", בעברית ומימין לשמאל: <span class="fill l"></span>. המקשים <span class="fill s"></span> מנגנים <span class="fill"></span>, ו<span class="fill"></span> מאיר/זז כשהוא מנגן. מקש <span class="fill s"></span> מפעיל אפקט: <span class="fill"></span>. בלי צלילים מקבצים חיצוניים: צור את הצלילים בקוד.</p></div>
+    <p style="font-size:9.4pt">✍ חתימת הממציא/ה הראשי/ת: <span class="fill"></span> &nbsp; · &nbsp; ⏰ שעה: <span class="fill s"></span></p>
+  </div>
+</section>
+
+<!-- ===================== 5. WORKED EXAMPLE ===================== -->
+<section class="page" id="p-example" data-label="דוגמה פתורה">
+  <div class="ph"><div class="l"><i>TIE</i>דוגמה פתורה · דף תכנון מלא</div><div class="r">רמה 🚀 4</div></div>
+  <div class="pt"><div><span class="kick">📐 ככה נראה דף תכנון של "מעבדת הזוהר"</span><h2>שם הכלי: <span>מפל הקריסטל</span></h2></div><p>מותר להשתמש בדוגמה כבסיס (רמת בסיס), אבל צריך לשנות בה לפחות 3 דברים: החומר, הצלילים והאפקט.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>🎲 כרטיס ההשראה</h3><div class="grid3 ex-fill"><p>🧱 חומר: זכוכית</p><p>🖐️ תנועה: מקישים</p><p>🗺️ מקום: מתחת למפל</p></div></div>
+    <div class="grid2" style="grid-template-columns:1fr 1.15fr">
+      <div class="box" style="display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 400 210" style="width:100%">
+          <path d="M10 20 Q 200 -2 390 20" fill="none" stroke="#4c8bd6" stroke-width="3" stroke-dasharray="6 6"/>
+          <g font-family="Rubik,Arial" font-size="14" font-weight="800" text-anchor="middle" fill="#1f2a37">
+            <rect x="22" y="34" width="34" height="140" rx="9" fill="#ece8fb" stroke="#8c7ae6" stroke-width="2"/><text x="39" y="166">1</text>
+            <rect x="68" y="46" width="34" height="128" rx="9" fill="#e8f0fb" stroke="#4c8bd6" stroke-width="2"/><text x="85" y="166">2</text>
+            <rect x="114" y="58" width="34" height="116" rx="9" fill="#e5f4f0" stroke="#5bb5a2" stroke-width="2"/><text x="131" y="166">3</text>
+            <rect x="160" y="70" width="34" height="104" rx="9" fill="#fdf0e3" stroke="#f4a259" stroke-width="2"/><text x="177" y="166">4</text>
+            <rect x="206" y="82" width="34" height="92" rx="9" fill="#fce9ed" stroke="#e76f86" stroke-width="2"/><text x="223" y="166">5</text>
+            <rect x="252" y="94" width="34" height="80" rx="9" fill="#ece8fb" stroke="#8c7ae6" stroke-width="2"/><text x="269" y="166">6</text>
+            <rect x="298" y="106" width="34" height="68" rx="9" fill="#e8f0fb" stroke="#4c8bd6" stroke-width="2"/><text x="315" y="166">7</text>
+            <rect x="344" y="118" width="34" height="56" rx="9" fill="#e5f4f0" stroke="#5bb5a2" stroke-width="2"/><text x="361" y="166">8</text>
+          </g>
+          <text x="200" y="196" font-family="Heebo,Arial" font-size="13" fill="#5b6574" text-anchor="middle">עמודה גבוהה = צליל נמוך · מים זורמים מלמעלה</text>
+        </svg>
+      </div>
+      <div class="stack">
+        <div class="box"><h3>2. איך מנגנים?</h3><p class="ex-fill">מקישים על עמודות זכוכית שמים זורמים עליהן. מקש 0 פותח "מערה" שמחזירה הד.</p></div>
+        <div class="box"><h3>3. למה הוא נשמע ככה?</h3><p class="ex-fill">הזכוכית רוטטת. עמודה ארוכה רוטטת לאט ולכן נשמעת נמוך, ועמודה קצרה רוטטת מהר ונשמעת גבוה. בתוך מערה הצליל חוזר מהקירות.</p></div>
+      </div>
+    </div>
+    <div class="box"><h3>4. טבלת הפקדים</h3>
+      <table class="tb ctl"><thead><tr><th style="width:18mm">פקד</th><th>מה הוא עושה</th><th style="width:44mm">מה רואים</th><th style="width:13mm">Canvas</th><th style="width:13mm">שכנים</th></tr></thead>
+      <tbody class="ex-fill">
+        <tr><td class="k"><bdi dir="ltr">1–8</bdi></td><td>8 תווים: דו רה מי פה סול לה סי דו׳ (מנמוך לגבוה)</td><td>העמודה מאירה</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td class="k">עכבר</td><td>לחיצה על עמודה מנגנת אותה</td><td>העמודה קופצת</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td class="k">0</td><td>✨ אפקט: מדליק ומכבה הד שחוזר 3 פעמים ונחלש</td><td>כיתוב "הד פועל"</td><td class="ok">✗ ← ✓</td><td class="ok">✓</td></tr>
+        <tr><td class="k">↑ ↓</td><td>תיקון אחרי בדיקת המכשיר: חצים מזיזים את כל הכלי אוקטבה למעלה או למטה</td><td>מספר אוקטבה בפינה</td><td class="ok">✓</td><td class="ok">—</td></tr>
+      </tbody></table></div>
+    <div class="box soft"><h3>🤖 שורת ה-AI של מעבדת הזוהר</h3><p class="ex-fill">Canvas בנה את הקוד, הצבעים והצלילים. אנחנו המצאנו את הכלי, תכננו את הפקדים והלחנו. Canvas לא הפעיל את ההד במקש 0, ותיקנו ב"בחירה ושאלה": "המקש 0 לא מפעיל הד. תקן רק אותו". המתכנן הוסיף את החצים אחרי שהשכנים אמרו שהצלילים גבוהים מדי.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6-8. INSPIRATION CARDS ===================== -->
+<section class="page" id="p-mat" data-label="השראה: חומרים">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי השראה · 🧱 חומר</div><div class="r">ערמה 1 מתוך 3</div></div>
+  <p class="cutnote">✂ לגזור ולשים בערמה כחולה. כל מעבדה שולפת כרטיס אחד מכל ערמה. מותר להחליף כרטיס אחד, פעם אחת.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M1</span><span class="em">🧊</span><b>קרח</b><small class="tip2">נטיפים, קוביות, משטח החלקה</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M2</span><span class="em">💧</span><b>מים</b><small class="tip2">טיפות, גלים, מפל</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M3</span><span class="em">🪵</span><b>עץ</b><small class="tip2">ענפים, קורות, קליפה</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M4</span><span class="em">🎈</span><b>גומי</b><small class="tip2">נמתח, קופץ, חורק</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M5</span><span class="em">🔩</span><b>מתכת</b><small class="tip2">פעמונים, צינורות, קפיצים</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M6</span><span class="em">☁️</span><b>ענן</b><small class="tip2">רך, משנה צורה, מרעים</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M7</span><span class="em">🪨</span><b>אבן</b><small class="tip2">כבד, עתיק, מהדהד</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M8</span><span class="em">📄</span><b>נייר</b><small class="tip2">מתקמט, נקרע, מרשרש</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M9</span><span class="em">🍮</span><b>ג׳לי</b><small class="tip2">רוטט, מתנדנד, דביק</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M10</span><span class="em">🏖️</span><b>חול</b><small class="tip2">זורם, מתפזר, שעון חול</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M11</span><span class="em">🪶</span><b>נוצות</b><small class="tip2">קל, מרחף, מדגדג</small></div>
+    <div class="cc k-mat"><span class="cat">🧱 חומר</span><span class="no">M12</span><span class="em">🫧</span><b>בועות סבון</b><small class="tip2">מתנפחות, מתפוצצות</small></div>
+  </div>
+</section>
+
+<section class="page" id="p-move" data-label="השראה: תנועות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי השראה · 🖐️ תנועה</div><div class="r">ערמה 2 מתוך 3</div></div>
+  <p class="cutnote">✂ לגזור ולשים בערמה ורודה. התנועה היא הדרך שבה מנגנים בכלי (ובגרסה הדיגיטלית: מה העכבר או המקלדת מחקים).</p>
+  <div class="cutgrid cards">
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T1</span><span class="em">🌀</span><b>מסובבים</b><small class="tip2">ידית, גלגל, סביבון</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T2</span><span class="em">🌬️</span><b>נושפים</b><small class="tip2">חזק = רועש, חלש = לוחש</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T3</span><span class="em">🧵</span><b>מותחים</b><small class="tip2">כמו גומייה או מיתר</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T4</span><span class="em">🫨</span><b>מנערים</b><small class="tip2">כמו רעשן או צנצנת</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T5</span><span class="em">👆</span><b>מקישים</b><small class="tip2">אצבע, מקל, ציפורן</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T6</span><span class="em">🛝</span><b>מחליקים</b><small class="tip2">אצבע שזזה על משטח</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T7</span><span class="em">🤏</span><b>לוחצים וסוחטים</b><small class="tip2">כמו ספוג או אקורדיון</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T8</span><span class="em">🦘</span><b>קופצים עליו</b><small class="tip2">שטיח, טרמפולינה, מדרגות</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T9</span><span class="em">🧲</span><b>גוררים</b><small class="tip2">מושכים משהו לאורך מסלול</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T10</span><span class="em">👋</span><b>מניפים בלי לגעת</b><small class="tip2">כמו תרמין</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T11</span><span class="em">🥣</span><b>מערבבים</b><small class="tip2">בסיר, בקערה, במערבולת</small></div>
+    <div class="cc k-move"><span class="cat">🖐️ תנועה</span><span class="no">T12</span><span class="em">👏</span><b>מוחאים כפיים לידו</b><small class="tip2">הכלי עונה לרעש</small></div>
+  </div>
+</section>
+
+<section class="page" id="p-place" data-label="השראה: מקומות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי השראה · 🗺️ מקום</div><div class="r">ערמה 3 מתוך 3</div></div>
+  <p class="cutnote">✂ לגזור ולשים בערמה ירוקה. המקום משפיע על הצליל, על הצבעים ועל האפקט (למשל: מערה = הד, חלל = צליל שנמתח).</p>
+  <div class="cutgrid cards">
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P1</span><span class="em">🌊</span><b>מתחת למים</b><small class="tip2">בועות, צליל עמום</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P2</span><span class="em">🚀</span><b>בחלל</b><small class="tip2">צלילים שנמתחים ונעלמים</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P3</span><span class="em">🌴</span><b>ביער גשם</b><small class="tip2">טיפות, ציפורים, צרצרים</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P4</span><span class="em">🏜️</span><b>במדבר</b><small class="tip2">רוח, חול, שקט גדול</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P5</span><span class="em">🚉</span><b>בתחנת רכבת</b><small class="tip2">צפירות, קצב, הד</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P6</span><span class="em">🐚</span><b>בתוך צדף</b><small class="tip2">רחש של ים</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P7</span><span class="em">🌕</span><b>על הירח</b><small class="tip2">קפיצות איטיות, אבק</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P8</span><span class="em">🍳</span><b>במטבח</b><small class="tip2">סירים, מכסים, מחבתות</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P9</span><span class="em">🌋</span><b>בהר געש</b><small class="tip2">רעם עמוק, בעבוע</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P10</span><span class="em">📚</span><b>בספרייה שקטה</b><small class="tip2">כלי שמנגן רק בלחש</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P11</span><span class="em">🌃</span><b>על גג בלילה</b><small class="tip2">אורות עיר, כוכבים</small></div>
+    <div class="cc k-place"><span class="cat">🗺️ מקום</span><span class="no">P12</span><span class="em">💻</span><b>בתוך מחשב</b><small class="tip2">ביפים, צפצופים, פיקסלים</small></div>
+  </div>
+</section>
+
+<!-- ===================== 9. INSTRUMENT CHECK ===================== -->
+<section class="page" id="p-check" data-label="בדיקת המכשיר">
+  <div class="ph"><div class="l"><i>TIE</i>בדיקת המכשיר · נקודת ביקורת (7 דקות)</div><div class="r">2 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לחצאים. 2 נגנים לוקחים דף אחד למעבדה השכנה. מנגנים רק לפי דף התכנון שלה. בעלי הכלי לא מסבירים.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="chk">
+      <div class="head"><b>🔬 בדיקת המכשיר</b><span>בודקים: <span class="fill"></span> · את הכלי של: <span class="fill"></span></span></div>
+      <p style="font-size:9.4pt">שם הכלי: <span class="fill l"></span></p>
+      <p style="font-weight:700;font-size:9.6pt">1. נסו כל פקד מהטבלה. ✓ = עושה מה שכתוב · ✗ = לא עובד או עושה משהו אחר</p>
+      <div class="grid8"><div>פקד 1 <i>✓ ✗</i></div><div>פקד 2 <i>✓ ✗</i></div><div>פקד 3 <i>✓ ✗</i></div><div>פקד 4 <i>✓ ✗</i></div><div>פקד 5 <i>✓ ✗</i></div><div>פקד 6 <i>✓ ✗</i></div><div>פקד 7 <i>✓ ✗</i></div><div>פקד 8 <i>✓ ✗</i></div><div>✨ אפקט <i>✓ ✗</i></div><div>עוד <i>✓ ✗</i></div></div>
+      <p style="font-size:10pt"><b>2. סה״כ:</b> <span class="fill s"></span> מתוך <span class="fill s"></span> פקדים עובדים כמו שכתוב.</p>
+      <p style="font-size:9.6pt"><b>3. הבנו איך מנגנים רק מהדף?</b> ☐ מיד ☐ אחרי ניסיונות ☐ לא הבנו</p>
+      <p style="font-size:9.6pt"><b>4. שיפור אחד:</b> "היה יותר קל לנגן אם..."</p><div class="lines h2"></div>
+    </div>
+    <div class="chk">
+      <div class="head"><b>🔬 בדיקת המכשיר</b><span>בודקים: <span class="fill"></span> · את הכלי של: <span class="fill"></span></span></div>
+      <p style="font-size:9.4pt">שם הכלי: <span class="fill l"></span></p>
+      <p style="font-weight:700;font-size:9.6pt">1. נסו כל פקד מהטבלה. ✓ = עושה מה שכתוב · ✗ = לא עובד או עושה משהו אחר</p>
+      <div class="grid8"><div>פקד 1 <i>✓ ✗</i></div><div>פקד 2 <i>✓ ✗</i></div><div>פקד 3 <i>✓ ✗</i></div><div>פקד 4 <i>✓ ✗</i></div><div>פקד 5 <i>✓ ✗</i></div><div>פקד 6 <i>✓ ✗</i></div><div>פקד 7 <i>✓ ✗</i></div><div>פקד 8 <i>✓ ✗</i></div><div>✨ אפקט <i>✓ ✗</i></div><div>עוד <i>✓ ✗</i></div></div>
+      <p style="font-size:10pt"><b>2. סה״כ:</b> <span class="fill s"></span> מתוך <span class="fill s"></span> פקדים עובדים כמו שכתוב.</p>
+      <p style="font-size:9.6pt"><b>3. הבנו איך מנגנים רק מהדף?</b> ☐ מיד ☐ אחרי ניסיונות ☐ לא הבנו</p>
+      <p style="font-size:9.6pt"><b>4. שיפור אחד:</b> "היה יותר קל לנגן אם..."</p><div class="lines h2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10. GRAPHIC SCORE ===================== -->
+<section class="page" id="p-score" data-label="דף התווים הגרפיים">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים · דף התווים הגרפיים</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 בלי AI · היצירה שלנו · <bdi dir="ltr">20–30</bdi> שניות</span><h2>שם היצירה: <span class="fill"></span></h2></div><p>קוראים מימין לשמאל, כמו בעברית. כל משבצת = 3 שניות. כל נגן/ית בשורה משלו/ה ובצבע משלו/ה.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>🗝️ המקרא שלנו (צורה = איזה צליל או מקש)</h3>
+      <div class="leg">
+        <div><svg viewBox="0 0 48 24"><circle cx="24" cy="12" r="7" fill="#e76f86"/></svg>עיגול = <span class="fill s"></span></div>
+        <div><svg viewBox="0 0 48 24"><line x1="4" y1="12" x2="44" y2="12" stroke="#4c8bd6" stroke-width="6" stroke-linecap="round"/></svg>קו ארוך = <span class="fill s"></span></div>
+        <div><svg viewBox="0 0 48 24"><path d="M44 12 q -5 -9 -10 0 q -5 9 -10 0 q -5 -9 -10 0" fill="none" stroke="#8c7ae6" stroke-width="3"/></svg>גל = <span class="fill s"></span></div>
+        <div><svg viewBox="0 0 48 24"><path d="M44 12 L4 3 L4 21 Z" fill="#f4a259"/></svg>משולש שגדל = מחלש לחזק</div>
+        <div><svg viewBox="0 0 48 24"><path d="M44 12 l -8 -8 l -8 16 l -8 -16 l -8 16" fill="none" stroke="#5bb5a2" stroke-width="3"/></svg>זיגזג = <span class="fill s"></span></div>
+        <div><svg viewBox="0 0 48 24"><circle cx="14" cy="12" r="3" fill="#8a93a1"/><circle cx="32" cy="12" r="8" fill="#8a93a1"/></svg>קטן = חלש · גדול = חזק</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted);margin-top:2mm">⬆️ גבוה במשבצת = צליל גבוה · ⬇️ נמוך במשבצת = צליל נמוך · ריק = שקט</p></div>
+    <div class="zones"><span>התחלה</span><span>שיא</span><span>סוף</span></div>
+    <div class="gscore grow" style="min-height:118mm">
+      <div class="lanes"><div class="lab"><b>נגן/ית 1</b>שם: ______<br>צבע: ______</div><div class="lab"><b>נגן/ית 2</b>שם: ______<br>צבע: ______</div><div class="lab"><b>נגן/ית 3</b>שם: ______<br>צבע: ______</div></div>
+      <div class="area"><div></div><div></div><div></div></div>
+    </div>
+    <div class="ticks"><span>0</span><span>3</span><span>6</span><span>9</span><span>12</span><span>15</span><span>18</span><span>21</span><span>24</span><span>27</span></div>
+    <div class="grid2">
+      <div class="box"><h3>✓ לפני החזרה</h3><ul class="check"><li>יש התחלה, שיא וסוף</li><li>כל צורה במקרא</li><li><bdi dir="ltr">20–30</bdi> שניות בשעון</li><li>כל נגן/ית יודע/ת איפה הוא/היא</li></ul></div>
+      <div class="box"><h3>⏱ חזרות</h3><p style="font-size:9.6pt;line-height:2.2">חזרה 1: <span class="fill s"></span> שניות<br>חזרה 2: <span class="fill s"></span> שניות</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11. GUESS STRIPS ===================== -->
+<section class="page" id="p-guess" data-label="פתקי ניחוש">
+  <div class="ph"><div class="l"><i>TIE</i>פתקי ניחוש · "איך מנגנים בזה?"</div><div class="r">המעבדה שלנו: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ לגזור לרצועות לפני הקונצרט. ב-15 השניות השקטות כותבים ניחוש אחד לכל כלי (לא לכלי שלנו). אחרי ההדגמה: ניחשנו נכון? מרימים את הפתק.</p>
+  <div class="cutgrid strips">
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+    <div class="strip"><b>🎟 כלי מס׳ <span class="fill s"></span></b><span>אנחנו חושבים שמנגנים בו כך: <span class="ln" style="display:block;width:100%"></span></span><span class="ok">☐ צדקנו!</span></div>
+  </div>
+  <p style="font-size:8.8pt;color:var(--muted);margin-top:2mm">"נכון" = הניחוש תופס את הרעיון המרכזי (למשל "מקישים על עמודות" עבור מפל הקריסטל), גם אם לא כל הפרטים. השופטים מחליטים במקרה של ספק.</p>
+</section>
+
+<!-- ===================== 12. JUDGE SHEET ===================== -->
+<section class="page" id="p-judge" data-label="דף שיפוט">
+  <div class="ph"><div class="l"><i>TIE</i>חבר השופטים · דף שיפוט</div><div class="r">שופט/ת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⚖️ ממלאים בזמן ה"מחיאות" (25 שניות) של כל מעבדה</span><h2>דף <span>השיפוט</span></h2></div><p>בכל משבצת: רמה <bdi dir="ltr">1–4</bdi> לפי המחוון. בסוף, המדריך/ה מחשב/ת ממוצע של השופטים לכל שורה ומחבר/ת (עד 16). פקדים ויצירה: ✓ אם עמדו בזה.</p></div>
+  <table class="tb judge">
+    <thead><tr><th style="width:26mm">מעבדה / כלי</th><th>📐 המצאה ותכנון<br><small><bdi dir="ltr">1–4</bdi></small></th><th>🎛️ כלי שעובד<br><small><bdi dir="ltr">1–4</bdi></small></th><th>🎼 יצירה וביצוע<br><small><bdi dir="ltr">1–4</bdi></small></th><th>🤝 צוות ושקיפות<br><small><bdi dir="ltr">1–4</bdi></small></th><th>סה״כ<br><small>עד 16</small></th><th>יצירה <bdi dir="ltr"><bdi dir="ltr">20–30</bdi></bdi> שנ׳<br><small>✓ = 3</small></th><th>2 פקדים נבדקו<br><small>✓ ✗</small></th></tr></thead>
+    <tbody>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="c">☐</td><td class="c">☐ ☐</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box"><h3>🎼 התווים הגרפיים הכי ברורים</h3><p style="font-size:9pt;color:var(--muted)">איזו מעבדה ניגנה הכי מדויק לפי הדף? למה?</p><div class="lines h2"></div></div>
+    <div class="box"><h3>🤝 הנגנים הכי מתואמים</h3><p style="font-size:9pt;color:var(--muted)">מי נכנס בזמן, ניגן יחד ונגמר יחד?</p><div class="lines h2"></div></div>
+  </div>
+  <div class="box soft" style="margin-top:4mm"><h3>📌 איך שופטים מהר</h3><ul class="clean" style="font-size:9.4pt"><li>"כלי שעובד": בזמן ההדגמה המדריך/ה מבקש/ת לנגן 2 פקדים מהטבלה שבטופס. פקד שלא עובד לא נספר.</li><li>"צוות ושקיפות": לפי שורת ה-AI בטופס ולפי כמה חברי מעבדה ניגנו בהופעה.</li><li>מתלבטים בין שתי רמות? בוחרים את הנמוכה, ואם המעבדה הראתה תיקון אחרי בדיקת המכשיר, את הגבוהה.</li></ul></div>
+</section>
+
+<!-- ===================== 13. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים · המחוון</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>הכלי שלכם</span></h2></div><p>בבדיקת המכשיר מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית. חבר השופטים קובע את הרמה הסופית (עד 16 נקודות).</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">📐 המצאה ותכנון<small>הדף והרעיון</small></td><td>אין דף תכנון, או כלי רגיל שכבר קיים</td><td>ציור בלי הגדרת פקדים</td><td>ציור, "איך מנגנים" וכל פקד מוגדר בטבלה</td><td>רעיון מקורי, והדף מסביר גם למה הכלי נשמע כך</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎛️ כלי שעובד<small>הגרסה ב-Canvas</small></td><td>הכלי לא מנגן</td><td>חלק מהפקדים עובדים</td><td>8 צלילים לפחות, אפקט, ופקדים שתואמים לתכנון</td><td>כלי נוח לנגינה, עם תיקונים שנעשו אחרי "בדיקת המכשיר"</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎼 יצירה וביצוע<small>התווים וההופעה</small></td><td>אין יצירה</td><td>ניגון חופשי בלי תווים</td><td>יצירה של <bdi dir="ltr">20–30</bdi> שניות לפי התווים הגרפיים</td><td>יצירה עם התחלה, שיא וסוף, וביצוע מתואם של כמה נגנים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🤝 צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול, ולא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI"</td><td>כתוב מה Canvas בנה ומה הצוות תכנן והלחין</td><td>כתוב אילו פרומפטים תיקנו טעויות של Canvas, וכל תפקיד תרם</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום הרמות בארבע השורות = הנקודות מחבר השופטים: <b>4 עד 16</b>. אם יש כמה שופטים, לוקחים ממוצע לכל שורה ומעגלים.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "מפל הקריסטל" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> 8 עמודות שמנגנות סולם, הד במקש 0, וכל פקד בטבלה. יצירה של 25 שניות לפי הדף, ושני נגנים מנגנים בתורות. בשורת ה-AI: "Canvas בנה את הכלי, אנחנו תכננו והלחנו".</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> הדף מסביר למה עמודה ארוכה נשמעת נמוך. אחרי בדיקת המכשיר נוספו חצים לשינוי אוקטבה. היצירה עולה לשיא עם הד ויורדת לסוף שקט, ושלושה נגנים נכנסים יחד. בשורת ה-AI מופיע הפרומפט שתיקן את מקש 0.</p></div></div>
+</section>
+
+<!-- ===================== 14. SIDE TASKS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי משימות צד · למי שסיים</div><div class="r">קופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ לגזור. מעבדה שסיימה את המפרט שולפת כרטיס. משימת צד לא נותנת נקודות ישירות, אבל משפרת את הרמה במחוון ואת הסיכוי לפרסים.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S1</span><span class="em">🌀</span><b>אפקט שני</b><small class="tip2">"הוסף מחוון שמשנה את הגוון של כל הצלילים: משמאל רך כמו חליל, מימין חד כמו משרוקית."</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S2</span><span class="em">⏺️</span><b>מצב הקלטה</b><small class="tip2">"הוסף כפתור שמקליט את מה שניגנו וכפתור שמנגן את זה שוב."</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S3</span><span class="em">📡</span><b>מצב תרמין</b><small class="tip2">"הוסף מצב שבו גובה הצליל נקבע לפי מיקום העכבר על המסך, בלי ללחוץ."</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S4</span><span class="em">🏷️</span><b>תווית מוזיאון</b><small class="tip2">ממלאים תווית (עמוד 19): שם, ממציאים, "איך מנגנים" ב-15 מילים.</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S5</span><span class="em">👯</span><b>דואט</b><small class="tip2">כותבים חלק שני ביצירה לנגן/ית נוסף/ת, בצבע אחר בדף התווים.</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S6</span><span class="em">🥁</span><b>לופ תופים</b><small class="tip2">ב-BandLab: מקליטים את היצירה ומוסיפים לופ תופים מהספרייה.</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S7</span><span class="em">🌈</span><b>אור שמגיב</b><small class="tip2">"שנה את צבע הרקע לפי הצליל: נמוך = כחול, גבוה = כתום."</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S8</span><span class="em">📖</span><b>מדריך למתחילים</b><small class="tip2">"הוסף כפתור 'איך מנגנים' שפותח הסבר קצר בעברית."</small></div>
+    <div class="cc k-side"><span class="cat">🚀 צד</span><span class="no">S9</span><span class="em">🎻</span><b>תזמורת</b><small class="tip2">מתאמים עם מעבדה שסיימה: יצירה של 20 שניות לשני הכלים יחד.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 15. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מנהל/ת הקונצרט ממלא/ת, ומעתיק/ה לטופס ההגשה. דוגמה: "Canvas בנה את הקוד והצלילים. אנחנו המצאנו, תכננו את הפקדים, הלחנו ותיקנו את מקש 0."</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מעבדה: <span class="fill"></span> · כלי: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Canvas עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (המצאה, תכנון, הלחנה, תיקונים)</b><div class="lines"></div></div></div><div class="foot"><span>פרומפט שתיקן טעות: <span class="fill l"></span></span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מעבדה: <span class="fill"></span> · כלי: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Canvas עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (המצאה, תכנון, הלחנה, תיקונים)</b><div class="lines"></div></div></div><div class="foot"><span>פרומפט שתיקן טעות: <span class="fill l"></span></span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מעבדה: <span class="fill"></span> · כלי: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Canvas עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (המצאה, תכנון, הלחנה, תיקונים)</b><div class="lines"></div></div></div><div class="foot"><span>פרומפט שתיקן טעות: <span class="fill l"></span></span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מעבדה: <span class="fill"></span> · כלי: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Canvas עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (המצאה, תכנון, הלחנה, תיקונים)</b><div class="lines"></div></div></div><div class="foot"><span>פרומפט שתיקן טעות: <span class="fill l"></span></span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 16. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים ב-3 הדקות האחרונות, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הכלים</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על צליל או על כלים:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה תכננו על הנייר שהמכונה לא הצליחה לבנות, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <div class="tags"><span>המצאה</span><span>תכנון</span><span>Canvas</span><span>הלחנה</span><span>נגינה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הכלים</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על צליל או על כלים:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה תכננו על הנייר שהמכונה לא הצליחה לבנות, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <div class="tags"><span>המצאה</span><span>תכנון</span><span>Canvas</span><span>הלחנה</span><span>נגינה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הכלים</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על צליל או על כלים:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה תכננו על הנייר שהמכונה לא הצליחה לבנות, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <div class="tags"><span>המצאה</span><span>תכנון</span><span>Canvas</span><span>הלחנה</span><span>נגינה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מעבדת הכלים</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על צליל או על כלים:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה תכננו על הנייר שהמכונה לא הצליחה לבנות, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <div class="tags"><span>המצאה</span><span>תכנון</span><span>Canvas</span><span>הלחנה</span><span>נגינה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 17. INSTRUCTOR SCORING ===================== -->
+<section class="page" id="p-points" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת הכלים המומצאים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוח הניקוד במצגת</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקסימום למעבדה: 37 + נקודה לכל ניחוש נכון שלה כקהל.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:26mm">מעבדה</th><th>בדיקת המכשיר<br><small>__ / __</small></th><th>🎛️ פקדים<br><small>עד 8</small></th><th>🎵 8 צלילים<br><small>3</small></th><th>✨ אפקט<br><small>2</small></th><th>🕵️ ניחשו אותנו<br><small>עד 5</small></th><th>🔎 ניחשנו<br><small>1 לכל</small></th><th>🎼 יצירה<br><small>3</small></th><th>⚖️ שופטים<br><small>עד 16</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box"><h3>⏱ בדיקת המכשיר (דקה 47): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסים</h3><div style="display:grid;gap:2mm;font-size:9.6pt"><p>🏛️ הכלי של המוזיאון: <span class="fill"></span></p><p>👽 הצליל הכי מוזר: <span class="fill"></span></p><p>🎼 התווים הכי ברורים: <span class="fill"></span></p><p>🤝 הנגנים הכי מתואמים: <span class="fill"></span></p></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🎤 סדר ההופעות בקונצרט</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:12mm">#</th><th>מעבדה</th><th>שם הכלי</th><th style="width:30mm">קישור נפתח?</th><th style="width:30mm">הצבעת "מוזר"</th></tr></thead>
+    <tbody><tr><td>1</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>5</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>6</td><td class="e"></td><td></td><td>☐</td><td></td></tr><tr><td>7</td><td class="e"></td><td></td><td>☐</td><td></td></tr></tbody></table></div>
+</section>
+
+<!-- ===================== 18. MUSEUM LABELS ===================== -->
+<section class="page" id="p-label" data-label="תוויות מוזיאון">
+  <div class="ph"><div class="l"><i>TIE</i>תוויות מוזיאון · משימת צד S4</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. התווית נתלית ליד המחשב בזמן הקונצרט, כמו בתערוכה אמיתית.</p>
+  <div class="cutgrid labels">
+    <div class="mlabel"><span class="mk">מוזיאון הכלים המומצאים · אגף המוזיקה של המחר</span><b>שם הכלי: <span class="fill"></span></b><p>ממציאים: מעבדת <span class="fill"></span></p><p>שנת ההמצאה: 2026 · חומר: <span class="fill s"></span></p><p style="font-weight:700">איך מנגנים (עד 15 מילים):</p><div class="lines h2"></div><p style="font-weight:700">עובדה מוזרה על הכלי:</p><div class="lines h1"></div></div>
+    <div class="mlabel"><span class="mk">מוזיאון הכלים המומצאים · אגף המוזיקה של המחר</span><b>שם הכלי: <span class="fill"></span></b><p>ממציאים: מעבדת <span class="fill"></span></p><p>שנת ההמצאה: 2026 · חומר: <span class="fill s"></span></p><p style="font-weight:700">איך מנגנים (עד 15 מילים):</p><div class="lines h2"></div><p style="font-weight:700">עובדה מוזרה על הכלי:</p><div class="lines h1"></div></div>
+    <div class="mlabel"><span class="mk">מוזיאון הכלים המומצאים · אגף המוזיקה של המחר</span><b>שם הכלי: <span class="fill"></span></b><p>ממציאים: מעבדת <span class="fill"></span></p><p>שנת ההמצאה: 2026 · חומר: <span class="fill s"></span></p><p style="font-weight:700">איך מנגנים (עד 15 מילים):</p><div class="lines h2"></div><p style="font-weight:700">עובדה מוזרה על הכלי:</p><div class="lines h1"></div></div>
+    <div class="mlabel"><span class="mk">מוזיאון הכלים המומצאים · אגף המוזיקה של המחר</span><b>שם הכלי: <span class="fill"></span></b><p>ממציאים: מעבדת <span class="fill"></span></p><p>שנת ההמצאה: 2026 · חומר: <span class="fill s"></span></p><p style="font-weight:700">איך מנגנים (עד 15 מילים):</p><div class="lines h2"></div><p style="font-weight:700">עובדה מוזרה על הכלי:</p><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 19-20. CERTIFICATES ===================== -->
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · הכלי של המוזיאון · הצליל הכי מוזר</div><div class="r">✂ לחצאים</div></div>
+  <div class="certs">
+    <div class="cert"><span class="em">🏛️</span><span class="mk">מוזיאון הכלים המומצאים מעניק</span><h3>הכלי של המוזיאון</h3><p>לכלי שצבר הכי הרבה נקודות בערב הקונצרט, ונבחר לתצוגה בכניסה לאגף "המוזיקה של המחר"</p><div class="nm"></div><p style="font-size:9pt">שם הכלי ושם המעבדה</p><div class="sig"><span>תאריך: ____________</span><span>חתימת המדריך/ה: ____________</span></div></div>
+    <div class="cert"><span class="em">👽</span><span class="mk">קהל הקונצרט מעניק</span><h3>הצליל הכי מוזר</h3><p>לכלי שהשמיע את הצליל שאף אחד באולם לא שמע אף פעם</p><div class="nm"></div><p style="font-size:9pt">שם הכלי ושם המעבדה</p><div class="sig"><span>תאריך: ____________</span><span>חתימת המדריך/ה: ____________</span></div></div>
+  </div>
+</section>
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · התווים הכי ברורים · הנגנים הכי מתואמים</div><div class="r">✂ לחצאים</div></div>
+  <div class="certs">
+    <div class="cert"><span class="em">🎼</span><span class="mk">חבר השופטים מעניק</span><h3>התווים הגרפיים הכי ברורים</h3><p>ליצירה שכל אחד בקהל יכול היה לקרוא ולנגן, רק מהצורות, הקווים והצבעים</p><div class="nm"></div><p style="font-size:9pt">שם היצירה ושם המעבדה</p><div class="sig"><span>תאריך: ____________</span><span>חתימת המדריך/ה: ____________</span></div></div>
+    <div class="cert"><span class="em">🤝</span><span class="mk">חבר השופטים מעניק</span><h3>הנגנים הכי מתואמים</h3><p>למעבדה שנכנסה יחד, ניגנה יחד ונגמרה יחד, בדיוק לפי הדף</p><div class="nm"></div><p style="font-size:9pt">שם המעבדה</p><div class="sig"><span>תאריך: ____________</span><span>חתימת המדריך/ה: ____________</span></div></div>
+  </div>
+</section>
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · טקס פרסי הקליפים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== lesson-specific materials: טקס פרסי הקליפים ===== */
+.ph .l i{background:#b7861d}
+.kick.gold{color:#8a5a00;background:#fdf5df}
+.pt h2 span.g{color:#8a5a00}
+/* roles colors for this lesson */
+.r-dj{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-txt{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-typ{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-syn{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.role .base{font-size:8.6pt;color:var(--dim);font-weight:700}
+/* poems */
+.pcols{column-count:2;column-gap:6mm;column-fill:auto;flex:1;min-height:0;overflow:hidden;font-size:9.4pt;line-height:1.32}
+.pcols.tight{font-size:9pt;line-height:1.26}
+.pcols.tight .pm{margin-bottom:2.4mm;padding:2mm 3mm}
+.pm{break-inside:avoid;border:1px solid var(--line2);border-radius:3mm;padding:2.6mm 3.2mm 2.4mm;margin-bottom:3.2mm;position:relative;background:#fff}
+.pm::before{content:"";position:absolute;inset:0 0 auto 0;height:1.4mm;border-radius:3mm 3mm 0 0;background:var(--pc,#8c7ae6)}
+.pm.bia{--pc:#4c8bd6}
+.pm h3{font-family:var(--display);font-weight:800;font-size:12pt;margin:1mm 0 .4mm;display:flex;justify-content:space-between;align-items:baseline;gap:2mm}
+.pm h3 small{font-family:var(--body);font-size:8.4pt;font-weight:700;color:var(--muted)}
+.pm .mood{display:inline-block;font-size:7.8pt;font-weight:700;background:var(--paper2);border-radius:999px;padding:.2mm 2.2mm;color:var(--muted);margin-bottom:1mm}
+.pm ol{list-style:none;margin:0;padding:0}
+.pm li{display:flex;gap:2mm;align-items:baseline}
+.pm li::before{content:"";flex:none;width:2.8mm;height:2.8mm;border:1px solid #9a9183;border-radius:.6mm;transform:translateY(.4mm)}
+.pm li.gap{height:1.6mm}
+.pm li.gap::before{display:none}
+.pm .gl{margin-top:1.2mm;padding-top:1mm;border-top:1px dashed var(--line2);font-size:8.2pt;color:var(--muted)}
+.pm .gl b{color:var(--ink)}
+/* rap topic cards */
+.topics{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.tp{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.4mm;padding:4mm;position:relative}
+.tp .no{position:absolute;top:2.5mm;left:3mm;font-size:8pt;color:var(--dim);font-weight:700}
+.tp .cat{position:absolute;top:2.5mm;right:3mm;font-family:var(--display);font-weight:700;font-size:7.6pt;color:#be3455;background:#fce9ed;border-radius:999px;padding:.3mm 2.2mm}
+.tp .em{font-size:22pt;line-height:1}
+.tp b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.tp small{color:var(--muted);font-size:8.4pt;line-height:1.35}
+.tp::after{content:"";position:absolute;inset:auto 0 0 0;height:1.4mm;background:#e76f86}
+/* beat map */
+table.bm{width:100%;border-collapse:collapse;font-size:9pt}
+table.bm th,table.bm td{border:1px solid var(--line2);padding:1.2mm 1.6mm;text-align:center;vertical-align:middle}
+table.bm th{background:var(--paper2);font-family:var(--display);font-weight:600}
+table.bm td.n{width:7mm;color:var(--dim);font-weight:700}
+table.bm td.ln{width:62mm}
+table.bm td.b{width:17mm}
+table.bm tr.exr td{background:#fffaf0;color:#6b4a07;font-size:8.4pt}
+table.bm tr.exr td.k{background:#fdebe3;color:#9a330a;font-weight:800}
+table.bm td{height:8.6mm}
+table.bm tr.exr td{height:auto}
+.calc{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm;font-size:8.8pt}
+.calc div{border:1px solid var(--line2);border-radius:2mm;padding:1.4mm 2mm;text-align:center;background:#fff}
+.calc div b{display:block;font-family:var(--display);font-size:11pt}
+.calc div.best{background:#fdf5df;border-color:#e9c766}
+/* typography plan */
+.kwcards{display:grid;grid-template-columns:1fr 1fr;gap:3.5mm;flex:1}
+.kw{border:1.2px solid var(--line2);border-radius:3mm;padding:2.6mm 3.2mm;display:flex;flex-direction:column;gap:1.4mm;font-size:9pt;position:relative}
+.kw .hd{display:flex;justify-content:space-between;align-items:center}
+.kw .hd b{font-family:var(--display);font-weight:800;font-size:11pt}
+.kw .big{height:15mm;border:1.2px dashed var(--line2);border-radius:2mm;position:relative}
+.kw .big::before{content:"✏️ כתבו כאן את המילה בצורה שבה היא תופיע";position:absolute;top:1mm;right:2mm;font-size:7.6pt;color:var(--dim)}
+.kw .opts{display:flex;flex-wrap:wrap;gap:1mm 3mm;font-size:8.4pt}
+.kw .opts span::before{content:"☐ "}
+.kw .row{display:flex;gap:2mm;align-items:baseline}
+.kw .row>span:first-child{font-weight:700;white-space:nowrap}
+.kw .row .fill{flex:1;min-width:0}
+.swatches{display:flex;gap:4mm}
+.swatches div{flex:1;display:flex;flex-direction:column;align-items:center;gap:1mm;font-size:8.6pt}
+.swatches i{display:block;width:100%;height:12mm;border:1.2px solid var(--ink);border-radius:2mm}
+/* judge sheet */
+table.jd{width:100%;border-collapse:collapse;font-size:8.6pt;table-layout:fixed}
+table.jd th,table.jd td{border:1px solid var(--line2);padding:1.3mm 1.2mm;text-align:center;vertical-align:middle}
+table.jd th{background:var(--paper2);font-family:var(--display);font-weight:600;font-size:8.2pt}
+table.jd td{height:15mm}
+table.jd td.nm{width:24mm;text-align:right}
+.boxes{display:inline-flex;gap:.8mm;flex-wrap:nowrap}
+.boxes i{width:3.4mm;height:3.4mm;border:1px solid var(--ink);border-radius:.6mm;display:inline-block}
+.lv{display:inline-flex;flex-wrap:nowrap;gap:.5mm;font-size:7pt;direction:ltr}
+.lv i{font-style:normal;width:3.5mm;height:3.5mm;flex:none;border:1px solid var(--ink);border-radius:50%;display:inline-grid;place-items:center}
+/* guess card */
+.guess{flex:1;display:flex;flex-direction:column;gap:2mm;padding:4mm 5mm}
+.guess .hd{display:flex;justify-content:space-between;align-items:center}
+.guess .hd b{font-family:var(--display);font-weight:800;font-size:13pt}
+/* vote slips */
+.slips{grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;flex:1}
+.slip{display:flex;flex-direction:column;justify-content:center;gap:2mm;padding:3mm 3.4mm;font-size:9pt;text-align:center}
+.slip b{font-family:var(--display);font-weight:800;font-size:11pt}
+.slip .fill{min-width:0;width:100%}
+.slip small{color:var(--muted);font-size:7.8pt}
+/* award cards */
+.awc{grid-template-columns:1fr 1fr;grid-auto-rows:1fr;flex:1}
+.aw{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;padding:5mm;position:relative;background:linear-gradient(180deg,#fffcf3,#fff)}
+.aw::before{content:"";position:absolute;inset:3mm;border:1.2px solid #e9c766;border-radius:2mm;pointer-events:none}
+.aw .em{font-size:28pt;line-height:1}
+.aw b{font-family:var(--display);font-weight:800;font-size:15pt}
+.aw small{color:var(--muted);font-size:8.6pt}
+.aw p{font-size:10pt;width:85%}
+.aw .fill{min-width:0;width:60%}
+/* certificate */
+.cert{flex:1;border:3mm double #c9a227;border-radius:4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6mm;padding:14mm;position:relative;background:radial-gradient(circle at 50% 0,#fdf5df,#fff 60%)}
+.cert .em{font-size:54pt;line-height:1}
+.cert h1{font-family:var(--display);font-weight:800;font-size:34pt;margin:0;color:#6b4a07}
+.cert .sub{font-size:13pt;color:var(--muted)}
+.cert .line{font-size:15pt;line-height:2.2}
+.cert .line .fill{min-width:70mm}
+.cert .sig{display:flex;gap:20mm;margin-top:6mm;font-size:10pt;color:var(--muted)}
+.cert .sig div{display:flex;flex-direction:column;align-items:center;gap:2mm}
+.cert .sig .fill{min-width:45mm}
+.cert .stars{position:absolute;top:6mm;inset-inline:0;font-size:12pt;letter-spacing:4mm;color:#c9a227}
+/* no device */
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}
+.steps4 div{border:1px solid var(--line2);border-radius:3mm;padding:2.6mm 3mm;font-size:9pt;background:#fff}
+.steps4 div b{display:block;font-family:var(--display);font-size:10.5pt;margin-bottom:.8mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · טקס פרסי הקליפים<small>90 דקות · הפקה ווידאו</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 0. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>🎤</i>טקס פרסי הקליפים · למדריך</div><div class="r">לא לחלק</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>לכיתה של 28–35 תלמידים ב-7 אולפנים. לכיתה אחרת: לפי מספר האולפנים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה: חוקים, ניקוד, תפקידים, 3 רמות</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3–4</td><td>כרטיסי תפקיד (5), נורמות ורמזור</td><td>סט לאולפן (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>5–6</td><td>דף השירים: רחל · ביאליק</td><td>1 לאולפן + 3 רזרבה (10)</td><td>רגיל, דו-צדדי</td><td>לא</td></tr>
+      <tr><td>7</td><td>כרטיסי נושא לראפ (12)</td><td>סט אחד לכיתה</td><td>בריסטול צבעוני</td><td>כן</td></tr>
+      <tr><td>8</td><td>דף כתיבת ראפ</td><td>4 (רק למסלול ראפ)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>מפת ביט</td><td>1 לאולפן + 2 (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>לוח תכנון טיפוגרפי</td><td>1 לאולפן (7)</td><td><b>A3</b> (הגדלה מ-A4)</td><td>לא</td></tr>
+      <tr><td>11</td><td>מחוון עם הערכה עצמית</td><td>1 לאולפן + 1 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>דף שיפוט</td><td>2 (מדריך + שופט/ת אורח/ת)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>כרטיסי ניחוש רגש</td><td>4 עמודים (8 כרטיסים)</td><td>רגיל</td><td>לחצאים</td></tr>
+      <tr><td>14</td><td>פתקי הצבעת קהל (20 בעמוד)</td><td>2 עמודים</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>15</td><td>כרטיסי מעטפה (6 פרסים)</td><td>1</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>16</td><td>תעודת זכייה</td><td>6</td><td>בריסטול / נייר עבה</td><td>לא</td></tr>
+      <tr><td>17</td><td>שורת AI (4 בעמוד)</td><td>2 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>18</td><td>כרטיסי יציאה (4 בעמוד)</td><td>9 עמודים (36)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>19</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>20</td><td>קליפ כרטיסים חי (בלי מכשירים)</td><td>1 לאולפן, רק אם צריך</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>21</td><td>שלט אולפן</td><td>1 לאולפן (7)</td><td>בריסטול</td><td>קיפול</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בארגז של כל אולפן</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד, כרטיס נורמות ורמזור</li><li>שלט אולפן מקופל</li><li>כרטיס משימה, דף שירים, מפת ביט, לוח תכנון A3, מחוון</li><li>4 טושים צבעוניים (לפלטה), עיפרון ומחק</li><li>כרטיס ניחוש רגש</li><li>אוזניות אחת לפחות (לדי-ג׳יי)</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>כרטיסי נושא לראפ בקופסה</li><li>6 מעטפות עם כרטיסי הפרסים, ו-6 תעודות</li><li>פתקי הצבעה וכרטיסי יציאה</li><li>2 דפי שיפוט ועט</li><li>רמקול למחשב המקרן (חובה!)</li><li>A4 ריקים וטושים עבים לגרסה בלי מכשירים</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 1. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>🎤</i>טקס פרסי הקליפים · כרטיס המשימה</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick gold">🎤 ערוץ המוזיקה של בית הספר</span><h2>פרסי הקליפים <span class="g">של הערוץ</span></h2></div><p>אתם אולפן שמגיש מועמדות: קליפ שבו המילים זזות, קופצות ומתפוצצות בדיוק על הביט.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 התוצר</h3><ul class="clean"><li>קליפ מילים של <b>30–45 שניות</b>.</li><li><b>8–12 שורות</b>: שיר של רחל או ביאליק, או ראפ שלכם.</li><li>לופ מוכן מ-BandLab או מהמאגר של Vids.</li><li><b>8 אנימציות שונות</b>, <b>6 מילות מפתח על הביט</b>, <b>3 צבעים</b>.</li><li>קישור צפייה ב-Vids (או MP4) בטופס.</li></ul></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>שיר: שם המשורר/ת ושם השיר בסוף. ראפ: ״מילים: אולפן ___״.</li><li>30–45 שניות.</li><li>לפחות 8 אנימציות שונות.</li><li>רק לופ מוכן. בלי שירים מהרשת.</li><li>ראפ: בלי שמות אמיתיים ובלי פרטים אישיים.</li><li>מה שלא הוגש בזמן, לא מועמד.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:2.6mm"><h3>🏆 הניקוד (ידוע מראש · מקסימום 39)</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th>מה</th><th style="width:40mm">נקודות</th></tr></thead><tbody>
+      <tr><td>🔤 8 אנימציות טקסט שונות או יותר</td><td>4</td></tr>
+      <tr><td>🥁 כל מילת מפתח שנוחתת על הביט (הקהל מוחא כף, השופטים סופרים)</td><td>1 לכל מילה, עד 6</td></tr>
+      <tr><td>⏱ 30–45 שניות · 🎨 פלטה של 3 צבעים לאורך כל הקליפ</td><td>2 + 2</td></tr>
+      <tr><td>💭 מבחן הפרשנות: כל אולפן בקהל שניחש את הרגש המרכזי</td><td>1 לכל אולפן, עד 4</td></tr>
+      <tr><td>⚖️ חבר השופטים לפי המחוון (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+      <tr><td>👏 הצבעת הקהל: מקום 1 / 2 / 3</td><td>5 / 3 / 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.5mm;font-size:8.8pt;color:var(--muted)">6 פרסים: 🏆 קליפ השנה · 🥁 סנכרון · 🔤 טיפוגרפיה · 🎨 צבע · 📜 פרשנות מפתיעה · 👏 קהל. כל אולפן זוכה לכל היותר בפרס שופטים אחד. שובר שוויון: ציון השופטים, ואז מילים על הביט.</p></div>
+  <div class="box" style="margin-top:2.6mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb" style="font-size:8.8pt"><tbody>
+      <tr><td style="width:40mm"><b>🎤 מנהל/ת האולפן</b></td><td>מקריא/ה את הכרטיס, בוחר/ת מסלול עם הצוות, שומר/ת על אבני הדרך. רק הוא/היא קורא/ת למדריך.</td></tr>
+      <tr><td><b>📜 אחראי/ת טקסט</b></td><td>בוחר/ת 8–12 שורות (או כותב/ת ראפ), מסמן/ת 6 מילות מפתח, אחראי/ת על Gemini ועל שורת ה-AI.</td></tr>
+      <tr><td><b>🎧 די-ג׳יי לופים</b></td><td>בוחר/ת לופ, מודד/ת BPM וממלא/ת את מפת הביט.</td></tr>
+      <tr><td><b>🔤 מעצב/ת טיפוגרפיה</b></td><td>פלטה, גופנים, לוח התכנון ושקפי המילים ב-Slides.</td></tr>
+      <tr><td><b>✂️ עורך/ת סנכרון</b></td><td>המרה ל-Vids, לופ, אנימציה ותזמון לביט. מגיש/ה את המועמדות.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:2.6mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.2mm;font-size:8.8pt">״פרש״ או ״נדנדה״ של ביאליק, עם מפת הביט לדוגמה מהמצגת. מותר 6 אנימציות במקום 8 (ועדיין 4 נקודות).</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.2mm;font-size:8.8pt">כל שיר מהדף או ראפ מקורי, לפי כל החוקים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.2mm;font-size:8.8pt">פעמה של שקט לפני שורת השיא, אות-אות בשורה אחת, וכתוביות באנגלית בשכבה שנייה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיסי תפקיד · האולפן</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ בריסטול, לגזור לאורך הקו. בסוף השיעור הכרטיסים עוברים לאדם שמשמאל.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🎤</span><div><b>מנהל/ת האולפן</b><small>מחזיק/ה את המצפן</small></div></div>
+      <p class="base">התפקיד הקבוע: 🧭 מנכ״ל/ית</p>
+      <p class="mis">המשימה שלי: שהאולפן מתחיל מהר, שכולם יודעים מה הם עושים, ושמגישים בזמן.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מקריא/ה את כרטיס המשימה בקול.</li><li>מוביל/ה את בחירת המסלול: שיר או ראפ.</li><li>שומר/ת על אבני הדרך: ״אחרי 8 דקות: טקסט ולופ.״</li><li>בטקס: מציג/ה את הקליפ במשפט אחד.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+      <div class="say">💬 ״מה המטרה שלנו עכשיו?״ · ״נחת על הביט? בואו נבדוק.״</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא עושה את העבודה במקום אחרים.</p>
+      <p class="bonus">✓ הצלחתי כש: הגשנו בזמן, וכל אחד יודע מה הוא עשה בקליפ</p>
+    </article>
+    <article class="role r-txt">
+      <div class="rh"><span class="ic">📜</span><div><b>אחראי/ת טקסט</b><small>המילים, המשמעות וה-AI</small></div></div>
+      <p class="base">התפקיד הקבוע: 🔍 חוקר/ת + 🤖 אחראי/ת AI</p>
+      <p class="mis">המשימה שלי: שאנחנו מבינים כל מילה, ושהקליפ אומר משהו.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בוחר/ת 8–12 שורות ומסביר/ה אותן לצוות, או כותב/ת את הראפ יחד עם כולם.</li><li>מסמן/ת 6 מילות מפתח והרגש המרכזי.</li><li>שואל/ת את Gemini על מילים קשות (🟡), ובודק/ת.</li><li>ממלא/ת שורת AI: מה ה-AI עשה · מה אנחנו עשינו.</li></ul>
+      <div class="say">💬 ״מה השורה הזאת מרגישה?״ · ״ה-AI הציע, אבל אנחנו מחליטים.״</div>
+      <p class="no">✗ לא נותן/ת ל-AI לפרש את השיר בשבילנו.</p>
+      <p class="bonus">✓ הצלחתי כש: הקהל ניחש את הרגש שבחרנו</p>
+    </article>
+    <article class="role r-dj">
+      <div class="rh"><span class="ic">🎧</span><div><b>די-ג׳יי לופים</b><small>הקצב של האולפן</small></div></div>
+      <p class="base">התפקיד הקבוע: 🔍 חוקר/ת (של צלילים)</p>
+      <p class="mis">המשימה שלי: לופ שמתאים לרגש, ו-BPM שכולם יודעים.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מאזין/ה לכמה לופים ב-BandLab (או במאגר של Vids) ובוחר/ת אחד.</li><li>מודד/ת BPM (או ״מד הקצב״ במצגת). מומלץ 120.</li><li>ממלא/ת את מפת הביט: באיזו שנייה כל שורה.</li><li>בספרינט 2 אומר/ת לעורך/ת: ״המילה נוחתת בשנייה 5.0.״</li></ul>
+      <div class="say">💬 ״זה מרגיש עצוב או אנרגטי?״ · ״ספרו איתי: 1, 2, 3, 4.״</div>
+      <p class="no">✗ לא משתמש/ת בשיר מוכר מהרשת.</p>
+      <p class="bonus">✓ הצלחתי כש: כל הכיתה מחאה כף על הביט שלנו</p>
+    </article>
+    <article class="role r-typ">
+      <div class="rh"><span class="ic">🔤</span><div><b>מעצב/ת טיפוגרפיה</b><small>המילים מקבלות צורה</small></div></div>
+      <p class="base">התפקיד הקבוע: 🛠️ בונה</p>
+      <p class="mis">המשימה שלי: שכל מילה נראית כמו מה שהיא אומרת.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בוחר/ת פלטה של 3 צבעים וגופן אחד או שניים.</li><li>ממלא/ת את לוח התכנון: גופן, גודל, צבע ואנימציה לכל מילת מפתח.</li><li>בונה ב-Slides שקף לכל שורה, ומילת המפתח בתיבה נפרדת.</li><li>בודק/ת שהפלטה נשמרת עד הסוף.</li></ul>
+      <div class="say">💬 ״המילה הזאת צריכה ליפול או לקפוץ?״ · ״רק 3 צבעים!״</div>
+      <p class="no">✗ לא מוסיף/ה צבע רביעי ״כי זה יפה״.</p>
+      <p class="bonus">✓ הצלחתי כש: אפשר לנחש את הרגש גם בלי קול</p>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="p-roles2" data-label="תפקיד 5 ונורמות">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיסי תפקיד · המשך</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, כרטיס הנורמות, הרמזור וכרטיס גודל האולפן נשארים בארגז.</p>
+  <div class="cutgrid roles">
+    <article class="role r-syn">
+      <div class="rh"><span class="ic">✂️</span><div><b>עורך/ת סנכרון</b><small>כל מילה נוחתת על הביט</small></div></div>
+      <p class="base">התפקיד הקבוע: 🎤 מציג/ה ומתעד/ת</p>
+      <p class="mis">המשימה שלי: להפוך את השקפים לקליפ שזז בדיוק עם המוזיקה, ולהגיש אותו.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>ב-Vids: המרת שקפים, העלאת הלופ.</li><li>אורך כל סצנה לפי התיבות (2 או 4 שניות ב-120).</li><li>אנימציה לכל תיבת טקסט, ותזמון של מילות המפתח.</li><li>שיתוף ״כל מי שיש לו את הקישור״ ← צפייה, ובדיקה בגלישה בסתר.</li><li><b>מגיש/ה</b> את טופס המועמדות.</li></ul>
+      <div class="say">💬 ״עוד עשירית שנייה ימינה?״ · ״כולם רואים את הגרסה לפני שמגישים.״</div>
+      <p class="no">✗ לא מגיש/ה בלי שהצוות צפה בקליפ.</p>
+      <p class="bonus">✓ הצלחתי כש: 6 מילים נחתו על מחיאות הכף של הקהל</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות האולפן</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל האולפן סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את האולפן לפני שקוראים למדריך, ורק המנהל/ת קורא/ת.</li>
+        <li>בטקס: שקט בזמן הקרנה, מחיאות כפיים בסוף כל קליפ.</li>
+      </ol>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI של היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>הפרשנות, בחירת השורות ומילות המפתח, השורות של הראפ, כרטיס היציאה.</div>
+        <div class="y"><b>🟡 AI לרעיונות</b>הסבר מילים קשות, מילים מתחרזות, ספירת הברות.</div>
+        <div class="g"><b>🟢 AI כשותף</b>הצעות אנימציה ופלטה. אתם בוחרים ובונים.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט לא כותבים פרטים אישיים.</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">👥</span><div><b>אולפן קטן או גדול?</b><small>מחלקים מחדש</small></div></div>
+      <ul style="font-size:10pt;display:grid;gap:2mm"><li><b>אולפן של 4:</b> הדי-ג׳יי לוקח/ת גם את הסנכרון.</li><li><b>אולפן של 3:</b> המנהל/ת לוקח/ת גם את הטקסט, והמעצב/ת גם את הלופ.</li><li><b>אולפן של 6:</b> שני עורכי סנכרון: אחד/ת על האנימציה, אחד/ת על התזמון.</li></ul>
+      <p class="bonus">🔄 כל אחד עובר בכל התפקידים לאורך השיעורים</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3–4. POEMS ===================== -->
+<section class="page" id="p-poems1" data-label="שירים: רחל">
+  <div class="ph"><div class="l"><i>🎤</i>דף השירים · מסלול א: שיר בן מאה</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick" style="color:#6a55c9;background:#efecfb">📜 רחל המשוררת (1890–1931) · נחלת הכלל</span><h2>שירים שמחכים <span style="color:#6a55c9">לקליפ</span></h2></div><p>מסמנים ✓ ליד 8–12 השורות שבחרתם (לא חייבים ברצף), ומקיפים 6 מילות מפתח. בסוף הקליפ: שם המשוררת ושם השיר.</p></div>
+  <div class="pcols"><div class="pm "><h3>ואולי <small>רחל</small></h3><span class="mood">💭 ספק · געגוע</span><ol><li>ואולי לא היו הדברים מעולם,</li><li>אולי</li><li>מעולם לא השכמתי עם שחר לגן,</li><li>לעבדו בזעת-אפי?</li><li class="gap"></li><li>מעולם, בימים ארוכים ויוקדים</li><li>של קציר,</li><li>במרומי עגלה עמוסת אלומות</li><li>לא נתתי קולי בשיר?</li><li class="gap"></li><li>מעולם לא טהרתי בתכלת שוקטה</li><li>ובתום</li><li>של כנרת שלי... הוי, כנרת שלי,</li><li>ההיית, או חלמתי חלום?</li></ol><p class="gl">📖 <b>בזעת אפי</b> = בעבודה קשה · <b>יוקדים</b> = לוהטים · <b>אלומות</b> = צרורות של שיבולים · <b>תום</b> = טוהר, תמימות</p></div>
+<div class="pm "><h3>כנרת <small>רחל</small></h3><span class="mood">🏞️ התפעלות · נאמנות</span><ol><li>שם הרי גולן, הושט היד וגע בם! –</li><li>בדממה בוטחת מצווים: עצור.</li><li>בבדידות קורנת נם חרמון הסבא</li><li>וצינה נושבת מפסגת הצחור.</li><li class="gap"></li><li>שם על חוף הים יש דקל שפל צמרת,</li><li>סתור שיער הדקל כתינוק שובב,</li><li>שגלש למטה ובמי כנרת</li><li>משכשך רגליו.</li><li class="gap"></li><li>מה ירבו פרחים בחורף על הכרך,</li><li>דם הכלנית וכתם הכרכום,</li><li>יש ימים – פי שבע אז ירוק הירק,</li><li>פי שבעים תכולה התכלת במרום.</li><li class="gap"></li><li>גם כי אוורש ואהלך שחוח,</li><li>והיה הלב למשואות זרים –</li><li>האוכל לבגוד בך, האוכל לשכוח</li><li>חסד נעורים?</li></ol><p class="gl">📖 <b>מצווים</b> = פוקדים · <b>צחור</b> = לבן · <b>שפל צמרת</b> = נמוך · <b>אוורש</b> = אהיה עני · <b>שחוח</b> = כפוף</p></div>
+<div class="pm "><h3>זמר נוגה <small>רחל</small></h3><span class="mood">🌙 שקט · כמיהה</span><ol><li>התשמע קולי, רחוקי שלי,</li><li>התשמע קולי, באשר הנך –</li><li>קול קורא בעוז, קול בוכה בדמי</li><li>ומעל לזמן מצווה ברכה?</li><li class="gap"></li><li>תבל זו רבה ודרכים בה רב.</li><li>נפגשות לדק, נפרדות לעד.</li><li>מבקש אדם, אך כושלות רגליו,</li><li>לא יוכל למצוא את אשר אבד.</li><li class="gap"></li><li>אחרון ימי כבר קרוב אולי,</li><li>כבר קרוב היום של דמעות פרידה,</li><li>אחכה לך עד יכבו חיי,</li><li>כחכות רחל לדודה.</li></ol><p class="gl">📖 <b>בדמי</b> = בשקט · <b>תבל</b> = העולם · <b>לדק</b> = לרגע · <b>כחכות רחל לדודה</b> = כמו שרחל חיכתה לאהובה</p></div>
+<div class="pm "><h3>רק על עצמי <small>רחל</small></h3><span class="mood">🐜 קטנות · כובד</span><ol><li>רק על עצמי לספר ידעתי.</li><li>צר עולמי כעולם נמלה,</li><li>גם משאי עמסתי כמוה,</li><li>רב וכבד מכתפי הדלה.</li><li class="gap"></li><li>גם את דרכי – כדרכה אל צמרת –</li><li>דרך מכאוב ודרך עמל,</li><li>יד ענקים זדונה ובוטחת,</li><li>יד מתבדחת שמה לאל.</li><li class="gap"></li><li>כל ארחותי הליז והדמיע</li><li>פחד טמיר מיד ענקים.</li><li>למה קראתם לי, חופי הפלא?</li><li>למה כזבתם, אורות רחוקים?</li></ol><p class="gl">📖 <b>עמל</b> = עבודה קשה · <b>שמה לאל</b> = הפכה לכלום · <b>ארחותי</b> = דרכיי · <b>הליז</b> = שימח · <b>טמיר</b> = נסתר</p></div></div>
+</section>
+
+<section class="page" id="p-poems2" data-label="שירים: ביאליק">
+  <div class="ph"><div class="l"><i>🎤</i>דף השירים · מסלול א: שיר בן מאה</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick" style="color:#2f6db5;background:#e7f0fa">📜 חיים נחמן ביאליק (1873–1934) · נחלת הכלל</span><h2>שירים <span style="color:#2f6db5">עם קצב</span></h2></div><p>״פרש״, ״אופנים״ ו״נדנדה״ קצרים ומלאי קצב, מצוינים לרמת בסיס. בשירים הקצרים מותר להשתמש בכל השיר.</p></div>
+  <div class="pcols tight"><div class="pm bia"><h3>פרש <small>ח״נ ביאליק</small></h3><span class="mood">⚡ מהירות · אומץ</span><ol><li>רוץ, בן-סוסי,</li><li>רוץ ודהר!</li><li>רוץ בבקעה,</li><li>טוס בהר!</li><li class="gap"></li><li>רוצה, טוסה,</li><li>יום וליל, –</li><li>יום וליל, –</li><li>פרש אני</li><li>ובן-חיל!</li></ol><p class="gl">📖 <b>דהר</b> = רץ מהר מאוד (סוס) · <b>בקעה</b> = עמק · <b>בן-חיל</b> = גיבור</p></div>
+<div class="pm bia"><h3>אופנים <small>ח״נ ביאליק</small></h3><span class="mood">🚲 שמחה · חופש</span><ol><li>קל כנשר סוס ברזלי,</li><li>סוס רכובי, שמחת גילי!</li><li class="gap"></li><li>גידיו ברזל, בשרו נחוש,</li><li>קור לא ידע, חום לא יחוש.</li><li class="gap"></li><li>אל לסוסי הכין צידה –</li><li>רעב, צמא – הוא לא ידע.</li><li class="gap"></li><li>יקחני, ישאני,</li><li>עד קצה ארץ יעבירני.</li><li class="gap"></li><li>טס כשד, בכל השבילים,</li><li>יגמא ארץ, ישתה מילים.</li><li class="gap"></li><li>אכן מה נפלאת, כרובי,</li><li>סוס רכובי ואהובי!</li></ol><p class="gl">📖 <b>סוס ברזלי</b> = האופניים · <b>נחוש</b> = נחושת · <b>צידה</b> = אוכל לדרך · <b>יגמא</b> = יבלע · <b>מילים</b> = כאן: מיילים, מרחק</p></div>
+<div class="pm bia"><h3>נדנדה <small>ח״נ ביאליק</small></h3><span class="mood">🎠 משחק · איזון</span><ol><li>נד נד, נד נד</li><li>רד, עלה, עלה ורד!</li><li class="gap"></li><li>מה למעלה?</li><li>מה למטה?</li><li class="gap"></li><li>רק אני,</li><li>אני ואתה;</li><li class="gap"></li><li>שנינו שקולים</li><li>במאזניים</li><li class="gap"></li><li>בין הארץ</li><li>לשמיים</li></ol><p class="gl">📖 <b>שקולים</b> = באותו משקל · <b>מאזניים</b> = כף מאזניים, משקל</p></div>
+<div class="pm bia"><h3>בין נהר פרת ונהר חידקל <small>ח״נ ביאליק</small></h3><span class="mood">🐦 בקשה · אהבה</span><ol><li>בין נהר פרת ונהר חידקל</li><li>על ההר מתמר דקל.</li><li>ובדקל, בין עפאיו,</li><li>תשכן לה דוכיפת זהב.</li><li class="gap"></li><li>ציפור זהב! עופי, חוגי,</li><li>צאי ובקשי לי בן-זוגי,</li><li>ובאשר תמצאיהו –</li><li>כפתי אותו והביאיהו.</li><li class="gap"></li><li>אך אם אין לך חוט השני</li><li>דברי שלום אל חתני;</li><li>מה תגידי לו? הגידי:</li><li>נפשי יוצאת אל ידידי.</li><li class="gap"></li><li>אמרי לו: הגן פורח,</li><li>נעול הוא ואין פותח;</li><li>רימון פז שם יש בין עליו –</li><li>אך אין מי שיברך עליו.</li></ol><p class="gl">📖 <b>מתמר</b> = מתנשא · <b>עפאיו</b> = ענפיו · <b>חוגי</b> = עופי במעגל · <b>כפתי</b> = קשרי · 4 בתים ראשונים מתוך השיר</p></div>
+<div class="pm bia"><h3>הכניסיני תחת כנפך <small>ח״נ ביאליק</small></h3><span class="mood">🕊️ בדידות · בקשה</span><ol><li>הכניסיני תחת כנפך,</li><li>והיי לי אם ואחות,</li><li>ויהי חיקך מקלט ראשי,</li><li>קן תפילותיי הנדחות.</li><li class="gap"></li><li>ובעת רחמים, בין השמשות,</li><li>שחי ואגל לך סוד ייסוריי:</li><li>אומרים, יש בעולם נעורים –</li><li>היכן נעוריי?</li><li class="gap"></li><li>ועוד רז אחד לך אתוודה:</li><li>נפשי נשרפה בלהבה;</li><li>אומרים, אהבה יש בעולם –</li><li>מה זאת אהבה?</li><li class="gap"></li><li>הכוכבים רימו אותי,</li><li>היה חלום – אך גם הוא עבר;</li><li>עתה אין לי כלום בעולם –</li><li>אין לי דבר.</li><li class="gap"></li><li>הכניסיני תחת כנפך,</li><li>והיי לי אם ואחות,</li><li>ויהי חיקך מקלט ראשי,</li><li>קן תפילותיי הנדחות.</li></ol><p class="gl">📖 <b>בין השמשות</b> = שעת דמדומים · <b>שחי</b> = התכופפי · <b>אגל</b> = אגלה · <b>רז</b> = סוד · <b>הנדחות</b> = שלא נענו</p></div></div>
+</section>
+
+<!-- ===================== 5. RAP TOPICS ===================== -->
+<section class="page" id="p-topics" data-label="נושאים לראפ">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיסי נושא לראפ · מסלול ב</div><div class="r">סט אחד לכיתה</div></div>
+  <p class="cutnote">✂ לגזור, לקפל ולשים בקופסה. מנהל/ת האולפן שולף/ת כרטיס אחד. החלפה אחת מותרת. אפשר גם להגריל בשקף ״גלגל הנושאים״.</p>
+  <div class="cutgrid topics">
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R1</span><span class="em">⏰</span><b>הפסקה של 10 דקות</b><small>מה אפשר להספיק? מה תמיד נגמר מהר מדי?</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R2</span><span class="em">📚</span><b>הבוקר שלפני מבחן</b><small>הלב דופק, המחברת פתוחה, השעון רץ</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R3</span><span class="em">🔔</span><b>השעון המעורר שלי</b><small>עוד חמש דקות… עוד חמש דקות…</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R4</span><span class="em">🚌</span><b>האוטובוס שלא מגיע</b><small>התחנה, הגשם, המספר שלא מופיע</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R5</span><span class="em">🔋</span><b>הטלפון על 1%</b><small>מי מקבל את ההודעה האחרונה?</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R6</span><span class="em">🥵</span><b>שיעור ספורט בחמסין</b><small>זיעה, בקבוק מים, עוד סיבוב אחד</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R7</span><span class="em">🍲</span><b>ארוחת שישי</b><small>ריחות, צחוק, מי יושב איפה</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R8</span><span class="em">📄</span><b>שיעורי הבית שנעלמו</b><small>תירוץ מטורף שאף אחד לא מאמין לו</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R9</span><span class="em">⭐</span><b>הדבר שאני הכי טוב/ה בו</b><small>כישרון קטן שמגיע לו שיר שלם</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R10</span><span class="em">🕯️</span><b>יום בלי חשמל</b><small>בלי מסכים, בלי מעלית, ומה עכשיו?</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R11</span><span class="em">⚽</span><b>המגרש של השכונה</b><small>הכדור, הקבוצות, השקיעה</small></div>
+    <div class="tp"><span class="cat">🎤 ראפ</span><span class="no">R12</span><span class="em">☀️</span><b>הקיץ שמגיע</b><small>ספירה לאחור, ים, לילות ארוכים</small></div>
+  </div>
+</section>
+
+<section class="page" id="p-rap" data-label="דף כתיבת ראפ">
+  <div class="ph"><div class="l"><i>🎤</i>דף כתיבת ראפ · מסלול ב</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick" style="color:#be3455;background:#fce9ed">🔴 השורות שלכם · 🟡 AI רק לחרוזים ולספירת הברות</span><h2>הראפ <span style="color:#be3455">שלנו</span></h2></div><p>הנושא שלנו: <span class="fill l"></span> · הרגש המרכזי במילה אחת: <span class="fill"></span></p></div>
+  <div class="grid3" style="margin-bottom:3mm">
+    <div class="box soft"><h3>🎯 תבנית חרוזים</h3><p style="font-size:9pt">AABB: שורה 1 מתחרזת עם 2, ושורה 3 עם 4. הכי קל לביט.</p></div>
+    <div class="box soft"><h3>📏 אורך שורה</h3><p style="font-size:9pt">6–10 הברות בשורה. שורה ארוכה מדי לא נכנסת בתיבה אחת.</p></div>
+    <div class="box soft"><h3>🚫 בלי</h3><p style="font-size:9pt">שמות של אנשים אמיתיים, פרטים אישיים, ירידות על מישהו.</p></div>
+  </div>
+  <table class="tb" style="font-size:9.4pt">
+    <thead><tr><th style="width:8mm">#</th><th>השורה</th><th style="width:18mm">הברות</th><th style="width:16mm">חרוז</th><th style="width:30mm">★ מילת מפתח</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="e"></td><td></td><td>A</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td>A</td><td></td></tr>
+      <tr><td>3</td><td class="e"></td><td></td><td>B</td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td>B</td><td></td></tr>
+      <tr><td>5</td><td class="e"></td><td></td><td>C</td><td></td></tr><tr><td>6</td><td class="e"></td><td></td><td>C</td><td></td></tr>
+      <tr><td>7</td><td class="e"></td><td></td><td>D</td><td></td></tr><tr><td>8</td><td class="e"></td><td></td><td>D</td><td></td></tr>
+      <tr><td>9</td><td class="e"></td><td></td><td></td><td></td></tr><tr><td>10</td><td class="e"></td><td></td><td></td><td></td></tr>
+      <tr><td>11</td><td class="e"></td><td></td><td></td><td></td></tr><tr><td>12</td><td class="e"></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>🔤 מחסן חרוזים (מה Gemini הציע, ומה בחרנו)</h3><div class="lines h3"></div></div>
+    <div class="box"><h3>💥 שורת השיא שלנו (זו ש״מתפוצצת״)</h3><div class="lines h2"></div><p style="font-size:8.6pt;color:var(--muted)">שורה מספר: <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. BEAT MAP ===================== -->
+<section class="page" id="p-beat" data-label="מפת ביט">
+  <div class="ph"><div class="l"><i>🎤</i>מפת ביט · 🎧 די-ג׳יי לופים</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🗺️ ספרינט 1</span><h2>מפת <span>הביט</span></h2></div><p>הלופ: <span class="fill l"></span> · מאיפה: ☐ BandLab ☐ מאגר Vids<br>BPM: <span class="fill s"></span> · פעמה = <span class="fill s"></span> שנ׳ · תיבה = <span class="fill s"></span> שנ׳</p></div>
+  <div class="calc" style="margin-bottom:3mm">
+    <div><b>90 BPM</b>פעמה 0.67 · תיבה 2.67</div><div><b>100 BPM</b>פעמה 0.6 · תיבה 2.4</div><div class="best"><b>120 BPM ⭐</b>פעמה 0.5 · תיבה 2</div><div><b>128 BPM</b>פעמה 0.47 · תיבה 1.88</div>
+  </div>
+  <table class="bm">
+    <thead><tr><th>#</th><th>השורה (מקוצרת)</th><th>פעמה 1</th><th>פעמה 2</th><th>פעמה 3</th><th>פעמה 4</th><th style="width:20mm">מתחילה בשנייה</th></tr></thead>
+    <tbody>
+      <tr class="exr"><td class="n">דוג׳</td><td class="ln">רוץ, בן-סוסי, רוץ ודהר!</td><td>רוץ</td><td>בן-סוסי</td><td>רוץ</td><td class="k">★ ודהר!</td><td>2.0</td></tr>
+      <tr><td class="n">פ</td><td class="ln">שקף פתיחה: שם הקליפ</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td>0.0</td></tr>
+      <tr><td class="n">1</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">2</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">3</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">4</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">5</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">6</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">7</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">8</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">9</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">10</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">11</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">12</td><td class="ln"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">ס</td><td class="ln">שקף סיום: קרדיט</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box soft"><h3>✍️ איך ממלאים</h3><ul class="clean" style="font-size:9pt"><li>כותבים כל מילה מתחת לפעמה שעליה היא נשמעת כשמקריאים בקצב.</li><li>מסמנים ★ על 6 מילות המפתח. עדיף על פעמה 1 או 3.</li><li>ב-120 BPM כל שורה מתחילה 2 שניות אחרי הקודמת.</li></ul></div>
+    <div class="box"><h3>⏱ חשבון מהיר</h3><p style="font-size:9pt">שקף פתיחה (<span class="fill s"></span> שנ׳) + <span class="fill s"></span> שורות × <span class="fill s"></span> שנ׳ + סיום (<span class="fill s"></span> שנ׳) = <b><span class="fill s"></span> שניות</b> <span style="color:var(--muted)">(צריך 30–45)</span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 7. TYPOGRAPHY PLAN ===================== -->
+<section class="page" id="p-plan" data-label="לוח תכנון">
+  <div class="ph"><div class="l"><i>🎤</i>לוח תכנון טיפוגרפי · 🔤 מעצב/ת טיפוגרפיה</div><div class="r">להדפיס ב-A3 · אולפן: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🎨 ספרינט 1</span><h2>לוח <span>התכנון</span></h2></div><p>הרגש המרכזי: <span class="fill"></span> · גופן ראשי: <span class="fill"></span> · גופן למילות המפתח: <span class="fill"></span></p></div>
+  <div class="grid2" style="margin-bottom:3mm;grid-template-columns:1.2fr .8fr">
+    <div class="box"><h3>🎨 הפלטה שלנו: צובעים בטוש</h3><div class="swatches"><div><i></i>רקע · HEX <span class="fill s"></span></div><div><i></i>טקסט · HEX <span class="fill s"></span></div><div><i></i>הדגשה · HEX <span class="fill s"></span></div></div></div>
+    <div class="box"><h3>🔢 מונה האנימציות (צריך 8 שונות)</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:.8mm 3mm;font-size:8.6pt"><span>1. <span class="fill s"></span></span><span>5. <span class="fill s"></span></span><span>2. <span class="fill s"></span></span><span>6. <span class="fill s"></span></span><span>3. <span class="fill s"></span></span><span>7. <span class="fill s"></span></span><span>4. <span class="fill s"></span></span><span>8. <span class="fill s"></span></span></div></div>
+  </div>
+  <div class="kwcards">
+    <div class="kw"><div class="hd"><b>★ מילת מפתח 1</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>S</span><span>M</span><span>L</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+    <div class="kw"><div class="hd"><b>★ מילת מפתח 2</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>S</span><span>M</span><span>L</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+    <div class="kw"><div class="hd"><b>★ מילת מפתח 3</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>S</span><span>M</span><span>L</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+    <div class="kw"><div class="hd"><b>★ מילת מפתח 4</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>S</span><span>M</span><span>L</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+    <div class="kw"><div class="hd"><b>★ מילת מפתח 5</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>S</span><span>M</span><span>L</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+    <div class="kw" style="border-color:#e9c766;background:#fffcf3"><div class="hd"><b>💥 מילת השיא (6)</b><span>שורה <span class="fill s"></span> · שנייה <span class="fill s"></span></span></div><div class="big"></div><div class="row"><span>מה היא מרגישה:</span><span class="fill"></span></div><div class="opts"><span>☐ פעמה של שקט לפניה</span><span>XL</span><span>צבע הדגשה</span></div><div class="opts"><span>⬇️ נפילה</span><span>⤴️ קפיצה</span><span>🌫️ דהייה</span><span>〰️ רעידה</span><span>🔍 הגדלה</span><span>💥 פיצוץ</span><span>➡️ החלקה</span></div><div class="opts"><span>שלם</span><span>מילה</span><span>אות</span><span>+ יציאה: <span class="fill s"></span></span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 8. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>🎤</i>טקס פרסי הקליפים · המחוון</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⚖️ מוצג לפני העבודה · נשאר על השולחן</span><h2>איך מחליט <span>חבר השופטים</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם עכשיו. לפני ההגשה: הערכה עצמית. בטקס: חבר השופטים קובע. כל רמה = נקודות (1–4), עד 16.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">📜 פרשנות הטקסט<small>מה הקליפ אומר</small></td><td>לא ברור למה נבחרו השורות או מה הן אומרות</td><td>השורות מובנות, אבל הקליפ לא מראה מה הן מרגישות</td><td>הקליפ מבטא רגש אחד ברור של הטקסט</td><td>פרשנות אישית ומפתיעה: העיצוב מוסיף משמעות שלא רואים בקריאה רגילה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🔤 טיפוגרפיה וצבע<small>איך המילים נראות</small></td><td>גופן אחד, צבעים אקראיים</td><td>יש גופנים וצבעים, בלי קשר לטקסט</td><td>גופנים ופלטה שמתאימים לאווירה, 8 אנימציות</td><td>כל מילת מפתח מקבלת עיצוב ואנימציה לפי המשמעות שלה, והפלטה נשמרת לאורך כל הקליפ</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🥁 סנכרון לקצב<small>על הביט</small></td><td>המילים לא קשורות לביט</td><td>חלק מהשקפים מתחלפים בזמן</td><td>רוב מילות המפתח מופיעות על הפעמה</td><td>מילים על הביט, שקט או עצירה ברגע הנכון, ושורת שיא ש״מתפוצצת״ על המסך</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🤝 צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב ״השתמשנו ב-AI״</td><td>כל תפקיד ביצע את החלק שלו, כתוב במה ה-AI עזר (הסבר מילים, חרוזים) ומה הצוות החליט</td><td>התפקידים עבדו במקביל, ויש דוגמה להצעה של ה-AI שהצוות שינה או דחה, ולמה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: ״פרש״ ברמה 3 מול רמה 4 (טיפוגרפיה וסנכרון)</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> רקע כהה, טקסט לבן ומילים כתומות. כל שורה בשקף משלה, ״ודהר!״ גדולה ונכנסת בהחלקה. רוב המילים נוחתות על הביט.</p><p style="font-size:9.2pt"><b>🚀 רמה 4:</b> אותה פלטה, אבל ״טוס״ עולה אות-אות למעלה, ״פרש״ נופלת מלמעלה בדיוק על פעמה 1, ולפני ״חיל!״ יש פעמה של מסך ריק, ואז המילה מתפוצצת על כל המסך.</p></div></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📍 בנקודת הביקורת אנחנו ב:</h3><div class="lvl"><span>פרשנות: ___</span><span>טיפוגרפיה: ___</span><span>סנכרון: ___</span><span>צוות: ___</span></div></div>
+    <div class="box soft"><h3>💬 הדבר האחד שנשפר בספרינט 2</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 9. JUDGE SHEET ===================== -->
+<section class="page" id="p-judge" data-label="דף שיפוט">
+  <div class="ph"><div class="l"><i>🎤</i>דף שיפוט · חבר השופטים</div><div class="r">שופט/ת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick gold">⚖️ ממלאים בזמן ההקרנה</span><h2>דף <span class="g">השיפוט</span></h2></div><p>מסמנים ☐ על כל מילת מפתח שנחתה עם מחיאת הכף של הקהל (עד 6), ☐ על כל אולפן שניחש את הרגש (עד 4), ומקיפים רמה במחוון. אחר כך מעבירים לשולחן השופטים במצגת.</p></div>
+  <table class="jd">
+    <colgroup><col style="width:23mm"><col style="width:11mm"><col style="width:11mm"><col style="width:11mm"><col style="width:31mm"><col style="width:21mm"><col><col><col><col></colgroup>
+    <thead><tr><th>אולפן · קליפ</th><th>8+ אנימ׳<br><small>4</small></th><th>30–45 שנ׳<br><small>2</small></th><th>3 צבעים<br><small>2</small></th><th>🥁 מילים על הביט<br><small>1 לכל, עד 6</small></th><th>💭 ניחשו רגש<br><small>עד 4</small></th><th>📜 פרשנות</th><th>🔤 טיפו׳ וצבע</th><th>🥁 סנכרון</th><th>🤝 צוות ו-AI</th></tr></thead>
+    <tbody>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+      <tr><td class="nm"></td><td>☐</td><td>☐</td><td>☐</td><td><span class="boxes"><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td><span class="boxes"><i></i><i></i><i></i><i></i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td><td><span class="lv"><i>1</i><i>2</i><i>3</i><i>4</i></span></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🥁 איך סופרים ״על הביט״</h3><p style="font-size:9pt">כל הקהל מוחא כף על כל פעמה. מילת מפתח שמופיעה <b>באותו רגע</b> עם הכף = ☐. מאחרת או מקדימה בבירור = לא נספרת. בספק: לטובת האולפן.</p></div>
+    <div class="box soft"><h3>🎨 פרס הצבע</h3><p style="font-size:9pt">בין האולפנים שקיבלו 2 נקודות פלטה: הציון הגבוה בטיפוגרפיה וצבע. שוויון? מי שקיבל יותר קולות בקהל.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 10. GUESS CARDS ===================== -->
+<section class="page" id="p-guess" data-label="ניחוש רגש">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיס ניחוש רגש · 💭 מבחן הפרשנות</div><div class="r">2 בעמוד · כרטיס לאולפן</div></div>
+  <p class="cutnote">✂ לגזור לחצאים. כל אולפן ממלא כרטיס אחד בזמן ההקרנות, ומרים אותו כשהאולפן חושף את הרגש.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="guess"><div class="hd"><b>💭 הרגש שאנחנו מרגישים</b><span>האולפן שלנו: <span class="fill"></span></span></div>
+      <table class="tb"><thead><tr><th style="width:36mm">הקליפ של אולפן</th><th>הרגש המרכזי (מילה אחת)</th><th style="width:20mm">צדקנו?</th></tr></thead><tbody>
+      <tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr></tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted)">רעיונות: געגוע · שמחה · פחד · אומץ · בדידות · התלהבות · שקט · כעס · תקווה · לחץ · חופש · ספק</p></div>
+    <div class="guess"><div class="hd"><b>💭 הרגש שאנחנו מרגישים</b><span>האולפן שלנו: <span class="fill"></span></span></div>
+      <table class="tb"><thead><tr><th style="width:36mm">הקליפ של אולפן</th><th>הרגש המרכזי (מילה אחת)</th><th style="width:20mm">צדקנו?</th></tr></thead><tbody>
+      <tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td>☐</td></tr></tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted)">רעיונות: געגוע · שמחה · פחד · אומץ · בדידות · התלהבות · שקט · כעס · תקווה · לחץ · חופש · ספק</p></div>
+  </div>
+</section>
+
+<!-- ===================== 11. VOTE SLIPS ===================== -->
+<section class="page" id="p-vote" data-label="פתקי הצבעה">
+  <div class="ph"><div class="l"><i>🎤</i>פתקי הצבעה · 👏 פרס הקהל</div><div class="r">20 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. כל אחד מקבל פתק אחד ומצביע לקליפ שנשאר לו בראש, לא של האולפן שלו. אפשר גם הצבעה בהרמת יד.</p>
+  <div class="cutgrid slips">
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+    <div class="slip"><b>👏 הקול שלי</b><span>הולך לאולפן:</span><span class="fill"></span><small>(לא האולפן שלי)</small></div>
+  </div>
+</section>
+
+<!-- ===================== 12. AWARD CARDS ===================== -->
+<section class="page" id="p-awards" data-label="כרטיסי מעטפה">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיסי מעטפה · 6 פרסים</div><div class="r">למדריך</div></div>
+  <p class="cutnote">✂ לגזור, למלא את שם האולפן בזמן ספירת הנקודות, ולהכניס כל כרטיס למעטפה. קליפ השנה נפתח אחרון.</p>
+  <div class="cutgrid awc">
+    <div class="aw"><span class="em">🥁</span><b>פרס הסנכרון</b><small>הכי הרבה מילות מפתח על הביט</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+    <div class="aw"><span class="em">🔤</span><b>פרס הטיפוגרפיה</b><small>מילים שנראות כמו מה שהן אומרות</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+    <div class="aw"><span class="em">🎨</span><b>פרס הצבע</b><small>פלטה שיוצרת אווירה ונשמרת עד הסוף</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+    <div class="aw"><span class="em">📜</span><b>הפרשנות המפתיעה</b><small>שיר ישן שקיבל משמעות חדשה</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+    <div class="aw"><span class="em">👏</span><b>פרס הקהל</b><small>הכי הרבה קולות בכיתה</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+    <div class="aw" style="background:linear-gradient(180deg,#fdf1cf,#fffaf0)"><span class="em">🏆</span><b>קליפ השנה</b><small>הניקוד הכולל הגבוה ביותר</small><p>הפרס הולך ל: אולפן <span class="fill"></span></p><p>על הקליפ: <span class="fill"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 13. CERTIFICATE ===================== -->
+<section class="page" id="p-cert" data-label="תעודה">
+  <div class="ph"><div class="l"><i>🎤</i>תעודת זכייה</div><div class="r">עותק לכל זוכה</div></div>
+  <div class="cert">
+    <div class="stars">★ ★ ★ ★ ★</div>
+    <span class="em">🏆</span>
+    <h1>טקס פרסי הקליפים</h1>
+    <p class="sub">ערוץ המוזיקה של בית הספר · Tech It Easy</p>
+    <p class="line">אולפן <span class="fill"></span><br>זכה בפרס <span class="fill"></span><br>על הקליפ <span class="fill"></span></p>
+    <p style="font-size:11pt;color:var(--muted)">חברי האולפן: <span class="fill xl"></span></p>
+    <div class="sig"><div><span class="fill"></span>חבר השופטים</div><div><span class="fill"></span>תאריך</div></div>
+  </div>
+</section>
+
+<!-- ===================== 14. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>🎤</i>שורת AI · מצורפת למועמדות</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים לפני ההגשה, ומעתיקים את שתי השורות לטופס ״מועמדות לטקס״.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>הצעה של ה-AI ששינינו או דחינו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>הצעה של ה-AI ששינינו או דחינו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>הצעה של ה-AI ששינינו או דחינו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>הצעה של ה-AI ששינינו או דחינו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>🎤</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף הטקס, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>טקס פרסי הקליפים</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו מילה עיצבנו במיוחד, ולמה דווקא כך?</p><div class="lines h2"></div><div class="scale"><span>כמה נהניתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>טקסט</span><span>קצב</span><span>עיצוב</span><span>סנכרון</span><span>הצגה</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>טקס פרסי הקליפים</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו מילה עיצבנו במיוחד, ולמה דווקא כך?</p><div class="lines h2"></div><div class="scale"><span>כמה נהניתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>טקסט</span><span>קצב</span><span>עיצוב</span><span>סנכרון</span><span>הצגה</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>טקס פרסי הקליפים</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו מילה עיצבנו במיוחד, ולמה דווקא כך?</p><div class="lines h2"></div><div class="scale"><span>כמה נהניתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>טקסט</span><span>קצב</span><span>עיצוב</span><span>סנכרון</span><span>הצגה</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>טקס פרסי הקליפים</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו מילה עיצבנו במיוחד, ולמה דווקא כך?</p><div class="lines h2"></div><div class="scale"><span>כמה נהניתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>טקסט</span><span>קצב</span><span>עיצוב</span><span>סנכרון</span><span>הצגה</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 16. INSTRUCTOR SCORE SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>🎤</i>טקס פרסי הקליפים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 גיבוי נייר ללוח הניקוד שבמצגת</span><h2>דף <span>הניקוד</span></h2></div><p>אותן עמודות כמו בלוח הניקוד במצגת (שקף 42). מקסימום 39 נקודות.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:26mm">אולפן</th><th>אנימ׳<br><small>4</small></th><th>ביט<br><small>עד 6</small></th><th>משך<br><small>2</small></th><th>פלטה<br><small>2</small></th><th>רגש<br><small>עד 4</small></th><th>שופטים<br><small>עד 16</small></th><th>קהל: קולות</th><th>קהל<br><small>5/3/2</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:13mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>✉️ סדר הענקת הפרסים (כל אולפן: פרס שופטים אחד לכל היותר)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:8mm">#</th><th style="width:38mm">פרס</th><th>איך מחליטים</th><th style="width:34mm">הזוכה</th></tr></thead><tbody>
+      <tr><td>1</td><td>🏆 קליפ השנה</td><td>הסה״כ הגבוה. שוויון: שופטים, ואז מילים על הביט</td><td></td></tr>
+      <tr><td>2</td><td>🥁 סנכרון</td><td>הכי הרבה מילים על הביט (מבין מי שעוד לא זכה). שוויון: ציון סנכרון</td><td></td></tr>
+      <tr><td>3</td><td>🔤 טיפוגרפיה</td><td>ציון ״טיפוגרפיה וצבע״ הגבוה. שוויון: 8 אנימציות</td><td></td></tr>
+      <tr><td>4</td><td>🎨 צבע</td><td>מבין מי שקיבל 2 נק׳ פלטה: ציון טיפוגרפיה וצבע, ואז קולות קהל</td><td></td></tr>
+      <tr><td>5</td><td>📜 פרשנות מפתיעה</td><td>עדיפות למסלול שיר. ציון פרשנות, ואז ניחושי רגש</td><td></td></tr>
+      <tr><td>—</td><td>👏 קהל</td><td>הכי הרבה קולות. בנפרד מפרסי השופטים</td><td></td></tr>
+    </tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ נקודת ביקורת (דקה 46): מי תקוע ובמה?</h3><div class="lines h3"></div></div>
+    <div class="box"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h3"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 17. NO-DEVICE ===================== -->
+<section class="page" id="p-nodev" data-label="בלי מכשירים">
+  <div class="ph"><div class="l"><i>🎤</i>קליפ כרטיסים חי · גרסה בלי מכשירים</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick gold">🃏 בהשראת בוב דילן, לונדון 1965</span><h2>קליפ <span class="g">כרטיסים חי</span></h2></div><p>אין מחשבים? הופכים את האולפן לקליפ חי מול הכיתה: כרטיסי נייר שמתחלפים בדיוק על הביט.</p></div>
+  <div class="steps4">
+    <div><b>1. טקסט</b>8–12 שורות מדף השירים, או ראפ מקורי. מסמנים 6 מילות מפתח.</div>
+    <div><b>2. כרטיסים</b>12–16 דפי A4: מילת מפתח או ביטוי בכל דף. 3 צבעים בלבד, גודל לפי חשיבות.</div>
+    <div><b>3. חזרה</b>מתאמנים עם ביט על השולחן: 1 חזק, 3 חזק. כל כרטיס מתחלף על פעמה.</div>
+    <div><b>4. הופעה</b>אחד מקריא או מראפ, אחד מתופף, שניים מחליפים כרטיסים. 30–45 שניות.</div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>👥 תפקידים בהופעה</h3><table class="tb"><tbody>
+      <tr><td style="width:34mm"><b>🎤 מנהל/ת</b></td><td>סופר/ת ״1, 2, 3, 4״ ונותן/ת סימן להתחלה</td></tr>
+      <tr><td><b>📜 טקסט</b></td><td>מקריא/ה או מראפ/ת</td></tr>
+      <tr><td><b>🎧 די-ג׳יי</b></td><td>מתופף/ת על השולחן או מוחא/ת כף</td></tr>
+      <tr><td><b>🔤 מעצב/ת + ✂️ עורך/ת</b></td><td>מחזיקים ומחליפים כרטיסים על הביט</td></tr>
+    </tbody></table></div>
+    <div class="box"><h3>🏆 הניקוד בגרסה הזו</h3><table class="tb"><tbody>
+      <tr><td>כל כרטיס שהתחלף בדיוק על הפעמה</td><td style="width:22mm">1 (עד 10)</td></tr>
+      <tr><td>3 צבעים בכל הכרטיסים</td><td>2</td></tr>
+      <tr><td>30–45 שניות</td><td>2</td></tr>
+      <tr><td>הקהל ניחש את הרגש</td><td>1 לאולפן (עד 4)</td></tr>
+      <tr><td>מחוון השופטים + הצבעת קהל</td><td>כרגיל</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✍️ רשימת הכרטיסים שלנו (לפי הסדר)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:9mm">#</th><th>מה כתוב</th><th style="width:22mm">צבע</th><th style="width:20mm">גודל</th><th style="width:9mm">#</th><th>מה כתוב</th><th style="width:22mm">צבע</th><th style="width:20mm">גודל</th></tr></thead><tbody>
+      <tr><td>1</td><td class="e"></td><td></td><td></td><td>9</td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td class="e"></td><td></td><td></td><td>10</td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td class="e"></td><td></td><td></td><td>11</td><td></td><td></td><td></td></tr>
+      <tr><td>4</td><td class="e"></td><td></td><td></td><td>12</td><td></td><td></td><td></td></tr>
+      <tr><td>5</td><td class="e"></td><td></td><td></td><td>13</td><td></td><td></td><td></td></tr>
+      <tr><td>6</td><td class="e"></td><td></td><td></td><td>14</td><td></td><td></td><td></td></tr>
+      <tr><td>7</td><td class="e"></td><td></td><td></td><td>15</td><td></td><td></td><td></td></tr>
+      <tr><td>8</td><td class="e"></td><td></td><td></td><td>16</td><td></td><td></td><td></td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ===================== 18. STUDIO SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט אולפן">
+  <div class="ph"><div class="l"><i>🎤</i>שלט אולפן · מקפלים לאורך הקו האמצעי</div><div class="r">1 לאולפן</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🎤</span><b>אולפן</b><div class="nm"></div><p style="color:var(--muted)">מועמד/ת · טקס פרסי הקליפים</p></div>
+    <div><span class="em">🎤</span><b>אולפן</b><div class="nm"></div><p style="color:var(--muted)">מועמד/ת · טקס פרסי הקליפים</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם האולפן משני הצדדים</p>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

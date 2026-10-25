@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · יום ההדגמה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+/* ---------- Demo Day additions ---------- */
+.big1{font-family:var(--display);font-weight:800;font-size:13pt}
+.tiny{font-size:8.6pt;color:var(--muted)}
+table.tb.c td,table.tb.c th{text-align:center}
+table.tb.c td:first-child,table.tb.c th:first-child{text-align:right}
+.circ{display:inline-flex;gap:1.6mm}
+.circ i{font-style:normal;display:inline-grid;place-items:center;width:5.6mm;height:5.6mm;border:1.1px solid var(--ink);border-radius:50%;font-size:7.6pt;font-weight:700}
+/* booth sign */
+.sign{flex:1;display:flex;flex-direction:column;gap:4mm;border:2.2px solid var(--teal);border-radius:6mm;padding:9mm 10mm;position:relative;background:linear-gradient(180deg,#fff,#f7fbfa)}
+.sign .tag{position:absolute;top:-3.4mm;right:10mm;background:#fff;padding:0 3mm;font-family:var(--display);font-weight:700;font-size:10pt;color:var(--teal)}
+.sign .nm{border-bottom:2px solid var(--ink);height:30mm}
+.sign .lbl{font-family:var(--display);font-weight:700;font-size:10.5pt;color:var(--muted)}
+.sign .val{border-bottom:1.4px solid #bdb5a8;height:13mm}
+.sign .qr{display:grid;grid-template-columns:52mm 1fr;gap:6mm;align-items:center}
+.sign .qr .box{height:52mm;display:grid;place-items:center;text-align:center;border:2px dashed var(--line2);color:var(--dim);font-size:9pt}
+.sign .scan{font-family:var(--display);font-weight:800;font-size:22pt;line-height:1.15}
+.sign .scan small{display:block;font-family:var(--body);font-weight:500;font-size:10.5pt;color:var(--muted);margin-top:2mm}
+/* play money */
+.money{grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;flex:1}
+.note10{position:relative;margin:3mm;border-radius:3mm;background:linear-gradient(135deg,#e3f1ee,#f8fcfb 55%,#e3f1ee);border:1.2px solid #9fcfc5;display:grid;grid-template-columns:22mm 1fr;align-items:center;gap:3mm;padding:3mm 5mm;color:#0b5c56}
+.note10::before{content:"";position:absolute;inset:1.6mm;border:1px dashed #9fcfc5;border-radius:2mm;pointer-events:none}
+.note10 .seal{width:19mm;height:19mm;border-radius:50%;display:grid;place-items:center;font-size:20pt;background:#fff;border:1.4px solid #9fcfc5}
+.note10 b{display:block;font-family:var(--display);font-weight:800;font-size:22pt;line-height:1}
+.note10 small{display:block;font-family:var(--display);font-weight:700;font-size:7.6pt;letter-spacing:.08em}
+.note10 em{display:block;font-style:normal;font-size:7.4pt;color:#3f7169;margin-top:1mm}
+.note10 .sn{position:absolute;bottom:2.6mm;left:4mm;font-size:6.6pt;color:#6aa59b;direction:ltr}
+/* envelope labels */
+.env{grid-template-columns:1fr 1fr;flex:none}
+.env>div{padding:5mm 6mm;display:flex;flex-direction:column;gap:2mm;align-items:center;text-align:center}
+.env b{font-family:var(--display);font-weight:800;font-size:15pt}
+/* certificates */
+.certs{grid-template-rows:1fr 1fr;flex:1}
+.certA{padding:5mm}
+.certA>div{height:100%;border:3px double #d9b25e;border-radius:4mm;padding:7mm 10mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;background:radial-gradient(circle at 50% 0,#fffaf0,#fff 70%)}
+.certA .ck{font-family:var(--display);font-weight:700;letter-spacing:.2em;color:#b7791f;font-size:8.6pt}
+.certA b{font-family:var(--display);font-weight:800;font-size:28pt;line-height:1.05}
+.certA .ln{width:105mm;border-bottom:1.6px solid var(--ink);height:11mm}
+.certA p{font-size:10pt;color:var(--muted);max-width:150mm}
+.certA .row{display:flex;justify-content:space-between;width:100%;gap:8mm;margin-top:3mm;font-size:9pt;color:var(--muted)}
+.certA .row span{flex:1;border-top:1px solid var(--line2);padding-top:1.4mm}
+.certA .seal{font-size:22pt}
+.awardsG{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.aw{padding:4mm}
+.aw>div{height:100%;border:2.4px solid var(--c,#d9b25e);border-radius:4mm;padding:6mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;background:linear-gradient(180deg,var(--cs,#fffaf0),#fff)}
+.aw .em{font-size:30pt;line-height:1}
+.aw b{font-family:var(--display);font-weight:800;font-size:18pt;line-height:1.1}
+.aw p{font-size:9.4pt;color:var(--muted);max-width:75mm}
+.aw .ln{width:70mm;border-bottom:1.4px solid var(--ink);height:9mm}
+.aw small{font-size:8pt;color:var(--dim)}
+/* hall of fame plaques */
+.plaques{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.pl{padding:4mm}
+.pl>div{height:100%;border:2px solid #d9b25e;border-radius:3mm;box-shadow:inset 0 0 0 2mm #fff,inset 0 0 0 2.4mm #efd9a0;background:linear-gradient(180deg,#fffdf6,#fff6e0);padding:6mm 7mm;display:flex;flex-direction:column;gap:2mm;text-align:center}
+.pl .yr{font-family:var(--display);font-weight:700;font-size:8pt;letter-spacing:.14em;color:#b7791f}
+.pl .f{display:flex;gap:2mm;align-items:flex-end;font-size:9.4pt}
+.pl .f span{flex:1;border-bottom:1px solid #b9a77f;height:6mm}
+/* question cards */
+.qcards{grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;flex:1}
+.qc{--c:var(--teal);--cs:var(--teal-soft);padding:3.5mm;display:flex;flex-direction:column;gap:1.5mm;position:relative}
+.qc::before{content:"";position:absolute;inset:0 0 auto 0;height:1.6mm;background:var(--c)}
+.qc .cat{margin-top:1.5mm;font-family:var(--display);font-weight:700;font-size:7.6pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.3mm 2.2mm;width:max-content}
+.qc p{font-size:9.6pt;font-weight:700;line-height:1.35}
+.qc small{margin-top:auto;font-size:7.8pt;color:var(--muted)}
+/* reflection halves */
+.halves{grid-template-rows:1fr 1fr;flex:1}
+.half{padding:6mm 6mm;display:flex;flex-direction:column;gap:2.4mm}
+.half .eh{display:flex;justify-content:space-between;align-items:center}
+.half .eh b{font-family:var(--display);font-weight:800;font-size:14pt}
+.half .q{font-weight:700;font-size:10pt}
+.half .q small{font-weight:500;color:var(--muted);font-size:8.6pt}
+/* program */
+.prog{display:grid;grid-template-columns:repeat(7,1fr);gap:2mm}
+.prog div{border:1px solid var(--line2);border-radius:3mm;padding:2.5mm 1.5mm;text-align:center;font-size:8.6pt;line-height:1.3}
+.prog div i{display:block;font-style:normal;font-size:15pt}
+.prog div b{display:block;font-family:var(--display);font-size:9.4pt}
+
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · יום ההדגמה<small>שיעור 30 · שלב 10: הצגת הפרויקט</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-6–7 צוותים ועד 15 אורחים. מדפיסים יומיים לפני: יש כאן הרבה גזירה.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>צ׳קליסט הדוכן ודף ריצה לפיץ׳</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>שלט הדוכן (גיבוי לשלט ב-Slides)</td><td>1 לצוות + 2 רזרבה (9)</td><td>בריסטול או A3</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף סיכום המשוב + כרטיס התיקון לשופטים</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>את הכרטיס בתחתית</td></tr>
+      <tr><td>6</td><td>מחוון הבמה</td><td>1 לצוות + 1 לכל שופט (10)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>דף שופט הבמה</td><td>1 לכל שופט (3)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>דפי שיפוט מנייר לאורחים (גיבוי לטופס)</td><td>10 עמודים (40 דפים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>9</td><td>בנק שאלות לשופטים</td><td>1 סט לכל שופט (3)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>10</td><td>כסף משחק: 8 שטרות של 10,000 ₪ בעמוד</td><td>21 עמודים (168 שטרות)</td><td>צבעוני בהיר אם יש</td><td>כן</td></tr>
+      <tr><td>11</td><td>תוויות מעטפה ודף ספירה צולבת</td><td>2 עמודים</td><td>רגיל</td><td>את התוויות</td></tr>
+      <tr><td>12</td><td>תוכנייה לאורחים</td><td>1 לכל אורח/ת (15)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>תעודות "יזם/ית צעיר/ה" (2 בעמוד)</td><td>15 עמודים (30)</td><td>בריסטול לבן</td><td>חצי</td></tr>
+      <tr><td>14–15</td><td>תעודות מקומות ופרסים (4 בעמוד)</td><td>1 מכל עמוד</td><td>בריסטול</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>היכל התהילה: 6 לוחיות בעמוד</td><td>2 עמודים</td><td>בריסטול צהוב בהיר</td><td>כן</td></tr>
+      <tr><td>17</td><td>שורת AI לדוכן (4 בעמוד)</td><td>2 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>18</td><td>רפלקציה אישית (2 בעמוד)</td><td>15 עמודים (30)</td><td>רגיל</td><td>חצי</td></tr>
+      <tr><td>19</td><td>כרטיסי יציאה (4 בעמוד)</td><td>8 עמודים (32)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>20</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בדוכן של כל צוות</h3>
+      <ul class="check"><li>שלט שולחן מהקורס ושלט הדוכן</li><li>מעטפה A5 עם תווית "קופת ההשקעות"</li><li>4–6 דפי שיפוט מנייר ועט</li><li>כרטיס משימה, דף ריצה, דף סיכום משוב ומחוון</li><li>מכשיר טעון אחד לפחות, פתוח על האב-טיפוס</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>ארנקים: 3 שטרות לכל תלמיד/ה, 5 לכל אורח/ת (בשקיות קטנות)</li><li>3 לוחות כתיבה לשופטים, דפי שופט ובנק שאלות</li><li>תעודות ממוינות לפי צוות, ותעודות הפרסים</li><li>מסקינטייפ ללוחיות היכל התהילה</li><li>רמקול או פעמון לצלצולים</li></ul></div>
+  </div>
+</section>
+
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏆 שלב 10: הצגת הפרויקט</span><h2>יום <span>ההדגמה</span></h2></div><p>הדלתות נפתחות. אורחים עוברים בין הדוכנים, שופטים יושבים מול הבמה, ולכל משקיע יש ארנק של כסף משחק. זה היום שבו המיזם שבניתם 30 שיעורים פוגש את העולם.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>לשכנע אורחים, שופטים ומשקיעים שהמיזם שלכם שווה השקעה: בדוכן, על הבמה ובמעטפה.</p>
+      <h3 style="margin-top:3mm">📏 החוקים</h3><ol class="clean" style="font-size:9.6pt"><li>הדוכן מוכן לפי הצ׳קליסט עד שהדלתות נפתחות.</li><li>בתערוכה: חצי צוות בדוכן, חצי מסייר ושופט בטופס. בלי שמות.</li><li>בחדר המשוב: רק משוב אמיתי. ה-AI מסכם, לא ממציא.</li><li>על הבמה: 3 דקות, שאלה אחת, וכל הצוות מדבר.</li><li>משקיעים רק אחרי כל הפיצ׳ים, ולא בצוות שלך.</li><li>מספר מומצא שמוצג כאמיתי = 3 נקודות פחות.</li></ol></div>
+    <div class="box"><h3>🏆 הניקוד (ידוע מראש)</h3>
+      <table class="tb"><thead><tr><th>מה</th><th style="width:19mm">נקודות</th></tr></thead><tbody>
+        <tr><td>דוכן מוכן: כל סעיף בצ׳קליסט</td><td>עד 6</td></tr>
+        <tr><td>טופס השיפוט: ממוצע כללי × 2</td><td>2–10</td></tr>
+        <tr><td>סיכום משוב מלא והוגש</td><td>4</td></tr>
+        <tr><td>השופטים ראו את התיקון</td><td>3</td></tr>
+        <tr><td>מחוון הבמה (סכום 4 שורות)</td><td>4–16</td></tr>
+        <tr><td>פיץ׳ בין 2:45 ל-3:15</td><td>2</td></tr>
+        <tr><td>כל 10,000 ₪ שגויסו</td><td>עד 15</td></tr>
+        <tr><td>כרטיסי יציאה של כל הצוות</td><td>2</td></tr>
+      </tbody></table>
+      <p class="tiny" style="margin-top:1.5mm">מקסימום 58. שובר שוויון: מחוון הבמה, ואחריו הכסף.</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:32mm"><b>🧭 מנכ״ל/ית</b></td><td>מנהל/ת הדוכן והזמנים: מחליט/ה מי בדוכן בכל סבב, מוביל/ה את המעבר לבמה ושומר/ת שכולם מדברים.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>אנליסט/ית המשוב: מסנן/ת את הגיליון, מחשב/ת ממוצעים ומוצא/ת כל ציטוט בגיליון. על הבמה: עונה על שאלות של מספרים וראיות.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>מקים/ה את הדוכן ומפעיל/ה את ההדגמה החיה, בדוכן ועל הבמה.</td></tr>
+      <tr><td><b>🎤 מציג/ה</b></td><td>פותח/ת את הפיץ׳, מגיש/ה את סיכום המשוב בטופס ומוסר/ת לשופטים את כרטיס התיקון.</td></tr>
+      <tr><td><b>🤖 AI</b></td><td>מריץ/ה את פרומפט הנושאים ב-Gemini, בודק/ת אותו וכותב/ת את שורת ה-AI בשלט ובסיכום.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">משתמשים בדף הריצה כמו שהוא, ובמשפט התיקון עם המילים החסרות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">פתיחה משלכם, הדגמה חיה ותיקון אחד מהמשוב.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">בפיץ׳ מראים "לפני ואחרי" של שינוי בעקבות משוב, ועונים על השאלה בלי להסתכל בדף.</p></div>
+  </div>
+</section>
+
+<section class="page" id="p-booth" data-label="דוכן ודף ריצה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · דוכן ודף ריצה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏗️ ספרינט 1–2 · 12 דקות · 🟡 AI לטיוטות</span><h2>הדוכן <span>והפיץ׳</span></h2></div><p>הצ׳קליסט נבדק כשהדלתות נפתחות: כל ✓ = נקודה. דף הריצה הוא הגרסה הסופית של הפיץ׳ מהחזרה הגנרלית.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>✓ צ׳קליסט הדוכן (6 נקודות)</h3><ul class="check">
+      <li>שלט דוכן: שם, משפט ערך עד 12 מילים, וקישור לטופס</li>
+      <li>פוסטר או דף מיזם על השולחן</li>
+      <li>אב-טיפוס פתוח ומוכן לניסיון (או דגם ביד)</li>
+      <li>מחיר ומי משלם, כתוב על השלט</li>
+      <li>שורת AI על השלט</li>
+      <li>מעטפת השקעות עם שם הצוות, ודפי שיפוט מנייר</li></ul></div>
+    <div class="box"><h3>🔄 מי בדוכן בכל סבב?</h3>
+      <table class="tb"><thead><tr><th>סבב</th><th>בדוכן (חצי א׳ / ב׳)</th><th>מסיירים</th></tr></thead><tbody>
+      <tr><td>1</td><td class="e"></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td></tr></tbody></table>
+      <p class="tiny" style="margin-top:2mm">הדגמה בדוכן: 90 שניות, וכל מבקר מנסה בעצמו. בסוף: "נשמח שתמלאו טופס".</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🎤 דף ריצה לפיץ׳ של 3 דקות</h3>
+    <table class="tb"><thead><tr><th style="width:36mm">חלק · זמן</th><th style="width:30mm">מי אומר/ת</th><th>מה אומרים או מראים (מילות מפתח)</th></tr></thead><tbody><tr><td><b>🎣 פתיחה שתופסת</b><br><span class="tiny">0:00–0:20</span></td><td class="e"></td><td></td></tr><tr><td><b>😣 הבעיה והראיה</b><br><span class="tiny">0:20–1:00</span></td><td class="e"></td><td></td></tr><tr><td><b>📦 הדגמה חיה</b><br><span class="tiny">1:00–1:50</span></td><td class="e"></td><td></td></tr><tr><td><b>💰 העסק</b><br><span class="tiny">1:50–2:20</span></td><td class="e"></td><td></td></tr><tr><td><b>🙋 הצוות והבקשה</b><br><span class="tiny">2:20–2:40</span></td><td class="e"></td><td></td></tr></tbody></table>
+    <p class="tiny" style="margin-top:1.5mm">2:40 של תוכן + 20 שניות ביטחון. מטרה: לסיים בין 2:45 ל-3:15.</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🎭 ציון החזרה מהצוות התאום</h3>
+      <table class="tb c"><thead><tr><th>קריטריון</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody>
+      <tr><td>בעיה ולקוח</td><td></td><td></td><td></td><td></td></tr><tr><td>פתרון ואב-טיפוס</td><td></td><td></td><td></td><td></td></tr><tr><td>מודל עסקי</td><td></td><td></td><td></td><td></td></tr><tr><td>פיץ׳ וצוות</td><td></td><td></td><td></td><td></td></tr></tbody></table>
+      <p style="margin-top:2mm;font-size:9.4pt">סכום: <span class="fill s"></span> / 16 · "הכי חזק: <span class="fill"></span>"</p></div>
+    <div class="box"><h3>❓ השאלה שהכי מפחיד שישאלו</h3><div class="lines h2"></div><h3 style="margin-top:2mm">והתשובה שלנו (מי עונה?)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<section class="page" id="p-sign" data-label="שלט הדוכן">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · שלט הדוכן</div><div class="r">מבחן 3 מטרים: כותבים גדול</div></div>
+  <div class="sign"><span class="tag">🏪 דוכן מס׳ <span class="fill s"></span></span>
+    <span class="lbl">שם המיזם</span><div class="nm"></div>
+    <span class="lbl">במשפט אחד (עד 12 מילים): עבור ___ ש___, אנחנו ___</span><div class="val"></div><div class="val"></div>
+    <div class="grid2"><div><span class="lbl">💰 מחיר</span><div class="val"></div></div><div><span class="lbl">🙋 מי משלם</span><div class="val"></div></div></div>
+    <div class="qr"><div class="box">הדביקו כאן את קוד ה-QR<br>או כתבו את הקישור הקצר</div><div class="scan">ניסיתם? שפטו אותנו!<small>טופס של דקה, בלי שם. או דף שיפוט מנייר מהשולחן.</small><div class="val" style="margin-top:4mm;height:12mm"></div><small>הקישור: forms.gle/…</small></div></div>
+    <div class="box" style="margin-top:auto;background:#fff"><p style="font-size:10pt"><b>🤖 מה ה-AI עשה:</b> <span class="fill xl"></span></p><p style="font-size:10pt;margin-top:2.5mm"><b>✋ מה אנחנו עשינו:</b> <span class="fill xl"></span></p></div>
+  </div>
+</section>
+
+<section class="page" id="p-feedback" data-label="סיכום המשוב">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · חדר המשוב</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔬 חדר המשוב · 7 דקות · 🟢 AI כשותף, ובודקים</span><h2>מה אמרו <span>עלינו</span>?</h2></div><p>הדף הזה הוא התוצר. מלא = 4 נקודות. גם אם אין מחשב: מחשבים מדפי השיפוט מנייר.</p></div>
+  <div class="box"><h3>1. הממוצעים (מהגיליון או מדפי הנייר)</h3>
+    <table class="tb c"><thead><tr><th>הבעיה ברורה ואמיתית</th><th>ראיתי את המוצר עובד</th><th>ברור מי משלם וכמה</th><th>הייתי משתמש/ת או ממליץ/ה</th><th style="background:var(--teal-soft)">ממוצע כללי</th><th>× 2 = נקודות</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+    <p class="tiny" style="margin-top:1.5mm">כמה טפסים קיבלנו? <span class="fill s"></span> · הסולם הכי נמוך: <span class="fill"></span></p></div>
+  <div class="box" style="margin-top:3.5mm"><h3>2. שלושה נושאים שחזרו</h3>
+    <table class="tb"><thead><tr><th style="width:42mm">הנושא</th><th style="width:16mm">כמה פעמים</th><th>ציטוט מילה במילה</th><th style="width:20mm">מצאנו בגיליון ✓</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>3. התיקון של הרגע האחרון</h3><p style="font-size:9.8pt;line-height:2.2">"שמענו ש<span class="fill l"></span><br>(חזר <span class="fill s"></span> פעמים), ולכן בפיץ׳<br><span class="fill xl"></span>."</p></div>
+    <div class="box"><h3>4. 🤖 שורת AI</h3><p style="font-size:9.4pt">מה ה-AI עשה:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">מה אנחנו עשינו ובדקנו:</p><div class="lines h1"></div></div>
+  </div>
+  <div class="box soft" style="margin-top:3.5mm"><h3>✓ לפני הגשה</h3><ul class="check" style="grid-template-columns:1fr 1fr;display:grid"><li>4 ממוצעים וממוצע כללי</li><li>3 נושאים עם מספר וציטוט</li><li>כל ציטוט נמצא בגיליון</li><li>משפט תיקון מלא</li><li>שקף "שיעור 30" ביומן מעודכן</li><li>הגשנו בטופס, ושם הקובץ נכון</li></ul></div>
+  <p class="cutnote" style="margin-top:4mm">✂ את הכרטיס הזה גוזרים, והמציג/ה מוסר/ת אותו לשופטים לפני הפיץ׳</p>
+  <div class="cutgrid" style="grid-template-columns:1fr 1fr">
+    <div style="padding:4mm 5mm"><b class="big1">🔧 כרטיס התיקון</b> <span class="tiny">צוות: <span class="fill"></span></span><p style="font-size:9.4pt;margin-top:2mm">שמענו ש<span class="fill l"></span><br>ולכן בפיץ׳ <span class="fill l"></span></p><p class="tiny" style="margin-top:2mm">לשופטים: ראיתם את זה בפיץ׳? ☐ כן, 3 נקודות ☐ לא</p></div>
+    <div style="padding:4mm 5mm"><b class="big1">🔧 כרטיס התיקון</b> <span class="tiny">צוות: <span class="fill"></span></span><p style="font-size:9.4pt;margin-top:2mm">שמענו ש<span class="fill l"></span><br>ולכן בפיץ׳ <span class="fill l"></span></p><p class="tiny" style="margin-top:2mm">לשופטים: ראיתם את זה בפיץ׳? ☐ כן, 3 נקודות ☐ לא</p></div>
+  </div>
+</section>
+
+<section class="page" id="p-rubric" data-label="מחוון הבמה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · מחוון הבמה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>מה השופטים <span>מחפשים</span></h2></div><p>כל שופט נותן רמה בכל שורה. הציון: סכום ארבע השורות (4–16), ממוצע של השופטים. סמנו בעמודה האחרונה איפה אתם לפני הבמה.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">בעיה ולקוח<small>מי סובל ואיך אנחנו יודעים</small></td><td>"לכולם", בלי ראיה</td><td>לקוח כללי, הבעיה מתוארת בלי ראיה</td><td>לקוח מסוים, ונתון או ציטוט אחד</td><td>נתון, ציטוט אמיתי ותיאור חי של מי סובל ומתי</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">פתרון ואב-טיפוס<small>מה בנינו בפועל</small></td><td>רק מספרים עליו</td><td>תמונה או סקיצה, אי אפשר לנסות</td><td>הדגמה חיה שעובדת</td><td>אפשר לנסות, ומראים מה שופר בעקבות משוב (לפני ואחרי)</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מודל עסקי<small>איך זה מממן את עצמו</small></td><td>לא ברור מי משלם</td><td>יש מחיר, בלי הסבר</td><td>מחיר ומי משלם</td><td>מחיר, מי משלם והערכת עלות ("כל ערכה עולה לנו…")</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">פיץ׳ וצוות<small>זמן, ביטחון, כולם</small></td><td>קריאה מהדף, חריגה גדולה מהזמן</td><td>ברור, אבל ארוך, או שרק אחד מדבר</td><td>בזמן, ברור, ורוב הצוות מדבר</td><td>פתיחה שתופסת, כולם מציגים, ועונים על השאלה בביטחון</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום הרמות = נקודות הבמה: <b>4 עד 16</b>. רמה 3 בכל השורות = 12 נקודות. ההפרש בין ציון החזרה לציון הבמה קובע את פרס "הכי שיפר".</p></div>
+    <div class="box soft"><h3>💬 השורה שהכי כדאי לחזק עכשיו</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "תלמידים משתעממים בהפסקה כי הכדורים נעולים." מראים את טבלת ההשאלה ב-Slides. "הערכה עולה 120 ₪ ומועצת התלמידים משלמת." שלושה מתוך ארבעה מדברים, 3:05.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> פותחים ב"מי ישב פעם בהפסקה בלי כלום לעשות?" ✋. ציטוט מראיון: "אני פשוט מחכה לצלצול". השופטת מנסה להזמין כדור בעצמה. "בתערוכה שמענו 4 פעמים שלא ברור מי מחזיר, אז הוספנו תורנות". כולם מדברים, 2:58.</p></div></div>
+</section>
+
+<section class="page" id="p-judge" data-label="דף שופט">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · דף שופט הבמה</div><div class="r">שופט/ת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⚖️ לשופטים · ממלאים בזמן הפיץ׳</span><h2>דף <span>השופט</span></h2></div><p>רמה 1–4 בכל קריטריון לפי המחוון. לפני כל פיץ׳ מקבלים מהצוות את כרטיס התיקון. שאלה אחת לכל צוות (45 שניות לתשובה), אפשר מבנק השאלות.</p></div>
+  <table class="tb c" style="font-size:9pt">
+    <thead><tr><th style="width:30mm">צוות</th><th>בעיה ולקוח</th><th>פתרון ואב-טיפוס</th><th>מודל עסקי</th><th>פיץ׳ וצוות</th><th style="background:var(--teal-soft)">סכום<br><small>4–16</small></th><th>תיקון נראה?<br><small>✓ = 3</small></th><th>זמן</th><th>מה שאלתי</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td style="background:var(--teal-soft)"></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🏅 המועמדים שלי לפרסים המיוחדים</h3>
+    <table class="tb"><thead><tr><th style="width:42mm">פרס</th><th style="width:42mm">צוות</th><th>למה (משפט אחד, עם מה שראיתי או שמעתי)</th></tr></thead><tbody>
+      <tr><td>🔄 הפיבוט האמיץ</td><td class="e"></td><td></td></tr>
+      <tr><td>❤️ המשתמש במרכז</td><td class="e"></td><td></td></tr>
+      <tr><td>🤖 ה-AI האחראי</td><td class="e"></td><td></td></tr>
+    </tbody></table>
+    <p class="tiny" style="margin-top:1.5mm">"בחירת הקהל" ו"הכי שיפר" נקבעים מהלוח. כל צוות זוכה בפרס מיוחד אחד לכל היותר.</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>💡 איך שופטים טוב</h3><ul class="clean" style="font-size:9.4pt"><li>שופטים את מה שראיתם, לא את מה שהצוות "התכוון".</li><li>בכל שורה מתחילים מרמה 3 ובודקים: יש יותר? יש פחות?</li><li>שאלה טובה פתוחה ואדיבה: "איך אתם יודעים ש…?"</li><li>אחרי כל פיץ׳: מחיאות כפיים, ואז ממלאים.</li></ul></div>
+    <div class="box soft"><h3>📝 הערות לטקס</h3><div class="lines h3"></div></div>
+  </div>
+</section>
+
+<section class="page" id="p-slips" data-label="דפי שיפוט מנייר">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · דפי שיפוט מנייר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. לאורחים בלי טלפון, או כשאין אינטרנט. הצוות מוסיף אותם לממוצע ולנושאים בחדר המשוב.</p>
+  <div class="cutgrid exits"><div class="ex"><div class="eh"><b>🖼️ דף שיפוט</b><span class="tiny">יום ההדגמה · בלי שם</span></div>
+  <p>הדוכן שביקרתי: <span class="fill l"></span></p>
+  <table class="tb" style="font-size:9pt"><tbody>
+    <tr><td>הבעיה ברורה ואמיתית</td><td style="width:42mm"><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ראיתי את המוצר עובד</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ברור מי משלם וכמה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>הייתי משתמש/ת או ממליץ/ה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+  </tbody></table>
+  <p class="q">מה הכי אהבתי?</p><div class="lines h1"></div>
+  <p class="q">מה הייתי משפר/ת? (ספציפי · אדיב · מועיל)</p><div class="lines h1"></div>
+  <p class="red" style="color:var(--muted)">שמים בקופסה שבדוכן. תודה! 🙏</p></div><div class="ex"><div class="eh"><b>🖼️ דף שיפוט</b><span class="tiny">יום ההדגמה · בלי שם</span></div>
+  <p>הדוכן שביקרתי: <span class="fill l"></span></p>
+  <table class="tb" style="font-size:9pt"><tbody>
+    <tr><td>הבעיה ברורה ואמיתית</td><td style="width:42mm"><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ראיתי את המוצר עובד</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ברור מי משלם וכמה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>הייתי משתמש/ת או ממליץ/ה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+  </tbody></table>
+  <p class="q">מה הכי אהבתי?</p><div class="lines h1"></div>
+  <p class="q">מה הייתי משפר/ת? (ספציפי · אדיב · מועיל)</p><div class="lines h1"></div>
+  <p class="red" style="color:var(--muted)">שמים בקופסה שבדוכן. תודה! 🙏</p></div><div class="ex"><div class="eh"><b>🖼️ דף שיפוט</b><span class="tiny">יום ההדגמה · בלי שם</span></div>
+  <p>הדוכן שביקרתי: <span class="fill l"></span></p>
+  <table class="tb" style="font-size:9pt"><tbody>
+    <tr><td>הבעיה ברורה ואמיתית</td><td style="width:42mm"><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ראיתי את המוצר עובד</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ברור מי משלם וכמה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>הייתי משתמש/ת או ממליץ/ה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+  </tbody></table>
+  <p class="q">מה הכי אהבתי?</p><div class="lines h1"></div>
+  <p class="q">מה הייתי משפר/ת? (ספציפי · אדיב · מועיל)</p><div class="lines h1"></div>
+  <p class="red" style="color:var(--muted)">שמים בקופסה שבדוכן. תודה! 🙏</p></div><div class="ex"><div class="eh"><b>🖼️ דף שיפוט</b><span class="tiny">יום ההדגמה · בלי שם</span></div>
+  <p>הדוכן שביקרתי: <span class="fill l"></span></p>
+  <table class="tb" style="font-size:9pt"><tbody>
+    <tr><td>הבעיה ברורה ואמיתית</td><td style="width:42mm"><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ראיתי את המוצר עובד</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>ברור מי משלם וכמה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+    <tr><td>הייתי משתמש/ת או ממליץ/ה</td><td><span class="circ"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span></td></tr>
+  </tbody></table>
+  <p class="q">מה הכי אהבתי?</p><div class="lines h1"></div>
+  <p class="q">מה הייתי משפר/ת? (ספציפי · אדיב · מועיל)</p><div class="lines h1"></div>
+  <p class="red" style="color:var(--muted)">שמים בקופסה שבדוכן. תודה! 🙏</p></div></div>
+</section>
+
+<section class="page" id="p-questions" data-label="בנק שאלות">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · בנק שאלות לשופטים</div><div class="r">16 כרטיסים</div></div>
+  <p class="cutnote">✂ לגזור. כל שופט/ת מקבל/ת סט, ושואל/ת שאלה אחת לכל צוות. עדיף שאלה מהשורה במחוון שבה הצוות היה הכי חלש: זה נותן לו הזדמנות לעלות רמה.</p>
+  <div class="cutgrid qcards" style="--x:0"><div class="qc k-prob"><span class="cat">😣 בעיה ולקוח</span><p>איך אתם יודעים שהבעיה הזאת באמת קיימת? עם מי דיברתם?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-prob"><span class="cat">😣 בעיה ולקוח</span><p>מי סובל הכי הרבה מהבעיה הזאת, ומתי בדיוק?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-prob"><span class="cat">😣 בעיה ולקוח</span><p>מה אנשים עושים היום במקום המוצר שלכם?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-prob"><span class="cat">😣 בעיה ולקוח</span><p>מה הדבר הכי מפתיע ששמעתם מלקוח?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-tech"><span class="cat">📦 פתרון</span><p>מה השתנה במוצר מאז הגרסה הראשונה, ולמה?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-tech"><span class="cat">📦 פתרון</span><p>אם הייתם יכולים לבנות רק דבר אחד, מה הייתם משאירים?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-tech"><span class="cat">📦 פתרון</span><p>מה יקרה אם הלקוח ישתמש בזה לא נכון?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-tech"><span class="cat">📦 פתרון</span><p>במה אתם שונים מהמתחרה הכי קרוב?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-cust"><span class="cat">💰 מודל עסקי</span><p>מי משלם, ולמה שהוא ירצה לשלם?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-cust"><span class="cat">💰 מודל עסקי</span><p>כמה עולה לכם לייצר יחידה אחת, בערך?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-cust"><span class="cat">💰 מודל עסקי</span><p>מה תעשו עם ההשקעה שאתם מבקשים, צעד אחר צעד?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-cust"><span class="cat">💰 מודל עסקי</span><p>איך תגיעו ל-100 הלקוחות הראשונים?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-ai"><span class="cat">🤖 AI ואחריות</span><p>איפה AI עזר לכם, ואיפה תפסתם אותו טועה?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-ai"><span class="cat">🤖 AI ואחריות</span><p>למי המוצר שלכם עלול להזיק, ומה עשיתם עם זה?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-ai"><span class="cat">🤖 AI ואחריות</span><p>מה למדתם מהכישלון הכי גדול שלכם בקורס?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div><div class="qc k-ai"><span class="cat">🤖 AI ואחריות</span><p>אם הייתם מתחילים מחדש מחר, מה הייתם עושים אחרת?</p><small>שאלה לשופט/ת · 45 שניות לתשובה</small></div></div>
+</section>
+
+<section class="page" id="p-money" data-label="כסף משחק">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · כסף משחק</div><div class="r">8 שטרות בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לאורך הקווים. ארנק: 3 שטרות לכל תלמיד/ה, 5 לכל אורח/ת. כל שטר = 10,000 ₪ משחק = נקודה אחת (עד 15 לצוות).</p>
+  <div class="cutgrid money"><div class="note10"><span class="seal">🦉</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-01</span></div><div class="note10"><span class="seal">🚀</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-02</span></div><div class="note10"><span class="seal">🏆</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-03</span></div><div class="note10"><span class="seal">💡</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-04</span></div><div class="note10"><span class="seal">🌱</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-05</span></div><div class="note10"><span class="seal">🧭</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-06</span></div><div class="note10"><span class="seal">🛠️</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-07</span></div><div class="note10"><span class="seal">🎤</span><div><small>TECH IT EASY · DEMO DAY</small><b>10,000 ₪</b><em>כסף משחק · אין לו ערך מחוץ לכיתה</em></div><span class="sn">TIE-30-08</span></div></div>
+</section>
+
+<section class="page" id="p-envelope" data-label="מעטפות וספירה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · מעטפות וספירה צולבת</div><div class="r">למדריך ולצוותים</div></div>
+  <p class="cutnote">✂ לגזור ולהדביק על מעטפה A5 בכל דוכן.</p>
+  <div class="cutgrid env"><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div><div><span style="font-size:22pt">💸</span><b>קופת ההשקעות</b><p>של צוות <span class="fill l"></span></p><p class="tiny">שטרות רק אחרי שכל הצוותים הציגו · לא מהצוות שלנו</p></div></div>
+  <div class="pt" style="margin-top:6mm"><div><span class="kick">🧮 אחרי הצלצול של סבב ההשקעות</span><h2>ספירה <span>צולבת</span></h2></div><p>כל צוות סופר את המעטפה של הצוות שמשמאלו, פעמיים, ומדווח בקול. המדריך מקליד במד ההשקעות שבמצגת.</p></div>
+  <table class="tb c"><thead><tr><th>המעטפה של צוות</th><th>מספר שטרות</th><th>× 10,000 ₪</th><th>נקודות (עד 15)</th><th>נספר ע״י צוות · חתימה</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+</section>
+
+<section class="page" id="p-program" data-label="תוכנייה לאורחים">
+  <div class="ph"><div class="l"><i>TIE</i>Demo Day · תוכנייה לאורחים</div><div class="r">ברוכים הבאים!</div></div>
+  <div class="pt"><div><span class="kick">🎟️ Tech It Easy · מחזור 2026</span><h2>ברוכים הבאים <span>ליום ההדגמה</span></h2></div><p>לאורך הקורס, כל צוות בכיתה חיפש בעיה אמיתית, דיבר עם אנשים, בנה פתרון, בדק אותו ושיפר. היום הם מציגים לכם. אתם השופטים, ואתם גם המשקיעים.</p></div>
+  <div class="box"><h3>מה קורה היום</h3>
+    <div class="prog"><div><i>🏗️</i><b>הקמה</b>הצוותים מתכוננים</div><div><i>🚪</i><b>הדלתות</b>נפתחות</div><div><i>🖼️</i><b>התערוכה</b>מסיירים ושופטים</div><div><i>🔬</i><b>חדר המשוב</b>הצוותים מנתחים</div><div><i>🎤</i><b>הבמה</b>3 דקות לצוות</div><div><i>💸</i><b>השקעות</b>כסף משחק</div><div><i>🏆</i><b>טקס</b>פרסים ותעודות</div></div></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🖼️ בתערוכה: איך שופטים</h3><ol class="clean" style="font-size:9.8pt"><li>ניגשים לדוכן ומבקשים הדגמה. נסו בעצמכם!</li><li>סורקים את הקוד בשלט וממלאים טופס של דקה, או דף שיפוט מנייר.</li><li>בלי שמות: לא שלכם ולא של התלמידים.</li><li>משוב טוב הוא <b>ספציפי, אדיב ומועיל</b>: "אולי תוסיפו…" ולא "זה לא טוב".</li></ol></div>
+    <div class="box"><h3>💸 בסבב ההשקעות: איך משקיעים</h3><ol class="clean" style="font-size:9.8pt"><li>בארנק שלכם 5 שטרות של 10,000 ₪ משחק.</li><li>משקיעים רק אחרי שכל הצוותים עלו לבמה.</li><li>שמים שטרות במעטפה שבדוכן. אפשר לפצל, ואפשר הכול על מיזם אחד.</li><li>שאלו את עצמכם: על איזה מיזם הייתי שם כסף אמיתי?</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>📋 המיזמים של היום</h3>
+    <table class="tb"><thead><tr><th style="width:12mm">#</th><th style="width:48mm">צוות</th><th>המיזם במשפט אחד</th><th style="width:30mm">הרשמים שלי</th></tr></thead><tbody>
+    <tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td></td></tr><tr><td>5</td><td class="e"></td><td></td><td></td></tr><tr><td>6</td><td class="e"></td><td></td><td></td></tr><tr><td>7</td><td class="e"></td><td></td><td></td></tr>
+    </tbody></table></div>
+  <p class="tiny" style="margin-top:3mm;text-align:center">תודה שבאתם. המשוב שלכם הוא הדבר הכי שימושי שהצוותים יקבלו היום. 🙏</p>
+</section>
+
+<section class="page" id="p-cert" data-label="תעודות יזם צעיר">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · תעודות</div><div class="r">2 בעמוד</div></div>
+  <p class="cutnote">✂ לחתוך לחצי. כותבים את השמות מראש בכתב יד יפה, ומחלקים לפי צוות בטקס.</p>
+  <div class="cutgrid certs"><div class="certA"><div><span class="ck">TECH IT EASY · DEMO DAY 2026</span><span class="seal">🏅</span><b>תעודת יזם/ית צעיר/ה</b><p>מוענקת ל</p><div class="ln"></div>
+  <p>שהשלים/ה מסע של 30 שיעורים: מבעיה אמיתית, דרך ראיונות, אב-טיפוס ומודל עסקי, ועד פיץ׳ מול שופטים ומשקיעים ביום ההדגמה.</p>
+  <div class="row"><span>צוות</span><span>המיזם</span><span>תאריך</span><span>המדריך/ה</span></div></div></div><div class="certA"><div><span class="ck">TECH IT EASY · DEMO DAY 2026</span><span class="seal">🏅</span><b>תעודת יזם/ית צעיר/ה</b><p>מוענקת ל</p><div class="ln"></div>
+  <p>שהשלים/ה מסע של 30 שיעורים: מבעיה אמיתית, דרך ראיונות, אב-טיפוס ומודל עסקי, ועד פיץ׳ מול שופטים ומשקיעים ביום ההדגמה.</p>
+  <div class="row"><span>צוות</span><span>המיזם</span><span>תאריך</span><span>המדריך/ה</span></div></div></div></div>
+</section>
+
+<section class="page" id="p-awards1" data-label="תעודות פרסים 1">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · תעודות פרסים</div><div class="r">עמוד 1 מתוך 2</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כותבים את שם הצוות בטקס, אחרי ההכרזה.</p>
+  <div class="cutgrid awardsG"><div class="aw" style="--c:#d9b25e;--cs:#fffaf0"><div><span class="em">🥇</span><small>TECH IT EASY · DEMO DAY 2026</small><b>מקום ראשון</b><p>סטארט-אפ המחזור: הכי הרבה נקודות ביום ההדגמה</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#a3adb9;--cs:#f5f7f9"><div><span class="em">🥈</span><small>TECH IT EASY · DEMO DAY 2026</small><b>מקום שני</b><p>יום הדגמה מרשים: דוכן, במה ומשקיעים</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#d39a6a;--cs:#fdf3ec"><div><span class="em">🥉</span><small>TECH IT EASY · DEMO DAY 2026</small><b>מקום שלישי</b><p>יום הדגמה מרשים: דוכן, במה ומשקיעים</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#8c7ae6;--cs:#f3f0fd"><div><span class="em">🔄</span><small>TECH IT EASY · DEMO DAY 2026</small><b>הפיבוט האמיץ</b><p>שיניתם כיוון בעקבות משוב, וסיפרתם על זה בגאווה</p><div class="ln"></div><small>צוות · מיזם</small></div></div></div>
+</section>
+
+<section class="page" id="p-awards2" data-label="תעודות פרסים 2">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · תעודות פרסים</div><div class="r">עמוד 2 מתוך 2</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כותבים את שם הצוות בטקס, אחרי ההכרזה.</p>
+  <div class="cutgrid awardsG"><div class="aw" style="--c:#e76f86;--cs:#fdeff2"><div><span class="em">📣</span><small>TECH IT EASY · DEMO DAY 2026</small><b>בחירת הקהל</b><p>המשקיעים בחרו: הכי הרבה כסף שגויס</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#e76f86;--cs:#fdeff2"><div><span class="em">❤️</span><small>TECH IT EASY · DEMO DAY 2026</small><b>המשתמש במרכז</b><p>הראיה הכי חזקה מלקוח אמיתי</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#4c8bd6;--cs:#eef4fb"><div><span class="em">🤖</span><small>TECH IT EASY · DEMO DAY 2026</small><b>ה-AI האחראי</b><p>שקיפות מלאה, וטעות של AI שנתפסה ותוקנה</p><div class="ln"></div><small>צוות · מיזם</small></div></div><div class="aw" style="--c:#5bb5a2;--cs:#edf7f4"><div><span class="em">📈</span><small>TECH IT EASY · DEMO DAY 2026</small><b>הכי שיפר</b><p>הקפיצה הכי גדולה מהחזרה הגנרלית לבמה</p><div class="ln"></div><small>צוות · מיזם</small></div></div></div>
+</section>
+
+<section class="page" id="p-hall" data-label="היכל התהילה">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · היכל התהילה</div><div class="r">6 לוחיות בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. כל צוות ממלא לוחית אחת בטקס, וכל הלוחיות נתלות על הקיר של הכיתה. הן נשארות שם גם אחרי שהקורס נגמר.</p>
+  <div class="cutgrid plaques"><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div><div class="pl"><div><span class="yr">🏛️ היכל התהילה · מחזור 2026</span><div class="f"><b>צוות</b><span></span></div><div class="f"><b>המיזם</b><span></span></div><p class="tiny" style="text-align:right">המשפט שלנו לצוות שמתחיל את הקורס בשנה הבאה:</p><div class="lines h2" style="min-height:17mm"></div><div class="f" style="font-size:8pt"><b>חתימות</b><span></span></div></div></div></div>
+</section>
+
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · שורת AI</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה נתלית בדוכן, ליד השלט (סעיף 5 בצ׳קליסט), ומועמדת לפרס "ה-AI האחראי".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1"><div class="aiw"><div class="head"><b>🤖 שורת AI · הדוכן שלנו</b><span>צוות: <span class="fill"></span> · שיעור 30</span></div>
+  <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה במיזם</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו ובדקנו</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: <span class="fill"></span></span><span>טעות של AI שתפסנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI · הדוכן שלנו</b><span>צוות: <span class="fill"></span> · שיעור 30</span></div>
+  <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה במיזם</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו ובדקנו</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: <span class="fill"></span></span><span>טעות של AI שתפסנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI · הדוכן שלנו</b><span>צוות: <span class="fill"></span> · שיעור 30</span></div>
+  <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה במיזם</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו ובדקנו</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: <span class="fill"></span></span><span>טעות של AI שתפסנו: <span class="fill"></span></span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI · הדוכן שלנו</b><span>צוות: <span class="fill"></span> · שיעור 30</span></div>
+  <div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה במיזם</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו ובדקנו</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: <span class="fill"></span></span><span>טעות של AI שתפסנו: <span class="fill"></span></span></div></div></div>
+</section>
+
+<section class="page" id="p-reflect" data-label="רפלקציה אישית">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · רפלקציה אישית</div><div class="r">2 בעמוד</div></div>
+  <p class="cutnote">✂ לחתוך לחצי. כל תלמיד/ה כותב/ת לבד. הדף נשאר אצל התלמיד/ה, או נכנס לתיק המיזם.</p>
+  <div class="cutgrid halves"><div class="half"><div class="eh"><b>✍️ רפלקציה אישית · יום ההדגמה</b><span class="tiny">נשאר אצלך · 🔴 בלי AI</span></div>
+  <p class="tiny">שם (לא חובה): <span class="fill"></span> · המיזם: <span class="fill"></span></p>
+  <p class="q">1. מה למדתי? <small>על יזמות, על AI ועל עצמי. דבר אחד שלא ידעתי בשיעור 1.</small></p><div class="lines h2"></div>
+  <p class="q">2. מה תרמתי? <small>רגע אחד שבו בלעדיי הצוות היה נתקע.</small></p><div class="lines h2"></div>
+  <p class="q">3. מה אעשה עם הרעיון? <small>צעד אחד וקטן בחודש הקרוב, או למה החלטתי לעצור.</small></p><div class="lines h2"></div></div><div class="half"><div class="eh"><b>✍️ רפלקציה אישית · יום ההדגמה</b><span class="tiny">נשאר אצלך · 🔴 בלי AI</span></div>
+  <p class="tiny">שם (לא חובה): <span class="fill"></span> · המיזם: <span class="fill"></span></p>
+  <p class="q">1. מה למדתי? <small>על יזמות, על AI ועל עצמי. דבר אחד שלא ידעתי בשיעור 1.</small></p><div class="lines h2"></div>
+  <p class="q">2. מה תרמתי? <small>רגע אחד שבו בלעדיי הצוות היה נתקע.</small></p><div class="lines h2"></div>
+  <p class="q">3. מה אעשה עם הרעיון? <small>צעד אחד וקטן בחודש הקרוב, או למה החלטתי לעצור.</small></p><div class="lines h2"></div></div></div>
+</section>
+
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף, כל אחד לבד. כל הנוכחים בצוות מסרו = 2 נקודות לצוות.</p>
+  <div class="cutgrid exits"><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 30</span></div><p>צוות: <span class="fill"></span></p>
+  <div class="scale"><span>כמה הקורס שינה את הדרך שבה אני חושב/ת על רעיונות?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="q">במילה אחת, יום ההדגמה היה:</p><div class="lines h1"></div>
+  <p class="q">דבר אחד שלמדתי היום מצוות אחר:</p><div class="lines h1"></div>
+  <p class="q">שאלה אחת שנשארה לי (על יזמות או על AI):</p><div class="lines h1"></div>
+  <p class="lbl">היום תרמתי לצוות:</p>
+  <div class="tags"><span>דוכן</span><span>ניתוח המשוב</span><span>במה</span><span>AI</span><span>ספירה</span><span>עזרתי לצוות אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 30</span></div><p>צוות: <span class="fill"></span></p>
+  <div class="scale"><span>כמה הקורס שינה את הדרך שבה אני חושב/ת על רעיונות?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="q">במילה אחת, יום ההדגמה היה:</p><div class="lines h1"></div>
+  <p class="q">דבר אחד שלמדתי היום מצוות אחר:</p><div class="lines h1"></div>
+  <p class="q">שאלה אחת שנשארה לי (על יזמות או על AI):</p><div class="lines h1"></div>
+  <p class="lbl">היום תרמתי לצוות:</p>
+  <div class="tags"><span>דוכן</span><span>ניתוח המשוב</span><span>במה</span><span>AI</span><span>ספירה</span><span>עזרתי לצוות אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 30</span></div><p>צוות: <span class="fill"></span></p>
+  <div class="scale"><span>כמה הקורס שינה את הדרך שבה אני חושב/ת על רעיונות?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="q">במילה אחת, יום ההדגמה היה:</p><div class="lines h1"></div>
+  <p class="q">דבר אחד שלמדתי היום מצוות אחר:</p><div class="lines h1"></div>
+  <p class="q">שאלה אחת שנשארה לי (על יזמות או על AI):</p><div class="lines h1"></div>
+  <p class="lbl">היום תרמתי לצוות:</p>
+  <div class="tags"><span>דוכן</span><span>ניתוח המשוב</span><span>במה</span><span>AI</span><span>ספירה</span><span>עזרתי לצוות אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 30</span></div><p>צוות: <span class="fill"></span></p>
+  <div class="scale"><span>כמה הקורס שינה את הדרך שבה אני חושב/ת על רעיונות?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="q">במילה אחת, יום ההדגמה היה:</p><div class="lines h1"></div>
+  <p class="q">דבר אחד שלמדתי היום מצוות אחר:</p><div class="lines h1"></div>
+  <p class="q">שאלה אחת שנשארה לי (על יזמות או על AI):</p><div class="lines h1"></div>
+  <p class="lbl">היום תרמתי לצוות:</p>
+  <div class="tags"><span>דוכן</span><span>ניתוח המשוב</span><span>במה</span><span>AI</span><span>ספירה</span><span>עזרתי לצוות אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div></div>
+</section>
+
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>יום ההדגמה · שיעור 30 · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · גיבוי ללוח שבמצגת</span><h2>דף <span>הניקוד</span></h2></div><p>הלוח במצגת מחשב לבד. הדף הזה הוא הגיבוי: אם הדפדפן נסגר, אם אין מקרן, ולצילום לתיקיית הקורס.</p></div>
+  <table class="tb c" style="font-size:8.4pt">
+    <thead><tr><th style="width:20mm">צוות</th><th>דוכן<br><small>0–6</small></th><th>ממוצע תערוכה<br><small>1–5</small></th><th>תערוכה<br><small>×2</small></th><th>משוב<br><small>0/4</small></th><th>תיקון<br><small>0/3</small></th><th>במה<br><small>4–16</small></th><th>זמן<br><small>0/2</small></th><th>שטרות</th><th>כסף<br><small>עד 15</small></th><th>יציאה<br><small>0/2</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>/58</small></th><th>חזרה<br><small>לא נספר</small></th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🏆 המקומות</h3><div style="display:grid;gap:2mm;font-size:9.6pt"><p>🥇 <span class="fill l"></span> נק׳ <span class="fill s"></span></p><p>🥈 <span class="fill l"></span> נק׳ <span class="fill s"></span></p><p>🥉 <span class="fill l"></span> נק׳ <span class="fill s"></span></p></div><p class="tiny" style="margin-top:2mm">שובר שוויון: במה, ואחריה כסף.</p></div>
+    <div class="box"><h3>🏅 הפרסים המיוחדים</h3><div style="display:grid;gap:1.6mm;font-size:9.4pt"><p>🔄 הפיבוט האמיץ: <span class="fill"></span></p><p>📣 בחירת הקהל: <span class="fill"></span></p><p>❤️ המשתמש במרכז: <span class="fill"></span></p><p>🤖 ה-AI האחראי: <span class="fill"></span></p><p>📈 הכי שיפר: <span class="fill"></span></p></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ הדלתות נפתחות: מי לא היה מוכן ולמה?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🗳️ סדר העלייה לבמה (מההגרלה)</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📸 אחרי השיעור</h3><ul class="check"><li>צילום הלוח הסופי ודף זה לתיקיית הקורס</li><li>הורדת גיליון התשובות של טופס השיפוט</li><li>הלוחיות של היכל התהילה על הקיר</li></ul></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

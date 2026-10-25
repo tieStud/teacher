@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>קרב הלהקות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== קרב הלהקות — lesson-specific additions (engine styles above are untouched) — light theme ===== */
+.skyT{color:var(--sky-ink)}.roseT{color:var(--rose-ink)}.mintT{color:var(--mint-ink)}
+.slide.tight h2{font-size:clamp(32px,4.2vw,60px);margin:12px 0 10px}
+.slide.tight .revealList{gap:8px;margin-top:12px}
+.lead.small{font-size:clamp(16px,1.5vw,20px);margin-top:12px}
+.note{margin-top:16px;max-width:1150px;border-radius:18px;padding:14px 20px;font-size:clamp(18px,1.9vw,24px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.note b{color:var(--accent-ink)}
+.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;max-width:1200px}
+.checks span{padding:9px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.6vw,21px);font-weight:500}
+.centerChecks{justify-content:center}
+.row2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin-top:16px;max-width:1200px;align-items:start}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.card small.role{display:block;color:var(--dim);font-size:14px;font-weight:700;margin-top:-2px}
+/* prompts + copy */
+.prompt{position:relative;padding-left:120px}
+.prompt.small{font-size:clamp(17px,1.75vw,22px)}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.pLabel{font-size:clamp(18px,1.7vw,23px);margin:14px 0 0;color:var(--accent-ink)}
+.pLabel+.prompt{margin-top:6px}
+/* hero equalizer */
+.eq{position:absolute;left:46px;bottom:44px;display:flex;align-items:flex-end;gap:7px;height:120px;pointer-events:none}
+.eq i{width:14px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--rose),var(--violet));opacity:.55;animation:eq 1.1s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:-.3s;background:linear-gradient(180deg,var(--orange),var(--rose))}.eq i:nth-child(3){animation-delay:-.7s}.eq i:nth-child(4){animation-delay:-.15s;background:linear-gradient(180deg,var(--mint),var(--sky))}
+.eq i:nth-child(5){animation-delay:-.5s}.eq i:nth-child(6){animation-delay:-.9s;background:linear-gradient(180deg,var(--orange),var(--rose))}.eq i:nth-child(7){animation-delay:-.4s}
+@keyframes eq{0%{height:18%}50%{height:85%}100%{height:40%}}
+.hero .lead{max-width:880px}
+/* beat pad */
+.beatpad{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;max-width:1150px;margin-top:16px}
+.bpHead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.bpPlay{width:54px;height:54px;border-radius:50%;border:0;background:var(--accent-ink);color:#fff;font-size:22px;box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 32%,transparent)}
+.bpBpm{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);font-size:18px}
+.bpBpm input{width:180px;accent-color:var(--teal)}
+.bpBpm output{font-family:var(--display);font-weight:800;font-size:26px;min-width:3ch;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.bpBeats{display:flex;gap:8px;margin-inline-start:auto;direction:ltr}
+.bpBeats b{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-family:var(--display);font-size:22px;border:1px solid var(--line);background:var(--paper);color:var(--dim);transition:background .08s,color .08s,transform .08s}
+.bpBeats b.on{background:var(--accent-ink);color:#fff;border-color:var(--accent-ink);transform:scale(1.12)}
+.bpRow{display:grid;grid-template-columns:120px repeat(8,minmax(0,1fr));gap:7px;align-items:center;margin-top:7px;direction:ltr}
+.bpRow .lbl{direction:rtl;font-weight:700;font-size:18px;color:var(--ink);text-align:right}
+.bpRow i{display:block;height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;transition:background .12s,transform .1s}
+.bpRow i:nth-child(odd){border-color:#dcd6cc}
+.bpRow i.on{background:var(--c,#8c7ae6);border-color:transparent}
+.bpRow i.now{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:1px}
+.bpRow i.on.now{transform:scale(1.06)}
+.bpRow.k{--c:#e76f86}.bpRow.s{--c:#f4a259}.bpRow.h{--c:#5bb5a2}
+.bpCount{display:grid;grid-template-columns:120px repeat(8,minmax(0,1fr));gap:7px;direction:ltr;font-family:var(--display);font-weight:700;color:var(--dim);text-align:center;font-size:15px}
+/* tempo lab */
+.tempoLab{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1150px}
+.tl{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px;text-align:center}
+.tl button{width:100%;border:1px solid var(--accent-line);border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,32px);padding:10px 4px}
+.tl button.playing{background:var(--accent-ink);color:#fff}
+.tl small{display:block;color:var(--dim);font-weight:700;margin-top:6px;font-size:15px}
+.tl .ans{margin-top:8px;font-size:clamp(17px,1.6vw,21px);font-weight:700;color:var(--ink)}
+.tl .dot{width:18px;height:18px;border-radius:50%;margin:8px auto 0;background:var(--paper2);transition:background .05s}
+.tl .dot.on{background:var(--rose)}
+/* clap counter */
+.clapper{display:grid;gap:12px;margin-top:16px;max-width:1150px}
+.clapRow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line);border-radius:20px;padding:10px 18px;background:var(--card);box-shadow:var(--shadow-sm)}
+.sylls{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.sylls span{min-width:60px;text-align:center;padding:5px 11px;border-radius:14px;border:1.5px dashed var(--accent-line);font-family:var(--display);font-weight:700;font-size:clamp(26px,3vw,42px);line-height:1.25;color:var(--ink);background:var(--paper);transition:background .12s,color .12s,transform .12s}
+.sylls span.st{border-style:solid;border-color:var(--accent-ink)}
+.sylls span.on{background:var(--accent-ink);border-style:solid;border-color:var(--accent-ink);color:#fff;transform:scale(1.08)}
+.clapRow output{min-width:2ch;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(32px,3.4vw,50px);color:var(--accent-ink);font-variant-numeric:tabular-nums}
+/* song map */
+.songMap{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;max-width:1200px;align-items:stretch}
+.blk{flex:1 1 120px;border-radius:18px;padding:14px 12px;text-align:center;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm)}
+.blk b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,26px);color:var(--ink)}
+.blk small{display:block;color:var(--muted);font-size:15px;margin-top:2px}
+.blk.v{background:linear-gradient(180deg,#eef4fc,#fff);border-color:#c9daf2}
+.blk.c{background:linear-gradient(180deg,#fdecef,#fff);border-color:#f3c3cd;flex-grow:1.3}
+.blk.c b{color:var(--rose-ink)}
+.blk.i{background:var(--paper2)}.blk.b{background:linear-gradient(180deg,#f1eefb,#fff);border-color:#d8d0f5}
+/* case study */
+.case{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin-top:16px;max-width:1150px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px 22px}
+.case .big3{font-size:64px;line-height:1}
+.case p{margin:0;font-size:clamp(17px,1.75vw,23px);line-height:1.5;color:var(--ink)}
+.case p+p{margin-top:6px}
+.stompRow{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.stompRow span{padding:8px 14px;border-radius:12px;font-family:var(--display);font-weight:800;font-size:clamp(18px,1.9vw,26px);background:var(--paper2);border:1px solid var(--line)}
+.stompRow span.k{background:#fdecef;border-color:#f3c3cd;color:var(--rose-ink)}.stompRow span.s{background:#fdf0e3;border-color:#f6d2ae;color:var(--orange-ink)}
+/* lyric demo */
+.lyr{border:1px solid var(--line);border-inline-start:5px solid var(--accent);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 22px}
+.lyr .tag{display:inline-block;font-family:var(--display);font-weight:700;font-size:14px;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);margin-bottom:4px}
+.lyr div.l{display:flex;justify-content:space-between;gap:12px;font-family:var(--display);font-weight:700;font-size:clamp(20px,2.1vw,29px);line-height:1.5;color:var(--ink)}
+.lyr div.l em{font-style:normal;color:var(--dim);font-size:.72em;font-family:var(--body);font-weight:700;align-self:center;white-space:nowrap}
+.lyr div.l .r{color:var(--rose-ink)}
+/* brief picker */
+.brief{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1150px}
+.bf{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;min-height:118px}
+.bf small{display:block;color:var(--dim);font-weight:700;font-size:15px}
+.bf b{display:block;font-family:var(--display);font-size:clamp(20px,2vw,28px);line-height:1.25;margin-top:4px;color:var(--ink)}
+.bf.main{grid-column:span 2;background:linear-gradient(180deg,#fff6ea,#fff);border-color:#f2d6b3}
+.bf.main b{font-size:clamp(24px,2.6vw,36px)}
+.brief.spin .bf b{opacity:.45}
+.briefBar{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.briefBar .btn{font-size:19px;padding:11px 20px}
+.briefBar span{color:var(--muted);font-weight:700}
+/* traffic light chip */
+.light{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line);background:var(--card)}
+.light.y{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}.light.r{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}.light.g{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}
+.sprintTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sprintTop .timer{margin-top:0}
+.milestones{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;max-width:1150px}
+.ms{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow-sm);padding:14px 18px}
+.ms small{display:block;font-weight:700;color:var(--accent-ink);font-size:15px}
+.ms b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,25px);color:var(--ink);margin-top:2px}
+.ms p{margin:4px 0 0;color:var(--muted);font-size:clamp(15px,1.45vw,19px);line-height:1.4}
+/* mini Song Maker */
+.smWrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;margin-top:14px;max-width:1200px;align-items:start}
+.sm{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);overflow:hidden;direction:ltr}
+.smGrid{display:grid;grid-template-columns:repeat(16,1fr);gap:0;padding:10px;background:#fff}
+.smGrid i{display:block;aspect-ratio:1.6;border:1px solid #edeae4;cursor:pointer;transition:background .12s}
+.smGrid i:nth-child(16n+5),.smGrid i:nth-child(16n+9),.smGrid i:nth-child(16n+13){border-left-color:#cfc9bf}
+.smGrid i.drum{background:#fbfaf7}.smGrid i.sep{border-top:2px solid #cfc9bf}
+.smGrid i.col{background:#f1eefb}.smGrid i.drum.col{background:#ebe7f8}
+.smGrid i.on{border-radius:4px}
+.smGrid i.on.n0{background:#e76f86}.smGrid i.on.n1{background:#f4a259}.smGrid i.on.n2{background:#e3b341}.smGrid i.on.n3{background:#5bb5a2}.smGrid i.on.n4{background:#4c8bd6}.smGrid i.on.n5{background:#8c7ae6}
+.smGrid i.drum.on{background:transparent;position:relative}
+.smGrid i.drum.on::after{content:"";position:absolute;inset:18%;background:#6a55c9}
+.smGrid i.drum.tri.on::after{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.smGrid i.drum.circ.on::after{border-radius:50%}
+.smBar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;border-top:1px solid var(--line);background:var(--paper2);font-size:15px}
+.smPlay{width:44px;height:44px;border-radius:50%;border:0;background:var(--accent-ink);color:#fff;font-size:18px}
+.smChip{padding:5px 8px;font-size:14px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--ink);white-space:nowrap}
+.smChip.save{border-color:var(--accent-line);color:var(--accent-ink)}
+.smTempo{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--ink)}
+.smTempo input{width:64px;accent-color:var(--teal)}
+.smLegend{display:grid;gap:10px}
+.smLegend div{border:1px solid var(--line);border-radius:16px;padding:10px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.4vw,19px);color:var(--muted);line-height:1.4}
+.smLegend b{display:block;font-family:var(--display);color:var(--ink);font-size:clamp(17px,1.6vw,21px)}
+/* melody contour */
+.contour{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1150px}
+.ct{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px}
+.ct svg{width:100%;height:76px;display:block}
+.ct b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,24px);color:var(--ink);margin-top:6px}
+.ct p{margin:4px 0 0;color:var(--muted);font-size:clamp(15px,1.45vw,19px);line-height:1.4}
+.ct button{margin-top:8px;font-size:15px;padding:6px 12px}
+/* tools trio */
+.toolTrio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1200px}
+.tt{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:16px 18px;overflow:hidden}
+.tt::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
+.tt .lvl{display:inline-block;font-weight:700;font-size:14px;padding:2px 10px;border-radius:999px;background:var(--cs);color:var(--ci)}
+.tt b{display:block;font-family:var(--display);font-size:clamp(20px,2vw,26px);margin:8px 0 2px;color:var(--ink)}
+.tt code{font-family:var(--body);font-size:15px;color:var(--muted);direction:ltr;unicode-bidi:isolate}
+.tt p{margin:6px 0 0;color:var(--muted);font-size:clamp(15px,1.45vw,19px);line-height:1.4}
+.t1{--c:#5bb5a2;--cs:#e6f4f1;--ci:#23826f}.t2{--c:#8c7ae6;--cs:#efecfb;--ci:#6a55c9}.t3{--c:#e76f86;--cs:#fce9ed;--ci:#be3455}
+/* jokers */
+.jokers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1150px}
+.jk{border:1.5px dashed #d8d0f5;border-radius:18px;background:linear-gradient(180deg,#f7f5fe,#fff);padding:12px 16px;font-size:clamp(16px,1.6vw,21px);line-height:1.4}
+.jk b{display:block;font-family:var(--display);color:var(--violet-ink);font-size:clamp(18px,1.8vw,23px)}
+/* stage */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:14px;max-width:1200px}
+.stageBox{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:16px 20px}
+.stageBox h3{font-size:clamp(20px,2vw,26px);margin-bottom:6px}
+.stageBox ol{margin:0;padding-inline-start:22px;font-size:clamp(16px,1.6vw,21px);line-height:1.55}
+.stageBox .timer{margin-top:10px}
+.pickOut{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;min-height:56px}
+.pickOut span{padding:9px 14px;border-radius:14px;background:var(--accent-soft);border:1px solid var(--accent-line);font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,24px);color:var(--accent-ink)}
+.pickCtl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-weight:700}
+.pickCtl input{width:64px;border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:18px;text-align:center}
+/* scoreboard */
+table.sb th,table.sb td{text-align:center;padding:7px 8px;font-size:clamp(15px,1.45vw,20px)}
+table.sb th:first-child,table.sb td:first-child{text-align:right;white-space:nowrap}
+table.sb th small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--dim)}
+table.sb td.auto{font-weight:700;color:var(--muted);background:var(--paper)}
+table.sb td.tot{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.7vw,24px);background:#fdf8ec}
+table.sb tr.lead1 td.tot{color:var(--orange-ink)}
+table.sb tr.lead1 td:first-child::after{content:" 🏆"}
+.sbFoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;max-width:1200px}
+.sbFoot .lead{margin:0;font-size:clamp(15px,1.4vw,19px)}
+.sbFoot .ghost{flex:none;font-size:14px}
+/* awards */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1150px}
+.aw{border:1px solid #f0dcaa;border-radius:20px;background:linear-gradient(180deg,#fffaf0,#fff);box-shadow:var(--shadow);padding:16px;text-align:center}
+.aw .em{font-size:40px;line-height:1}
+.aw b{display:block;font-family:var(--display);font-size:clamp(18px,1.8vw,23px);margin-top:6px;color:var(--ink)}
+.aw p{margin:4px 0 0;color:var(--muted);font-size:clamp(14px,1.35vw,17px);line-height:1.35}
+.aw .who{margin-top:8px;border-bottom:1.5px dashed #e3b341;min-height:30px;font-family:var(--display);font-weight:800;font-size:20px;color:var(--orange-ink)}
+.aw .who:empty::before{content:"להקה: ____";color:var(--dim);font-weight:600;font-size:16px}
+.slide .tableWrap{flex:none}
+.compact table.t th,.compact table.t td{padding:6px 16px;font-size:clamp(15px,1.4vw,18px)}.compact h2{margin:8px 0 8px}
+.dense .prompt.small{font-size:clamp(15px,1.45vw,19px);padding-top:11px;padding-bottom:11px;margin-top:4px}
+.dense .pLabel{margin-top:8px;font-size:clamp(17px,1.5vw,20px)}
+.smSlide .smGrid i{aspect-ratio:2.1}.smSlide .smLegend div{padding:8px 12px}
+@media (max-height:800px){
+ .compact table.t th,.compact table.t td{padding:5px 14px;font-size:clamp(14px,1.3vw,17px)}
+ .dense .prompt.small{font-size:clamp(14px,1.3vw,17px);padding-top:8px;padding-bottom:8px}.dense h2{font-size:clamp(28px,3.4vw,46px)}
+ .smSlide .smGrid i{aspect-ratio:2.6}.smSlide .smLegend{gap:6px}.smSlide .smLegend div{padding:5px 10px;font-size:14px}
+}
+@media (max-height:800px){
+ .note{margin-top:10px;padding:10px 16px}.checks{margin-top:10px}
+ .beatpad{padding:10px 14px;margin-top:10px}.bpRow i{height:36px}.bpPlay{width:46px;height:46px}.bpBeats b{width:38px;height:38px;font-size:19px}
+ .sylls span{font-size:clamp(22px,2.5vw,36px);min-width:50px;padding:3px 9px}.clapRow{padding:7px 14px}.clapper{gap:8px;margin-top:10px}
+ .smWrap{margin-top:8px}.smGrid i{aspect-ratio:2}.smLegend div{padding:7px 12px}
+ .smChip{font-size:13px;padding:4px 6px}.smTempo{font-size:13px}.smTempo input{width:52px}.smPlay{width:38px;height:38px}
+ .case{padding:12px 18px;margin-top:10px}.case .big3{font-size:48px}
+ .songMap{margin-top:12px}.blk{padding:10px}
+ .bf{min-height:96px;padding:10px 14px}.brief{margin-top:10px}
+ .tl{padding:10px}.tempoLab{margin-top:10px}
+ .ms{padding:10px 14px}.milestones{margin-top:10px}
+ .ct{padding:10px 14px}.ct svg{height:58px}.contour{margin-top:10px}
+ .tt{padding:12px 14px}.toolTrio{margin-top:10px}
+ .jk{padding:9px 13px}.jokers{margin-top:10px}
+ .stageBox{padding:12px 16px}
+ .aw{padding:12px}.aw .em{font-size:32px}
+ .lyr{padding:10px 18px}.row2{margin-top:10px}
+ table.sb th,table.sb td{padding:5px 7px}
+ .pLabel{margin-top:10px}
+}
+@media (max-width:1100px){.smWrap,.row2,.stage{grid-template-columns:1fr}.cards.five{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.prompt{padding-left:22px;padding-top:56px}.cards.three,.cards.five,.tempoLab,.brief,.contour,.toolTrio,.jokers,.awards,.milestones{grid-template-columns:1fr}.bf.main{grid-column:auto}.eq{display:none}.bpRow,.bpCount{grid-template-columns:70px repeat(8,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🎸</div><div><b>קרב הלהקות</b><small>אולפן ההקלטות: כותבים, מלחינים, מופיעים</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide hero" data-topic="פתיחה" data-title="קרב הלהקות" data-accent="#e76f86">
+  <span class="kicker">🎸 Tech It Easy · אולפן ההקלטות</span>
+  <h2>קרב <span class="red">הלהקות</span></h2>
+  <p class="lead">האולפן פתוח. בעוד 90 דקות כל להקה תעלה לבמה עם <b>סינגל מקורי</b>: מילים שכתבתם עם Gemini, מנגינה וביט שהלחנתם, והופעה חיה מול שופטים.</p>
+  <div class="tags"><span>✍️ כותבים</span><span>🎹 מלחינים</span><span>🥁 מפיקים</span><span>🎤 מופיעים</span><span>🏆 מתחרים</span></div>
+  <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-topic="פתיחה" data-title="מכונת הביט" data-accent="#e76f86">
+  <span class="kicker">🦶 כולם מנגנים</span>
+  <h2>הכיתה היא <span class="red">להקה</span></h2>
+  <p class="lead">לוחצים ▶ ומצטרפים: <b>רקיעה, רקיעה, מחיאה, שקט.</b> אחר כך משנים את המהירות ומנסים שוב.</p>
+  <div class="beatpad" data-bpm="80" data-k="0,1,4,5" data-s="2,6" data-labels="🦶 רקיעה|👏 מחיאה"></div>
+  <div class="note reveal">🥁 מה שנשאר קבוע כמו שעון זה <b>הפעמה</b>. הדפוס של רקיעות ומחיאות הוא <b>הקצב</b>. והמהירות? זה <b>הטמפו</b>.</div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-topic="פתיחה" data-title="מה נתקע בראש?" data-accent="#e76f86">
+  <span class="kicker">🗳️ הצבעה</span>
+  <h2>מה נתקע לכם <span class="red">בראש</span> משיר?</h2>
+  <p class="lead">חשבו על שיר שאתם לא מצליחים להוציא מהראש. איזה חלק ממנו חוזר אליכם? כל אחד מצביע פעם אחת.</p>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">🔁</div><strong>שורה אחת שחוזרת</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🥁</div><strong>הביט</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🎶</div><strong>המנגינה בלי מילים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">📖</div><strong>הבית הראשון</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="note reveal">🎯 לשורה שנתקעת בראש יש שם במוזיקה: <b>הוק</b> (Hook, ״וו״ באנגלית). היא תופסת את האוזן ולא משחררת. היום כל להקה בונה הוק משלה.</div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#e76f86">
+  <span class="kicker">💿 המשימה של היום</span>
+  <h2>בסוף השיעור לכל להקה יש <span class="red">סינגל</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">✍️</div><strong>מילים</strong><p>פזמון עם הוק ובית אחד, עם ספירת הברות. Gemini עוזר, אתם מחליטים.</p></div>
+    <div class="card"><div class="emoji">🎹</div><strong>מנגינה וביט</strong><p>8 תיבות ב-Song Maker: בית, פזמון ותופים. קישור שמור.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>הופעה</strong><p>75 שניות על הבמה, כל הלהקה, על המנגינה שלכם.</p></div>
+    <div class="card"><div class="emoji">🏆</div><strong>קרב</strong><p>מבחן ההוק, שופטים, ניקוד ידוע מראש ותארים.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-topic="הלהקות" data-title="התפקידים בלהקה" data-accent="#f4a259">
+  <button class="helpBtn" data-help="roles" aria-label="הוראות">?</button>
+  <span class="kicker">👥 הלהקה שלכם</span>
+  <h2>חמישה תפקידים, <span class="yellow">להקה אחת</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><small class="role">המפיק/ה המוזיקלי/ת</small><p>מחזיק/ה את הבריף ואת הזמן, ומחליט/ה מי שר מה.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><small class="role">שומר/ת הקצב</small><p>סופר/ת הברות במחיאות, בודק/ת חרוזים והטעמות.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><small class="role">המלחין/ה</small><p>בונה את המנגינה והביט ב-Song Maker, ושומר/ת קישור.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><small class="role">הסולן/ית</small><p>כותב/ת את המילים הסופיות, מוביל/ה את ההופעה ומגיש/ה.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><small class="role">הכותב/ת השותף/ה</small><p>עובד/ת עם Gemini, מסמן/ת ★ על שורות שלו ובודק/ת אותן.</p></div>
+  </div>
+  <div class="sprintTop" style="margin-top:16px"><div class="timer" data-seconds="300"><output>05:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lead small" style="margin:0">בוחרים שם ללהקה, מחלקים תפקידים ושולפים בריף.</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-topic="הלהקות" data-title="הגרלת הבריף" data-accent="#f4a259">
+  <button class="helpBtn" data-help="brief" aria-label="הוראות">?</button>
+  <span class="kicker">🎲 הבריף שלכם</span>
+  <h2>על מה <span class="yellow">השיר?</span></h2>
+  <p class="lead">כל להקה מקבלת בריף: נושא, מצב רוח, סגנון ומילת חובה שחייבת להופיע בשיר.</p>
+  <div class="brief" id="briefBox">
+    <div class="bf main"><small>🎯 הנושא</small><b id="bfTopic">לוחצים על ״הגרלה״</b></div>
+    <div class="bf"><small>🌡️ מצב רוח</small><b id="bfMood">?</b></div>
+    <div class="bf"><small>🎸 סגנון</small><b id="bfStyle">?</b></div>
+    <div class="bf"><small>🔑 מילת חובה</small><b id="bfWord">?</b></div>
+    <div class="bf"><small>⏱ טמפו מומלץ</small><b id="bfTempo">?</b></div>
+  </div>
+  <div class="briefBar"><button class="btn" id="briefDraw">🎲 הגרלה</button><span id="briefLeft">12 בריפים בכובע</span><button class="ghost" id="briefReset">↺ להחזיר לכובע</button></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="פעמה, קצב, טמפו" data-accent="#4c8bd6">
+  <span class="kicker">🔬 מעבדת המוזיקה · 1</span>
+  <h2>שלוש מילים <span class="skyT">של מוזיקאים</span></h2>
+  <div class="cards three">
+    <div class="card reveal"><div class="emoji">💓</div><strong>פעמה (Beat)</strong><p>הדופק של השיר. קבועה כמו שעון, ואליה מוחאים כף או מנענעים ראש.</p></div>
+    <div class="card reveal"><div class="emoji">🥁</div><strong>קצב (Rhythm)</strong><p>הדפוס של צלילים ושקטים מעל הפעמה: ארוך, קצר, קצר, שקט.</p></div>
+    <div class="card reveal"><div class="emoji">⏱️</div><strong>טמפו (BPM)</strong><p>כמה פעמות יש בדקה. 60 = פעמה בכל שנייה. 120 = שתיים בשנייה.</p></div>
+  </div>
+  <div class="note reveal">📏 הפעמות מתחלקות ל<b>תיבות</b>. בשירי פופ ורוק יש בדרך כלל <b>4 פעמות בתיבה</b>: אחת, שתיים, שלוש, ארבע.</div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="נחשו את הטמפו" data-accent="#4c8bd6">
+  <span class="kicker">🎧 נחשו את הטמפו</span>
+  <h2>לאיזה שיר מתאים <span class="skyT">כל טמפו?</span></h2>
+  <p class="lead">מקשיבים לכל מטרונום, מנענעים ראש, ומנחשים: שיר ערש, ראפ, פופ לריקוד או רוק מהיר?</p>
+  <div class="tempoLab">
+    <div class="tl"><button data-bpm="64">64</button><small>פעמות בדקה</small><div class="dot"></div><div class="ans reveal">😴 שיר ערש</div></div>
+    <div class="tl"><button data-bpm="90">90</button><small>פעמות בדקה</small><div class="dot"></div><div class="ans reveal">🧢 ראפ והיפ־הופ</div></div>
+    <div class="tl"><button data-bpm="120">120</button><small>פעמות בדקה</small><div class="dot"></div><div class="ans reveal">🕺 פופ לריקוד</div></div>
+    <div class="tl"><button data-bpm="160">160</button><small>פעמות בדקה</small><div class="dot"></div><div class="ans reveal">⚡ פאנק־רוק</div></div>
+  </div>
+  <p class="lead small reveal">💡 הטמפו הוא חצי ממצב הרוח. אותה מנגינה ב-64 נשמעת עצובה, וב-160 נשמעת כמו מרדף.</p>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="סופרים הברות" data-accent="#4c8bd6">
+  <span class="kicker">👏 מחיאה לכל הברה</span>
+  <h2>משקל: <span class="skyT">כמה הברות בשורה?</span></h2>
+  <p class="lead">הברה היא חלק במילה שאומרים בנשימה אחת. כדי ששתי שורות יישבו על אותה מנגינה, הן צריכות <b>מספר הברות דומה</b>.</p>
+  <div class="clapper">
+    <div class="clapRow"><div class="sylls"><span>מִי</span><span class="st">יָאוּ</span><span>חָ</span><span class="st">מֵשׁ</span><span>בַּ</span><span class="st">בֹּ</span><span>קֶר</span></div><output>0</output><button class="ghost clapBtn">👏 מוחאים יחד</button></div>
+    <div class="clapRow"><div class="sylls"><span>כֻּ</span><span class="st">לָּם</span><span class="st">עוֹד</span><span>יְ</span><span>שֵׁ</span><span class="st">נִים</span></div><output>0</output><button class="ghost clapBtn">👏 מוחאים יחד</button></div>
+  </div>
+  <div class="note reveal">🎯 7 ו-6 הברות: מספיק קרוב. הכלל באולפן: <b>שורות שמתחרזות זו עם זו, בהפרש של עד 2 הברות.</b></div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="שרים כמו שמדברים" data-accent="#4c8bd6">
+  <span class="kicker">🗣️ הטעמה</span>
+  <h2>שרים <span class="skyT">כמו שמדברים</span></h2>
+  <p class="lead">בכל מילה יש הברה אחת חזקה. בתיבה יש פעמות חזקות: <b>1 ו-3</b>. כששמים את ההברה החזקה על פעמה חזקה, השיר נשמע טבעי.</p>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ נשמע מוזר</span>בַּבֹּ־<b>קֶר</b>! הצליל החזק נופל על ״קר״, וזה נשמע כמו טעות הקלדה של זמר.</div>
+    <div class="box good"><span class="label">✓ נשמע טבעי</span>בַּ־<b>בֹּ</b>־קֶר! הצליל החזק על ״בּוֹ״, בדיוק כמו שאומרים את המילה בדיבור.</div>
+  </div>
+  <div class="note reveal">🔎 בעברית רוב המילים מוטעמות בסוף: חָ<b>בֵר</b>, שֻׁלְ<b>חָן</b>, תַּלְ<b>מִיד</b>. אבל יש גם מילים כמו <b>בֹּ</b>קֶר, <b>יֶ</b>לֶד ו<b>סֵ</b>פֶר. הבדיקה: אומרים את השורה בקול, ואז שרים אותה.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="מפת השיר" data-accent="#4c8bd6">
+  <span class="kicker">🗺️ מבנה של שיר</span>
+  <h2>בית, פזמון <span class="skyT">ומה שביניהם</span></h2>
+  <div class="songMap">
+    <div class="blk i reveal"><b>מבוא</b><small>ביט ומנגינה, בלי מילים</small></div>
+    <div class="blk v reveal"><b>בית 1</b><small>הסיפור. מילים חדשות</small></div>
+    <div class="blk c reveal"><b>פזמון 🎯</b><small>ההוק. אותן מילים בכל פעם</small></div>
+    <div class="blk v reveal"><b>בית 2</b><small>הסיפור ממשיך</small></div>
+    <div class="blk c reveal"><b>פזמון 🎯</b><small>שוב! עכשיו כולם שרים</small></div>
+    <div class="blk b reveal"><b>גשר</b><small>משהו אחר. הפתעה</small></div>
+    <div class="blk c reveal"><b>פזמון ×2 🎯</b><small>הכי חזק בסוף</small></div>
+  </div>
+  <div class="note reveal">🎸 הסינגל שלכם היום: <b>מבוא, בית ופזמון</b>. להקות שמסיימות מוקדם מוסיפות גשר.</div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="מקרה בוחן: We Will Rock You" data-accent="#4c8bd6">
+  <span class="kicker">📼 מקרה בוחן · 1977</span>
+  <h2>השיר שהפך <span class="skyT">את הקהל ללהקה</span></h2>
+  <div class="case">
+    <div class="big3">🏟️</div>
+    <div>
+      <p>בהופעה של להקת <b>Queen</b> באנגליה ב-1977, הקהל שר בקול כל כך חזק שהגיטריסט <b>בריאן מאי</b> החליט לכתוב שיר שהקהל יוכל לבצע בעצמו.</p>
+      <p>כך נולד <b>We Will Rock You</b>. הביט שלו:</p>
+      <div class="stompRow"><span class="k">🦶 רקיעה</span><span class="k">🦶 רקיעה</span><span class="s">👏 מחיאה</span><span>· שקט ·</span></div>
+    </div>
+  </div>
+  <div class="note reveal">🤫 שמתם לב? <b>זה הביט שניגנתם בתחילת השיעור.</b> מה בביט הזה מאפשר לאצטדיון שלם לנגן יחד, בלי כלי נגינה אחד?</div>
+  <p class="lead small reveal">✅ שני צלילים בלבד · איטי · אפשר לנגן עם הגוף · חוזר שוב ושוב · קל להצטרף באמצע.</p>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="מקרה בוחן: Baby Shark" data-accent="#4c8bd6">
+  <span class="kicker">📈 מקרה בוחן · 2020</span>
+  <h2>דוּ דוּ דוּ דוּ־דוּ־דוּ: <span class="skyT">כוחה של חזרה</span></h2>
+  <div class="case">
+    <div class="big3">🦈</div>
+    <div>
+      <p><b>Baby Shark Dance</b> של חברת Pinkfong מדרום קוריאה הפך בנובמבר 2020 לסרטון הנצפה ביותר ביוטיוב, ובינואר 2022 היה לסרטון הראשון שעבר <b>10 מיליארד צפיות</b>.</p>
+      <p>ההוק? הברות בלי משמעות שחוזרות שוב ושוב. בכל בית משתנה רק מילה אחת: תינוק, אמא, אבא, סבתא…</p>
+    </div>
+  </div>
+  <div class="note reveal">🤔 שאלה ללהקות: <b>מתי חזרה נדבקת לראש, ומתי היא סתם משעממת?</b></div>
+  <p class="lead small reveal">✅ הסוד הוא <b>חזרה עם שינוי קטן</b>: אותו הוק, ומשהו אחד חדש בכל פעם (מילה, צליל, כלי, עוצמה).</p>
+</section>
+
+<!-- 14 -->
+<section class="slide quiz" data-topic="מעבדת המוזיקה" data-title="תבנית החרוז" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">⚡ ראשים ממוספרים · 1</span>
+  <h2>מה <span class="skyT">תבנית החרוז</span> בפזמון?</h2>
+  <div class="row2">
+    <div class="lyr"><span class="tag">🎯 פזמון לדוגמה</span>
+      <div class="l"><span>מִיָּאוּ! חָמֵשׁ <span class="r">בַּבֹּקֶר!</span></span><em>A</em></div>
+      <div class="l"><span>כֻּלָּם עוֹד <span class="r">יְשֵׁנִים</span></span><em>B</em></div>
+      <div class="l"><span>מִיָּאוּ! חָמֵשׁ <span class="r">בַּבֹּקֶר!</span></span><em>A</em></div>
+      <div class="l"><span>אֲנִי שָׁר <span class="r">לַשְּׁכֵנִים!</span></span><em>B</em></div>
+    </div>
+    <div class="options" style="grid-template-columns:1fr;margin-top:0">
+      <button class="option"><span class="letter">א</span><span>AABB: שורה 1 עם 2, שורה 3 עם 4</span></button>
+      <button class="option"><span class="letter">ב</span><span>ABAB: שורה 1 עם 3, שורה 2 עם 4</span></button>
+      <button class="option"><span class="letter">ג</span><span>ABBA: שורה 1 עם 4</span></button>
+      <button class="option"><span class="letter">ד</span><span>אין חרוז</span></button>
+    </div>
+  </div>
+  <div class="explain">✓ נכון! ABAB. שורות 1 ו-3 הן ההוק עצמו, ושורות 2 ו-4 מתחרזות (יְשֵׁנִים / שְׁכֵנִים). חזרה וחרוז באותו פזמון.</div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-topic="מעבדת המוזיקה" data-title="נוסחת ההוק" data-accent="#4c8bd6">
+  <span class="kicker">🎯 נוסחת ההוק</span>
+  <h2>מה הופך הוק <span class="skyT">לדביק?</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ לא נדבק</span>״החתול שלנו מעיר את כל המשפחה מוקדם מדי בכל בוקר״<br><b>22 הברות.</b> אף אחד לא יזכור.</div>
+    <div class="box good"><span class="label">✓ נדבק</span>״מִיָּאוּ! חָמֵשׁ בַּבֹּקֶר!״<br><b>7 הברות.</b> צליל מצחיק, נושא ברור, קל לצעוק.</div>
+  </div>
+  <div class="checks"><span>✂️ קצר: עד 8 הברות</span><span>🔁 חוזר לפחות 3 פעמים</span><span>😮 צליל או מילה מפתיעים</span><span>🎯 אומר את הנושא</span><span>🎵 צלילים מעטים, קל לשיר</span></div>
+</section>
+
+<!-- 16 -->
+<section class="slide quiz" data-topic="מעבדת המוזיקה" data-title="חידון טמפו" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">⚡ ראשים ממוספרים · 2</span>
+  <h2>בשיר יש טמפו 120. <span class="skyT">כמה פעמות בשנייה?</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>פעמה אחת</span></button>
+    <button class="option"><span class="letter">ב</span><span>שתי פעמות</span></button>
+    <button class="option"><span class="letter">ג</span><span>12 פעמות</span></button>
+    <button class="option"><span class="letter">ד</span><span>120 פעמות</span></button>
+  </div>
+  <div class="explain">✓ נכון! 120 פעמות בדקה, ובדקה יש 60 שניות: 120 ÷ 60 = 2 פעמות בשנייה. בערך הקצב של הליכה מהירה.</div>
+</section>
+
+<!-- 17 -->
+<section class="slide quiz" data-topic="מעבדת המוזיקה" data-title="איפה ההוק?" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">⚡ ראשים ממוספרים · 3</span>
+  <h2>איפה הכי כדאי <span class="skyT">לשים את ההוק?</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>רק בשורה האחרונה של השיר</span></button>
+    <button class="option"><span class="letter">ב</span><span>בפזמון, שחוזר כמה פעמים</span></button>
+    <button class="option"><span class="letter">ג</span><span>רק בבית הראשון</span></button>
+    <button class="option"><span class="letter">ד</span><span>במבוא, לפני שמתחילות המילים</span></button>
+  </div>
+  <div class="explain">✓ נכון! הפזמון חוזר, ולכן ההוק נשמע שוב ושוב. בפעם השנייה הקהל כבר שר איתכם.</div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-topic="תדריך" data-title="חוקי הקרב" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="battle" aria-label="הוראות">?</button>
+  <span class="kicker">📜 קרב הלהקות</span>
+  <h2>החוקים, <span class="yellow">לפני שמתחילים</span></h2>
+  <div class="task"><strong>🎸 שישה חוקים</strong><ol>
+    <li>כל להקה מפיקה סינגל לפי הבריף שהוגרל: מבוא, בית ופזמון עם הוק, ומילת החובה בפנים.</li>
+    <li>Gemini הוא <b>כותב שותף</b>: לפחות חצי מהשורות שלכם, ושורה שה-AI הציע מסומנת ב-★.</li>
+    <li>ההלחנה ב-Song Maker שלכם: 8 תיבות, מנגינה ותופים.</li>
+    <li>בקרב: 75 שניות על הבמה. כל חברי הלהקה עולים, ולכל אחד תפקיד בהופעה.</li>
+    <li>אחרי כל הופעה: מבחן ההוק, ואז השופטים מרימים לוחות.</li>
+    <li>מוחאים כפיים לכל להקה. צוחקים עם השיר, אף פעם לא על מי ששר.</li>
+  </ol></div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-topic="תדריך" data-title="מה מגישים" data-accent="#e3a82b">
+  <span class="kicker">💿 המפרט</span>
+  <h2>מה יש <span class="yellow">בסינגל שלכם?</span></h2>
+  <div class="milestones">
+    <div class="ms"><small>⏱ תוצר ביניים · עד דקה 45</small><b>🎯 ההוק והפזמון</b><p>פזמון של 4 שורות עם הוק, ספירת הברות ליד כל שורה. מבצעים אותו בקצב ב״האזנה הראשונה״.</p></div>
+    <div class="ms"><small>⏱ תוצר סופי · עד דקה 73, בטופס</small><b>💿 הסינגל המלא</b><p>שם הלהקה ושם השיר · פזמון ובית (4+4 שורות) עם ספירת הברות · קישור Song Maker של 8 תיבות · שורת AI.</p></div>
+  </div>
+  <div class="checks"><span>🔑 מילת החובה בשיר</span><span>★ שורות AI מסומנות</span><span>👏 הפרש של עד 2 הברות בין שורות מתחרזות</span><span>🎹 מנגינה + 🥁 תופים</span><span>🔒 בלי שמות של אנשים אמיתיים</span></div>
+</section>
+
+<!-- 20 -->
+<section class="slide tight compact" data-topic="תדריך" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 הניקוד, ידוע מראש</span>
+  <h2>איך <span class="yellow">צוברים נקודות</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>מה</th><th style="width:210px">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎯 האזנה ראשונה: ההוק מוכן ומבוצע בקצב בזמן</td><td>3</td></tr>
+      <tr><td>💿 הגשה מלאה בזמן, לפי המפרט</td><td>5</td></tr>
+      <tr><td>📊 המחוון: הרמה הממוצעת × 3</td><td>3 עד 12</td></tr>
+      <tr><td>🧠 מבחן ההוק: 3 מאזינים מלהקות אחרות שרים את ההוק אחרי האזנה אחת</td><td>2 לכל מאזין (עד 6)</td></tr>
+      <tr><td>⚖️ שיפוט הקרב: מקום 1 / 2 / 3 / שאר הלהקות</td><td>8 / 5 / 3 / 1</td></tr>
+      <tr><td>🏅 תואר: ההוק הכי דביק · המילים הכי שנונות · הביט הכי חזק · הופעת הערב</td><td>3 לכל תואר</td></tr>
+      <tr><td>🃏 קלף ג׳וקר שבוצע על הבמה</td><td>1 (עד 2)</td></tr>
+      <tr><td>🎟 כל הלהקה מילאה כרטיס יציאה</td><td>2</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead small">⚖️ שובר שוויון: מבחן ההוק. ואם עדיין שוויון: ההוק עם פחות הברות.</p>
+</section>
+
+<!-- 21 -->
+<section class="slide tight" data-topic="תדריך" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון</span>
+  <h2>ככה נראה <span class="yellow">סינגל מצטיין</span></h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.35vw,18px)">
+    <thead><tr><th style="width:15%">קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td><b>✍️ מילים ומשקל</b></td><td>שורות באורכים שונים מאוד, בלי חרוז</td><td>יש חרוז, אבל חלק מהשורות לא נכנסות במנגינה</td><td>שורות מתחרזות בהפרש של עד 2 הברות, חרוז קבוע</td><td>ההטעמות על הפעמות החזקות, ורוב השורות שלכם</td></tr>
+      <tr class="reveal"><td><b>🎯 הוק ומבנה</b></td><td>אין חלק שחוזר</td><td>יש פזמון, אבל ההוק ארוך או לא ברור</td><td>בית ופזמון ברורים, הוק עד 8 הברות שחוזר</td><td>הכיתה שרה את ההוק אחרי האזנה אחת</td></tr>
+      <tr class="reveal"><td><b>🎹 מנגינה וביט</b></td><td>תווים אקראיים, בלי תופים</td><td>מנגינה ותופים, אבל הבית והפזמון נשמעים אותו דבר</td><td>ביט יציב, והפזמון נשמע שונה מהבית</td><td>טמפו וכלים שמתאימים לבריף, ורגע מפתיע</td></tr>
+      <tr class="reveal"><td><b>🎤 ביצוע ולהקה</b></td><td>אחד מופיע, השאר מסתכלים</td><td>כולם על הבמה, אבל לא בקצב</td><td>לכל אחד תפקיד, ונכנסים בזמן עם המנגינה</td><td>הקהל משתתף, ונגמר בדיוק בזמן</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 22 -->
+<section class="slide" data-topic="תדריך" data-title="קלפי ג׳וקר" data-accent="#8c7ae6">
+  <span class="kicker">🃏 קלפי ג׳וקר · רשות</span>
+  <h2>רוצים להפתיע? <span class="violet">שלפו ג׳וקר</span></h2>
+  <p class="lead">כל ג׳וקר שמבוצע על הבמה = נקודה, עד 2. מודיעים לשופטים לפני ההופעה.</p>
+  <div class="jokers">
+    <div class="jk"><b>🔁 קריאה ותגובה</b>אתם שרים שורה, והקהל עונה.</div>
+    <div class="jk"><b>🤫 שקט מפתיע</b>2 תיבות בלי תופים, ואז הכול חוזר בבום.</div>
+    <div class="jk"><b>👏 בודי פרקשן</b>קטע קצב עם הגוף בלבד: רקיעות, מחיאות, ברכיים.</div>
+    <div class="jk"><b>🐇 האצה</b>הפזמון האחרון מהיר יותר.</div>
+    <div class="jk"><b>🗣️ לחישה ופיצוץ</b>שורה בלחישה, והבאה בקול מלא.</div>
+    <div class="jk"><b>💃 תנועת פזמון</b>תנועה אחת שכל הלהקה עושה על ההוק.</div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-topic="חדר הכתיבה" data-title="Gemini כותב שותף" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="gemini" aria-label="הוראות">?</button>
+  <span class="kicker">✍️ סשן 1 · חדר הכתיבה</span>
+  <h2>Gemini: <span class="skyT">כותב שותף, לא כותב במקומכם</span></h2>
+  <p class="lead">פותחים <b>gemini.google.com</b>, מדביקים, וממלאים את הסוגריים מהבריף שלכם.</p>
+  <div class="prompt small"><span class="ptext">אתה כותב שותף בלהקה שלנו. הבריף: שיר על [נושא], מצב רוח [מצב רוח], בסגנון [סגנון]. תן 10 רעיונות להוק: שורה קצרה של עד 8 הברות שאפשר לשיר שוב ושוב, ושכוללת את המילה [מילת חובה] או רומזת לנושא. אל תכתוב את כל השיר.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="note reveal">🎯 מתוך 10 הרעיונות בוחרים <b>אחד</b>, ואז משנים אותו: מקצרים, מוסיפים צליל מצחיק, מחליפים מילה. ההוק הסופי צריך להישמע כמו <b>הלהקה שלכם</b>.</div>
+</section>
+
+<!-- 24 -->
+<section class="slide tight dense" data-topic="חדר הכתיבה" data-title="ארגז הכלים" data-accent="#4c8bd6">
+  <span class="kicker">🧰 ארגז הכלים של הכותבים</span>
+  <h2>שלושה פרומפטים <span class="skyT">לתקיעות</span></h2>
+  <h3 class="pLabel">🎯 חסר חרוז</h3>
+  <div class="prompt small"><span class="ptext">תן 12 מילים בעברית שמתחרזות עם ״[מילה]״, מחולקות לפי מספר הברות (1, 2, 3). רק מילים שילדים מכירים.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <h3 class="pLabel">👏 בדיקת משקל</h3>
+  <div class="prompt small"><span class="ptext">ספור את ההברות בכל שורה כמו שאומרים אותה בדיבור, וסמן את ההברה המוטעמת בכל מילה: [השורות]. אם שורה ארוכה מהאחרות ביותר משתי הברות, הצע קיצור עם אותו חרוז.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <h3 class="pLabel">🎧 המפיק הקשוח</h3>
+  <div class="prompt small"><span class="ptext">אתה מפיק מוזיקלי קשוח אבל הוגן. הנה הפזמון והבית שלנו: [להדביק]. תן 3 הערות: מה הכי דביק, איזו שורה הכי חלשה ולמה, ושאלה אחת שתעזור לנו לשפר. אל תכתוב לנו שורות חדשות.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-topic="חדר הכתיבה" data-title="ה-AI לא שומע" data-accent="#4c8bd6">
+  <span class="kicker">🎧 שימו לב</span>
+  <h2>ה-AI <span class="skyT">לא שומע את השיר</span></h2>
+  <p class="lead">הוא כותב טקסט, אבל לא שומע איך הוא נשמע. לכן הוא טועה לפעמים בספירת הברות, בהטעמות ובחרוזים.</p>
+  <div class="compare">
+    <div class="box bad"><span class="label">🤖 ה-AI כתב</span>״החתול מעיר את כולם בשעה חמש בבוקר״<br><b>וטען: ״8 הברות, מושלם להוק״</b></div>
+    <div class="box good reveal"><span class="label">👏 שומר/ת הקצב סופר/ת</span>הַ־חָ־תוּל מֵ־עִיר אֶת כֻּ־לָּם בְּ־שָׁ־עָה חָ־מֵשׁ בַּ־בֹּ־קֶר<br><b>16 הברות.</b> פי שניים.</div>
+  </div>
+  <div class="note reveal">✅ לכן ב<b>כל</b> שורה סופרים במחיאות, גם אם ה-AI ״כבר ספר״. הידיים שלכם הן הבודק האחרון.</div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-topic="חדר הכתיבה" data-title="דף מילים לדוגמה" data-accent="#4c8bd6">
+  <span class="kicker">📄 ככה נראה דף מילים</span>
+  <h2>״מיאו בחמש״ <span class="skyT">של להקת הדוגמה</span></h2>
+  <div class="row2">
+    <div class="lyr"><span class="tag">📖 בית</span>
+      <div class="l"><span>הַשֶּׁמֶשׁ עוֹד לֹא <span class="r">קָמָה</span></span><em>7 · A</em></div>
+      <div class="l"><span>הַצַּלַּחַת שֶׁלִּי <span class="r">רֵיקָה</span></span><em>8 · A</em></div>
+      <div class="l"><span>אֲנִי קוֹפֵץ עַל <span class="r">הַמִּטָּה</span> ★</span><em>8 · A</em></div>
+      <div class="l"><span>וְנוֹתֵן לְךָ <span class="r">נְשִׁיקָה</span></span><em>8 · A</em></div>
+    </div>
+    <div class="lyr"><span class="tag">🎯 פזמון</span>
+      <div class="l"><span>מִיָּאוּ! חָמֵשׁ <span class="r">בַּבֹּקֶר!</span></span><em>7 · A</em></div>
+      <div class="l"><span>כֻּלָּם עוֹד <span class="r">יְשֵׁנִים</span></span><em>6 · B</em></div>
+      <div class="l"><span>מִיָּאוּ! חָמֵשׁ <span class="r">בַּבֹּקֶר!</span></span><em>7 · A</em></div>
+      <div class="l"><span>אֲנִי שָׁר <span class="r">לַשְּׁכֵנִים!</span> ★</span><em>7 · B</em></div>
+    </div>
+  </div>
+  <div class="checks"><span>🔢 מספר הברות ליד כל שורה</span><span>🔤 אותיות החרוז</span><span>★ = הרעיון של Gemini, ואנחנו שינינו</span><span>🔑 מילת החובה: ״מיאו״</span></div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-topic="חדר הכתיבה" data-title="סשן כתיבה" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <span class="kicker">⏳ סשן 1 · חדר הכתיבה</span>
+  <h2>כותבים, סופרים, <span class="skyT">משפרים</span></h2>
+  <div class="sprintTop"><div class="timer" data-seconds="1020"><output>17:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="light y">🟡 Gemini לרעיונות ולטיוטות. אתם מחליטים.</span></div>
+  <div class="milestones">
+    <div class="ms"><small>עד דקה 8</small><b>🎯 ההוק נבחר</b><p>מתוך 10 רעיונות לפחות. משנים אותו כך שיהיה שלכם, ובודקים: עד 8 הברות?</p></div>
+    <div class="ms"><small>עד סוף הסשן</small><b>📄 פזמון ובית על דף המילים</b><p>4+4 שורות, מספר הברות ליד כל שורה, אותיות חרוז, ★ על שורות של AI.</p></div>
+  </div>
+  <div class="checks"><span>🧭 המפיק/ה: מי שר מה</span><span>🔍 שומר/ת הקצב: מחיאות</span><span>🛠️ המלחין/ה: כבר מנסה מנגינה להוק</span><span>🎤 הסולן/ית: כותב/ת נקי</span><span>🤖 AI: פרומפטים ו-★</span></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-topic="האזנה ראשונה" data-title="האזנה ראשונה" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="check" aria-label="הוראות">?</button>
+  <span class="kicker">🎧 נקודת ביקורת · האזנה ראשונה</span>
+  <h2>כל להקה: <span class="green">ההוק, פעמיים, על הביט</span></h2>
+  <div class="beatpad" data-bpm="96" data-k="0,4" data-s="2,6" data-h="0,1,2,3,4,5,6,7" data-labels="🥁 בס|👏 סנר|🔔 מצילה"></div>
+  <div class="sprintTop" style="margin-top:12px"><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lead small" style="margin:0">אחרי כל להקה: ״אהבתי ש…״ אחד ו״הלוואי ש…״ אחד מהכיתה.</span></div>
+</section>
+
+<!-- 29 -->
+<section class="slide center" data-topic="האזנה ראשונה" data-title="חימום להקה" data-accent="#2f9e80">
+  <span class="kicker">🕺 דקה של תנועה</span>
+  <h2>חימום <span class="green">של להקה</span></h2>
+  <div class="stompRow" style="justify-content:center"><span class="k">🦶 רקיעה</span><span class="s">👏 מחיאה</span><span>🦵 ברכיים</span><span>🫰 אצבעות</span></div>
+  <p class="lead" style="margin-top:14px">כולם עומדים. מנגנים את הדפוס 4 פעמים, כל פעם מהר יותר. בסוף: <b>סירנה</b> עם הקול, מהצליל הכי נמוך לגבוה ובחזרה.</p>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 30 -->
+<section class="slide tight smSlide" data-topic="חדר ההלחנה" data-title="הכירו את Song Maker" data-accent="#2f9e80">
+  <span class="kicker">🎹 סשן 2 · חדר ההלחנה</span>
+  <h2>הכירו את <span class="green">Song Maker</span></h2>
+  <p class="lead">כלי חינמי של Chrome Music Lab, בלי חשבון ובלי התקנה. נסו כאן: משבצות ואז ▶.</p>
+  <div class="smWrap">
+    <div class="sm">
+      <div class="smGrid" id="smGrid"></div>
+      <div class="smBar">
+        <button class="smPlay" id="smPlay" aria-label="נגינה">▶</button>
+        <span class="smChip">🎹 Marimba</span>
+        <span class="smChip">🥁 Electronic</span>
+        <label class="smTempo">Tempo <input type="range" id="smTempo" min="70" max="160" value="104"></label>
+        <span class="smChip">🎙 Mic</span>
+        <span class="smChip">⚙️ Settings</span>
+        <span class="smChip save">✓ Save</span>
+      </div>
+    </div>
+    <div class="smLegend">
+      <div><b>🟩 למעלה: תווים</b>כל משבצת היא צליל. גבוה יותר = צליל גבוה יותר.</div>
+      <div><b>🔺 למטה: תופים</b>שתי השורות התחתונות: ▲ ו-●.</div>
+      <div><b>🎙 Mic</b>שרים את ההוק למיקרופון, והכלי מנסה לכתוב אותו בתווים.</div>
+      <div><b>✓ Save</b>שומר ונותן קישור לשיר.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-topic="חדר ההלחנה" data-title="הגדרות האולפן" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="songmaker" aria-label="הוראות">?</button>
+  <span class="kicker">⚙️ הגדרות האולפן</span>
+  <h2>מכינים את <span class="green">Song Maker</span> לסינגל</h2>
+  <div class="steps">
+    <div class="step"><strong>Settings</strong><p>Length = <b>8</b> · Scale = <b>Pentatonic</b></p></div>
+    <div class="step"><strong>Tempo</strong><p>לפי הבריף: שיר ערש 70–80 · ראפ 85–95 · פופ 100–120 · רוק 130–150</p></div>
+    <div class="step"><strong>תיבות 1–4</strong><p>הבית: מנגינה רגועה יותר, צלילים נמוכים</p></div>
+    <div class="step"><strong>תיבות 5–8</strong><p>הפזמון: גבוה וחזק יותר. כאן ההוק</p></div>
+    <div class="step"><strong>Save</strong><p>Copy Link ומדביקים בדף המילים</p></div>
+  </div>
+  <div class="note reveal">🎼 למה <b>Pentatonic</b>? זה סולם של 5 צלילים בלבד, ובו כמעט כל צירוף נשמע טוב. אפשר להעז בלי לזייף.</div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-topic="חדר ההלחנה" data-title="מנגינה שנדבקת" data-accent="#2f9e80">
+  <span class="kicker">🎶 שלושה טריקים של מלחינים</span>
+  <h2>מנגינה <span class="green">שנדבקת</span></h2>
+  <div class="contour">
+    <div class="ct"><svg viewBox="0 0 200 70" aria-hidden="true"><polyline points="10,58 40,52 70,50 100,40 130,24 160,14 190,10" fill="none" stroke="#4c8bd6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><line x1="100" y1="4" x2="100" y2="66" stroke="#d9d3c8" stroke-dasharray="4 4"/></svg><b>⬆️ עולים לפזמון</b><p>הבית נמוך, הפזמון קופץ למעלה. האוזן מרגישה ״הנה זה בא!״</p><button class="ghost" data-motif="up">▶ להאזין</button></div>
+    <div class="ct"><svg viewBox="0 0 200 70" aria-hidden="true"><polyline points="10,40 30,24 50,40 70,52 100,40 120,24 140,40 165,30 190,14" fill="none" stroke="#e76f86" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><b>🔁 חזרה עם שינוי</b><p>אותו מוטיב פעמיים, ובפעם השנייה הסוף אחר.</p><button class="ghost" data-motif="rep">▶ להאזין</button></div>
+    <div class="ct"><svg viewBox="0 0 200 70" aria-hidden="true"><polyline points="10,56 45,36 80,20 115,30 150,44 190,56" fill="none" stroke="#5bb5a2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="56" r="6" fill="#5bb5a2"/><circle cx="190" cy="56" r="6" fill="#5bb5a2"/></svg><b>🏠 חוזרים הביתה</b><p>מסיימים על הצליל שהתחלתם בו, וזה נשמע ״גמור״.</p><button class="ghost" data-motif="home">▶ להאזין</button></div>
+  </div>
+  <div class="note reveal">🎤 הבדיקה של הסולן/ית: שרים את המילים על המנגינה. מילה לא נכנסת? <b>משנים תו, או משנים מילה.</b></div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-topic="חדר ההלחנה" data-title="הביט ושלושה כלים" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="tools" aria-label="הוראות">?</button>
+  <span class="kicker">🥁 הביט</span>
+  <h2>הביט הבסיסי: <span class="green">בס על 1 ו-3, סנר על 2 ו-4</span></h2>
+  <div class="toolTrio">
+    <div class="tt t1"><span class="lvl">כולם</span><b>🎹 Song Maker</b><code>musiclab.chromeexperiments.com/Song-Maker</code><p>בשורות התחתונות: ● על פעמות 1 ו-3, ▲ על 2 ו-4. מחליפים ערכת תופים בכפתור התופים.</p></div>
+    <div class="tt t2"><span class="lvl">רשות · מתקדמים</span><b>🍕 Groove Pizza</b><code>apps.musedlab.org/groovepizza</code><p>ביט על ״פיצה״ של 16 פרוסות. Shapes מצייר קצב מוכן. Share נותן קישור. בלי חשבון.</p></div>
+    <div class="tt t3"><span class="lvl">רשות · אלופים</span><b>🎚️ BandLab</b><code>bandlab.com</code><p>אולפן מלא בדפדפן: לופים של תופים והקלטת שירה. נכנסים עם Google.</p></div>
+  </div>
+  <p class="lead small">💡 טיפ של מפיקים: הביט מתחיל לבד בתיבה הראשונה (מבוא), ורק אז נכנסת המנגינה.</p>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-topic="חדר ההלחנה" data-title="סשן הלחנה" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">⏳ סשן 2 · חדר ההלחנה</span>
+  <h2>מלחינים, מפיקים, <span class="green">עושים חזרות</span></h2>
+  <div class="sprintTop"><div class="timer" data-seconds="1020"><output>17:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="light r">🔴 המנגינה והביט: רק אתם</span><span class="light y">🟡 Gemini: רק לבדיקת מילים</span></div>
+  <div class="milestones">
+    <div class="ms"><small>עד דקה 8</small><b>🎯 מנגינת הפזמון ותופים</b><p>ההוק יושב על המנגינה. שרים אותו 3 פעמים ובודקים שההטעמות על הפעמות החזקות.</p></div>
+    <div class="ms"><small>עד סוף הסשן</small><b>💿 8 תיבות, Save, שתי חזרות</b><p>מבוא, בית ופזמון. קישור בדף המילים. לכל אחד תפקיד בהופעה. ג׳וקר? מתרגלים אותו.</p></div>
+  </div>
+  <div class="checks"><span>🎧 אוזניות, אם יש</span><span>🔈 חזרות בשקט, בפינה של הלהקה</span><span>🎙 הסולן/ית שר/ה, השאר על הביט</span></div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-topic="חדר ההלחנה" data-title="משימות צד" data-accent="#2f9e80">
+  <span class="kicker">⭐ סיימתם מוקדם?</span>
+  <h2>משימות צד <span class="green">של האולפן</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🎨</div><strong>עטיפת הסינגל</strong><p>ב-Gemini: ״צור עטיפה מצוירת לסינגל בשם [שם], בסגנון [סגנון], בלי טקסט ובלי אנשים אמיתיים.״</p></div>
+    <div class="card"><div class="emoji">🎭</div><strong>שתי אישיויות</strong><p>אותה מנגינה פעמיים: Piano בטמפו 80 ו-Synth בטמפו 160. שומרים שני קישורים. מה השתנה במצב הרוח?</p></div>
+    <div class="card"><div class="emoji">🍕</div><strong>אינטרו בפיצה</strong><p>בונים ב-Groove Pizza ביט פתיחה של 4 שניות ומנגנים אותו לפני השיר.</p></div>
+    <div class="card"><div class="emoji">🌉</div><strong>גשר</strong><p>2 שורות שמשנות כיוון לפני הפזמון האחרון, וגם 2 תיבות מנגינה חדשות.</p></div>
+  </div>
+</section>
+
+<!-- 36 -->
+<section class="slide" data-topic="הגשה" data-title="הגשה וסאונדצ׳ק" data-accent="#0f766e">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📤 הגשה וסאונדצ׳ק</span>
+  <h2>מגישים את <span class="cyan">הסינגל</span></h2>
+  <div class="task"><strong>🔗 הטופס: <span contenteditable="true" spellcheck="false" style="direction:ltr;unicode-bidi:isolate;border-bottom:2px dashed #e3a82b;padding:0 6px">forms.gle/______</span></strong><ol>
+    <li>שם הלהקה ושם השיר, בפורמט: <b>להקה_שם-השיר</b></li>
+    <li>מדביקים את המילים (פזמון ובית) עם ספירת ההברות</li>
+    <li>מדביקים את הקישור ל-Song Maker (ולכלים נוספים, אם יש)</li>
+    <li>שורת AI: <b>מה Gemini עשה · מה אנחנו עשינו</b></li>
+  </ol></div>
+  <div class="sprintTop" style="margin-top:14px"><div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="lead small" style="margin:0">הגשתם? סאונדצ׳ק: חזרה אחרונה בשקט, ומי פותח/ת את הקישור על הבמה.</span></div>
+</section>
+
+<!-- 37 -->
+<section class="slide" data-topic="הקרב" data-title="חוקי הבמה" data-accent="#e76f86">
+  <button class="helpBtn" data-help="judge" aria-label="הוראות">?</button>
+  <span class="kicker">🎤 קרב הלהקות</span>
+  <h2>ככה זה עובד <span class="red">על הבמה</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🎲 סדר</strong><p>מגרילים את סדר הלהקות. הלהקה הבאה מחכה בצד הבמה.</p></div>
+    <div class="step"><strong>🎤 75 שניות</strong><p>מבוא, בית, פזמון. כל הלהקה על הבמה.</p></div>
+    <div class="step"><strong>🧠 מבחן ההוק</strong><p>3 מאזינים מוגרלים מלהקות אחרות שרים את ההוק. כל הצלחה = 2 נקודות.</p></div>
+    <div class="step"><strong>⚖️ שופטים</strong><p>שופט/ת מכל להקה מרים/ה לוח 1–10. לא שופטים את הלהקה שלכם.</p></div>
+  </div>
+  <div class="note reveal">📋 לוח השופט: <b>קצב ומשקל</b> 1–3 · <b>ההוק</b> 1–3 · <b>במה ואנרגיה</b> 1–3 · ועוד <b>נקודת וואו</b> אחת. סכום של כל הלוחות = הניקוד בקרב.</div>
+</section>
+
+<!-- 38 -->
+<section class="slide" data-topic="הקרב" data-title="על הבמה" data-accent="#e76f86">
+  <span class="kicker">🔴 שידור חי</span>
+  <h2>על הבמה: <span class="red" contenteditable="true" spellcheck="false" style="border-bottom:3px dashed var(--rose);padding:0 6px">שם הלהקה</span></h2>
+  <div class="stage">
+    <div class="stageBox"><h3>⏱ 75 שניות</h3>
+      <div class="timer" data-seconds="75"><output>01:15</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <ol style="margin-top:10px"><li>פותחים את הקישור ולוחצים ▶.</li><li>שרים, מקריאים בקצב או מתופפים. כולם בתפקיד.</li><li>מסיימים ומשתחווים. 👏</li></ol></div>
+    <div class="stageBox"><h3>🧠 מבחן ההוק: מי שר?</h3>
+      <div class="pickCtl"><label>להקות בכיתה <input type="number" id="pkN" min="2" max="12" value="7"></label><label>על הבמה: להקה <input type="number" id="pkOn" min="1" max="12" value="1"></label></div>
+      <div class="pickCtl"><button class="btn" id="pkGo">🎲 הגרלת 3 מאזינים</button></div>
+      <div class="pickOut" id="pkOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="הקרב" data-title="לוח התוצאות" data-accent="#e3a82b" id="scoreSlide">
+  <span class="kicker">🏆 לוח התוצאות</span>
+  <h2>מי <span class="yellow">מוביל/ה?</span></h2>
+  <div class="tableWrap"><table class="t sb" id="sbTable">
+    <thead><tr><th>להקה</th><th>האזנה<small>3</small></th><th>הגשה<small>5</small></th><th>מחוון<small>3–12</small></th><th>הוק<small>עד 6</small></th><th>Σ שופטים<small>לא נספר</small></th><th>קרב<small>8/5/3/1</small></th><th>תארים<small>3 לכל</small></th><th>ג׳וקר<small>עד 2</small></th><th>יציאה<small>2</small></th><th>סה״כ</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div class="sbFoot"><p class="lead">לוחצים על תא ומקלידים מספר. ״קרב״ וסה״כ מחושבים לבד מסכום השופטים. לוחצים על שם להקה כדי לשנות אותו.</p><button class="ghost" id="sbReset">↺ איפוס</button></div>
+</section>
+
+<!-- 40 -->
+<section class="slide" data-topic="הקרב" data-title="תארים" data-accent="#e3a82b">
+  <span class="kicker">🏅 טקס הפרסים</span>
+  <h2>התארים <span class="yellow">של הערב</span></h2>
+  <div class="awards">
+    <div class="aw reveal"><div class="em">🎯</div><b>ההוק הכי דביק</b><p>הכי הרבה הצלחות במבחן ההוק</p><div class="who" contenteditable="true"></div></div>
+    <div class="aw reveal"><div class="em">✍️</div><b>המילים הכי שנונות</b><p>חרוז מפתיע, משקל מדויק, מילת חובה חכמה</p><div class="who" contenteditable="true"></div></div>
+    <div class="aw reveal"><div class="em">🥁</div><b>הביט הכי חזק</b><p>הכי בא לזוז</p><div class="who" contenteditable="true"></div></div>
+    <div class="aw reveal"><div class="em">🔥</div><b>הופעת הערב</b><p>אנרגיה, קהל משתתף, כל הלהקה</p><div class="who" contenteditable="true"></div></div>
+  </div>
+  <div class="note reveal">🏆 <b>אלופי קרב הלהקות</b> הם הלהקה עם הכי הרבה נקודות בלוח, תארים כלולים.</div>
+</section>
+
+<!-- 41 -->
+<section class="slide tight" data-topic="סיום" data-title="תחקיר האולפן" data-accent="#0f766e">
+  <span class="kicker">🎙️ תחקיר האולפן</span>
+  <h2>מה עבד <span class="cyan">באמת?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🎯 איזה הוק עדיין מתנגן לכם בראש? מה יש בו: חזרה, צליל מצחיק, משהו קצר?</div>
+    <div class="revealCard reveal">👏 להקה שנכנסה בדיוק בקצב: מה היא עשתה בחזרות שאחרים לא?</div>
+    <div class="revealCard reveal">🤖 מתי Gemini באמת עזר, ומתי הייתם צריכים לתקן אותו?</div>
+    <div class="revealCard reveal">🔁 אם הייתם מקליטים גרסה שנייה מחר, מה הדבר האחד שהייתם משנים?</div>
+  </div>
+</section>
+
+<!-- 42 -->
+<section class="slide" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#0f766e">
+  <span class="kicker">🎟 כרטיס יציאה</span>
+  <h2>כל אחד, <span class="cyan">לבד</span></h2>
+  <div class="task"><strong>4 שאלות, 3 דקות</strong><ol>
+    <li>דבר אחד שלמדתי היום על מוזיקה.</li>
+    <li>שאלה אחת שנשארה לי.</li>
+    <li>מה הופך הוק לדביק? תנו דוגמה מהשיר שלכם.</li>
+    <li>היום תרמתי ללהקה: רעיונות · מילים · מנגינה · ביט · הופעה · AI.</li>
+  </ol></div>
+  <div class="checks"><span class="light r">🔴 בלי AI</span><span>📄 על הכרטיס, או בטופס: <span contenteditable="true" spellcheck="false" style="direction:ltr;unicode-bidi:isolate">forms.gle/______</span></span></div>
+</section>
+
+<!-- 43 -->
+<section class="slide tight" data-topic="סיום" data-title="מה לוקחים מהאולפן" data-accent="#0f766e">
+  <span class="kicker">🏁 סיום</span>
+  <h2>מה לוקחים <span class="cyan">מהאולפן?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">💓 <b>פעמה, קצב וטמפו</b> הם שלושה דברים שונים, והטמפו קובע חצי ממצב הרוח.</div>
+    <div class="revealCard reveal">👏 <b>משקל:</b> שורות מתחרזות באורך דומה, וההברה החזקה על הפעמה החזקה. שרים כמו שמדברים.</div>
+    <div class="revealCard reveal">🎯 <b>הוק דביק</b> הוא קצר, חוזר ומפתיע, ויושב בפזמון.</div>
+    <div class="revealCard reveal">🤖 <b>Gemini כותב שותף:</b> מציע הרבה, אבל לא שומע. אתם בוחרים, סופרים ומחליטים.</div>
+  </div>
+  <div class="note reveal">🏠 <b>אתגר הבית:</b> שלחו את הקישור למישהו בבית, השמיעו פעם אחת, ובדקו אם הוא מצליח לשיר את ההוק.</div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups -->
+<template id="help-roles"><h3>מקימים להקה (5 דקות)</h3><ol><li>בוחרים <b>שם ללהקה</b> וכותבים אותו על שלט השולחן.</li><li>כרטיסי התפקיד עוברים בסבב. כל אחד קורא בקול מה התפקיד שלו היום.</li><li>בלהקה של 4: המלחין/ה לוקח/ת גם את ה-AI.</li><li>המפיק/ה שולף/ת בריף מהכובע (או מהמסך) ומקריא/ה אותו.</li><li>הסולן/ית מעתיק/ה את הבריף לראש דף המילים.</li></ol></template>
+<template id="help-brief"><h3>איך עובד הבריף?</h3><ol><li><b>הנושא</b>: על מה השיר. אפשר להצחיק, אבל צריך שיהיה ברור.</li><li><b>מצב רוח</b>: מה הקהל צריך להרגיש.</li><li><b>סגנון</b>: איך זה נשמע. משפיע על הטמפו ועל הכלים.</li><li><b>מילת חובה</b>: חייבת להופיע בשיר. הכי טוב בהוק.</li><li>לא אוהבים את הבריף? מותר להחליף פעם אחת, רק בדקה הראשונה.</li></ol></template>
+<template id="help-gemini"><h3>עובדים עם Gemini</h3><ol><li>פותחים <b>gemini.google.com</b> עם חשבון ה-Google שלכם ומתחילים צ׳אט חדש.</li><li>מדביקים את הפרומפט וממלאים את הסוגריים <b>[ ]</b> מהבריף.</li><li>לא אהבתם? ״עוד 10, יותר מצחיקים״ או ״קצר יותר״.</li><li>כל שורה שלקחתם מ-Gemini מסמנים ב-★ בדף המילים.</li><li>טיפ פרטיות: לא כותבים שמות של אנשים אמיתיים או פרטים אישיים.</li></ol></template>
+<template id="help-sprint1"><h3>סשן כתיבה: מה כל אחד עושה</h3><ol><li><b>🧭 המפיק/ה</b>: שומר/ת על הזמן והבריף, ומחליט/ה בוויכוח אחרי שכולם דיברו.</li><li><b>🔍 שומר/ת הקצב</b>: מוחא/ת כפיים לכל שורה, כותב/ת את מספר ההברות ומסמן/ת הטעמות.</li><li><b>🛠️ המלחין/ה</b>: פותח/ת Song Maker ומנסה מנגינה להוק כבר עכשיו.</li><li><b>🎤 הסולן/ית</b>: כותב/ת את הגרסה הסופית בדף המילים, ומנסה לשיר כל שורה.</li><li><b>🤖 אחראי/ת AI</b>: מריץ/ה את הפרומפטים, מסמן/ת ★ ובודק/ת מה Gemini טעה.</li></ol></template>
+<template id="help-check"><h3>האזנה ראשונה</h3><ol><li>המדריך מפעיל את הביט על המסך.</li><li>כל להקה בתורה: מבצעת את ההוק פעמיים על הביט, בשירה או בהקראה בקצב.</li><li>הכיתה עונה: ״אהבתי ש…״ אחד ו״הלוואי ש…״ אחד.</li><li>ההוק מוכן ובקצב = 3 נקודות.</li><li>אין עדיין הוק? מקריאים את מה שיש, ומקבלים טיפ מהכיתה.</li></ol></template>
+<template id="help-songmaker"><h3>הלחנה ב-Song Maker</h3><ol><li>פותחים <b>musiclab.chromeexperiments.com/Song-Maker</b>. לא צריך חשבון.</li><li><b>Settings</b>: Length = 8, Scale = Pentatonic. לוחצים OK.</li><li>לוחצים על משבצות כדי להוסיף תווים. לחיצה נוספת מוחקת.</li><li>שתי השורות התחתונות הן התופים.</li><li>▶ מנגן. מזיזים את <b>Tempo</b> לפי הבריף.</li><li>הכפתור של הכלי (Marimba) מתחלף בלחיצה: Piano, Strings, Woodwind, Synth.</li><li>בסוף: <b>Save</b> ← <b>Copy Link</b> ← מדביקים בדף המילים.</li><li>השיר נשמר בקישור ציבורי: בלי שמות אמיתיים בשם השיר.</li></ol></template>
+<template id="help-tools"><h3>כלי ביט נוספים (רשות)</h3><ol><li><b>Groove Pizza</b>: apps.musedlab.org/groovepizza. כל טבעת היא כלי הקשה, וכל פרוסה היא צעד בזמן. <b>Shapes</b> מצייר קצב מוכן, <b>Share</b> נותן קישור. בלי חשבון.</li><li><b>BandLab</b>: bandlab.com ← כניסה עם Google ← יצירת פרויקט חדש באולפן ← מוסיפים לופ של תופים ← מקליטים שירה במיקרופון.</li><li>הכלי הראשי נשאר Song Maker. הכלים הנוספים הם תוספת, לא תחליף.</li></ol></template>
+<template id="help-sprint2"><h3>סשן הלחנה: מה כל אחד עושה</h3><ol><li><b>🧭 המפיק/ה</b>: מחלק/ת תפקידים להופעה ומחליט/ה על ג׳וקר.</li><li><b>🔍 שומר/ת הקצב</b>: בודק/ת שההברות המוטעמות נופלות על הפעמות החזקות.</li><li><b>🛠️ המלחין/ה</b>: בונה את 8 התיבות, התופים והטמפו, ושומר/ת קישור.</li><li><b>🎤 הסולן/ית</b>: שר/ה על המנגינה ומבקש/ת שינויים.</li><li><b>🤖 אחראי/ת AI</b>: בודק/ת מילים עם Gemini אם צריך, ומכין/ה את שורת ה-AI להגשה.</li></ol></template>
+<template id="help-submit"><h3>הגשה</h3><ol><li>הסולן/ית מגיש/ה בטופס, אחרי שכל הלהקה ראתה.</li><li>שם: <b>להקה_שם-השיר</b>.</li><li>מילים עם מספר ההברות ליד כל שורה, ו-★ על שורות של AI.</li><li>קישור Song Maker (ו-Groove Pizza או BandLab, אם יש).</li><li>שורת AI: מה Gemini עשה ומה אתם עשיתם.</li><li>אין מחשב? מגישים את דף המילים, עם הקישור כתוב עליו.</li></ol></template>
+<template id="help-judge"><h3>איך שופטים?</h3><ol><li>כל להקה שולחת שופט/ת אחד/ת. השופטים מתחלפים כל 2 הופעות.</li><li>ממלאים את כרטיס השופט: קצב ומשקל 1–3, ההוק 1–3, במה ואנרגיה 1–3, ועוד נקודת וואו אחת.</li><li>כותבים את הסכום (עד 10) בגדול, ומרימים יחד כשהמדריך סופר 3.</li><li>לא שופטים את הלהקה שלכם.</li><li>שופטים את ההופעה, לא את האנשים. מחמאה אחת לכל להקה.</li></ol></template>
+<template id="help-battle"><h3>הקרב, בפירוט</h3><ol><li>סדר ההופעות מוגרל.</li><li>75 שניות: פותחים את הקישור, מנגנים ומופיעים. כולם על הבמה.</li><li>מתביישים לשיר? מקריאים בקצב, מתופפים או רוקדים. גם זה תפקיד.</li><li>מבחן ההוק: המדריך מגריל 3 מאזינים מלהקות אחרות. מי שמצליח לשיר את ההוק = 2 נקודות ללהקה המופיעה.</li><li>שופט/ת מכל להקה מרים/ה לוח של 1–10.</li><li>הלהקה עם סכום השופטים הגבוה מקבלת 8, השנייה 5, השלישית 3, וכל השאר 1.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== קרב הלהקות — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) copy buttons  2) Web Audio synth (sound only after a click)  3) beat pads  4) tempo lab
+   5) clap counter  6) brief picker  7) mini Song Maker  8) melody motifs  9) hook-test picker  10) live scoreboard */
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const onLeave=(el,fn)=>{const s=el.closest('.slide');if(!s)return;new MutationObserver(()=>{if(!s.classList.contains('active'))fn()}).observe(s,{attributes:true,attributeFilter:['class']})};
+
+// 1) copy prompt
+$$('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+
+// 2) synth
+let ctx=null;const ac=()=>{try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume()}catch(e){ctx=null}return ctx};
+function tone(f,t0,dur,type='triangle',vol=.22){const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;
+ g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol,t0+.015);g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);o.connect(g).connect(c.destination);o.start(t0);o.stop(t0+dur+.05)}
+function noise(c,len){const n=Math.floor(c.sampleRate*len),buf=c.createBuffer(1,n,c.sampleRate),d=buf.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);return buf}
+function drum(kind,t0){const c=ac();if(!c)return;t0=t0||c.currentTime;
+ if(kind==='kick'){const o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(150,t0);o.frequency.exponentialRampToValueAtTime(42,t0+.2);g.gain.setValueAtTime(.7,t0);g.gain.exponentialRampToValueAtTime(0.0001,t0+.25);o.connect(g).connect(c.destination);o.start(t0);o.stop(t0+.3);return}
+ const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=noise(c,kind==='hat'?.05:.14);f.type=kind==='hat'?'highpass':'bandpass';
+ f.frequency.value=kind==='hat'?6500:(kind==='clap'?1300:1800);g.gain.value=kind==='hat'?.18:.55;s.connect(f).connect(g).connect(c.destination);s.start(t0)}
+function click(acc){const c=ac();if(!c)return;tone(acc?1568:1046,c.currentTime,.06,'square',acc?.18:.1)}
+const N={C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,C5:523.25,D5:587.33,E5:659.25,G5:783.99};
+
+// 3) beat pads
+$$('.beatpad').forEach(pad=>{
+ const labels=(pad.dataset.labels||'בס|סנר|מצילה').split('|');const keys=['k','s','h'],snd={k:'kick',s:'clap',h:'hat'};
+ const head=document.createElement('div');head.className='bpHead';
+ head.innerHTML='<button class="bpPlay" aria-label="נגינה">▶</button><label class="bpBpm">טמפו <input type="range" min="50" max="180" value="'+(pad.dataset.bpm||90)+'"><output></output> BPM</label><div class="bpBeats"><b>1</b><b>2</b><b>3</b><b>4</b></div>';
+ pad.appendChild(head);
+ const count=document.createElement('div');count.className='bpCount';count.innerHTML='<span></span>'+['1','&','2','&','3','&','4','&'].map(x=>'<span>'+x+'</span>').join('');pad.appendChild(count);
+ const grid={};keys.forEach((k,ri)=>{if(pad.dataset[k]===undefined){grid[k]=[];return}const row=document.createElement('div');row.className='bpRow '+k;row.innerHTML='<span class="lbl">'+labels[ri]+'</span>';
+  const on=new Set((pad.dataset[k]||'').split(',').filter(x=>x!=='').map(Number));grid[k]=[];
+  for(let i=0;i<8;i++){const c=document.createElement('i');if(on.has(i))c.classList.add('on');c.onclick=()=>{c.classList.toggle('on');if(c.classList.contains('on'))drum(snd[k])};row.appendChild(c);grid[k].push(c)}
+  pad.appendChild(row)});
+ const play=$('.bpPlay',head),rng=$('input',head),out=$('output',head),beats=$$('.bpBeats b',head);let iv=null,step=0;
+ const showBpm=()=>out.textContent=rng.value;showBpm();
+ const tick=()=>{keys.forEach(k=>grid[k].forEach((c,i)=>c.classList.toggle('now',i===step)));keys.forEach(k=>{if(grid[k][step]&&grid[k][step].classList.contains('on'))drum(snd[k])});
+  beats.forEach((b,i)=>b.classList.toggle('on',i===Math.floor(step/2)&&step%2===0));step=(step+1)%8};
+ const start=()=>{clearInterval(iv);iv=setInterval(tick,60000/Number(rng.value)/2);play.textContent='⏸'};
+ const stop=()=>{clearInterval(iv);iv=null;play.textContent='▶';keys.forEach(k=>grid[k].forEach(c=>c.classList.remove('now')));beats.forEach(b=>b.classList.remove('on'))};
+ play.onclick=()=>{if(iv)stop();else{ac();step=0;tick();start()}};
+ rng.oninput=()=>{showBpm();if(iv)start()};onLeave(pad,stop)});
+
+// 4) tempo lab: 8 metronome clicks per button
+$$('.tempoLab').forEach(lab=>{let iv=null,cur=null;const stop=()=>{clearInterval(iv);iv=null;if(cur){cur.classList.remove('playing');cur.parentElement.querySelector('.dot').classList.remove('on')}cur=null};
+ $$('button[data-bpm]',lab).forEach(b=>b.onclick=()=>{const was=cur===b;stop();if(was)return;ac();cur=b;b.classList.add('playing');const dot=b.parentElement.querySelector('.dot');let n=0;
+  const beat=()=>{click(n%4===0);dot.classList.add('on');setTimeout(()=>dot.classList.remove('on'),90);n++;if(n>=12)stop()};beat();iv=setInterval(beat,60000/Number(b.dataset.bpm))});
+ onLeave(lab,stop)});
+
+// 5) clap-along counter
+$$('.clapRow').forEach(row=>{const btn=$('.clapBtn',row),out=$('output',row),ss=$$('.sylls span',row);let tm=[];
+ btn.onclick=()=>{tm.forEach(clearTimeout);tm=[];ss.forEach(s=>s.classList.remove('on'));out.textContent='0';const step=560;
+  ss.forEach((s,i)=>tm.push(setTimeout(()=>{ss.forEach(x=>x.classList.remove('on'));s.classList.add('on');out.textContent=i+1;drum('clap')},300+i*step)));
+  tm.push(setTimeout(()=>ss.forEach(x=>x.classList.remove('on')),300+ss.length*step+200))}});
+
+// 6) brief picker (same 12 briefs as the printed cards)
+const BRIEFS=[
+ ['🍕 קינה על הפיצה האחרונה שנגמרה','עצוב־מצחיק','בלדה','משולש','70–80'],
+ ['🚀 שיר עידוד לאסטרונאוטית שמפחדת מגבהים','אנרגטי','פופ','ספירה לאחור','110–120'],
+ ['🧦 הגרב שנעלמה במכונת הכביסה','מסתורי','בלשי','סיבוב','90–100'],
+ ['🦖 דינוזאור שמנסה להבין טלפון חכם','מצחיק','ראפ','טלפון','85–95'],
+ ['🌧️ יום גשום שהפך ליום הכי טוב','אופטימי','רגאיי','שלולית','80–90'],
+ ['🐢 המנון לנבחרת הכדורגל של הצבים','גיבורי','המנון אצטדיון','לאט','70–80'],
+ ['🤖 רובוט שהתאהב במקרר','רומנטי','אלקטרוני','קר','115–125'],
+ ['⏰ השעון המעורר שלא מוותר','לחוץ','פאנק־רוק','עוד חמש דקות','150–160'],
+ ['🌙 שיר ערש למפלצת שמפחדת מילדים','רך ומרגיע','שיר ערש','פנס','64–74'],
+ ['🪄 היום הראשון בבית ספר לקוסמים','הרפתקני','פופ־רוק','שרביט','120–130'],
+ ['🍦 מלחמת הגלידות: וניל נגד שוקולד','תחרותי','קרב ראפ','קונוס','90–95'],
+ ['🐧 פינגווין שחולם לטוס','חולמני','פולק','כנפיים','90–100']];
+(()=>{const box=$('#briefBox');if(!box)return;const ids=['bfTopic','bfMood','bfStyle','bfWord','bfTempo'];const left=$('#briefLeft');let pool=BRIEFS.map((_,i)=>i),busy=false;
+ const set=b=>ids.forEach((id,i)=>$('#'+id).textContent=i===4?b[i]+' BPM':b[i]);
+ const upd=()=>left.textContent=pool.length?pool.length+' בריפים בכובע':'הכובע ריק. ↺ כדי להחזיר';
+ $('#briefDraw').onclick=()=>{if(busy||!pool.length)return;busy=true;box.classList.add('spin');let n=0;
+  const iv=setInterval(()=>{set(BRIEFS[Math.floor(Math.random()*BRIEFS.length)]);tone(400+Math.random()*500,ac()?ctx.currentTime:0,.05,'square',.05);if(++n>14){clearInterval(iv);
+   const k=Math.floor(Math.random()*pool.length),pick=pool.splice(k,1)[0];set(BRIEFS[pick]);box.classList.remove('spin');busy=false;upd();
+   const c=ac();if(c){tone(N.C5,c.currentTime,.15);tone(N.E5,c.currentTime+.12,.15);tone(N.G5,c.currentTime+.24,.3)}}},70)};
+ $('#briefReset').onclick=()=>{pool=BRIEFS.map((_,i)=>i);upd()};upd()})();
+
+// 7) mini Song Maker (pentatonic rows: C5 A4 G4 E4 D4 C4, + 2 drum rows, 16 steps = 2 bars)
+(()=>{const grid=$('#smGrid');if(!grid)return;
+ const rows=['C5','A4','G4','E4','D4','C4'],COLS=16;const cells=[];
+ const pre=new Set([[2,0],[2,1],[3,2],[1,4],[2,5],[3,6],[2,8],[2,9],[3,10],[0,12],[1,13],[2,14]].map(([r,c])=>r+','+c));
+ for(let r=0;r<rows.length+2;r++)for(let c=0;c<COLS;c++){const i=document.createElement('i');const dr=r>=rows.length;
+  if(dr){i.classList.add('drum',r===rows.length?'tri':'circ');if(r===rows.length)i.classList.add('sep')}else i.classList.add('n'+r);
+  if(pre.has(r+','+c)||(r===rows.length&&c%4===2)||(r===rows.length+1&&c%4===0))i.classList.add('on');
+  i.onclick=()=>{i.classList.toggle('on');if(i.classList.contains('on')){const a=ac();if(a){if(dr)drum(r===rows.length?'clap':'kick');else tone(N[rows[r]],a.currentTime,.3)}}};
+  grid.appendChild(i);cells.push({i,r,c,dr})}
+ const play=$('#smPlay'),tempo=$('#smTempo');let iv=null,col=0;
+ const stop=()=>{clearInterval(iv);iv=null;play.textContent='▶';cells.forEach(x=>x.i.classList.remove('col'))};
+ const tick=()=>{const a=ac();cells.forEach(x=>x.i.classList.toggle('col',x.c===col));
+  if(a)cells.filter(x=>x.c===col&&x.i.classList.contains('on')).forEach(x=>{if(x.dr)drum(x.r===rows.length?'clap':'kick');else tone(N[rows[x.r]],a.currentTime,.28)});col=(col+1)%COLS};
+ const start=()=>{clearInterval(iv);iv=setInterval(tick,60000/Number(tempo.value)/2);play.textContent='⏸'};
+ play.onclick=()=>{if(iv)stop();else{col=0;tick();start()}};tempo.oninput=()=>{if(iv)start()};onLeave(grid,stop)})();
+
+// 8) melody motifs (contour slide)
+const MOTIF={up:['C4','D4','E4','G4','A4','C5','D5','E5'],rep:['E4','G4','E4','D4','E4','G4','E4','A4'],home:['C4','E4','G4','A4','G4','E4','D4','C4']};
+$$('button[data-motif]').forEach(b=>b.onclick=()=>{const c=ac();if(!c)return;const m=MOTIF[b.dataset.motif];m.forEach((n,i)=>tone(N[n],c.currentTime+.05+i*.27,i===m.length-1?.6:.26))});
+
+// 9) hook-test picker
+(()=>{const go=$('#pkGo');if(!go)return;go.onclick=()=>{const n=Math.max(2,Number($('#pkN').value)||7),on=Number($('#pkOn').value)||0;
+ const bands=[];for(let i=1;i<=n;i++)if(i!==on)bands.push(i);for(let i=bands.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bands[i],bands[j]]=[bands[j],bands[i]]}
+ const out=$('#pkOut');out.innerHTML='';const picks=[];for(let k=0;k<3;k++)picks.push([bands[k%bands.length],1+Math.floor(Math.random()*5)]);
+ picks.forEach((p,k)=>setTimeout(()=>{const s=document.createElement('span');s.textContent='להקה '+p[0]+' · כיסא '+p[1];out.appendChild(s);drum('clap')},250+k*450))}})();
+
+// 10) live scoreboard (saved in this browser only)
+(()=>{const tb=$('#sbTable tbody');if(!tb)return;const KEY='tie-jingle-scoreboard-v1';const EM=['🎸','🥁','🎹','🎺','🎻','🎷','🪗','🪘'];
+ const blank=()=>EM.slice(0,7).map((e,i)=>[e+' להקה '+(i+1),'','','','','','','','','']);
+ let data;try{data=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!Array.isArray(data))data=blank();
+ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}};
+ const num=v=>{const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?0:x};
+ function build(){tb.innerHTML='';data.forEach((row,ri)=>{const tr=document.createElement('tr');
+  for(let c=0;c<11;c++){const td=document.createElement('td');
+   if(c===6||c===10){td.className=c===10?'tot':'auto'}else{td.contentEditable='true';td.spellcheck=false;td.textContent=row[c]||'';
+    td.oninput=()=>{data[ri][c]=td.textContent.trim();calc();save()}}
+   tr.appendChild(td)}tb.appendChild(tr)});calc()}
+ function calc(){const raws=data.map(r=>num(r[5]));const trs=$$('tr',tb);let best=0;const tots=[];
+  data.forEach((r,i)=>{let bp='';if(raws[i]>0){const place=1+raws.filter(x=>x>raws[i]).length;bp=place===1?8:place===2?5:place===3?3:1}
+   const t=[1,2,3,4,7,8,9].reduce((s,c)=>s+num(r[c]),0)+(bp||0);tots.push(t);best=Math.max(best,t);
+   trs[i].children[6].textContent=bp===''?'–':bp;trs[i].children[10].textContent=t});
+  trs.forEach((tr,i)=>tr.classList.toggle('lead1',best>0&&tots[i]===best))}
+ $('#sbReset').onclick=()=>{if(confirm('לאפס את לוח התוצאות?')){data=blank();save();build()}};build()})();
+})();
+</script>
+</body>
+</html>

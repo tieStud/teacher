@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>יום ההדגמה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== lesson additions · Demo Day (engine styles above are untouched) — light theme tokens only ===== */
+.slide.tight h2{font-size:clamp(32px,4.1vw,58px);margin:10px 0 8px}
+.slide.tight .lead{margin-bottom:0}
+.lead.sm{font-size:clamp(17px,1.6vw,22px)}
+.row2{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px}
+.row2 .timer{margin-top:0}
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:center;margin-top:8px}
+.split.even{grid-template-columns:1fr 1fr}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:15px 14px}.cards.five .card strong{font-size:19px}.cards.five .card p{font-size:15.5px}
+.cards.tightc .card{padding:15px 16px}.cards.tightc .card strong{font-size:20px;margin:7px 0 4px}.cards.tightc .card p{font-size:16px}
+.note{margin-top:14px;max-width:1150px;padding:11px 18px;border-radius:16px;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft);font-size:clamp(17px,1.6vw,21px);line-height:1.45;color:var(--ink)}
+.note b{color:var(--accent-ink)}
+.note.lock{border-color:#f2cdbb;border-inline-start-color:var(--bad);background:#fff8f4}.note.lock b{color:var(--bad)}
+.exLine{margin-top:12px;padding:9px 16px;border-radius:14px;background:#fffaf0;border:1px solid #f0dcaa;color:var(--ink);font-size:clamp(16px,1.5vw,19px);max-width:1150px}
+.exLine b{color:#8a5300}
+/* editable text */
+.ed{outline:none;border-bottom:2px dashed var(--line);border-radius:4px;padding:0 4px;cursor:text;transition:border-color .15s,background .15s}
+.ed:hover{background:#fffef4}.ed:focus{border-bottom-color:var(--teal);background:#fff}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--dim);font-weight:500}
+/* AI traffic light */
+.light{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:clamp(15px,1.45vw,19px);border:1px solid;width:max-content;max-width:100%}
+.light.red{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.light.yellow{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}
+.light.green{background:var(--good-bg);border-color:#bfe3cb;color:#166534}
+/* milestones */
+.miles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px;max-width:1150px}
+.mile{border:1px solid var(--line);border-radius:16px;padding:10px 14px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile b{display:block;font-family:var(--display);font-size:14.5px;color:var(--accent-ink)}
+.mile span{font-size:clamp(16px,1.55vw,20px);font-weight:600;color:var(--ink)}
+/* prompt + copy */
+.prompt{position:relative;padding-left:120px}
+.prompt.small{font-size:clamp(16px,1.5vw,20px);margin-top:12px}
+.prompt:has(.pLabel)::before{content:none}
+.pLabel{display:block;font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent-ink);margin-bottom:2px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.codeLine{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:clamp(18px,1.9vw,26px);padding:6px 14px;border-radius:12px;background:#f8f6f1;border:1px solid var(--line);color:var(--ink)}
+/* ---------- opening: LIVE + ticket + journey ---------- */
+.live{display:inline-flex;align-items:center;gap:8px}
+.live i{width:10px;height:10px;border-radius:50%;background:#e11d48;box-shadow:0 0 0 0 rgba(225,29,72,.45);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(225,29,72,.45)}70%{box-shadow:0 0 0 10px rgba(225,29,72,0)}100%{box-shadow:0 0 0 0 rgba(225,29,72,0)}}
+.heroGrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:30px;align-items:center}
+.ticket{position:relative;border-radius:22px;background:linear-gradient(160deg,#fff 0%,#fffaf0 100%);border:1px solid #f0dcaa;box-shadow:var(--shadow-lg);padding:22px 22px 18px;transform:rotate(-2.5deg)}
+.ticket::before,.ticket::after{content:"";position:absolute;top:58%;width:26px;height:26px;border-radius:50%;background:var(--paper);border:1px solid #f0dcaa}
+.ticket::before{right:-14px}.ticket::after{left:-14px}
+.ticket .tk{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;color:#8a5300}
+.ticket b{display:block;font-family:var(--display);font-weight:800;font-size:34px;line-height:1.05;margin:4px 0 2px;color:var(--ink)}
+.ticket small{color:var(--muted);font-size:15px}
+.ticket .perf{border-top:2px dashed #ecd9ad;margin:16px -22px 12px}
+.ticket dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:16px}
+.ticket dt{color:var(--muted)}.ticket dd{margin:0;font-weight:700;color:var(--ink)}
+.ticket .bars{height:30px;margin-top:12px;background:repeating-linear-gradient(90deg,#1f2a37 0 2px,transparent 2px 4px,#1f2a37 4px 7px,transparent 7px 9px,#1f2a37 9px 10px,transparent 10px 13px);opacity:.75;border-radius:3px}
+.journey{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:18px}
+.journey span{padding:6px 12px;border-radius:999px;border:1px solid #bfe3cb;background:var(--good-bg);font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--good)}
+.journey span::after{content:" ✓"}
+.journey span.now{color:#fff;background:var(--teal);border-color:var(--teal-deep);font-weight:700;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.journey span.now::after{content:" ★"}
+.journeyLbl{display:block;margin-top:16px;color:var(--muted);font-family:var(--display);font-weight:600;font-size:15px}
+/* program (run of show) */
+.program{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;margin-top:22px;position:relative}
+.program::before{content:"";position:absolute;top:34px;right:6%;left:6%;height:3px;background:repeating-linear-gradient(90deg,var(--accent-line) 0 10px,transparent 10px 16px)}
+.stop{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:0 6px}
+.stop .dot{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;font-size:32px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;z-index:1}
+.stop:nth-child(odd) .dot{background:var(--accent-soft);border-color:var(--accent-line)}
+.stop b{font-family:var(--display);font-weight:700;font-size:clamp(16px,1.5vw,20px);line-height:1.15;color:var(--ink)}
+.stop small{font-size:14.5px;color:var(--muted);line-height:1.3}
+.stop .dur{font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 10px}
+/* case study */
+.caseCard{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px 22px}
+.caseCard .src{font-size:13.5px;color:var(--dim);margin-top:8px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.fact{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px 14px;text-align:center}
+.fact b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(26px,3vw,40px);line-height:1.05;color:var(--accent-ink)}
+.fact span{font-size:15.5px;color:var(--muted)}
+.podiumMini{display:grid;gap:8px;margin-top:12px}
+.pm{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:10px 14px;box-shadow:var(--shadow-sm);font-size:clamp(16px,1.5vw,19px);line-height:1.4}
+.pm i{font-style:normal;font-size:28px;text-align:center}
+.pm b{color:var(--ink)}
+/* banknote */
+.bills{display:flex;gap:0;align-items:center;justify-content:center;margin:6px 0 0;height:190px;position:relative}
+.bill{position:absolute;width:300px;height:150px;border-radius:14px;background:linear-gradient(135deg,#e3f1ee,#f6fbf9 55%,#e3f1ee);border:1.5px solid #9fcfc5;box-shadow:var(--shadow);display:grid;grid-template-columns:86px 1fr;align-items:center;padding:12px 16px;gap:10px;color:var(--teal-deep)}
+.bill::before{content:"";position:absolute;inset:7px;border:1px dashed #9fcfc5;border-radius:9px;pointer-events:none}
+.bill .seal{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:36px;background:#fff;border:2px solid #9fcfc5}
+.bill b{display:block;font-family:var(--display);font-weight:800;font-size:34px;line-height:1;direction:ltr;text-align:right}
+.bill small{display:block;font-size:13px;font-weight:700;letter-spacing:.06em}
+.bill em{display:block;font-style:normal;font-size:11.5px;color:#4b7f77;margin-top:3px}
+.bill:nth-child(1){transform:rotate(-10deg) translate(78px,-4px)}
+.bill:nth-child(2){transform:rotate(3deg) translate(-10px,-4px)}
+.bill:nth-child(3){transform:rotate(-3deg) translate(-84px,22px)}
+/* interactive checklist */
+.chk{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:1150px}
+.chk li{display:flex;gap:12px;align-items:center;min-height:52px;border:1px solid var(--line);border-radius:14px;padding:9px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.5vw,20px);cursor:pointer;user-select:none;transition:.18s;line-height:1.35}
+.chk li::before{content:"";flex:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--line);background:#fff;transition:.18s}
+.chk li.on{border-color:#bfe3cb;background:linear-gradient(180deg,#f2fbf5,#fff)}
+.chk li.on::before{content:"✓";display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;background:var(--good);border-color:var(--good)}
+.chk li small{display:block;color:var(--muted);font-size:14.5px}
+/* cue strip (timeline under a timer) */
+.cue{display:flex;gap:6px;margin-top:12px;max-width:1150px}
+.cue span{flex:1;border-radius:12px;padding:8px 10px;font-size:clamp(14.5px,1.35vw,17px);background:var(--paper2);border:1px solid var(--line);color:var(--ink);text-align:center;line-height:1.3}
+.cue span b{display:block;font-family:var(--display);font-size:13.5px;color:var(--accent-ink)}
+/* form mock */
+.formMock{border:1px solid var(--line);border-top:8px solid #8c7ae6;border-radius:18px;background:#fff;box-shadow:var(--shadow);padding:14px 18px;display:grid;gap:8px;font-size:16px}
+.formMock .fh{font-family:var(--display);font-weight:800;font-size:20px}
+.formMock .fq{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border-bottom:1px solid var(--line2);padding-bottom:6px}
+.formMock .stars{direction:ltr;letter-spacing:3px;color:#c9c2b5}
+.formMock .stars b{color:#e3a82b}
+.formMock .sel{border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);font-size:14.5px}
+.formMock .open{border:1px dashed var(--line);border-radius:8px;padding:5px 10px;color:var(--dim);font-size:14.5px}
+.linkBox{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 18px;border-radius:16px;border:1.5px dashed var(--accent-line);background:#fff;font-size:clamp(18px,1.9vw,26px);font-weight:700;width:max-content;max-width:100%}
+.linkBox .ed{direction:ltr;unicode-bidi:isolate;min-width:220px;display:inline-block}
+/* tally (forms per team) */
+.tally{display:grid;gap:8px;margin-top:14px;max-width:1100px}
+.tRow{display:grid;grid-template-columns:200px minmax(0,1fr) 60px auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:8px 14px;background:var(--card);box-shadow:var(--shadow-sm)}
+.tRow .nm{font-family:var(--display);font-weight:700;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tRow .meter{height:12px;border-radius:99px;background:var(--paper2);overflow:hidden}.tRow .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-ink));border-radius:99px;transition:width .35s}
+.tRow output{font-family:var(--display);font-weight:800;font-size:26px;text-align:center;font-variant-numeric:tabular-nums}
+.tRow.low{border-color:#efb69b;background:linear-gradient(180deg,#fff8f4,#fff)}
+.sBtn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:20px;font-weight:700;line-height:1}
+.sBtn:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+/* ---------- scoreboard matrix ---------- */
+.mxWrap{flex-shrink:0;margin-top:12px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:auto;max-width:1220px}
+table.mx{border-collapse:collapse;width:100%;font-size:clamp(15px,1.4vw,19px)}
+table.mx th,table.mx td{padding:4px 8px;border-bottom:1px solid var(--line2);text-align:center;white-space:nowrap}
+table.mx th{font-family:var(--display);font-weight:600;color:var(--muted);background:var(--paper2);font-size:clamp(13px,1.15vw,16px);line-height:1.2}
+table.mx th small{display:block;font-weight:500;color:var(--dim);font-size:12px}
+table.mx tr:last-child td{border-bottom:0}
+table.mx td.tn{text-align:right;font-family:var(--display);font-weight:700;min-width:150px}
+table.mx td.tn .nm{outline:none;border-bottom:2px dashed transparent;padding:0 3px}
+table.mx td.tn .nm:hover{border-bottom-color:var(--line)}table.mx td.tn .nm:focus{border-bottom-color:var(--teal);background:#fff}
+table.mx input{width:54px;font:700 clamp(15px,1.3vw,18px) var(--display);text-align:center;border:1px solid var(--line);border-radius:9px;padding:3px 2px;background:#fffef9;color:var(--ink);-moz-appearance:textfield;appearance:textfield}
+table.mx input::-webkit-inner-spin-button,table.mx input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+table.mx input:focus{outline:2px solid color-mix(in srgb,var(--teal) 50%,transparent);background:#fff}
+table.mx td.pts{color:var(--muted);font-size:13px;display:block;line-height:1}
+table.mx .sub{display:inline-block;font-size:12.5px;color:var(--dim);font-weight:600;margin-inline-start:5px;vertical-align:middle}
+table.mx .sub:empty{display:none}
+table.mx td.tot{font-family:var(--display);font-weight:800;font-size:clamp(19px,1.8vw,25px);color:var(--teal-deep);background:var(--teal-soft)}
+table.mx th.tot{background:#d6ebe7;color:var(--teal-deep)}
+table.mx td.rk{font-family:var(--display);font-weight:800;color:var(--muted)}
+table.mx tr.top td.rk{color:#b7791f}
+table.mx tr.top td.tn::before{content:"👑 "}
+table.mx .bar{height:4px;margin-top:2px;border-radius:99px;background:var(--paper2);overflow:hidden}
+table.mx .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--teal));border-radius:99px;transition:width .4s}
+table.mx td.twin{color:var(--muted)}
+.mxTools{display:flex;flex-wrap:wrap;gap:8px;padding:8px 10px;border-top:1px solid var(--line2);background:#fdfcfa;align-items:center}
+.mxTools .ghost{padding:6px 12px;font-size:14.5px}
+.mxTools small{color:var(--dim);margin-inline-start:auto;font-size:13.5px}
+table.t.compact{font-size:clamp(15px,1.45vw,19px)}table.t.compact th,table.t.compact td{padding:7px 14px}
+/* ---------- stage: order draw + pitch clock ---------- */
+.order{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.order .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-sm);font-family:var(--display);font-weight:700;font-size:clamp(15px,1.45vw,19px)}
+.order .chip i{font-style:normal;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);font-size:14px}
+.order .chip.cur{background:var(--teal);color:#fff;border-color:var(--teal-deep)}.order .chip.cur i{background:rgba(255,255,255,.22);color:#fff}
+.order .chip.done{opacity:.55}
+.order.shuffling .chip{animation:wob .18s infinite alternate}
+@keyframes wob{from{transform:translateY(-3px) rotate(-2deg)}to{transform:translateY(3px) rotate(2deg)}}
+.stageGrid{display:grid;grid-template-columns:330px minmax(0,1fr);gap:28px;align-items:center;margin-top:6px}
+.pclock{position:relative;width:310px;height:310px}
+.pclock svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pclock .trk{fill:none;stroke:var(--paper2);stroke-width:16}
+.pclock .arc{fill:none;stroke:var(--teal);stroke-width:16;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s}
+.pclock .tick{stroke:#cfc8bc;stroke-width:3}
+.pclock .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pclock output{font-family:var(--display);font-weight:800;font-size:76px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pclock .ph{font-family:var(--display);font-weight:700;font-size:19px;color:var(--teal);margin-top:6px}
+.pclock.warn .arc{stroke:#e3a82b}.pclock.warn .ph{color:#a16207}
+.pclock.over .arc{stroke:var(--bad)}.pclock.over output{color:var(--bad)}.pclock.over .ph{color:var(--bad)}
+.pclock.over{animation:throb 1s infinite}
+@keyframes throb{50%{transform:scale(1.02)}}
+.onStage{font-family:var(--display);font-weight:600;color:var(--muted);font-size:17px}
+.onStage b{display:block;font-weight:800;font-size:clamp(38px,4.4vw,62px);line-height:1.05;color:var(--ink);margin:2px 0 6px}
+.clockBtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.stamp{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:7px 14px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:17px;border:1px solid var(--line);background:var(--paper2);color:var(--muted)}
+.stamp.ok{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}.stamp.no{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.nextUp{margin-top:12px;color:var(--muted);font-size:17px}.nextUp b{color:var(--ink)}
+/* ---------- investment meter ---------- */
+.inv{display:grid;gap:8px;margin-top:12px;max-width:1150px}
+.iRow{display:grid;grid-template-columns:190px minmax(0,1fr) 150px auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:8px 14px;background:var(--card);box-shadow:var(--shadow-sm)}
+.iRow .nm{font-family:var(--display);font-weight:700;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iRow .meter{height:22px;border-radius:8px;background:var(--paper2);overflow:hidden;position:relative}
+.iRow .meter i{display:block;height:100%;background:repeating-linear-gradient(90deg,#5bb5a2 0 26px,#4aa592 26px 28px);border-radius:8px;transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.iRow .meter .cap{position:absolute;top:-3px;bottom:-3px;width:2px;background:#c2630f}
+.iRow .amt{font-family:var(--display);font-weight:800;font-size:20px;text-align:left;direction:ltr;font-variant-numeric:tabular-nums}
+.iRow .amt small{display:block;font-size:13px;color:var(--muted);font-weight:600;direction:rtl;text-align:left}
+.iRow.top{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.14),var(--shadow-sm)}
+.invTotal{margin-top:10px;font-family:var(--display);font-weight:700;color:var(--muted);font-size:17px}
+.invTotal b{color:var(--teal-deep);font-size:22px}
+/* ---------- podium reveal ---------- */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:end;margin-top:14px;direction:ltr;max-width:1000px;margin-inline:auto;width:100%}
+.pod{direction:rtl;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.pod .who{min-height:92px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.pod .who b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,34px);line-height:1.1;color:var(--ink)}
+.pod .who span{font-family:var(--display);font-weight:700;color:var(--teal);font-size:18px}
+.pod .who .q{font-size:46px;color:var(--dim);font-weight:800}
+.pod .blk{width:100%;border-radius:18px 18px 6px 6px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:54px;color:#fff;box-shadow:var(--shadow)}
+.pod.p1 .blk{height:190px;background:linear-gradient(180deg,#e3a82b,#c98d12)}
+.pod.p2 .blk{height:140px;background:linear-gradient(180deg,#a3adb9,#7d8794)}
+.pod.p3 .blk{height:105px;background:linear-gradient(180deg,#d39a6a,#b5764a)}
+.pod.rolling .who b{animation:flick .12s infinite}
+@keyframes flick{50%{opacity:.35}}
+.pod.landed .who{animation:land .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes land{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.revealBar{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.revealBar .btn{font-size:19px;padding:11px 20px}
+.alsoRan{margin-top:12px;text-align:center;color:var(--muted);font-size:17px}
+.alsoRan b{color:var(--ink)}
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px}
+.award{position:relative;border:1px solid #f0dcaa;border-radius:20px;padding:14px 14px 12px;background:linear-gradient(180deg,#fffaf0,#fff);box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center}
+.award .em{font-size:38px;line-height:1}
+.award strong{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.7vw,22px);line-height:1.15;color:var(--ink)}
+.award p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.35}
+.award .win{margin-top:auto;width:100%;min-height:40px;border-radius:12px;border:1.5px dashed #e3c27a;background:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;color:#8a5300;padding:4px 6px;outline:none}
+.award .win:focus{border-style:solid;border-color:var(--teal)}
+.award .auto{font-size:11.5px;font-weight:700;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1px 8px}
+/* ---------- hall of fame ---------- */
+.hall{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px}
+.plaque{position:relative;border-radius:16px;padding:14px 16px 12px;background:linear-gradient(180deg,#fffdf6,#fff8e6);border:2px solid #e3c27a;box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 5px #efd9a0,var(--shadow);text-align:center}
+.plaque .tn{font-family:var(--display);font-weight:800;font-size:21px;color:#6b4a00}
+.plaque .vn{display:block;font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink);margin-top:4px;min-height:1.4em}
+.plaque .ln{display:block;font-size:15px;color:var(--muted);margin-top:4px;min-height:2.6em;line-height:1.35}
+.plaque .yr{position:absolute;top:8px;left:10px;font-size:11px;font-weight:700;color:#b7791f;letter-spacing:.08em}
+/* certificate preview */
+.cert{max-width:760px;margin:12px auto 0;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-lg);padding:10px}
+.cert>div{border:3px double #e3c27a;border-radius:12px;padding:20px 26px;text-align:center;background:radial-gradient(circle at 50% 0,#fffaf0,#fff 70%)}
+.cert .ck{font-family:var(--display);font-weight:700;letter-spacing:.18em;color:#b7791f;font-size:14px}
+.cert b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(34px,3.6vw,50px);color:var(--ink);line-height:1.1;margin:6px 0}
+.cert .nmL{width:60%;margin:14px auto 6px;border-bottom:2px solid var(--ink);height:30px}
+.cert p{margin:0;color:var(--muted);font-size:16px}
+.cert .seal{font-size:44px;margin-top:6px}
+/* credits roll */
+.creditsBox{position:relative;height:300px;overflow:hidden;margin-top:12px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#fdfcf9);-webkit-mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);width:min(760px,100%)}
+.credits{position:absolute;inset:auto 0 auto 0;top:55%;text-align:center;display:grid;gap:6px;padding:0 20px}
+.credits.run{animation:roll 26s linear forwards}
+@keyframes roll{from{transform:translateY(0)}to{transform:translateY(calc(-100% - 180px))}}
+.credits h4{margin:14px 0 2px;font-family:var(--display);font-weight:600;color:var(--muted);font-size:15px;letter-spacing:.08em}
+.credits p{margin:0;font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink)}
+.credits p small{display:block;font-family:var(--body);font-weight:500;font-size:15px;color:var(--muted)}
+/* confetti canvas */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
+@media (max-height:800px){
+ .note{margin-top:10px;padding:8px 14px}.exLine{margin-top:8px}
+ .ticket{padding:16px 18px 14px}.ticket b{font-size:28px}
+ .stop .dot{width:56px;height:56px;font-size:27px;border-radius:18px}.program::before{top:28px}
+ .pclock{width:260px;height:260px}.pclock output{font-size:62px}.stageGrid{grid-template-columns:280px minmax(0,1fr)}
+ .chk li{padding:7px 12px}.tRow,.iRow{padding:6px 12px}
+ table.mx th,table.mx td{padding:5px 8px}
+ .pod.p1 .blk{height:150px}.pod.p2 .blk{height:112px}.pod.p3 .blk{height:84px}.pod .blk{font-size:44px}
+ .creditsBox{height:240px}.bills{height:160px}.bill{transform-origin:center}
+ .fact b{font-size:28px}
+}
+@media (max-width:1100px){.cards.three,.cards.four,.cards.five{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.awards{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.program{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:16px}.program::before{display:none}.heroGrid{grid-template-columns:1fr}.ticket{display:none}}
+@media (max-width:900px){.split,.split.even,.stageGrid{grid-template-columns:1fr}.chk{grid-template-columns:1fr}.facts{grid-template-columns:1fr}.tRow,.iRow{grid-template-columns:1fr auto}.tRow .meter,.iRow .meter{grid-column:1/-1}.prompt{padding-left:22px;padding-top:56px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">30</div><div><b>יום ההדגמה</b><small>Demo Day · טקס הסיום של המחזור</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ============ 1. פתיחה ============ -->
+<section class="slide hero" data-topic="פתיחה" data-title="Demo Day" data-accent="#e3a82b">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker"><span class="live"><i></i>LIVE</span> · Tech It Easy · שיעור 30 מתוך 30</span>
+      <h2>יום <span class="yellow">ההדגמה</span></h2>
+      <p class="lead">30 שיעורים, צוות אחד, מיזם אחד. היום הדלתות נפתחות: אורחים, דוכנים, במה, משקיעים עם כסף משחק, וטקס הסיום של המחזור.</p>
+      <span class="journeyLbl">המסע שלנו · שלב 10 מתוך 10</span>
+      <div class="journey"><span>רעיונאות</span><span>מחקר</span><span>בעיה ופתרון</span><span>הצעת ערך</span><span>מודל עסקי</span><span>אב-טיפוס</span><span>מיתוג ושיווק</span><span>פיץ׳</span><span>משוב ושיפור</span><span class="now">יום ההדגמה</span></div>
+    </div>
+    <div class="ticket" aria-label="כרטיס כניסה">
+      <span class="tk">ADMIT ONE · כרטיס כניסה</span>
+      <b>Demo Day</b>
+      <small>טקס הסיום של מחזור הסטארט-אפים</small>
+      <div class="perf"></div>
+      <dl><dt>כיתה</dt><dd><span class="ed" contenteditable="true" spellcheck="false" data-ph="ח׳ 3"></span></dd><dt>שער</dt><dd>הדוכנים</dd><dt>מקום</dt><dd>הבמה הראשית</dd><dt>לבוש</dt><dd>ביטחון עצמי</dd></dl>
+      <div class="bars"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="התוכנייה" data-accent="#e3a82b">
+  <span class="kicker">🎟️ התוכנייה</span>
+  <h2>מה קורה <span class="yellow">היום</span>?</h2>
+  <p class="lead sm">שבע תחנות, ובכל אחת אפשר לצבור נקודות. בסוף: מקומות 1–3, חמישה פרסים מיוחדים ותעודה לכל אחד.</p>
+  <div class="program">
+    <div class="stop"><div class="dot">🏗️</div><b>הקמה וחזרה</b><small>דוכן + פיץ׳ מול צוות תאום</small><span class="dur">12 דק׳</span></div>
+    <div class="stop"><div class="dot">🚪</div><b>הדלתות נפתחות</b><small>בדיקת הדוכן</small><span class="dur">2 דק׳</span></div>
+    <div class="stop"><div class="dot">🖼️</div><b>התערוכה</b><small>אורחים מסיירים ושופטים</small><span class="dur">14 דק׳</span></div>
+    <div class="stop"><div class="dot">🔬</div><b>חדר המשוב</b><small>ממוצעים, נושאים ותיקון</small><span class="dur">7 דק׳</span></div>
+    <div class="stop"><div class="dot">🎤</div><b>הבמה הראשית</b><small>3 דקות מול השופטים</small><span class="dur">25 דק׳</span></div>
+    <div class="stop"><div class="dot">💸</div><b>ההשקעות</b><small>כסף משחק במעטפות</small><span class="dur">3 דק׳</span></div>
+    <div class="stop"><div class="dot">🏆</div><b>הטקס</b><small>פרסים, תעודות והיכל התהילה</small><span class="dur">7 דק׳</span></div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="איך אתם מרגישים?" data-accent="#e3a82b">
+  <span class="kicker">🗳️ הצבעה מהירה</span>
+  <h2>מה הכי <span class="yellow">מקפיץ</span> לכם את הלב היום?</h2>
+  <p class="lead sm">יד אחת לכל אחד. אין תשובה לא נכונה: גם יזמים ותיקים מתרגשים לפני Demo Day.</p>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">🎤</div><strong>לעמוד על הבמה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🦈</div><strong>השאלה של השופטים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">💸</div><strong>אם נגייס כסף</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">👀</div><strong>שאורחים ינסו את המוצר</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="note"><b>טריק של מציגים:</b> התרגשות ופחד מרגישים אותו דבר בגוף. אומרים לעצמכם "אני מתרגש/ת", ולא "אני לחוץ/ה".</div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#e3a82b">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל צוות יהיו</h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🏪</div><strong>דוכן שאפשר לנסות</strong><p>שלט, פוסטר, אב-טיפוס פתוח וקופת השקעות.</p></div>
+    <div class="card"><div class="emoji">📊</div><strong>סיכום משוב אמיתי</strong><p>4 ממוצעים ו-3 נושאים שחזרו, עם ציטוט אמיתי.</p></div>
+    <div class="card"><div class="emoji">🔧</div><strong>תיקון אחד בזמן אמת</strong><p>משהו ששמעתם בתערוכה ותיקנתם לפני הבמה.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>פיץ׳ של 3 דקות</strong><p>מול שופטים, וכל הצוות מדבר.</p></div>
+    <div class="card"><div class="emoji">💸</div><strong>כסף שגויס</strong><p>ותעודת "יזם/ית צעיר/ה" לכל אחד.</p></div>
+  </div>
+  <div class="note"><b>ובנוסף, לכל אחד לבד:</b> דף רפלקציה אישי: מה למדתי, מה תרמתי ומה אעשה עם הרעיון.</div>
+</section>
+
+<!-- ============ 2. צוותים ============ -->
+<section class="slide tight" data-topic="צוותים" data-title="התפקיד שלך היום" data-accent="#0f766e">
+  <span class="kicker">👥 התפקיד שלך היום</span>
+  <h2>חמישה תפקידים, <span class="cyan">במה אחת</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>מנהל/ת הדוכן והזמנים. מחליט/ה מי בדוכן בכל סבב ומוביל/ה את המעבר לבמה.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>אנליסט/ית המשוב: מסנן/ת את הגיליון, מחשב/ת ממוצעים ובודק/ת כל ציטוט.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>מקים/ה את הדוכן ומפעיל/ה את ההדגמה החיה, בדוכן ועל הבמה.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><p>פותח/ת את הפיץ׳, מגיש/ה את הסיכום בטופס ומוסר/ת לשופטים את כרטיס התיקון.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><p>מריץ/ה את פרומפט הנושאים, בודק/ת אותו וכותב/ת את שורת ה-AI בשלט.</p></div>
+  </div>
+  <div class="row2">
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light yellow">🎤 היום כל חברי הצוות מדברים על הבמה, לפחות משפט אחד</span>
+  </div>
+</section>
+
+<!-- ============ 3. השראה ============ -->
+<section class="slide tight" data-topic="השראה" data-title="מיזם השנה 2026" data-accent="#4c8bd6">
+  <span class="kicker">🇮🇱 מקרה אמיתי · יוניסטרים</span>
+  <h2>גמר "מיזם השנה 2026"</h2>
+  <div class="split">
+    <div>
+      <div class="facts">
+        <div class="fact"><b>1.7.2026</b><span>אקספו תל אביב</span></div>
+        <div class="fact"><b>כ-100</b><span>מיזמים של בני נוער</span></div>
+        <div class="fact"><b>מאות</b><span>אורחים בחרו את הזוכים</span></div>
+      </div>
+      <div class="note"><b>שאלה:</b> אורח עובר בדוכן שלכם 30 שניות. מה המשפט האחד שאתם רוצים שהוא יזכור כשהוא הולך?</div>
+    </div>
+    <div class="podiumMini">
+      <div class="pm"><i>🥇</i><span><b>מרכז כנרת:</b> אפליקציית AI לביטחון עצמי סביב מראה ושיער, עם קהילת עמיתים וזיהוי סוג שיער.</span></div>
+      <div class="pm"><i>🥈</i><span><b>מרכז באר שבע:</b> הופכים פסולת חקלאית מזהמת לדשן שמשקם קרקע.</span></div>
+      <div class="pm"><i>🥉</i><span><b>Drincup, אור יהודה:</b> מכשיר לשטיפת כוסות רב-פעמיות לעסקים ולמוסדות.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="השראה" data-title="אחריטק" data-accent="#4c8bd6">
+  <span class="kicker">⚡ מקרה אמיתי · האקתון נוער</span>
+  <h2>"אחריטק": 24 שעות, <span class="violet">50 פרויקטים</span></h2>
+  <p class="lead sm">בוגרי 8200 ועמותת "אחרי!" הזמינו כ-300 בני נוער מהפריפריה, בלי מיון. שלושה מסלולים: אקלים, בריאות וחינוך. השופטים: מנהלים מחברות גדולות.</p>
+  <div class="cards three tightc">
+    <div class="card"><div class="emoji">🌞</div><strong>סמארט דוד</strong><p>AI שחוזה כמה מים חמים יהיו בדוד השמש לפי תחזית ושימוש.</p></div>
+    <div class="card"><div class="emoji">📵</div><strong>Interruptor</strong><p>משחק שמראה איך הטלפון פוגע בריכוז.</p></div>
+    <div class="card"><div class="emoji">❤️</div><strong>HealthyHeart</strong><p>שאלון שמעריך סיכון למחלות לב.</p></div>
+  </div>
+  <div class="note"><b>מה משותף לשלושה?</b> אפשר להסביר כל אחד מהם במשפט אחד: מה הבעיה, למי, ואיך פותרים אותה.</div>
+</section>
+
+<section class="slide quiz tight" data-topic="השראה" data-title="מי בחר את הזוכים?" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">⚡ שאלת בזק</span>
+  <h2>מי בחר את הזוכים בגמר "מיזם השנה 2026"?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מערכת AI שקראה את כל המצגות.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מאות אורחים: אנשי עסקים, הייטק, ממשל ומשלחות מחו״ל.</span></button>
+    <button class="option"><span class="letter">ג</span><span>רק המורים של בני הנוער.</span></button>
+    <button class="option"><span class="letter">ד</span><span>הצבעה של הציבור ברשת.</span></button>
+  </div>
+  <div class="explain">✓ נכון! האורחים הם השופטים. גם היום: מה שהאורחים שלכם יבינו בדוכן ובבמה, זה מה שיקבע.</div>
+</section>
+
+<section class="slide tight" data-topic="השראה" data-title="אמת או המצאה?" data-accent="#4c8bd6">
+  <span class="kicker">🕵️ אמת או המצאה?</span>
+  <h2>שלושה סיפורים מעולם ההדגמות</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>ב"אחריטק" השתתפו רק תלמידים מצטיינים שעברו מיון.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. ההאקתון היה פתוח, בלי מיון. רעיון טוב לא שמור למצטיינים.</div></div>
+    <div class="tfRow" data-true="1"><span>ב-2015 הציגה מיקאילה אולמר את הלימונדה שלה בתוכנית Shark Tank, וקיבלה השקעה של 60,000 דולר.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. היא נולדה ב-2004, התחילה בדוכן לימונדה מול הבית, ותורמת 10% מהרווחים להצלת דבורים.</div></div>
+    <div class="tfRow" data-true="0"><span>המערכת הראשונה של The Ocean Cleanup אספה פלסטיק מהאוקיינוס כבר בניסיון הראשון.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. System 001 נכשלה ולא החזיקה את הפלסטיק. גרסה משופרת יצאה ב-2019. גם פיבוט אמיץ הוא חלק מהסיפור שמספרים על הבמה.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="השראה" data-title="3 דקות שזוכרים" data-accent="#4c8bd6">
+  <span class="kicker">🧠 המבנה של פיץ׳ מנצח</span>
+  <h2>3 דקות <span class="violet">שזוכרים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>פתיחה שתופסת</strong><p>שאלה, נתון או סיפור קצר. <b>0:20</b></p></div>
+    <div class="step"><strong>הבעיה והראיה</strong><p>מי סובל, מתי, ונתון או ציטוט מהראיונות. <b>0:40</b></p></div>
+    <div class="step"><strong>הדגמה חיה</strong><p>לא מספרים, מראים. <b>0:50</b></p></div>
+    <div class="step"><strong>העסק</strong><p>מחיר, מי משלם וכמה זה עולה לכם. <b>0:30</b></p></div>
+    <div class="step"><strong>הצוות והבקשה</strong><p>מה למדנו, ומה אנחנו מבקשים. <b>0:20</b></p></div>
+  </div>
+  <div class="exLine"><b>דוגמה, "קופסת הפסקה":</b> "מי מכם ישב פעם בהפסקה בלי שום דבר לעשות, כשהכדורים נעולים במחסן?" ✋ ואז ישר להדגמה של טבלת ההשאלה.</div>
+  <div class="note"><b>2:40 של תוכן + 20 שניות ביטחון</b> = מסיימים בתוך החלון של 2:45–3:15.</div>
+</section>
+
+<!-- ============ 4. התדריך ============ -->
+<section class="slide tight" data-topic="התדריך" data-title="האתגר: יום ההדגמה" data-accent="#ffd166">
+  <button class="helpBtn" data-help="challenge" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר</span>
+  <h2>יום ההדגמה</h2>
+  <p class="lead sm"><b>המטרה:</b> לשכנע אורחים, שופטים ומשקיעים שהמיזם שלכם שווה השקעה: בדוכן, על הבמה ובמעטפה.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>הדוכן מוכן לפי הצ׳קליסט עד שהדלתות נפתחות.</li>
+    <li>בתערוכה: חצי צוות בדוכן, חצי מסייר ושופט בטופס. בלי שמות בטופס.</li>
+    <li>בחדר המשוב: רק משוב אמיתי. ה-AI מסכם, הוא לא ממציא.</li>
+    <li>על הבמה: 3 דקות פיץ׳, שאלה אחת מהשופטים, וכל הצוות מדבר.</li>
+    <li>משקיעים רק אחרי כל הפיצ׳ים, ואף אחד לא משקיע בצוות שלו.</li>
+    <li>מספר מומצא שמוצג כאמיתי = 3 נקודות פחות.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="הניקוד" data-accent="#ffd166">
+  <span class="kicker">📊 הניקוד · ידוע מראש</span>
+  <h2>איך צוברים נקודות</h2>
+  <div class="tableWrap"><table class="t compact">
+    <thead><tr><th>מה</th><th>מתי</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🏪 הדוכן מוכן: כל סעיף בצ׳קליסט</td><td>הדלתות נפתחות</td><td><b>עד 6</b></td></tr>
+      <tr><td>🖼️ טופס השיפוט: הממוצע הכללי (1–5) × 2</td><td>התערוכה</td><td><b>2–10</b></td></tr>
+      <tr><td>🔬 סיכום משוב מלא והוגש בזמן</td><td>חדר המשוב</td><td><b>4</b></td></tr>
+      <tr><td>🔧 השופטים ראו את התיקון שכתבתם בכרטיס</td><td>הבמה</td><td><b>3</b></td></tr>
+      <tr><td>🎤 מחוון השופטים: 4 קריטריונים × רמה 1–4</td><td>הבמה</td><td><b>4–16</b></td></tr>
+      <tr><td>⏱️ הפיץ׳ נגמר בין 2:45 ל-3:15</td><td>הבמה</td><td><b>2</b></td></tr>
+      <tr><td>💸 כל 10,000 ₪ משחק שגויסו (עד 150,000 ₪)</td><td>ההשקעות</td><td><b>עד 15</b></td></tr>
+      <tr><td>🎟️ כל הנוכחים בצוות מסרו כרטיס יציאה</td><td>הסוף</td><td><b>2</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>מקסימום: 58.</b> שובר שוויון: ציון גבוה יותר במחוון השופטים, ואחריו יותר כסף שגויס.</div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="המחוון של הבמה" data-accent="#ffd166">
+  <span class="kicker">📏 מחוון השופטים · כל שורה נפתחת ב"הבא"</span>
+  <h2>מה השופטים <span class="yellow">מחפשים</span></h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.3vw,17.5px)">
+    <thead><tr><th style="width:15%">קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td><b>בעיה ולקוח</b></td><td>"לכולם", בלי ראיה</td><td>לקוח כללי, הבעיה מתוארת בלי ראיה</td><td>לקוח מסוים, ונתון או ציטוט אחד</td><td>נתון, ציטוט אמיתי ותיאור חי של מי סובל ומתי</td></tr>
+      <tr class="reveal"><td><b>פתרון ואב-טיפוס</b></td><td>רק מספרים עליו</td><td>תמונה או סקיצה, אי אפשר לנסות</td><td>הדגמה חיה שעובדת</td><td>אפשר לנסות, ומראים מה שופר בעקבות משוב</td></tr>
+      <tr class="reveal"><td><b>מודל עסקי</b></td><td>לא ברור מי משלם</td><td>יש מחיר, בלי הסבר</td><td>מחיר ומי משלם</td><td>מחיר, מי משלם והערכת עלות ("כל ערכה עולה לנו…")</td></tr>
+      <tr class="reveal"><td><b>פיץ׳ וצוות</b></td><td>קריאה מהדף, חריגה גדולה מהזמן</td><td>ברור, אבל ארוך, או שרק אחד מדבר</td><td>בזמן, ברור, ורוב הצוות מדבר</td><td>פתיחה שתופסת, כולם מציגים, ועונים על השאלה בביטחון</td></tr>
+    </tbody>
+  </table></div>
+  <div class="clickHint">כל שופט נותן רמה בכל שורה. הציון: סכום ארבע השורות (4–16), ממוצע של השופטים.</div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="כמה דרכים לנצח" data-accent="#ffd166">
+  <span class="kicker">🏅 כמה דרכים לנצח</span>
+  <h2>מקומות 1–3, וגם <span class="yellow">חמישה פרסים</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🔄</div><strong>הפיבוט האמיץ</strong><p>הצוות ששינה הכי הרבה בדרך בעקבות משוב, וסיפר על זה.</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>בחירת הקהל</strong><p>הכי הרבה כסף שגויס.</p></div>
+    <div class="card"><div class="emoji">❤️</div><strong>המשתמש במרכז</strong><p>הראיה הכי חזקה מלקוח אמיתי: ציטוט, ראיון או נתון.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>ה-AI האחראי</strong><p>שורת AI כנה, וטעות של AI שהצוות תפס ותיקן.</p></div>
+    <div class="card"><div class="emoji">📈</div><strong>הכי שיפר</strong><p>הקפיצה הכי גדולה מציון החזרה לציון הבמה.</p></div>
+  </div>
+  <div class="note"><b>כלל הוגנות:</b> כל צוות יכול לזכות בפרס מיוחד אחד לכל היותר. מקום 1–3 נקבע לפי סך הנקודות, ומי שזוכה במקום יכול לקבל גם פרס.</div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="הכסף" data-accent="#5bb5a2">
+  <span class="kicker">💸 כסף משחק · אין לו ערך מחוץ לכיתה</span>
+  <h2>לכל משקיע יש <span class="green">ארנק</span></h2>
+  <div class="split">
+    <div class="bills" aria-hidden="true">
+      <div class="bill"><span class="seal">🦉</span><div><small>TECH IT EASY</small><b>10,000 ₪</b><em>כסף משחק · Demo Day</em></div></div>
+      <div class="bill"><span class="seal">🚀</span><div><small>TECH IT EASY</small><b>10,000 ₪</b><em>כסף משחק · Demo Day</em></div></div>
+      <div class="bill"><span class="seal">🏆</span><div><small>TECH IT EASY</small><b>10,000 ₪</b><em>כסף משחק · Demo Day</em></div></div>
+    </div>
+    <div class="miles" style="grid-template-columns:1fr">
+      <div class="mile"><b>👤 כל תלמיד/ה</b><span>3 שטרות של 10,000 ₪</span></div>
+      <div class="mile"><b>🧑‍💼 כל אורח/ת</b><span>5 שטרות של 10,000 ₪</span></div>
+      <div class="mile"><b>✉️ איך משקיעים</b><span>שמים שטרות במעטפה שבדוכן. אפשר לפצל, ואפשר הכול על צוות אחד.</span></div>
+      <div class="mile"><b>🚫 אסור</b><span>להשקיע בצוות שלך, או לפני שכל הצוותים הציגו.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. הקמה וחזרה ============ -->
+<section class="slide tight" data-topic="הקמה וחזרה" data-title="הקמת הדוכן" data-accent="#f4a259">
+  <span class="kicker">🏗️ ספרינט 1 · הקמת הדוכן</span>
+  <h2>6 סעיפים, <span class="yellow">6 נקודות</span></h2>
+  <ul class="chk" data-chk>
+    <li><span>שלט דוכן: שם, משפט ערך עד 12 מילים, וקישור לטופס<small>שקף ביומן במסך מלא, או השלט המודפס</small></span></li>
+    <li><span>פוסטר או דף מיזם על השולחן<small>מה שהכנתם בחדר המלחמה</small></span></li>
+    <li><span>אב-טיפוס פתוח ומוכן לניסיון<small>מכשיר טעון, או דגם ביד</small></span></li>
+    <li><span>מחיר ומי משלם, כתוב על השלט<small>"₪___ לחודש, משלם: ___"</small></span></li>
+    <li><span>שורת AI על השלט<small>מה ה-AI עשה · מה אנחנו עשינו</small></span></li>
+    <li><span>מעטפת השקעות עם שם הצוות, ודפי שיפוט מנייר<small>לאורחים בלי טלפון</small></span></li>
+  </ul>
+  <div class="row2">
+    <div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light yellow">🟡 AI לטיוטות: מותר לבקש מ-Gemini לקצר את משפט הערך. אתם מחליטים.</span>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הקמה וחזרה" data-title="שלט הדוכן ב-Slides" data-accent="#f4a259">
+  <button class="helpBtn" data-help="sign" aria-label="הוראות">?</button>
+  <span class="kicker">🖥️ Google Slides · שלט הדוכן</span>
+  <h2>שלט שקוראים <span class="yellow">משלושה מטרים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>שקף חדש ביומן</strong><p>כותרת: "שלט הדוכן". רקע בהיר אחד.</p></div>
+    <div class="step"><strong>שם + משפט ערך</strong><p>שם המיזם בגדול, ומשפט ערך עד 12 מילים.</p></div>
+    <div class="step"><strong>מחיר ומי משלם</strong><p>שורה אחת, עם מספר.</p></div>
+    <div class="step"><strong>קישור לטופס</strong><p>הקישור הקצר מהמסך, ושורת AI קטנה בתחתית.</p></div>
+    <div class="step"><strong>מצגת</strong><p>על המחשב בדוכן: לחיצה על "מצגת" למסך מלא.</p></div>
+  </div>
+  <div class="note"><b>מבחן שלושה מטרים:</b> חבר/ה מצוות אחר עומד/ת בפתח הכיתה. אם הוא או היא לא מצליחים לקרוא את השם ואת משפט הערך, מגדילים.</div>
+</section>
+
+<section class="slide tight" data-topic="הקמה וחזרה" data-title="חזרה מול צוות תאום" data-accent="#f4a259">
+  <span class="kicker">🎭 ספרינט 2 · חזרה גנרלית</span>
+  <h2>פיץ׳ מקוצר מול <span class="yellow">הצוות התאום</span></h2>
+  <p class="lead sm">כל צוות מציג גרסה של 90 שניות לצוות התאום, והתאום נותן ציון במחוון ומשוב אחד. הציון הזה נרשם בלוח, ורק משמש לחישוב "הכי שיפר".</p>
+  <div class="cue">
+    <span><b>0:00–1:30</b>צוות א מציג</span>
+    <span><b>1:30–2:30</b>צוות ב: ציון 4–16 ומשוב אחד</span>
+    <span><b>2:30–4:00</b>צוות ב מציג</span>
+    <span><b>4:00–5:00</b>צוות א: ציון ומשוב</span>
+  </div>
+  <div class="row2">
+    <div class="timer" data-seconds="300"><output>05:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light red">🔴 בלי AI: רק אתם, הטיימר והצוות התאום</span>
+  </div>
+  <div class="note"><b>משוב בפורמט אחד:</b> "הכי חזק אצלכם: ___. דבר אחד לחזק לפני הבמה: ___."</div>
+</section>
+
+<section class="slide tight" data-topic="הקמה וחזרה" data-title="הדלתות נפתחות" data-accent="#e76f86">
+  <span class="kicker">🚪 נקודת ביקורת · הדלתות נפתחות</span>
+  <h2>בודקים את הצ׳קליסט: <span class="red">כל ✓ = נקודה</span></h2>
+  <div class="row2" style="margin-top:4px">
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="onStage" style="font-size:16px">דוכן לא מוכן? אין עונש: האורחים פשוט רואים את מה שיש.</span>
+  </div>
+  <div class="mxWrap" data-board data-cols="booth,twin"></div>
+</section>
+
+<!-- ============ 6. התערוכה ============ -->
+<section class="slide tight" data-topic="התערוכה" data-title="איך מסיירים" data-accent="#8c7ae6">
+  <span class="kicker">🖼️ התערוכה · איך זה עובד</span>
+  <h2>חצי בדוכן, <span class="violet">חצי מסיירים</span></h2>
+  <div class="split">
+    <div>
+      <div class="cards tightc" style="grid-template-columns:1fr 1fr;margin-top:6px">
+        <div class="card"><div class="emoji">🎤</div><strong>בדוכן</strong><p>כל מבקר חדש מקבל הדגמה של 90 שניות מההתחלה, ומנסה בעצמו.</p></div>
+        <div class="card"><div class="emoji">🚶</div><strong>מסיירים</strong><p>לפחות 2 דוכנים בכל סבב. לא את הדוכן שלכם.</p></div>
+        <div class="card"><div class="emoji">📱</div><strong>טופס</strong><p>טופס חדש לכל דוכן. בלי שמות: לא שלכם, לא של אחרים.</p></div>
+        <div class="card"><div class="emoji">🗣️</div><strong>משוב</strong><p>ספציפי · אדיב · מועיל. "אולי תוסיפו…" ולא "זה גרוע".</p></div>
+      </div>
+      <div class="linkBox">📱 הטופס: <span class="ed" contenteditable="true" spellcheck="false" data-ph="forms.gle/…"></span></div>
+    </div>
+    <div class="formMock" aria-label="איך נראה הטופס">
+      <span class="fh">שיפוט · יום ההדגמה</span>
+      <div class="fq"><span>איזה דוכן ביקרתם?</span><span class="sel">בחירה ▾</span></div>
+      <div class="fq"><span>הבעיה ברורה ואמיתית</span><span class="stars"><b>★★★★</b>★</span></div>
+      <div class="fq"><span>ראיתי את המוצר עובד</span><span class="stars"><b>★★★★★</b></span></div>
+      <div class="fq"><span>ברור מי משלם וכמה</span><span class="stars"><b>★★★</b>★★</span></div>
+      <div class="fq"><span>הייתי משתמש/ת או ממליץ/ה</span><span class="stars"><b>★★★★</b>★</span></div>
+      <span class="open">מה הכי אהבתי?</span>
+      <span class="open">מה הייתי משפר/ת?</span>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="התערוכה" data-title="סבב 1" data-accent="#8c7ae6">
+  <span class="kicker">🔄 התערוכה · סבב 1 מתוך 2</span>
+  <h2>סבב 1: <span class="violet">חצי א׳ בדוכן</span></h2>
+  <div class="cards three tightc">
+    <div class="card"><div class="emoji">🎤</div><strong>חצי א׳ של כל צוות</strong><p>נשארים בדוכן ומציגים לכל מי שמגיע.</p></div>
+    <div class="card"><div class="emoji">🚶</div><strong>חצי ב׳ + האורחים</strong><p>מסיירים, מנסים ושופטים בטופס.</p></div>
+    <div class="card"><div class="emoji">⏰</div><strong>בחצי הזמן</strong><p>צלצול: עוברים לדוכן הבא.</p></div>
+  </div>
+  <div class="row2"><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="light green">🟢 מטרה: כל מבקר ממלא לפחות 2 טפסים</span></div>
+</section>
+
+<section class="slide tight" data-topic="התערוכה" data-title="מונה הטפסים" data-accent="#8c7ae6">
+  <span class="kicker">📈 מונה הטפסים</span>
+  <h2>כמה טפסים קיבל <span class="violet">כל דוכן</span>?</h2>
+  <p class="lead sm">דוכן מסומן באדום קיבל מעט טפסים. בסבב 2 הולכים אליו קודם.</p>
+  <div class="tally" data-tally></div>
+</section>
+
+<section class="slide tight" data-topic="התערוכה" data-title="סבב 2" data-accent="#8c7ae6">
+  <span class="kicker">🔄 התערוכה · סבב 2 מתוך 2</span>
+  <h2>מתחלפים! <span class="violet">חצי ב׳ בדוכן</span></h2>
+  <div class="cards three tightc">
+    <div class="card"><div class="emoji">🎤</div><strong>חצי ב׳ מציג</strong><p>מי שסייר חוזר לדוכן. שמעתם משהו טוב אצל אחרים? תשתמשו בו.</p></div>
+    <div class="card"><div class="emoji">🚶</div><strong>חצי א׳ מסייר</strong><p>קודם לדוכנים האדומים במונה, ואחר כך לאלה שעוד לא ראיתם.</p></div>
+    <div class="card"><div class="emoji">💡</div><strong>שימו לב</strong><p>מה שואלים אתכם שוב ושוב? זו השאלה שהשופטים ישאלו.</p></div>
+  </div>
+  <div class="row2"><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="light green">🟢 מטרה: לפחות 6 טפסים לכל דוכן</span></div>
+</section>
+
+<!-- ============ 7. חדר המשוב ============ -->
+<section class="slide tight" data-topic="חדר המשוב" data-title="מה אמרו עלינו?" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="sheets" aria-label="הוראות">?</button>
+  <span class="kicker">🔬 חדר המשוב · Google Sheets</span>
+  <h2>מה אמרו <span class="cyan">עלינו</span>?</h2>
+  <div class="steps">
+    <div class="step"><strong>עותק</strong><p>פותחים את הגיליון ← קובץ ← יצירת עותק.</p></div>
+    <div class="step"><strong>רק אנחנו</strong><p>נתונים ← יצירת מסנן. בעמודת הדוכן משאירים ✓ רק ליד השם שלנו.</p></div>
+    <div class="step"><strong>4 ממוצעים</strong><p>בתא J1 הנוסחה, וגוררים ימינה עד M1.</p></div>
+    <div class="step"><strong>ממוצע כללי</strong><p>בתא N1: <span dir="ltr">=AVERAGE(J1:M1)</span></p></div>
+  </div>
+  <div class="row2">
+    <span class="codeLine">=SUBTOTAL(101, C2:C300)</span>
+    <div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light green">🟢 AI כשותף, ובודקים</span>
+  </div>
+  <div class="note"><b>עד דקה 3:</b> 4 ממוצעים וממוצע כללי. <b>עד הסוף:</b> 3 נושאים, התיקון, ומגישים.</div>
+</section>
+
+<section class="slide tight" data-topic="חדר המשוב" data-title="Gemini מוצא נושאים" data-accent="#4c8bd6">
+  <span class="kicker">🤖 Gemini · gemini.google.com</span>
+  <h2>מה חוזר <span class="cyan">שוב ושוב</span>?</h2>
+  <div class="prompt small"><span class="pLabel">פרומפט 1 · נושאים חוזרים</span><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">אלה תשובות פתוחות ממשוב שקיבל המיזם שלנו ביום ההדגמה, בלי שמות: [הדביקו את עמודות G ו-H]. מצא 3 נושאים שחוזרים. לכל נושא כתוב כמה פעמים הוא הופיע, וציטוט קצר אחד מילה במילה מתוך המשוב. אל תוסיף משוב שלא כתוב כאן ואל תשנה ציטוטים.</span></div>
+  <div class="prompt small"><span class="pLabel">פרומפט 2 · תיקון אחד</span><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">הממוצעים שלנו (1–5): הבעיה [ ], המוצר [ ], מי משלם [ ], הייתי משתמש [ ]. יש לנו זמן לתיקון אחד קטן בפיץ׳ של 3 דקות. הצע 2 תיקונים של משפט אחד, ולכל אחד: למה הוא יעזור.</span></div>
+  <div class="note lock"><b>כלל ברזל:</b> מוצאים כל ציטוט בגיליון. ציטוט שלא נמצא נמחק. לא מבקשים "עוד משובים" ולא "לשפר ציונים".</div>
+</section>
+
+<section class="slide tight" data-topic="חדר המשוב" data-title="התיקון של הרגע האחרון" data-accent="#4c8bd6">
+  <span class="kicker">🔧 התיקון של הרגע האחרון · 3 נקודות</span>
+  <h2>שמענו, <span class="cyan">ותיקנו</span></h2>
+  <div class="prompt" style="padding-left:22px">"שמענו ש<span class="ed" contenteditable="true" spellcheck="false" data-ph="___"></span> (חזר <span class="ed" contenteditable="true" spellcheck="false" data-ph="__"></span> פעמים), ולכן בפיץ׳ <span class="ed" contenteditable="true" spellcheck="false" data-ph="___"></span>."</div>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ גדול מדי</span>"נבנה את כל המצגת מחדש."<br>"נהפוך את זה לאפליקציה."</div>
+    <div class="box good"><span class="label">✓ קטן ונראה</span>"שמענו 4 פעמים שלא ברור מי מחזיר את הציוד, ולכן בהדגמה נראה את טבלת התורנות."</div>
+  </div>
+  <div class="note"><b>איך זה נספר:</b> כותבים את המשפט בכרטיס התיקון, והמציג/ה מוסר/ת אותו לשופטים לפני הפיץ׳. השופטים ראו את התיקון? 3 נקודות.</div>
+</section>
+
+<section class="slide center" data-topic="חדר המשוב" data-title="הגשה" data-accent="#4c8bd6">
+  <span class="kicker">📨 הגשה · לפני שעולים לבמה</span>
+  <h2>מגישים את <span class="cyan">סיכום המשוב</span></h2>
+  <div class="cards four tightc" style="text-align:right;max-width:1150px">
+    <div class="card"><div class="emoji">🗂️</div><strong>ביומן</strong><p>שקף "שיעור 30": 4 ממוצעים, 3 נושאים עם ציטוט, והתיקון.</p></div>
+    <div class="card"><div class="emoji">📨</div><strong>בטופס ההגשה</strong><p>צוות · שיעור 30 · קישור לשקף · הערכה עצמית · שורת AI.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>שם הקובץ</strong><p>צוות [שם] · שיעור 30 · סיכום משוב</p></div>
+    <div class="card"><div class="emoji">📄</div><strong>בנייר</strong><p>דף סיכום המשוב נכנס למעטפת הצוות.</p></div>
+  </div>
+  <div class="linkBox">📨 טופס ההגשה: <span class="ed" contenteditable="true" spellcheck="false" data-ph="forms.gle/…"></span></div>
+</section>
+
+<section class="slide center" data-topic="חדר המשוב" data-title="דקה של תנועה" data-accent="#e3a82b">
+  <span class="kicker">🕺 60 שניות</span>
+  <h2>מסדרים את הכיתה <span class="yellow">לבמה</span></h2>
+  <div class="cards three tightc" style="text-align:right;max-width:1000px">
+    <div class="card"><div class="emoji">🪑</div><strong>כיסאות בשורות</strong><p>מול הלוח. הדוכנים נשארים במקום.</p></div>
+    <div class="card"><div class="emoji">🗣️</div><strong>משפט הפתיחה</strong><p>כל צוות אומר אותו פעם אחת בלחישה.</p></div>
+    <div class="card"><div class="emoji">🙌</div><strong>נשימה עמוקה</strong><p>כתפיים למעלה, ו... משחררים.</p></div>
+  </div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ============ 8. הבמה הראשית ============ -->
+<section class="slide tight" data-topic="הבמה הראשית" data-title="חוקי הבמה" data-accent="#e76f86">
+  <span class="kicker">🎤 הבמה הראשית</span>
+  <h2>3 דקות. שאלה אחת. <span class="red">כל הצוות.</span></h2>
+  <div class="cards four tightc">
+    <div class="card"><div class="emoji">🔧</div><strong>לפני שמתחילים</strong><p>המציג/ה מוסר/ת לשופטים את כרטיס התיקון.</p></div>
+    <div class="card"><div class="emoji">⏱️</div><strong>3:00 פיץ׳</strong><p>נגמר בין 2:45 ל-3:15? עוד 2 נקודות.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>שאלה אחת</strong><p>45 שניות לתשובה. עונה מי שיודע הכי טוב.</p></div>
+    <div class="card"><div class="emoji">👏</div><strong>הקהל</strong><p>שקט בזמן הפיץ׳, מחיאות כפיים בסוף כל צוות.</p></div>
+  </div>
+  <div class="row2"><button class="btn" type="button" data-draw>🎲 הגרלת סדר העלייה</button><span class="onStage" style="font-size:16px">הסדר נקבע בהגרלה, מול כולם.</span></div>
+  <div class="order" data-order></div>
+</section>
+
+<section class="slide tight" data-topic="הבמה הראשית" data-title="על הבמה" data-accent="#e76f86">
+  <span class="kicker">🔴 על הבמה עכשיו</span>
+  <div class="stageGrid">
+    <div class="pclock" data-pclock>
+      <svg viewBox="0 0 300 300" aria-hidden="true"><circle class="trk" cx="150" cy="150" r="130"/><g class="ticks"></g><circle class="arc" cx="150" cy="150" r="130"/></svg>
+      <div class="mid"><output>03:00</output><span class="ph">מוכנים?</span></div>
+    </div>
+    <div>
+      <div class="onStage">עכשיו על הבמה<b data-cur>—</b></div>
+      <div class="clockBtns">
+        <button class="btn" type="button" data-pc="go">▶ התחלה</button>
+        <button class="ghost" type="button" data-pc="stop">⏹ סיום ורישום זמן</button>
+        <button class="ghost" type="button" data-pc="reset">↺</button>
+        <button class="ghost" type="button" data-pc="next">הצוות הבא ←</button>
+      </div>
+      <div class="stamp" data-stamp>חלון הזמן: 2:45–3:15 = 2 נקודות</div>
+      <div class="row2"><span class="onStage" style="font-size:16px">❓ שאלת השופטים:</span><div class="timer" data-seconds="45"><output>00:45</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+      <div class="nextUp">הבא בתור: <b data-next>—</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הבמה הראשית" data-title="השופטים מכריעים" data-accent="#e76f86">
+  <span class="kicker">⚖️ השופטים מכריעים</span>
+  <h2>ציוני הבמה <span class="red">על הלוח</span></h2>
+  <p class="lead sm">במה = סכום ארבע השורות במחוון, ממוצע של השופטים. תערוכה = הממוצע הכללי מהטופס.</p>
+  <div class="mxWrap" data-board data-cols="expo,lab,fix,stage,time"></div>
+</section>
+
+<!-- ============ 9. ההשקעות ============ -->
+<section class="slide center" data-topic="ההשקעות" data-title="סבב ההשקעות" data-accent="#5bb5a2">
+  <span class="kicker">💸 סבב ההשקעות</span>
+  <h2>המשקיעים <span class="green">קמים</span></h2>
+  <p class="lead">כל אחד הולך לדוכנים ושם שטרות במעטפות. לא בצוות שלכם. אחרי הצלצול, כל צוות סופר את המעטפה של הצוות שמשמאלו, ומדווח בקול.</p>
+  <div class="cards three tightc" style="text-align:right;max-width:1000px">
+    <div class="card"><div class="emoji">🤔</div><strong>שאלו את עצמכם</strong><p>על איזה מיזם הייתי שם כסף אמיתי? למה?</p></div>
+    <div class="card"><div class="emoji">✂️</div><strong>אפשר לפצל</strong><p>שטר פה, שניים שם, או הכול על אחד.</p></div>
+    <div class="card"><div class="emoji">🤫</div><strong>בשקט</strong><p>בלי לשכנע ובלי לבקש. ההחלטה של המשקיע.</p></div>
+  </div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ההשקעות" data-title="מד ההשקעות" data-accent="#5bb5a2">
+  <span class="kicker">📈 מד ההשקעות · כל שטר = 10,000 ₪ = נקודה</span>
+  <h2>כמה גייס <span class="green">כל מיזם</span>?</h2>
+  <div class="inv" data-inv></div>
+  <div class="invTotal" data-invtotal></div>
+</section>
+
+<!-- ============ 10. הטקס ============ -->
+<section class="slide tight" data-topic="הטקס" data-title="לוח הניקוד המלא" data-accent="#ffd166">
+  <span class="kicker">📊 לוח הניקוד המלא</span>
+  <h2>הכול <span class="yellow">שקוף</span></h2>
+  <div class="mxWrap" data-board data-cols="booth,expo,lab,fix,stage,time,money,exit"></div>
+</section>
+
+<section class="slide center" data-topic="הטקס" data-title="החשיפה" data-accent="#ffd166">
+  <span class="kicker">🥁 והמקומות הם…</span>
+  <h2>סטארט-אפ <span class="yellow">המחזור</span></h2>
+  <div class="podium" data-podium>
+    <div class="pod p2"><div class="who"><span class="q">?</span></div><div class="blk">2</div></div>
+    <div class="pod p1"><div class="who"><span class="q">?</span></div><div class="blk">1</div></div>
+    <div class="pod p3"><div class="who"><span class="q">?</span></div><div class="blk">3</div></div>
+  </div>
+  <div class="revealBar"><button class="btn" type="button" data-podbtn>🥁 חשיפת מקום 3</button><button class="ghost" type="button" data-podreset>↺</button></div>
+  <div class="alsoRan" data-also></div>
+</section>
+
+<section class="slide tight" data-topic="הטקס" data-title="הפרסים המיוחדים" data-accent="#ffd166">
+  <span class="kicker">🏅 הפרסים המיוחדים</span>
+  <h2>והפרס הולך <span class="yellow">ל…</span></h2>
+  <div class="awards" data-awards>
+    <div class="award"><span class="em">🔄</span><strong>הפיבוט האמיץ</strong><p>שינה הכי הרבה בעקבות משוב</p><div class="win" contenteditable="true" spellcheck="false" data-aw="pivot" data-ph="?"></div></div>
+    <div class="award"><span class="em">📣</span><strong>בחירת הקהל</strong><p>הכי הרבה כסף שגויס</p><span class="auto">מהלוח</span><div class="win" contenteditable="true" spellcheck="false" data-aw="crowd" data-ph="?"></div></div>
+    <div class="award"><span class="em">❤️</span><strong>המשתמש במרכז</strong><p>הראיה הכי חזקה מלקוח</p><div class="win" contenteditable="true" spellcheck="false" data-aw="user" data-ph="?"></div></div>
+    <div class="award"><span class="em">🤖</span><strong>ה-AI האחראי</strong><p>שקיפות וטעות AI שנתפסה</p><div class="win" contenteditable="true" spellcheck="false" data-aw="ai" data-ph="?"></div></div>
+    <div class="award"><span class="em">📈</span><strong>הכי שיפר</strong><p>מהחזרה לבמה</p><span class="auto">מהלוח</span><div class="win" contenteditable="true" spellcheck="false" data-aw="improve" data-ph="?"></div></div>
+  </div>
+  <div class="row2"><button class="ghost" type="button" data-autofill>✨ מילוי מהלוח: בחירת הקהל + הכי שיפר</button><span class="onStage" style="font-size:16px">כל צוות זוכה בפרס מיוחד אחד לכל היותר.</span></div>
+</section>
+
+<section class="slide tight" data-topic="הטקס" data-title="היכל התהילה" data-accent="#ffd166">
+  <span class="kicker">🏛️ היכל התהילה · מחזור 2026</span>
+  <h2>משפט אחד <span class="yellow">לדורות הבאים</span></h2>
+  <p class="lead sm">כל צוות כותב: שם המיזם, ומשפט אחד שהייתם אומרים לצוות שמתחיל את הקורס בשנה הבאה.</p>
+  <div class="hall" data-hall></div>
+</section>
+
+<section class="slide center" data-topic="הטקס" data-title="יזמים צעירים" data-accent="#ffd166">
+  <span class="kicker">📜 התעודות</span>
+  <h2>צוות אחרי צוות, <span class="yellow">לבמה</span></h2>
+  <div class="cert"><div>
+    <span class="ck">TECH IT EASY · DEMO DAY 2026</span>
+    <b>יזם/ית צעיר/ה</b>
+    <p>השלים/ה מסע של 30 שיעורים: מבעיה אמיתית, דרך אב-טיפוס, ועד פיץ׳ מול שופטים ומשקיעים.</p>
+    <div class="nmL"></div>
+    <p>צוות · מיזם · תאריך</p>
+    <div class="seal">🏅</div>
+  </div></div>
+</section>
+
+<!-- ============ 11. סיום ============ -->
+<section class="slide tight" data-topic="סיום" data-title="רפלקציה אישית" data-accent="#0f766e">
+  <span class="kicker">✍️ רפלקציה אישית · על נייר</span>
+  <h2>שלוש שאלות, <span class="cyan">רק לך</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🧠</div><strong>מה למדתי?</strong><p>על יזמות, על AI ועל עצמי. דבר אחד שלא ידעתי בשיעור 1.</p></div>
+    <div class="card"><div class="emoji">🤝</div><strong>מה תרמתי?</strong><p>רגע אחד שבו בלעדיי הצוות היה נתקע.</p></div>
+    <div class="card"><div class="emoji">🚀</div><strong>מה אעשה עם הרעיון?</strong><p>צעד אחד, קטן, בחודש הקרוב. או: למה החלטתי לעצור.</p></div>
+  </div>
+  <div class="row2">
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light red">🔴 בלי AI: כותבים לבד, במילים שלכם</span>
+  </div>
+  <div class="note"><b>החלק העליון נשאר אצלכם.</b> את הרצועה התחתונה (כרטיס היציאה) תולשים ומוסרים ביציאה.</div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#0f766e">
+  <span class="kicker">🎟️ כרטיס יציאה · 2 נקודות לצוות</span>
+  <h2>רצועה אחת, <span class="cyan">דקה אחת</span></h2>
+  <div class="cards four tightc" style="text-align:right;max-width:1150px">
+    <div class="card"><div class="emoji">📏</div><strong>כמה הקורס שינה אותי?</strong><p>סולם 0–5.</p></div>
+    <div class="card"><div class="emoji">💬</div><strong>במילה אחת</strong><p>יום ההדגמה היה…</p></div>
+    <div class="card"><div class="emoji">🧩</div><strong>היום תרמתי</strong><p>דוכן · ניתוח · במה · AI · עזרה לאחרים</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>שאלה שנשארה</strong><p>על יזמות או על AI.</p></div>
+  </div>
+  <div class="linkBox">📱 או בטופס: <span class="ed" contenteditable="true" spellcheck="false" data-ph="forms.gle/…"></span></div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="המסע שעשינו" data-accent="#0f766e">
+  <span class="kicker">🧭 30 שיעורים</span>
+  <h2>מבעיה <span class="cyan">ועד במה</span></h2>
+  <div class="cards four" style="text-align:right;max-width:1150px">
+    <div class="card reveal"><div class="emoji">🔍</div><strong>בעיה</strong><p>יצאנו לחפש בעיה אמיתית ודיברנו עם מי שסובל ממנה. שיעורים 1–9</p></div>
+    <div class="card reveal"><div class="emoji">💎</div><strong>ערך ועסק</strong><p>משפט ערך, מתחרים, שם, מחיר ותקציב. שיעורים 10–15</p></div>
+    <div class="card reveal"><div class="emoji">🛠️</div><strong>מוצר</strong><p>אב-טיפוס, MVP, מותג, אתר וקמפיין. שיעורים 16–21</p></div>
+    <div class="card reveal"><div class="emoji">🎤</div><strong>במה</strong><p>פיץ׳, משוב, חזרה גנרלית, והיום. שיעורים 22–30</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף כל תחנה</div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="סוף המחזור" data-accent="#e3a82b" data-credits>
+  <span class="kicker">🎬 סוף המחזור</span>
+  <h2>יזמים לא מסיימים. <span class="yellow">הם עושים את הצעד הבא.</span></h2>
+  <div class="creditsBox"><div class="credits" data-roll></div></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-challenge"><h3>יום ההדגמה: איך זה עובד</h3><ol>
+<li><b>הקמה וחזרה:</b> 7 דקות להקים דוכן לפי הצ׳קליסט, ואז 5 דקות של פיץ׳ מקוצר מול הצוות התאום.</li>
+<li><b>הדלתות נפתחות:</b> בודקים את הצ׳קליסט. כל סעיף = נקודה.</li>
+<li><b>התערוכה:</b> שני סבבים של 6 דקות. בכל סבב חצי צוות בדוכן וחצי מסייר. כל מבקר ממלא טופס לכל דוכן שביקר בו.</li>
+<li><b>חדר המשוב:</b> 7 דקות. ממוצעים ב-Sheets, 3 נושאים ב-Gemini, תיקון אחד לפיץ׳, והגשה.</li>
+<li><b>הבמה:</b> 3 דקות פיץ׳ ושאלה אחת, לפי הסדר שהוגרל.</li>
+<li><b>ההשקעות:</b> אחרי כל הפיצ׳ים. כל צוות סופר את המעטפה של הצוות שמשמאלו.</li>
+<li><b>הטקס:</b> מקומות 1–3, חמישה פרסים מיוחדים, היכל התהילה ותעודות.</li>
+</ol></template>
+<template id="help-sign"><h3>שלט הדוכן ב-Google Slides</h3><ol>
+<li>פותחים את יומן הסטארט-אפ ← שקף חדש בסוף.</li>
+<li>תיבת טקסט אחת לשם המיזם (גופן 60 ומעלה), ואחת למשפט הערך (עד 12 מילים).</li>
+<li>שורת מחיר: "₪___ ל___ · משלם: ___".</li>
+<li>הקישור הקצר לטופס השיפוט (מהמסך), בגדול.</li>
+<li>בתחתית, קטן: "🤖 מה ה-AI עשה: ___ · מה אנחנו עשינו: ___".</li>
+<li>על המחשב בדוכן: "מצגת" ← מסך מלא. אין מחשב פנוי? ממלאים את השלט המודפס.</li>
+</ol></template>
+<template id="help-sheets"><h3>חדר המשוב: צעד אחר צעד</h3><ol>
+<li>פותחים את הקישור לגיליון התשובות ← <b>קובץ ← יצירת עותק</b>. עובדים רק בעותק.</li>
+<li>לוחצים על תא B1 ← <b>נתונים ← יצירת מסנן</b>. בחץ של עמודה B: "ניקוי", ומסמנים ✓ רק את הדוכן שלכם.</li>
+<li>בתא J1 מקלידים <span dir="ltr">=SUBTOTAL(101, C2:C300)</span> וגוררים את הפינה של התא ימינה עד M1. אלה 4 הממוצעים (C–F).</li>
+<li>בתא N1: <span dir="ltr">=AVERAGE(J1:M1)</span>. זה הממוצע הכללי. כפול 2 = הנקודות שלכם מהתערוכה.</li>
+<li>מסמנים את התשובות הפתוחות בעמודות G ו-H (בלי חותמת זמן) ← העתקה ← מדביקים בפרומפט 1.</li>
+<li>אין לכם חשבון או שהעותק לא נפתח? <b>נתונים ← תצוגות מסוננות ← תצוגה מסוננת חדשה</b> בגיליון המקורי, וממשיכים על הדף.</li>
+<li>דפי שיפוט מנייר? מוסיפים אותם ידנית לממוצע ולנושאים.</li>
+</ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== lesson additions · Demo Day: shared scoreboard state + live components (runs after the engine) =====
+   Everything is saved in this browser only (localStorage), per deck. The board is a classroom display. */
+(()=>{
+const KEY='tie-demoday:'+location.pathname;
+const N0=6;
+const blank=n=>({name:'צוות '+n,booth:0,expo:0,lab:0,fix:0,stage:0,time:0,money:0,exit:0,twin:0,forms:0,v:'',l:''});
+const DEF=()=>({teams:Array.from({length:N0},(_,i)=>blank(i+1)),order:[],cur:0,awards:{},eds:{}});
+let st;try{st=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!st||!Array.isArray(st.teams)||!st.teams.length)st=DEF();
+st.teams=st.teams.map((t,i)=>Object.assign(blank(i+1),t));st.awards=st.awards||{};st.eds=st.eds||{};
+if(!Array.isArray(st.order))st.order=[];
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const num=v=>{const n=Number(v);return isFinite(n)?n:0};
+const fmtMoney=b=>(b*10000).toLocaleString('he-IL')+' ₪';
+
+/* ---------- columns & scoring (same table as the scoring slide) ---------- */
+const COLS={
+ booth:{h:'🏪 דוכן',s:'0–6',min:0,max:6,step:1,pts:v=>Math.round(v)},
+ expo:{h:'🖼️ תערוכה',s:'ממוצע 1–5',min:0,max:5,step:.1,pts:v=>Math.round(v*2),note:v=>v?'= '+Math.round(v*2)+' נק׳':''},
+ lab:{h:'🔬 משוב',s:'0–4',min:0,max:4,step:1,pts:v=>Math.round(v)},
+ fix:{h:'🔧 תיקון',s:'0 / 3',min:0,max:3,step:3,pts:v=>Math.round(v)},
+ stage:{h:'🎤 במה',s:'4–16',min:0,max:16,step:.5,pts:v=>Math.round(v)},
+ time:{h:'⏱️ זמן',s:'0 / 2',min:0,max:2,step:2,pts:v=>Math.round(v)},
+ money:{h:'💸 שטרות',s:'עד 15 נק׳',min:0,max:99,step:1,pts:v=>Math.min(15,Math.round(v)),note:v=>v?fmtMoney(v):''},
+ exit:{h:'🎟️ יציאה',s:'0 / 2',min:0,max:2,step:2,pts:v=>Math.round(v)},
+ twin:{h:'🎭 חזרה',s:'4–16 · לא נספר',min:0,max:16,step:.5,pts:()=>0,twin:1}
+};
+const COUNTED=['booth','expo','lab','fix','stage','time','money','exit'];
+const total=t=>COUNTED.reduce((a,k)=>a+COLS[k].pts(num(t[k])),0);
+function ranking(){
+ const arr=st.teams.map((t,i)=>({i,t,tot:total(t),stg:num(t.stage),m:num(t.money)}));
+ arr.sort((a,b)=>b.tot-a.tot||b.stg-a.stg||b.m-a.m);
+ const rk={};arr.forEach((r,k)=>{const p=arr[k-1];rk[r.i]=(p&&p.tot===r.tot&&p.stg===r.stg&&p.m===r.m)?rk[p.i]:k+1});
+ return {arr,rk};
+}
+
+/* ---------- boards ---------- */
+const boards=[...document.querySelectorAll('[data-board]')];
+function buildBoard(bd){
+ const cols=(bd.dataset.cols||COUNTED.join(',')).split(',').filter(k=>COLS[k]);
+ bd.innerHTML='';
+ const tb=document.createElement('table');tb.className='mx';
+ tb.innerHTML='<thead><tr><th>#</th><th style="text-align:right">צוות</th>'+cols.map(k=>'<th>'+COLS[k].h+'<small>'+COLS[k].s+'</small></th>').join('')+'<th class="tot">סה״כ<small>מתוך 58</small></th></tr></thead><tbody></tbody>';
+ const body=tb.querySelector('tbody');
+ st.teams.forEach((t,i)=>{
+  const tr=document.createElement('tr');tr.dataset.i=i;
+  tr.innerHTML='<td class="rk"></td><td class="tn"><span class="nm" contenteditable="true" spellcheck="false"></span><div class="bar"><i></i></div></td>'+
+   cols.map(k=>'<td class="'+(COLS[k].twin?'twin':'')+'"><input type="number" inputmode="decimal" data-k="'+k+'" min="'+COLS[k].min+'" max="'+COLS[k].max+'" step="'+COLS[k].step+'"><span class="sub" data-note="'+k+'"></span></td>').join('')+
+   '<td class="tot"></td>';
+  const nm=tr.querySelector('.nm');nm.textContent=t.name;
+  nm.addEventListener('input',()=>{t.name=nm.textContent.trim()||('צוות '+(i+1));save()});
+  nm.addEventListener('blur',()=>renderAll());
+  nm.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nm.blur()}});
+  tr.querySelectorAll('input').forEach(inp=>{const k=inp.dataset.k;
+   inp.addEventListener('input',()=>{let v=inp.value===''?0:num(inp.value);v=Math.max(COLS[k].min,Math.min(COLS[k].max,v));t[k]=v;save();refreshAll()});
+   inp.addEventListener('change',()=>refreshAll());
+   inp.addEventListener('focus',()=>inp.select())});
+  body.appendChild(tr)});
+ bd.appendChild(tb);
+ const tools=document.createElement('div');tools.className='mxTools';
+ tools.innerHTML='<button type="button" class="ghost" data-a="add">＋ צוות</button><button type="button" class="ghost" data-a="del">− צוות</button><button type="button" class="ghost" data-a="reset">↺ איפוס הלוח</button><small>לחיצה על שם צוות = שינוי שם · נשמר בדפדפן הזה</small>';
+ tools.querySelector('[data-a=add]').onclick=()=>{if(st.teams.length<10){st.teams.push(blank(st.teams.length+1));st.order=[];st.cur=0;save();renderAll()}};
+ tools.querySelector('[data-a=del]').onclick=()=>{if(st.teams.length>2&&confirm('להסיר את הצוות האחרון מהלוח?')){st.teams.pop();st.order=[];st.cur=0;save();renderAll()}};
+ tools.querySelector('[data-a=reset]').onclick=()=>{if(confirm('לאפס את כל הנקודות, השמות, הסדר והפרסים?')){st=DEF();save();renderAll()}};
+ bd.appendChild(tools);bd._n=st.teams.length;
+}
+function refreshBoard(bd){
+ if(bd._n!==st.teams.length)return buildBoard(bd),refreshBoard(bd);
+ const {rk}=ranking();const tots=st.teams.map(total);const max=Math.max(1,...tots);const top=Math.max(...tots);
+ bd.querySelectorAll('tbody tr').forEach(tr=>{const i=Number(tr.dataset.i),t=st.teams[i];
+  tr.querySelector('.rk').textContent=rk[i];tr.querySelector('td.tot').textContent=tots[i];
+  tr.classList.toggle('top',top>0&&tots[i]===top);
+  tr.querySelector('.bar i').style.width=(tots[i]/max*100)+'%';
+  const nm=tr.querySelector('.nm');if(document.activeElement!==nm)nm.textContent=t.name;
+  tr.querySelectorAll('input').forEach(inp=>{const k=inp.dataset.k;if(document.activeElement!==inp)inp.value=num(t[k])?num(t[k]):''});
+  tr.querySelectorAll('[data-note]').forEach(n=>{const k=n.dataset.note;n.textContent=COLS[k].note?COLS[k].note(num(t[k])):''})});
+}
+
+/* ---------- forms tally ---------- */
+const tallies=[...document.querySelectorAll('[data-tally]')];
+function renderTally(el){
+ el.innerHTML='';const n=st.teams.map(t=>num(t.forms));const max=Math.max(1,...n);const hi=Math.max(...n);
+ st.teams.forEach((t,i)=>{const r=document.createElement('div');r.className='tRow'+(hi>0&&n[i]<Math.max(2,hi*.5)?' low':'');
+  r.innerHTML='<span class="nm"></span><span class="meter"><i></i></span><output>'+n[i]+'</output><span style="display:flex;gap:6px"><button class="sBtn" type="button" data-d="-1">−</button><button class="sBtn" type="button" data-d="1">+</button></span>';
+  r.querySelector('.nm').textContent=t.name;r.querySelector('.meter i').style.width=(n[i]/max*100)+'%';
+  r.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{t.forms=Math.max(0,num(t.forms)+Number(b.dataset.d));save();renderTally(el)});
+  el.appendChild(r)})}
+
+/* ---------- investment meter ---------- */
+const invs=[...document.querySelectorAll('[data-inv]')],invTot=document.querySelector('[data-invtotal]');
+function renderInv(el){
+ el.innerHTML='';const n=st.teams.map(t=>num(t.money));const scale=Math.max(18,...n);const hi=Math.max(...n);
+ st.teams.forEach((t,i)=>{const r=document.createElement('div');r.className='iRow'+(hi>0&&n[i]===hi?' top':'');
+  r.innerHTML='<span class="nm"></span><span class="meter"><i></i><span class="cap" title="תקרת הנקודות: 15 שטרות"></span></span><span class="amt">'+fmtMoney(n[i])+'<small>'+Math.min(15,n[i])+' נק׳'+(n[i]>15?' (תקרה)':'')+'</small></span><span style="display:flex;gap:6px"><button class="sBtn" type="button" data-d="-1">−</button><button class="sBtn" type="button" data-d="1">+</button><button class="sBtn" type="button" data-d="5" style="width:auto;padding:0 10px;font-size:16px">+5</button></span>';
+  r.querySelector('.nm').textContent=(hi>0&&n[i]===hi?'📣 ':'')+t.name;
+  r.querySelector('.meter i').style.width=(n[i]/scale*100)+'%';r.querySelector('.cap').style.insetInlineStart=(15/scale*100)+'%';
+  r.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{t.money=Math.max(0,num(t.money)+Number(b.dataset.d));save();renderAll()});
+  el.appendChild(r)});
+ if(invTot)invTot.innerHTML='סך הכול גויס בכיתה: <b>'+fmtMoney(n.reduce((a,b)=>a+b,0))+'</b>';
+}
+
+/* ---------- stage order + pitch clock ---------- */
+const ordEls=[...document.querySelectorAll('[data-order]')];
+function order(){const n=st.teams.length;if(st.order.length!==n||st.order.some(x=>x>=n))st.order=[...Array(n).keys()];return st.order}
+function renderOrder(){const o=order();ordEls.forEach(el=>{el.innerHTML='';o.forEach((ti,k)=>{const c=document.createElement('span');c.className='chip'+(k===st.cur?' cur':'')+(k<st.cur?' done':'');c.innerHTML='<i>'+(k+1)+'</i>';c.appendChild(document.createTextNode(st.teams[ti].name));el.appendChild(c)})});
+ const cur=document.querySelector('[data-cur]'),nx=document.querySelector('[data-next]');
+ if(cur)cur.textContent=st.teams[o[st.cur]]?st.teams[o[st.cur]].name:'—';
+ if(nx)nx.textContent=st.cur+1<o.length?st.teams[o[st.cur+1]].name:'זה הצוות האחרון 🎉';}
+document.querySelectorAll('[data-draw]').forEach(b=>b.onclick=()=>{const n=st.teams.length;let k=0;ordEls.forEach(e=>e.classList.add('shuffling'));b.disabled=true;
+ const shuf=()=>{const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+ const iv=setInterval(()=>{st.order=shuf();st.cur=0;renderOrder();if(++k>12){clearInterval(iv);ordEls.forEach(e=>e.classList.remove('shuffling'));b.disabled=false;save();resetClock()}},95)});
+
+const pc=document.querySelector('[data-pclock]');let pcLeft=180,pcIv=null;const PT=180,C=2*Math.PI*130;
+const stamp=document.querySelector('[data-stamp]');
+const PHASES=[[20,'פתיחה שתופסת'],[60,'הבעיה והראיה'],[110,'הדגמה חיה'],[140,'העסק'],[160,'הצוות והבקשה'],[165,'מסכמים…']];
+if(pc){const g=pc.querySelector('.ticks');PHASES.slice(0,5).forEach(([s])=>{const a=2*Math.PI*s/PT;const x1=150+118*Math.cos(a),y1=150+118*Math.sin(a),x2=150+142*Math.cos(a),y2=150+142*Math.sin(a);
+ const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('class','tick');l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);g.appendChild(l)});
+ pc.querySelector('.arc').style.strokeDasharray=C}
+function drawClock(){if(!pc)return;const el=PT-pcLeft;const o=pc.querySelector('output'),ph=pc.querySelector('.ph');
+ const a=Math.abs(pcLeft);o.textContent=(pcLeft<0?'+':'')+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0');
+ pc.querySelector('.arc').style.strokeDashoffset=C*Math.min(1,Math.max(0,el/PT));
+ pc.classList.toggle('warn',pcLeft<=30&&pcLeft>-15);pc.classList.toggle('over',pcLeft<=-15);
+ let lbl=pcIv||el>0?'':'מוכנים?';if(!lbl){const p=PHASES.find(([s])=>el<s);lbl=p?p[1]:(el<=195?'בחלון ✓ סיימו!':'זמן!')}ph.textContent=lbl}
+function resetClock(){clearInterval(pcIv);pcIv=null;pcLeft=PT;drawClock();const g=document.querySelector('[data-pc=go]');if(g)g.textContent='▶ התחלה';if(stamp){stamp.className='stamp';stamp.textContent='חלון הזמן: 2:45–3:15 = 2 נקודות'}}
+document.querySelectorAll('[data-pc]').forEach(b=>b.onclick=()=>{const a=b.dataset.pc;
+ if(a==='go'){if(pcIv){clearInterval(pcIv);pcIv=null;b.textContent='▶ המשך'}else{pcIv=setInterval(()=>{pcLeft--;drawClock()},1000);b.textContent='⏸ עצירה'}drawClock()}
+ if(a==='reset')resetClock();
+ if(a==='stop'){const el=PT-pcLeft;clearInterval(pcIv);pcIv=null;const g=document.querySelector('[data-pc=go]');if(g)g.textContent='▶ המשך';if(el<=0)return;
+  const ok=el>=165&&el<=195;const t=st.teams[order()[st.cur]];if(t){t.time=ok?2:0;save();refreshAll()}
+  stamp.className='stamp '+(ok?'ok':'no');stamp.textContent=String(Math.floor(el/60))+':'+String(el%60).padStart(2,'0')+(ok?' · בחלון ✓ +2 נקודות':' · מחוץ לחלון הזמן');drawClock()}
+ if(a==='next'){if(st.cur<order().length-1){st.cur++;save()}resetClock();renderOrder()}});
+
+/* ---------- podium reveal + confetti ---------- */
+const pod=document.querySelector('[data-podium]'),podBtn=document.querySelector('[data-podbtn]'),also=document.querySelector('[data-also]');let podStep=0;
+const podSlots={3:pod&&pod.querySelector('.p3'),2:pod&&pod.querySelector('.p2'),1:pod&&pod.querySelector('.p1')};
+function podReset(){podStep=0;[1,2,3].forEach(p=>{const s=podSlots[p];if(!s)return;s.classList.remove('rolling','landed');s.querySelector('.who').innerHTML='<span class="q">?</span>'});if(podBtn){podBtn.disabled=false;podBtn.textContent='🥁 חשיפת מקום 3'}if(also)also.innerHTML=''}
+if(podBtn)podBtn.onclick=()=>{const {arr}=ranking();const place=3-podStep;if(place<1)return;const r=arr[place-1];const s=podSlots[place];if(!s)return;
+ if(!r){s.querySelector('.who').innerHTML='<span class="q">—</span>';podStep++;return}
+ podBtn.disabled=true;s.classList.add('rolling');const who=s.querySelector('.who');who.innerHTML='<b></b><span></span>';let k=0;
+ const iv=setInterval(()=>{who.querySelector('b').textContent=st.teams[Math.floor(Math.random()*st.teams.length)].name;if(++k>16){clearInterval(iv);s.classList.remove('rolling');s.classList.add('landed');
+  who.querySelector('b').textContent=r.t.name;who.querySelector('span').textContent=r.tot+' נקודות';podStep++;
+  if(place===1){confetti();podBtn.textContent='🎉 כל הכבוד!';if(also){const rest=arr.slice(3).map(x=>x.t.name);also.innerHTML=rest.length?'וכל הכבוד גם ל: <b>'+rest.join(' · ')+'</b>':''}}
+  else{podBtn.disabled=false;podBtn.textContent='🥁 חשיפת מקום '+(place-1)}}},85)};
+const pr=document.querySelector('[data-podreset]');if(pr)pr.onclick=podReset;
+function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=document.createElement('canvas');c.id='confetti';document.body.appendChild(c);
+ const x=c.getContext('2d');const W=c.width=innerWidth,H=c.height=innerHeight;const col=['#0f766e','#f4a259','#8c7ae6','#e76f86','#4c8bd6','#5bb5a2','#e3a82b'];
+ const P=Array.from({length:170},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*15-4,s:6+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.35,c:col[Math.floor(Math.random()*col.length)]}));
+ const t0=performance.now();(function f(t){x.clearRect(0,0,W,H);P.forEach(p=>{p.vy+=.42;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);x.restore()});
+  if(t-t0<3600)requestAnimationFrame(f);else c.remove()})(t0)}
+
+/* ---------- awards ---------- */
+document.querySelectorAll('[data-aw]').forEach(w=>{const k=w.dataset.aw;w.textContent=st.awards[k]||'';w.addEventListener('input',()=>{st.awards[k]=w.textContent.trim();save()});w.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();w.blur()}})});
+document.querySelectorAll('[data-autofill]').forEach(b=>b.onclick=()=>{
+ const byMoney=[...st.teams].sort((a,c)=>num(c.money)-num(a.money))[0];
+ const imp=st.teams.filter(t=>num(t.stage)>0&&num(t.twin)>0).sort((a,c)=>(num(c.stage)-num(c.twin))-(num(a.stage)-num(a.twin)))[0];
+ if(byMoney&&num(byMoney.money)>0)st.awards.crowd=byMoney.name;
+ if(imp)st.awards.improve=imp.name+' · שיפור של '+(num(imp.stage)-num(imp.twin));
+ save();document.querySelectorAll('[data-aw]').forEach(w=>w.textContent=st.awards[w.dataset.aw]||'')});
+
+/* ---------- hall of fame ---------- */
+const halls=[...document.querySelectorAll('[data-hall]')];
+function renderHall(el){el.innerHTML='';st.teams.forEach(t=>{const p=document.createElement('div');p.className='plaque';
+ p.innerHTML='<span class="yr">2026</span><div class="tn"></div><span class="vn ed" contenteditable="true" spellcheck="false" data-ph="שם המיזם"></span><span class="ln ed" contenteditable="true" spellcheck="false" data-ph="המשפט שלנו לצוות של שנה הבאה…"></span>';
+ p.querySelector('.tn').textContent='🏅 '+t.name;const v=p.querySelector('.vn'),l=p.querySelector('.ln');v.textContent=t.v||'';l.textContent=t.l||'';
+ v.addEventListener('input',()=>{t.v=v.textContent.trim();save()});l.addEventListener('input',()=>{t.l=l.textContent.trim();save()});
+ el.appendChild(p)})}
+
+/* ---------- credits roll (restarts every time the last slide opens) ---------- */
+const cs=document.querySelector('[data-credits]'),roll=document.querySelector('[data-roll]');
+function buildCredits(){if(!roll)return;const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ let h='<h4>בהשתתפות</h4>'+st.teams.map(t=>'<p>'+esc(t.name)+(t.v?'<small>'+esc(t.v)+'</small>':'')+'</p>').join('');
+ h+='<h4>שופטים, אורחים ומשקיעים</h4><p>תודה שבאתם</p><h4>ציוד במה</h4><p>Google Forms · Sheets · Slides<small>וגם Gemini, שעזר ונבדק</small></p><h4>הפקה</h4><p>Tech It Easy</p><h4>ובתפקיד הראשי</h4><p>אתם. היזמים. 🚀</p>';
+ roll.innerHTML=h;roll.classList.remove('run');void roll.offsetWidth;roll.classList.add('run')}
+if(cs){let was=false;new MutationObserver(()=>{const on=cs.classList.contains('active');if(on&&!was)buildCredits();was=on}).observe(cs,{attributes:true,attributeFilter:['class']});if(cs.classList.contains('active')){was=true;buildCredits()}}
+
+/* ---------- small things: checklist, copy buttons, editable fields ---------- */
+document.querySelectorAll('[data-chk] li').forEach(li=>li.addEventListener('click',()=>li.classList.toggle('on')));
+document.querySelectorAll('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+document.querySelectorAll('#deck .ed').forEach((e,i)=>{const k='e'+i;if(st.eds[k])e.textContent=st.eds[k];e.addEventListener('input',()=>{st.eds[k]=e.textContent.trim();save()});e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();e.blur()}})});
+
+function refreshAll(){boards.forEach(refreshBoard)}
+function renderAll(){boards.forEach(b=>{if(b._n!==st.teams.length)buildBoard(b)});refreshAll();tallies.forEach(renderTally);invs.forEach(renderInv);halls.forEach(renderHall);renderOrder()}
+boards.forEach(buildBoard);renderAll();resetClock();
+})();
+</script>
+</body>
+</html>

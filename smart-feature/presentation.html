@@ -1,0 +1,1338 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>מכונה שלומדת לראות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== מכונה שלומדת לראות · lesson-specific additions (kit engine styles above are untouched) · light theme ===== */
+.topline{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.light{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font:700 16px var(--display);border:1px solid}
+.light.r{background:#fdebe3;border-color:#f2cdbb;color:#9a3412}.light.y{background:#fdf3d7;border-color:#f0dcaa;color:#854d0e}.light.g{background:#e7f6ec;border-color:#bfe3cb;color:#166534}
+.punch{margin-top:18px;max-width:1150px;border-radius:18px;padding:14px 22px;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft);font:700 clamp(19px,2vw,27px) var(--display);color:var(--ink);line-height:1.4}
+.punch b{color:var(--accent-ink)}
+.note{margin-top:12px;color:var(--muted);font-size:18px;max-width:1100px;line-height:1.5}
+.note b{color:var(--ink)}
+.dayStrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;align-items:center}
+.dayStrip span{padding:7px 13px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-weight:700;font-size:16px;color:var(--ink)}
+.dayStrip i{font-style:normal;color:var(--dim)}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}.cards.five .card{padding:16px}.cards.five .card p{font-size:16.5px}.cards.five .card strong{font-size:20px}
+.card .ex{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:16px;color:var(--ink);line-height:1.45}
+.card .ex b{color:var(--accent-ink)}
+/* sprint layout: work on the right, timer + milestones on the left */
+.sprint{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start;max-width:1220px;margin-top:4px}
+.sprint .task{margin-top:12px}
+.side{display:grid;gap:10px;margin-top:12px}
+.side .timer{width:100%;justify-content:center;margin-top:0;flex-wrap:wrap}
+.side .timer output{font-size:clamp(40px,4.4vw,62px)}
+.mile{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px 14px;font-size:16.5px;line-height:1.4;box-shadow:var(--shadow-sm)}
+.mile b{color:var(--accent-ink)}
+.url{display:inline-block;align-self:flex-start;width:max-content;max-width:100%;margin-top:6px;padding:8px 18px;border-radius:14px;background:#fff;border:2px solid var(--accent-line);font:800 clamp(22px,2.5vw,34px) var(--display);direction:ltr;unicode-bidi:isolate;color:var(--accent-ink)}
+.ltr{direction:ltr;unicode-bidi:isolate}
+/* creatures (planet Blip) */
+.crRow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.crSet{margin-top:12px;max-width:1220px;display:grid;gap:12px}
+.crSet h4{margin:0 0 6px;font:800 21px var(--display)}
+.crSet .yes h4{color:var(--good)}.crSet .no h4{color:var(--bad)}
+.crSet .yes,.crSet .no{border-radius:20px;padding:10px 14px 12px;border:1px solid var(--line)}
+.crSet .yes{background:linear-gradient(180deg,#f3fbf6,#fff);border-color:#bfe3cb}.crSet .no{background:linear-gradient(180deg,#fff8f4,#fff);border-color:#f2cdbb}
+.crc{position:relative;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-sm);padding:6px;display:grid;place-items:center}
+.crc svg{width:100%;max-width:130px;height:auto;display:block}
+.crc .num{position:absolute;top:6px;right:9px;font:800 18px var(--display);color:var(--muted)}
+.testRow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.testRow .crc{padding:10px 6px 8px}
+.testRow .crc svg{max-width:150px}
+.verdict{margin-top:6px;width:100%;text-align:center;border-radius:12px;padding:5px 4px;font:800 19px var(--display)}
+.verdict.y{background:var(--good-bg);color:var(--good)}.verdict.n{background:var(--bad-bg);color:var(--bad)}
+.verdict.reveal{transform:scale(.9)}
+/* pixel vision */
+.pix{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;margin-top:10px;max-width:1220px}
+.pixBox{position:relative;width:clamp(260px,26vw,380px);aspect-ratio:1;border-radius:20px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.pixBox canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.pixNums{position:absolute;inset:0;display:grid;pointer-events:none;font:700 11px var(--display);color:#1f2a37}
+.pixNums span{display:grid;place-items:center;border:1px solid rgba(31,42,55,.08);background:rgba(255,255,255,.72)}
+.pixCtl{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pixInfo{font:800 22px var(--display);color:var(--accent-ink);margin-top:10px}
+/* confidence bars (Teachable Machine preview look) */
+.conf{display:grid;gap:10px;margin-top:18px;max-width:760px}
+.conf div{display:grid;grid-template-columns:170px minmax(0,1fr);align-items:center;gap:12px;font:700 20px var(--display)}
+.conf i{display:block;height:34px;border-radius:10px;background:var(--paper2);position:relative;overflow:hidden;font-style:normal}
+.conf i b{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--c,var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-inline-end:10px;color:#fff;font:800 17px var(--display);direction:ltr}
+.conf i b.lo{color:var(--ink);justify-content:flex-start;padding-inline-start:calc(var(--w) + 8px);background:transparent}
+.conf i b.lo::before{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--c,var(--accent));border-radius:10px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;max-width:1220px}
+/* accuracy meter */
+.acc{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:16px;max-width:1220px}
+.accDots{display:flex;gap:8px;flex-wrap:wrap;direction:ltr}
+.accDots button{width:48px;height:48px;border-radius:14px;border:1px solid var(--line);background:#fff;font:800 22px var(--display);color:var(--dim);box-shadow:var(--shadow-sm);transition:.15s}
+.accDots button.ok{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.accDots button.bad{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+.accOut{font:800 clamp(24px,2.6vw,36px) var(--display);color:var(--ink)}
+.accOut b{color:var(--accent-ink)}
+/* timeline */
+.years{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.yr{border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:18px;background:#fff;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.yr b{display:block;font:800 30px var(--display);color:var(--accent-ink);line-height:1.1}
+.yr p{margin:6px 0 0;font-size:18px;line-height:1.45;color:var(--ink)}
+/* prompt + copy */
+.prompt.copy{position:relative;padding-left:130px}
+.prompt.copy::before{content:none}
+.prompt .ptag{display:block;font:700 15px var(--display);color:var(--accent-ink);margin-bottom:2px}
+.prompt.small{font-size:clamp(16px,1.55vw,20px);line-height:1.55}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.fill{background:var(--hl);border-radius:6px;padding:0 4px}
+/* visitor-card draw */
+.draw{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start;max-width:1220px}
+.vcard{border-radius:22px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);overflow:hidden;min-height:250px;display:flex;flex-direction:column}
+.vcard .vh{padding:8px 16px;font:700 16px var(--display);color:var(--accent-ink);background:var(--accent-soft);border-bottom:1px solid var(--accent-line)}
+.vcard .vb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:16px}
+.vcard .ve{font-size:66px;line-height:1}
+.vcard .vt{font:800 28px var(--display);color:var(--ink)}
+.vcard .vd{font-size:17px;color:var(--muted);line-height:1.4}
+.vcard.spin .vb{animation:wob .12s linear infinite}
+@keyframes wob{0%{transform:translateY(-5px);filter:blur(1px)}100%{transform:translateY(5px);filter:blur(1px)}}
+.drawBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* tables */
+table.pts td{padding:4px 16px;font-size:clamp(16px,1.45vw,19px)}table.pts th{padding:8px 16px}
+table.pts td:last-child{font-weight:800;font-family:var(--display);color:var(--accent-ink);white-space:nowrap}
+table.proto td,table.proto th{padding:3px 14px;font-size:clamp(15px,1.35vw,18px)}
+table.proto td:first-child{font:800 18px var(--display);color:var(--accent-ink);text-align:center;width:44px}
+table.rubT th,table.rubT td{padding:8px 12px;font-size:clamp(14px,1.25vw,17px);line-height:1.4;vertical-align:top}
+table.rubT td:first-child{font-family:var(--display);font-weight:700;background:var(--paper2);white-space:nowrap}
+table.rubT tr.reveal{transition:opacity .35s ease}
+.slide .tableWrap{flex-shrink:0}
+/* live scoreboard */
+table.board th{text-align:center;font-size:14px;line-height:1.2;padding:8px 5px}
+table.board th small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--dim)}
+table.board th:first-child{text-align:right}
+table.board td{padding:6px 7px}
+table.board td.name{font-weight:700;min-width:140px;background:#fffef9}
+table.board td.n{text-align:center;cursor:pointer;font:800 21px var(--display);font-variant-numeric:tabular-nums;user-select:none;color:var(--ink);transition:background .15s}
+table.board td.n:hover{background:var(--good-bg)}
+table.board td.n.z{color:#c9c3b8}
+.minus table.board td.n:hover{background:var(--bad-bg)}
+table.board td.tot{text-align:center;font:800 25px var(--display);background:var(--teal-soft);color:var(--teal-deep);font-variant-numeric:tabular-nums}
+table.board tr.top td.tot::after{content:" 🏆";font-size:19px}
+table.board tr.top td.name{background:#fff6dc}
+.boardBar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.boardBar .hint{color:var(--muted);font-size:15px}
+.boardBar .modeBtn.on{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+.compact table.board td{padding:3px 7px}.compact table.board td.n{font-size:18px}.compact table.board td.tot{font-size:20px}.compact table.board th{padding:5px 5px}
+.compact .boardBar{margin-top:6px}.compact .boardBar .ghost{padding:5px 11px}
+/* battle rotation */
+.rot{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:14px;max-width:1220px}
+.rot div{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px 14px;box-shadow:var(--shadow-sm);font:700 19px var(--display)}
+.rot .arr{color:var(--accent-ink);font-size:22px}
+.rot .vs{color:var(--muted);font-weight:600;font-size:15px}
+/* awards */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.awards div{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px 16px;box-shadow:var(--shadow-sm);font-size:16.5px;line-height:1.4;color:var(--muted)}
+.awards .em{font-size:38px;line-height:1}
+.awards b{display:block;font:800 21px var(--display);color:var(--ink);margin:6px 0 2px}
+.awards [contenteditable]{display:block;margin-top:8px;min-height:1.6em;border-bottom:2px dashed var(--line);font:800 20px var(--display);color:var(--accent-ink);outline:none}
+.champ{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-radius:20px;padding:14px 22px;border:1px solid #f0dcaa;background:linear-gradient(180deg,#fffaf0,#fffdf8);max-width:1220px}
+.champ .em{font-size:44px}
+.champ b{font:800 26px var(--display)}
+.champ [contenteditable]{min-width:260px;border-bottom:2px dashed #e3c77a;font:800 28px var(--display);color:#8a5300;outline:none}
+/* link box (filled once on the projector, remembered by this browser) */
+.linkRow{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:14px}
+.linkRow .lbl{font:700 18px var(--display);color:var(--muted)}
+.linkBox{display:inline-block;min-width:380px;max-width:100%;padding:9px 16px;border:2px dashed var(--accent-line);border-radius:14px;background:#fff;font:800 clamp(20px,2.2vw,30px) var(--display);direction:ltr;unicode-bidi:isolate;color:var(--accent-ink);outline:none}
+.linkBox:empty::before{content:attr(data-ph);color:var(--dim);font:600 17px var(--body);direction:rtl;unicode-bidi:isolate}
+.linkBox:focus{border-style:solid;border-color:var(--accent)}
+.fname{display:inline-block;margin-top:8px;padding:6px 14px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font:700 18px var(--display);color:var(--ink)}
+/* numbered heads picker */
+.picker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:12px;margin-top:14px;padding:8px 10px 8px 16px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-sm)}
+.picker output{min-width:56px;text-align:center;font:800 40px var(--display);color:var(--accent-ink)}
+.picker span{color:var(--muted);font-size:16px;max-width:360px;line-height:1.35}
+/* steps that are tool buttons */
+.steps.tool{grid-template-columns:repeat(3,minmax(0,1fr))}
+.crSet.train .crc svg{max-width:104px}
+.steps.tool .step strong{direction:ltr;unicode-bidi:plaintext}
+.steps.tool .step p{font-size:16.5px}
+.kbd{display:inline-block;direction:ltr;unicode-bidi:isolate;padding:1px 8px;border-radius:8px;border:1px solid var(--line);background:#fff;font:700 .92em var(--display);color:var(--ink);box-shadow:0 1px 0 #e1dcd3}
+.dict{width:100%;border-collapse:collapse;font-size:17px}.dict td{padding:5px 8px;border-bottom:1px solid var(--line2)}.dict td:first-child{direction:ltr;text-align:left;font-weight:700;white-space:nowrap}
+.slide.tight h2{font-size:clamp(32px,4.1vw,58px);margin:10px 0 8px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,22px)}
+@media (max-height:800px){
+ .crc svg{max-width:96px}.testRow .crc svg{max-width:112px}.verdict{font-size:16px;padding:3px}
+ .crSet{gap:8px;margin-top:8px}.crSet .yes,.crSet .no{padding:6px 10px 8px}.crSet h4{font-size:18px;margin-bottom:4px}
+ .side .timer output{font-size:44px}.mile{padding:8px 12px;font-size:15.5px}
+ .years{gap:9px;margin-top:10px}.yr{padding:9px 13px}.yr b{font-size:24px}.yr p{font-size:16px}
+ .punch{margin-top:12px;padding:11px 18px}
+ table.pts td{padding:4px 14px;font-size:16px}table.pts th{padding:5px 14px}
+ table.proto td,table.proto th{padding:3px 12px;font-size:15px}
+ table.rubT th,table.rubT td{padding:5px 10px;font-size:14px}
+ table.board td{padding:4px 7px}table.board td.n{font-size:19px}table.board td.tot{font-size:21px}
+ .conf div{font-size:18px}.conf i{height:28px}
+ .pixBox{width:clamp(220px,22vw,300px)}
+ .vcard{min-height:200px}.vcard .ve{font-size:52px}.vcard .vt{font-size:24px}
+ .awards div{padding:10px 12px}.awards .em{font-size:30px}
+}
+@media (max-width:1100px){.cards.four,.cards.five,.cards.three{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.sprint,.draw,.split,.pix{grid-template-columns:1fr}.years,.awards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.crRow,.testRow{grid-template-columns:repeat(3,minmax(0,1fr))}.years,.awards{grid-template-columns:1fr}.prompt.copy{padding-left:22px;padding-top:56px}.linkBox{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">ML</div><div><b>מכונה שלומדת לראות</b><small>תערוכת המכונות המשוגעות · Teachable Machine</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- Every slide: data-topic (rail group) + data-title (rail item). All text here is shown to students. -->
+
+<!-- 1 -->
+<section class="slide hero" data-topic="פתיחה" data-title="המוזיאון פותח אולם">
+  <span class="kicker">🔮 Tech It Easy · יצירה עם AI</span>
+  <h2>מכונה ש<span class="cyan">לומדת לראות</span></h2>
+  <p class="lead">המוזיאון למדע פותח אולם חדש: <b>מכונות שלומדות</b>. הוא מחפש מוצגים שמבקרים יכולים לשחק בהם. היום כל צוות הוא מעבדה: מלמדים מחשב לזהות חפצים או צלילים, בונים ממנו מכונה משחקית, ובסוף כל הכיתה תנסה <b>להטעות אותה</b>.</p>
+  <div class="tags"><span>👽 משחק חייזרים</span><span>📸 מאמנים מכונה</span><span>🎯 מודדים דיוק</span><span>⚔️ קרב הטעיה</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-topic="פתיחה" data-title="מה המחשב רואה?" data-accent="#4c8bd6">
+  <span class="kicker">👀 חידת פתיחה</span>
+  <h2>מה המחשב רואה כאן?</h2>
+  <div class="pix" data-items="🍌,🎸,🦒,⚽,🍕,🚲">
+    <div><div class="pixBox"><canvas width="480" height="480" aria-label="תמונה מפוקסלת"></canvas><div class="pixNums"></div></div>
+      <div class="pixCtl"><button class="btn" data-p="more">🔍 חדות +</button><button class="ghost" data-p="less">חדות −</button><button class="ghost" data-p="nums">🔢 מספרים</button><button class="ghost" data-p="next">🎲 תמונה אחרת</button></div></div>
+    <div>
+      <p class="lead">נחשו מה בתמונה. בכל לחיצה על <b>חדות +</b> יש יותר נקודות (פיקסלים).</p>
+      <div class="pixInfo"></div>
+      <div class="revealList">
+        <div class="revealCard reveal">🔢 המחשב לא רואה "בננה". הוא רואה <b>טבלה של מספרים</b>: כמה אור וצבע יש בכל נקודה.</div>
+        <div class="revealCard reveal">🧠 מכונה שלומדת מגלה בעצמה אילו דפוסים של מספרים חוזרים בכל הבננות. ככה היא "לומדת לראות".</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-topic="פתיחה" data-title="אמת או המצאה?">
+  <span class="kicker">🕵️ אמת או המצאה?</span>
+  <h2>מה נכון על מכונות שלומדות?</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>כדי ללמד מחשב לזהות חפץ חדש צריך מיליון תמונות שלו.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. בכלי שנעבוד איתו היום מספיקות כמה עשרות תמונות, כי המודל כבר התאמן קודם על המון תמונות אחרות. אנחנו רק מלמדים אותו את החפצים שלנו.</div></div>
+    <div class="tfRow" data-true="1"><span>אפשר ללמד מכונה לזהות צליל של מחיאת כפיים, דפיקה או שריקה.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. מכונה לומדת גם מדוגמאות של צלילים, בדיוק כמו מתמונות. היום יש מסלול צלילים.</div></div>
+    <div class="tfRow" data-true="0"><span>אם מכונה צדקה 10 פעמים ברצף, היא תמיד תצדק.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. היא צדקה רק במצבים שבדקנו. באור אחר, ברקע אחר או בזווית אחרת היא עלולה לטעות. היום נמצא את המצבים האלה.</div></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל צוות יהיו</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🧠</div><strong>מכונה מאומנת</strong><p>3 מחלקות לפחות, שלמדה מדוגמאות שאתם צילמתם או הקלטתם.</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>ציון דיוק</strong><p>מבחן רשמי של 10 ניסיונות, פעם באמצע ופעם בסוף.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>תווית מוצג</strong><p>מה המכונה עושה, על מה אימנו אותה ומתי היא טועה. וקישור.</p></div>
+    <div class="card"><div class="emoji">⚔️</div><strong>שרדנו את הקרב</strong><p>צוותים אחרים ינסו להטעות את המכונה שלכם. ואתם את שלהם.</p></div>
+  </div>
+  <div class="dayStrip"><span>👽 חימום</span><i>←</i><span>🧠 איך מכונה לומדת</span><i>←</i><span>🛠️ ספרינט 1</span><i>←</i><span>🧪 ביקורת</span><i>←</i><span>🛠️ ספרינט 2</span><i>←</i><span>⚔️ קרב ההטעיה</span><i>←</i><span>🏆 טקס</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-topic="צוותים" data-title="התפקיד שלך היום">
+  <span class="kicker">👥 צוותים ותפקידים</span>
+  <h2>התפקיד שלך <span class="cyan">במעבדה</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנהל/ת המעבדה</strong><p>בוחר/ת עם הצוות את המכונה, שומר/ת על הזמן ומנהל/ת את הצוות בקרב.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>בוחן/ת</strong><p>מכין/ה את המבחן הרשמי, מריץ/ה אותו וסופר/ת כמה פעמים המכונה צדקה.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>מאמן/ת</strong><p>מפעיל/ה את Teachable Machine: מצלם/ת או מקליט/ה דוגמאות ומאמן/ת.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>אוצר/ת</strong><p>כותב/ת את תווית המוצג, מגיש/ה בטופס ומגן/ה על המכונה בקרב.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>מהנדס/ת דאטה</strong><p>דואג/ת לגיוון ולאיזון בדוגמאות, וממלא/ת את שורת ה-AI.</p></div>
+  </div>
+  <p class="note">צוות של 4: המאמן/ת הוא גם מהנדס/ת הדאטה. מחלקים כרטיסים, כל אחד מקריא את המשימה שלו בקול.</p>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 6 -->
+<section class="slide tight" data-topic="צוותים" data-title="לוח הניקוד">
+  <span class="kicker">🏆 לוח הניקוד של היום</span>
+  <h2>כל נקודה <span class="cyan">נספרת כאן</span></h2>
+  <p class="lead">לחצו על שם הצוות כדי לכתוב את השם שלכם. החוקים המלאים: בשקף האתגר.</p>
+  <div data-board class="compact"></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-topic="חימום: כוכב בליפ" data-title="אתם המכונה" data-accent="#8c7ae6">
+  <div class="topline"><span class="kicker">👽 משחק חימום</span><span class="light r">🔴 בלי מחשבים</span></div>
+  <h2>כוכב בְּלִיפּ: <span class="violet">אתם המכונה</span></h2>
+  <p class="lead">חוקרים גילו כוכב עם יצורים מוזרים. חלקם <b>בְּלִיפִּים</b> וחלקם לא. אף אחד לא יגיד לכם מה זה בליפ. תקבלו רק דוגמאות, בדיוק כמו מכונה.</p>
+  <div class="steps">
+    <div class="step"><strong>מסתכלים</strong><p>12 דוגמאות עם תשובה. דקה אחת, בלי לדבר.</p></div>
+    <div class="step"><strong>מקבלים מבחן</strong><p>6 יצורים חדשים, בלי תשובה.</p></div>
+    <div class="step"><strong>מחליטים</strong><p>כל צוות כותב על דף 1–6: ✓ בליפ או ✗ לא.</p></div>
+    <div class="step"><strong>בודקים</strong><p>כמה צדקתם מתוך 6?</p></div>
+  </div>
+  <p class="note">בסבב הזה אין נקודות, רק תגליות. הנקודות מגיעות בסבב 2.</p>
+</section>
+
+<!-- 8 -->
+<section class="slide tight" data-topic="חימום: כוכב בליפ" data-title="דוגמאות האימון" data-accent="#8c7ae6">
+  <span class="kicker">📚 דוגמאות האימון · דקה אחת, בשקט</span>
+  <h2>מה הופך יצור ל<span class="violet">בליפ</span>?</h2>
+  <div class="crSet train">
+    <div class="yes"><h4>✓ בליפים</h4><div class="crRow">
+      <div class="crc" data-k="g102sr"></div><div class="crc" data-k="g211oq"></div><div class="crc" data-k="g113sq"></div><div class="crc" data-k="g202or"></div><div class="crc" data-k="g101sq"></div><div class="crc" data-k="g212sr"></div>
+    </div></div>
+    <div class="no"><h4>✗ לא בליפים</h4><div class="crRow">
+      <div class="crc" data-k="p002sr"></div><div class="crc" data-k="o011oq"></div><div class="crc" data-k="p013sq"></div><div class="crc" data-k="o002sr"></div><div class="crc" data-k="p001or"></div><div class="crc" data-k="o012sq"></div>
+    </div></div>
+  </div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 9 -->
+<section class="slide tight" data-topic="חימום: כוכב בליפ" data-title="המבחן" data-accent="#8c7ae6">
+  <span class="kicker">🧪 המבחן · יצורים שלא ראיתם</span>
+  <h2>מי מהם בליפ?</h2>
+  <p class="lead">כל צוות כותב על דף את המספרים 1–6, וליד כל מספר ✓ או ✗. כשכולם סיימו, חושפים אחד אחד.</p>
+  <div class="testRow">
+    <div class="crc" data-k="p102sr"><span class="num">1</span><div class="verdict y reveal">✓ בליפ</div></div>
+    <div class="crc" data-k="g002sr"><span class="num">2</span><div class="verdict n reveal">✗ לא</div></div>
+    <div class="crc" data-k="g203sq"><span class="num">3</span><div class="verdict y reveal">✓ בליפ</div></div>
+    <div class="crc" data-k="o012or"><span class="num">4</span><div class="verdict n reveal">✗ לא</div></div>
+    <div class="crc" data-k="o211sq"><span class="num">5</span><div class="verdict y reveal">✓ בליפ</div></div>
+    <div class="crc" data-k="g013oq"><span class="num">6</span><div class="verdict n reveal">✗ לא</div></div>
+  </div>
+  <p class="note">מי צדק ב-6 מתוך 6? מי רק ב-2? הרימו ידיים.</p>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-topic="חימום: כוכב בליפ" data-title="מה למדתם?" data-accent="#8c7ae6">
+  <span class="kicker">🤯 רגע... מה למדתם בעצם?</span>
+  <h2>שני כללים. <span class="violet">רק אחד נכון.</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🟢 מי שלמד <b>"בליפ = ירוק"</b> צדק בכל 12 דוגמאות האימון.</div>
+    <div class="revealCard reveal">📡 מי שלמד <b>"בליפ = יש אנטנה"</b> גם צדק בכל 12 דוגמאות האימון.</div>
+    <div class="revealCard reveal">🔑 הכלל האמיתי: <b>אנטנה</b>. אבל בדוגמאות, במקרה, כל הבליפים היו ירוקים. אז אי אפשר היה לדעת.</div>
+  </div>
+  <div class="punch reveal">⚖️ זו <b>הטיה</b>: דפוס מקרי בדוגמאות, שהמכונה לומדת כאילו הוא הכלל. מה היה עוזר? <b>דוגמאות מגוונות</b>, למשל בליפ סגול עם אנטנה.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-topic="חימום: כוכב בליפ" data-title="סבב 2: אתם המאמנים" data-accent="#8c7ae6">
+  <div class="topline"><span class="kicker">👽 סבב 2 · בצוותים · על נקודות</span><span class="light r">🔴 בלי מחשבים</span></div>
+  <h2>עכשיו <span class="violet">אתם המאמנים</span></h2>
+  <div class="sprint">
+    <div class="task"><strong>חפיסת היצורים על השולחן</strong><ol>
+      <li>2–3 <b>מאמנים</b> שולפים כרטיס כלל סודי, ולא מראים ל"מכונה".</li>
+      <li>בוחרים 8 כרטיסי אימון: 4 ✓ ו-4 ✗, ומניחים בשתי שורות.</li>
+      <li>ה<b>מכונה</b> (1–2 מהצוות) מסתכלת דקה, בלי שאלות.</li>
+      <li>המאמנים מראים 6 כרטיסים חדשים, והמכונה עונה על כל אחד ✓ או ✗.</li>
+      <li>סופרים תשובות נכונות, וחושפים את הכלל.</li></ol></div>
+    <div class="side">
+      <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">🎯 <b>כל תשובה נכונה = נקודה</b> לצוות, עד 6.</div>
+      <div class="mile">💡 <b>טיפ למאמנים:</b> בחרו דוגמאות שבהן רק הכלל משותף, וכל השאר שונה.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-topic="חימום: כוכב בליפ" data-title="3 תגליות" data-accent="#8c7ae6">
+  <span class="kicker">💡 תחקיר</span>
+  <h2>3 דברים שגיליתם <span class="violet">בלי מחשב</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">📚 <b>מכונה לא מקבלת חוקים.</b> היא מקבלת דוגמאות עם תשובות, ומוצאת לבד מה משותף להן.</div>
+    <div class="revealCard reveal">🧪 <b>בודקים על דוגמאות חדשות</b>, שהמכונה לא ראתה באימון. אחרת זה שינון, לא למידה.</div>
+    <div class="revealCard reveal">🌈 <b>דוגמאות מגוונות = פחות טעויות.</b> מי שבחר דוגמאות שונות זו מזו בסבב 2, הצליח יותר. נכון?</div>
+  </div>
+  <p class="clickHint">מי קיבל 6 מתוך 6 בסבב 2? איך בחרתם את הדוגמאות?</p>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-topic="איך מכונה לומדת" data-title="חוקים מול דוגמאות">
+  <span class="kicker">🧠 איך מכונה לומדת</span>
+  <h2>תכנות רגיל <span class="cyan">מול</span> למידת מכונה</h2>
+  <div class="compare">
+    <div class="box bad"><div class="label">📜 תכנות רגיל</div>המתכנת כותב חוקים: "אם יש אנטנה, זה בליפ". צריך לדעת מראש את כל החוקים, ולכתוב כל אחד מהם.</div>
+    <div class="box good"><div class="label">🧠 למידת מכונה</div>נותנים הרבה דוגמאות עם תשובות. המחשב מוצא לבד את הדפוס ובונה <b>מודל</b>: "מוח" קטן שמנחש מה יש בדוגמה חדשה.</div>
+  </div>
+  <div class="punch reveal">🐱 נסו לכתוב חוקים שמזהים חתול בכל תמונה: אוזניים? גם לשועל יש. כמעט בלתי אפשרי. עם הרבה דוגמאות של חתולים? <b>אפשר.</b></div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-topic="איך מכונה לומדת" data-title="שלושה שלבים">
+  <span class="kicker">🔁 ככה מאמנים</span>
+  <h2>שלושה שלבים, <span class="cyan">ושוב מההתחלה</span></h2>
+  <div class="steps">
+    <div class="step"><strong>📸 אוספים דוגמאות</strong><p>הרבה תמונות או הקלטות של כל "מחלקה": קבוצה של דבר אחד שהמכונה צריכה לזהות.</p></div>
+    <div class="step"><strong>🧠 מאמנים</strong><p>המחשב מחפש מה מבדיל בין המחלקות. בכלי שלנו זה לוקח פחות מדקה.</p></div>
+    <div class="step"><strong>🧪 בודקים</strong><p>מראים לו משהו חדש, ובודקים אם צדק ובכמה אחוזים.</p></div>
+  </div>
+  <div class="punch">🔁 הבדיקה נכשלה? לא מתייאשים: חוזרים לשלב 1, <b>מוסיפים דוגמאות של המצב שנכשל</b>, ומאמנים שוב. ככה משפרים מכונה.</div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-topic="איך מכונה לומדת" data-title="מנחשת באחוזים">
+  <span class="kicker">📊 מה המכונה עונה</span>
+  <h2>היא לא יודעת. <span class="cyan">היא מנחשת.</span></h2>
+  <div class="split">
+    <div>
+      <div class="conf">
+        <div><span>✂️ מספריים</span><i><b style="--w:86%">86%</b></i></div>
+        <div><span>✏️ עיפרון</span><i><b class="lo" style="--w:10%;--c:var(--orange)">10%</b></i></div>
+        <div><span>⬜ רקע</span><i><b class="lo" style="--w:4%;--c:var(--sky)">4%</b></i></div>
+      </div>
+      <p class="note">ככה נראית בדיקה ב-Teachable Machine: אחוז ביטחון לכל מחלקה, ויחד הם 100%.</p>
+    </div>
+    <div class="revealList" style="margin-top:6px">
+      <div class="revealCard reveal">🎯 המכונה <b>תמיד</b> בוחרת אחת מהמחלקות שלימדנו. גם כשאין כלום מול המצלמה!</div>
+      <div class="revealCard reveal">⬜ לכן מוסיפים מחלקת <b>רקע</b>: "כלום" זו גם תשובה. בצלילים קוראים לה Background Noise.</div>
+      <div class="revealCard reveal">🤔 מתחת ל-80%? המכונה לא בטוחה. מוצג טוב אומר "לא בטוח", ולא מתנהג כאילו הוא צודק.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-topic="איך מכונה לומדת" data-title="אימון מול מבחן">
+  <span class="kicker">📝 אימון ומבחן</span>
+  <h2>שיעורי בית <span class="cyan">הם לא המבחן</span></h2>
+  <div class="compare">
+    <div class="box"><div class="label">📖 דוגמאות האימון</div>כמו שיעורי בית עם פתרונות: מהן המכונה לומדת. אם בודקים אותה עליהן, היא תצליח כמעט תמיד. זה לא אומר כלום.</div>
+    <div class="box good"><div class="label">📝 דוגמאות המבחן</div>כמו מבחן אמיתי: חפצים ומצבים <b>חדשים</b>. רק ככה יודעים אם המכונה באמת למדה.</div>
+  </div>
+  <div class="acc"><div class="accDots"></div><div class="accOut"></div></div>
+  <p class="note"><b>דיוק</b> = כמה פעמים המכונה צדקה ÷ כמה ניסיונות. 8 מתוך 10 = 80%.</p>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-topic="איך מכונה לומדת" data-title="5 כללי דאטה">
+  <span class="kicker">🧹 איכות הדאטה</span>
+  <h2>5 כללים <span class="cyan">לדוגמאות טובות</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🌈</div><strong>גיוון</strong><p>זוויות, מרחקים, תאורות ורקעים שונים.</p></div>
+    <div class="card"><div class="emoji">⚖️</div><strong>איזון</strong><p>מספר דוגמאות דומה בכל מחלקה. אחרת המכונה "נוטה" לגדולה.</p></div>
+    <div class="card"><div class="emoji">⬜</div><strong>מחלקת רקע</strong><p>"כלום" זו גם תשובה שהמכונה צריכה ללמוד.</p></div>
+    <div class="card"><div class="emoji">🆕</div><strong>מבחן חדש</strong><p>בודקים על פריטים ומצבים שלא היו באימון.</p></div>
+    <div class="card"><div class="emoji">🧽</div><strong>ניקיון</strong><p>בלי דוגמאות לא קשורות: יד שנכנסה, חפץ אחר, פנים.</p></div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-topic="מקרה בוחן" data-title="Mobileye" data-accent="#4c8bd6">
+  <span class="kicker">🚗 מקרה בוחן · ישראל</span>
+  <h2>Mobileye: מצלמה זולה + <span class="cyan">מחשב שמזהה</span></h2>
+  <div class="years">
+    <div class="yr reveal"><b>1999</b><p>פרופ׳ אמנון שעשוע מהאוניברסיטה העברית מקים את החברה. הרעיון: להוסיף "אינטליגנציה" למצלמות זולות.</p></div>
+    <div class="yr reveal"><b>2008</b><p>יוצא השבב EyeQ1. הוא כולל בלימת חירום אוטומטית: הרכב "רואה" סכנה ובולם.</p></div>
+    <div class="yr reveal"><b>2014</b><p>בסוף השנה הטכנולוגיה כבר נמצאת ב-160 דגמים של 18 יצרניות רכב.</p></div>
+    <div class="yr reveal"><b>2020</b><p>בירושלים מודגם רכב אוטונומי שנוסע עם מצלמות בלבד.</p></div>
+  </div>
+  <div class="punch reveal">📷 המחקר באוניברסיטה התחיל ממערכת שמזהה רכבים בעזרת מצלמה ותוכנה. בדיוק מה שתעשו היום, רק בקטן: <b>מצלמה + דוגמאות + בדיקות</b>.</div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-topic="מקרה בוחן" data-title="מה המצלמה צריכה לראות?" data-accent="#4c8bd6">
+  <span class="kicker">🤔 חשבו בצוות · 30 שניות</span>
+  <h2>מתי מצלמה ברכב <span class="cyan">תתבלבל?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🌙 לילה, מנהרות, ושמש נמוכה שמסנוורת</div>
+    <div class="revealCard reveal">🌧️ גשם, ערפל, וטיפות על העדשה</div>
+    <div class="revealCard reveal">🛴 אופניים, קורקינט, עגלת תינוק, ודברים שלא היו בדוגמאות</div>
+    <div class="revealCard reveal">🐕 כלב שקופץ לכביש, או שלט שמוסתר מאחורי עץ</div>
+  </div>
+  <div class="punch reveal">כל מצב שלא היה באימון הוא מצב שבו המכונה עלולה לטעות. לכן מכונה רצינית <b>נבדקת שוב ושוב</b>, במצבים הכי קשים שאפשר לחשוב עליהם.</div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-topic="מקרה בוחן" data-title="הטיה" data-accent="#e76f86">
+  <span class="kicker">⚖️ הטיה</span>
+  <h2>המכונה יודעת רק <span class="red">מה שהראו לה</span></h2>
+  <div class="compare">
+    <div class="box"><div class="label">📸 האימון</div>מכונת מחזור אומנה רק על בקבוקים <b>שקופים</b>. היא מזהה אותם מצוין.</div>
+    <div class="box bad"><div class="label">🧪 העולם האמיתי</div>מגיע בקבוק <b>ירוק</b>. המכונה: "זה לא בקבוק!" הבקבוק לא אשם. הדוגמאות לא ייצגו את כל הבקבוקים.</div>
+  </div>
+  <div class="punch reveal">⚖️ <b>הטיה</b> היא כשהדוגמאות לא מייצגות את כל העולם, ולכן המכונה טועה יותר במקרים מסוימים. כמו הבליפים הירוקים.</div>
+  <p class="note reveal">🌍 גם במוצרים אמיתיים: מחקרים מצאו שמערכות לזיהוי פנים טעו יותר אצל חלק מהאנשים, כי התמונות שעליהן אומנו לא ייצגו את כולם. לכן היום אנחנו עובדים רק עם חפצים.</p>
+</section>
+
+<!-- 21 -->
+<section class="slide quiz tight" data-topic="חוקרי תקלות" data-title="תקלה 1" data-answer="2" data-accent="#f4a259">
+  <span class="kicker">🔧 חוקרי תקלות · 1 מתוך 3</span>
+  <h2>"מספריים 90%", גם כשאין כלום מול המצלמה. למה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>המצלמה מקולקלת.</span></button>
+    <button class="option"><span class="letter">ב</span><span>אין מחלקת רקע.</span></button>
+    <button class="option"><span class="letter">ג</span><span>יש יותר מדי תמונות של מספריים.</span></button>
+    <button class="option"><span class="letter">ד</span><span>צריך מחשב חזק יותר.</span></button>
+  </div>
+  <div class="explain">✓ נכון! בלי מחלקת רקע המכונה חייבת לבחור חפץ, גם כשאין כלום. היא בוחרת את מה שהכי דומה.</div>
+</section>
+
+<!-- 22 -->
+<section class="slide quiz tight" data-topic="חוקרי תקלות" data-title="תקלה 2" data-answer="3" data-accent="#f4a259">
+  <span class="kicker">🔧 חוקרי תקלות · 2 מתוך 3</span>
+  <h2>המחק זוהה מצוין על המחברת הכחולה. על השולחן: "עיפרון". למה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מחקים קשים לזיהוי.</span></button>
+    <button class="option"><span class="letter">ב</span><span>השולחן מלוכלך.</span></button>
+    <button class="option"><span class="letter">ג</span><span>המכונה למדה גם את הרקע הכחול.</span></button>
+    <button class="option"><span class="letter">ד</span><span>צריך לאמן פחות זמן.</span></button>
+  </div>
+  <div class="explain">✓ נכון! המכונה לומדת את כל מה שבתמונה, כולל הרקע. הפתרון: לצלם את המחק על כמה רקעים שונים.</div>
+</section>
+
+<!-- 23 -->
+<section class="slide quiz tight" data-topic="חוקרי תקלות" data-title="תקלה 3" data-answer="2" data-accent="#f4a259">
+  <span class="kicker">🔧 חוקרי תקלות · 3 מתוך 3 · צלילים</span>
+  <h2>זיהוי מחיאות הכפיים עובד אצל נועה, ונכשל אצל עידו. מה הכי יעזור?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>שעידו ימחא חזק יותר.</span></button>
+    <button class="option"><span class="letter">ב</span><span>להקליט מחיאות של כמה אנשים שונים.</span></button>
+    <button class="option"><span class="letter">ג</span><span>למחוק את ההקלטות של נועה.</span></button>
+    <button class="option"><span class="letter">ד</span><span>לאמן שוב, בדיוק עם אותן הקלטות.</span></button>
+  </div>
+  <div class="explain">✓ נכון! המכונה למדה "מחיאה של נועה". דוגמאות מכמה אנשים מלמדות אותה מה זו מחיאה בכלל.</div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-topic="הדגמה" data-title="מאמנים מול העיניים">
+  <button class="helpBtn" data-help="dict" aria-label="מילון כפתורים">?</button>
+  <span class="kicker">🎬 הדגמה חיה</span>
+  <h2>מאמנים מכונה <span class="cyan">ב-3 דקות</span></h2>
+  <span class="url">teachablemachine.withgoogle.com</span>
+  <div class="steps">
+    <div class="step"><strong>Image Project</strong><p>פרויקט תמונות, בלי חשבון ובלי התחברות.</p></div>
+    <div class="step"><strong>3 מחלקות</strong><p>✏️ עיפרון · ✂️ מספריים · ⬜ רקע</p></div>
+    <div class="step"><strong>Train Model</strong><p>מאמנים, ולא עוברים לשונית.</p></div>
+    <div class="step"><strong>Preview</strong><p>בודקים, ומסתכלים על האחוזים.</p></div>
+  </div>
+  <div class="task"><strong>🧪 אתם צוות הבדיקה</strong><p>לפני כל בדיקה הרימו יד: המכונה תצליח? והציעו איך להטעות אותה.</p></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-topic="הדגמה" data-title="כלל ברזל וסטודיו" data-accent="#e76f86">
+  <span class="kicker">🛑 כלל ברזל</span>
+  <h2>רק חפצים, ידיים וצלילים. <span class="red">אף פעם לא פנים.</span></h2>
+  <div class="compare">
+    <div class="box good"><div class="label">✅ בונים סטודיו</div>דף A3 עומד מול המצלמה, נשען על ספר או קלסר. החפץ, או כף היד, נכנסים לפניו. ככה הפנים של מי שמחזיק לא נכנסות לתמונה, והרקע אחיד.</div>
+    <div class="box bad"><div class="label">❌ לא מצלמים</div>פנים, אנשים או חברים לכיתה. נכנסו פנים בטעות? מוחקים את הדוגמאות האלה לפני האימון.</div>
+  </div>
+  <p class="note">🎧 במסלול צלילים: מוחאים כפיים, מקישים, שורקים, מצלצלים. לא מקליטים דיבור על עצמנו.</p>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-topic="האתגר" data-title="תערוכת המכונות" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="פירוט החוקים">?</button>
+  <span class="kicker">🏛️ האתגר</span>
+  <h2>תערוכת <span class="yellow">המכונות המשוגעות</span></h2>
+  <p class="lead">המטרה: מוצג שמבקרים משחקים בו, שמזהה נכון, <b>ושקשה מאוד להטעות</b>.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>3 מחלקות לפחות, ואחת מהן היא רקע (בצלילים: Background Noise).</li>
+    <li>לפחות 40 דוגמאות בכל מחלקה. בצלילים: 20 של רקע ו-10 לכל צליל.</li>
+    <li>רק חפצים, ידיים וצלילים. בלי פנים.</li>
+    <li>לכל מחלקה יש תגובה במוצג: מה קורה כשהמכונה מזהה אותה.</li>
+    <li>מבחן רשמי של 10 ניסיונות: פעם בנקודת הביקורת ופעם בסוף.</li>
+    <li>מגישים בטופס: קישור למכונה ותווית מוצג.</li></ol></div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-topic="האתגר" data-title="ארבעה מסלולים" data-accent="#e3a82b">
+  <span class="kicker">🧭 בוחרים מסלול</span>
+  <h2>איזו מכונה <span class="yellow">תבנו?</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🎮</div><strong>משחק בתנועות יד</strong><p>המכונה מזהה תנועות של כף יד מול הסטודיו.</p><span class="ex"><b>למשל:</b> אבן־נייר־מספריים נגד המחשב · יד פתוחה = קפיצה, אגרוף = עצירה.</span></div>
+    <div class="card"><div class="emoji">🗂️</div><strong>מכונת מיון</strong><p>המכונה אומרת לאן כל חפץ שייך.</p><span class="ex"><b>למשל:</b> מחזור: בקבוק / נייר / פחית · ממיין כלי כתיבה · ממיין לגו לפי צבע.</span></div>
+    <div class="card"><div class="emoji">🔔</div><strong>אזעקה קולית</strong><p>פרויקט צלילים: המכונה מגיבה למה שהיא שומעת.</p><span class="ex"><b>למשל:</b> מחיאה = אור נדלק · דפיקה = "מי שם?" · שריקה = אזעקה.</span></div>
+    <div class="card"><div class="emoji">🪄</div><strong>מכונת קסמים</strong><p>הקוסם מראה פריט, והמכונה "מנחשת" אותו מול הקהל.</p><span class="ex"><b>למשל:</b> איזה קלף בחרת? · איזו בובה מסתתרת בקופסה? · כדור הבדולח של הכיתה.</span></div>
+  </div>
+  <p class="note">רעיון משלכם? מעולה, אם הוא עומד בחוקים. רוצים השראה? בכרטיסי המכונות על השולחן יש עוד 12 רעיונות.</p>
+</section>
+
+<!-- 28 -->
+<section class="slide tight" data-topic="האתגר" data-title="המבחן הרשמי" data-accent="#e3a82b">
+  <span class="kicker">📝 המבחן הרשמי · אותו מבחן לכל הצוותים</span>
+  <h2>10 ניסיונות, <span class="yellow">בסדר הזה</span></h2>
+  <div class="tableWrap"><table class="t proto">
+    <thead><tr><th>#</th><th>📷 מכונת תמונה</th><th>🎧 מכונת צלילים</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>מחלקה א, מצב רגיל</td><td>צליל א, רגיל</td></tr>
+      <tr><td>2</td><td>מחלקה ב, מצב רגיל</td><td>צליל ב, רגיל</td></tr>
+      <tr><td>3</td><td>רקע ריק, בלי כלום</td><td>שקט</td></tr>
+      <tr><td>4</td><td>מחלקה א, זווית אחרת</td><td>צליל א, חלש</td></tr>
+      <tr><td>5</td><td>מחלקה ב, הפוך או שוכב</td><td>צליל ב, מרחוק</td></tr>
+      <tr><td>6</td><td>מחלקה א, רחוק מהמצלמה</td><td>צליל א, מאדם אחר</td></tr>
+      <tr><td>7</td><td>מחלקה ב, קרוב מאוד</td><td>צליל ב, מאדם אחר</td></tr>
+      <tr><td>8</td><td>א או ב, על רקע אחר</td><td>א או ב, עם רעש ברקע</td></tr>
+      <tr><td>9</td><td>פריט חדש מאותו סוג (עיפרון אחר)</td><td>א או ב, בקצב אחר</td></tr>
+      <tr><td>10</td><td>המצב שבכרטיס המבקר</td><td>המצב שבכרטיס המבקר</td></tr>
+    </tbody></table></div>
+  <p class="note"><b>נכון</b> = המחלקה הנכונה למעלה אחרי 3 שניות יציבות. את המבחן הסופי מריץ/ה הבוחן/ת של <b>הצוות השכן</b>.</p>
+</section>
+
+<!-- 29 -->
+<section class="slide tight" data-topic="האתגר" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 הניקוד · ידוע מראש</span>
+  <h2>ככה <span class="yellow">מקבלים נקודות</span></h2>
+  <div class="tableWrap"><table class="t pts">
+    <thead><tr><th>מה</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎲 משחק החייזרים, סבב 2: כל תשובה נכונה</td><td>1, עד 6</td></tr>
+      <tr><td>🧪 נקודת ביקורת: מכונה מאומנת · מבחן ראשון רשום · תכנית לכרטיס המבקר</td><td>1 + 1 + 1</td></tr>
+      <tr><td>🎯 דיוק במבחן הסופי: 9–10 · 7–8 · 5–6 · פחות</td><td>6 · 4 · 2 · 1</td></tr>
+      <tr><td>📈 שיפור: כל ניסיון שהצליח מעבר למבחן הראשון</td><td>1, עד 4</td></tr>
+      <tr><td>📤 הגשה: קישור שעובד · תווית מוצג מלאה</td><td>2 + 2</td></tr>
+      <tr><td>🕵️ / 🛡️ קרב ההטעיה: כל ניסיון שניצחתם בו, בהתקפה או בהגנה</td><td>1 לכל ניסיון</td></tr>
+      <tr><td>📊 מחוון: הרמה × 2</td><td>2–8</td></tr>
+      <tr><td>🚀 שלב הבוס: המכונה מחוברת לסקראץ׳ או לדף ב-Gemini Canvas</td><td>3</td></tr>
+      <tr><td>🏅 תואר בטקס</td><td>3</td></tr>
+    </tbody></table></div>
+  <p class="note">🏆 <b>אלופי השיעור:</b> הכי הרבה נקודות. בתיקו: דיוק גבוה יותר במבחן הסופי.</p>
+</section>
+
+<!-- 30 -->
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון · נשאר על השולחן</span>
+  <h2>איך נמדדת <span class="yellow">המכונה</span></h2>
+  <div class="tableWrap"><table class="t rubT">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🌈 איכות הדאטה</td><td>מעט דוגמאות, מצב אחד, אין רקע</td><td>40+ בכל מחלקה, אבל אותה זווית ואותו רקע</td><td>מאוזן, יש רקע, 2–3 מצבים שונים</td><td>4+ מצבים מתוכננים, כולל כרטיס המבקר</td></tr>
+      <tr class="reveal"><td>🎮 מכונה משחקית</td><td>מחלקות בלי מטרה</td><td>יש מטרה, לא ברור מה קורה בכל מחלקה</td><td>לכל מחלקה תגובה ברורה במוצג</td><td>מבקר משחק בלי הסבר, ויש רעיון מפתיע</td></tr>
+      <tr class="reveal"><td>🧪 בדיקה ושיפור</td><td>לא נבדק</td><td>נבדק רק על דוגמאות האימון</td><td>מבחן רשמי לפני ואחרי, רשום</td><td>+ מסבירים במספרים איזה שינוי שיפר</td></tr>
+      <tr class="reveal"><td>🏷️ תווית ושקיפות</td><td>אין תווית</td><td>שם ומחלקות בלבד</td><td>+ על מה אימנו ומתי המכונה טועה</td><td>+ מה עושים כשהיא לא בטוחה, ושורת AI</td></tr>
+    </tbody></table></div>
+  <p class="clickHint">"הבא" חושף שורה אחר שורה</p>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-topic="האתגר" data-title="חוקי הקרב" data-accent="#e76f86">
+  <button class="helpBtn" data-help="battle" aria-label="איך מתנהל הקרב">?</button>
+  <span class="kicker">⚔️ קרב ההטעיה · החוקים מראש</span>
+  <h2>בסוף, <span class="red">כולם תוקפים את כולם</span></h2>
+  <div class="compare">
+    <div class="box good"><div class="label">✅ התקפה הוגנת</div>מכריזים קודם: "זה עיפרון". ואז מראים פריט מאחת המחלקות במצב קשה: זווית, מרחק, תאורה, רקע, צבע אחר מאותו סוג.</div>
+    <div class="box bad"><div class="label">❌ אסור</div>לכסות את המצלמה, לגעת במחשב, להכניס פנים, לשנות את המכונה של צוות אחר.</div>
+  </div>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🕵️</div><strong>המכונה טעתה</strong><p>נקודה לתוקפים.</p></div>
+    <div class="card"><div class="emoji">🛡️</div><strong>המכונה צדקה</strong><p>נקודה למגינים.</p></div>
+    <div class="card"><div class="emoji">🧸</div><strong>המתחזה</strong><p>פריט שלא שייך לשום מחלקה. המכונה בטוחה בו מעל 80%? נקודה לתוקפים.</p></div>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-topic="ספרינט 1" data-title="בונים את המכונה">
+  <div class="topline"><span class="kicker">🛠️ ספרינט 1 · 18 דקות</span><span class="light g">🟢 עובדים עם AI: מאמנים מכונה</span></div>
+  <h2>בונים את <span class="cyan">המכונה</span></h2>
+  <div class="sprint">
+    <div class="task"><strong>מה עושים</strong><ol>
+      <li>בוחרים מסלול ומכונה, וממלאים את דף תכנון הדאטה.</li>
+      <li>מקימים סטודיו: דף A3 כרקע מול המצלמה.</li>
+      <li>מצלמים או מקליטים דוגמאות לכל מחלקה, במצבים שונים.</li>
+      <li><span class="kbd">Train Model</span> ואז <span class="kbd">Preview</span>.</li>
+      <li>מבחן ראשון: 10 הניסיונות, ורושמים בדף המבחן.</li></ol></div>
+    <div class="side">
+      <div class="timer" data-seconds="1080"><output>18:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">⏱ <b>עד דקה 8:</b> מחלקות עם שמות ודוגמאות.</div>
+      <div class="mile">⏱ <b>עד דקה 13:</b> אימון ראשון עובד.</div>
+      <div class="mile">⏱ <b>עד הסוף:</b> ציון המבחן הראשון בדף.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="צעדים: מכונת תמונה">
+  <button class="helpBtn" data-help="dict" aria-label="מילון כפתורים">?</button>
+  <span class="kicker">📷 מסלול תמונה · צעד אחר צעד</span>
+  <h2>ככה בונים <span class="cyan">מכונת תמונה</span></h2>
+  <div class="steps tool">
+    <div class="step"><strong>Get Started</strong><p>בוחרים <span class="kbd">Image Project</span> ואז <span class="kbd">Standard image model</span>.</p></div>
+    <div class="step"><strong>Class 1 ✏️</strong><p>לוחצים על העיפרון ליד השם, וכותבים את שם המחלקה.</p></div>
+    <div class="step"><strong>Webcam</strong><p>מאשרים מצלמה, ומחזיקים לחוץ <span class="kbd">Hold to Record</span>. מסובבים, מקרבים, מרחיקים.</p></div>
+    <div class="step"><strong>Add a class</strong><p>מחלקה נוספת, וגם מחלקת "רקע": הסטודיו הריק.</p></div>
+    <div class="step"><strong>Train Model</strong><p>לא עוברים לשונית עד שמופיע <span class="kbd">Model Trained</span>.</p></div>
+    <div class="step"><strong>Preview</strong><p>מכניסים פריט ומסתכלים על האחוזים.</p></div>
+  </div>
+  <p class="note">🙌 לא צריך חשבון. ⚠️ סוגרים את הלשונית בלי לשמור? הכול נמחק. כפתור <b>?</b> = מילון כפתורים.</p>
+</section>
+
+<!-- 34 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="צעדים: מכונת צלילים" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="audio" aria-label="טיפים לצלילים">?</button>
+  <span class="kicker">🎧 מסלול צלילים · צעד אחר צעד</span>
+  <h2>ככה בונים <span class="violet">מכונת צלילים</span></h2>
+  <div class="steps tool">
+    <div class="step"><strong>Audio Project</strong><p>מאשרים מיקרופון בדפדפן.</p></div>
+    <div class="step"><strong>Background Noise</strong><p>מקליטים 20 שניות של רעש הכיתה, ולוחצים <span class="kbd">Extract Sample</span>.</p></div>
+    <div class="step"><strong>Class 2 ✏️</strong><p>נותנים שם לצליל, ומקליטים לפחות 10 דוגמאות.</p></div>
+    <div class="step"><strong>Add a class</strong><p>צליל נוסף. כמה אנשים מקליטים, ממרחקים שונים.</p></div>
+    <div class="step"><strong>Train Model</strong><p>לא עוברים לשונית בזמן האימון.</p></div>
+    <div class="step"><strong>Preview</strong><p>משמיעים צליל ומסתכלים על האחוזים.</p></div>
+  </div>
+  <p class="note">🎧 כל דוגמה היא שנייה אחת. כדאי לעבוד בפינה שקטה יחסית, ולהקליט גם את רעש הכיתה האמיתי ברקע.</p>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-topic="נקודת ביקורת" data-title="ציון ראשון + כרטיס מבקר" data-accent="#2f9e80">
+  <span class="kicker">🧪 נקודת ביקורת · 4 דקות</span>
+  <h2>ציון ראשון + <span class="green">כרטיס מבקר</span></h2>
+  <div class="draw">
+    <div>
+      <div class="task"><strong>כל צוות, בתורו</strong><ol>
+        <li>האוצר/ת מדווח/ת: "המכונה שלנו ___. במבחן הראשון: ___ מתוך 10."</li>
+        <li>שולפים <b>כרטיס מבקר</b>: מצב שהמכונה חייבת לעמוד בו בסוף. הוא הניסיון ה-10 במבחן הסופי.</li>
+        <li>כותבים בדף המבחן: מה נצלם או נקליט כדי להתכונן.</li></ol></div>
+      <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+    <div>
+      <div class="vcard"><div class="vh">🎟️ כרטיס מבקר</div><div class="vb"><span class="ve">❓</span><span class="vt">מי יבוא לבקר?</span><span class="vd">לחצו לשליפה</span></div></div>
+      <div class="drawBtns"><button class="btn" data-v="img">📷 כרטיס תמונה</button><button class="ghost" data-v="snd">🎧 כרטיס צלילים</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 36 -->
+<section class="slide center" data-topic="נקודת ביקורת" data-title="דקה של תנועה" data-accent="#2f9e80">
+  <span class="kicker">🕺 דקה של תנועה</span>
+  <h2>המסווג <span class="green">האנושי</span></h2>
+  <p class="lead">קמים כשהמשפט נכון לגביכם. אחרי כל משפט: איזו "מחלקה" יצרנו?</p>
+  <div class="revealList" style="text-align:right">
+    <div class="revealCard reveal">👟 קומו אם יש לכם שרוכים בנעליים.</div>
+    <div class="revealCard reveal">🎨 קומו אם הצבע האהוב עליכם כחול.</div>
+    <div class="revealCard reveal">🍫 קומו אם אכלתם היום משהו מתוק.</div>
+    <div class="revealCard reveal">🤔 המדריך לא ידע מראש מי יקום. גם המכונה לא יודעת מראש. היא רק לומדת מהדוגמאות.</div>
+  </div>
+</section>
+
+<!-- 37 -->
+<section class="slide" data-topic="ספרינט 2" data-title="משפרים ומתייגים">
+  <div class="topline"><span class="kicker">🛠️ ספרינט 2 · 11 דקות</span><span class="light g">🟢 עובדים עם AI: משפרים ובודקים</span></div>
+  <h2>משפרים, שומרים, <span class="cyan">מתייגים</span></h2>
+  <div class="sprint">
+    <div class="task"><strong>מה עושים</strong><ol>
+      <li>מוסיפים דוגמאות למצב של כרטיס המבקר, ולכל ניסיון שנכשל במבחן הראשון.</li>
+      <li>מאמנים שוב, ובודקים בעצמכם.</li>
+      <li><span class="kbd">Export Model</span> ← <span class="kbd">Upload my model</span> ← מעתיקים את הקישור.</li>
+      <li>ממלאים את תווית המוצג.</li>
+      <li>סיימתם? שלב הבוס, או משימת צד.</li></ol></div>
+    <div class="side">
+      <div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">⏱ <b>עד דקה 5:</b> אימון שני עובד.</div>
+      <div class="mile">⏱ <b>עד דקה 8:</b> הקישור מועתק לתווית.</div>
+      <div class="mile">⏱ <b>עד הסוף:</b> תווית מוצג מלאה.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 38 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="שומרים ומתייגים">
+  <span class="kicker">🔗 שמירה ותווית</span>
+  <h2>קישור למכונה + <span class="cyan">תווית מוצג</span></h2>
+  <div class="split">
+    <div>
+      <div class="steps tool" style="grid-template-columns:1fr 1fr">
+        <div class="step"><strong>Export Model</strong><p>הכפתור ליד Preview.</p></div>
+        <div class="step"><strong>Upload my model</strong><p>בלשונית Tensorflow.js, ומחכים כמה שניות.</p></div>
+        <div class="step"><strong>Copy</strong><p>מעתיקים את הקישור שהופיע.</p></div>
+        <div class="step"><strong>בודקים</strong><p>פותחים את הקישור בלשונית חדשה. עובד?</p></div>
+      </div>
+      <p class="note">🔒 כל מי שיש לו את הקישור יכול לפתוח את המכונה ולבדוק אותה במצלמה שלו. משתפים רק בכיתה.</p>
+    </div>
+    <div class="card" style="--stripe:var(--teal)"><div class="emoji">🏷️</div><strong>מה כתוב בתווית</strong>
+      <p>שם המוצג · מה הוא עושה למבקר · המחלקות וכמה דוגמאות בכל אחת · באילו מצבים אימנו · ציון לפני ואחרי · "המכונה טועה כש..." · מה עושים כשהיא בטוחה פחות מ-80% · קישור · שורת AI</p></div>
+  </div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="שלב הבוס" data-accent="#8c7ae6">
+  <span class="kicker">🚀 שלב הבוס · למי שסיים · 3 נקודות</span>
+  <h2>המכונה שלכם <span class="violet">מפעילה משחק</span></h2>
+  <div class="compare">
+    <div class="box"><div class="label">🐱 סקראץ׳ עם תוסף</div>נכנסים ל-<b class="ltr">stretch3.github.io</b> ← כפתור התוספים למטה ← <b>TM2Scratch</b>. מדביקים את הקישור בבלוק של כתובת המודל, ובלוק "כשמתקבלת תווית" מזיז דמות או מנגן צליל.</div>
+    <div class="box"><div class="label">✨ Gemini Canvas</div>ב-gemini.google.com בוחרים <b>Canvas</b>, מדביקים את הפרומפט ואת הקישור, ומבקשים משחק. אם המצלמה לא נפתחת שם, מבקשים דף שבו לוחצים על כפתור במקום.</div>
+  </div>
+  <div class="prompt copy small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptag">פרומפט ל-Gemini Canvas</span><span class="ptext">צור משחק דפדפן בעברית שמשתמש במודל Teachable Machine שלי בקישור: <span class="fill">[הקישור]</span>. המודל מזהה: <span class="fill">[מחלקה 1]</span>, <span class="fill">[מחלקה 2]</span> ורקע. השתמש בספרייה ‎@teachablemachine/image‎ ובמצלמת הרשת. כשהמודל בטוח ביותר מ-80% ב-<span class="fill">[מחלקה 1]</span>, <span class="fill">[מה קורה במשחק]</span>. הצג על המסך את המחלקה ואת אחוז הביטחון, וכפתור התחלה גדול.</span></div>
+</section>
+
+<!-- 40 -->
+<section class="slide" data-topic="ספרינט 2" data-title="משימות צד">
+  <span class="kicker">⭐ משימות צד · למי שסיים</span>
+  <h2>סיימתם? <span class="cyan">שלפו משימה</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🔬</div><strong>מתחת למכסה</strong><p>ב-<span class="kbd">Advanced</span> ← <span class="kbd">Under the hood</span>: איזו מחלקה הכי חלשה? למה?</p></div>
+    <div class="card"><div class="emoji">🧸</div><strong>המתחזה המושלם</strong><p>מצאו חפץ שלא שייך לשום מחלקה, אבל המכונה בטוחה בו מעל 90%. במה הוא דומה?</p></div>
+    <div class="card"><div class="emoji">⚖️</div><strong>ניסוי האיזון</strong><p>הוסיפו מחלקה עם 10 דוגמאות בלבד. מה קרה לזיהוי שלה?</p></div>
+    <div class="card"><div class="emoji">⚠️</div><strong>תווית אזהרה</strong><p>משפט אחד למבקרים: "המכונה לא תעבוד אם..."</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>חוצה חושים</strong><p>בנו מכונה קטנה במסלול השני: אם בניתם תמונה, נסו צלילים.</p></div>
+    <div class="card"><div class="emoji">🕵️</div><strong>יועץ אבטחה</strong><p>עזרו לצוות אחר למצוא את החולשה שלו לפני הקרב.</p></div>
+  </div>
+</section>
+
+<!-- 41 -->
+<section class="slide" data-topic="הגשה" data-title="מבחן סופי והגשה" data-accent="#4c8bd6">
+  <span class="kicker">📤 מבחן סופי והגשה · 4 דקות</span>
+  <h2>המבחן הרשמי + <span class="cyan">הגשה</span></h2>
+  <div class="sprint">
+    <div>
+      <div class="task"><strong>בבת אחת, בכל השולחנות</strong><ol>
+        <li>הבוחן/ת עובר/ת לצוות השכן, ומריץ/ה את 10 הניסיונות שלהם.</li>
+        <li>נכון = המחלקה הנכונה למעלה אחרי 3 שניות.</li>
+        <li>כותבים את הציון בדף המבחן של הצוות, ושני הבוחנים חותמים.</li>
+        <li>האוצר/ת מגיש/ה בטופס: קישור, תווית, ציון לפני ואחרי, שורת AI.</li></ol></div>
+      <div class="linkRow"><span class="lbl">🔗 טופס ההגשה:</span><span class="linkBox" contenteditable="true" spellcheck="false" data-key="form" data-ph="המדריך כותב כאן את הקישור"></span></div>
+      <span class="fname">שם הצוות בטופס = השם בלוח הניקוד</span>
+    </div>
+    <div class="side">
+      <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile">🎯 <b>דיוק:</b> 9 או 10 נכונים = 6 נקודות · 7 או 8 = 4 · 5 או 6 = 2 · פחות = 1</div>
+      <div class="mile">📈 כל ניסיון נוסף לעומת המבחן הראשון = <b>נקודה</b>, עד 4.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 42 -->
+<section class="slide tight" data-topic="קרב ההטעיה" data-title="סבב 1" data-accent="#e76f86">
+  <button class="helpBtn" data-help="battle" aria-label="איך מתנהל הקרב">?</button>
+  <span class="kicker">⚔️ קרב ההטעיה · סבב 1 · 3 דקות</span>
+  <h2>מי תוקף <span class="red">את מי?</span></h2>
+  <div data-rot="1" class="rot"></div>
+  <div class="sprint" style="grid-template-columns:minmax(0,1fr) 300px">
+    <div class="task"><strong>בכל עמדה</strong><ol>
+      <li>2 תוקפים עוברים לעמדה של היעד. המגן/ה נשאר/ת עם דף הקרב.</li>
+      <li>3 ניסיונות. לפני כל ניסיון מכריזים: "זה ___" ואיזה טריק.</li>
+      <li>המגן/ה רושם/ת בדף: מה ניסו, מה המכונה אמרה, מי ניצח.</li></ol></div>
+    <div class="side"><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+  </div>
+</section>
+
+<!-- 43 -->
+<section class="slide tight" data-topic="קרב ההטעיה" data-title="סבב 2" data-accent="#e76f86">
+  <span class="kicker">⚔️ קרב ההטעיה · סבב 2 · 3 דקות</span>
+  <h2>מחליפים <span class="red">יעד</span></h2>
+  <div data-rot="2" class="rot"></div>
+  <div class="sprint" style="grid-template-columns:minmax(0,1fr) 300px">
+    <div class="task"><strong>מה השתנה</strong><ol>
+      <li>תוקפים חדשים: שני חברי צוות שעוד לא תקפו.</li>
+      <li>טריק שכבר הצליח נגד מכונה אחת? נסו אותו גם כאן.</li>
+      <li>בסוף הסבב המגינים מביאים את דף הקרב למדריך.</li></ol></div>
+    <div class="side"><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+  </div>
+</section>
+
+<!-- 44 -->
+<section class="slide" data-topic="קרב ההטעיה" data-title="לוח הניקוד" data-accent="#e76f86">
+  <span class="kicker">📊 סופרים</span>
+  <h2>לוח הניקוד <span class="red">אחרי הקרב</span></h2>
+  <div data-board></div>
+</section>
+
+<!-- 45 -->
+<section class="slide" data-topic="סיום" data-title="טקס התארים" data-accent="#e3a82b">
+  <span class="kicker">🏅 טקס פתיחת האולם</span>
+  <h2>המוזיאון <span class="yellow">בחר מוצגים</span></h2>
+  <div class="awards">
+    <div><span class="em">🛡️</span><b>המכונה הבלתי שבירה</b>הכי הרבה ניסיונות הגנה מוצלחים<span contenteditable="true" spellcheck="false" data-key="aw1"></span></div>
+    <div><span class="em">🕵️</span><b>האקרים של הכיתה</b>הכי הרבה מכונות שהוטעו<span contenteditable="true" spellcheck="false" data-key="aw2"></span></div>
+    <div><span class="em">📈</span><b>השיפור הגדול</b>הקפיצה הכי גדולה בין המבחנים<span contenteditable="true" spellcheck="false" data-key="aw3"></span></div>
+    <div><span class="em">🎨</span><b>המוצג הכי משחקי</b>בהצבעת הכיתה, לא לצוות של עצמך<span contenteditable="true" spellcheck="false" data-key="aw4"></span></div>
+  </div>
+  <div class="champ"><span class="em">🏆</span><b>אלופי השיעור:</b><span contenteditable="true" spellcheck="false" data-key="champ"></span></div>
+</section>
+
+<!-- 46 -->
+<section class="slide" data-topic="סיום" data-title="מה גילינו?">
+  <span class="kicker">💭 תחקיר · ראשים ממוספרים</span>
+  <h2>מה גילינו <span class="cyan">על מכונות?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🌀 איזה טריק הכי הטעה את המכונות היום? למה דווקא הוא?</div>
+    <div class="revealCard reveal">📈 איזה שינוי בדוגמאות הכי שיפר את הדיוק שלכם? במספרים.</div>
+    <div class="revealCard reveal">🚗 אם המכונה שלכם הייתה ברכב או בבית חולים, מה הייתם חייבים לבדוק לפני שמשתמשים בה?</div>
+  </div>
+  <div class="picker"><output>?</output><button class="btn pickBtn">🎲 מי עונה?</button><span>מספר 1–5: חבר/ת הצוות עם המספר הזה עונה בשם הצוות.</span></div>
+</section>
+
+<!-- 47 -->
+<section class="slide center" data-topic="סיום" data-title="כרטיס יציאה">
+  <div class="topline" style="justify-content:center"><span class="kicker">🎟️ כרטיס יציאה · 3 דקות</span><span class="light r">🔴 כל אחד לבד, בלי AI</span></div>
+  <h2>האולם <span class="cyan">נפתח!</span></h2>
+  <p class="lead">המוזיאון קיבל מכם מכונות שלומדות, תוויות שמספרות את האמת, ורשימה של מצבים שבהם צריך עוד דוגמאות. כמו מעבדה אמיתית.</p>
+  <div class="revealList" style="text-align:right;max-width:900px">
+    <div class="revealCard">1️⃣ במשפט אחד: איך מכונה לומדת לזהות משהו?</div>
+    <div class="revealCard">2️⃣ מצב אחד שבו המכונה שלנו טעתה, ולמה.</div>
+    <div class="revealCard">3️⃣ מה הייתי מוסיף/ה לדוגמאות אם היה לנו עוד זמן?</div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-dict"><h3>🔤 מילון הכפתורים באתר</h3><table class="dict">
+<tr><td>Get Started</td><td>בואו נתחיל</td></tr><tr><td>Image Project / Audio Project</td><td>פרויקט תמונות / צלילים</td></tr>
+<tr><td>Standard image model</td><td>מודל תמונה רגיל (בוחרים בו)</td></tr><tr><td>Class</td><td>מחלקה: קבוצה של דבר אחד שהמכונה מזהה</td></tr>
+<tr><td>Webcam / Upload</td><td>מצלמת המחשב / העלאת תמונות</td></tr><tr><td>Hold to Record</td><td>החזיקו לחוץ כדי לצלם ברצף</td></tr>
+<tr><td>Add a class</td><td>הוספת מחלקה</td></tr><tr><td>Train Model</td><td>אימון המכונה</td></tr>
+<tr><td>Preview · Output</td><td>בדיקה · מה המכונה חושבת, באחוזים</td></tr><tr><td>Export Model</td><td>ייצוא ושיתוף</td></tr>
+<tr><td>Upload my model</td><td>העלאה וקבלת קישור</td></tr><tr><td>Copy</td><td>העתקה</td></tr>
+<tr><td>Background Noise</td><td>רעש רקע (בפרויקט צלילים)</td></tr><tr><td>Extract Sample</td><td>חיתוך ההקלטה לדוגמאות</td></tr></table></template>
+<template id="help-rules"><h3>📏 החוקים בפירוט</h3><ol>
+<li><b>מחלקות:</b> לפחות 2 מחלקות של חפצים, תנועות יד או צלילים, ועוד מחלקת רקע. מותר עד 5.</li>
+<li><b>דוגמאות:</b> לפחות 40 בכל מחלקת תמונה. בצלילים: 20 של רקע ולפחות 10 לכל צליל. מספר דומה בכל מחלקה.</li>
+<li><b>בלי פנים:</b> עובדים מול סטודיו של דף A3. נכנסו פנים? מוחקים את הדוגמאות האלה.</li>
+<li><b>תגובה:</b> בתווית כותבים מה קורה במוצג בכל מחלקה (למשל "אגרוף = הדמות עוצרת").</li>
+<li><b>מבחן רשמי:</b> 10 הניסיונות מהשקף, בסדר הקבוע. את המבחן הסופי מריץ/ה הבוחן/ת של הצוות השכן.</li>
+<li><b>הגשה:</b> הקישור חייב להיפתח. שם הצוות בטופס = השם בלוח הניקוד.</li></ol></template>
+<template id="help-battle"><h3>⚔️ איך מתנהל קרב ההטעיה</h3><ol>
+<li>כל צוות משאיר בעמדה <b>מגן/ה אחד/ת</b> (בדרך כלל האוצר/ת) עם המכונה פתוחה על Preview ודף הקרב.</li>
+<li><b>2 תוקפים</b> עוברים לעמדה של הצוות שמופיע בשקף. מביאים איתם פריטים מהמחלקות של היעד, או מחפשים בכיתה.</li>
+<li>לפני כל ניסיון מכריזים: "זה ___, הטריק: ___". אחרי 3 שניות יציבות קוראים את המחלקה העליונה.</li>
+<li>המכונה טעתה = נקודה לתוקפים. צדקה = נקודה למגינים. מתחזה (פריט שלא שייך לשום מחלקה) שהמכונה בטוחה בו מעל 80% = נקודה לתוקפים.</li>
+<li>3 ניסיונות בכל סבב. במחלוקת, המדריך מכריע.</li>
+<li>אסור: לכסות את המצלמה, לגעת במחשב, להכניס פנים, לשנות את המכונה.</li></ol></template>
+<template id="help-audio"><h3>🎧 טיפים למכונת צלילים</h3><ol>
+<li>מאשרים מיקרופון: סמל המנעול או המיקרופון בשורת הכתובת ← Allow.</li>
+<li><b>Background Noise:</b> לוחצים על המיקרופון, מקליטים 20 שניות של הכיתה כמו שהיא, ואז <b>Extract Sample</b>. מתקבלות 20 דוגמאות של שנייה.</li>
+<li>בכל מחלקה של צליל: מקליטים, לוחצים Extract Sample, וחוזרים עד שיש לפחות 10 דוגמאות.</li>
+<li>כמה אנשים מקליטים, ממרחקים שונים ובעוצמות שונות.</li>
+<li>צלילים טובים: מחיאת כפיים, דפיקה על השולחן, שריקה, פעמון, נקישת עט, רשרוש נייר. לא מקליטים דיבור על עצמנו.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== מכונה שלומדת לראות · lesson add-on (runs after the engine; the engine is untouched) =====
+   1) planet-Blip creatures drawn as inline SVG from data-k codes, 2) pixel vision (emoji at low resolution + numbers),
+   3) accuracy meter, 4) visitor-card draw, 5) live team scoreboard + battle rotation (remembered in this browser),
+   6) link boxes / award names remembered, 7) copy buttons, 8) numbered-heads picker. */
+(()=>{
+const store={get(k,d){try{const v=localStorage.getItem('tie-seeml:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem('tie-seeml:'+k,JSON.stringify(v))}catch(e){}}};
+
+// 1) creatures. code = color(g/p/o) antennas(0-2) spots(0/1) eyes(1-3) mouth(s/o) body(r/q)
+const COL={g:['#8fd3b0','#2f7d5c'],p:['#c4b3f3','#5b47b5'],o:['#f8c08a','#b85c0c']};
+function creature(k){
+ const [c,a,s,e,m,b]=[k[0],+k[1],+k[2],+k[3],k[4],k[5]];const [f,st]=COL[c]||COL.g;
+ const top=b==='q'?36:34;let g='';
+ // antennas
+ const ant=(x2,y2)=>`<line x1="50" y1="${top+2}" x2="${x2}" y2="${y2}" stroke="${st}" stroke-width="3" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="5.5" fill="#ffd166" stroke="${st}" stroke-width="2.5"/>`;
+ if(a===1)g+=ant(50,11);if(a===2)g+=ant(33,13)+ant(67,13);
+ // feet
+ g+=`<ellipse cx="38" cy="91" rx="8" ry="4.5" fill="${st}"/><ellipse cx="62" cy="91" rx="8" ry="4.5" fill="${st}"/>`;
+ // body
+ g+=b==='q'?`<rect x="20" y="${top}" width="60" height="54" rx="12" fill="${f}" stroke="${st}" stroke-width="3"/>`:`<circle cx="50" cy="62" r="29" fill="${f}" stroke="${st}" stroke-width="3"/>`;
+ // spots
+ if(s)g+=`<circle cx="31" cy="72" r="4.5" fill="${st}" opacity=".45"/><circle cx="69" cy="70" r="3.8" fill="${st}" opacity=".45"/><circle cx="60" cy="81" r="3.2" fill="${st}" opacity=".45"/><circle cx="38" cy="82" r="2.8" fill="${st}" opacity=".45"/>`;
+ // eyes
+ const eye=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" stroke="${st}" stroke-width="2"/><circle cx="${x+1}" cy="${y+1}" r="${r*.48}" fill="#1f2a37"/>`;
+ if(e===1)g+=eye(50,56,8.5);if(e===2)g+=eye(40,56,6.5)+eye(60,56,6.5);if(e===3)g+=eye(35,57,5.5)+eye(50,51,5.5)+eye(65,57,5.5);
+ // mouth
+ g+=m==='o'?`<ellipse cx="50" cy="74" rx="5" ry="4.5" fill="#1f2a37"/>`:`<path d="M40 71 Q50 80 60 71" fill="none" stroke="#1f2a37" stroke-width="3" stroke-linecap="round"/>`;
+ return `<svg viewBox="0 0 100 100" role="img" aria-label="יצור">${g}</svg>`;
+}
+document.querySelectorAll('[data-k]').forEach(el=>{el.insertAdjacentHTML('afterbegin',creature(el.dataset.k))});
+
+// 2) pixel vision
+document.querySelectorAll('.pix').forEach(px=>{
+ const cv=px.querySelector('canvas'),nums=px.querySelector('.pixNums'),info=px.querySelector('.pixInfo');
+ const items=(px.dataset.items||'🍌').split(',');const RES=[5,8,12,20,40,120];let ri=0,ii=0,showNums=false;
+ const off=document.createElement('canvas');
+ function draw(){const n=RES[ri];off.width=off.height=n;const o=off.getContext('2d');o.clearRect(0,0,n,n);o.fillStyle='#fff';o.fillRect(0,0,n,n);
+  o.textAlign='center';o.textBaseline='middle';o.font=Math.round(n*.82)+'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';o.fillText(items[ii],n/2,n*.55);
+  const W=480;cv.width=cv.height=W;const x=cv.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(off,0,0,W,W);
+  info.textContent=n+' × '+n+' = '+(n*n).toLocaleString('he-IL')+' פיקסלים';
+  nums.innerHTML='';nums.style.display=showNums&&n<=12?'grid':'none';
+  if(showNums&&n<=12){nums.style.gridTemplateColumns='repeat('+n+',1fr)';const d=o.getImageData(0,0,n,n).data;
+   for(let i=0;i<n*n;i++){const v=Math.round((d[i*4]*.3+d[i*4+1]*.59+d[i*4+2]*.11));const sp=document.createElement('span');sp.textContent=v;sp.style.fontSize=(n<=5?20:n<=8?15:11)+'px';nums.appendChild(sp)}}}
+ px.querySelector('[data-p=more]').onclick=()=>{ri=Math.min(RES.length-1,ri+1);draw()};
+ px.querySelector('[data-p=less]').onclick=()=>{ri=Math.max(0,ri-1);draw()};
+ px.querySelector('[data-p=nums]').onclick=e=>{showNums=!showNums;if(showNums&&RES[ri]>12)ri=2;e.target.classList.toggle('on',showNums);draw()};
+ px.querySelector('[data-p=next]').onclick=()=>{ii=(ii+1)%items.length;ri=0;draw()};
+ draw();
+});
+
+// 3) accuracy meter: each dot cycles  · → ✓ → ✗
+document.querySelectorAll('.acc').forEach(a=>{const dots=a.querySelector('.accDots'),out=a.querySelector('.accOut');
+ for(let i=0;i<10;i++){const b=document.createElement('button');b.textContent=i+1;b.dataset.s='0';dots.appendChild(b);
+  b.onclick=()=>{const s=(+b.dataset.s+1)%3;b.dataset.s=s;b.className=s===1?'ok':s===2?'bad':'';b.textContent=s===1?'✓':s===2?'✗':i+1;upd()}}
+ function upd(){const bs=[...dots.children],ok=bs.filter(b=>b.dataset.s==='1').length,n=bs.filter(b=>b.dataset.s!=='0').length;
+  out.innerHTML=n?'✓ <b>'+ok+'</b> מתוך '+n+' = <b>'+Math.round(ok/n*100)+'%</b> דיוק':'לחצו על הניסיונות: ✓ צדקה · ✗ טעתה'}
+ upd()});
+
+// 4) visitor cards
+const VIS={img:[['🌙','ביקור בערב','מחשיכים את החדר או מכסים חלק מהחלון. המכונה צריכה לזהות גם באור חלש.'],
+ ['🔦','פנס מהצד','מאירים את החפץ מהצד עם פנס של טלפון. צללים חזקים!'],
+ ['🖼️','רקע חדש','החפץ מופיע על רקע צבעוני או מקושקש שלא היה באימון.'],
+ ['📏','מבקר רחוק','מראים את החפץ ממרחק של חצי מטר ויותר. הוא נראה קטן.'],
+ ['🔍','מבקר סקרן','מקרבים את החפץ ממש למצלמה. רואים רק חלק ממנו.'],
+ ['🙃','הפוך על הפוך','החפץ מגיע הפוך, שוכב או מסובב.'],
+ ['🎨','אח תאום','פריט מאותו סוג בצבע או בגודל אחר: עיפרון אחר, בקבוק אחר.'],
+ ['🏃','מבקר ממהר','מעבירים את החפץ מהר מול המצלמה. המכונה צריכה לזהות בתנועה.']],
+ snd:[['🧑‍🤝‍🧑','מבקר אחר','מישהו שלא הקליט באימון משמיע את הצליל.'],
+ ['🎵','רעש באולם','יש מוזיקה או דיבור ברקע בזמן הצליל.'],
+ ['📢','מקצה האולם','משמיעים את הצליל משני מטרים מהמחשב.'],
+ ['🥁','קצב אחר','הצליל מגיע מהר יותר, לאט יותר או חלש יותר.']]};
+document.querySelectorAll('.draw').forEach(d=>{const card=d.querySelector('.vcard');
+ d.querySelectorAll('[data-v]').forEach(btn=>btn.onclick=()=>{const pool=VIS[btn.dataset.v];card.classList.add('spin');let k=0;
+  const set=p=>{card.querySelector('.ve').textContent=p[0];card.querySelector('.vt').textContent=p[1];card.querySelector('.vd').textContent=p[2]};
+  const iv=setInterval(()=>{set(pool[Math.floor(Math.random()*pool.length)]);if(++k>10){clearInterval(iv);card.classList.remove('spin');set(pool[Math.floor(Math.random()*pool.length)])}},80)})});
+
+// 5) live scoreboard
+const COLS=[['warm','🎲 חימום','0–6'],['cp','🧪 ביניים','0–3'],['acc','🎯 דיוק','1–6'],['imp','📈 שיפור','0–4'],['sub','📤 הגשה','0–4'],
+ ['atk','🕵️ התקפה','1 לכל'],['def','🛡️ הגנה','1 לכל'],['rub','📊 מחוון','2–8'],['bonus','🚀 בוס','0–3'],['prize','🏆 תואר','3']];
+const EMO=['🦊','🦉','🐬','🦁','🐝','🐢','🐙','🦄'];
+let B=store.get('board',null);
+if(!B||!Array.isArray(B.teams))B={n:7,minus:false,teams:Array.from({length:8},(_,i)=>({name:EMO[i]+' צוות '+(i+1),s:{}}))};
+const save=()=>store.set('board',B);
+const tot=t=>COLS.reduce((a,[k])=>a+(Number(t.s[k])||0),0);
+function render(){
+ document.querySelectorAll('[data-board]').forEach(w=>{
+  const teams=B.teams.slice(0,B.n);const max=Math.max(...teams.map(tot));
+  let h='<div class="tableWrap'+(B.minus?' minus':'')+'"><table class="t board"><thead><tr><th>צוות <small>לחצו לשינוי השם</small></th>'+
+   COLS.map(([k,l,s])=>'<th>'+l+'<small><bdi dir="ltr">'+s+'</bdi></small></th>').join('')+'<th>סה״כ</th></tr></thead><tbody>';
+  teams.forEach((t,i)=>{const T=tot(t);h+='<tr class="'+(max>0&&T===max?'top':'')+'"><td class="name" contenteditable="true" spellcheck="false" data-i="'+i+'"></td>'+
+   COLS.map(([k])=>{const v=Number(t.s[k])||0;return '<td class="n'+(v?'':' z')+'" data-i="'+i+'" data-k="'+k+'">'+v+'</td>'}).join('')+'<td class="tot">'+T+'</td></tr>'});
+  h+='</tbody></table></div><div class="boardBar"><button class="ghost modeBtn'+(B.minus?' on':'')+'">'+(B.minus?'➖ מצב הורדה':'➕ מצב הוספה')+'</button>'+
+   '<button class="ghost" data-act="less">− צוות</button><button class="ghost" data-act="more">+ צוות</button><button class="ghost" data-act="reset">↺ איפוס</button>'+
+   '<span class="hint">לחיצה על תא '+(B.minus?'מורידה':'מוסיפה')+' נקודה. הסה״כ מתעדכן לבד.</span></div>';
+  w.innerHTML=h;
+  w.querySelectorAll('td.name').forEach(td=>{td.textContent=B.teams[td.dataset.i].name});
+ });
+ document.querySelectorAll('[data-rot]').forEach(r=>{const off=Number(r.dataset.rot),n=B.n;let h='';
+  for(let i=0;i<n;i++){const j=(i+off)%n;h+='<div><span>'+esc(B.teams[i].name)+'</span><span class="arr">⚔️</span><span class="vs">תוקפים את</span><span>'+esc(B.teams[j].name)+'</span></div>'}
+  r.innerHTML=h});
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.addEventListener('click',e=>{
+ const w=e.target.closest('[data-board]');if(!w)return;
+ const td=e.target.closest('td.n');
+ if(td){const t=B.teams[td.dataset.i];t.s[td.dataset.k]=Math.max(0,(Number(t.s[td.dataset.k])||0)+(B.minus?-1:1));save();render();return}
+ if(e.target.closest('.modeBtn')){B.minus=!B.minus;save();render();return}
+ const a=e.target.closest('[data-act]');if(!a)return;
+ if(a.dataset.act==='less')B.n=Math.max(3,B.n-1);
+ if(a.dataset.act==='more')B.n=Math.min(8,B.n+1);
+ if(a.dataset.act==='reset'){if(!confirm('לאפס את כל הנקודות? שמות הצוותים יישארו.'))return;B.teams.forEach(t=>t.s={})}
+ save();render()});
+document.addEventListener('input',e=>{const td=e.target.closest('[data-board] td.name');if(!td)return;
+ B.teams[td.dataset.i].name=td.textContent.trim()||(EMO[td.dataset.i]+' צוות '+(Number(td.dataset.i)+1));save();
+ document.querySelectorAll('[data-board] td.name[data-i="'+td.dataset.i+'"]').forEach(o=>{if(o!==td)o.textContent=B.teams[td.dataset.i].name})});
+document.addEventListener('focusout',e=>{if(e.target.closest('[data-board] td.name'))render()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[contenteditable]')){e.preventDefault();e.target.blur()}},true);
+render();
+
+// 6) link boxes + award names (typed once on the projector, remembered by this browser)
+document.querySelectorAll('[contenteditable][data-key]').forEach(el=>{const k='txt:'+el.dataset.key;el.textContent=store.get(k,'');
+ el.addEventListener('input',()=>store.set(k,el.textContent.trim()));el.addEventListener('blur',()=>{if(!el.textContent.trim())el.textContent=''})});
+
+// 7) copy prompt
+document.querySelectorAll('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+
+// 8) numbered heads: random member number 1–5 (no immediate repeat)
+let last=0;document.querySelectorAll('.pickBtn').forEach(b=>b.onclick=()=>{const o=b.parentElement.querySelector('output');let n;do{n=1+Math.floor(Math.random()*5)}while(n===last);last=n;
+ let k=0;const iv=setInterval(()=>{o.textContent=1+Math.floor(Math.random()*5);if(++k>8){clearInterval(iv);o.textContent=n}},70)});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · אולפני 30 השניות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+/* ===== אולפני 30 השניות · lesson-specific print styles ===== */
+.stamp-row{display:grid;grid-template-columns:1fr 34mm;gap:4mm;align-items:center}
+.stamp-row h3 small{font-family:var(--body);font-weight:500;font-size:8.6pt;color:var(--muted);margin-inline-start:2mm}
+.stamp{width:30mm;height:30mm;border-radius:50%;border:1.6px dashed var(--line2);display:grid;place-items:center;color:var(--dim);font-size:9pt;font-weight:700;justify-self:center}
+.board{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:4mm;flex:1}
+.fr{border:1.2px solid var(--line2);border-radius:3mm;padding:2.5mm 3mm;display:flex;flex-direction:column;gap:1.2mm;overflow:hidden}
+.fh{display:flex;justify-content:space-between;align-items:center;font-size:9.4pt}
+.fh b{font-family:var(--display);font-weight:800;font-size:11pt}
+.fh span{color:var(--muted);font-weight:700}
+.sk{flex:1;min-height:26mm;border:1.2px dashed var(--line2);border-radius:2mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm)}
+.fr .os,.fr .vo{font-size:9pt;font-weight:700}
+.fr .os .fill{min-width:44mm}
+.fr .lines.h2{height:15mm;min-height:15mm;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(7.5mm - 1px),#cfc8bc calc(7.5mm - 1px),#cfc8bc 7.5mm)}
+.fr .sh{font-size:8.6pt;color:var(--muted)}
+.beatbar{display:flex;gap:1mm;margin-top:1mm}
+.beatbar span{color:#fff;border-radius:2mm;padding:1.6mm 1mm;text-align:center;font:700 8.8pt var(--display);line-height:1.2}
+.genreCards .gc{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.gc .no{font-size:10pt;color:var(--c-ink)}
+.gc small{line-height:1.45;font-size:8.4pt}
+.gc .em{font-size:26pt}
+.k-con{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.k-side{--c:#5bb5a2;--cs:#e3f1ee;--c-ink:#23826f}
+.sidegrid{grid-template-columns:repeat(3,1fr);grid-auto-rows:43mm}
+.sidegrid .cc small{font-size:8.8pt;line-height:1.4}
+.booth{margin-top:6mm;flex:1;border:2px solid #8c7ae6;border-radius:4mm;padding:5mm 6mm;background:#faf9ff;display:flex;flex-direction:column;gap:2mm}
+.bh{display:flex;align-items:center;justify-content:space-between;gap:4mm}
+.bh>span{font-size:30pt}
+.bh b{display:block;font-family:var(--display);font-weight:800;font-size:28pt;line-height:1;text-align:center;color:#4b3aa8}
+.bh p{text-align:center;font-family:var(--display);font-weight:700;font-size:14pt;color:var(--bad)}
+.glist{font-size:9.6pt;line-height:1.8;display:flex;flex-wrap:wrap;gap:0 4mm}
+.glist span{white-space:nowrap}
+table.critic td{height:14mm;vertical-align:middle}
+table.critic td:first-child{font-family:var(--display);font-weight:700}
+.ballots{grid-template-columns:1fr 1fr;grid-template-rows:repeat(6,1fr);flex:1}
+.bl{padding:3mm 5mm;display:flex;flex-direction:column;justify-content:center;gap:1.4mm;font-size:10pt}
+.bl b{font-family:var(--display);font-weight:800;font-size:12pt}
+.bl .fill{min-width:55mm}
+.bl small{color:var(--muted);font-size:8.4pt}
+table.script td{height:9mm;vertical-align:middle}
+table.script td:first-child{font-weight:700}
+.certs{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.cert{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.4mm;padding:5mm;margin:2.5mm;border:2px solid #e3b341;border-radius:3mm;background:linear-gradient(180deg,#fffaf0,#fff)}
+.cert .em{font-size:30pt;line-height:1}
+.cert b{font-family:var(--display);font-weight:800;font-size:17pt;color:#8a5300}
+.cert small{color:var(--muted);font-size:8.6pt}
+.cert p{font-size:10pt;margin-top:1mm}
+.cert .nm{width:60mm;border-bottom:1.4px solid var(--ink);height:9mm}
+ol.twocol{display:grid;grid-template-columns:1fr 1fr;column-gap:6mm}
+table.tb.tight td{padding:1.3mm 2mm;font-size:9.2pt}
+table.tb.tight td:last-child{text-align:center;white-space:nowrap;font-family:var(--display);font-weight:700;color:var(--teal);width:22mm}
+.roles-today li{margin-bottom:1.6mm}
+#p-score table.tb td.e{height:7.5mm}
+#p-script table.tb td.e{height:8mm}
+.booth table.tb td.e{height:11mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · אולפני 30 השניות<small>שיעור 21 · שלב 7: מיתוג ושיווק</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · שיעור 21</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-7 אולפנים (צוותים). לכיתה גדולה או קטנה יותר: לפי מספר האולפנים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דרכון ההפקה</td><td>1 לאולפן (7)</td><td>בריסטול אם אפשר</td><td>לא</td></tr>
+      <tr><td>4</td><td>דף התסריט</td><td>1 לאולפן + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>סטוריבורד 6 פריימים</td><td>1 לאולפן + 2 רזרבה (9)</td><td>רגיל, או A3 בהגדלה</td><td>לא</td></tr>
+      <tr><td>6</td><td>דף הבמאי (תזכורת)</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>12 כרטיסי ז׳אנר</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>8</td><td>מגבלות במאי ומוצרי גיבוי</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>9</td><td>משימות צד + שלט תא ההקלטה</td><td>1</td><td>רגיל</td><td>הכרטיסים: כן</td></tr>
+      <tr><td>10</td><td>דף המבקר (לבכורה)</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>פתקי הצבעה</td><td>3 עמודים (36 פתקים)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>12</td><td>מחוון</td><td>1 לאולפן + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>14</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>15</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>16</td><td>תעודות פרסים</td><td>1–2</td><td>בריסטול</td><td>כן</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בארגז של כל אולפן</h3>
+      <ul class="check"><li>כרטיס משימה, דרכון הפקה, מחוון</li><li>דף תסריט וסטוריבורד</li><li>דף הבמאי ודף המבקר</li><li>2 רצועות שורת AI</li><li>2 טושים, עפרונות, מעטפת צוות</li><li>מומלץ: אוזניות עם מיקרופון</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן ההפקה</h3>
+      <ul class="check"><li>מעטפה עם 12 כרטיסי ז׳אנר, הפוכים</li><li>כרטיסי מגבלת במאי ומוצרי גיבוי</li><li>כרטיסי משימות צד</li><li>טוש ירוק או חותמת לדרכונים</li><li>פתקי הצבעה, כרטיסי יציאה, דף ניקוד</li><li>תעודות פרסים</li></ul></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🎙️ תא ההקלטה</h3><p style="font-size:9.6pt">פינה שקטה או מסדרון קרוב. תולים את השלט (עמוד 9) ומניחים עט. 3 דקות לאולפן, מדקה 10 של שלב 2.</p></div>
+    <div class="box"><h3>✂ גזירה מהירה</h3><p style="font-size:9.6pt">עמודים 7–9 ו-11: כמה דפים יחד. ז׳אנרים במעטפה אחת. מגבלות (סגול) ומוצרי גיבוי (כחול) בשתי ערמות.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · שיעור 21 · כרטיס המשימה</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎬 שלב 7: מיתוג ושיווק</span><h2>פסטיבל <span>30 השניות</span></h2></div><p>הערב נפתח פסטיבל הסרטים הכי קצר בעיר. כל צוות הוא אולפן הפקה, והלקוח הוא המיזם שלכם. <b>המטרה:</b> פרסומת של 20–30 שניות, בז׳אנר הסודי שהמפיק/ה שולף/ת, שהכיתה צופה בה עד הסוף ומנחשת את הז׳אנר שלה.</p></div>
+  <div class="box"><h3>📏 החוקים</h3><ol class="clean twocol" style="font-size:9.5pt"><li>6 סצנות: וו · בעיה · פתרון · איך זה עובד · קריאה לפעולה · שם וסלוגן.</li><li>קריינות בקול שלכם, מצלמה כבויה. בלי פנים, אווטרים או חיקוי קולות.</li><li>עד 5 מילים על המסך בסצנה. מוזיקה רק מהמאגר של Vids.</li><li>הז׳אנר בסוד עד הבכורה.</li><li>עובדות אמיתיות בלבד. AI ובדיון מסומנים.</li><li>3 חותמות בדרכון ההפקה.</li></ol></div>
+  <div class="grid2" style="margin-top:3.5mm;grid-template-columns:1.05fr 1fr">
+    <div class="box"><h3>🏆 הניקוד (ידוע מראש)</h3>
+      <table class="tb tight"><tbody>
+        <tr><td>🎬 חותמת 1 · אור ירוק</td><td>3</td></tr>
+        <tr><td>🎬 חותמת 2 · גרסה גסה</td><td>2</td></tr>
+        <tr><td>🎬 חותמת 3 · הגשה במפרט</td><td>5</td></tr>
+        <tr><td>📊 רמה במחוון × 3</td><td>3–12</td></tr>
+        <tr><td>🪝 מד הוו (מקומות 1–3)</td><td>5 / 3 / 2</td></tr>
+        <tr><td>🎭 ניחוש ז׳אנר (שלכם ושל אחרים)</td><td>1 לכל ניחוש</td></tr>
+        <tr><td>🗳️ פרס הקהל (מקומות 1–3)</td><td>8 / 5 / 3</td></tr>
+        <tr><td>🏅 פרס קטגוריה</td><td>3 לכל פרס</td></tr>
+        <tr><td>🎟 כולם מילאו כרטיס יציאה</td><td>2</td></tr>
+      </tbody></table>
+      <p style="margin-top:1.5mm;font-size:8.8pt;color:var(--muted)">הכי הרבה נקודות = 🏆 אלופי הפסטיבל. שובר שוויון: מד הוו.</p></div>
+    <div class="box"><h3>👥 מה כל תפקיד עושה היום</h3>
+      <ul class="clean roles-today" style="font-size:9.2pt">
+        <li><b>🧭 המפיק/ה (מנכ״ל/ית):</b> שולף/ת ז׳אנר, שעון ודרכון, חותמות ותור לתא ההקלטה.</li>
+        <li><b>🔍 התסריטאי/ת (חוקר/ת):</b> כותב/ת תסריט, סופר/ת מילים, בודק/ת שכל טענה נכונה.</li>
+        <li><b>🛠️ העורך/ת (בונה):</b> משרטט/ת סטוריבורד ו"נוהג/ת" ב-Vids. מתחלפים כל 5 דקות.</li>
+        <li><b>🎤 הקריין/ית (מציג/ה):</b> מקריא/ה כל טיוטה, מקליט/ה, ממלא/ת את הטופס.</li>
+        <li><b>🤖 האפקטים (AI):</b> ווים ותמונות ב-Gemini, "נוצר ב-AI" ושורת ה-AI.</li>
+      </ul></div>
+  </div>
+  <div class="box soft" style="margin-top:3.5mm"><h3>⏱️ לוח הזמנים של ההפקה</h3>
+    <div class="grid3" style="grid-template-columns:repeat(4,1fr);font-size:9.2pt;gap:3mm"><p><b>📝 שלב 1 · 15 דק׳</b><br>לוגליין, 3 ווים, סטוריבורד, תסריט ← 🟢</p><p><b>🗣️ שער 1 · 6 דק׳</b><br>קריאה שולחנית לאולפן השכן</p><p><b>🎥 שלב 2 · 20 דק׳</b><br>Vids, תא הקלטה, מבחן ההשתקה ← 🎞️ 🎬</p><p><b>🍿 בכורה</b><br>מד הוו, ז׳אנר, קהל, פרסים</p></div></div>
+  <div class="grid3" style="margin-top:3.5mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">4 סצנות (וו · פתרון · קריאה לפעולה · שם), 15–20 שניות. אפשר לבנות על הסטוריבורד של קופסת הפסקה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">המפרט המלא: 6 סצנות, 20–30 שניות, ז׳אנר שנשמע ונראה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">המפרט המלא + כרטיס "מגבלת במאי" + גרסת 15 שניות של אותו סרטון.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. PRODUCTION PASSPORT ===================== -->
+<section class="page" id="p-passport" data-label="דרכון ההפקה">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · דרכון ההפקה</div><div class="r">המפיק/ה מחזיק/ה</div></div>
+  <div class="pt"><div><span class="kick">🎫 בלי חותמת לא ממשיכים</span><h2>דרכון ההפקה של אולפן <span class="fill"></span></h2></div><p>כל חותמת מקבלים בשולחן ההפקה. רק המפיק/ה ניגש/ת.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎬 הסרט שלנו</h3>
+      <p style="line-height:2.3">שם הסרט: <span class="fill l"></span><br>מוצר: ☐ המיזם שלנו ☐ מוצר גיבוי: <span class="fill"></span><br>ז׳אנר מספר: <span class="fill s"></span> <b style="color:var(--bad)">(בסוד!)</b> · שליפה שנייה? ☐</p></div>
+    <div class="box"><h3>🎞️ כתוביות הסיום</h3>
+      <p style="line-height:2.15;font-size:9.8pt">🧭 הפקה: <span class="fill"></span><br>🔍 תסריט: <span class="fill"></span><br>🛠️ עריכה: <span class="fill"></span><br>🎤 קריינות: <span class="fill"></span><br>🤖 אפקטים: <span class="fill"></span></p></div>
+  </div>
+  <div class="stack" style="margin-top:4mm">
+    <div class="box stamp-row"><div><h3>🟢 חותמת 1 · אור ירוק <small>סוף שלב 1 · 3 נק׳ (באיחור 2)</small></h3>
+      <ul class="check"><li>לוגליין במשפט אחד</li><li>3 ווים, ובחרנו אחד</li><li>סטוריבורד של 6 פריימים: רואים · שומעים · שוט</li><li>תסריט עד 70 מילים (ספרנו: <span class="fill s"></span>)</li><li>הוקרא בקול בסטופר: <span class="fill s"></span> שניות</li></ul></div><div class="stamp">חותמת</div></div>
+    <div class="box stamp-row"><div><h3>🎞️ חותמת 2 · גרסה גסה <small>דקה 10 של שלב 2 · 2 נק׳</small></h3>
+      <ul class="check"><li>6 סצנות ב-Vids, לפי הסדר של הסטוריבורד</li><li>בכל סצנה טקסט קצר (עד 5 מילים)</li><li>בכל סצנה תמונה או אייקון</li></ul></div><div class="stamp">חותמת</div></div>
+    <div class="box stamp-row"><div><h3>🎬 חותמת 3 · סוף צילומים <small>הגשה · 5 נק׳</small></h3>
+      <ul class="check"><li>קריינות בקול שלנו · מוזיקה מהמאגר</li><li>קריאה לפעולה + שם וסלוגן</li><li>20–30 שניות · עבר את מבחן ההשתקה ומבחן העיניים העצומות</li><li>קישור צפייה בטופס · שורת AI · שקף 21 ביומן</li></ul></div><div class="stamp">חותמת</div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🎙️ תא ההקלטה</h3><p>התור שלנו: <span class="fill s"></span> · הקלטנו ☐ · קריין/ית: <span class="fill"></span></p></div>
+    <div class="box soft"><h3>⭐ משימות צד שעשינו</h3><ul class="check" style="grid-template-columns:1fr 1fr;display:grid"><li>✂️ 15 שניות</li><li>🎞️ כרזה</li><li>🗣️ דיבוב</li><li>🎯 מגבלה</li><li>🔤 כתוביות</li><li>🤝 עזרנו</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 4. SCRIPT SHEET ===================== -->
+<section class="page" id="p-script" data-label="דף התסריט">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · דף התסריט</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📝 שלב 1 · טרום-הפקה · 🟡 AI לרעיונות ולטיוטות</span><h2>חדר <span>הכותבים</span></h2></div></div>
+  <div class="box"><h3>1. לוגליין: הסרט במשפט אחד</h3><p style="line-height:2.2">"<span class="fill l"></span> עוזר ל<span class="fill"></span> ש<span class="fill l"></span>."</p></div>
+  <div class="box" style="margin-top:3.5mm"><h3>2. שלושה ווים בסגנון הז׳אנר (עד 8 מילים כל אחד)</h3>
+    <table class="tb"><thead><tr><th style="width:26mm">סוג</th><th>הוו</th><th style="width:16mm">בחרנו ✓</th></tr></thead><tbody>
+      <tr><td>❓ שאלה</td><td class="e"></td><td></td></tr><tr><td>💥 הפתעה</td><td class="e"></td><td></td></tr><tr><td>😩 בעיה מוכרת</td><td class="e"></td><td></td></tr></tbody></table></div>
+  <div class="box" style="margin-top:3.5mm"><h3>3. התסריט: מה הקריין/ית אומר/ת בכל פעימה</h3>
+    <table class="tb script"><thead><tr><th style="width:40mm">פעימה</th><th style="width:13mm">שניות</th><th>הקריינות</th><th style="width:15mm">מילים</th></tr></thead><tbody>
+      <tr><td>1 · 🪝 וו</td><td>0–3</td><td></td><td></td></tr>
+      <tr><td>2 · 😩 בעיה</td><td>3–8</td><td></td><td></td></tr>
+      <tr><td>3 · 📦 פתרון</td><td>8–14</td><td></td><td></td></tr>
+      <tr><td>4 · ⚙️ איך זה עובד</td><td>14–22</td><td></td><td></td></tr>
+      <tr><td>5 · 👉 קריאה לפעולה</td><td>22–27</td><td></td><td></td></tr>
+      <tr><td>6 · 🏷️ שם וסלוגן</td><td>27–30</td><td></td><td></td></tr>
+      <tr><td colspan="3" style="text-align:left"><b>סה״כ מילים (עד 70):</b></td><td></td></tr>
+    </tbody></table></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>⏱️ מבחן הסטופר</h3><p style="line-height:2.2">ניסיון 1: <span class="fill s"></span> שנ׳ · ניסיון 2: <span class="fill s"></span> שנ׳<br>☐ 30 שניות או פחות, בקצב רגוע</p></div>
+    <div class="box"><h3>🔍 בדיקת עובדות</h3><p style="font-size:9.2pt">כל מספר או "עובדה" בתסריט: מאיפה זה? אין מקור = מוחקים.</p><div class="lines h1"></div></div>
+  </div>
+  <div class="box soft" style="margin-top:3.5mm"><h3>🤖 שורת AI (מעתיקים גם לטופס)</h3><p style="font-size:9.4pt">מה ה-AI עשה: <span class="fill xl"></span></p><p style="font-size:9.4pt;margin-top:2mm">מה אנחנו עשינו: <span class="fill xl"></span></p></div>
+</section>
+
+<!-- ===================== 5. STORYBOARD ===================== -->
+<section class="page" id="p-board" data-label="סטוריבורד">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · סטוריבורד</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🎞️ 6 פריימים · המסך מראה, הקול מספר</span><h2>הסטוריבורד <span>שלנו</span></h2></div></div>
+  <div class="board">
+    <div class="fr"><div class="fh"><b>1 · 🪝 וו</b><span>0–3 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+    <div class="fr"><div class="fh"><b>2 · 😩 בעיה</b><span>3–8 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+    <div class="fr"><div class="fh"><b>3 · 📦 פתרון</b><span>8–14 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+    <div class="fr"><div class="fh"><b>4 · ⚙️ איך זה עובד</b><span>14–22 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+    <div class="fr"><div class="fh"><b>5 · 👉 קריאה לפעולה</b><span>22–27 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+    <div class="fr"><div class="fh"><b>6 · 🏷️ שם וסלוגן</b><span>27–30 שנ׳</span></div><div class="sk"></div><p class="os">על המסך (≤5 מילים): <span class="fill"></span></p><p class="vo">הקריין/ית:</p><div class="lines h2"></div><p class="sh">שוט: ◯ רחב ◯ בינוני ◯ תקריב ◯ פרט</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. DIRECTOR'S CHEAT SHEET ===================== -->
+<section class="page" id="p-cheat" data-label="דף הבמאי">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · דף הבמאי</div><div class="r">נשאר על השולחן</div></div>
+  <div class="pt"><div><span class="kick">🎓 בית ספר לקולנוע בעמוד אחד</span><h2>דף <span>הבמאי</span></h2></div></div>
+  <div class="stack grow">
+    <div class="box"><h3>🪝 הוו: 3 השניות הראשונות</h3>
+      <div class="grid3" style="font-size:9.6pt"><p><b>❓ שאלה</b><br>"משעמם לכם בהפסקה?"</p><p><b>💥 הפתעה</b><br>שקט… ובום! (עובדה רק אם היא נכונה)</p><p><b>😩 בעיה מוכרת</b><br>"שוב שכחתם את הכדור?"</p></div>
+      <p style="font-size:9pt;color:var(--bad);margin-top:1.5mm">✗ לא וו: "שלום, אנחנו…", לוגו מסתובב, מסך שחור.</p></div>
+    <div class="box"><h3>🧱 6 פעימות ב-30 שניות</h3>
+      <div class="beatbar"><span style="flex:3;background:#be3455">וו<br>0–3</span><span style="flex:5;background:#c2630f">בעיה<br>3–8</span><span style="flex:6;background:#23826f">פתרון<br>8–14</span><span style="flex:8;background:#2f6db5">איך זה עובד<br>14–22</span><span style="flex:5;background:#6a55c9">קריאה לפעולה<br>22–27</span><span style="flex:3;background:#0f766e">שם<br>27–30</span></div></div>
+    <div class="grid2">
+      <div class="box"><h3>🎥 גודל הפריים</h3><table class="tb" style="font-size:9.2pt"><tbody>
+        <tr><td><b>רחב</b></td><td>כל המקום · "איפה אנחנו?"</td></tr><tr><td><b>בינוני</b></td><td>אדם ופעולה · "מה קורה?"</td></tr><tr><td><b>תקריב</b></td><td>פנים · "מה מרגישים?"</td></tr><tr><td><b>פרט</b></td><td>חפץ אחד · "על מה להסתכל?"</td></tr></tbody></table>
+        <p style="font-size:9pt;margin-top:1.5mm">כלל הבמאים: מתחילים רחב, נכנסים קרוב. למוצר לפחות שוט פרט אחד.</p></div>
+      <div class="box"><h3>👀 + 👂 רואים + שומעים</h3><ul class="clean" style="font-size:9.6pt"><li>על המסך: תמונה אחת גדולה + עד 5 מילים.</li><li>בקול: משפט או שניים לסצנה.</li><li><b>לא כותבים על המסך את מה שהקריין/ית אומר/ת.</b></li><li>70 מילים ≈ 30 שניות (קצת יותר מ-2 מילים בשנייה).</li></ul></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>🎥 Google Vids · vids.new</h3><ol class="clean" style="font-size:9.3pt"><li>"לרוחב" ← "סרטון ריק".</li><li>סצנה לכל פריים. טקסט + תמונה.</li><li>"מאגר": תמונות, אייקונים, מוזיקה.</li><li>תמונה מ-Gemini: "העלאה".</li><li>סמל ההקלטה ← "קריינות" (קול בלבד).</li><li>שיתוף ← "כל מי שקיבל את הקישור" ← "צופה".</li></ol><p style="font-size:8.8pt;color:var(--muted);margin-top:1mm">רק במחשב: Chrome, Edge או Firefox.</p></div>
+      <div class="box"><h3>🔍 לפני הגשה</h3><ul class="check" style="font-size:9.3pt"><li>🔇 מבחן ההשתקה: מבינים בלי קול?</li><li>🙈 מבחן העיניים העצומות: מבינים בלי תמונה?</li><li>⏱️ 20–30 שניות</li><li>👉 קריאה לפעולה + 🏷️ שם וסלוגן</li><li>🤖 "נוצר ב-AI" על כל תמונת Gemini</li></ul></div>
+    </div>
+    <div class="box soft"><h3>⚖️ פרסום הוגן</h3><p style="font-size:9.6pt">בלי פנים של אנשים · בלי אווטרים · רק הקול שלנו · מוזיקה מהמאגר בלבד · מספר על המסך רק אם הוא אמיתי · מראים את הבעיה, לא משמיצים אף אחד · בלי שמות מלאים, שם בית ספר או כתובת.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 7. GENRE CARDS ===================== -->
+<section class="page" id="p-genres" data-label="כרטיסי ז׳אנר">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · 12 כרטיסי ז׳אנר</div><div class="r">סט 1 לכיתה · בסוד!</div></div>
+  <p class="cutnote">✂ לגזור, להפוך ולהכניס למעטפה. המפיק/ה שולף/ת כרטיס אחד ולא מראה לאף אולפן אחר. אפשר להחזיר ולשלוף פעם אחת נוספת.</p>
+  <div class="cutgrid cards genreCards">
+    <div class="cc gc"><span class="no">1</span><span class="em">🎬</span><b>טריילר אקשן</b><small>קול: עמוק ואיטי, "בעולם שבו…"<br>מוזיקה: דרמטית, תופים<br>שוטים: מהירים, תקריבים</small></div>
+    <div class="cc gc"><span class="no">2</span><span class="em">🦁</span><b>סרט טבע</b><small>קול: לחישה רגועה של חוקר/ת<br>מוזיקה: רכה, צלילי טבע<br>שוטים: רחבים ואיטיים</small></div>
+    <div class="cc gc"><span class="no">3</span><span class="em">📰</span><b>מבזק חדשות</b><small>קול: נמרץ, "מבזק!"<br>מוזיקה: אות חדשות<br>שוטים: כותרת אדומה, בינוני</small></div>
+    <div class="cc gc"><span class="no">4</span><span class="em">👻</span><b>אימה (מצחיקה)</b><small>קול: איטי, עם הפסקות…<br>מוזיקה: מתח, צליל פתאומי<br>שוטים: חשוך, ואז אור</small></div>
+    <div class="cc gc"><span class="no">5</span><span class="em">🍳</span><b>תכנית בישול</b><small>קול: חם, "לוקחים… מוסיפים…"<br>מוזיקה: קלילה<br>שוטים: פרט, מלמעלה</small></div>
+    <div class="cc gc"><span class="no">6</span><span class="em">⚽</span><b>שידור ספורט</b><small>קול: מהיר ומתלהב<br>מוזיקה: קהל, שריקה<br>שוטים: רחב, ואז תקריב</small></div>
+    <div class="cc gc"><span class="no">7</span><span class="em">🦸</span><b>גיבורי על</b><small>קול: דרמטי, "כשהכול בסכנה…"<br>מוזיקה: אפית<br>שוטים: מלמטה, כמו גיבור</small></div>
+    <div class="cc gc"><span class="no">8</span><span class="em">🕵️</span><b>בלשים</b><small>קול: שקט וחשדני<br>מוזיקה: מסתורית<br>שוטים: פרט של רמזים</small></div>
+    <div class="cc gc"><span class="no">9</span><span class="em">🎤</span><b>ריאליטי</b><small>קול: מנחה נלהב, "רק אחד יישאר"<br>מוזיקה: מתח של הכרזה<br>שוטים: תגובות בתקריב</small></div>
+    <div class="cc gc"><span class="no">10</span><span class="em">🧪</span><b>ניסוי מדעי</b><small>קול: רציני, "ניסוי מספר 1"<br>מוזיקה: ביפים, מעבדה<br>שוטים: לפני ואחרי</small></div>
+    <div class="cc gc"><span class="no">11</span><span class="em">🕹️</span><b>משחק מחשב</b><small>קול: "שלב 1… בונוס!"<br>מוזיקה: צלילי משחק<br>שוטים: מסך, ניקוד, שלבים</small></div>
+    <div class="cc gc"><span class="no">12</span><span class="em">📼</span><b>פרסומת רטרו</b><small>קול: מהיר ושמח, "רק עכשיו!"<br>מוזיקה: ג׳ינגל ישן<br>שוטים: צבעים חזקים</small></div>
+  </div>
+</section>
+
+<!-- ===================== 8. CONSTRAINTS + BACKUP PRODUCTS ===================== -->
+<section class="page" id="p-twists" data-label="מגבלות ומוצרים">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · מגבלות במאי ומוצרי גיבוי</div><div class="r">סט 1 לכיתה</div></div>
+  <p class="cutnote">✂ שתי ערמות. פס סגול = מגבלת במאי (לרמת אלופים ולמשימת הצד). פס כחול = מוצר גיבוי, לאולפן שאין לו מיזם מתאים לפרסומת.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M1</span><span class="em">🤐</span><b>אף מילה על המסך</b><small>חוץ משם המוצר בסצנה האחרונה</small></div>
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M2</span><span class="em">⏳</span><b>המוצר מופיע רק בשנייה 12</b><small>עד אז רק הבעיה</small></div>
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M3</span><span class="em">❓</span><b>נגמרים בשאלה</b><small>המשפט האחרון של הקריינות הוא שאלה</small></div>
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M4</span><span class="em">🔁</span><b>צליל אחד, 3 פעמים</b><small>אותו צליל חוזר בהתחלה, באמצע ובסוף</small></div>
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M5</span><span class="em">👁️</span><b>מנקודת המבט של חפץ</b><small>הכדור, התיק או הספסל מספר את הסיפור</small></div>
+    <div class="cc k-con"><span class="cat">🎯 מגבלת במאי</span><span class="no">M6</span><span class="em">🎯</span><b>בדיוק 5 מילים</b><small>בקריינות של כל סצנה</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P1</span><span class="em">🎒</span><b>התיק שזוכר</b><small>תיק שמזכיר מה לארוז לפי מערכת השעות</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P2</span><span class="em">🌱</span><b>העציץ שמדבר</b><small>עציץ ששולח הודעה כשהוא צמא</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P3</span><span class="em">📚</span><b>המדף המתחלף</b><small>מדף להחלפת ספרים בספריית בית הספר</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P4</span><span class="em">🐶</span><b>טיול בשכונה</b><small>אפליקציה שמחברת שכנים שמטיילים עם כלבים</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P5</span><span class="em">🚲</span><b>פנצ׳ר-בוקס</b><small>תחנת תיקון אופניים קטנה בחצר</small></div>
+    <div class="cc k-cust"><span class="cat">📦 מוצר גיבוי</span><span class="no">P6</span><span class="em">🥪</span><b>כריך בדרך</b><small>מועדון בוקר שמכין כריכים יחד</small></div>
+  </div>
+</section>
+
+<!-- ===================== 9. SIDE MISSIONS + BOOTH SIGN ===================== -->
+<section class="page" id="p-side" data-label="משימות צד ותא הקלטה">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · משימות צד ושלט תא ההקלטה</div><div class="r">שולחן ההפקה</div></div>
+  <p class="cutnote">✂ 6 כרטיסי משימות צד. אולפן שקיבל חותמת 3 ניגש ובוחר כרטיס.</p>
+  <div class="cutgrid sidegrid">
+    <div class="cc k-side"><span class="em">✂️</span><b>גרסת 15 שניות</b><small>"קובץ ← יצירת עותק". רק וו, פתרון, קריאה לפעולה ושם. כתבו שורה: מה חתכנו ולמה?</small></div>
+    <div class="cc k-side"><span class="em">🎞️</span><b>כרזת הבכורה</b><small>תמונה מ-Gemini בלי טקסט, ועליה ב-Slides: שם הסרט, "בקרוב" ו"נוצר ב-AI".</small></div>
+    <div class="cc k-side"><span class="em">🗣️</span><b>דיבוב בז׳אנר אחר</b><small>כתבו מחדש את פריים 1 בז׳אנר אחר, ובצעו אותו חי אחרי ההקרנה.</small></div>
+    <div class="cc k-side"><span class="em">🎯</span><b>מגבלת במאי</b><small>שלפו כרטיס מגבלה ובנו סצנה אחת (או את כל הסרטון) לפיו.</small></div>
+    <div class="cc k-side"><span class="em">🔤</span><b>גרסה עם כתוביות</b><small>בעותק נפרד: כתוביות קצרות לכל הקריינות, למי שצופה בלי קול.</small></div>
+    <div class="cc k-side"><span class="em">🤝</span><b>עוזר הפקה</b><small>עזרו לאולפן אחר במבחן ההשתקה. בלי לגעת במקלדת שלהם.</small></div>
+  </div>
+  <div class="booth">
+    <div class="bh"><span>🎙️</span><div><b>תא הקלטה</b><p>שקט, מקליטים!</p></div><span>🔴</span></div>
+    <ol class="clean" style="font-size:13pt;line-height:1.6"><li>3 דקות לאולפן. נכנסים לפי התור.</li><li>מצלמה כבויה: "קריינות" מקליטה קול בלבד.</li><li>לאט וברור. סצנה אחרי סצנה.</li><li>רק הקול שלכם. בלי שמות מלאים ושם בית ספר.</li></ol>
+    <table class="tb" style="margin-top:3mm"><thead><tr><th style="width:14mm">תור</th><th>אולפן</th><th style="width:14mm">✓</th><th style="width:14mm">תור</th><th>אולפן</th><th style="width:14mm">✓</th></tr></thead><tbody>
+      <tr><td>1</td><td class="e"></td><td></td><td>5</td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td>6</td><td></td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td>7</td><td></td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td>8</td><td></td><td></td></tr></tbody></table>
+  </div>
+</section>
+
+<!-- ===================== 10. CRITIC SHEET ===================== -->
+<section class="page" id="p-critic" data-label="דף המבקר">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · דף המבקר</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🍿 הבכורה · ממלאים אחרי כל הקרנה, 10 שניות</span><h2>דף <span>המבקר</span></h2></div><p>מנחשים את הז׳אנר לפי המספרים למטה. את האולפן שלכם ואת האולפן השכן (ששמע אתכם בקריאה השולחנית) לא מנחשים.</p></div>
+  <div class="box soft"><h3>🎭 12 הז׳אנרים</h3>
+    <p class="glist"><span>1 🎬 טריילר אקשן</span><span>2 🦁 סרט טבע</span><span>3 📰 מבזק חדשות</span><span>4 👻 אימה מצחיקה</span><span>5 🍳 תכנית בישול</span><span>6 ⚽ שידור ספורט</span><span>7 🦸 גיבורי על</span><span>8 🕵️ בלשים</span><span>9 🎤 ריאליטי</span><span>10 🧪 ניסוי מדעי</span><span>11 🕹️ משחק מחשב</span><span>12 📼 פרסומת רטרו</span></p></div>
+  <table class="tb critic" style="margin-top:4mm"><thead><tr><th style="width:22mm">אולפן</th><th style="width:26mm">🎭 הניחוש שלנו (1–12)</th><th>💚 אני אוהב/ת… (דבר אחד שעבד)</th><th style="width:20mm">👍 נשארנו עד הסוף?</th><th style="width:18mm">✓ צדקנו?</th></tr></thead>
+    <tbody>
+      <tr><td>🎬 1</td><td></td><td></td><td></td><td></td></tr><tr><td>🎥 2</td><td></td><td></td><td></td><td></td></tr><tr><td>🎞️ 3</td><td></td><td></td><td></td><td></td></tr><tr><td>🎙️ 4</td><td></td><td></td><td></td><td></td></tr><tr><td>🍿 5</td><td></td><td></td><td></td><td></td></tr><tr><td>📽️ 6</td><td></td><td></td><td></td><td></td></tr><tr><td>🎭 7</td><td></td><td></td><td></td><td></td></tr><tr><td>🌟 8</td><td></td><td></td><td></td><td></td></tr>
+    </tbody></table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🏆 הוו הכי חזק בפסטיבל</h3><p style="font-size:9.4pt">אולפן <span class="fill s"></span>, כי:</p><div class="lines h2"></div></div>
+    <div class="box"><h3>🔢 ניחושים נכונים שלנו</h3><p style="font-size:9.4pt">סופרים ✓ בטבלה: <span class="fill s"></span> = נקודות לאולפן שלנו</p><p style="font-size:9pt;color:var(--muted);margin-top:2mm">המדריך שואל אחרי כל חשיפה "מי ניחש נכון?" ומעדכן בלוח.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 11. BALLOTS ===================== -->
+<section class="page" id="p-ballots" data-label="פתקי הצבעה">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · פתקי הצבעה · פרס הקהל</div><div class="r">12 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. פתק אחד לכל תלמיד. 3 אולפנים שונים, לא האולפן שלך. המפיקים אוספים.</p>
+  <div class="cutgrid ballots">
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+    <div class="bl"><b>🗳️ פרס הקהל</b><p>1. <span class="fill"></span></p><p>2. <span class="fill"></span></p><p>3. <span class="fill"></span></p><small>לא מצביעים לאולפן שלי · אולפן שלי: <span class="fill s"></span></small></div>
+  </div>
+</section>
+
+<!-- ===================== 12. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · המחוון</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>הפרסומת</span></h2></div><p>בשער 1 מסמנים איפה אתם עכשיו. בהגשה, הערכה עצמית בטופס. המדריך קובע את הרמה הסופית בבכורה.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">🪝 וו ומבנה<small>3 שניות, 6 פעימות</small></td><td>מתחיל ב"שלום, אנחנו…" או בלוגו, וחסרות פעימות</td><td>יש וו, אבל אחרי 3 שניות, או שפעימה אחת חסרה</td><td>וו ב-3 השניות הראשונות, כל 6 הפעימות לפי הסדר, 20–30 שניות</td><td>כמו 3, ורוב הכיתה החזיקה אגודל עד הסוף. אין שנייה מיותרת</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">👀👂 רואים + שומעים<small>המסך מראה, הקול מספר</small></td><td>אין קריינות, או שהמסך מקריא אותה מילה במילה</td><td>קריינות לא ברורה או מהירה, יותר מ-5 מילים על המסך</td><td>קול ברור, עד 5 מילים בסצנה, תמונה שמתאימה לכל סצנה</td><td>כמו 3, ועובר את מבחן ההשתקה ואת מבחן העיניים העצומות. יש שוט פרט של המוצר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎭 ז׳אנר ורעיון<small>מזהים בלי הסבר</small></td><td>אי אפשר לזהות ז׳אנר</td><td>הז׳אנר מופיע במשפט אחד בלבד</td><td>הז׳אנר נשמע ונראה בקול, במוזיקה ובשוטים. רוב הכיתה ניחשה</td><td>הז׳אנר והמוצר התחברו לרעיון שזוכרים. הכיתה מצטטת משפט</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">⚖️ מסר הוגן ושקיפות<small>קריאה לפעולה ו-AI</small></td><td>אין קריאה לפעולה, או "עובדות" ומספרים מומצאים</td><td>קריאה לפעולה מעורפלת, שורת AI חלקית</td><td>קריאה לפעולה ברורה, שם וסלוגן, אין הבטחה שקרית, שורת AI מלאה</td><td>כמו 3, ומה שבדיוני או נוצר ב-AI מסומן על המסך. מסבירים מה שינינו בפלט</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 3: <b>רמה 1 = 3 · רמה 2 = 6 · רמה 3 = 9 · רמה 4 = 12</b> נקודות בלוח הניקוד.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" בז׳אנר סרט טבע, רמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> חצר ריקה, לחישה: "כאן, בחצר, חי היצור הנדיר מכולם: התלמיד המשועמם." 6 סצנות, 28 שניות, קריאה לפעולה ושם בסוף. אבל בסצנה 3 כתובות על המסך 8 מילים, ואין תמונה של המוצר עצמו.</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> אותו סרטון, ועל המסך בסצנה 3 רק "📦 הקופסה". בקול: "ואז… היצור מגלה את מקור המזון שלו." שוט פרט של הקופסה נפתחת, מסומן "נוצר ב-AI". עובר את מבחן ההשתקה, וכל הצוותים ניחשו את הז׳אנר.</p></div></div>
+</section>
+
+<!-- ===================== 13. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · אולפני 30 השניות</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה מצורפת לסטוריבורד, ואת שתי השורות מעתיקים גם לטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · שיעור: 21</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini צ׳אט ☐ Gemini תמונות ☐ Vids</span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · שיעור: 21</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini צ׳אט ☐ Gemini תמונות ☐ Vids</span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · שיעור: 21</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini צ׳אט ☐ Gemini תמונות ☐ Vids</span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · שיעור: 21</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini צ׳אט ☐ Gemini תמונות ☐ Vids</span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 14. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 86–89, כל אחד לבד. כל חברי האולפן מילאו = 2 נקודות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 21</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הופך 30 שניות לפרסומת שזוכרים?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>תסריט</span><span>סטוריבורד</span><span>עריכה</span><span>קריינות</span><span>AI</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 21</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הופך 30 שניות לפרסומת שזוכרים?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>תסריט</span><span>סטוריבורד</span><span>עריכה</span><span>קריינות</span><span>AI</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 21</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הופך 30 שניות לפרסומת שזוכרים?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>תסריט</span><span>סטוריבורד</span><span>עריכה</span><span>קריינות</span><span>AI</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 21</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הופך 30 שניות לפרסומת שזוכרים?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>תסריט</span><span>סטוריבורד</span><span>עריכה</span><span>קריינות</span><span>AI</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 15. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · אותן עמודות כמו בלוח הניקוד במצגת</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:18mm">אולפן</th><th>אור ירוק<br><small>3</small></th><th>גרסה גסה<br><small>2</small></th><th>הגשה<br><small>5</small></th><th>מחוון ×3<br><small>3–12</small></th><th>מד הוו<br><small>5/3/2</small></th><th>ז׳אנר<br><small>1 לכל</small></th><th>קהל<br><small>8/5/3</small></th><th>פרסים<br><small>3 לכל</small></th><th>יציאה<br><small>2</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:12mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">🎬 1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🎥 2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🎞️ 3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🎙️ 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🍿 5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📽️ 6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🎭 7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:5mm"><h3>🍿 ספירת הבכורה</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:18mm">אולפן</th><th>ז׳אנר (מס׳)</th><th>👍 אגודלים עד הסוף</th><th>ניחשו אותם</th><th>ניחשו נכון</th><th>🗳️ קולות קהל (בקווים)</th><th style="width:16mm">סה״כ קולות</th></tr></thead>
+    <tbody><tr><td class="e">🎬 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🎥 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🎞️ 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🎙️ 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🍿 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📽️ 6</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🎭 7</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ שער 1 (דקה 44–50): מי קיבל אור צהוב?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏅 פרסי קטגוריה</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🎬 בימוי: <span class="fill s"></span></p><p>🎙️ קריינות: <span class="fill s"></span></p><p>⚖️ הוגן: <span class="fill s"></span></p><p>📈 קאמבק: <span class="fill s"></span></p></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחת שיעור 22</h3><div class="lines h1"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 16. AWARD CERTIFICATES ===================== -->
+<section class="page" id="p-awards" data-label="תעודות פרסים">
+  <div class="ph"><div class="l"><i>TIE</i>אולפני 30 השניות · תעודות פרסים</div><div class="r">6 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. ממלאים את שם האולפן בטקס הפרסים.</p>
+  <div class="cutgrid certs">
+    <div class="cert"><span class="em">🏆</span><b>אלופי הפסטיבל</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>הכי הרבה נקודות בפסטיבל</small></div>
+    <div class="cert"><span class="em">🪝</span><b>הוו הזהב</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>הכי הרבה אגודלים עד הסוף</small></div>
+    <div class="cert"><span class="em">🎬</span><b>הבימוי הכי מקורי</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>רעיון שכולם יזכרו מחר</small></div>
+    <div class="cert"><span class="em">🎙️</span><b>הקריינות הכי ברורה</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>כל מילה נשמעה, בקצב הנכון</small></div>
+    <div class="cert"><span class="em">⚖️</span><b>פרסום הוגן</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>אמיתי, מסומן ושקוף</small></div>
+    <div class="cert"><span class="em">📈</span><b>הקאמבק</b><small>פסטיבל 30 השניות · Tech It Easy</small><p>מוענק לאולפן</p><div class="nm"></div><small>השתפר הכי הרבה מאז הקריאה השולחנית</small></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

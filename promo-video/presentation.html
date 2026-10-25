@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>אולפני 30 השניות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== אולפני 30 השניות — lesson-specific additions (engine styles above untouched) — light theme ===== */
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 8px}
+.lead.s{font-size:clamp(16px,1.6vw,22px)}
+/* journey + film strip */
+.journey{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;align-items:center}
+.journey span{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-weight:600;font-size:16px}
+.journey span.done{background:var(--paper2)}
+.journey span.now{color:#fff;background:var(--accent-ink);border-color:var(--accent-ink);box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 30%,transparent);font-weight:700}
+.journey i{font-style:normal;color:var(--dim)}
+.strip{display:flex;gap:8px;margin-top:18px;padding:10px 12px;border-radius:16px;background:#2b3442;width:max-content;max-width:100%;box-shadow:var(--shadow);position:relative}
+.strip::before,.strip::after{content:"";position:absolute;left:8px;right:8px;height:5px;background:repeating-linear-gradient(90deg,#fdf8ef 0 8px,transparent 8px 16px);opacity:.55}
+.strip::before{top:3px}.strip::after{bottom:3px}
+.strip span{width:66px;height:46px;border-radius:7px;background:#fdf8ef;display:grid;place-items:center;font-size:25px}
+.badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.badgeRow span{padding:5px 12px;border-radius:999px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent-ink);font-weight:700;font-size:15px}
+/* two openings (vote) */
+.vote.openings{grid-template-columns:1fr 1fr;max-width:1150px}
+.vote.openings .voteItem.opening{padding:0;text-align:right;overflow:hidden}
+.opening .scr{height:92px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:40px;background:#2b3442;color:#fff}
+.opening .scr small{font:700 15px var(--display);color:#e8e2d6}
+.opening .body{padding:12px 18px 14px;font-size:clamp(16px,1.7vw,21px);line-height:1.5}
+.opening .body b.t{display:block;font:800 22px var(--display);margin-bottom:4px;color:var(--accent-ink)}
+.vote.openings .voteCtl{justify-content:flex-start;margin-top:8px}
+.secret{margin-top:12px;max-width:1150px;border-radius:16px;padding:12px 18px;font-size:clamp(17px,1.8vw,23px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.secret b{color:var(--accent-ink)}
+/* production pipeline */
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px;max-width:1220px}
+.pipe .ph{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:16px 16px 14px;overflow:hidden}
+.pipe .ph::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--pc)}
+.pipe .ph .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--pc) 15%,#fff);color:color-mix(in oklab,var(--pc) 60%,#1f2a37);font:800 17px var(--display)}
+.pipe .ph b{display:block;font:700 clamp(19px,1.8vw,24px) var(--display);margin:8px 0 4px}
+.pipe .ph p{margin:0;color:var(--muted);font-size:clamp(15px,1.4vw,18px);line-height:1.4}
+.pipe .ph .stamp{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;border:1.5px dashed color-mix(in srgb,var(--pc) 60%,#fff);color:color-mix(in oklab,var(--pc) 60%,#1f2a37);font-weight:700;font-size:14px}
+.pc1{--pc:#e76f86}.pc2{--pc:#4c8bd6}.pc3{--pc:#f4a259}.pc4{--pc:#e3a82b}
+/* crew cards */
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}.cards.five .card{padding:16px 15px}.cards.five .card strong{font-size:19px;margin:8px 0 2px}.cards.five .card p{font-size:15.5px}
+.card .crew{display:inline-block;margin-top:2px;padding:2px 9px;border-radius:999px;background:var(--paper2);font-weight:700;font-size:14px;color:var(--ink)}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card .ex{margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--paper2);font-size:16px;color:var(--ink);line-height:1.4}
+/* room map */
+.room{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;margin-top:16px;max-width:1220px;align-items:stretch}
+.map{position:relative;border:1.5px solid var(--line);border-radius:22px;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 28px),#fff;min-height:330px;box-shadow:var(--shadow)}
+.map .z{position:absolute;display:grid;place-items:center;text-align:center;border-radius:16px;font:700 clamp(13px,1.2vw,16px) var(--display);line-height:1.2;padding:6px;box-shadow:var(--shadow-sm)}
+.map .z span{display:block;font-size:26px;line-height:1}
+.map .scr{left:28%;right:28%;top:12px;height:46px;background:#2b3442;color:#fff;border-radius:10px}
+.map .t{width:21%;height:72px;background:#fffaf0;border:1px solid #f0dcaa;color:#7a4a00}
+.map .booth{background:#efecfb;border:1.5px dashed #8c7ae6;color:#4b3aa8}
+.map .prod{background:var(--teal-soft);border:1.5px solid #9fcdc6;color:var(--teal-deep)}
+.map .crit{background:#fce9ed;border:1.5px dashed #e76f86;color:#9c2a47}
+.sig{display:grid;gap:10px;align-content:start}
+.sig .s{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);padding:10px 14px}
+.sig .s b{font:800 clamp(18px,1.7vw,23px) var(--display);color:var(--accent-ink)}
+.sig .s span{display:block;color:var(--muted);font-size:clamp(15px,1.4vw,18px);line-height:1.35}
+.sig .s i{font-style:normal;font-size:30px}
+/* structure ruler */
+.ruler{display:grid;grid-template-columns:3fr 5fr 6fr 8fr 5fr 3fr;gap:4px;margin-top:18px;max-width:1150px;direction:rtl}
+.ruler div{border-radius:10px;padding:8px 6px;color:#fff;font:700 clamp(13px,1.35vw,18px) var(--display);text-align:center;line-height:1.2;background:var(--rc)}
+.ruler div small{display:block;font:600 13px var(--body);opacity:.95}
+.r1{--rc:#be3455}.r2{--rc:#c2630f}.r3{--rc:#23826f}.r4{--rc:#2f6db5}.r5{--rc:#6a55c9}.r6{--rc:#0f766e}
+.steps.six{grid-template-columns:repeat(6,minmax(0,1fr))}.steps.six .step{padding:14px 12px}.steps.six .step p{font-size:16px}.steps.six .step strong{font-size:19px}
+/* animatic player */
+.player{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;margin-top:12px;max-width:1240px;align-items:start}
+.screen{position:relative;aspect-ratio:16/9;border-radius:18px;background:#2b3442;overflow:hidden;box-shadow:var(--shadow-lg);display:grid;place-items:center}
+.screen .scene{font-size:clamp(54px,7vw,100px);line-height:1;letter-spacing:6px;transition:transform .5s}
+.screen .scene.pop{animation:pop .55s cubic-bezier(.2,.8,.3,1.3)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.screen .cap{position:absolute;top:14px;right:16px;max-width:70%;padding:4px 12px;border-radius:10px;background:#fff;color:#1f2a37;font:800 clamp(16px,1.7vw,24px) var(--display);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.screen .cap:empty{display:none}
+.screen .sub{position:absolute;bottom:12px;left:5%;right:5%;text-align:center;color:#fff;font:600 clamp(15px,1.5vw,20px) var(--body);line-height:1.35;background:rgba(0,0,0,.42);border-radius:10px;padding:6px 10px}
+.screen .beatTag{position:absolute;top:14px;left:16px;padding:3px 10px;border-radius:999px;font:700 14px var(--display);color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+.track{position:relative;display:grid;grid-template-columns:3fr 5fr 6fr 8fr 5fr 3fr;gap:3px;margin-top:10px;direction:rtl}
+.track i{height:12px;border-radius:6px;background:var(--rc);opacity:.35;transition:opacity .3s}
+.track i.on{opacity:1}
+.playhead{position:absolute;top:-5px;width:4px;height:22px;border-radius:3px;background:var(--ink);right:0;transition:right .2s linear}
+.pctl{display:flex;align-items:center;gap:10px;margin-top:10px}
+.pctl output{font:800 26px var(--display);font-variant-numeric:tabular-nums;color:var(--ink);direction:ltr;margin-inline-start:auto}
+.beats{display:grid;gap:6px}
+.beats div{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:6px 10px;font-size:clamp(14px,1.3vw,17px);line-height:1.3;transition:.25s;color:var(--muted)}
+.beats div b{display:grid;place-items:center;height:28px;border-radius:8px;color:#fff;background:var(--rc);font:700 13px var(--display);direction:ltr}
+.beats div.on{border-color:var(--ink);color:var(--ink);box-shadow:var(--shadow);transform:translateX(-4px)}
+/* see/hear */
+.box .label.see{color:var(--sky-ink);background:#e6f0fb}.box .label.hear{color:var(--violet-ink);background:#efecfb}
+.box ul{margin:6px 0 0;padding-inline-start:22px;display:grid;gap:3px}
+/* shot sizes */
+.shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1220px}
+.shot{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:12px 12px 14px}
+.vf{position:relative;aspect-ratio:16/10;border-radius:12px;background:linear-gradient(180deg,#e8f1fb,#fdf6ea 70%);overflow:hidden;display:grid;place-items:center}
+.vf::before,.vf::after{content:"";position:absolute;width:22px;height:22px;border:3px solid #2b3442}
+.vf::before{top:8px;right:8px;border-left:0;border-bottom:0}.vf::after{bottom:8px;left:8px;border-right:0;border-top:0}
+.vf .rec{position:absolute;top:8px;left:12px;font:700 12px var(--display);color:#be3455}
+.shot b{display:block;font:700 clamp(19px,1.8vw,23px) var(--display);margin:10px 0 2px}
+.shot p{margin:0;color:var(--muted);font-size:clamp(14px,1.35vw,17px);line-height:1.35}
+.shot .q{display:inline-block;margin-top:6px;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700;font-size:14px}
+.w1{font-size:22px;display:flex;align-items:flex-end;gap:4px}.w1 em{font-style:normal;font-size:46px}
+.w2{font-size:64px}.w3{font-size:118px;line-height:1;transform:translateY(12%)}.w4{font-size:92px}
+/* case: bottle cage */
+.case{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;margin-top:12px;max-width:1240px;align-items:start}
+.cage{position:relative;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:16px;overflow:hidden}
+.cage .bottles{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;font-size:clamp(15px,1.5vw,21px);line-height:1.15;text-align:center;filter:saturate(.9)}
+.cageIn{position:relative;padding:4px}
+.cage .bars{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 26px,rgba(43,52,66,.55) 26px 30px);border-top:5px solid rgba(43,52,66,.6);border-bottom:5px solid rgba(43,52,66,.6);pointer-events:none;border-radius:6px}
+.cage .num{position:relative;margin-top:12px;text-align:center;font:800 clamp(34px,4vw,58px) var(--display);color:var(--accent-ink);letter-spacing:.02em}
+.cage .num small{display:block;font:600 15px var(--body);color:var(--muted);letter-spacing:0}
+.facts{display:grid;gap:8px}
+.facts .revealCard{font-size:clamp(16px,1.6vw,21px)}
+.src{margin-top:10px;color:var(--dim);font-size:14px}
+/* genre lines + tiles */
+.gl{display:grid;gap:10px;margin-top:16px;max-width:1150px}
+.gl .revealCard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.gl .revealCard .g{font:800 clamp(17px,1.6vw,21px) var(--display);color:var(--accent-ink);white-space:nowrap}
+.gl .revealCard small{display:block;color:var(--muted);font-size:15px}
+.genres{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:14px;max-width:1260px}
+.gt{position:relative;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);padding:10px 10px 10px;text-align:center;cursor:pointer;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s;color:var(--ink);font:inherit}
+.gt:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.gt .no{position:absolute;top:6px;right:9px;font:700 12px var(--display);color:var(--dim)}
+.gt .em{font-size:32px;line-height:1}
+.gt b{font:700 clamp(15px,1.4vw,18px) var(--display);line-height:1.15}
+.gt .line{display:none;font-size:clamp(13px,1.15vw,15px);color:var(--ink);line-height:1.3}
+.gt.open{background:var(--accent-soft);border-color:var(--accent-line)}
+.gt.open .em{display:none}.gt.open .line{display:block}
+/* tables: points + rubric */
+table.t.pts td:last-child,table.t.pts th:last-child{text-align:center;white-space:nowrap;font-family:var(--display);font-weight:700}
+table.t.pts td:last-child{color:var(--accent-ink)}
+table.t.pts{font-size:clamp(13px,1.2vw,17px)}
+table.t.pts th,table.t.pts td{padding:5px 14px}
+table.t.rub{font-size:clamp(13px,1.2vw,16.5px)}
+table.t.rub th,table.t.rub td{padding:8px 11px;vertical-align:top;line-height:1.35}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+table.t.rub th.l1{background:#fbf3ee}table.t.rub th.l2{background:#fdf8ea}table.t.rub th.l3{background:#eef7f2}table.t.rub th.l4{background:#e8f3f1;color:var(--teal)}
+table.t.rub tr td:last-child{background:#f5faf8}
+.tbreak{margin-top:10px;color:var(--muted);font-size:clamp(15px,1.4vw,18px);max-width:1200px}
+.tbreak b{color:var(--ink)}
+/* traffic light + milestones */
+.ai{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:8px 16px;border-radius:999px;font-weight:700;font-size:clamp(15px,1.5vw,19px);border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm)}
+.ai.y{background:#fdf3d7;border-color:#efd9a0;color:#7a4a00}.ai.g{background:#e7f6ec;border-color:#bfe3cb;color:#14532d}.ai.r{background:#fdebe3;border-color:#efb69b;color:#9a3412}
+.sprint{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start;max-width:1240px}
+.ms{display:grid;gap:8px;margin-top:14px}
+.ms div{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow-sm);padding:9px 12px;font-size:clamp(15px,1.5vw,19px);line-height:1.35}
+.ms div b{display:grid;place-items:center;height:32px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink);font:700 14px var(--display);border:1px solid var(--accent-line)}
+.ms div.gate{border-color:#e3b341;background:#fffaf0}.ms div.gate b{background:#e3a82b;border-color:#e3a82b;color:#fff}
+.roleChips{display:grid;gap:6px;margin-top:14px}
+.roleChips span{display:block;padding:7px 12px;border-radius:12px;background:var(--paper2);font-size:clamp(14px,1.3vw,16.5px);line-height:1.35}
+.roleChips span b{font-family:var(--display)}
+.halfway{margin-top:12px;padding:10px 18px;border-radius:16px;border:1.5px dashed #e3b341;background:#fffaf0;font:700 clamp(17px,1.7vw,22px) var(--display);color:#7a4a00;max-width:1000px}
+/* prompt + copy */
+.prompt{position:relative;padding-left:120px}
+.prompt.small{font-size:clamp(15px,1.5vw,20px);margin-top:10px;line-height:1.5;padding-top:12px;padding-bottom:12px}
+.prompt .ptag{display:inline-block;font:700 13px var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 9px;margin-inline-end:8px;vertical-align:2px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.note{margin-top:10px;color:var(--muted);font-size:clamp(15px,1.4vw,18px);max-width:1150px}
+.note b{color:var(--ink)}
+/* word counter + stopwatch */
+.wordBox{display:grid;grid-template-columns:minmax(0,1fr) 200px 220px;gap:12px;margin-top:12px;max-width:1240px}
+.wordBox textarea{min-height:170px;resize:vertical;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:clamp(16px,1.5vw,20px);line-height:1.5}
+.wordBox textarea:focus{outline:3px solid color-mix(in srgb,var(--teal) 35%,transparent);border-color:var(--teal)}
+.meter{border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px;text-align:center;display:grid;align-content:center;gap:4px}
+.meter b{font:800 44px var(--display);color:var(--good);line-height:1}
+.meter span{color:var(--muted);font-size:15px}
+.meter.long b{color:var(--bad)}.meter.long{border-color:#efb69b;background:#fffaf7}
+.stopw output{font:800 44px var(--display);font-variant-numeric:tabular-nums;color:var(--ink);line-height:1;direction:ltr}
+.stopw .btns{display:flex;gap:6px;justify-content:center}
+.stopw .btns button{padding:6px 10px;font-size:14px}
+.stopw .verdict{font-weight:700;font-size:15px;min-height:1.3em}
+.stopw.ok output{color:var(--good)}.stopw.over output{color:var(--bad)}
+/* checkpoint */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px;max-width:1220px}
+.trio div{border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px 14px;font-size:clamp(15px,1.5vw,19px);line-height:1.4}
+.trio div b{display:block;font:700 clamp(18px,1.7vw,22px) var(--display);margin-bottom:2px}
+/* booth table */
+table.t.booth{font-size:clamp(14px,1.3vw,17px)}
+table.t.booth th,table.t.booth td{padding:7px 12px;text-align:center}
+table.t.booth td[contenteditable]{min-width:120px}
+/* QA tests */
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;max-width:1150px}
+.qa .box b.h{display:block;font:800 clamp(20px,2vw,27px) var(--display);margin-bottom:4px}
+.miniChecks{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;max-width:1200px}
+.miniChecks span{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:clamp(14px,1.4vw,18px)}
+/* live scoreboard (shared state, rendered into every .sbHost) */
+.sbWrap{margin-top:12px;max-width:1240px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:auto}
+table.sb{border-collapse:collapse;width:100%;font-size:clamp(13px,1.2vw,16.5px);color:var(--ink)}
+table.sb th,table.sb td{padding:5px 5px;border-bottom:1px solid var(--line2);text-align:center}
+table.sb th{font-family:var(--display);font-weight:600;color:var(--muted);background:var(--paper2);line-height:1.15;font-size:clamp(12px,1.05vw,14.5px)}
+table.sb th small{display:block;font-weight:500;color:var(--dim);font-size:.85em}
+table.sb tr:last-child td{border-bottom:0}
+table.sb td.tn{text-align:right;min-width:150px}
+table.sb input{font:inherit;color:var(--ink);background:#fffef9;border:1px solid var(--line);border-radius:9px;padding:3px 5px;width:44px;text-align:center}
+table.sb input.name{width:100%;min-width:130px;text-align:right;font-family:var(--display);font-weight:700}
+table.sb input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:0;background:#fff}
+table.sb td.tot{font-family:var(--display);font-weight:800;font-size:1.25em;background:#f6faf8;min-width:58px}
+table.sb tr.first td.tot{background:#fff5df;color:#8a5300}
+table.sb tr.first td.tn::after{content:" 🥇"}
+table.sb .rk{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:8px;background:var(--paper2);color:var(--muted);font-family:var(--display);font-weight:700;font-size:13px;margin-inline-end:6px}
+.sbBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px;max-width:1240px}
+.sbBar .ghost{font-size:14px;padding:6px 11px}
+.sbBar .hint2{color:var(--dim);font-size:14px;margin-inline-start:auto}
+/* counters (hook-meter, audience) */
+.stk{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.stkItem{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:12px 12px 10px;text-align:center;transition:border-color .25s,box-shadow .25s}
+.stkItem b{display:block;font-family:var(--display);font-weight:700;font-size:18px;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stkItem .ctl{display:flex;align-items:center;justify-content:center;gap:8px}
+.stkItem button{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:20px;font-weight:700;line-height:1}
+.stkItem button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.stkItem output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
+.stkItem .bar{margin-top:8px}
+.stkItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+.stkItem .place{display:block;margin-top:6px;font-size:14px;font-weight:700;color:var(--orange-ink);min-height:1.3em}
+.applyRow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.applyRow .hint2{color:var(--dim);font-size:14px}
+/* genre reveal */
+.grv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.grvItem{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:12px 14px;display:grid;gap:8px}
+.grvItem b.tm{font-family:var(--display);font-weight:700;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grvItem select{font:inherit;font-size:16px;font-weight:700;color:var(--ink);border:1px solid var(--line);border-radius:11px;padding:6px 8px;background:#fffef9;width:100%}
+.grvItem .row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;color:var(--muted)}
+.grvItem .row .ctl{display:flex;align-items:center;gap:6px}
+.grvItem .row button{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:18px;font-weight:700;line-height:1}
+.grvItem .row output{min-width:28px;text-align:center;font:800 22px var(--display);color:var(--ink)}
+.grvItem .pts{font-weight:700;color:var(--orange-ink);font-size:15px}
+/* podium + awards */
+.ceremony{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px;align-items:end;margin-top:12px;max-width:1240px}
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end;direction:ltr}
+.pd{direction:rtl;text-align:center}
+.pd .who{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.6vw,21px);line-height:1.2;color:var(--ink);min-height:2.4em;display:flex;align-items:flex-end;justify-content:center;padding:0 4px}
+.pd .pts{color:var(--muted);font-size:15px;font-weight:700;margin:2px 0 6px}
+.pd .blk{border-radius:14px 14px 4px 4px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:34px;color:#fff;box-shadow:var(--shadow)}
+.pd.p1 .blk{height:140px;background:linear-gradient(180deg,#e3a82b,#c98a12)}
+.pd.p2 .blk{height:100px;background:linear-gradient(180deg,#9aa6b2,#7d8996)}
+.pd.p3 .blk{height:72px;background:linear-gradient(180deg,#d08a52,#b46d36)}
+.awards{display:grid;gap:9px}
+.award{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:10px 14px;position:relative;overflow:hidden}
+.award::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--ac,var(--teal))}
+.award .ic{font-size:30px;line-height:1}
+.award strong{display:block;font-family:var(--display);font-weight:700;font-size:19px}
+.award small{display:block;color:var(--muted);font-size:14.5px;line-height:1.3}
+.award select{font:inherit;font-size:15px;font-weight:700;color:var(--ink);border:1px solid var(--line);border-radius:11px;padding:6px 8px;background:#fffef9;max-width:170px}
+/* submission */
+.linkBox{display:inline-flex;align-items:center;gap:12px;margin-top:6px;padding:10px 18px;border-radius:16px;border:1.5px dashed var(--accent-line);background:var(--accent-soft);font-size:clamp(18px,2vw,26px);font-weight:700}
+.linkBox span[contenteditable]{min-width:240px;color:var(--accent-ink);font-family:var(--display);outline:none;border-bottom:2px solid var(--accent-line)}
+.linkBox span[contenteditable]:empty::before{content:"כאן יופיע הקישור";color:var(--dim);font-weight:500}
+.fname{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:12px;background:#f8f6f1;border:1px solid var(--line);font-family:var(--display);font-weight:600;font-size:clamp(16px,1.6vw,21px);direction:rtl}
+.subGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:10px;max-width:1240px;align-items:start}
+.subGrid .task{margin-top:8px}
+/* next lesson */
+.nextUp{display:flex;align-items:center;gap:16px;margin-top:18px;max-width:1150px;padding:14px 20px;border-radius:18px;border:1.5px dashed #e3b341;background:#fffaf0}
+.nextUp .ic{font-size:40px;line-height:1}
+.nextUp b{display:block;font:800 clamp(20px,2.1vw,28px) var(--display);color:#7a4a00}
+.nextUp span{color:var(--ink);font-size:clamp(16px,1.6vw,20px)}
+.clap{font-size:clamp(60px,8vw,110px);line-height:1}
+.tf.two{grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tf.two .tfRow{grid-template-columns:minmax(0,1fr);gap:8px;padding:12px 16px;font-size:clamp(15px,1.5vw,20px);line-height:1.4;align-content:start}
+.tf.two .tfRow .tfBtns{justify-content:flex-start}
+.tf.two .tfRow.done .tfBtns{display:none}
+.tf.two .tfRow.done .tfNote{font-size:clamp(14px,1.4vw,18px);color:var(--ink);line-height:1.4}
+@media (max-height:800px){
+ .opening .scr{height:66px;font-size:30px}.map{min-height:280px}.map .t{height:60px}
+ .wordBox textarea{min-height:130px}.ruler{margin-top:10px}.genres .gt{min-height:100px}.gt .em{font-size:26px}
+ .shot .vf{aspect-ratio:16/9}.ms div{padding:7px 10px}.pipe .ph{padding:12px}
+ .cage .bottles{font-size:15px}.screen .scene{font-size:64px}
+}
+@media (max-width:1100px){.steps.six{grid-template-columns:repeat(3,minmax(0,1fr))}.cards.five{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.genres{grid-template-columns:repeat(4,minmax(0,1fr))}.shots,.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.vote.openings,.wordBox,.cards.three,.cards.four,.tf.two,.room,.player,.case,.sprint,.qa,.trio,.subGrid,.ceremony{grid-template-columns:1fr}.prompt{padding-left:22px;padding-top:56px}.ruler,.track{grid-template-columns:1fr 1fr 1fr}.genres{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<style>
+.slide[data-sb] h2{font-size:clamp(26px,3vw,42px);margin:6px 0 2px}
+.tnw{display:flex;align-items:center;gap:4px}
+.vote.small{margin-top:10px}.vote.small .voteItem{padding:10px}.vote.small .voteItem .emoji{font-size:28px}.vote.small .voteItem strong{margin:2px 0 6px}
+.revealList.two{grid-template-columns:1fr 1fr;margin-top:12px}.revealList.two .revealCard{font-size:clamp(15px,1.5vw,20px)}
+.grvItem .rows{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.grvItem .row{flex-direction:column;align-items:stretch;gap:2px;text-align:center}
+.grvItem .row .ctl{justify-content:center}
+.grvItem{gap:6px;padding:10px 12px}
+.stkItem b{font-size:16px}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🎬</div><div><b>אולפני 30 השניות</b><small>יזמות · מיתוג ושיווק · שיעור 21</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ============ 1. פתיחה ============ -->
+<section class="slide hero" data-topic="פתיחה" data-title="אולפני 30 השניות" data-accent="#ff6d83">
+  <span class="kicker">🎬 Tech It Easy · יזמות · שלב 7 מתוך 10: מיתוג ושיווק</span>
+  <h2>אולפני <span class="red">30 השניות</span></h2>
+  <p class="lead">הערב נפתח הפסטיבל של הסרטים הכי קצרים בעיר. כל צוות הוא <b>אולפן הפקה</b>, והלקוח הוא המיזם שלכם. יש לכם שיעור אחד להפיק פרסומת של 30 שניות, ולהעלות אותה לבכורה מול כל הכיתה.</p>
+  <div class="strip" aria-hidden="true"><span>🪝</span><span>😩</span><span>📦</span><span>⚙️</span><span>👉</span><span>🏷️</span></div>
+  <div class="journey" aria-label="איפה אנחנו במסע">
+    <span class="done">✨ שם וסלוגן</span><i>←</i><span class="done">🎨 לוגו</span><i>←</i><span class="done">🌐 דף נחיתה</span><i>←</i><span class="now">🎬 פרסומת</span><i>←</i><span>⏱️ פיץ׳ של 60 שניות</span>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="מבחן האגודל" data-accent="#ff6d83">
+  <span class="kicker">👍 מבחן האגודל</span>
+  <h2>שתי פתיחות. <span class="red">באיזו תמשיכו לצפות?</span></h2>
+  <p class="lead s">אגודל למעלה = ממשיכים לצפות. אגודל למטה = גוללים הלאה. מצביעים פעם אחת.</p>
+  <div class="vote openings">
+    <div class="voteItem opening"><div class="scr">⬛ 🏷️ <small>לוגו מסתובב · מוזיקה</small></div><div class="body"><b class="t">פתיחה א׳</b>מסך שחור, לוגו מסתובב. קריין: "שלום, אנחנו קופסת הפסקה, מיזם של תלמידים, והיום נספר לכם על…"<div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div></div>
+    <div class="voteItem opening"><div class="scr">🔔 🧍 <small>צלצול · חצר ריקה</small></div><div class="body"><b class="t">פתיחה ב׳</b>צלצול! חצר ריקה, מישהו בועט באבן. קריין: "גם לכם ההפסקה עוברת בלי לעשות כלום?"<div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div></div>
+  </div>
+  <div class="secret reveal">🪝 בפתיחה ב׳ יש <b>וו</b>: משהו בשניות הראשונות שגורם להמשיך לצפות. בפתיחה א׳ עוד לא קרה כלום, וכבר גללנו הלאה.</div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="ההפקה של היום" data-accent="#ff6d83">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור, לכל אולפן יש <span class="red">פרסומת בבכורה</span></h2>
+  <div class="pipe">
+    <div class="ph pc1"><span class="n">1</span><b>📝 טרום-הפקה</b><p>וו, סטוריבורד של 6 פריימים ותסריט של עד 70 מילים.</p><span class="stamp">🎬 חותמת: אור ירוק</span></div>
+    <div class="ph pc2"><span class="n">2</span><b>🎥 הפקה</b><p>6 סצנות ב-Google Vids: טקסט, תמונות ומוזיקה.</p><span class="stamp">🎬 חותמת: גרסה גסה</span></div>
+    <div class="ph pc3"><span class="n">3</span><b>🎙️ עריכה וקול</b><p>קריינות בקול שלכם, קריאה לפעולה, שם וסלוגן.</p><span class="stamp">🎬 חותמת: סוף צילומים</span></div>
+    <div class="ph pc4"><span class="n">4</span><b>🍿 בכורה</b><p>מקרינים לכל הכיתה: מד הוו, ניחוש הז׳אנר והצבעת הקהל.</p><span class="stamp">🏆 פרסי הפסטיבל</span></div>
+  </div>
+  <p class="note reveal">🎭 ויש טוויסט: כל אולפן שולף <b>ז׳אנר סודי</b>. אותו מוצר, אבל כטריילר אקשן, כסרט טבע או כמבזק חדשות. בבכורה, הכיתה תנחש.</p>
+</section>
+
+<!-- ============ 2. צוות ההפקה ============ -->
+<section class="slide" data-topic="צוות ההפקה" data-title="התפקיד שלך היום">
+  <span class="kicker">🎬 צוות ההפקה</span>
+  <h2>התפקיד שלך <span class="cyan">באולפן</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><span class="crew">המפיק/ה</span><p>שולף/ת את הז׳אנר, שומר/ת על הזמן ומחזיק/ה את דרכון ההפקה.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><span class="crew">התסריטאי/ת</span><p>מוביל/ה את התסריט, סופר/ת מילים ובודק/ת שכל טענה נכונה.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><span class="crew">העורך/ת</span><p>"נהג/ת" ב-Vids: סצנות, טקסט, תמונות ומוזיקה.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><span class="crew">הקריין/ית</span><p>מקליט/ה את הקול, מציג/ה בבכורה ומגיש/ה בטופס.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><span class="crew">מחלקת האפקטים</span><p>ווים ותמונות ב-Gemini, בדיקת הפלט ושורת ה-AI.</p></div>
+  </div>
+  <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="צוות ההפקה" data-title="מפת האולפן">
+  <span class="kicker">🗺️ מפת האולפן</span>
+  <h2>ככה עובד <span class="cyan">האולפן</span> היום</h2>
+  <div class="room">
+    <div class="map" aria-label="מפת הכיתה">
+      <div class="z scr" style="">🎞️ מסך ההקרנות</div>
+      <div class="z t" style="right:6%;top:30%"><span>🎬</span>אולפן 1</div>
+      <div class="z t" style="right:39.5%;top:30%"><span>🎬</span>אולפן 2</div>
+      <div class="z t" style="left:6%;top:30%"><span>🎬</span>אולפן 3</div>
+      <div class="z t" style="right:6%;top:60%"><span>🎬</span>אולפן 4</div>
+      <div class="z t" style="right:39.5%;top:60%"><span>🎬</span>אולפן 5</div>
+      <div class="z t" style="left:6%;top:60%"><span>🎬</span>אולפן 6</div>
+      <div class="z booth" style="right:4%;bottom:10px;width:30%;height:48px">🎙️ תא ההקלטה</div>
+      <div class="z prod" style="right:37%;bottom:10px;width:26%;height:48px">🧑‍🏫 שולחן ההפקה</div>
+      <div class="z crit" style="left:4%;bottom:10px;width:29%;height:48px">🍿 חדר ההקרנות</div>
+    </div>
+    <div class="sig">
+      <div class="s"><i>🎬</i><div><b>"אקשן!"</b><span>מתחילים לעבוד. הטיימר רץ.</span></div></div>
+      <div class="s"><i>✋</i><div><b>"קאט!"</b><span>עוצרים, ידיים למעלה, מסכים ל-45 מעלות.</span></div></div>
+      <div class="s"><i>🎙️</i><div><b>תא ההקלטה</b><span>פינה שקטה. נרשמים בלוח, 3 דקות לאולפן.</span></div></div>
+      <div class="s"><i>🧑‍🏫</i><div><b>שולחן ההפקה</b><span>כאן מקבלים חותמות. רק המפיק/ה ניגש/ת.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. בית ספר לקולנוע ============ -->
+<section class="slide" data-topic="בית ספר לקולנוע" data-title="3 השניות הראשונות" data-accent="#9b7cff">
+  <span class="kicker">🪝 שיעור 1 בקולנוע: הוו</span>
+  <h2>3 השניות הראשונות. <span class="violet">שלושה סוגי וו</span></h2>
+  <div class="cards three">
+    <div class="card reveal"><div class="emoji">❓</div><strong>שאלה</strong><p>שאלה שהצופה עונה עליה בראש: "כן!"</p><div class="ex">"משעמם לכם בהפסקה?"</div></div>
+    <div class="card reveal"><div class="emoji">💥</div><strong>הפתעה</strong><p>משהו שלא מצפים לו. עובדה מפתיעה רק אם היא נכונה.</p><div class="ex">מסך שקט… ובום! כדור נוחת על המסך.</div></div>
+    <div class="card reveal"><div class="emoji">😩</div><strong>בעיה מוכרת</strong><p>רגע שכולם מכירים ומרגישים.</p><div class="ex">"שוב שכחתם את הכדור בבית?"</div></div>
+  </div>
+</section>
+
+<section class="slide quiz" data-topic="בית ספר לקולנוע" data-title="וו או לא וו?" data-answer="3" data-accent="#9b7cff">
+  <span class="kicker">⚡ בדיקה מהירה</span>
+  <h2>איזו פתיחה היא <span class="violet">לא</span> וו?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>"שוב שכחתם את הכדור בבית?"</span></button>
+    <button class="option"><span class="letter">ב</span><span>שקט… ואז צלצול חזק וכל המסך רועד.</span></button>
+    <button class="option"><span class="letter">ג</span><span>"שלום, אנחנו צוות קופסת הפסקה, ורצינו לספר לכם על המיזם שלנו."</span></button>
+    <button class="option"><span class="letter">ד</span><span>"יש דבר אחד שכל תלמיד מחכה לו כל היום. וזה לא הצלצול."</span></button>
+  </div>
+  <div class="explain">✓ נכון! "שלום, אנחנו…" מדבר על עצמנו, לפני שלצופה בכלל אכפת. וו מדבר על הצופה: שאלה, הפתעה או בעיה שהוא מכיר.</div>
+</section>
+
+<section class="slide" data-topic="בית ספר לקולנוע" data-title="30 שניות, 6 פעימות" data-accent="#9b7cff">
+  <span class="kicker">🧱 שיעור 2 בקולנוע: המבנה</span>
+  <h2>30 שניות, <span class="violet">6 פעימות</span></h2>
+  <div class="steps six">
+    <div class="step"><strong>וו</strong><p>תופסים את העין.</p></div>
+    <div class="step"><strong>בעיה</strong><p>מה מציק ללקוח?</p></div>
+    <div class="step"><strong>פתרון</strong><p>המוצר שלנו נכנס.</p></div>
+    <div class="step"><strong>איך זה עובד</strong><p>2–3 צעדים שרואים.</p></div>
+    <div class="step"><strong>קריאה לפעולה</strong><p>מה עושים עכשיו?</p></div>
+    <div class="step"><strong>שם וסלוגן</strong><p>מה זוכרים בסוף.</p></div>
+  </div>
+  <div class="ruler reveal" aria-label="כמה שניות לכל פעימה">
+    <div class="r1">וו<small>0–3 שנ׳</small></div><div class="r2">בעיה<small>3–8 שנ׳</small></div><div class="r3">פתרון<small>8–14 שנ׳</small></div><div class="r4">איך זה עובד<small>14–22 שנ׳</small></div><div class="r5">קריאה לפעולה<small>22–27 שנ׳</small></div><div class="r6">שם וסלוגן<small>27–30 שנ׳</small></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לראות כמה זמן מקבלת כל פעימה</div>
+</section>
+
+<section class="slide tight" data-topic="בית ספר לקולנוע" data-title="האנימטיק" data-accent="#9b7cff">
+  <span class="kicker">🎞️ אנימטיק: סטוריבורד שזז בזמן אמת</span>
+  <h2>קופסת הפסקה, <span class="violet">30 שניות</span>. לחצו ▶</h2>
+  <div class="player" id="anim">
+    <div>
+      <div class="screen"><span class="beatTag" id="animTag">וו · 0–3</span><span class="cap" id="animCap">משעמם בהפסקה?</span><span class="scene" id="animScene">🔔🧍</span><span class="sub" id="animSub">צלצול! עוד הפסקה משעממת?</span></div>
+      <div class="track" id="animTrack"><i class="r1 on"></i><i class="r2"></i><i class="r3"></i><i class="r4"></i><i class="r5"></i><i class="r6"></i><span class="playhead" id="animHead"></span></div>
+      <div class="pctl"><button class="btn" id="animPlay">▶ הפעלה</button><button class="ghost" id="animReset">↺ מההתחלה</button><output id="animTime">00:00 / 00:30</output></div>
+    </div>
+    <div class="beats" id="animBeats">
+      <div class="on" style="--rc:#be3455"><b>0–3</b>🪝 וו: שאלה שהצופה עונה עליה</div>
+      <div style="--rc:#c2630f"><b>3–8</b>😩 בעיה: רואים את השעמום</div>
+      <div style="--rc:#23826f"><b>8–14</b>📦 פתרון: הקופסה נפתחת</div>
+      <div style="--rc:#2f6db5"><b>14–22</b>⚙️ איך: לוקחים, משחקים, מחזירים</div>
+      <div style="--rc:#6a55c9"><b>22–27</b>👉 קריאה לפעולה: לאן הולכים</div>
+      <div style="--rc:#0f766e"><b>27–30</b>🏷️ שם וסלוגן</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-topic="בית ספר לקולנוע" data-title="רואים + שומעים" data-accent="#9b7cff">
+  <span class="kicker">👀 + 👂 שיעור 3 בקולנוע: שתי שכבות</span>
+  <h2>המסך <span class="violet">מראה</span>, הקול <span class="violet">מספר</span></h2>
+  <div class="compare">
+    <div class="box"><span class="label see">👀 מה רואים</span><ul><li>תמונה או אייקון אחד גדול בכל סצנה</li><li>עד 5 מילים של טקסט על המסך</li><li>תנועה קטנה: נכנס, מתקרב, קופץ</li></ul></div>
+    <div class="box"><span class="label hear">👂 מה שומעים</span><ul><li>קריינות: משפט אחד או שניים לסצנה</li><li>מוזיקה שקטה מהמאגר</li><li>צליל אחד במקום הנכון (צלצול!)</li></ul></div>
+  </div>
+  <div class="secret reveal">💡 הטריק: <b>לא כותבים על המסך את מה שהקריין אומר</b>. כשהמסך והקול אומרים דברים שונים שמשלימים זה את זה, הצופה מקבל פי שניים.</div>
+</section>
+
+<section class="slide tight" data-topic="בית ספר לקולנוע" data-title="גודל הפריים" data-accent="#9b7cff">
+  <span class="kicker">🎥 שיעור 4 בקולנוע: גודל הפריים</span>
+  <h2>כל שוט עונה על <span class="violet">שאלה אחרת</span></h2>
+  <div class="shots">
+    <div class="shot"><div class="vf"><span class="rec">● REC</span><span class="w1">🏫<em>🌳</em>🧍</span></div><b>רחב</b><p>כל המקום, והאדם קטן בתוכו.</p><span class="q">איפה אנחנו?</span></div>
+    <div class="shot"><div class="vf"><span class="rec">● REC</span><span class="w2">🧍⚽</span></div><b>בינוני</b><p>האדם והפעולה שלו.</p><span class="q">מה קורה?</span></div>
+    <div class="shot"><div class="vf"><span class="rec">● REC</span><span class="w3">😩</span></div><b>תקריב</b><p>פנים שממלאות את המסך.</p><span class="q">מה מרגישים?</span></div>
+    <div class="shot"><div class="vf"><span class="rec">● REC</span><span class="w4">📦</span></div><b>פרט</b><p>חפץ אחד, מקרוב.</p><span class="q">על מה להסתכל?</span></div>
+  </div>
+  <p class="note reveal">🎬 כלל הבמאים: <b>מתחילים רחב, נכנסים קרוב.</b> והמוצר מקבל לפחות שוט פרט אחד.</p>
+</section>
+
+<section class="slide quiz" data-topic="בית ספר לקולנוע" data-title="איזה שוט?" data-answer="2" data-accent="#9b7cff">
+  <span class="kicker">🎥 הבמאי מחליט</span>
+  <h2>רוצים שהצופה <span class="violet">ירגיש</span> כמה משעמם בהפסקה. איזה שוט?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>רחב: כל החצר מלמעלה</span></button>
+    <button class="option"><span class="letter">ב</span><span>תקריב: פנים משועממות, עיניים לשעון</span></button>
+    <button class="option"><span class="letter">ג</span><span>פרט: הפעמון של בית הספר</span></button>
+    <button class="option"><span class="letter">ד</span><span>בינוני: שני תלמידים מדברים</span></button>
+  </div>
+  <div class="explain">✓ נכון! רגש רואים בתקריב. שוט רחב של חצר ריקה מתאים לפתיחה ("איפה אנחנו?"), ופרט של הפעמון יכול להיות הוו.</div>
+</section>
+
+<section class="slide tight" data-topic="בית ספר לקולנוע" data-title="מקרה בוחן: כלוב הבקבוקים" data-accent="#ff9f6e">
+  <span class="kicker">🔎 מקרה בוחן · SodaStream, 2010</span>
+  <h2>כלוב <span class="orange">הבקבוקים</span></h2>
+  <div class="case">
+    <div class="cage" aria-hidden="true">
+      <div class="cageIn"><div class="bottles" id="bottles"></div><div class="bars"></div></div>
+      <div class="num">10,657<small>בקבוקים ופחיות ריקים בכלוב אחד</small></div>
+    </div>
+    <div class="facts">
+      <div class="revealCard reveal">🧴 ב-2010 יצאה SodaStream בקמפיין נגד פסולת של בקבוקים.</div>
+      <div class="revealCard reveal">📦 הקמפיין: כלובים של 9 מטרים מעוקבים, מלאים ב-10,657 בקבוקים ופחיות ריקים.</div>
+      <div class="revealCard reveal">⚖️ קוקה-קולה דרשה להוציא את המוצרים שלה מהכלובים, ואיימה בתביעה.</div>
+      <div class="revealCard reveal">🔥 התגובה של SodaStream: "נציב כלוב מול המטה של קוקה-קולה".</div>
+      <p class="src">מקור: ויקיפדיה, ערך SodaStream</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="בית ספר לקולנוע" data-title="חכם או מסוכן?" data-accent="#ff9f6e">
+  <span class="kicker">🗳️ דיון של דקה</span>
+  <h2>קמפיין שמראה מוצרים של מתחרה: <span class="orange">חכם או מסוכן?</span></h2>
+  <div class="vote small">
+    <div class="voteItem"><div class="emoji">💡</div><strong>חכם</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">⚠️</div><strong>מסוכן</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🤔</div><strong>תלוי איך</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="revealList two">
+    <div class="revealCard reveal">👀 <b>מה לוקחים לסרטון שלנו:</b> תמונה אחת הפכה בעיה מופשטת ("פסולת") למשהו שרואים וזוכרים. <b>מראים, לא מספרים.</b></div>
+    <div class="revealCard reveal">⚖️ <b>והגבול:</b> מראים את הבעיה, לא משמיצים אנשים או מותגים. ומספר על המסך רק אם הוא אמיתי.</div>
+  </div>
+</section>
+
+<section class="slide" data-topic="בית ספר לקולנוע" data-title="ז׳אנר משנה הכול" data-accent="#9b7cff">
+  <span class="kicker">🎭 שיעור 5 בקולנוע: ז׳אנר</span>
+  <h2>אותו וו, <span class="violet">שלושה ז׳אנרים</span>. מי מקריא?</h2>
+  <div class="gl">
+    <div class="revealCard reveal"><span class="g">🎬 טריילר</span><span>"בעולם שבו כל הפסקה נראית אותו דבר… קופסה אחת תשנה הכול."<small>קול עמוק, מוזיקה דרמטית, שוטים מהירים</small></span></div>
+    <div class="revealCard reveal"><span class="g">🦁 סרט טבע</span><span>"כאן, בחצר, בשעה עשר וחצי, חי היצור הנדיר מכולם: התלמיד המשועמם."<small>לחישה של חוקר טבע, שוטים רחבים ואיטיים</small></span></div>
+    <div class="revealCard reveal"><span class="g">📰 מבזק חדשות</span><span>"מבזק! דיווחים מהחצר: ההפסקה כבר לא משעממת."<small>קול נמרץ, כותרת אדומה, מוזיקת חדשות</small></span></div>
+  </div>
+  <p class="note reveal">🎯 הז׳אנר משנה את <b>הקול, המוזיקה והשוטים</b>. 6 הפעימות נשארות אותו דבר.</p>
+</section>
+
+<section class="slide quiz" data-topic="בית ספר לקולנוע" data-title="ראשים ממוספרים 1" data-answer="4" data-accent="#9b7cff">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1</span>
+  <h2>התסריט שלכם יצא <span class="violet">110 מילים</span>. מה עושים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מקריאים מהר יותר, וזה ייכנס ל-30 שניות.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מוחקים את הקריאה לפעולה, היא הכי פחות חשובה.</span></button>
+    <button class="option"><span class="letter">ג</span><span>מעבירים את כל הטקסט לכתוביות על המסך.</span></button>
+    <button class="option"><span class="letter">ד</span><span>מקצרים לבערך 70 מילים, ושומרים על הוו ועל הקריאה לפעולה.</span></button>
+  </div>
+  <div class="explain">✓ נכון! קריין מדבר קצת יותר מ-2 מילים בשנייה. 70 מילים ≈ 30 שניות עם נשימות. תסריט ארוך = מדברים מהר = אף אחד לא מבין.</div>
+</section>
+
+<section class="slide quiz" data-topic="בית ספר לקולנוע" data-title="ראשים ממוספרים 2" data-answer="1" data-accent="#9b7cff">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2</span>
+  <h2>הקריין אומר: "בואו לשאול ליד חדר הספורט". <span class="violet">מה הכי טוב לשים על המסך?</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>חץ גדול 👉 ו-3 מילים: "ליד חדר הספורט"</span></button>
+    <button class="option"><span class="letter">ב</span><span>את כל המשפט של הקריין, מילה במילה</span></button>
+    <button class="option"><span class="letter">ג</span><span>פסקה שמסבירה את כל חוקי ההשאלה</span></button>
+    <button class="option"><span class="letter">ד</span><span>מסך שחור, כדי שיקשיבו</span></button>
+  </div>
+  <div class="explain">✓ נכון! עד 5 מילים, ותמונה שמראה לאן ללכת. הקול מספר, המסך מראה.</div>
+</section>
+
+<!-- ============ 4. התדריך ============ -->
+<section class="slide" data-topic="התדריך" data-title="פסטיבל 30 השניות" data-accent="#ff9f6e">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר</span>
+  <h2>פסטיבל <span class="orange">30 השניות</span></h2>
+  <div class="task"><strong>המטרה: פרסומת של 20–30 שניות למיזם שלכם, בז׳אנר הסודי, שהכיתה צופה בה עד הסוף</strong>
+    <ol>
+      <li>6 סצנות לפי 6 הפעימות. סצנה 5 = קריאה לפעולה, סצנה 6 = שם וסלוגן.</li>
+      <li>הקול שלכם בלבד: קריינות בלי מצלמה. בלי פנים, בלי אווטרים ובלי חיקוי או שכפול של קול.</li>
+      <li>עד 5 מילים על המסך בכל סצנה. מוזיקה רק מהמאגר של Vids.</li>
+      <li>הז׳אנר נשאר בסוד עד הבכורה.</li>
+      <li>עובדות אמיתיות בלבד. מה שבדיוני או נוצר ב-AI מסומן.</li>
+      <li>3 חותמות בדרכון ההפקה: אור ירוק · גרסה גסה · סוף צילומים.</li>
+    </ol></div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="הניקוד" data-accent="#ff9f6e">
+  <span class="kicker">🧮 הניקוד, ידוע מראש</span>
+  <h2>איך אוספים <span class="orange">נקודות</span></h2>
+  <div class="tableWrap"><table class="t pts">
+    <thead><tr><th>מה</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎬 חותמת 1 · אור ירוק: סטוריבורד 6 פריימים + תסריט עד 70 מילים שהוקרא ב-30 שניות או פחות</td><td>3</td></tr>
+      <tr><td>🎬 חותמת 2 · גרסה גסה: 6 סצנות עם טקסט ותמונה ב-Vids, עד דקה 10 של שלב 2</td><td>2</td></tr>
+      <tr><td>🎬 חותמת 3 · סוף צילומים: הוגש בזמן ובמפרט (קישור צפייה, טופס, שורת AI)</td><td>5</td></tr>
+      <tr><td>📊 הרמה במחוון × 3</td><td>3–12</td></tr>
+      <tr><td>🪝 מד הוו: כמה אגודלים נשארו למעלה עד הסוף. מקומות 1–3</td><td>5 / 3 / 2</td></tr>
+      <tr><td>🎭 ניחוש הז׳אנר: לכל צוות שניחש את הז׳אנר שלכם (וגם הצוות המנחש מקבל 1)</td><td>1 לכל ניחוש</td></tr>
+      <tr><td>🗳️ פרס הקהל: 3 קולות לכל תלמיד, לא לצוות של עצמך. מקומות 1–3</td><td>8 / 5 / 3</td></tr>
+      <tr><td>🏅 פרס קטגוריה (בימוי, קריינות, פרסום הוגן, קאמבק)</td><td>3 לכל פרס</td></tr>
+      <tr><td>🎟 כל חברי הצוות מילאו כרטיס יציאה</td><td>2</td></tr>
+    </tbody></table></div>
+  <p class="tbreak">🏆 הכי הרבה נקודות = <b>אלופי הפסטיבל</b>. שובר שוויון: מד הוו.</p>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="המחוון" data-accent="#ff9f6e">
+  <span class="kicker">📊 המחוון · לחצו "הבא" לחשיפת כל שורה</span>
+  <h2>איך נמדדת <span class="orange">הפרסומת</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th class="l1">🌱 1</th><th class="l2">🌿 2</th><th class="l3">🌳 3</th><th class="l4">🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🪝 וו ומבנה</td><td>מתחיל ב"שלום, אנחנו…", חסרות פעימות</td><td>יש וו אבל אחרי 3 שניות, או שפעימה חסרה</td><td>וו ב-3 השניות הראשונות, כל 6 הפעימות, 20–30 שניות</td><td>כמו 3, ורוב הכיתה צפתה עד הסוף. אין שנייה מיותרת</td></tr>
+      <tr class="reveal"><td>👀👂 רואים + שומעים</td><td>אין קריינות, או שהמסך מקריא אותה</td><td>קריינות לא ברורה או מהירה, יותר מ-5 מילים על המסך</td><td>קול ברור, עד 5 מילים בסצנה, תמונה שמתאימה לכל סצנה</td><td>כמו 3, ועובר את מבחן ההשתקה ואת מבחן העיניים העצומות</td></tr>
+      <tr class="reveal"><td>🎭 ז׳אנר ורעיון</td><td>אי אפשר לזהות ז׳אנר</td><td>הז׳אנר מופיע במשפט אחד בלבד</td><td>הז׳אנר נשמע ונראה: קול, מוזיקה ושוטים. רוב הכיתה ניחשה</td><td>הז׳אנר והמוצר התחברו לרעיון שזוכרים. הכיתה מצטטת משפט</td></tr>
+      <tr class="reveal"><td>⚖️ מסר הוגן ושקיפות</td><td>אין קריאה לפעולה, או "עובדות" מומצאות</td><td>קריאה לפעולה מעורפלת, שורת AI חלקית</td><td>קריאה לפעולה ברורה, שם וסלוגן, אין הבטחה שקרית, שורת AI מלאה</td><td>כמו 3, ומה שבדיוני או נוצר ב-AI מסומן על המסך</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="פרסום הוגן" data-accent="#ff9f6e">
+  <span class="kicker">⚖️ חוקי הפרסום ההוגן</span>
+  <h2>נכון או <span class="orange">לא נכון?</span></h2>
+  <div class="tf two">
+    <div class="tfRow" data-true="0"><span>מותר לשים את הפנים של חבר באווטר שמדבר בפרסומת.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. הפנים של אדם שייכות לו. ואצלנו לא משתמשים באווטרים בכלל.</div></div>
+    <div class="tfRow" data-true="1"><span>סרטון AI יכול להיראות אמיתי לגמרי, גם כשהדבר בכלל לא קרה.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">נכון. לכן לא מאמינים לכל סרטון, ובודקים מי פרסם אותו.</div></div>
+    <div class="tfRow" data-true="0"><span>מותר לחקות את הקול של זמר מפורסם לפרסומת שלנו.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. גם הקול של אדם שייך לו. מקליטים רק את הקול שלנו.</div></div>
+    <div class="tfRow" data-true="0"><span>כל שיר מיוטיוב אפשר לשים ברקע של הפרסומת.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. לשירים יש זכויות יוצרים. לוקחים מוזיקה מהמאגר של Vids.</div></div>
+    <div class="tfRow" data-true="0"><span>"9 מתוך 10 תלמידים ממליצים!" זה בסדר לכתוב, כי זו רק פרסומת.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. מספר על המסך חייב להיות אמיתי. לא בדקתם? לא כותבים.</div></div>
+    <div class="tfRow" data-true="1"><span>תמונה שיצרנו ב-Gemini מסמנים: "נוצר ב-AI".</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">נכון. ככה הצופה יודע מה אמיתי, וזה גם ברמה 4 במחוון.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="12 הז׳אנרים" data-accent="#ff9f6e">
+  <span class="kicker">🎭 שליפת הז׳אנר · בסוד!</span>
+  <h2>המפיק/ה שולף/ת כרטיס. <span class="orange">אף מילה לצוותים האחרים</span></h2>
+  <div class="genres" id="genreTiles"></div>
+  <p class="note">לחצו על ז׳אנר כדי לראות איך נשמעת בו קופסת הפסקה. בבכורה תנחשו מתוך הרשימה הזאת.</p>
+</section>
+
+<section class="slide tight" data-topic="התדריך" data-title="דרכון ההפקה" data-accent="#ff9f6e">
+  <span class="kicker">🎫 דרכון ההפקה</span>
+  <h2>3 חותמות, <span class="orange">3 מפרטים</span></h2>
+  <div class="pipe" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="ph pc1"><span class="n">1</span><b>🟢 אור ירוק</b><p>✓ לוגליין במשפט אחד<br>✓ 3 ווים, ובחרתם אחד<br>✓ סטוריבורד של 6 פריימים: רואים · שומעים · שוט<br>✓ תסריט עד 70 מילים<br>✓ הוקרא בקול ב-30 שניות או פחות</p><span class="stamp">סוף שלב 1 · 3 נק׳</span></div>
+    <div class="ph pc2"><span class="n">2</span><b>🎞️ גרסה גסה</b><p>✓ 6 סצנות ב-Vids<br>✓ בכל סצנה טקסט קצר<br>✓ בכל סצנה תמונה או אייקון<br>✓ הסדר לפי הסטוריבורד</p><span class="stamp">דקה 10 של שלב 2 · 2 נק׳</span></div>
+    <div class="ph pc3"><span class="n">3</span><b>🎬 סוף צילומים</b><p>✓ קריינות בקול שלכם<br>✓ מוזיקה מהמאגר<br>✓ קריאה לפעולה + שם וסלוגן<br>✓ 20–30 שניות<br>✓ קישור צפייה בטופס + שורת AI</p><span class="stamp">הגשה · 5 נק׳</span></div>
+  </div>
+</section>
+
+<!-- ============ 5. שלב 1: טרום-הפקה ============ -->
+<section class="slide tight" data-topic="שלב 1 · טרום-הפקה" data-title="ספרינט: טרום-הפקה" data-accent="#6fa8ff">
+  <button class="helpBtn" data-help="pre" aria-label="הוראות">?</button>
+  <span class="kicker">📝 שלב 1 · טרום-הפקה</span>
+  <h2>חדר הכותבים <span class="cyan">פתוח</span></h2>
+  <div class="sprint">
+    <div>
+      <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ אקשן!</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="ms">
+        <div><b>עד דקה 5</b>לוגליין: "[המוצר] עוזר ל[לקוח] ש[בעיה]" + 3 ווים בז׳אנר, ובוחרים אחד</div>
+        <div><b>עד דקה 11</b>סטוריבורד של 6 פריימים: מה רואים, מה שומעים, איזה שוט</div>
+        <div class="gate"><b>עד הסוף</b>תסריט עד 70 מילים, מוקרא בקול בסטופר ← 🟢 אור ירוק</div>
+      </div>
+      <span class="ai y">🟡 AI לרעיונות ולטיוטות. אתם בוחרים ועורכים</span>
+    </div>
+    <div class="roleChips">
+      <span><b>🧭 המפיק/ה:</b> מחזיק/ה את השעון ואת הדרכון.</span>
+      <span><b>🔍 התסריטאי/ת:</b> כותב/ת את התסריט וסופר/ת מילים.</span>
+      <span><b>🛠️ העורך/ת:</b> משרטט/ת את 6 הפריימים.</span>
+      <span><b>🎤 הקריין/ית:</b> מקריא/ה בקול. מה לא נשמע טבעי?</span>
+      <span><b>🤖 האפקטים:</b> ווים מ-Gemini, ובודק/ת שאין "עובדות" מומצאות.</span>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="שלב 1 · טרום-הפקה" data-title="Gemini בחדר הכותבים" data-accent="#6fa8ff">
+  <span class="kicker">✍️ Gemini בחדר הכותבים · gemini.google.com</span>
+  <h2>טיוטה מ-Gemini, <span class="cyan">ההחלטות שלכם</span></h2>
+  <div class="prompt small"><span class="ptag">1 · שלושה ווים</span><span class="ptext">אני כותב/ת פרסומת של 30 שניות בז׳אנר [הז׳אנר] למוצר: [המוצר במשפט אחד]. הצע 3 ווים שונים לפתיחה: שאלה, הפתעה ובעיה מוכרת. כל וו עד 8 מילים, בסגנון של הז׳אנר. בלי מספרים מומצאים ובלי שמות של אנשים.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="prompt small"><span class="ptag">2 · תסריט</span><span class="ptext">כתוב תסריט קריינות בעברית, עד 70 מילים, בז׳אנר [הז׳אנר], לפי 6 פעימות: וו, בעיה, פתרון, איך זה עובד, קריאה לפעולה, שם וסלוגן. הוו שבחרנו: [הוו]. סמן מספר פעימה לפני כל משפט. בלי עובדות שלא סיפקתי.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="prompt small"><span class="ptag">3 · קיצור</span><span class="ptext">התסריט ארוך מדי: [להדביק]. קצר אותו ל-60 מילים, בלי לאבד את הוו, את הקריאה לפעולה ואת הסגנון של הז׳אנר.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <p class="note">✂️ <b>אתם העורכים:</b> מקריאים בקול, מוחקים כל מה שלא נשמע כמוכם, ומסמנים בעיגול כל "עובדה" שלא בדקתם.</p>
+</section>
+
+<section class="slide tight" data-topic="שלב 1 · טרום-הפקה" data-title="מונה התסריט והסטופר" data-accent="#6fa8ff">
+  <span class="kicker">⏱️ 70 מילים ≈ 30 שניות</span>
+  <h2>בודקים את התסריט <span class="cyan">לפני</span> שפותחים את Vids</h2>
+  <div class="wordBox">
+    <textarea id="scriptBox" aria-label="תסריט לבדיקה" placeholder="✍️ הדביקו כאן את התסריט. המונה יגיד כמה מילים וכמה זמן בערך"></textarea>
+    <div class="meter" id="scriptMeter"><b id="scriptWords">0</b><span>מילים</span><span id="scriptSecs">≈ 0 שניות</span></div>
+    <div class="meter stopw" id="stopw"><output id="swOut">00.0</output><div class="btns"><button class="btn" id="swGo">▶ הקראה</button><button class="ghost" id="swReset">↺</button></div><span class="verdict" id="swVerdict">הקריין/ית מקריא/ה, מישהו לוחץ</span></div>
+  </div>
+  <p class="note">המונה מעריך. <b>הסטופר מחליט:</b> מקריאים בקצב רגוע, עם נשימות. 30 שניות או פחות = מוכנים לחותמת.</p>
+</section>
+
+<section class="slide tight" data-topic="שלב 1 · טרום-הפקה" data-title="שער 1: קריאה שולחנית" data-accent="#43e6a6">
+  <span class="kicker">🟢 שער 1 · קריאה שולחנית</span>
+  <h2>מקריאים לאולפן <span class="green">השכן</span></h2>
+  <p class="lead s">כל אולפן מקבל 3 דקות: מראה את הסטוריבורד, הקריין/ית מקריא/ה את התסריט, והאולפן השכן מפעיל סטופר. אחר כך מתחלפים.</p>
+  <div class="trio">
+    <div><b>💚 אני אוהב/ת…</b>דבר אחד שעבד, ולמה.</div>
+    <div><b>🌱 הלוואי ש…</b>שינוי אחד שישפר את הוו או את הקצב.</div>
+    <div><b>🤔 אני תוהה…</b>שאלה אחת שהצופה ישאל.</div>
+  </div>
+  <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="note">🎬 בזמן הקריאה המדריך עובר עם חותמת "אור ירוק". האולפן השכן כבר שמע את הז׳אנר שלכם, ולכן הוא <b>לא מנחש אתכם</b> בבכורה.</p>
+</section>
+
+<section class="slide tight" data-topic="שלב 1 · טרום-הפקה" data-title="לוח הניקוד" data-accent="#43e6a6" data-sb="1">
+  <span class="kicker">📊 לוח הניקוד · אחרי שער 1</span>
+  <h2>איפה עומדים <span class="green">האולפנים</span>?</h2>
+  <div class="sbHost"></div>
+</section>
+
+<section class="slide center" data-topic="שלב 1 · טרום-הפקה" data-title="קאט! דקה של תנועה" data-accent="#43e6a6">
+  <span class="kicker">🏃 דקה של תנועה</span>
+  <div class="clap" aria-hidden="true">🎬</div>
+  <h2>"הבמאי אומר"</h2>
+  <div class="cards four" style="text-align:right;max-width:1100px;width:100%">
+    <div class="card"><div class="emoji">↔️</div><strong>"רחב!"</strong><p>ידיים פתוחות לצדדים.</p></div>
+    <div class="card"><div class="emoji">🖼️</div><strong>"תקריב!"</strong><p>ידיים ממסגרות את הפנים.</p></div>
+    <div class="card"><div class="emoji">👉</div><strong>"פרט!"</strong><p>מצביעים על חפץ אחד בכיתה.</p></div>
+    <div class="card"><div class="emoji">🎭</div><strong>"אקשן!"</strong><p>קופאים בתנוחה של הז׳אנר שלכם.</p></div>
+  </div>
+</section>
+
+<!-- ============ 6. שלב 2: הפקה ועריכה ============ -->
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="ספרינט: הפקה ועריכה" data-accent="#ff9f6e">
+  <button class="helpBtn" data-help="vids" aria-label="הוראות">?</button>
+  <span class="kicker">🎥 שלב 2 · הפקה ועריכה</span>
+  <h2>מצלמים, מקליטים, <span class="orange">עורכים</span></h2>
+  <div class="sprint">
+    <div>
+      <div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ אקשן!</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="ms">
+        <div class="gate"><b>דקה 0–10</b>6 סצנות ב-Vids, טקסט ותמונה בכל אחת ← 🎞️ גרסה גסה</div>
+        <div><b>דקה 10–15</b>תא ההקלטה: קריינות, סצנה אחרי סצנה</div>
+        <div><b>דקה 15–20</b>מוזיקה, קריאה לפעולה, שם וסלוגן, מבחן ההשתקה ושיתוף</div>
+      </div>
+      <span class="ai g">🟢 AI כשותף: תמונות וחיפושים. בודקים כל פלט</span>
+    </div>
+    <div>
+      <div class="roleChips">
+        <span><b>🛠️ העורך/ת:</b> בונה ב-Vids. מתחלפים ליד המקלדת כל 5 דקות.</span>
+        <span><b>🤖 האפקטים:</b> תמונות מ-Gemini (בלי טקסט ובלי אנשים אמיתיים).</span>
+        <span><b>🎤 הקריין/ית:</b> מתאמן/ת ומקליט/ה בתא ההקלטה.</span>
+        <span><b>🔍 התסריטאי/ת:</b> בודק/ת: עד 5 מילים בסצנה? הכול נכון?</span>
+        <span><b>🧭 המפיק/ה:</b> חותמת 2 בדקה 10, ותור לתא ההקלטה.</span>
+      </div>
+      <div class="halfway reveal">⏰ חצי מהזמן עבר! מי שעוד אין לו 6 סצנות: מפסיקים ליפות ומשלימים.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="Vids צעד אחר צעד" data-accent="#ff9f6e">
+  <button class="helpBtn" data-help="vids" aria-label="הוראות">?</button>
+  <span class="kicker">🎥 Google Vids · vids.new</span>
+  <h2>Vids <span class="orange">צעד אחר צעד</span></h2>
+  <div class="steps">
+    <div class="step"><strong>סרטון חדש</strong><p>vids.new ← "לרוחב" ← "סרטון ריק".</p></div>
+    <div class="step"><strong>6 סצנות</strong><p>סצנה לכל פריים בסטוריבורד.</p></div>
+    <div class="step"><strong>טקסט ומדיה</strong><p>עד 5 מילים. תמונות מ"מאגר", או "העלאה" של תמונה מ-Gemini.</p></div>
+    <div class="step"><strong>מוזיקה</strong><p>"מאגר" ← מסננים "מוזיקה" ← מאזינים ← מוסיפים. שקטה!</p></div>
+    <div class="step"><strong>קריינות</strong><p>סמל ההקלטה ← "קריינות". קול בלבד, בלי מצלמה.</p></div>
+    <div class="step"><strong>שיתוף</strong><p>שיתוף ← "צפייה" ← העתקת קישור.</p></div>
+  </div>
+  <p class="note">💻 רק במחשב, ב-Chrome, ב-Edge או ב-Firefox. הקריינות האוטומטית של Vids לא מדברת עברית, אז הקול הוא שלכם.</p>
+</section>
+
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="מחלקת האפקטים" data-accent="#ff9f6e">
+  <span class="kicker">🤖 מחלקת האפקטים · Gemini</span>
+  <h2>תמונה שאין <span class="orange">בשום מאגר</span></h2>
+  <div class="prompt small"><span class="ptag">🖼️ תמונה לסצנה (עד 2 תמונות לאולפן)</span><span class="ptext">צור תמונה של [המוצר שלנו] ב[מה קורה בסצנה], בסגנון [סגנון שמתאים לז׳אנר: קולנועי דרמטי / תיעודי טבעי / מבזק חדשות צבעוני], רקע פשוט, יחס רוחב 16:9. בלי שום טקסט בתמונה ובלי אנשים אמיתיים.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="prompt small"><span class="ptag">🔎 מה לחפש במאגר של Vids</span><span class="ptext">זה הסטוריבורד שלי: [להדביק]. לכל אחד מ-6 הפריימים, הצע מילת חיפוש אחת או שתיים באנגלית לתמונה או לאייקון, ושוט מתאים (רחב, בינוני, תקריב או פרט).</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="trio">
+    <div><b>⬇️ הורדה והעלאה</b>מורידים מ-Gemini, וב-Vids: "העלאה" לסצנה.</div>
+    <div><b>🏷️ מסמנים</b>בפינת הסצנה: "נוצר ב-AI".</div>
+    <div><b>🔍 בודקים</b>ידיים מוזרות? טקסט משובש? מבקשים שוב, או מוותרים.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="תא ההקלטה" data-accent="#9b7cff">
+  <button class="helpBtn" data-help="voice" aria-label="הוראות">?</button>
+  <span class="kicker">🎙️ תא ההקלטה</span>
+  <h2>שקט, <span class="violet">מקליטים</span></h2>
+  <div class="sprint">
+    <div class="revealList" style="margin-top:6px">
+      <div class="revealCard">📷 מצלמה כבויה: "קריינות" מקליטה קול בלבד.</div>
+      <div class="revealCard">🐢 לאט וברור: קצת יותר לאט ממה שנראה לכם נכון.</div>
+      <div class="revealCard">🔁 סצנה אחרי סצנה. טעות? מקליטים שוב רק אותה.</div>
+      <div class="revealCard">🎭 קול בסגנון הז׳אנר, אבל רק הקול שלכם.</div>
+      <div class="revealCard">🙊 בלי שמות מלאים, שם בית ספר או כתובת.</div>
+    </div>
+    <div class="tableWrap" style="margin-top:6px"><table class="t booth">
+      <thead><tr><th>תור</th><th>אולפן</th><th>✓</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>2</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>3</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>4</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>5</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>6</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>7</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="מבחן ההשתקה" data-accent="#9b7cff">
+  <span class="kicker">🔍 בקרת איכות לפני הגשה</span>
+  <h2>שני מבחנים של <span class="violet">במאים אמיתיים</span></h2>
+  <div class="qa">
+    <div class="box"><b class="h">🔇 מבחן ההשתקה</b>מפעילים את הסרטון <b>בלי קול</b>. מבינים מה המוצר ומה עושים עכשיו? לא? מוסיפים מילה או תמונה ברורה יותר.</div>
+    <div class="box"><b class="h">🙈 מבחן העיניים העצומות</b>מקשיבים <b>בלי להסתכל</b>. מבינים מה המוצר ולאן הולכים? לא? משפרים משפט בקריינות.</div>
+  </div>
+  <div class="miniChecks">
+    <span>🪝 וו ב-3 שניות</span><span>🎞️ 6 סצנות</span><span>🔤 עד 5 מילים בסצנה</span><span>🎙️ קול ברור</span><span>🎵 מוזיקה שקטה מהמאגר</span><span>👉 קריאה לפעולה</span><span>🏷️ שם וסלוגן</span><span>⏱️ 20–30 שניות</span><span>🤖 "נוצר ב-AI" מסומן</span>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="שלב 2 · הפקה" data-title="משימות צד" data-accent="#9b7cff">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>יש עוד זמן? <span class="violet">בחרו משימה</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">✂️</div><strong>גרסת 15 שניות</strong><p>עותק של הסרטון: וו, פתרון, קריאה לפעולה ושם. מה חתכתם ולמה?</p></div>
+    <div class="card"><div class="emoji">🎞️</div><strong>כרזת הבכורה</strong><p>תמונה מ-Gemini בלי טקסט, ועליה ב-Slides שם הסרט ו"בקרוב".</p></div>
+    <div class="card"><div class="emoji">🗣️</div><strong>דיבוב בז׳אנר אחר</strong><p>כתבו מחדש את פריים 1 בז׳אנר אחר, והקריאו בבכורה.</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>מגבלת במאי</strong><p>שלפו כרטיס מגבלה ובנו סצנה אחת לפיו.</p></div>
+    <div class="card"><div class="emoji">🔤</div><strong>גרסה עם כתוביות</strong><p>כתוביות קצרות לקריינות, למי שצופה בלי קול.</p></div>
+  </div>
+</section>
+
+<!-- ============ 7. הגשה ובכורה ============ -->
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="הגשה" data-accent="#ffd166">
+  <span class="kicker">📤 הגשה · סוף צילומים</span>
+  <h2>3 דקות <span class="yellow">להגשה</span></h2>
+  <div class="subGrid">
+    <div>
+      <div class="linkBox">🔗 <span contenteditable="true"></span></div><br>
+      <span class="fname">צוות_[שם]_פרסומת_שיעור21</span>
+      <div class="task"><strong>מה מגישים</strong><ol><li>ב-Vids: שיתוף ← "צפייה" ← העתקת קישור.</li><li>בטופס: שם הצוות, הקישור, הז׳אנר (בסוד!), רמה במחוון לפי הערכה עצמית.</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו.</li><li>ביומן הסטארט-אפ: שקף 21 עם הקישור.</li></ol></div>
+    </div>
+    <div>
+      <div class="task" style="border-color:#bfe3cb;border-inline-start-color:#15803d;background:linear-gradient(180deg,#f3fbf6,#fff)"><strong style="color:#14532d">✓ צ׳קליסט לפני "שליחה"</strong><ol><li>הסרטון 20–30 שניות</li><li>6 סצנות, הסצנה האחרונה עם שם וסלוגן</li><li>הקישור נפתח גם בטלפון של חבר</li><li>שורת AI מלאה</li><li>הסטוריבורד הנייר במעטפת הצוות</li></ol></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="חוקי הבכורה" data-accent="#ffd166">
+  <span class="kicker">🍿 הבכורה</span>
+  <h2>הפסטיבל <span class="yellow">נפתח</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">👍</div><strong>מד הוו</strong><p>לפני כל סרטון כולם מרימים אגודל. כשהייתם גוללים הלאה, מורידים. בסוף סופרים מי נשאר.</p></div>
+    <div class="card"><div class="emoji">🎭</div><strong>ניחוש הז׳אנר</strong><p>בדף המבקר: מספר הז׳אנר שניחשתם, ו"אני אוהב/ת" אחד. לא מנחשים את האולפן השכן.</p></div>
+    <div class="card"><div class="emoji">🗳️</div><strong>פרס הקהל</strong><p>בסוף כל ההקרנות: 3 קולות לכל אחד, לא לצוות של עצמך.</p></div>
+    <div class="card"><div class="emoji">👏</div><strong>כבוד לאולפן</strong><p>שקט בזמן ההקרנה, מחיאות כפיים בסוף. האולפן שמוקרן לא מצביע.</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="מד הוו" data-accent="#ffd166">
+  <span class="kicker">👍 מד הוו · סופרים אגודלים בסוף כל סרטון</span>
+  <h2>כמה <span class="yellow">נשארו עד הסוף?</span></h2>
+  <div class="timer" data-seconds="30"><output>00:30</output><button class="ghost" data-t="toggle">▶ הקרנה</button><button class="ghost" data-t="reset">↺</button></div>
+  <div class="hookHost"></div>
+  <div class="applyRow"><button class="btn" data-act="hook">✓ העברת מקומות 1–3 (5 / 3 / 2) ללוח</button><span class="hint2">שוויון במקום = שני הצוותים מקבלים את הניקוד</span></div>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="ניחוש הז׳אנר" data-accent="#ffd166">
+  <span class="kicker">🎭 חשיפת הז׳אנרים</span>
+  <h2>מי <span class="yellow">ניחש נכון?</span></h2>
+  <div class="grvHost"></div>
+  <p class="note">האולפן חושף את הז׳אנר. סופרים ידיים: מי ניחש נכון? "ניחשו אותנו" = נקודה לאולפן היוצר על כל צוות. "ניחשנו נכון" = נקודה לצוות המנחש.</p>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="פרס הקהל" data-accent="#ffd166">
+  <span class="kicker">🗳️ פרס הקהל · 3 קולות לכל אחד</span>
+  <h2>ספירת <span class="yellow">הקולות</span></h2>
+  <div class="audHost"></div>
+  <div class="applyRow"><button class="btn" data-act="aud">✓ העברת מקומות 1–3 (8 / 5 / 3) ללוח</button></div>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="לוח הניקוד הסופי" data-accent="#ffd166" data-sb="1">
+  <span class="kicker">📊 לוח הניקוד הסופי</span>
+  <h2>התוצאות של <span class="yellow">הפסטיבל</span></h2>
+  <div class="sbHost"></div>
+</section>
+
+<section class="slide tight" data-topic="הגשה ובכורה" data-title="טקס הפרסים" data-accent="#ffd166">
+  <span class="kicker">🏆 טקס הפרסים</span>
+  <h2>ו<span class="yellow">הזוכים</span> הם…</h2>
+  <div class="ceremony">
+    <div class="podium">
+      <div class="pd p2"><div class="who" data-pod="1">—</div><div class="pts" data-podp="1"></div><div class="blk">2</div></div>
+      <div class="pd p1"><div class="who" data-pod="0">—</div><div class="pts" data-podp="0"></div><div class="blk">🏆</div></div>
+      <div class="pd p3"><div class="who" data-pod="2">—</div><div class="pts" data-podp="2"></div><div class="blk">3</div></div>
+    </div>
+    <div class="awards">
+      <div class="award" style="--ac:#8c7ae6"><span class="ic">🎬</span><div><strong>הבימוי הכי מקורי</strong><small>רעיון שכולם יזכרו מחר</small></div><select data-prize="dir" aria-label="הבימוי הכי מקורי"></select></div>
+      <div class="award" style="--ac:#4c8bd6"><span class="ic">🎙️</span><div><strong>הקריינות הכי ברורה</strong><small>כל מילה נשמעה, בקצב הנכון</small></div><select data-prize="voice" aria-label="הקריינות הכי ברורה"></select></div>
+      <div class="award" style="--ac:#15803d"><span class="ic">⚖️</span><div><strong>פרסום הוגן</strong><small>אמיתי, מסומן ושקוף</small></div><select data-prize="fair" aria-label="פרסום הוגן"></select></div>
+      <div class="award" style="--ac:#f4a259"><span class="ic">📈</span><div><strong>הקאמבק</strong><small>השתפר הכי הרבה מאז הקריאה השולחנית</small></div><select data-prize="comeback" aria-label="הקאמבק"></select></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. סיום ============ -->
+<section class="slide" data-topic="סיום" data-title="מה למדנו בפסטיבל?">
+  <span class="kicker">🧠 תחקיר הבמאים</span>
+  <h2>מה למדנו <span class="cyan">מהפסטיבל?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🪝 בסרטון שהכי הרבה צפו בו עד הסוף: מה קרה ב-3 השניות הראשונות?</div>
+    <div class="revealCard reveal">🔇 איזה סרטון עבד גם בלי קול? מה הוא עשה נכון?</div>
+    <div class="revealCard reveal">🎭 מתי הז׳אנר עזר למסר, ומתי הוא הסתיר את המוצר?</div>
+    <div class="revealCard reveal">✂️ אילו 15 שניות הייתם חותכים מהסרטון שלכם, ולמה?</div>
+  </div>
+</section>
+
+<section class="slide" data-topic="סיום" data-title="כרטיס יציאה">
+  <span class="kicker">🎟 כרטיס יציאה · כל אחד לבד</span>
+  <h2>לפני שיוצאים <span class="cyan">מהאולפן</span></h2>
+  <div class="task"><strong>4 שאלות, 3 דקות</strong><ol><li>דבר אחד שלמדתי היום.</li><li>שאלה אחת שנשארה לי.</li><li>מה הופך 30 שניות לפרסומת שזוכרים?</li><li>כמה הבנתי (0–5), ומה תרמתי היום לצוות.</li></ol></div>
+  <span class="ai r">🔴 בלי AI. כותבים לבד, בדף או בטופס</span>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="בשיעור הבא">
+  <span class="kicker">🎬 סוף צילומים</span>
+  <h2>יש לכם <span class="cyan">פרסומת</span>. מה הלאה?</h2>
+  <p class="lead">הקישור לסרטון נשמר ביומן הסטארט-אפ. הוא יחכה לכם ביום ההדגמה.</p>
+  <div class="nextUp" style="text-align:right"><span class="ic">⏱️</span><div><b>בשיעור הבא: ספיד-דייטינג של פיצ׳ים</b><span>60 שניות, בלי מסך ובלי מוזיקה. רק אתם והמיזם, מול שותף חדש בכל סבב.</span></div></div>
+</section>
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-rules"><h3>🏆 חוקי פסטיבל 30 השניות</h3><ol><li>כל אולפן מפיק פרסומת של 20–30 שניות למיזם שלו (מי שאין לו מיזם: כרטיס מוצר מהמדריך).</li><li>המפיק/ה שולף/ת כרטיס ז׳אנר, ושומרים אותו בסוד עד הבכורה.</li><li>6 סצנות לפי 6 הפעימות: וו · בעיה · פתרון · איך זה עובד · קריאה לפעולה · שם וסלוגן.</li><li>קריינות בקול שלכם בלבד, עם מצלמה כבויה. בלי פנים של אנשים, בלי אווטרים, בלי חיקוי קולות.</li><li>עד 5 מילים על המסך בכל סצנה. מוזיקה רק מהמאגר של Vids.</li><li>אין "עובדות" או מספרים שלא בדקתם. תמונה מ-Gemini מסומנת "נוצר ב-AI".</li><li>3 חותמות בדרכון: אור ירוק (סוף שלב 1) · גרסה גסה (דקה 10 של שלב 2) · סוף צילומים (הגשה).</li></ol></template>
+<template id="help-pre"><h3>📝 טרום-הפקה: מה עושים ב-15 דקות</h3><ol><li><b>לוגליין:</b> "[המוצר] עוזר ל[לקוח] ש[בעיה]". משפט אחד, בדף התסריט.</li><li><b>3 ווים בז׳אנר:</b> לבד או עם הפרומפט מ-Gemini. בוחרים אחד, ומסמנים למה.</li><li><b>סטוריבורד:</b> 6 פריימים בדף. בכל פריים: ציור קטן, מה כתוב על המסך (עד 5 מילים), מה הקריין אומר, ואיזה שוט (רחב / בינוני / תקריב / פרט).</li><li><b>תסריט:</b> עד 70 מילים. סופרים במונה שבשקף הבא.</li><li><b>הקראה בסטופר:</b> 30 שניות או פחות, בקצב רגוע.</li><li>המפיק/ה מראה את הדף בשולחן ההפקה ומקבל/ת חותמת 🟢.</li></ol></template>
+<template id="help-vids"><h3>🎥 בונים ב-Google Vids</h3><ol><li>במחשב, ב-Chrome, ב-Edge או ב-Firefox: נכנסים ל-<b>vids.new</b>. בוחרים "לרוחב" ואז "סרטון ריק".</li><li>מוסיפים 6 סצנות, אחת לכל פריים בסטוריבורד.</li><li>בכל סצנה: טקסט קצר (עד 5 מילים), ותמונה או אייקון מ"מאגר". תמונה מ-Gemini: מורידים למחשב, ובסצנה בוחרים "העלאה".</li><li>מוזיקה: "מאגר" ← מסננים "מוזיקה" ← מאזינים ← לוחצים להוספה. בוחרים שקטה, שלא תכסה את הקול.</li><li>קריינות: סמל ההקלטה ← "קריינות". מקליטים סצנה אחרי סצנה, מצלמה כבויה.</li><li>שיתוף: סמל השיתוף ← "צפייה" ← מעתיקים את הקישור לטופס.</li><li>לא יודעים מה לחפש במאגר? חיפוש באנגלית מוצא יותר (ball, box, bell, clock).</li></ol></template>
+<template id="help-voice"><h3>🎙️ טיפים לתא ההקלטה</h3><ol><li>קריין/ית אחד/ת, או מתחלפים בין סצנות.</li><li>מתאמנים פעם אחת בקול לפני שלוחצים "קריינות".</li><li>מחזיקים את המחשב קרוב, ומדברים לכיוון המיקרופון. אוזניות עם מיקרופון עוזרות.</li><li>קול בסגנון הז׳אנר: עמוק לטריילר, לוחש לסרט טבע, נמרץ למבזק. אבל רק הקול שלכם.</li><li>טעות? מקליטים שוב רק את הסצנה הזאת.</li><li>אין מיקרופון? בבכורה מקריאים את הקריינות בקול, חי, בזמן ההקרנה.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== אולפני 30 השניות · lesson add-on (runs after the engine; the engine is untouched) =====
+   1) copy buttons  2) script word counter + read-aloud stopwatch  3) 30-second animatic player
+   4) 12 genre tiles  5) bottle cage art  6) live team scoreboard (shared state in every .sbHost, saved in this browser)
+   7) hook-meter counters → 5/3/2   8) genre reveal (two counters per team)   9) audience votes → 8/5/3
+   10) category prizes (3 each) + podium */
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+// ---------- 1. copy ----------
+$$('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+
+// ---------- 2. word counter + stopwatch ----------
+const words=t=>t.trim().split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+const box=$('#scriptBox');
+if(box){const m=$('#scriptMeter'),w=$('#scriptWords'),s=$('#scriptSecs');
+ const u=()=>{const n=words(box.value);w.textContent=n;s.textContent='≈ '+Math.round(n/2.3)+' שניות';m.classList.toggle('long',n>70)};box.addEventListener('input',u);u()}
+const sw=$('#stopw');
+if(sw){let t0=0,iv=null,acc=0;const out=$('#swOut'),go=$('#swGo'),vd=$('#swVerdict');
+ const show=ms=>{const sec=ms/1000;out.textContent=(sec<10?'0':'')+sec.toFixed(1);sw.classList.toggle('over',sec>30);};
+ go.onclick=()=>{if(iv){clearInterval(iv);iv=null;acc+=Date.now()-t0;show(acc);go.textContent='▶ המשך';const sec=acc/1000;
+   sw.classList.toggle('ok',sec<=30);vd.textContent=sec<=30?'✓ נכנס ב-30 שניות. מוכנים לחותמת!':'✗ ארוך מדי. מקצרים ומנסים שוב';}
+  else{t0=Date.now();sw.classList.remove('ok');vd.textContent='מקריאים…';iv=setInterval(()=>show(acc+Date.now()-t0),100);go.textContent='⏸ עצירה'}};
+ $('#swReset').onclick=()=>{clearInterval(iv);iv=null;acc=0;show(0);sw.classList.remove('ok','over');go.textContent='▶ הקראה';vd.textContent='הקריין/ית מקריא/ה, מישהו לוחץ'}}
+
+// ---------- 3. animatic ----------
+const BEATS=[
+ {from:0,to:3,tag:'וו · 0–3',scene:'🔔🧍',cap:'משעמם בהפסקה?',sub:'צלצול! עוד הפסקה משעממת?'},
+ {from:3,to:8,tag:'בעיה · 3–8',scene:'😴⏰',cap:'',sub:'עומדים בצד, מסתכלים על השעון, מחכים שייגמר.'},
+ {from:8,to:14,tag:'פתרון · 8–14',scene:'📦✨',cap:'קופסת הפסקה',sub:'הכירו את קופסת הפסקה: כדורים, חבלים, קלפים ומשחקים להשאלה.'},
+ {from:14,to:22,tag:'איך · 14–22',scene:'📝⚽↩️',cap:'3 צעדים',sub:'לוקחים, משחקים, ומחזירים בצלצול. זהו.'},
+ {from:22,to:27,tag:'פעולה · 22–27',scene:'👉🏫',cap:'ליד חדר הספורט',sub:'בואו לשאול כבר בהפסקה הבאה.'},
+ {from:27,to:30,tag:'שם וסלוגן · 27–30',scene:'🏷️',cap:'קופסת הפסקה',sub:'קופסת הפסקה. ההפסקה שלכם משתדרגת.'}];
+const an=$('#anim');
+if(an){let t=0,iv=null,cur=-1;const play=$('#animPlay'),head=$('#animHead'),time=$('#animTime'),track=$$('#animTrack i'),rows=$$('#animBeats>div');
+ const fmt=s=>'00:'+String(Math.floor(s)).padStart(2,'0');
+ const render=()=>{const i=Math.min(5,BEATS.findIndex(b=>t<b.to)<0?5:BEATS.findIndex(b=>t<b.to));
+  if(i!==cur){cur=i;const b=BEATS[i];$('#animTag').textContent=b.tag;$('#animCap').textContent=b.cap;$('#animSub').textContent=b.sub;
+   const sc=$('#animScene');sc.textContent=b.scene;sc.classList.remove('pop');void sc.offsetWidth;sc.classList.add('pop');
+   track.forEach((x,k)=>x.classList.toggle('on',k<=i));rows.forEach((r,k)=>r.classList.toggle('on',k===i))}
+  head.style.right=Math.min(100,t/30*100)+'%';time.textContent=fmt(t)+' / 00:30'};
+ const stop=()=>{clearInterval(iv);iv=null;play.textContent=t>=30?'▶ שוב':'▶ המשך'};
+ play.onclick=()=>{if(iv){stop();return}if(t>=30){t=0;cur=-1}iv=setInterval(()=>{t=Math.min(30,t+.1);render();if(t>=30)stop()},100);play.textContent='⏸ עצירה'};
+ $('#animReset').onclick=()=>{stop();t=0;cur=-1;render();play.textContent='▶ הפעלה'};render()}
+
+// ---------- 4. genres ----------
+const GENRES=[
+ ['🎬','טריילר אקשן','"בעולם שבו כל הפסקה נראית אותו דבר… קופסה אחת תשנה הכול."'],
+ ['🦁','סרט טבע','"כאן, בחצר, חי היצור הנדיר מכולם: התלמיד המשועמם."'],
+ ['📰','מבזק חדשות','"מבזק! דיווחים מהחצר: ההפסקה כבר לא משעממת."'],
+ ['👻','אימה (מצחיקה)','"הצלצול נשמע… ואין… שום… דבר… לעשות."'],
+ ['🍳','תכנית בישול','"מתכון להפסקה מושלמת: לוקחים כדור אחד, מוסיפים שלושה חברים…"'],
+ ['⚽','שידור ספורט','"הוא לוקח את הכדור מהקופסה… מוסר… בועט… גול!"'],
+ ['🦸','גיבורי על','"כשההפסקה בסכנה, רק קופסה אחת יכולה להציל אותה."'],
+ ['🕵️','בלשים','"התיק של ההפסקה הנעלמת. חשוד אחד: השעמום."'],
+ ['🎤','ריאליטי','"שלושה משחקים. הפסקה אחת. רק אחד יישאר בקופסה."'],
+ ['🧪','ניסוי מדעי','"ניסוי מספר 1: מה קורה לתלמיד כשנותנים לו כדור?"'],
+ ['🕹️','משחק מחשב','"שלב 1: ההפסקה. המשימה: למצוא משחק. בונוס: קופסת הפסקה!"'],
+ ['📼','פרסומת רטרו','"רק עכשיו! רק אצלנו! הפסקה משודרגת! בואו מהר!"']];
+const gt=$('#genreTiles');
+if(gt){gt.innerHTML=GENRES.map((g,i)=>'<button class="gt" type="button"><span class="no">'+(i+1)+'</span><span class="em">'+g[0]+'</span><b>'+esc(g[1])+'</b><span class="line">'+esc(g[2])+'</span></button>').join('');
+ $$('.gt',gt).forEach(b=>b.onclick=()=>b.classList.toggle('open'))}
+
+// ---------- 5. bottle cage ----------
+const bt=$('#bottles');
+if(bt){const set=['🧴','🥤','🥫','🍾','🧃','🥛'];let h='';for(let i=0;i<72;i++)h+='<span>'+set[(i*7+Math.floor(i/5))%set.length]+'</span>';bt.innerHTML=h}
+
+// ---------- 6. scoreboard state ----------
+const COLS=[
+ {k:'s1',h:'אור ירוק',s:'3'},{k:'s2',h:'גרסה גסה',s:'2'},{k:'sub',h:'הגשה',s:'5'},{k:'rub',h:'מחוון ×3',s:'3–12'},
+ {k:'hook',h:'מד הוו',s:'5/3/2'},{k:'genre',h:'ז׳אנר',s:'1 לכל'},{k:'aud',h:'קהל',s:'8/5/3'},{k:'prz',h:'פרסים',s:'3 לכל'},{k:'exit',h:'יציאה',s:'2'}];
+const EMO=['🎬','🎥','🎞️','🎙️','🍿','📽️','🎭','🌟'];
+const SKEY='tie-promo-festival:'+location.pathname;
+const newTeam=i=>({name:EMO[i]+' אולפן '+(i+1),v:{},hook:0,aud:0,g:-1,got:0,made:0});
+const blank=n=>({teams:Array.from({length:n},(_,i)=>newTeam(i)),prizes:{dir:-1,voice:-1,fair:-1,comeback:-1}});
+let st=blank(7);
+try{const x=JSON.parse(localStorage.getItem(SKEY)||'null');if(x&&Array.isArray(x.teams)&&x.teams.length){st=x;st.teams=st.teams.map((t,i)=>Object.assign(newTeam(i),t));st.prizes=Object.assign({dir:-1,voice:-1,fair:-1,comeback:-1},st.prizes||{})}}catch(e){}
+const save=()=>{try{localStorage.setItem(SKEY,JSON.stringify(st))}catch(e){}};
+const num=v=>{const n=Number(v);return isFinite(n)?n:0};
+const total=t=>COLS.reduce((a,c)=>a+num(t.v[c.k]),0);
+
+function renderSB(){
+ const tots=st.teams.map(total),top=Math.max(...tots),sorted=[...tots].sort((a,b)=>b-a);
+ $$('.sbHost').forEach(host=>{
+  let h='<div class="sbWrap"><table class="sb"><thead><tr><th>אולפן</th>'+COLS.map(c=>'<th>'+c.h+'<small>'+c.s+'</small></th>').join('')+'<th>סה״כ</th></tr></thead><tbody>';
+  st.teams.forEach((t,i)=>{h+='<tr class="'+(top>0&&tots[i]===top?'first':'')+'"><td class="tn"><div class="tnw"><span class="rk">'+(sorted.indexOf(tots[i])+1)+'</span><input class="name" data-i="'+i+'" value="'+esc(t.name)+'" aria-label="שם האולפן"></div></td>'+
+   COLS.map(c=>'<td><input inputmode="numeric" data-i="'+i+'" data-k="'+c.k+'" value="'+esc(t.v[c.k]??'')+'" aria-label="'+c.h+'"></td>').join('')+'<td class="tot">'+tots[i]+'</td></tr>'});
+  h+='</tbody></table></div><div class="sbBar"><button class="ghost" data-act="add">＋ אולפן</button><button class="ghost" data-act="del">− אולפן</button><button class="ghost" data-act="reset">↺ איפוס הלוח</button><span class="hint2">לוחצים על שם או על תא ומקלידים. הסה״כ מתעדכן לבד.</span></div>';
+  host.innerHTML=h});
+}
+function refreshTotals(skipHost){const tots=st.teams.map(total),top=Math.max(...tots),sorted=[...tots].sort((a,b)=>b-a);
+ $$('.sbHost').forEach(host=>{$$('tbody tr',host).forEach((tr,j)=>{tr.querySelector('.tot').textContent=tots[j];tr.querySelector('.rk').textContent=sorted.indexOf(tots[j])+1;tr.classList.toggle('first',top>0&&tots[j]===top)});
+  if(host!==skipHost)$$('input[data-k]',host).forEach(inp=>{inp.value=st.teams[Number(inp.dataset.i)].v[inp.dataset.k]??''})});
+ renderPodium()}
+document.addEventListener('input',e=>{const el=e.target;if(!el.closest('.sbHost'))return;const i=Number(el.dataset.i);
+ if(el.classList.contains('name')){st.teams[i].name=el.value;save();syncNames(el);return}
+ st.teams[i].v[el.dataset.k]=el.value.replace(/[^\d\-]/g,'');save();refreshTotals(el.closest('.sbHost'))});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+ if(a==='add'&&st.teams.length<8){st.teams.push(newTeam(st.teams.length))}
+ else if(a==='del'&&st.teams.length>3){st.teams.pop();Object.keys(st.prizes).forEach(k=>{if(st.prizes[k]>=st.teams.length)st.prizes[k]=-1});applyPrizes()}
+ else if(a==='reset'){if(!confirm('לאפס את כל הניקוד?'))return;st=blank(st.teams.length)}
+ else if(a==='hook'){applyPlaces('hook','hook',[5,3,2])}
+ else if(a==='aud'){applyPlaces('aud','aud',[8,5,3])}
+ else return;
+ save();renderAll()});
+
+// ---------- 7 + 9. counters with places ----------
+function places(key){const vals=[...new Set(st.teams.map(t=>t[key]).filter(n=>n>0))].sort((a,b)=>b-a);return st.teams.map(t=>t[key]>0?vals.indexOf(t[key]):-1)}
+function applyPlaces(key,col,pts){const pl=places(key);st.teams.forEach((t,i)=>{t.v[col]=pl[i]>=0&&pl[i]<3?String(pts[pl[i]]):'0'})}
+function renderCounters(sel,key,label){const max=Math.max(1,...st.teams.map(t=>t[key])),top=Math.max(...st.teams.map(t=>t[key])),pl=places(key);
+ $$(sel).forEach(host=>{host.innerHTML='<div class="stk">'+st.teams.map((t,i)=>'<div class="stkItem'+(top>0&&t[key]===top?' lead1':'')+'"><b>'+esc(t.name)+'</b><div class="ctl"><button data-cnt="'+key+'" data-d="-1" data-i="'+i+'" aria-label="פחות">−</button><output>'+t[key]+'</output><button data-cnt="'+key+'" data-d="1" data-i="'+i+'" aria-label="עוד">+</button></div><div class="bar"><i style="width:'+(t[key]/max*100)+'%"></i></div><span class="place">'+(pl[i]===0?'🥇 מקום ראשון':pl[i]===1?'🥈 מקום שני':pl[i]===2?'🥉 מקום שלישי':'')+'</span></div>').join('')+'</div>'})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-cnt]');if(!b)return;const t=st.teams[Number(b.dataset.i)],k=b.dataset.cnt;t[k]=Math.max(0,num(t[k])+Number(b.dataset.d));save();
+ if(k==='hook')renderCounters('.hookHost','hook');else if(k==='aud')renderCounters('.audHost','aud');else{applyGenre();save();renderGenre();refreshTotals(null)}});
+
+// ---------- 8. genre reveal ----------
+function applyGenre(){st.teams.forEach(t=>{t.v.genre=String(num(t.got)+num(t.made))})}
+function renderGenre(){$$('.grvHost').forEach(host=>{host.innerHTML='<div class="grv">'+st.teams.map((t,i)=>'<div class="grvItem"><b class="tm">'+esc(t.name)+'</b><select data-gsel="'+i+'" aria-label="הז׳אנר של '+esc(t.name)+'"><option value="-1">🎭 הז׳אנר שלהם…</option>'+GENRES.map((g,k)=>'<option value="'+k+'"'+(t.g===k?' selected':'')+'>'+(k+1)+' · '+g[0]+' '+esc(g[1])+'</option>').join('')+'</select>'+
+  '<div class="rows"><div class="row"><span>ניחשו אותנו</span><span class="ctl"><button data-cnt="got" data-d="-1" data-i="'+i+'">−</button><output>'+t.got+'</output><button data-cnt="got" data-d="1" data-i="'+i+'">+</button></span></div>'+
+  '<div class="row"><span>ניחשנו נכון</span><span class="ctl"><button data-cnt="made" data-d="-1" data-i="'+i+'">−</button><output>'+t.made+'</output><button data-cnt="made" data-d="1" data-i="'+i+'">+</button></span></div></div>'+
+  '<span class="pts">= '+(num(t.got)+num(t.made))+' נקודות ז׳אנר</span></div>').join('')+'</div>'})}
+document.addEventListener('change',e=>{const s=e.target.closest('select[data-gsel]');if(!s)return;st.teams[Number(s.dataset.gsel)].g=Number(s.value);save()});
+
+// ---------- 10. prizes + podium ----------
+function applyPrizes(){st.teams.forEach((t,i)=>{const n=Object.values(st.prizes).filter(p=>p===i).length;t.v.prz=String(3*n)})}
+function renderPrizes(){$$('select[data-prize]').forEach(sel=>{const k=sel.dataset.prize;
+ sel.innerHTML='<option value="-1">בחרו אולפן</option>'+st.teams.map((t,i)=>'<option value="'+i+'"'+(st.prizes[k]===i?' selected':'')+'>'+esc(t.name)+'</option>').join('')})}
+document.addEventListener('change',e=>{const sel=e.target.closest('select[data-prize]');if(!sel)return;st.prizes[sel.dataset.prize]=Number(sel.value);applyPrizes();save();renderSB();renderPodium()});
+function renderPodium(){const tots=st.teams.map(total);const order=tots.map((t,i)=>[t,i]).sort((a,b)=>(b[0]-a[0])||(st.teams[b[1]].hook-st.teams[a[1]].hook));
+ [0,1,2].forEach(p=>{const w=$('[data-pod="'+p+'"]'),pp=$('[data-podp="'+p+'"]');if(!w)return;const o=order[p];const ok=o&&o[0]>0;w.textContent=ok?st.teams[o[1]].name:'—';pp.textContent=ok?o[0]+' נקודות':''})}
+
+function syncNames(src){renderCounters('.hookHost','hook');renderCounters('.audHost','aud');renderGenre();renderPrizes();renderPodium();
+ $$('.sbHost input.name').forEach(inp=>{if(inp!==src)inp.value=st.teams[Number(inp.dataset.i)].name})}
+function renderAll(){renderSB();renderCounters('.hookHost','hook');renderCounters('.audHost','aud');renderGenre();renderPrizes();renderPodium()}
+renderAll();
+})();
+</script>
+
+</body>
+</html>

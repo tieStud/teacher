@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · האקתון היצורים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== האקתון היצורים — materials additions ===== */
+.r-lead{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-bio{--c:#2f7d5b;--cs:#e5f2ea;--c-ink:#1f5e43}
+.r-art{--c:#e3a82b;--cs:#fdf3d7;--c-ink:#8a5a00}
+.r-3d{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-spk{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.role{font-size:9.8pt}
+/* environment cards */
+.envs{display:grid;grid-template-rows:1fr 1fr;gap:5mm;flex:1}
+.env{--c:#e3a82b;--cs:#fdf3d7;--ci:#8a5a00;border:1.4px solid var(--c);border-radius:4mm;overflow:hidden;display:flex;flex-direction:column}
+.env .eh{display:flex;align-items:center;justify-content:space-between;gap:3mm;padding:2.6mm 4mm;background:var(--cs);border-bottom:1.2px solid var(--c)}
+.env .eh b{font-family:var(--display);font-weight:800;font-size:16pt;color:var(--ci)}
+.env .eh .tg{font-family:var(--display);font-weight:700;font-size:9pt;color:#fff;background:var(--c);border-radius:999px;padding:.6mm 3mm}
+.env .eb{display:grid;grid-template-columns:1.35fr 1fr;gap:4mm;padding:3mm 4mm;flex:1}
+.env .intro{font-size:9.4pt;color:var(--muted);margin-bottom:1.5mm}
+.cond{display:grid;gap:1.2mm;font-size:9.4pt}
+.cond div{display:grid;grid-template-columns:20mm 1fr;gap:2mm;border-bottom:1px dotted var(--line2);padding-bottom:1mm}
+.cond b{font-family:var(--display);font-weight:700}
+.twist{margin-top:2mm;border:1.2px solid #efb69b;background:#fdebe3;border-radius:2.5mm;padding:2mm 3mm;font-size:9.6pt}
+.twist b{color:var(--bad);font-family:var(--display)}
+.side h4{font-family:var(--display);font-weight:700;font-size:10pt;margin:0 0 1mm;color:var(--ci)}
+.side ul{margin:0 0 2.5mm;padding-inline-start:4.5mm;font-size:9pt}
+.side li{margin-bottom:.6mm}
+.side .lines{min-height:8.5mm}
+.e-d{--c:#e3a82b;--cs:#fdf3d7;--ci:#8a5a00}.e-s{--c:#2f6db5;--cs:#e5eefa;--ci:#1d4f8f}.e-c{--c:#8c7ae6;--cs:#efecfb;--ci:#5b46b8}
+/* hard question cards */
+.hq{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.hq .cc b{font-size:11.5pt;line-height:1.3}
+.k-d{--c:#e3a82b;--cs:#fdf3d7;--c-ink:#8a5a00}.k-s{--c:#2f6db5;--cs:#e5eefa;--c-ink:#1d4f8f}.k-c{--c:#8c7ae6;--cs:#efecfb;--c-ink:#5b46b8}
+/* mentor + codes */
+.mentor{grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+.mc{padding:4mm 4.5mm;display:flex;flex-direction:column;gap:1.6mm;font-size:9.4pt}
+.mc .mh{display:flex;align-items:center;gap:2.5mm}.mc .mh b{font-family:var(--display);font-weight:800;font-size:13pt}.mc .mh span{font-size:18pt}
+.mc ol{margin:0;padding-inline-start:4.5mm}.mc li{margin-bottom:.6mm}
+.mc .say{background:#efecfb;border-radius:2mm;padding:1.6mm 2.4mm;font-size:9pt}
+.codes{grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+.code{padding:3mm 4mm;display:flex;flex-direction:column;justify-content:center;gap:1.4mm;font-size:9.4pt}
+.code b{font-family:var(--display);font-size:11pt}
+.code .row{display:flex;justify-content:space-between;gap:3mm;align-items:center}
+.code .bx{display:inline-block;min-width:40mm;height:7mm;border:1.2px solid var(--ink);border-radius:1.5mm;vertical-align:middle}
+.code small{color:var(--muted);font-size:8.4pt}
+/* bank */
+table.bank{width:100%;border-collapse:collapse;font-size:8.7pt}
+table.bank th,table.bank td{border:1px solid var(--line2);padding:1.4mm 2mm;text-align:right;vertical-align:top}
+table.bank th{font-family:var(--display);font-weight:600;background:var(--paper2);font-size:8.6pt}
+table.bank td.en{direction:ltr;text-align:left;font-size:8.2pt;color:var(--muted);white-space:nowrap}
+table.bank tr.grp td{font-family:var(--display);font-weight:800;font-size:9.6pt;background:var(--gc);color:var(--gi)}
+/* judge sheet */
+table.js{width:100%;border-collapse:collapse;font-size:8.6pt;table-layout:fixed}
+table.js th,table.js td{border:1px solid var(--line2);padding:1.4mm 1mm;text-align:center;vertical-align:middle}
+table.js th{font-family:var(--display);font-weight:600;background:var(--paper2);font-size:8pt;line-height:1.25}
+table.js th small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:7.2pt}
+table.js td{height:13.5mm}
+table.js td.tm{text-align:right;font-size:9pt}
+table.js .g1{background:#f2f8f4}.g1h{background:#e5f2ea!important}
+table.js .g2{background:#f6f4fd}.g2h{background:#efecfb!important}
+table.js .tt{background:#e3f1ee!important}
+/* guest judge + vote */
+.gj{grid-template-columns:1fr 1fr;grid-auto-rows:auto}
+.gjc{padding:4mm;display:flex;flex-direction:column;gap:1.5mm;font-size:9.2pt}
+.gjc b.t{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.gjc table{width:100%;border-collapse:collapse;font-size:8.6pt}.gjc td{border-bottom:1px dotted var(--line2);padding:1mm .5mm;vertical-align:top}
+.gjc td:last-child{white-space:nowrap;text-align:left}
+.vs{grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;flex:1}
+.vsc{padding:3mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.4mm;font-size:8.8pt}
+.vsc .em{font-size:20pt;line-height:1}.vsc b{font-family:var(--display);font-size:10pt;line-height:1.2}
+/* concept sheet */
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.thumb .sketch{height:31mm}
+.thumb p{font-size:8.8pt;margin-top:1mm}
+table.tb.mini td,table.tb.mini th{padding:1.2mm 2mm;font-size:9pt}
+.namebox{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2mm;font-size:8.6pt}
+.namebox div{border:1px solid var(--line2);border-radius:2mm;padding:1.6mm 2mm;line-height:1.55}
+.namebox div b{display:block;font-family:var(--display);font-size:9pt}
+.namebox bdi{font-family:Georgia,serif;font-style:italic}
+/* paper species card */
+.scard{flex:1;border:2px solid #d9c79c;border-radius:5mm;background:#fffdf6;display:grid;grid-template-rows:auto auto 1fr auto;overflow:hidden}
+.scard .top{display:flex;justify-content:space-between;align-items:center;padding:3mm 5mm;background:linear-gradient(90deg,#e5f2ea,#fdf3d7);border-bottom:1.5px solid #d9c79c}
+.scard .top b{font-family:var(--display);font-weight:800;font-size:15pt}
+.scard .names{display:grid;grid-template-columns:1.3fr 1fr;gap:4mm;padding:3mm 5mm}
+.scard .pics{display:grid;grid-template-columns:1.4fr 1fr;gap:4mm;padding:0 5mm 3mm}
+.scard .pics .sketch{min-height:62mm}
+.scard .ad{padding:0 5mm 3mm;display:grid;gap:2.4mm}
+.scard .ad .box{padding:2.4mm 3mm}
+.scard .ad .box p{font-size:9.2pt}
+.scard .foot{display:grid;grid-template-columns:1fr 1fr;gap:4mm;padding:3mm 5mm;border-top:1.5px dashed #d9c79c;background:#fffaf0}
+/* certificates */
+.certs{display:grid;grid-template-rows:1fr 1fr;gap:6mm;flex:1}
+.cert{position:relative;border:2.4px solid #e3a82b;border-radius:5mm;padding:7mm 9mm;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2.2mm;background:radial-gradient(circle at 50% 0,#fff8e6,#fff 60%);outline:1px solid #efd9a0;outline-offset:-4mm;overflow:hidden}
+.cert .seal{position:absolute;top:7mm;left:9mm;width:24mm;height:24mm;border-radius:50%;border:2px dashed #be3455;color:#be3455;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:8pt;transform:rotate(-12deg);line-height:1.2;text-align:center;padding:2mm}
+.cert .lz{position:absolute;bottom:6mm;right:8mm;width:30mm;opacity:.9}
+.cert .k{font-family:var(--display);font-weight:700;font-size:10pt;color:var(--teal)}
+.cert h3{font-family:var(--display);font-weight:800;font-size:24pt;margin:0;line-height:1.1}
+.cert .prizes{display:flex;flex-wrap:wrap;gap:2mm 5mm;justify-content:center;font-size:9.6pt}
+.cert .prizes span::before{content:"☐ "}
+.cert .ln{font-size:10.5pt}
+.cert .sig{display:flex;gap:16mm;margin-top:auto;font-size:9pt;color:var(--muted)}
+</style>
+<style>.cert .masc{width:52mm;height:auto;margin:1mm 0}.cert h3{font-size:26pt}</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · האקתון היצורים<small>🦎 90 דק׳ · 20 עמודים · יצירה עם AI</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · חומרים להדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28–32 תלמידים ב-7 משלחות. לכיתה אחרת: לפי מספר המשלחות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, רמזור ונורמות</td><td>1 למשלחת (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה: חוקים, ניקוד, תפקידים</td><td>1 למשלחת (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף מחקר: 3 התאמות ומקורות</td><td>1 למשלחת + 2 (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6–8</td><td>כרטיסי סביבה (6 סביבות, 2 בעמוד)</td><td>2 סטים (אחד לגיבוי)</td><td>בריסטול / צבעוני</td><td>כן, לחצי</td></tr>
+      <tr><td>9</td><td>דף קונספט ותכנון דגם</td><td>1 למשלחת + 2 (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>כרטיס מין, גרסת נייר</td><td>3 (גיבוי ובלי מכשירים)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>מאגר ההתאמות האמיתיות</td><td>1 למשלחת (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>כרטיסי שאלה קשה (18)</td><td>1 סט</td><td>בריסטול</td><td>כן, 3 ערמות</td></tr>
+      <tr><td>13</td><td>כרטיסי מנטור + פתקי קוד כיתה</td><td>2 עמודים</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>14</td><td>מחוון והערכה עצמית</td><td>1 למשלחת + 1 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>דף השיפוט של הוועדה</td><td>1 (+1 גיבוי)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>16</td><td>כרטיסי שופט אורח + פתקי הצבעה</td><td>1–2</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>17</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>18</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>19</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>20</td><td>תעודות (2 בעמוד)</td><td>2 עמודים (4 פרסים)</td><td>בריסטול</td><td>כן, לחצי</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 במעטפה של כל משלחת</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + כרטיס רמזור ונורמות</li><li>כרטיס משימה, דף מחקר, דף קונספט, מחוון</li><li>מאגר ההתאמות האמיתיות</li><li>פתקי כניסה ל-Tinkercad (כינוי + קוד כיתה)</li><li>2 טושים ושלט שם למשלחת</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך / הוועדה</h3>
+      <ul class="check"><li>6 כרטיסי סביבה (לפי השליפה בשקף 8)</li><li>3 ערמות כרטיסי שאלה קשה + כרטיסי מנטור</li><li>דף השיפוט, דף הניקוד, 2 כרטיסי שופט אורח</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>תעודות ופרסים קטנים ל-4 פרסים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>כרטיסי הסביבה: חותכים כל עמוד לחצי. כרטיסי השאלה הקשה: 3 ערמות לפי פס הצבע (צהוב = מדבר · כחול = מצולות · סגול = עיר). פתקי הקוד: כותבים את קוד הכיתה מ-Tinkercad לפני הצילום, ואז גוזרים.</p></div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי תפקיד</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. כרטיס חמישי (דובר/ת) בעמוד הבא.</p>
+  <div class="cutgrid roles">
+    <article class="role r-lead">
+      <div class="rh"><span class="ic">🧭</span><div><b>ראש/ת המשלחת</b><small>הזמן, המסלול וההחלטות</small></div></div>
+      <p class="mis">המשימה שלי: שהמשלחת יודעת לאן היא הולכת, ושכולם מגיעים לוועדה בזמן.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בוחר/ת מסלול ושולף/ת את כרטיס הסביבה.</li><li>מקריא/ה את כרטיס הסביבה, ובודק/ת שלכל שורה בו יש תשובה ביצור.</li><li>שומר/ת על הטיימר: "חצי ספרינט! איפה אנחנו?"</li><li><b>רק אני</b> קורא/ת למדריך ולמנטור, אחרי שכולם ניסו.</li><li>מחלק/ת את דקת ההצגה: מי אומר מה.</li></ul>
+      <div class="say">💬 "איזו שורה בכרטיס עוד בלי פתרון?" · "כל אחד 30 שניות, ואז מחליטים."</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא בונה במקום הבונה.</p>
+      <p class="bonus">✓ הצלחתי כש: הגשנו בזמן, וכל השורות בכרטיס הסביבה קיבלו תשובה</p>
+    </article>
+    <article class="role r-bio">
+      <div class="rh"><span class="ic">🔬</span><div><b>ביולוג/ית</b><small>ההתאמות והמקורות</small></div></div>
+      <p class="mis">המשימה שלי: שכל "קסם" של היצור הוא משהו שהטבע באמת עושה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>ממלא/ת את דף המחקר: 3 התאמות, בעל חיים אמיתי לכל אחת.</li><li>שואל/ת את Gemini כיועץ, ו<b>בודק/ת כל עובדה במקור</b>.</li><li>מחפש/ת בשם באנגלית + adaptation.</li><li>מכין/ה את התשובה לשאלה הקשה של הוועדה.</li></ul>
+      <div class="say">💬 "איזה בעל חיים אמיתי עושה את זה?" · "מאיפה אנחנו יודעים?" · "Gemini אמר, אבל מה המקור אומר?"</div>
+      <p class="no">✗ לא מעתיק/ה עובדה מ-Gemini בלי לבדוק אותה.</p>
+      <p class="bonus">✓ הצלחתי כש: לכל התאמה יש מקור, ותפסנו לפחות טעות אחת</p>
+    </article>
+    <article class="role r-art">
+      <div class="rh"><span class="ic">🎨</span><div><b>מעצב/ת קונספט</b><small>איך היצור נראה</small></div></div>
+      <p class="mis">המשימה שלי: שכל מי שרואה את התמונה מבין איך היצור שורד.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>כותב/ת עם הביולוג/ית פרומפט שבו רואים את 3 ההתאמות.</li><li>יוצר/ת <b>3 גרסאות</b> ב-Gemini (חזית, צד, תקריב), או מצייר/ת.</li><li>שומר/ת כל תמונה ואת הפרומפט שלה בדף הקונספט.</li><li>מנחה את הבחירה: איזו גרסה הכי ברורה, ולמה.</li></ul>
+      <div class="say">💬 "רואים פה את ההתאמה?" · "זה נראה כמו דמות מסרט? בואו נשנה." · "מה נוסיף לפרומפט?"</div>
+      <p class="no">✗ לא מעתיק/ה דמות ממשחק או מסרט קיים.</p>
+      <p class="bonus">✓ הצלחתי כש: הוועדה הבינה את ההתאמות מהתמונה לבד</p>
+    </article>
+    <article class="role r-3d">
+      <div class="rh"><span class="ic">🧊</span><div><b>בונה תלת-ממד</b><small>הדגם ב-Tinkercad</small></div></div>
+      <p class="mis">המשימה שלי: להפוך את הקונספט לדגם שאפשר לסובב ולהסתכל עליו מכל צד.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>נכנס/ת לכיתה ב-Tinkercad עם הכינוי מהפתק.</li><li>מתחיל/ה מגוף וראש, ומגיע/ה ל-<b>6 צורות לפחות</b>.</li><li>שדרוגים: חור (H), יישור (L), פרטים שמראים התאמה.</li><li>מקבץ/ת הכול (Ctrl+G) ומצלם/ת מסך משתי זוויות.</li></ul>
+      <div class="say">💬 "איזו צורה תהיה הגוף?" · "נבנה קודם גס, אחר כך נשפר." · "בואו נסובב ונבדוק מהצד."</div>
+      <p class="no">✗ לא בונה משהו אחר ממה שהמשלחת החליטה.</p>
+      <p class="bonus">✓ הצלחתי כש: הדגם מקובץ, ורואים בו לפחות התאמה אחת</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. SPOKES + TEAM SIZES ===================== -->
+<section class="page" id="p-roles2" data-label="דובר/ת, רמזור ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי תפקיד · המשך</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס הדובר/ת, וכרטיסי העזר שנשארים במעטפה.</p>
+  <div class="cutgrid roles">
+    <article class="role r-spk">
+      <div class="rh"><span class="ic">📣</span><div><b>דובר/ת</b><small>כרטיס המין, ההגשה וההצגה</small></div></div>
+      <p class="mis">המשימה שלי: שהתיק המדעי מוגש מלא, ושהוועדה משתכנעת בדקה אחת.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>פותח/ת את כרטיס המין ב-Slides (מהתבנית) ומעצב/ת אותו.</li><li>בוחר/ת עם המשלחת שם ושם מדעי.</li><li><b>מגיש/ה בטופס</b>: קישור צפייה, צילומי מסך, מקורות, שורת AI.</li><li>מציג/ה לוועדה: תמונה, דגם, התאמה אחת.</li></ul>
+      <div class="say">💬 "מה המשפט הכי חזק שלנו?" · "כולם ראו את הכרטיס לפני שאני מגיש/ה?"</div>
+      <p class="no">✗ לא מגיש/ה בלי שהמשלחת ראתה את הכרטיס הסופי.</p>
+      <p class="bonus">✓ הצלחתי כש: הטופס נשלח בזמן, וההצגה נגמרה בדקה</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">👥</span><div><b>משלחת לא של 5?</b><small>ככה מחלקים</small></div></div>
+      <ul style="font-size:9.6pt"><li><b>4 חברים:</b> ראש/ת המשלחת לוקח/ת גם את תפקיד הדובר/ת.</li><li><b>3 חברים:</b> המעצב/ת עושה גם את כרטיס המין, וראש/ת המשלחת מציג/ה.</li><li><b>6 חברים:</b> שני בונים, "נהג/ת" ו"נווט/ת", שמתחלפים כל 7 דקות.</li></ul>
+      <h4>מי יוצא לסבב המנטור?</h4>
+      <p style="font-size:9.4pt">כל אחד חוץ מהבונה ומהדובר/ת. המנטור/ית לוקח/ת את כרטיס המנטור והולך/ת למשלחת הבאה עם כיוון השעון.</p>
+      <p class="bonus">🔄 בשיעור הבא מעבירים כרטיסים לאדם שמשמאל</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>כרטיס היציאה בסוף, וההצגה מול הוועדה.</div>
+        <div class="y"><b>🟡 AI לרעיונות</b>Gemini מציע התאמות ושמות. אנחנו בוחרים.</div>
+        <div class="g"><b>🟢 AI כשותף שבודקים</b>תמונות קונספט ויועץ ביולוגי. כל עובדה נבדקת במקור.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: לא כותבים בפרומפט פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות המשלחת</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:9.8pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל המשלחת סיימה.</li>
+        <li>רעיון מוזר מקבל 30 שניות של "כן, ו..." לפני ביקורת.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את המשלחת לפני שקוראים למדריך.</li>
+      </ol>
+      <p class="bonus">🧬 מדענים טובים אומרים "אני לא יודע/ת, בואו נבדוק"</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיס המשימה</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🦎 המכון לחקר יצורים בדיוניים</span><h2>פרס <span>מגלי השנה</span></h2></div><p>גלו מין חדש שיכול לשרוד בסביבה קשה, הוכיחו בביולוגיה אמיתית שהוא באמת יכול, ובנו אותו בתלת-ממד.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 התיק המדעי שאתם מגישים</h3><ol class="clean"><li><b>3 גרסאות קונספט</b> ב-Gemini, ובחירה מנומקת.</li><li><b>דגם Tinkercad</b>: 6 צורות לפחות, מקובצות + 2 צילומי מסך.</li><li><b>כרטיס מין</b> ב-Slides: שם, שם מדעי, בית גידול, 3 התאמות עם הסבר, בעל חיים אמיתי ומקור.</li><li><b>דקה מול הוועדה</b> ותשובה לשאלה קשה.</li></ol></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>היצור מתאים לכרטיס הסביבה שלכם.</li><li>3 התאמות: לכל אחת הסבר ובעל חיים אמיתי.</li><li>כל עובדה נבדקת במקור. עובדה של AI בלי בדיקה לא נחשבת.</li><li>דגם: 6 צורות לפחות, מקובצות.</li><li>בלי לוגו ובלי דמות ממשחק או מסרט.</li><li>מגישים בטופס עד סוף ספרינט ב׳.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:34mm">נקודות</th></tr></thead><tbody>
+      <tr><td>כל התאמה עם הסבר נכון ובעל חיים אמיתי</td><td>3 לכל אחת · עד 9</td></tr>
+      <tr><td>דגם עם 6 צורות מקובצות</td><td>3</td></tr>
+      <tr><td>כל שדרוג בדגם: חור שחותך, יישור ב-Align, צורה מעבר ל-6</td><td>1 לכל אחד · עד 3</td></tr>
+      <tr><td>3 גרסאות קונספט ובחירה מנומקת</td><td>2</td></tr>
+      <tr><td>שאלה קשה שעניתם נכון (מנטור · ועדה · קהל)</td><td>1 לכל אחת · עד 3</td></tr>
+      <tr><td>ציון הוועדה המדעית לפי המחוון (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">סה״כ 36. שובר שוויון: ציון הוועדה ב"ביולוגיה והתאמות". פרסים: 🏆 מגלי השנה · 🧬 הביולוגיה הכי משכנעת · 🧊 הדגם הכי מורכב · 😱 היצור שהכי היינו רוצים לפגוש (או לא).</p></div>
+  <div class="box" style="margin-top:4mm"><h3>⏱ האקתון בשני ספרינטים</h3><p style="font-size:9.2pt"><b>🧪 ספרינט א׳ (20 דק׳):</b> התאמות + בעלי חיים + מקורות · 3 גרסאות קונספט · גוף וראש בדגם. <b>🧑‍🔬 סבב מנטור (7):</b> שאלה קשה ושיפור. <b>🧊 ספרינט ב׳ (19):</b> השיפור · דגם 6 צורות · כרטיס מין · הגשה. <b>🏛️ ועדה:</b> דקה + שאלות.</p></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">3 התאמות מ"מאגר ההתאמות האמיתיות". דגם: גוף + ראש + 4 רגליים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">התאמות שמצאתם בעצמכם, 3 גרסאות ושדרוג אחד בדגם.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">התאמה מכל סוג (גוף · התנהגות · תזונה) שמתחברות לסיפור אחד, ודגם שמראה אותן.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. RESEARCH SHEET ===================== -->
+<section class="page" id="p-research" data-label="דף מחקר">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · דף המחקר של הביולוג/ית</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟢 ספרינט א׳ · AI כשותף שבודקים</span><h2>3 התאמות, <span>3 הוכחות</span></h2></div><p>הסביבה שלנו: <span class="fill l"></span> &nbsp; הבעיה הכי קשה בה: <span class="fill l"></span></p></div>
+  <div class="stack grow">
+    <table class="tb">
+      <thead><tr><th style="width:6mm">#</th><th>הבעיה בסביבה<br><small>(שורה מכרטיס הסביבה)</small></th><th>ההתאמה של היצור<br><small>מה התכונה ואיך היא עוזרת</small></th><th style="width:20mm">סוג<br><small>גוף · התנהגות · תזונה</small></th><th style="width:30mm">בעל חיים אמיתי<br><small>עם התאמה דומה</small></th><th style="width:30mm">מקור<br><small>שם האתר / הספר</small></th><th style="width:14mm">✓ / ✗</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td style="height:24mm"></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>2</td><td style="height:24mm"></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>3</td><td style="height:24mm"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="box"><h3>🔎 בדיקת עובדות: Gemini אמר · המקור אמר</h3>
+      <table class="tb"><thead><tr><th>מה Gemini אמר</th><th>מה המקור אמר</th><th style="width:22mm">✓ אושר / ✗ תוקן</th></tr></thead><tbody><tr><td class="e" style="height:12mm"></td><td></td><td></td></tr><tr><td class="e" style="height:12mm"></td><td></td><td></td></tr></tbody></table>
+      <p style="font-size:8.8pt;color:var(--muted);margin-top:1.5mm">מצאתם טעות של Gemini ותיקנתם? זו רמה 4 בקריטריון "בדיקה ושקיפות AI".</p></div>
+    <div class="grid2">
+      <div class="box"><h3>❓ השאלה הקשה מסבב המנטור</h3><div class="lines h1"></div><p style="font-size:9.2pt;margin-top:1.5mm"><b>התשובה שלנו</b> (התאמה + בעל חיים אמיתי):</p><div class="lines h2"></div></div>
+      <div class="box"><h3>🔧 השיפור שקיבלנו מהמנטור</h3><p style="font-size:9.2pt">"הייתי משפר/ת את ___ כי ___"</p><div class="lines h2"></div><p style="font-size:9.2pt">☐ ביצענו בספרינט ב׳</p></div>
+    </div>
+    <div class="box soft"><h3>💡 איך מחפשים</h3><p style="font-size:9.2pt">שם בעל החיים באנגלית + <b>adaptation</b> (למשל: <span dir="ltr">fennec fox adaptation</span>). מקור טוב: אנציקלופדיה, מוזיאון טבע, גן חיות, ארגון שמירת טבע. שני מקורות שמסכימים = עובדה בטוחה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6-8. ENVIRONMENT CARDS ===================== -->
+<section class="page" id="p-env-d" data-label="כרטיסי סביבה: מדבר">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי סביבה · 🏜️ מדבר</div><div class="r">✂ לחצי</div></div>
+  <div class="envs">
+    <article class="env e-d">
+      <div class="eh"><b>🏜️ ים החולות</b><span class="tg">מסלול מדבר · קלף א׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">דיונות עד האופק, כמו בלב הסהרה.</p>
+          <div class="cond">
+            <div><b>🌡️ חום</b><span>ביום יותר מ-45 מעלות באוויר, והחול לוהט עוד יותר. בלילה קר, ובחורף אפילו קרוב ל-0.</span></div>
+            <div><b>💧 מים</b><span>כמעט אין גשם. אין נחלים ואין בריכות.</span></div>
+            <div><b>💡 אור</b><span>שמש חזקה כל היום, כמעט בלי צל.</span></div>
+            <div><b>🍽️ מזון</b><span>זרעים, חרקים ומעט צמחים קוצניים.</span></div>
+            <div><b>🌬️ רוח</b><span>סופות חול שנכנסות לעיניים ולאף.</span></div>
+            <div><b>🦶 קרקע</b><span>חול רך ודיונות שזזות.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> אין סלעים ואין עצים. איפה היצור מסתתר בצהריים?</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>פנק · <span dir="ltr">Fennec fox</span></li><li>סקינק חולי · <span dir="ltr">Sandfish skink</span></li><li>גמל · <span dir="ltr">Camel</span></li><li>צפע קרני · <span dir="ltr">Horned viper</span></li><li>חולדת הקנגורו · <span dir="ltr">Kangaroo rat</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>איך הוא שותה?</li><li>איך הוא הולך על חול רך?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+    <article class="env e-d">
+      <div class="eh"><b>☁️ מדבר הערפל</b><span class="tg">מסלול מדבר · קלף ב׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">מדבר על חוף האוקיינוס, כמו מדבר נמיב באפריקה.</p>
+          <div class="cond">
+            <div><b>🌡️ חום</b><span>ימים חמים, לילות קרירים.</span></div>
+            <div><b>💧 מים</b><span>כמעט אף פעם לא יורד גשם. בבקרים רבים מגיע מהים ערפל סמיך, ונעלם אחרי כמה שעות.</span></div>
+            <div><b>💡 אור</b><span>אחרי שהערפל מתפזר: שמש חזקה.</span></div>
+            <div><b>🍽️ מזון</b><span>חרקים, ושאריות צמחים שהרוח מביאה לדיונות.</span></div>
+            <div><b>🌬️ רוח</b><span>חזקה, מזיזה דיונות גבוהות.</span></div>
+            <div><b>🦶 קרקע</b><span>דיונות גבוהות וחול רך.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> המים היחידים הם טיפות ערפל, לשעה-שעתיים בבוקר.</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>חיפושית הערפל · <span dir="ltr">Onymacris unguicularis</span></li><li>שממית רגל-הקרום · <span dir="ltr">Web-footed gecko</span></li><li>אוריקס · <span dir="ltr">Gemsbok</span></li><li>תעלות בעור · <span dir="ltr">Thorny devil</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>איך הוא אוסף מים מהערפל?</li><li>מה הוא עושה כשהשמש יוצאת?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="p-env-s" data-label="כרטיסי סביבה: מצולות">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי סביבה · 🌊 מצולות</div><div class="r">✂ לחצי</div></div>
+  <div class="envs">
+    <article class="env e-s">
+      <div class="eh"><b>🌑 אזור החצות · 4,000 מטר</b><span class="tg">מסלול מצולות · קלף א׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">מתחת לכל אור השמש, במרחבים העצומים של האוקיינוס.</p>
+          <div class="cond">
+            <div><b>🌡️ חום</b><span>1–4 מעלות, כל השנה.</span></div>
+            <div><b>🗜️ לחץ</b><span>בערך פי 400 מאשר על החוף.</span></div>
+            <div><b>💡 אור</b><span>חושך מוחלט. האור היחיד: בעלי חיים זוהרים.</span></div>
+            <div><b>🍽️ מזון</b><span>מעט מאוד: "שלג ימי" (פירורים שנופלים מלמעלה) ובעלי חיים אחרים.</span></div>
+            <div><b>🔇 מרחב</b><span>שקט ועצום. קשה למצוא בן או בת זוג.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> ארוחה מגיעה לעתים רחוקות. אסור לפספס אף אחת.</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>חכאי · <span dir="ltr">Anglerfish</span></li><li>צלופח-לוע · <span dir="ltr">Gulper eel</span></li><li>דג חלזון · <span dir="ltr">Snailfish</span></li><li>תמנון דמבו · <span dir="ltr">Dumbo octopus</span></li><li>דיונון ערפד · <span dir="ltr">Vampire squid</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>איך הוא מוצא אוכל בחושך?</li><li>למה הלחץ לא מוחץ אותו?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+    <article class="env e-s">
+      <div class="eh"><b>🌋 הארובה הלוהטת · 2,500 מטר</b><span class="tg">מסלול מצולות · קלף ב׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">ארובה הידרותרמית: מים לוהטים פורצים מקרקעית הים.</p>
+          <div class="cond">
+            <div><b>🌡️ חום</b><span>מהארובה יוצאים מים של עד כ-400 מעלות (הלחץ מונע מהם לרתוח). מטר משם: 2 מעלות.</span></div>
+            <div><b>🗜️ לחץ</b><span>בערך פי 250 מאשר על החוף.</span></div>
+            <div><b>💡 אור</b><span>חושך מוחלט.</span></div>
+            <div><b>🧪 מים</b><span>כימיקלים רעילים, כמו מימן גופרתי (ריח של ביצים סרוחות).</span></div>
+            <div><b>🍽️ מזון</b><span>אין צמחים. חיידקים מייצרים מזון מהכימיקלים.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> מטר אחד בין רתיחה לקפיאה, וארובה יכולה "לכבות" פתאום.</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>תולעת צינור ענקית · <span dir="ltr">Riftia</span></li><li>תולעת פומפיי · <span dir="ltr">Pompeii worm</span></li><li>חלזון רגל-הקשקשים · <span dir="ltr">Scaly-foot snail</span></li><li>סרטן יטי · <span dir="ltr">Yeti crab</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>מה הוא אוכל אם אין צמחים?</li><li>איך הוא לא נצלה ליד הארובה?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="p-env-c" data-label="כרטיסי סביבה: עיר">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי סביבה · 🏙️ עיר</div><div class="r">✂ לחצי</div></div>
+  <div class="envs">
+    <article class="env e-c">
+      <div class="eh"><b>🌃 מרכז העיר בלילה</b><span class="tg">מסלול עיר · קלף א׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">רחובות, גגות ומרפסות של עיר גדולה.</p>
+          <div class="cond">
+            <div><b>💡 אור</b><span>פנסים, שלטים וחלונות דולקים כל הלילה.</span></div>
+            <div><b>🔊 רעש</b><span>תנועה כל הזמן, בעיקר צלילים נמוכים.</span></div>
+            <div><b>🌡️ חום</b><span>העיר חמה בכמה מעלות מהשטחים שמסביב. אספלט לוהט בקיץ.</span></div>
+            <div><b>🍽️ מזון</b><span>פחים, פירורים ושאריות של אנשים.</span></div>
+            <div><b>🚗 סכנות</b><span>מכוניות, חלונות זכוכית, חתולים וכלבים.</span></div>
+            <div><b>🏢 מחסה</b><span>גגות, מרפסות, חורים בקירות.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> אף פעם לא חשוך, ואף פעם לא שקט.</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>ירגזי · <span dir="ltr">Great tit</span></li><li>יונת הסלע · <span dir="ltr">Rock dove</span></li><li>בז נודד · <span dir="ltr">Peregrine falcon</span></li><li>סנונית צוקים · <span dir="ltr">Cliff swallow</span></li><li>שועל עירוני · <span dir="ltr">Urban red fox</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>איך שומעים אותו ברעש?</li><li>איך הוא ישן כשהאורות דולקים?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+    <article class="env e-c">
+      <div class="eh"><b>🚇 מתחת לעיר: ביוב ומנהרות</b><span class="tg">מסלול עיר · קלף ב׳</span></div>
+      <div class="eb">
+        <div>
+          <p class="intro">צינורות ביוב, מנהרות רכבת ומרתפים.</p>
+          <div class="cond">
+            <div><b>💡 אור</b><span>חושך כמעט מלא, חוץ מפנסי הרכבת.</span></div>
+            <div><b>💧 מים</b><span>לחות גבוהה. בגשם חזק המנהרות מתמלאות במים.</span></div>
+            <div><b>🔊 רעש</b><span>רעידות ורעש של רכבות.</span></div>
+            <div><b>🍽️ מזון</b><span>שאריות אוכל ופסולת שנשטפת מהרחוב.</span></div>
+            <div><b>☣️ זיהום</b><span>מים מזוהמים וחיידקים.</span></div>
+            <div><b>🐀 תחרות</b><span>חולדות וג׳וקים כבר גרים כאן.</span></div>
+          </div>
+          <div class="twist"><b>⚡ האתגר המיוחד:</b> הצפה פתאומית, תוך דקות.</div>
+        </div>
+        <div class="side">
+          <h4>🔎 בעלי חיים אמיתיים לבדיקה</h4>
+          <ul><li>חולדה חומה · <span dir="ltr">Brown rat</span></li><li>ג׳וק אמריקאי · <span dir="ltr">American cockroach</span></li><li>יתוש הרכבת התחתית · <span dir="ltr">London Underground mosquito</span></li><li>דג מערות עיוור (חושך) · <span dir="ltr">Blind cave fish</span></li></ul>
+          <h4>❓ הוועדה אוהבת לשאול</h4>
+          <ul><li>מה הוא עושה כשהמנהרה מוצפת?</li><li>איך הוא מוצא דרך בחושך?</li></ul>
+          <h4>✍ היצור שלנו פותר את האתגר כך:</h4><div class="lines h4"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 9. CONCEPT + MODEL PLAN ===================== -->
+<section class="page" id="p-concept" data-label="דף קונספט ודגם">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · דף קונספט ותכנון דגם</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎨 מעצב/ת + 🧊 בונה · אם אין מחשב, הסקיצות כאן הן 3 הגרסאות</span><h2>מסקיצה <span>לדגם</span></h2></div></div>
+  <div class="stack grow">
+    <div class="thumbs">
+      <div class="thumb"><div class="sketch" data-label="גרסה 1 · חזית"></div><p>פרומפט:</p><div class="lines h1"></div></div>
+      <div class="thumb"><div class="sketch" data-label="גרסה 2 · מהצד"></div><p>פרומפט:</p><div class="lines h1"></div></div>
+      <div class="thumb"><div class="sketch" data-label="גרסה 3 · תקריב"></div><p>פרומפט:</p><div class="lines h1"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>✓ טבלת הבחירה</h3>
+        <table class="tb mini"><thead><tr><th>שאלה</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody>
+          <tr><td>רואים את 3 ההתאמות?</td><td></td><td></td><td></td></tr>
+          <tr><td>אפשר לבנות מצורות?</td><td></td><td></td><td></td></tr>
+          <tr><td>שלנו, לא דמות קיימת?</td><td></td><td></td><td></td></tr>
+        </tbody></table>
+        <p style="font-size:9.2pt;margin-top:2mm">בחרנו בגרסה <span class="fill s"></span> כי <span class="fill l"></span></p><div class="lines h1"></div></div>
+      <div class="box"><h3>🏷️ השם המדעי</h3>
+        <div class="namebox"><div><b>1 · איפה / מה מיוחד</b><bdi>Psammo</bdi> חול · <bdi>Xero</bdi> יובש · <bdi>Thermo</bdi> חום · <bdi>Nebulo</bdi> ערפל · <bdi>Bathy</bdi> עומק · <bdi>Scoto</bdi> חושך · <bdi>Lumino</bdi> אור · <bdi>Nycto</bdi> לילה</div><div><b>2 · מה הוא</b><bdi>mys</bdi> עכבר · <bdi>saurus</bdi> לטאה · <bdi>ichthys</bdi> דג · <bdi>pteryx</bdi> כנף · <bdi>pus</bdi> רגל · <bdi>ops</bdi> עין · <bdi>ophis</bdi> נחש</div><div><b>3 · שם המין</b><bdi>desertorum</bdi> · <bdi>abyssalis</bdi> · <bdi>urbanus</bdi> · <bdi>nocturnus</bdi> · <bdi>gigas</bdi> · <bdi>luminosus</bdi></div></div>
+        <p style="font-size:9.2pt;margin-top:2mm">השם שלנו: <span class="fill l"></span><br>בעברית: <span class="fill l"></span></p></div>
+    </div>
+    <div class="box"><h3>🧊 תכנון הדגם ב-Tinkercad (6 צורות לפחות)</h3>
+      <table class="tb mini"><thead><tr><th style="width:8mm">#</th><th>חלק בגוף</th><th>צורה (Box · Sphere · Cylinder · Cone · …)</th><th style="width:22mm">צבע</th><th style="width:24mm">מראה התאמה?</th></tr></thead><tbody>
+        <tr><td>1</td><td>גוף</td><td></td><td></td><td></td></tr><tr><td>2</td><td>ראש</td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td><td></td></tr><tr><td>7</td><td></td><td></td><td></td><td></td></tr>      </tbody></table></div>
+    <div class="grid2">
+      <div class="box soft"><h3>➕ שדרוגים (נקודה לכל אחד)</h3><ul class="check"><li>חור שחותך (<bdi>H</bdi>) ← מקובץ</li><li>יישור ב-Align (L)</li><li>צורה מעבר ל-6</li></ul></div>
+      <div class="box soft"><h3>📸 לפני הגשה</h3><ul class="check"><li>הכול מקובץ (Ctrl+G)</li><li>שם הדגם = שם היצור</li><li>2 צילומי מסך משתי זוויות</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10. PAPER SPECIES CARD ===================== -->
+<section class="page" id="p-card" data-label="כרטיס מין (נייר)">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיס מין · גרסת נייר</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <div class="scard">
+    <div class="top"><b>🪪 כרטיס מין · המכון לחקר יצורים בדיוניים</b><span>תיק מס׳ <span class="fill s"></span></span></div>
+    <div class="names">
+      <div><p class="sec">שם היצור</p><div class="lines h1"></div><p class="sec" style="margin-top:2mm">שם מדעי <small style="color:var(--muted);font-weight:500">(סוג באות גדולה, מין באות קטנה)</small></p><div class="lines h1"></div></div>
+      <div><p class="sec">🏠 בית גידול</p><p style="font-size:9.4pt">☐ ים החולות ☐ מדבר הערפל<br>☐ אזור החצות ☐ הארובה הלוהטת<br>☐ מרכז העיר בלילה ☐ מתחת לעיר</p></div>
+    </div>
+    <div class="pics"><div class="sketch" data-label="איור הקונספט שנבחר"></div><div class="sketch" data-label="הדגם (צילום / ציור)"></div></div>
+    <div class="ad">
+      <div class="box"><h3>1 · התאמה</h3><div class="lines h1"></div><p>🐾 בעל חיים אמיתי: <span class="fill"></span> &nbsp; 📚 מקור: <span class="fill"></span></p></div>
+      <div class="box"><h3>2 · התאמה</h3><div class="lines h1"></div><p>🐾 בעל חיים אמיתי: <span class="fill"></span> &nbsp; 📚 מקור: <span class="fill"></span></p></div>
+      <div class="box"><h3>3 · התאמה</h3><div class="lines h1"></div><p>🐾 בעל חיים אמיתי: <span class="fill"></span> &nbsp; 📚 מקור: <span class="fill"></span></p></div>
+    </div>
+    <div class="foot"><div><p class="sec">🤖 מה ה-AI עשה</p><div class="lines h1"></div></div><div><p class="sec">✋ מה אנחנו עשינו</p><div class="lines h1"></div></div></div>
+  </div>
+</section>
+
+<!-- ===================== 11. REAL ADAPTATIONS BANK ===================== -->
+<section class="page" id="p-bank" data-label="מאגר ההתאמות">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · מאגר ההתאמות האמיתיות</div><div class="r">למשלחות · וגם לגרסה בלי מכשירים</div></div>
+  <div class="pt"><div><span class="kick">📚 18 התאמות שהטבע באמת עשה</span><h2>מאגר <span>ההתאמות</span></h2></div><p>אפשר להשתמש בהתאמה מכאן, עם בעל החיים האמיתי שלה. בגרסה בלי מכשירים, המקור הוא "מאגר ההתאמות, שורה X". עם מכשירים: בודקים בחיפוש לפי השם באנגלית.</p></div>
+  <table class="bank">
+    <thead><tr><th style="width:6mm">#</th><th style="width:30mm">בעל החיים</th><th>ההתאמה ואיך היא עוזרת</th><th style="width:15mm">סוג</th><th style="width:33mm">חפשו באנגלית</th></tr></thead>
+    <tbody>
+      <tr class="grp" style="--gc:#fdf3d7;--gi:#8a5a00"><td colspan="5">🏜️ מדבר</td></tr>
+      <tr><td>1</td><td>פנק (שועל המדבר)</td><td>אוזניים ענקיות משחררות חום; כפות רגליים עם פרווה מגינות מחול לוהט.</td><td>גוף</td><td class="en">Fennec fox</td></tr>
+      <tr><td>2</td><td>חולדת הקנגורו</td><td>כמעט לא שותה: הגוף מפיק מים מעיכול זרעים יבשים.</td><td>תפקוד</td><td class="en">Kangaroo rat</td></tr>
+      <tr><td>3</td><td>חיפושית הערפל של נמיב</td><td>עומדת מול הרוח בבוקר, טיפות ערפל מתעבות על הגב ומתגלגלות לפה.</td><td>התנהגות</td><td class="en">Namib fog-basking beetle</td></tr>
+      <tr><td>4</td><td>השד הקוצני</td><td>תעלות זעירות בין הקשקשים מובילות מים מחול לח אל הפה.</td><td>גוף</td><td class="en">Thorny devil</td></tr>
+      <tr><td>5</td><td>סקינק חולי</td><td>גוף חלק וראש בצורת יתד: "שוחה" בתוך החול ובורח מחום ומטורפים.</td><td>גוף + התנהגות</td><td class="en">Sandfish skink</td></tr>
+      <tr><td>6</td><td>גמל</td><td>ריסים ארוכים ונחיריים שנסגרים בסופת חול; בדבשת יש שומן.</td><td>גוף</td><td class="en">Camel adaptations</td></tr>
+      <tr class="grp" style="--gc:#e5eefa;--gi:#1d4f8f"><td colspan="5">🌊 מצולות</td></tr>
+      <tr><td>7</td><td>חכאי</td><td>פיתיון זוהר מעל הפה (אור מחיידקים) מושך טרף בחושך.</td><td>גוף</td><td class="en">Anglerfish lure</td></tr>
+      <tr><td>8</td><td>צלופח-לוע</td><td>פה ענק שנפתח כמו שק: בולע ארוחה גדולה כשהיא כבר מגיעה.</td><td>גוף</td><td class="en">Gulper eel</td></tr>
+      <tr><td>9</td><td>דג חלזון</td><td>בלי שלפוחית שחייה, גוף רך וג׳לטיני: אין אוויר שהלחץ ימחץ. חי ביותר מ-8,000 מטר.</td><td>גוף</td><td class="en">Hadal snailfish</td></tr>
+      <tr><td>10</td><td>תולעת צינור ענקית</td><td>אין פה ואין מעיים: חיידקים בגוף מייצרים לה מזון מכימיקלים בארובה.</td><td>תזונה</td><td class="en">Giant tube worm</td></tr>
+      <tr><td>11</td><td>חלזון רגל-הקשקשים</td><td>קשקשים ושריון עם תרכובות ברזל, ליד ארובות לוהטות.</td><td>גוף</td><td class="en">Scaly-foot snail</td></tr>
+      <tr><td>12</td><td>תמנון דמבו</td><td>סנפירים דמויי אוזניים: "מרחף" לאט וחוסך אנרגיה. התמנון שחי הכי עמוק.</td><td>גוף + התנהגות</td><td class="en">Dumbo octopus</td></tr>
+      <tr class="grp" style="--gc:#efecfb;--gi:#5b46b8"><td colspan="5">🏙️ עיר</td></tr>
+      <tr><td>13</td><td>ירגזי</td><td>שר בצליל גבוה יותר בעיר, כדי שישמעו אותו מעל רעש התנועה הנמוך.</td><td>התנהגות</td><td class="en">Great tit urban song</td></tr>
+      <tr><td>14</td><td>סנונית צוקים (נברסקה)</td><td>אוכלוסייה שמקננת מתחת לגשרים: הכנפיים התקצרו בכמה עשרות שנים, ופחות נדרסות.</td><td>גוף</td><td class="en">Cliff swallow wings roads</td></tr>
+      <tr><td>15</td><td>יונת הסלע</td><td>מקננת על מדפי בניינים, כמו שאבותיה קיננו על צוקים.</td><td>התנהגות</td><td class="en">Rock dove nesting</td></tr>
+      <tr><td>16</td><td>בז נודד</td><td>מקנן על גורדי שחקים וצד יונים בצלילה מהירה.</td><td>התנהגות</td><td class="en">Urban peregrine falcon</td></tr>
+      <tr><td>17</td><td>עורבים בסנדאי, יפן</td><td>מניחים אגוזים על הכביש ונותנים למכוניות לפצח אותם.</td><td>התנהגות</td><td class="en">Crows cars nuts Japan</td></tr>
+      <tr><td>18</td><td>נמלת בלוט עירונית</td><td>נמלים מהעיר עמידות לחום יותר מנמלים מחוץ לעיר.</td><td>תפקוד</td><td class="en">Acorn ant urban heat</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 12. HARD QUESTION CARDS ===================== -->
+<section class="page" id="p-hardq" data-label="כרטיסי שאלה קשה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי שאלה קשה</div><div class="r">✂ 3 ערמות לפי צבע</div></div>
+  <p class="cutnote">✂ לגזור ולמיין לפי פס הצבע. בסבב המנטור, המנטור/ית שולף/ת כרטיס מהערמה של המסלול. התשובה = התאמה של היצור + בעל חיים אמיתי.</p>
+  <div class="cutgrid hq">
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D1</span><span class="em">💧</span><b>איך הוא שותה כשלא יורד גשם חודשים?</b></div>
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D2</span><span class="em">☀️</span><b>מה הוא עושה בצהריים, כשהחול לוהט?</b></div>
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D3</span><span class="em">🌙</span><b>איך הוא לא קופא בלילה הקר?</b></div>
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D4</span><span class="em">🦶</span><b>איך הוא הולך על חול רך בלי לשקוע?</b></div>
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D5</span><span class="em">🍽️</span><b>מה הוא אוכל, ואיפה הוא מוצא את זה?</b></div>
+    <div class="cc k-d"><span class="cat">🏜️ מדבר</span><span class="no">D6</span><span class="em">🌪️</span><b>איך הוא מגן על העיניים בסופת חול?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S1</span><span class="em">🔦</span><b>איך הוא מוצא אוכל בחושך מוחלט?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S2</span><span class="em">🗜️</span><b>איך הגוף שלו לא נמחץ מהלחץ?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S3</span><span class="em">💞</span><b>איך הוא מוצא בן או בת זוג במצולות?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S4</span><span class="em">⏳</span><b>מה הוא עושה כשאין אוכל שבועות?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S5</span><span class="em">🥶</span><b>איך הוא שורד במים של 2 מעלות?</b></div>
+    <div class="cc k-s"><span class="cat">🌊 מצולות</span><span class="no">S6</span><span class="em">🔋</span><b>איך הוא חוסך אנרגיה?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C1</span><span class="em">💡</span><b>איך הוא ישן כשהאורות דולקים כל הלילה?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C2</span><span class="em">🔊</span><b>איך שומעים אותו ברעש התנועה?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C3</span><span class="em">🚗</span><b>איך הוא שורד ליד כבישים ומכוניות?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C4</span><span class="em">🗑️</span><b>מה הוא אוכל, ואיך הוא לא חולה מאוכל מקולקל?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C5</span><span class="em">🏢</span><b>איפה הוא בונה קן או מסתתר?</b></div>
+    <div class="cc k-c"><span class="cat">🏙️ עיר</span><span class="no">C6</span><span class="em">🔥</span><b>איך הוא מתמודד עם אספלט לוהט בקיץ?</b></div>
+  </div>
+</section>
+
+<!-- ===================== 13. MENTOR CARDS + CLASS CODE SLIPS ===================== -->
+<section class="page" id="p-mentor" data-label="כרטיס מנטור וקוד כיתה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי מנטור · פתקי Tinkercad</div><div class="r">✂</div></div>
+  <p class="cutnote">✂ למעלה: 4 כרטיסי מנטור (מדפיסים 2 עמודים = 8). למטה: פתקי כניסה ל-Tinkercad. כותבים את קוד הכיתה לפני שמצלמים.</p>
+  <div class="cutgrid mentor" style="flex:1.25">
+    <div class="mc"><div class="mh"><span>🧑‍🔬</span><b>כרטיס מנטור/ית</b></div><ol><li>הולכים למשלחת הבאה עם כיוון השעון.</li><li>מבקשים לראות: תמונה נבחרת · 3 התאמות · תחילת הדגם (דקה וחצי).</li><li>שולפים כרטיס שאלה קשה מהמסלול שלהם ומקריאים.</li><li>נותנים שיפור אחד.</li></ol><div class="say">💬 "הייתי משפר/ת את ___ כי ___."</div><p style="font-size:8.6pt;color:var(--muted)">שאלה בונוס: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+    <div class="mc"><div class="mh"><span>🧑‍🔬</span><b>כרטיס מנטור/ית</b></div><ol><li>הולכים למשלחת הבאה עם כיוון השעון.</li><li>מבקשים לראות: תמונה נבחרת · 3 התאמות · תחילת הדגם (דקה וחצי).</li><li>שולפים כרטיס שאלה קשה מהמסלול שלהם ומקריאים.</li><li>נותנים שיפור אחד.</li></ol><div class="say">💬 "הייתי משפר/ת את ___ כי ___."</div><p style="font-size:8.6pt;color:var(--muted)">שאלה בונוס: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+    <div class="mc"><div class="mh"><span>🧑‍🔬</span><b>כרטיס מנטור/ית</b></div><ol><li>הולכים למשלחת הבאה עם כיוון השעון.</li><li>מבקשים לראות: תמונה נבחרת · 3 התאמות · תחילת הדגם (דקה וחצי).</li><li>שולפים כרטיס שאלה קשה מהמסלול שלהם ומקריאים.</li><li>נותנים שיפור אחד.</li></ol><div class="say">💬 "הייתי משפר/ת את ___ כי ___."</div><p style="font-size:8.6pt;color:var(--muted)">שאלה בונוס: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+    <div class="mc"><div class="mh"><span>🧑‍🔬</span><b>כרטיס מנטור/ית</b></div><ol><li>הולכים למשלחת הבאה עם כיוון השעון.</li><li>מבקשים לראות: תמונה נבחרת · 3 התאמות · תחילת הדגם (דקה וחצי).</li><li>שולפים כרטיס שאלה קשה מהמסלול שלהם ומקריאים.</li><li>נותנים שיפור אחד.</li></ol><div class="say">💬 "הייתי משפר/ת את ___ כי ___."</div><p style="font-size:8.6pt;color:var(--muted)">שאלה בונוס: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+  </div>
+  <div class="cutgrid codes" style="flex:1;margin-top:5mm">
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+    <div class="code"><b>🧊 כניסה ל-Tinkercad</b><div class="row"><span>קוד כיתה:</span><span class="bx"></span></div><div class="row"><span>הכינוי שלי:</span><span class="bx"></span></div><small><bdi>tinkercad.com</bdi> ← <bdi>Join Class</bdi> ← קוד ← כינוי</small></div>
+  </div>
+</section>
+
+<!-- ===================== 14. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · המחוון של הוועדה המדעית</div><div class="r">משלחת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך הוועדה <span>מחליטה</span></h2></div><p>בסבב המנטור מסמנים איפה אתם עכשיו. לפני ההגשה, הערכה עצמית. הוועדה קובעת את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">🧬 ביולוגיה והתאמות<small>האם הוא באמת שורד?</small></td><td>התאמות בלי הסבר</td><td>התאמות עם הסבר כללי</td><td>3 התאמות עם הסבר נכון ובעל חיים אמיתי לכל אחת</td><td>ההתאמות מתחברות זו לזו ליצור הגיוני, עם מקורות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🧊 דגם תלת-ממד<small>צורה ומבנה</small></td><td>צורה אחת או שתיים</td><td>כמה צורות לא מחוברות</td><td>6 צורות מקובצות שדומות לקונספט</td><td>דגם מורכב עם חורים, יישור ופרטים שמראים את ההתאמות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎨 קונספט ועיצוב<small>תמונה, כרטיס, שם</small></td><td>תמונה אחת בלי בחירה</td><td>3 גרסאות בלי נימוק</td><td>3 גרסאות ובחירה מנומקת</td><td>קונספט ברור, כרטיס מין מעוצב ושם מדעי שמסביר משהו על היצור</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🔎 בדיקה ושקיפות AI<small>מקורות ושורת AI</small></td><td>עובדות בלי מקור</td><td>מקור לחלק מהעובדות</td><td>כל עובדה עם מקור, וכתוב מה ה-AI עשה</td><td>דוגמה לעובדה של AI שהתגלתה כשגויה ותוקנה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>ציון הוועדה = סכום 4 הרמות: <b>בין 4 ל-16 נקודות</b>. למשל 3 + 4 + 3 + 2 = 12.</p><p style="margin-top:1.5mm">שובר שוויון בסוף: הרמה ב"ביולוגיה והתאמות".</p></div>
+    <div class="box soft"><h3>⏱ בסבב המנטור היינו ב:</h3><p>🧬 <span class="fill s"></span> · 🧊 <span class="fill s"></span> · 🎨 <span class="fill s"></span> · 🔎 <span class="fill s"></span></p><p style="margin-top:2mm;font-weight:700">הדבר האחד שנשפר בספרינט ב׳:</p><div class="lines h1"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "ביולוגיה והתאמות" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "עכבר הערפל" אוסף ערפל בגב (כמו חיפושית הערפל), משחרר חום באוזניים (כמו הפנק) ולא שותה (כמו חולדת הקנגורו). שלוש התאמות נכונות, כל אחת לבד.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> אותן התאמות, אבל הן מספרות סיפור: הוא יוצא רק בבוקר כשיש ערפל, נח במחילה בצהריים ומשחרר חום באוזניים, ואוכל זרעים שהרוח מביאה. עם מקור לכל אחת.</p></div></div>
+</section>
+
+<!-- ===================== 15. JUDGE SHEET ===================== -->
+<section class="page" id="p-judge" data-label="דף השיפוט">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · דף השיפוט של הוועדה המדעית</div><div class="r">למדריך · כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏛️ ממלאים מיד אחרי כל משלחת · 20 שניות</span><h2>דף <span>השיפוט</span></h2></div><p>ירוק: נקודות שסופרים מהתוצר. סגול: ציון הוועדה (השופטים האורחים מראים 1–4 באצבעות, המדריך מכריע). מעבירים לשקפים 39–40.</p></div>
+  <table class="js">
+    <colgroup><col style="width:24mm"><col><col><col><col><col><col><col><col><col><col><col><col style="width:13mm"></colgroup>
+    <thead><tr><th>משלחת</th><th class="g1h">התאמות<small>0/3/6/9</small></th><th class="g1h">דגם 6<small>0/3</small></th><th class="g1h">שדרוגים<small>0–3</small></th><th class="g1h">קונספט<small>0/2</small></th><th class="g1h">ש׳ מנטור<small>0/1</small></th><th class="g1h">ש׳ ועדה<small>0/1</small></th><th class="g1h">ש׳ קהל<small>0/1</small></th><th class="g2h">🧬<small>1–4</small></th><th class="g2h">🧊<small>1–4</small></th><th class="g2h">🎨<small>1–4</small></th><th class="g2h">🔎<small>1–4</small></th><th class="tt">סה״כ<small>/36</small></th></tr></thead>
+    <tbody>
+      <tr><td class="tm">🦎</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🦑</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🦂</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🐙</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🦇</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🪲</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🦉</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+      <tr><td class="tm">🐡</td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✅ מה נחשב התאמה (3 נק׳)</h3><ul class="check"><li>תכונה ברורה (לא "חזק" או "מהיר")</li><li>איך היא עוזרת בסביבה הזאת</li><li>בעל חיים אמיתי עם התאמה דומה</li><li>מקור כתוב בכרטיס</li></ul></div>
+    <div class="box"><h3>🏅 מועמדים לפרסים</h3><p>🧬 הביולוגיה הכי משכנעת: <span class="fill"></span></p><p style="margin-top:2mm">🧊 הדגם הכי מורכב: <span class="fill"></span></p><p style="margin-top:2mm">😱 הצבעת הקהל: <span class="fill"></span></p><p style="margin-top:2mm">🏆 מגלי השנה (ניקוד): <span class="fill"></span></p></div>
+  </div>
+  <div class="box soft" style="margin-top:4mm"><h3>🎲 שאלות ועדה (גיבוי לשקף 38)</h3><ol class="clean" style="columns:2;column-gap:8mm;font-size:9.2pt"><li>איך היצור שלכם משיג מים?</li><li>מי הטורף שלו, ואיך הוא מתגונן?</li><li>איזו התאמה הכי חשובה לו, ולמה?</li><li>איזו עובדה בדקתם במקור, ומה גיליתם?</li><li>מה ה-AI הציע, ואתם לא הסכמתם?</li><li>איך הוא מוצא בן או בת זוג?</li><li>איך שתי התאמות שלו עוזרות זו לזו?</li><li>מה היה קורה לו בסביבה של משלחת אחרת?</li><li>איזה חלק בדגם מראה התאמה, ואיך?</li><li>מה קורה לו אם הסביבה נהיית חמה יותר?</li></ol></div>
+</section>
+
+<!-- ===================== 16. GUEST JUDGE + VOTE SLIPS ===================== -->
+<section class="page" id="p-guest" data-label="שופט אורח והצבעה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיסי שופט אורח · פתקי הצבעה</div><div class="r">✂</div></div>
+  <p class="cutnote">✂ למעלה: 2 כרטיסי שופט אורח (לשולחן הוועדה). למטה: פתקי הצבעה לפרס הקהל, אם מצביעים בפתקים במקום בידיים.</p>
+  <div class="cutgrid gj">
+    <div class="gjc"><b class="t">⚖️ שופט/ת אורח/ת בוועדה המדעית</b><p>מקשיבים דקה, ואז מראים באצבעות <b>1–4</b> לכל קריטריון. לא שופטים את המשלחת שלכם.</p>
+      <table><tbody><tr><td>🧬 <b>ביולוגיה:</b> 3 התאמות עם בעל חיים אמיתי? הן מתחברות לסיפור?</td><td>1 2 3 4</td></tr><tr><td>🧊 <b>דגם:</b> 6 צורות מקובצות? רואים בו התאמה?</td><td>1 2 3 4</td></tr><tr><td>🎨 <b>קונספט:</b> 3 גרסאות ונימוק? כרטיס ברור? שם מדעי שמסביר?</td><td>1 2 3 4</td></tr><tr><td>🔎 <b>בדיקה:</b> מקורות? כתוב מה ה-AI עשה? תפסו טעות?</td><td>1 2 3 4</td></tr></tbody></table>
+      <p style="font-size:8.6pt;color:var(--muted)">שאלה טובה לוועדה: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+    <div class="gjc"><b class="t">⚖️ שופט/ת אורח/ת בוועדה המדעית</b><p>מקשיבים דקה, ואז מראים באצבעות <b>1–4</b> לכל קריטריון. לא שופטים את המשלחת שלכם.</p>
+      <table><tbody><tr><td>🧬 <b>ביולוגיה:</b> 3 התאמות עם בעל חיים אמיתי? הן מתחברות לסיפור?</td><td>1 2 3 4</td></tr><tr><td>🧊 <b>דגם:</b> 6 צורות מקובצות? רואים בו התאמה?</td><td>1 2 3 4</td></tr><tr><td>🎨 <b>קונספט:</b> 3 גרסאות ונימוק? כרטיס ברור? שם מדעי שמסביר?</td><td>1 2 3 4</td></tr><tr><td>🔎 <b>בדיקה:</b> מקורות? כתוב מה ה-AI עשה? תפסו טעות?</td><td>1 2 3 4</td></tr></tbody></table>
+      <p style="font-size:8.6pt;color:var(--muted)">שאלה טובה לוועדה: "איזה בעל חיים אמיתי עושה את זה?"</p></div>
+  </div>
+  <div class="cutgrid vs" style="margin-top:5mm">
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+    <div class="vsc"><span class="em">😱</span><b>היצור שהכי הייתי רוצה לפגוש (או לא!)</b><span>משלחת: <span class="fill s"></span></span></div>
+  </div>
+</section>
+
+<!-- ===================== 17. AI-USE LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתיק המדעי</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים, ומעתיקים את שתי השורות לכרטיס המין ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · היצור: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ תפסנו טעות של AI ותיקנו</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · היצור: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ תפסנו טעות של AI ותיקנו</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · היצור: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ תפסנו טעות של AI ותיקנו</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · היצור: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ תפסנו טעות של AI ותיקנו</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 18. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בזמן שהוועדה סופרת את הנקודות, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האקתון היצורים</span></div><p>משלחת: <span class="fill"></span></p>
+      <p class="q">1. איזו התאמה של בעל חיים <u>אמיתי</u> הכי הפתיעה אותי, ולמה?</p><div class="lines h2"></div>
+      <p class="q">2. עובדה אחת שבדקנו במקור. מה גילינו?</p><div class="lines h1"></div>
+      <p class="q">3. מה הייתי משפר/ת בדגם עם עוד 10 דקות?</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה הבנתי מה זו התאמה?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למשלחת:</p>
+      <div class="tags"><span>מחקר</span><span>קונספט</span><span>דגם</span><span>כרטיס</span><span>הצגה</span><span>מנטור/ית</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האקתון היצורים</span></div><p>משלחת: <span class="fill"></span></p>
+      <p class="q">1. איזו התאמה של בעל חיים <u>אמיתי</u> הכי הפתיעה אותי, ולמה?</p><div class="lines h2"></div>
+      <p class="q">2. עובדה אחת שבדקנו במקור. מה גילינו?</p><div class="lines h1"></div>
+      <p class="q">3. מה הייתי משפר/ת בדגם עם עוד 10 דקות?</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה הבנתי מה זו התאמה?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למשלחת:</p>
+      <div class="tags"><span>מחקר</span><span>קונספט</span><span>דגם</span><span>כרטיס</span><span>הצגה</span><span>מנטור/ית</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האקתון היצורים</span></div><p>משלחת: <span class="fill"></span></p>
+      <p class="q">1. איזו התאמה של בעל חיים <u>אמיתי</u> הכי הפתיעה אותי, ולמה?</p><div class="lines h2"></div>
+      <p class="q">2. עובדה אחת שבדקנו במקור. מה גילינו?</p><div class="lines h1"></div>
+      <p class="q">3. מה הייתי משפר/ת בדגם עם עוד 10 דקות?</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה הבנתי מה זו התאמה?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למשלחת:</p>
+      <div class="tags"><span>מחקר</span><span>קונספט</span><span>דגם</span><span>כרטיס</span><span>הצגה</span><span>מנטור/ית</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האקתון היצורים</span></div><p>משלחת: <span class="fill"></span></p>
+      <p class="q">1. איזו התאמה של בעל חיים <u>אמיתי</u> הכי הפתיעה אותי, ולמה?</p><div class="lines h2"></div>
+      <p class="q">2. עובדה אחת שבדקנו במקור. מה גילינו?</p><div class="lines h1"></div>
+      <p class="q">3. מה הייתי משפר/ת בדגם עם עוד 10 דקות?</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה הבנתי מה זו התאמה?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למשלחת:</p>
+      <div class="tags"><span>מחקר</span><span>קונספט</span><span>דגם</span><span>כרטיס</span><span>הצגה</span><span>מנטור/ית</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 19. INSTRUCTOR SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד למדריך">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span> · תאריך: <span class="fill s"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · סבב המנטור + סיכום</span><h2>דף <span>הניקוד</span></h2></div><p>למעלה: רמות ביניים בסבב המנטור (לא נכנסות לניקוד). למטה: הסיכום שעובר ללוח הניקוד במצגת (שקף 40).</p></div>
+  <div class="box"><h3>⏱ סבב המנטור (דקות 47–54): רמת ביניים ומה לשפר</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:26mm">משלחת · מסלול</th><th style="width:11mm">🧬</th><th style="width:11mm">🧊</th><th style="width:11mm">🎨</th><th style="width:11mm">🔎</th><th>תקועים ב… / השיפור שאמרתי</th></tr></thead>
+    <tbody><tr><td class="e">🦎</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦑</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦂</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦇</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🪲</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐡</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="box" style="margin-top:4mm"><h3>🏁 סיכום (מדף השיפוט)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:26mm">משלחת</th><th>הגישה בזמן</th><th>תוצר<br><small>עד 20</small></th><th>ועדה<br><small>עד 16</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>/36</small></th><th>מקום</th><th>פרס</th></tr></thead>
+    <tbody><tr><td class="e">🦎</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦑</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦂</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦇</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🪲</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐡</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🔎 טעויות AI שמשלחות תפסו</h3><div class="lines h2"></div></div>
+    <div class="box soft"><h3>📨 דוח קצר למורה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 20. CERTIFICATES ===================== -->
+<section class="page" id="p-cert" data-label="תעודות">
+  <div class="ph"><div class="l"><i>TIE</i>האקתון היצורים · תעודות</div><div class="r">✂ לחצי · 2 בעמוד</div></div>
+  <div class="certs">
+    <div class="cert">
+      <span class="seal">המכון לחקר יצורים בדיוניים</span>
+      <span class="k">🦎 האקתון היצורים · הוועדה המדעית</span>
+      <h3>תעודת גילוי מין חדש</h3>
+      <p class="ln">מוענקת למשלחת <span class="fill l"></span></p>
+      <p class="ln">על גילוי היצור <span class="fill l"></span> · <i>שם מדעי</i> <span class="fill"></span></p>
+      <p class="ln">שהוכיחה בביולוגיה אמיתית ובדוקה שהיצור יכול לשרוד ב<span class="fill"></span></p>
+      <svg class="masc" viewBox="0 0 400 290" aria-hidden="true"><ellipse cx="200" cy="268" rx="140" ry="10" fill="#efe6cc"/><path d="M122 182 C 74 194, 40 166, 30 124 C 26 102, 46 94, 54 110 C 62 138, 84 158, 124 160 Z" fill="#2f7d5b"/><path d="M126 134 l12 -26 l12 22 l13 -28 l12 26 l13 -30 l12 28 l13 -26 l11 24 Z" fill="#e3a82b"/><path d="M142 204 l-9 56 h24 l5 -50 Z M182 214 l-3 46 h24 l0 -44 Z M222 212 l4 48 h24 l-6 -51 Z M252 198 l12 62 h24 l-15 -66 Z" fill="#23826f"/><ellipse cx="192" cy="172" rx="90" ry="55" fill="#2f7d5b"/><path d="M266 104 L246 34 L292 94 Z M302 94 L334 30 L324 104 Z" fill="#2f7d5b"/><path d="M268 94 L256 52 L284 92 Z M308 92 L328 50 L320 98 Z" fill="#f2a7a7"/><ellipse cx="294" cy="132" rx="52" ry="41" fill="#2f7d5b"/><path d="M300 92 C 308 52, 350 40, 366 64" stroke="#2f7d5b" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="367" cy="68" r="20" fill="#f4c46b" opacity=".4"/><circle cx="367" cy="68" r="10" fill="#f4c46b"/><circle cx="314" cy="124" r="13" fill="#fff"/><circle cx="317" cy="125" r="6" fill="#1f2a37"/><path d="M318 152 q14 7 25 -2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><text x="190" y="194" font-size="54" fill="#fff" text-anchor="middle" font-family="Rubik,Arial" font-weight="800">★</text></svg>
+      <div class="prizes"><span>🏆 מגלי השנה</span><span>🧬 הביולוגיה הכי משכנעת</span><span>🧊 הדגם הכי מורכב</span><span>😱 היצור שהכי היינו רוצים לפגוש (או לא)</span></div>
+      <div class="sig"><span>תאריך: <span class="fill s"></span></span><span>יו״ר הוועדה: <span class="fill"></span></span></div>
+      <svg class="lz" viewBox="0 0 120 60" aria-hidden="true"><path d="M8 40 C 20 28, 34 30, 44 36 C 54 24, 74 22, 88 30 L 110 22 L 104 34 L 112 40 L 96 40 C 86 50, 62 52, 50 46 C 36 52, 18 50, 8 40 Z" fill="#e3a82b" opacity=".85"/><circle cx="96" cy="30" r="2.4" fill="#1f2a37"/><path d="M50 46 l-6 10 M64 48 l2 10 M30 46 l-8 8 M78 44 l6 8" stroke="#c98a1b" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+    <div class="cert">
+      <span class="seal">המכון לחקר יצורים בדיוניים</span>
+      <span class="k">🦎 האקתון היצורים · הוועדה המדעית</span>
+      <h3>תעודת גילוי מין חדש</h3>
+      <p class="ln">מוענקת למשלחת <span class="fill l"></span></p>
+      <p class="ln">על גילוי היצור <span class="fill l"></span> · <i>שם מדעי</i> <span class="fill"></span></p>
+      <p class="ln">שהוכיחה בביולוגיה אמיתית ובדוקה שהיצור יכול לשרוד ב<span class="fill"></span></p>
+      <svg class="masc" viewBox="0 0 400 290" aria-hidden="true"><ellipse cx="200" cy="268" rx="140" ry="10" fill="#efe6cc"/><path d="M122 182 C 74 194, 40 166, 30 124 C 26 102, 46 94, 54 110 C 62 138, 84 158, 124 160 Z" fill="#2f7d5b"/><path d="M126 134 l12 -26 l12 22 l13 -28 l12 26 l13 -30 l12 28 l13 -26 l11 24 Z" fill="#e3a82b"/><path d="M142 204 l-9 56 h24 l5 -50 Z M182 214 l-3 46 h24 l0 -44 Z M222 212 l4 48 h24 l-6 -51 Z M252 198 l12 62 h24 l-15 -66 Z" fill="#23826f"/><ellipse cx="192" cy="172" rx="90" ry="55" fill="#2f7d5b"/><path d="M266 104 L246 34 L292 94 Z M302 94 L334 30 L324 104 Z" fill="#2f7d5b"/><path d="M268 94 L256 52 L284 92 Z M308 92 L328 50 L320 98 Z" fill="#f2a7a7"/><ellipse cx="294" cy="132" rx="52" ry="41" fill="#2f7d5b"/><path d="M300 92 C 308 52, 350 40, 366 64" stroke="#2f7d5b" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="367" cy="68" r="20" fill="#f4c46b" opacity=".4"/><circle cx="367" cy="68" r="10" fill="#f4c46b"/><circle cx="314" cy="124" r="13" fill="#fff"/><circle cx="317" cy="125" r="6" fill="#1f2a37"/><path d="M318 152 q14 7 25 -2" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><text x="190" y="194" font-size="54" fill="#fff" text-anchor="middle" font-family="Rubik,Arial" font-weight="800">★</text></svg>
+      <div class="prizes"><span>🏆 מגלי השנה</span><span>🧬 הביולוגיה הכי משכנעת</span><span>🧊 הדגם הכי מורכב</span><span>😱 היצור שהכי היינו רוצים לפגוש (או לא)</span></div>
+      <div class="sig"><span>תאריך: <span class="fill s"></span></span><span>יו״ר הוועדה: <span class="fill"></span></span></div>
+      <svg class="lz" viewBox="0 0 120 60" aria-hidden="true"><path d="M8 40 C 20 28, 34 30, 44 36 C 54 24, 74 22, 88 30 L 110 22 L 104 34 L 112 40 L 96 40 C 86 50, 62 52, 50 46 C 36 52, 18 50, 8 40 Z" fill="#2f6db5" opacity=".8"/><circle cx="96" cy="30" r="2.4" fill="#fff"/><path d="M50 46 l-6 10 M64 48 l2 10 M30 46 l-8 8 M78 44 l6 8" stroke="#1d4f8f" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

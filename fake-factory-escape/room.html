@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>תיק הראיות · מפעל הזיופים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{--paper:#fbfaf7;--paper2:#f4f1ea;--card:#fff;--line:#e7e3dc;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;--teal:#0f766e;--teal-soft:#e3f1ee;--rose:#be3455;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;min-height:100vh;
+ background-image:radial-gradient(800px 420px at 100% -10%,rgba(15,118,110,.05),transparent 62%),radial-gradient(800px 420px at -5% 110%,rgba(231,111,134,.06),transparent 60%)}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(16px,calc(50% - 600px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:18px}
+.brand .mk{width:38px;height:38px;border-radius:11px;background:#1f2a37;color:#fff;display:grid;place-items:center;font-size:19px;position:relative}
+.brand .mk::after{content:"";position:absolute;top:5px;left:5px;width:8px;height:8px;border-radius:50%;background:#e76f86;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.brand small{display:block;font-family:var(--body);font-weight:500;font-size:13px;color:var(--muted)}
+.dots{display:flex;gap:6px;direction:rtl}
+.dots i{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font-style:normal;font-family:var(--display);font-weight:700;font-size:14px;color:var(--dim)}
+.dots i.on{background:#1f2a37;color:#fff;border-color:#1f2a37}
+.dots i.done{background:var(--teal-soft);color:var(--teal);border-color:#bfdcd7}
+main{width:min(1200px,100%);margin:0 auto;padding:22px 16px 60px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(16px,2.4vw,30px);box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);font-size:clamp(14px,1.25vw,18px)}
+.ev{display:none}.ev.show{display:block;animation:in .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.remind{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px}
+.remind span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14.5px;color:var(--muted)}
+.cover{text-align:center;padding:40px 10px}
+.cover .door{width:150px;height:190px;margin:0 auto 18px;border-radius:14px 14px 4px 4px;background:linear-gradient(90deg,#5b6574,#8a93a1 50%,#5b6574);position:relative;border:4px solid #3b4552;box-shadow:inset 0 0 0 6px rgba(255,255,255,.12)}
+.cover .door::before{content:"🔒";position:absolute;left:14px;top:84px;font-size:26px}
+.cover .door::after{content:"";position:absolute;inset:12px 18px auto;height:10px;border-radius:5px;background:#e76f86;animation:blink 1.2s infinite}
+.cover h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,52px);margin:0 0 8px;letter-spacing:-.02em}
+.cover p{color:var(--muted);font-size:19px;max-width:620px;margin:0 auto 8px}
+.cover .rules{display:inline-grid;text-align:right;gap:8px;margin-top:14px;font-size:17px}
+.cover .rules div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:9px 14px}
+@media (max-width:820px){
+ .ev-zooms{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .ev-quotes{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .ev-chartwrap,.ev-web{grid-template-columns:1fr!important}
+ .ev-claims,.ev .ev-side[style*="1fr 1fr 1fr"]{grid-template-columns:1fr!important}
+ .dots i{width:24px;height:24px;font-size:12px}.brand small{display:none}
+}
+/* ===== evidence panels (shared: room.html + materials.html). Size scales with the container font-size. ===== */
+.ev{--c:#0f766e;--cs:#e3f1ee;--ci:#0b5c56;color:#1f2a37;font-family:"Heebo",Arial,sans-serif;line-height:1.45}
+.ev *{box-sizing:border-box}
+.ev h3,.ev h4,.ev p{margin:0}
+.ev-head{display:flex;align-items:center;gap:.8em;margin-bottom:.8em}
+.ev-lock{flex:none;width:3.2em;height:3.2em;border-radius:.9em;display:grid;place-items:center;background:var(--c);color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.05em;line-height:1;text-align:center;box-shadow:0 .25em .7em color-mix(in srgb,var(--c) 30%,transparent)}
+.ev-lock small{display:block;font-size:.55em;font-weight:600;opacity:.9;margin-bottom:.1em}
+.ev-head .dept{display:inline-block;font-family:"Rubik",Arial,sans-serif;font-weight:700;font-size:.8em;color:var(--ci);background:var(--cs);border-radius:999px;padding:.12em .8em;margin-bottom:.2em}
+.ev-head h3{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.6em;line-height:1.1;letter-spacing:-.01em}
+.ev-stamp{margin-inline-start:auto;flex:none;transform:rotate(-8deg);border:.15em solid #be3455;color:#be3455;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.85em;padding:.15em .6em;border-radius:.35em;letter-spacing:.06em;opacity:.85}
+.ev-story{background:#f8f6f1;border:1px solid #e7e3dc;border-inline-start:.3em solid var(--c);border-radius:.7em;padding:.6em .9em;margin-bottom:.8em;font-size:.98em}
+.ev-key{margin-top:.8em;border:1.5px dashed var(--c);border-radius:.8em;padding:.6em .9em;background:color-mix(in srgb,var(--c) 6%,#fff);display:flex;gap:.7em;align-items:flex-start}
+.ev-key .k{flex:none;font-size:1.5em;line-height:1}
+.ev-key b{font-family:"Rubik",Arial,sans-serif;color:var(--ci)}
+.ev-note{font-size:.8em;color:#5b6574;margin-top:.4em}
+.ev-n{display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:#1f2a37;color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.85em;line-height:1;flex:none}
+/* lock 1: zoom cards */
+.ev-post{display:flex;gap:.8em;align-items:center;border:1px solid #e7e3dc;border-radius:.8em;padding:.5em .8em;margin-bottom:.7em;background:#fff}
+.ev-post .av{width:2.4em;height:2.4em;border-radius:50%;background:#fdf0e3;display:grid;place-items:center;font-size:1.2em;flex:none}
+.ev-post b{font-family:"Rubik",Arial,sans-serif}
+.ev-post small{color:#8a93a1;display:block;font-size:.78em}
+.ev-zooms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6em}
+.ev-zoom{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;overflow:hidden;position:relative}
+.ev-zoom svg{display:block;width:100%;height:auto;background:#f4f1ea}
+.ev-zoom p{font-size:.8em;padding:.35em .55em;border-top:1px solid #efebe4;line-height:1.3}
+.ev-zoom .ev-n{position:absolute;top:.35em;right:.35em;box-shadow:0 0 0 .15em #fff}
+/* lock 2: chart */
+.ev-chartwrap{display:grid;grid-template-columns:1.35fr 1fr;gap:.8em;align-items:start}
+.ev-chart{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.5em}
+.ev-chart svg{display:block;width:100%;height:auto}
+.ev-side{display:grid;gap:.6em}
+.ev-card{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .8em;font-size:.92em}
+.ev-card b{font-family:"Rubik",Arial,sans-serif}
+.ev-fill{display:inline-block;min-width:2.6em;border-bottom:1.5px solid #1f2a37;height:1.1em;vertical-align:bottom;margin:0 .2em}
+/* lock 3: quotes */
+.ev-quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6em}
+.ev-quote{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .7em .55em;position:relative;display:flex;flex-direction:column;gap:.35em}
+.ev-quote .who{display:flex;gap:.5em;align-items:center}
+.ev-quote .who i{font-style:normal;width:2.1em;height:2.1em;border-radius:50%;display:grid;place-items:center;background:#efecfb;font-size:1.05em;flex:none}
+.ev-quote .who b{font-family:"Rubik",Arial,sans-serif;display:block;font-size:.95em;line-height:1.15}
+.ev-quote .who small{display:block;color:#8a93a1;font-size:.72em;line-height:1.2}
+.ev-quote q{font-size:.98em;font-weight:500;quotes:"״" "״";line-height:1.35}
+.ev-quote .meta{margin-top:auto;font-size:.72em;color:#8a93a1;display:flex;justify-content:space-between}
+.ev-quote .ev-n{position:absolute;top:-.55em;left:-.45em}
+/* lock 4: headlines */
+.ev-article{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .9em;margin-bottom:.7em;font-size:.95em}
+.ev-article .tag{font-size:.75em;font-weight:700;color:#a16207;background:#fdf3d7;border-radius:999px;padding:.05em .6em;margin-inline-start:.4em}
+.ev-heads{display:grid;gap:.42em}
+.ev-hl{display:flex;align-items:center;gap:.7em;border:1px solid #e7e3dc;border-radius:.7em;background:#fff;padding:.42em .7em}
+.ev-hl .t{flex:1;font-family:"Rubik",Arial,sans-serif;font-weight:600;font-size:1.02em;line-height:1.3}
+.ev-hl .lt{flex:none;width:2em;height:2em;border-radius:.5em;border:1.5px solid #1f2a37;display:grid;place-items:center;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1em;background:#fdfcf9}
+/* lock 5: website */
+.ev-web{display:grid;grid-template-columns:1.55fr 1fr;gap:.8em;align-items:start}
+.ev-browser{border:1px solid #cfd6d9;border-radius:.8em;overflow:hidden;background:#fff;box-shadow:0 .3em 1em rgba(31,42,55,.06)}
+.ev-bar{display:flex;align-items:center;gap:.5em;background:#eef1f3;padding:.45em .6em;border-bottom:1px solid #dfe4e7}
+.ev-bar .dots{display:flex;gap:.25em;flex:none;direction:ltr}.ev-bar .dots i{width:.6em;height:.6em;border-radius:50%;background:#cfd6d9;display:block}
+.ev-url{flex:1;min-width:0;display:flex;align-items:center;gap:.4em;background:#fff;border-radius:999px;padding:.2em .7em;font-size:.82em;direction:ltr;font-family:ui-monospace,Menlo,Consolas,monospace;color:#3b4552;white-space:nowrap;overflow:hidden}
+.ev-site{padding:.6em .8em .7em}
+.ev-logo{display:flex;align-items:center;justify-content:space-between;gap:.5em;border-bottom:2px solid #c2410c;padding-bottom:.35em}
+.ev-logo b{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.15em;color:#c2410c}
+.ev-nav{display:flex;gap:.7em;font-size:.78em;color:#5b6574;font-weight:700;align-items:center;flex-wrap:wrap}
+.ev-site h4{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.25em;line-height:1.15;margin:.45em 0 .25em}
+.ev-by{font-size:.78em;color:#5b6574;display:flex;align-items:center;gap:.4em}
+.ev-photo{margin-top:.45em;border-radius:.5em;overflow:hidden;border:1px solid #e7e3dc;position:relative}
+.ev-photo svg{display:block;width:100%;height:auto}
+.ev-photo figcaption{font-size:.75em;color:#5b6574;padding:.2em .5em;background:#f4f1ea;display:flex;gap:.4em;align-items:center}
+.ev-foot{display:flex;align-items:center;justify-content:space-between;gap:.5em;margin-top:.5em;flex-wrap:wrap}
+.ev-share{background:#c2410c;color:#fff;font-weight:800;border-radius:.5em;padding:.3em .7em;font-size:.82em}
+.ev-likes{font-size:.82em;color:#5b6574;font-weight:700;display:flex;gap:.35em;align-items:center}
+.ev-lens{border:1px solid #d6e2f3;border-radius:.8em;background:#fff;overflow:hidden}
+.ev-lens .lh{background:#e7f0fa;color:#2f6db5;font-family:"Rubik",Arial,sans-serif;font-weight:700;font-size:.9em;padding:.4em .7em}
+.ev-lens .res{display:flex;gap:.55em;padding:.5em .7em;border-top:1px solid #edf2f8;font-size:.8em;align-items:center}
+.ev-lens .res svg{width:3.6em;height:2.4em;border-radius:.3em;flex:none}
+.ev-lens .res b{display:block;font-family:"Rubik",Arial,sans-serif;font-size:1.05em;color:#2f6db5}
+.ev-lens .res small{color:#8a93a1}
+.ev-about{border:1px dashed #cfc8bc;border-radius:.8em;background:#fdfcf9;padding:.55em .7em;font-size:.85em}
+.ev-legend{font-size:.8em;color:#5b6574;border:1px solid #e7e3dc;border-radius:.8em;padding:.5em .7em;background:#fff}
+/* lock 6: ad */
+.ev-ad{border-radius:1em;overflow:hidden;border:1px solid #e7e3dc;background:linear-gradient(160deg,#e9f6ff,#fff 55%,#fff6ec);padding:.9em 1.1em;position:relative}
+.ev-ad .brand{display:flex;align-items:center;gap:.6em}
+.ev-ad .brand b{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.9em;color:#2f6db5;line-height:1}
+.ev-ad .brand small{display:block;color:#5b6574;font-size:.85em}
+.ev-claims{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6em;margin-top:.8em}
+.ev-claim{background:#fff;border:1px solid #d6e2f3;border-radius:.9em;padding:.7em .7em .6em;text-align:center}
+.ev-claim .big{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.65em;line-height:1.05;color:#1f2a37}
+.ev-claim .big sup{color:#be3455;font-size:.6em}
+.ev-claim p{font-size:.85em;color:#5b6574;margin-top:.2em}
+.ev-claim .lab{display:inline-block;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.75em;background:#1f2a37;color:#fff;border-radius:.4em;padding:.05em .5em;margin-bottom:.35em}
+.ev-fine{margin-top:.8em;font-size:.62em;color:#7b8491;line-height:1.5;border-top:1px solid #e7e3dc;padding-top:.45em}
+.ev-train{margin-top:.8em;border:1px solid #d6e2f3;background:#f4f8fd;border-radius:.8em;padding:.55em .8em;font-size:.88em}
+.ev-train a{color:#2f6db5;font-weight:700}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><span class="mk">🏭</span><div>מפעל הזיופים<small>תיק הראיות · צוותי הבילוש</small></div></div><div class="dots" id="dots"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></div></header>
+<main>
+<div class="panel">
+ <section class="cover" id="cover">
+  <div class="door" aria-hidden="true"></div>
+  <h1>הדלת ננעלה מאחוריכם</h1>
+  <p>זה תיק הראיות של מפעל הזיופים. כל מנעול בטופס החדר נותן לכם קישור לחדר אחד בתיק.</p>
+  <p><b>פתחו את הקישור שמופיע בטופס, ולא את הדף הזה ישירות.</b></p>
+  <div class="rules"><div>🔐 המנעולים נפתחים לפי הסדר</div><div>📝 אחרי כל מנעול רושמים בדף הראיות מה תפס אתכם</div><div>🤫 לא מגלים קודים לצוות אחר</div><div>🔴 את החידות פותרים בלי AI. מותר לחפש ברשת</div></div>
+ </section>
+<article class="ev" id="ev1" style="--c:#e76f86;--cs:#fce9ed;--ci:#be3455"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>1</span></div><div><span class="dept">🖼️ מחלקת התמונות</span><h3>התמונה הוויראלית</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">המפעל הפיץ הבוקר "צילום מהטיילת": ילדה מנופפת לשלום ליד דוכן גלידה. בתוך שעה הוא שותף 48 אלף פעמים. החוקרים הגדילו 8 פרטים מהתמונה. חלק מהפרטים נראים כמו בכל צילום רגיל, וחלק הם סימנים שהתמונה נוצרה ב-AI.</div>
+<div class="ev-post"><span class="av">📸</span><div><b>"תראו מה צילמתי היום בטיילת! 😍🍦"</b><small>שותף 48K פעמים · לפני שעה</small></div></div>
+<div class="ev-zooms"><div class="ev-zoom"><span class="ev-n">1</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><ellipse cx="88" cy="24" rx="17" ry="7" fill="#fff"/><ellipse cx="78" cy="20" rx="10" ry="7" fill="#fff"/><path d="M32 52 q12 -16 26 -2 q13 -14 26 2" fill="none" stroke="#3b4552" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect y="74" width="120" height="16" fill="#9cc9e8"/></svg><p>זום 1: שחף בשמיים</p></div><div class="ev-zoom"><span class="ev-n">2</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fdf0e3"/><rect x="44" y="50" width="34" height="30" rx="11" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="44" y="24" width="6.5" height="32" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="51" y="19" width="6.5" height="36" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="58" y="17" width="6.5" height="38" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="65" y="19" width="6.5" height="36" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="72" y="24" width="6.5" height="32" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="80" y="46" width="7" height="22" rx="3.5" transform="rotate(38 83 57)" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="46" y="78" width="30" height="12" fill="#8c7ae6"/></svg><p>זום 2: היד שמנופפת לשלום</p></div><div class="ev-zoom"><span class="ev-n">3</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect y="60" width="120" height="30" fill="#efe3c8"/><circle cx="14" cy="12" r="8" fill="#f4c542"/><polygon points="26,70 34,70 62,80 50,80" fill="#bfae8a"/><circle cx="30" cy="40" r="6" fill="#f2c4a0"/><rect x="25" y="46" width="10" height="24" rx="3" fill="#e76f86"/><polygon points="92,70 96,70 70,80 62,80" fill="#bfae8a"/><rect x="92" y="22" width="4" height="48" fill="#5b6574"/><circle cx="94" cy="20" r="5" fill="#f4c542" stroke="#5b6574" stroke-width="1.5"/></svg><p>זום 3: הילדה והפנס בשמש</p></div><div class="ev-zoom"><span class="ev-n">4</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fbfaf7"/><g><rect x="10" y="10" width="100" height="16" fill="#fff"/><rect x="10" y="10" width="14" height="16" fill="#e76f86"/><rect x="38" y="10" width="14" height="16" fill="#e76f86"/><rect x="66" y="10" width="14" height="16" fill="#e76f86"/><rect x="94" y="10" width="16" height="16" fill="#e76f86"/></g><rect x="18" y="34" width="84" height="38" rx="6" fill="#fff" stroke="#1f2a37" stroke-width="2.5"/><text x="60" y="62" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="22" fill="#1f2a37">גלידה</text></svg><p>זום 4: השלט של הדוכן</p></div><div class="ev-zoom"><span class="ev-n">5</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#e3f1ee"/><polygon points="46,42 74,42 60,86" fill="#e3a868" stroke="#a8743a" stroke-width="1.5"/><path d="M50 52 L70 48 M53 62 L67 58 M56 72 L64 69" stroke="#a8743a" stroke-width="1.2"/><circle cx="60" cy="32" r="17" fill="#f4b6c6"/><path d="M45 40 q0 10 4 10 q4 0 4 -8 M66 44 q0 14 4 14 q4 0 3 -14" fill="#f4b6c6"/></svg><p>זום 5: הגלידה נמסה ומטפטפת</p></div><div class="ev-zoom"><span class="ev-n">6</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect x="57" y="74" width="6" height="16" fill="#8a93a1"/><circle cx="60" cy="46" r="34" fill="#fff" stroke="#1f2a37" stroke-width="3"/><text x="60.0" y="24.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">12</text><text x="72.5" y="27.6" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">1</text><text x="81.7" y="36.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">2</text><text x="85.0" y="49.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">3</text><text x="81.7" y="61.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">4</text><text x="72.5" y="71.0" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">4</text><text x="60.0" y="74.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">6</text><text x="47.5" y="71.0" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">7</text><text x="38.3" y="61.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">8</text><text x="35.0" y="49.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">8</text><text x="38.3" y="36.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">13</text><text x="47.5" y="27.6" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">11</text><path d="M60 46 L74 38" stroke="#1f2a37" stroke-width="3" stroke-linecap="round"/><path d="M60 46 L58 26 M60 46 L66 27" stroke="#be3455" stroke-width="2" stroke-linecap="round"/><circle cx="60" cy="46" r="2.5" fill="#1f2a37"/></svg><p>זום 6: השעון על עמוד הטיילת</p></div><div class="ev-zoom"><span class="ev-n">7</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fdf0e3"/><path d="M14 36 h40 v14 a14 14 0 0 1 -14 14 h-12 a14 14 0 0 1 -14 -14z" fill="#24425c"/><path d="M66 36 h40 v14 a14 14 0 0 1 -14 14 h-12 a14 14 0 0 1 -14 -14z" fill="#24425c"/><path d="M54 40 q6 -5 12 0" fill="none" stroke="#1f2a37" stroke-width="3"/><path d="M18 52 q5 -4 10 0 t10 0 t10 0 M70 52 q5 -4 10 0 t10 0 t10 0" fill="none" stroke="#9cc9e8" stroke-width="2.5"/><circle cx="24" cy="42" r="3" fill="#fff" opacity=".8"/><circle cx="76" cy="42" r="3" fill="#fff" opacity=".8"/></svg><p>זום 7: המשקפיים משקפים את הים</p></div><div class="ev-zoom"><span class="ev-n">8</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect y="58" width="120" height="32" fill="#9cc9e8"/><path d="M8 26 H112" stroke="#3b4552" stroke-width="4" stroke-linecap="round"/><path d="M18 26 V84 M36 26 V84" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M54 26 C54 52 72 50 72 84" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M72 26 C72 40 68 46 64 52" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M90 26 V60" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M104 26 C104 60 98 62 90 84" stroke="#3b4552" stroke-width="3.5" fill="none"/></svg><p>זום 8: המעקה של הטיילת</p></div></div>
+<div class="ev-train">🎯 <b>חדר אימונים (רשות, 2 דקות):</b> חוקר/ת התמונות פותח/ת במכשיר אחר את <a href="https://artsandculture.google.com/experiment/odd-one-out/wAHNn4JsVTFOiw" target="_blank" rel="noopener">Odd One Out</a> ומשחק/ת סבב: בכל סבב יש 4 תמונות, ואחת מהן נוצרה ב-AI. מה עזר לכם לזהות אותה? חפשו את אותם סימנים בזומים.</div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של הזומים שיש בהם סימן ל-AI, מהקטן לגדול. <span class="ev-note">בדיוק 4 זומים חשודים.</span></div></div>
+</article>
+<article class="ev" id="ev2" style="--c:#f4a259;--cs:#fdf0e3;--ci:#c2630f"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>2</span></div><div><span class="dept">📊 מחלקת הגרפים</span><h3>הגרף שזינק</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">חברת המשקאות הבדיונית "שוקו-על" פרסמה את הגרף הזה עם הכיתוב: "העמודה של 2024 גבוהה פי כמה! הקונים משתגעים עלינו!" מפעל הזיופים דאג שהגרף ייראה דרמטי. התפקיד שלכם: לבדוק כמה המכירות עלו באמת.</div>
+<div class="ev-chartwrap"><div class="ev-chart"><svg viewBox="0 0 520 360" aria-label="גרף המכירות של שוקו-על">
+<text x="260" y="26" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="24" fill="#1f2a37">🚀 המכירות של שוקו-על זינקו!</text>
+<g font-family="Heebo,Arial" font-size="15" fill="#5b6574" text-anchor="end" direction="ltr">
+<text x="62" y="305">99</text><text x="62" y="261.7">100</text><text x="62" y="218.3">101</text><text x="62" y="175">102</text><text x="62" y="131.7">103</text><text x="62" y="88.3">104</text><text x="62" y="45">105</text></g>
+<g stroke="#e7e3dc" stroke-width="1.5"><line x1="72" y1="300" x2="500" y2="300"/><line x1="72" y1="256.7" x2="500" y2="256.7"/><line x1="72" y1="213.3" x2="500" y2="213.3"/><line x1="72" y1="170" x2="500" y2="170"/><line x1="72" y1="126.7" x2="500" y2="126.7"/><line x1="72" y1="83.3" x2="500" y2="83.3"/><line x1="72" y1="40" x2="500" y2="40"/></g>
+<line x1="72" y1="40" x2="72" y2="300" stroke="#1f2a37" stroke-width="2"/><line x1="72" y1="300" x2="500" y2="300" stroke="#1f2a37" stroke-width="2"/>
+<rect x="135" y="256.7" width="110" height="43.3" fill="#f4a259"/><rect x="325" y="83.3" width="110" height="216.7" fill="#e76f86"/>
+<text x="190" y="248" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="18" fill="#1f2a37">100</text>
+<text x="380" y="75" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="18" fill="#1f2a37">104</text>
+<text x="190" y="326" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="18" fill="#1f2a37">2023</text>
+<text x="380" y="326" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="18" fill="#1f2a37">2024</text>
+<text x="286" y="352" text-anchor="middle" font-family="Heebo,Arial" font-size="14" fill="#5b6574">מכירות באלפי בקבוקים · כל משבצת = אלף בקבוקים</text>
+</svg></div>
+<div class="ev-side">
+<div class="ev-card"><b>📏 שאלה 1:</b> ספרו משבצות. העמודה של 2024 <b>נראית</b> גבוהה פי <span class="ev-fill"></span> מהעמודה של 2023.</div>
+<div class="ev-card"><b>🧮 שאלה 2:</b> המכירות עלו מ-100 אלף ל-104 אלף בקבוקים. כלומר, באמת הן עלו ב-<span class="ev-fill"></span> אחוזים בלבד.</div>
+<div class="ev-card"><b>🔎 שאלה לדף הראיות:</b> מאיזה מספר מתחיל הציר? איך הגרף היה נראה אילו הציר היה מתחיל ב-0?</div>
+</div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> התשובה לשאלה 1 ומיד אחריה התשובה לשאלה 2 (שתי ספרות ברצף).</div></div>
+</article>
+<article class="ev" id="ev3" style="--c:#8c7ae6;--cs:#efecfb;--ci:#6a55c9"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>3</span></div><div><span class="dept">💬 מחלקת הציטוטים</span><h3>קיר הציטוטים</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">על הקיר בחדר הזה תלויות 6 תמונות ציטוט שהמפעל הפיץ. בחלק מהן הציטוט אמיתי, ובחלק מישהו "הלביש" משפט שהמציא על שם של אדם מפורסם, כי שם מפורסם גורם לאנשים לשתף. מותר לחפש ברשת.</div>
+<div class="ev-quotes"><div class="ev-quote"><span class="ev-n">1</span><div class="who"><i>👨‍🚀</i><div><b>ניל ארמסטרונג</b><small>אסטרונאוט אמריקאי</small></div></div><q>זהו צעד קטן לאדם, צעד ענק לאנושות.</q><div class="meta"><span>🔁 21K שיתופים</span><span>📌 ציטוט 1</span></div></div><div class="ev-quote"><span class="ev-n">2</span><div class="who"><i>🎩</i><div><b>אברהם לינקולן</b><small>נשיא ארצות הברית</small></div></div><q>הבעיה עם ציטוטים באינטרנט היא שקשה לדעת אם הם אמיתיים.</q><div class="meta"><span>🔁 88K שיתופים</span><span>📌 ציטוט 2</span></div></div><div class="ev-quote"><span class="ev-n">3</span><div class="who"><i>📜</i><div><b>בנימין זאב הרצל</b><small>חוזה המדינה</small></div></div><q>אם תרצו, אין זו אגדה.</q><div class="meta"><span>🔁 15K שיתופים</span><span>📌 ציטוט 3</span></div></div><div class="ev-quote"><span class="ev-n">4</span><div class="who"><i>🧪</i><div><b>אלברט איינשטיין</b><small>מדען, פרס נובל לפיזיקה</small></div></div><q>מי שגולל בטיקטוק יותר משעה ביום מאבד את הדמיון שלו.</q><div class="meta"><span>🔁 130K שיתופים</span><span>📌 ציטוט 4</span></div></div><div class="ev-quote"><span class="ev-n">5</span><div class="who"><i>🎭</i><div><b>ויליאם שייקספיר</b><small>מחזאי ומשורר אנגלי</small></div></div><q>מי שמאמין לכל מה שהוא רואה בטלוויזיה חי בסרט.</q><div class="meta"><span>🔁 42K שיתופים</span><span>📌 ציטוט 5</span></div></div><div class="ev-quote"><span class="ev-n">6</span><div class="who"><i>✊</i><div><b>מרטין לותר קינג</b><small>מנהיג המאבק לזכויות האזרח בארה״ב</small></div></div><q>יש לי חלום.</q><div class="meta"><span>🔁 64K שיתופים</span><span>📌 ציטוט 6</span></div></div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של הציטוטים המזויפים, מהקטן לגדול. <span class="ev-note">בדיוק 3 ציטוטים מזויפים.</span></div></div>
+</article>
+<article class="ev" id="ev4" style="--c:#4c8bd6;--cs:#e7f0fa;--ci:#2f6db5"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>4</span></div><div><span class="dept">📰 מחלקת הכותרות</span><h3>מכונת הכותרות</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-article"><b>📄 הכתבה המקורית</b><span class="tag">בדיונית</span><br>בבית ספר בעיר הדמיונית "נווה חלב" בדקו 40 תלמידים. מי שישן לפחות 9 שעות בלילה שלפני המבחן קיבל בממוצע 3 נקודות יותר (מתוך 100). החוקרים כתבו שזו בדיקה קטנה, ושצריך עוד מחקרים כדי לדעת אם השינה היא הסיבה.</div>
+<div class="ev-story" style="margin-bottom:.6em">מכונת הכותרות של המפעל "שדרגה" את הכתבה ל-7 כותרות. רק חלק מהן מספרות מה באמת קרה. השאר הן קליקבייט: מסקרנות בלי לספר, מגזימות, מפחידות או מסיקות מסקנה שלא כתובה בכתבה.</div>
+<div class="ev-heads"><div class="ev-hl"><span class="ev-n">1</span><span class="t">לא תאמינו מה קרה לתלמידים שהלכו לישון מוקדם 😱</span><span class="lt">ק</span></div><div class="ev-hl"><span class="ev-n">2</span><span class="t">בדיקה ב-40 תלמידים: מי שישן 9 שעות קיבל בממוצע 3 נקודות יותר</span><span class="lt">א</span></div><div class="ev-hl"><span class="ev-n">3</span><span class="t">מדענים בהלם: שינה הופכת ילדים לגאונים!</span><span class="lt">ל</span></div><div class="ev-hl"><span class="ev-n">4</span><span class="t">שינה טובה לפני מבחן? בדיקה קטנה מצאה שיפור קטן בציון</span><span class="lt">מ</span></div><div class="ev-hl"><span class="ev-n">5</span><span class="t">הסוד שהמורים לא רוצים שתדעו</span><span class="lt">י</span></div><div class="ev-hl"><span class="ev-n">6</span><span class="t">סוף לשיעורי הבית: מעכשיו רק ישנים</span><span class="lt">ק</span></div><div class="ev-hl"><span class="ev-n">7</span><span class="t">חוקרים: ייתכן שיש קשר בין שינה לציונים, וצריך לבדוק עוד</span><span class="lt">ת</span></div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> לכל כותרת יש אות. כתבו את האותיות של כותרות הקליקבייט בלבד, מלמעלה למטה. יצאה לכם מילה.</div></div>
+</article>
+<article class="ev" id="ev5" style="--c:#2f9e80;--cs:#e4f4ee;--ci:#23826f"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>5</span></div><div><span class="dept">🌐 מחלקת האתרים</span><h3>אתר החדשות של המפעל</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">המפעל בנה אתר "חדשות" ופרסם בו ידיעה מבהילה. החוקרים צילמו את המסך וסימנו 8 תוויות. חלק מהתוויות הן סימני אזהרה של אתר מזויף. שאר התוויות לא מוכיחות כלום: הן לא אומרות שהאתר אמין, וגם לא שהוא מזויף.</div>
+<div class="ev-web">
+<div class="ev-browser">
+ <div class="ev-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ev-url">🔒 https://hadashot-emet24.news-il.info/shark</span><span class="ev-n">1</span><span class="ev-n">2</span></div>
+ <div class="ev-site">
+  <div class="ev-logo"><b>חדשות אמת 24</b><span class="ev-nav">ראשי · חדשות · ספורט · מזג אוויר · אודות <span class="ev-n">3</span></span></div>
+  <h4>בהלה בטיילת: כריש ענק נראה ליד החוף!</h4>
+  <div class="ev-by">✍️ מאת: מערכת האתר <span class="ev-n">4</span></div>
+  <figure class="ev-photo" style="margin:0;margin-top:.45em"><svg viewBox="0 0 300 150" aria-hidden="true"><defs><linearGradient id="evsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><figcaption>📷 צולם הבוקר בטיילת של העיר <span class="ev-n">5</span></figcaption></figure>
+  <div class="ev-foot"><span class="ev-likes">👍 12K לייקים <span class="ev-n">7</span></span><span style="display:flex;align-items:center;gap:.4em"><span class="ev-share">📢 שתפו עכשיו לפני שימחקו את זה!!!</span><span class="ev-n">8</span></span></div>
+ </div>
+</div>
+<div class="ev-side">
+ <div class="ev-lens"><div class="lh">🔍 חיפוש לפי תמונה (Google Lens) על התמונה של תווית 5</div>
+  <div class="res"><svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="evsea2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea2)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><div><b>מגזין "טבע וים"</b>14.3.2017 · "כריש לבן ליד חופי אוסטרליה"<br><small>אותה תמונה בדיוק</small></div></div>
+  <div class="res"><svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="evsea2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea2)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><div><b>בלוג צלילה</b>2018 · "התמונות הכי מפחידות מהים"<br><small>אותה תמונה בדיוק</small></div></div></div>
+ <div class="ev-about"><span class="ev-n">6</span> <b>לחצנו על "אודות":</b><br>🚧 "הדף בבנייה. נחזור בקרוב!" אין שמות של עורכים, אין כתובת ואין טלפון.</div>
+ <div class="ev-legend">💡 התוויות 1 ו-2 מסמנות שני דברים שונים בשורת הכתובת: 1 = שם האתר, 2 = סמל המנעול (https).</div>
+</div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של סימני האזהרה בלבד, מהקטן לגדול. <span class="ev-note">בדיוק 5 סימני אזהרה.</span></div></div>
+</article>
+<article class="ev" id="ev6" style="--c:#0f766e;--cs:#e3f1ee;--ci:#0b5c56"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>6</span></div><div><span class="dept">🔢 מחלקת המספרים</span><h3>הפרסומת המבריקה</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">החדר האחרון לפני היציאה. על הקיר תלויה פרסומת למסטיק בדיוני. המספרים בה נשמעים מרשימים, אבל ליד כל מספר יש כוכבית, ובתחתית יש אותיות קטנות. מי שקורא אותן מגלה מתוך כמה נבדקו באמת.</div>
+<div class="ev-ad">
+ <div class="brand"><span style="font-size:2.4em;line-height:1">🦷</span><div><b>מסטיק זוהר ✨</b><small>הלבנה, רעננות וחיוך של כוכבים</small></div></div>
+ <div class="ev-claims">
+  <div class="ev-claim"><span class="lab">טענה א</span><div class="big">9 מתוך 10<sup>*</sup></div><p>רופאי שיניים ממליצים על זוהר!</p></div>
+  <div class="ev-claim"><span class="lab">טענה ב</span><div class="big">100%<sup>**</sup></div><p>מהלקוחות מרוצים!</p></div>
+  <div class="ev-claim"><span class="lab">טענה ג</span><div class="big">מלבין פי 2<sup>***</sup></div><p>מוכח במחקר!</p></div>
+ </div>
+ <p class="ev-fine">* נשאלו 10 רופאי שיניים שעובדים בחברת זוהר. ** מתוך 4 לקוחות שענו לסקר באתר שלנו. *** מחקר שהחברה ערכה בעצמה על 6 שיניים, לעומת שיניים שלא צוחצחו בכלל. המחירים עשויים להשתנות. התמונות להמחשה בלבד. זוהר היא חברה בדיונית.</p>
+</div>
+<div class="ev-side" style="margin-top:.7em;grid-template-columns:1fr 1fr 1fr">
+ <div class="ev-card"><b>א:</b> מתוך כמה רופאים? <span class="ev-fill"></span></div>
+ <div class="ev-card"><b>ב:</b> מתוך כמה לקוחות? <span class="ev-fill"></span></div>
+ <div class="ev-card"><b>ג:</b> על כמה שיניים? <span class="ev-fill"></span></div>
+</div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> שלושת המספרים האמיתיים, לפי הסדר: טענה א, טענה ב, טענה ג (בלי רווחים).</div></div>
+</article>
+</div>
+<div class="remind" id="remind" hidden><span>📝 לפני שמקלידים קוד: רושמים בדף הראיות מה תפס אתכם</span><span>🃏 תקועים? ראש/ת הצוות מחליט/ה אם להשתמש בכרטיס רמז</span><span>🔴 בלי AI. חיפוש ברשת מותר</span></div>
+</main>
+<script>
+(()=>{const keys={'4qz':1,'8tm':2,'2rw':3,'9hc':4,'5vn':5,'7jd':6};
+function show(){const m=(location.hash.match(/k=([\w-]+)/)||[])[1]||'';const all=m==='ff-all';const n=keys[m]||0;
+ document.getElementById('cover').style.display=(n||all)?'none':'';document.getElementById('remind').hidden=!(n||all);
+ document.querySelectorAll('article.ev').forEach((a,i)=>a.classList.toggle('show',all||i+1===n));
+ document.querySelectorAll('#dots i').forEach((d,i)=>{d.className=all?'done':(i+1===n?'on':(i+1<n?'done':''))});
+ window.scrollTo(0,0)}
+window.addEventListener('hashchange',show);show()})();
+</script>
+</body>
+</html>

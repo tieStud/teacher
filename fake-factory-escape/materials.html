@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · חדר בריחה: מפעל הזיופים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+
+/* ===== evidence panels (shared: room.html + materials.html). Size scales with the container font-size. ===== */
+.ev{--c:#0f766e;--cs:#e3f1ee;--ci:#0b5c56;color:#1f2a37;font-family:"Heebo",Arial,sans-serif;line-height:1.45}
+.ev *{box-sizing:border-box}
+.ev h3,.ev h4,.ev p{margin:0}
+.ev-head{display:flex;align-items:center;gap:.8em;margin-bottom:.8em}
+.ev-lock{flex:none;width:3.2em;height:3.2em;border-radius:.9em;display:grid;place-items:center;background:var(--c);color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.05em;line-height:1;text-align:center;box-shadow:0 .25em .7em color-mix(in srgb,var(--c) 30%,transparent)}
+.ev-lock small{display:block;font-size:.55em;font-weight:600;opacity:.9;margin-bottom:.1em}
+.ev-head .dept{display:inline-block;font-family:"Rubik",Arial,sans-serif;font-weight:700;font-size:.8em;color:var(--ci);background:var(--cs);border-radius:999px;padding:.12em .8em;margin-bottom:.2em}
+.ev-head h3{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.6em;line-height:1.1;letter-spacing:-.01em}
+.ev-stamp{margin-inline-start:auto;flex:none;transform:rotate(-8deg);border:.15em solid #be3455;color:#be3455;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.85em;padding:.15em .6em;border-radius:.35em;letter-spacing:.06em;opacity:.85}
+.ev-story{background:#f8f6f1;border:1px solid #e7e3dc;border-inline-start:.3em solid var(--c);border-radius:.7em;padding:.6em .9em;margin-bottom:.8em;font-size:.98em}
+.ev-key{margin-top:.8em;border:1.5px dashed var(--c);border-radius:.8em;padding:.6em .9em;background:color-mix(in srgb,var(--c) 6%,#fff);display:flex;gap:.7em;align-items:flex-start}
+.ev-key .k{flex:none;font-size:1.5em;line-height:1}
+.ev-key b{font-family:"Rubik",Arial,sans-serif;color:var(--ci)}
+.ev-note{font-size:.8em;color:#5b6574;margin-top:.4em}
+.ev-n{display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:#1f2a37;color:#fff;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.85em;line-height:1;flex:none}
+/* lock 1: zoom cards */
+.ev-post{display:flex;gap:.8em;align-items:center;border:1px solid #e7e3dc;border-radius:.8em;padding:.5em .8em;margin-bottom:.7em;background:#fff}
+.ev-post .av{width:2.4em;height:2.4em;border-radius:50%;background:#fdf0e3;display:grid;place-items:center;font-size:1.2em;flex:none}
+.ev-post b{font-family:"Rubik",Arial,sans-serif}
+.ev-post small{color:#8a93a1;display:block;font-size:.78em}
+.ev-zooms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6em}
+.ev-zoom{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;overflow:hidden;position:relative}
+.ev-zoom svg{display:block;width:100%;height:auto;background:#f4f1ea}
+.ev-zoom p{font-size:.8em;padding:.35em .55em;border-top:1px solid #efebe4;line-height:1.3}
+.ev-zoom .ev-n{position:absolute;top:.35em;right:.35em;box-shadow:0 0 0 .15em #fff}
+/* lock 2: chart */
+.ev-chartwrap{display:grid;grid-template-columns:1.35fr 1fr;gap:.8em;align-items:start}
+.ev-chart{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.5em}
+.ev-chart svg{display:block;width:100%;height:auto}
+.ev-side{display:grid;gap:.6em}
+.ev-card{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .8em;font-size:.92em}
+.ev-card b{font-family:"Rubik",Arial,sans-serif}
+.ev-fill{display:inline-block;min-width:2.6em;border-bottom:1.5px solid #1f2a37;height:1.1em;vertical-align:bottom;margin:0 .2em}
+/* lock 3: quotes */
+.ev-quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6em}
+.ev-quote{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .7em .55em;position:relative;display:flex;flex-direction:column;gap:.35em}
+.ev-quote .who{display:flex;gap:.5em;align-items:center}
+.ev-quote .who i{font-style:normal;width:2.1em;height:2.1em;border-radius:50%;display:grid;place-items:center;background:#efecfb;font-size:1.05em;flex:none}
+.ev-quote .who b{font-family:"Rubik",Arial,sans-serif;display:block;font-size:.95em;line-height:1.15}
+.ev-quote .who small{display:block;color:#8a93a1;font-size:.72em;line-height:1.2}
+.ev-quote q{font-size:.98em;font-weight:500;quotes:"״" "״";line-height:1.35}
+.ev-quote .meta{margin-top:auto;font-size:.72em;color:#8a93a1;display:flex;justify-content:space-between}
+.ev-quote .ev-n{position:absolute;top:-.55em;left:-.45em}
+/* lock 4: headlines */
+.ev-article{border:1px solid #e7e3dc;border-radius:.8em;background:#fff;padding:.6em .9em;margin-bottom:.7em;font-size:.95em}
+.ev-article .tag{font-size:.75em;font-weight:700;color:#a16207;background:#fdf3d7;border-radius:999px;padding:.05em .6em;margin-inline-start:.4em}
+.ev-heads{display:grid;gap:.42em}
+.ev-hl{display:flex;align-items:center;gap:.7em;border:1px solid #e7e3dc;border-radius:.7em;background:#fff;padding:.42em .7em}
+.ev-hl .t{flex:1;font-family:"Rubik",Arial,sans-serif;font-weight:600;font-size:1.02em;line-height:1.3}
+.ev-hl .lt{flex:none;width:2em;height:2em;border-radius:.5em;border:1.5px solid #1f2a37;display:grid;place-items:center;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1em;background:#fdfcf9}
+/* lock 5: website */
+.ev-web{display:grid;grid-template-columns:1.55fr 1fr;gap:.8em;align-items:start}
+.ev-browser{border:1px solid #cfd6d9;border-radius:.8em;overflow:hidden;background:#fff;box-shadow:0 .3em 1em rgba(31,42,55,.06)}
+.ev-bar{display:flex;align-items:center;gap:.5em;background:#eef1f3;padding:.45em .6em;border-bottom:1px solid #dfe4e7}
+.ev-bar .dots{display:flex;gap:.25em;flex:none;direction:ltr}.ev-bar .dots i{width:.6em;height:.6em;border-radius:50%;background:#cfd6d9;display:block}
+.ev-url{flex:1;min-width:0;display:flex;align-items:center;gap:.4em;background:#fff;border-radius:999px;padding:.2em .7em;font-size:.82em;direction:ltr;font-family:ui-monospace,Menlo,Consolas,monospace;color:#3b4552;white-space:nowrap;overflow:hidden}
+.ev-site{padding:.6em .8em .7em}
+.ev-logo{display:flex;align-items:center;justify-content:space-between;gap:.5em;border-bottom:2px solid #c2410c;padding-bottom:.35em}
+.ev-logo b{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.15em;color:#c2410c}
+.ev-nav{display:flex;gap:.7em;font-size:.78em;color:#5b6574;font-weight:700;align-items:center;flex-wrap:wrap}
+.ev-site h4{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.25em;line-height:1.15;margin:.45em 0 .25em}
+.ev-by{font-size:.78em;color:#5b6574;display:flex;align-items:center;gap:.4em}
+.ev-photo{margin-top:.45em;border-radius:.5em;overflow:hidden;border:1px solid #e7e3dc;position:relative}
+.ev-photo svg{display:block;width:100%;height:auto}
+.ev-photo figcaption{font-size:.75em;color:#5b6574;padding:.2em .5em;background:#f4f1ea;display:flex;gap:.4em;align-items:center}
+.ev-foot{display:flex;align-items:center;justify-content:space-between;gap:.5em;margin-top:.5em;flex-wrap:wrap}
+.ev-share{background:#c2410c;color:#fff;font-weight:800;border-radius:.5em;padding:.3em .7em;font-size:.82em}
+.ev-likes{font-size:.82em;color:#5b6574;font-weight:700;display:flex;gap:.35em;align-items:center}
+.ev-lens{border:1px solid #d6e2f3;border-radius:.8em;background:#fff;overflow:hidden}
+.ev-lens .lh{background:#e7f0fa;color:#2f6db5;font-family:"Rubik",Arial,sans-serif;font-weight:700;font-size:.9em;padding:.4em .7em}
+.ev-lens .res{display:flex;gap:.55em;padding:.5em .7em;border-top:1px solid #edf2f8;font-size:.8em;align-items:center}
+.ev-lens .res svg{width:3.6em;height:2.4em;border-radius:.3em;flex:none}
+.ev-lens .res b{display:block;font-family:"Rubik",Arial,sans-serif;font-size:1.05em;color:#2f6db5}
+.ev-lens .res small{color:#8a93a1}
+.ev-about{border:1px dashed #cfc8bc;border-radius:.8em;background:#fdfcf9;padding:.55em .7em;font-size:.85em}
+.ev-legend{font-size:.8em;color:#5b6574;border:1px solid #e7e3dc;border-radius:.8em;padding:.5em .7em;background:#fff}
+/* lock 6: ad */
+.ev-ad{border-radius:1em;overflow:hidden;border:1px solid #e7e3dc;background:linear-gradient(160deg,#e9f6ff,#fff 55%,#fff6ec);padding:.9em 1.1em;position:relative}
+.ev-ad .brand{display:flex;align-items:center;gap:.6em}
+.ev-ad .brand b{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.9em;color:#2f6db5;line-height:1}
+.ev-ad .brand small{display:block;color:#5b6574;font-size:.85em}
+.ev-claims{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6em;margin-top:.8em}
+.ev-claim{background:#fff;border:1px solid #d6e2f3;border-radius:.9em;padding:.7em .7em .6em;text-align:center}
+.ev-claim .big{font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:1.65em;line-height:1.05;color:#1f2a37}
+.ev-claim .big sup{color:#be3455;font-size:.6em}
+.ev-claim p{font-size:.85em;color:#5b6574;margin-top:.2em}
+.ev-claim .lab{display:inline-block;font-family:"Rubik",Arial,sans-serif;font-weight:800;font-size:.75em;background:#1f2a37;color:#fff;border-radius:.4em;padding:.05em .5em;margin-bottom:.35em}
+.ev-fine{margin-top:.8em;font-size:.62em;color:#7b8491;line-height:1.5;border-top:1px solid #e7e3dc;padding-top:.45em}
+.ev-train{margin-top:.8em;border:1px solid #d6e2f3;background:#f4f8fd;border-radius:.8em;padding:.55em .8em;font-size:.88em}
+.ev-train a{color:#2f6db5;font-weight:700}
+/* ===== מפעל הזיופים — materials additions ===== */
+table.evt td{height:21mm}table.evt tr.cp td{height:auto;background:var(--paper);font-size:9.4pt;padding:2.2mm}
+.lt6{display:inline-flex;gap:1.6mm;vertical-align:middle;margin-inline-start:2mm}.lt6 i{width:8mm;height:8mm;border:1.3px solid var(--ink);border-radius:1.5mm;display:inline-block}
+.evp{font-size:8.7pt;flex:1;display:flex;flex-direction:column}
+.evp .ev{flex:1}
+.evp .ev-zoom p{font-size:.86em}
+.evtag{display:flex;justify-content:space-between;align-items:center;font-size:8.6pt;color:var(--muted);margin-bottom:2.5mm}
+.evtag b{font-family:var(--display);color:var(--ink)}
+.hintg{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.hc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4mm;text-align:center;background:linear-gradient(160deg,#fff,#fdf3d7);padding:4mm}
+.hc .em{font-size:26pt;line-height:1}.hc b{font-family:var(--display);font-weight:800;font-size:16pt}
+.hc .cost{font-family:var(--display);font-weight:800;font-size:15pt;color:var(--bad)}.hc small{color:var(--muted);font-size:8.8pt;max-width:70mm}
+.hc .tm{font-size:8.6pt;color:var(--muted);margin-top:1mm}
+.letg{grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,30mm)}
+.lc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6mm}
+.lc small{font-size:8pt;color:var(--muted);font-weight:700}.lc b{font-family:var(--display);font-weight:800;font-size:34pt;line-height:1}
+table.sol{font-size:8.4pt}table.sol td{padding:1.6mm 1.8mm;line-height:1.35}
+table.plan td{height:17.5mm}
+.voteg{grid-template-columns:1fr 1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.vs{padding:4mm;display:flex;flex-direction:column;gap:1.8mm;font-size:9.6pt}
+.vs b{font-family:var(--display);font-weight:800;font-size:12pt}.vs small{margin-top:auto;color:var(--muted);font-size:8.6pt}
+.vs .fill.l{min-width:38mm}.vs .fill.xl{min-width:50mm;display:block;margin-top:1mm}
+.vs.fb{background:#fdfcf9}
+table.sc2 td{height:11mm;font-size:9pt}td.lk6{letter-spacing:.5mm;font-size:10pt;white-space:nowrap}
+.certs{flex:1;display:grid;grid-template-rows:1fr 1fr;border-top:1.2px dashed var(--cut)}
+.cert{padding:5mm 2mm;border-bottom:1.2px dashed var(--cut);display:flex}
+.cin{flex:1;border:2.5px solid #e3a82b;outline:1px solid #e3a82b;outline-offset:-5mm;border-radius:4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;padding:8mm 12mm;background:radial-gradient(circle at 50% 0,#fff8e6,#fff 60%)}
+.cin .cem{font-size:34pt;line-height:1}.cin small{color:var(--muted);font-size:9pt;font-weight:700}
+.cin h3{font-family:var(--display);font-weight:800;font-size:26pt;color:#8a5300;line-height:1.1}
+.cin p{font-size:11pt;line-height:1.5}.cname{width:110mm;border-bottom:1.6px solid var(--ink);height:12mm}
+.csign{display:flex;gap:16mm;font-size:9.6pt;color:var(--muted);margin-top:2mm}
+.door{flex:1;border:3mm solid #3b4552;border-radius:8mm 8mm 3mm 3mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;text-align:center;background:repeating-linear-gradient(0deg,#f4f1ea 0 2px,#fbfaf7 2px 28mm);position:relative;padding:10mm}
+.dlamp{position:absolute;top:8mm;width:26mm;height:12mm;border-radius:12mm 12mm 2mm 2mm;background:#e76f86}
+.dem{font-size:70pt;line-height:1;margin-top:10mm}
+.door h3{font-family:var(--display);font-weight:800;font-size:54pt;line-height:1;color:var(--ink)}
+.dsub{font-family:var(--display);font-weight:800;font-size:22pt;color:var(--bad)}
+.dtape{width:calc(100% + 20mm);background:repeating-linear-gradient(-45deg,#f4c542 0 10mm,#1f2a37 10mm 20mm);color:#fff;font-family:var(--display);font-weight:800;font-size:13pt;padding:3mm 0;text-shadow:0 0 3px #1f2a37}
+.dlocks{display:flex;gap:4mm}.dlocks span{width:20mm;height:20mm;border-radius:5mm;border:1.5px solid var(--line2);background:#fff;display:grid;place-items:center;font-size:24pt}
+.dnote{font-size:14pt;color:var(--muted);font-weight:700}
+#p-print table.tb{font-size:8.8pt}#p-print table.tb td,#p-print table.tb th{padding:1.2mm 2mm}
+#p-print .check{gap:.6mm}#p-print .box{padding:2.8mm 3.5mm}
+table.sc2 td{height:9.5mm}
+#p-ev1 .evp{font-size:11.6pt}#p-ev2 .evp{font-size:12.4pt}#p-ev3 .evp{font-size:12.6pt}#p-ev4 .evp{font-size:12.8pt}#p-ev5 .evp{font-size:11.4pt}#p-ev6 .evp{font-size:13.6pt}
+#p-ev2 .ev-chartwrap,#p-ev5 .ev-web{grid-template-columns:1fr}
+#p-ev2 .ev-side{grid-template-columns:1fr 1fr 1fr}
+#p-ev5 .ev-web>.ev-side{grid-template-columns:1.2fr 1fr}#p-ev5 .ev-web>.ev-side .ev-legend{grid-column:1/-1}
+#p-ev5 .ev-photo svg{max-height:62mm;object-fit:cover}
+#p-ev3 .evp{font-size:14.2pt}#p-ev3 .ev-quotes{grid-template-columns:1fr 1fr;gap:.7em .8em}
+#p-ev4 .evp{font-size:14pt}#p-ev4 .ev-heads{gap:.55em}
+#p-ev6 .evp{font-size:15.5pt}#p-ev2 .evp{font-size:13pt}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · מפעל הזיופים<small>חדר בריחה · 90 דקות · חשיבה ביקורתית</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 0. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>חדר בריחה: מפעל הזיופים · חומרים להדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-6 צוותים. כיתה אחרת: לפי מספר הצוותים. "צבע" = עדיף בצבע, אבל הכול קריא גם בשחור-לבן.</p></div>
+  <table class="tb">
+    <thead><tr><th style="width:13mm">עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה (חוקים, ניקוד, תפקידים, 3 רמות)</td><td>1 לצוות (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3–4</td><td>כרטיסי תפקיד, רמזור AI ונורמות</td><td>1 סט לצוות (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>5</td><td>דף הראיות</td><td>1 לצוות + 2 רזרבה (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6–11</td><td>תיק הראיות: 6 חדרים (גיבוי לטאבלט, וחובה בגרסת הנייר)</td><td>סט אחד לכל צוות בגרסת נייר; אחרת 2 סטים לכיתה</td><td>רגיל, צבע</td><td>לא</td></tr>
+      <tr><td>12</td><td>כרטיסי רמז</td><td>2 לצוות: עמוד אחד ל-4 צוותים</td><td>בריסטול צהוב, אם יש</td><td>כן</td></tr>
+      <tr><td>13</td><td>כרטיסי אותיות + דף שומר/ת הכספת (גרסת נייר)</td><td>עמוד אחד ל-4 צוותים</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>14</td><td>פתרונות ורמזים</td><td>1 (למדריך בלבד)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>דף תכנון מדריך השטח (גם גרסת A3 לבלי מחשבים)</td><td>1 לצוות (6)</td><td>רגיל / A3</td><td>לא</td></tr>
+      <tr><td>16</td><td>מחוון עם הערכה עצמית</td><td>1 לצוות + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>17</td><td>פתקי הצבעה ומשוב לגלריה</td><td>2 עמודים (24 פתקים)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>18</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>19</td><td>כרטיסי יציאה</td><td>7 עמודים (28 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>20</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>21–22</td><td>תעודות: 4 פרסים</td><td>1 מכל עמוד (+ רזרבה לתיקו)</td><td>בריסטול</td><td>כן, לחצי</td></tr>
+      <tr><td>23</td><td>שלט לדלת הכיתה: "מפעל הזיופים"</td><td>1</td><td>רגיל, צבע</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 במעטפה של כל צוות</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד, רמזור AI ונורמות</li><li>כרטיס משימה ודף ראיות</li><li>2 כרטיסי רמז (צהובים)</li><li>דף תכנון מדריך + מחוון</li><li>2 עטים, טושים, פתקים דביקים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>דף פתרונות ורמזים (מקופל, הפנים למטה)</li><li>דף ניקוד ועט, קופסה לכרטיסי רמז שנמסרו</li><li>פתקי הצבעה, כרטיסי יציאה ורצועות AI</li><li>4 תעודות + פרסים קטנים</li><li>סלוטייפ/דבק לתליית המדריכים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>✉️ גרסת נייר (בלי מכשירים)</h3><p>לכל צוות 7 מעטפות ממוספרות: במעטפות 1–6 העמוד המתאים מתיק הראיות (עמודים 6–11), ובמעטפה 7 דף "דלת היציאה" (כרטיס האותיות). המדריך או תלמיד/ה עוזר/ת הם "שומר/ת הכספת": מקבלים קוד בלחישה, ונותנים את המעטפה הבאה ואות אחת.</p></div>
+</section>
+
+<!-- ===================== 1. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔐 חדר בריחה · 90 דקות</span><h2>הבריחה <span>מהמפעל</span></h2></div><p>במרתף של העיר פועל מפעל שמייצר כל יום תמונות, גרפים וציטוטים מזויפים. נכנסתם לחקור, והדלתות ננעלו. כדי לצאת צריך לפרוץ 6 מנעולים, וכל מנעול נפתח רק למי שמזהה את הזיוף. מי שיוצא מקבל משימה אחרונה: מדריך שטח שיגן על העיר.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean">
+      <li>המנעולים נפתחים לפי הסדר. אי אפשר לדלג.</li>
+      <li>2 כרטיסי רמז לצוות. כל רמז עולה 3 נקודות.</li>
+      <li>אסור לחשוף תשובות לצוות אחר. צוות שחושף מאבד את בונוס הזמן.</li>
+      <li>כל תשובה נכונה נרשמת בדף הראיות, עם "מה תפס אותנו", לפני שממשיכים.</li>
+      <li>זמן הבריחה = הרגע שבו הטופס נשלח.</li>
+      <li>המדריך מוגש גם אם לא כל המנעולים נפתחו.</li>
+      <li>🔴 בחדר: בלי AI. חיפוש ברשת מותר. 🟡 במדריך: AI לניסוח בלבד.</li></ol></div>
+    <div class="box"><h3>🏆 הניקוד (ידוע מראש)</h3>
+      <table class="tb"><tbody>
+        <tr><td>🔓 כל מנעול שנפתח</td><td style="width:30mm"><b>4</b> (עד 24)</td></tr>
+        <tr><td>🚪 בריחה מלאה בזמן</td><td><b>5 + 1</b> לכל דקה שנשארה (עד 10)</td></tr>
+        <tr><td>🃏 כל כרטיס רמז</td><td><b>‎−3</b></td></tr>
+        <tr><td>🛡️ מדריך: 6 סימנים + שאלה לכל סימן</td><td><b>6</b></td></tr>
+        <tr><td>📊 מחוון המדריך (4 × 1–4)</td><td>עד <b>16</b></td></tr>
+        <tr><td>🗳️ הצבעת הגלריה, מקום 1/2/3</td><td><b>5 / 3 / 2</b></td></tr>
+      </tbody></table>
+      <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">תיקו: זמן הבריחה המהיר, ואז פחות רמזים. פרסים: 🏆 הבורחים הגדולים · ⏱️ הבריחה המהירה · 🛡️ המדריך הכי שימושי · 🧠 בלי רמזים בכלל.</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:36mm"><b>🕵️ ראש/ת הצוות</b></td><td>מחזיק/ה את טופס החדר ומקליד/ה קודים. מחליט/ה מתי לוקחים רמז. שומר/ת על הזמן, ורק הוא/היא קורא/ת למדריך.</td></tr>
+      <tr><td><b>🔎 חוקר/ת תמונות</b></td><td>מנעולים 1 ו-5: זומים, צללים, טקסט, חיפוש לפי תמונה. Odd One Out לאימון.</td></tr>
+      <tr><td><b>📊 חוקר/ת מספרים</b></td><td>מנעולים 2 ו-6: הציר, היחידות, האותיות הקטנות, "מתוך כמה?". עוזר/ת בחיפוש תאריכים במנעול 3.</td></tr>
+      <tr><td><b>📝 רשם/ת הראיות</b></td><td>ממלא/ת את דף הראיות אחרי כל מנעול: מה הזיוף, מה תפס אותנו, הקוד והאות.</td></tr>
+      <tr><td><b>🎨 מעצב/ת המדריך</b></td><td>מוביל/ה את מנעול 4 (כותרות). אחרי הבריחה בונה את המדריך, מגיש/ה ומציג/ה בגלריה.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">היעד: 4 מנעולים. מותר להיעזר בכרטיס "6 המחלקות" בדף הראיות. מדריך עם 4 סימנים ושאלה לכל אחד.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">6 מנעולים ודלת היציאה. מדריך עם 6 סימנים, 6 שאלות ודוגמה שלכם.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">בריחה בלי אף רמז, ובמדריך סימן שביעי (זיוף שלא היה בחדר) עם שאלת בדיקה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · כרטיסי תפקיד</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. בצוות של 4: רשם/ת הראיות לוקח/ת גם את עיצוב המדריך. בצוות של 6: שני חוקרי מספרים.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🕵️</span><div><b>ראש/ת הצוות</b><small>המפתח והשעון</small></div></div>
+      <p class="mis">המשימה שלי: שהצוות מתקדם, שכולם חושבים, ושאנחנו מחליטים יחד מתי מקלידים ומתי לוקחים רמז.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מחזיק/ה את טופס החדר במכשיר שלי ומקליד/ה קודים.</li><li>לפני הקלדה: "כולם מסכימים? רשמנו בדף?"</li><li>שומר/ת על הזמן: "עוד 5 דקות לחלק א".</li><li>מחליט/ה עם הצוות על כרטיס רמז, ומוסר/ת אותו למדריך.</li><li><b>רק אני</b> קורא/ת למדריך.</li></ul>
+      <div class="say">💬 "מה כל אחד חושב?" · "רשמנו? אז מקלידים." · "4 דקות תקועים, לוקחים רמז?"</div>
+      <p class="no">✗ לא מקליד/ה ניחושים בלי הצוות, ולא מרענן/ת את הטופס.</p>
+      <p class="bonus">✓ הצלחתי כש: כל מנעול נפתח אחרי שכולם הבינו למה</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">🔎</span><div><b>חוקר/ת תמונות</b><small>העיניים של הצוות</small></div></div>
+      <p class="mis">המשימה שלי: לתפוס את מה שהעין הרגילה מפספסת בתמונות ובאתרים.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מוביל/ה את מנעול 1 (תמונה) ומנעול 5 (אתר).</li><li>בודק/ת ידיים, טקסט, צללים ופרטים "נמסים".</li><li>יודע/ת לעשות חיפוש לפי תמונה (Google Lens).</li><li>חדר אימונים: סבב ב-Odd One Out לפני מנעול 1.</li></ul>
+      <div class="say">💬 "בואו נגדיל." · "לאן נופל הצל?" · "איפה עוד מופיעה התמונה הזאת?"</div>
+      <p class="no">✗ לא מחליט/ה "זה AI" רק כי זה נראה מוזר. מחפש/ת סימן.</p>
+      <p class="bonus">✓ הצלחתי כש: הסברתי לצוות בדיוק מה הסגיר את הזיוף</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">📊</span><div><b>חוקר/ת מספרים</b><small>הסרגל והמחשבון</small></div></div>
+      <p class="mis">המשימה שלי: שאף מספר לא יעבוד עלינו: לא גרף, לא אחוז ולא "9 מתוך 10".</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מוביל/ה את מנעול 2 (גרף) ומנעול 6 (פרסומת).</li><li>בודק/ת מאיפה מתחיל הציר ומה היחידות.</li><li>קורא/ת את האותיות הקטנות: מתוך כמה? מי שאל?</li><li>במנעול 3: מחפש/ת מתי חי כל אדם.</li></ul>
+      <div class="say">💬 "מאיפה מתחיל הציר?" · "מתוך כמה?" · "מי ערך את המחקר?"</div>
+      <p class="no">✗ לא מקבל/ת מספר בלי לבדוק את המקור שלו.</p>
+      <p class="bonus">✓ הצלחתי כש: מצאתי את המספר האמיתי שהסתתר</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">📝</span><div><b>רשם/ת הראיות</b><small>הזיכרון של החקירה</small></div></div>
+      <p class="mis">המשימה שלי: שכל מה שגילינו יישמר, כי ממנו נבנה מדריך השטח.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>אחרי כל מנעול: מה הזיוף, מה תפס אותנו, קוד, אות, רמז?</li><li>שואל/ת את הצוות: "איך תסבירו את זה לילד בכיתה ד׳?"</li><li>מציג/ה את הדף בחדר הבקרה.</li><li>הדף הוא גם גיבוי: אם הטופס נסגר, מקלידים מחדש מהדף.</li></ul>
+      <div class="say">💬 "רגע, לפני שממשיכים: מה תפס אותנו?" · "במילים שלנו."</div>
+      <p class="no">✗ לא כותב/ת "זה היה מזויף". כותב/ת <b>למה</b>.</p>
+      <p class="bonus">✓ הצלחתי כש: כל שורה בדף אפשר להפוך לסימן במדריך</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLE CARDS 2 ===================== -->
+<section class="page" id="p-roles2" data-label="מעצב/ת, רמזור ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · כרטיסי תפקיד, המשך</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס התפקיד החמישי, כרטיס חלוקת המכשירים, רמזור ה-AI ונורמות הצוות.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🎨</span><div><b>מעצב/ת המדריך</b><small>הקול של הצוות בעיר</small></div></div>
+      <p class="mis">המשימה שלי: להפוך את דף הראיות למדריך שכל אחד מבין ב-30 שניות.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>בחדר: מוביל/ה את מנעול 4 (כותרות).</li><li>אחרי הבריחה: בונה את המדריך ב-Canva או ב-Google Drawings.</li><li>אחראי/ת על שורת ה-AI: מה ה-AI עשה, מה אנחנו עשינו.</li><li>מגיש/ה בטופס עם שם הקובץ הנכון, ומציג/ה בגלריה.</li></ul>
+      <div class="say">💬 "זה נכנס בשורה אחת?" · "איזה אייקון יגיד את זה בלי מילים?"</div>
+      <p class="no">✗ לא מעתיק/ה סימנים מ-AI. הסימנים מגיעים מדף הראיות.</p>
+      <p class="bonus">✓ הצלחתי כש: מישהו מצוות אחר הבין את המדריך בלי הסבר</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">📱</span><div><b>חלוקת המכשירים</b><small>3 מכשירים, טופס אחד</small></div></div>
+      <ul style="font-size:10pt;display:grid;gap:1.6mm"><li><b>מכשיר 1 · ראש/ת הצוות:</b> טופס החדר. רק כאן מקלידים קודים. לא מרעננים!</li><li><b>מכשיר 2 · החוקרים:</b> תיק הראיות (הקישור שבתוך כל מנעול).</li><li><b>מכשיר 3 · בדיקות:</b> חיפוש ברשת, חיפוש לפי תמונה, Odd One Out.</li><li><b>נתקע הטופס?</b> פותחים מחדש ומקלידים את הקודים מדף הראיות.</li></ul>
+      <p class="bonus">🤫 קוד שנאמר בקול נשמע בכל הכיתה. מדברים בשקט.</p>
+    </article>
+    <article class="role" style="--c:#e3a82b;--cs:#fdf3d7">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בכל שקף עבודה</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 חדר הבריחה: בלי AI</b>פותרים לבד. חיפוש רגיל ברשת וחיפוש לפי תמונה מותרים.</div>
+        <div class="y"><b>🟡 מדריך השטח: AI לניסוח</b>מותר לבקש מ-Gemini לקצר ניסוח. הסימנים והדוגמה שלכם.</div>
+        <div class="r"><b>🔴 כרטיס יציאה: בלי AI</b>במילים שלכם.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ פרטיות: לא כותבים פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות הצוות</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל הצוות סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמקלידים קוד, כל אחד אומר מה הוא חושב.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את הצוות לפני שקוראים למדריך, ורק ראש/ת הצוות קורא/ת.</li>
+      </ol>
+      <p class="bonus">🔐 ומה שקורה בחדר נשאר בחדר: לא מגלים קודים</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. EVIDENCE SHEET ===================== -->
+<section class="page" id="p-evidence" data-label="דף הראיות">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · דף הראיות</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📝 רשם/ת הראיות · 🔴 בלי AI</span><h2>דף <span>הראיות</span></h2></div><p>אחרי כל מנעול שנפתח, ולפני שממשיכים: מה הזיוף, מה תפס אתכם (הסימן, במילים שלכם), הקוד והאות. הדף מוצג בחדר הבקרה, ומשמש גיבוי לקודים.</p></div>
+  <table class="tb evt">
+    <thead><tr><th style="width:15mm">מנעול</th><th style="width:34mm">מה הזיוף?</th><th>מה תפס אותנו? (הסימן)</th><th style="width:20mm">הקוד</th><th style="width:11mm">אות</th><th style="width:13mm">רמז?</th></tr></thead>
+    <tbody>
+      <tr><td><b>🖼️ 1</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+      <tr><td><b>📊 2</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+      <tr><td><b>💬 3</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+      <tr class="cp"><td colspan="6">🖥️ <b>חדר הבקרה</b> · מראים את הדף למדריך · חתימת המדריך: <span class="fill"></span> · מנעולים פתוחים: <span class="fill s"></span></td></tr>
+      <tr><td><b>📰 4</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+      <tr><td><b>🌐 5</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+      <tr><td><b>🔢 6</b></td><td></td><td></td><td></td><td></td><td>☐</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🚪 דלת היציאה</h3><p>6 האותיות שקיבלנו: <span class="lt6"><i></i><i></i><i></i><i></i><i></i><i></i></span></p><p style="margin-top:2mm">מילת היציאה: <span class="fill l"></span></p><p style="margin-top:2mm">שעת שליחת הטופס: <span class="fill"></span> · רמזים שנוצלו: <span class="fill s"></span></p></div>
+    <div class="box soft"><h3>🗺️ כרטיס "6 המחלקות" (עזר)</h3><ul class="clean" style="font-size:9.2pt"><li>🖼️ <b>תמונות:</b> ידיים, טקסט, צללים, פרטים נמסים, מקור התמונה.</li><li>📊 <b>גרפים:</b> מאיפה מתחיל הציר? מה היחידות?</li><li>💬 <b>ציטוטים:</b> מתי חי האדם? איפה ומתי זה נאמר?</li><li>📰 <b>כותרות:</b> האם הכותרת מספרת מה קרה, או רק מסקרנת?</li><li>🌐 <b>אתרים:</b> כתובת, "אודות", כותב, תאריך, חיפוש לפי תמונה.</li><li>🔢 <b>מספרים:</b> מתוך כמה? מי שאל? מה כתוב באותיות הקטנות?</li></ul></div>
+  </div>
+</section>
+
+<section class="page" id="p-ev1" data-label="תיק ראיות 1">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 1 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 1</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev1" style="--c:#e76f86;--cs:#fce9ed;--ci:#be3455"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>1</span></div><div><span class="dept">🖼️ מחלקת התמונות</span><h3>התמונה הוויראלית</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">המפעל הפיץ הבוקר "צילום מהטיילת": ילדה מנופפת לשלום ליד דוכן גלידה. בתוך שעה הוא שותף 48 אלף פעמים. החוקרים הגדילו 8 פרטים מהתמונה. חלק מהפרטים נראים כמו בכל צילום רגיל, וחלק הם סימנים שהתמונה נוצרה ב-AI.</div>
+<div class="ev-post"><span class="av">📸</span><div><b>"תראו מה צילמתי היום בטיילת! 😍🍦"</b><small>שותף 48K פעמים · לפני שעה</small></div></div>
+<div class="ev-zooms"><div class="ev-zoom"><span class="ev-n">1</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><ellipse cx="88" cy="24" rx="17" ry="7" fill="#fff"/><ellipse cx="78" cy="20" rx="10" ry="7" fill="#fff"/><path d="M32 52 q12 -16 26 -2 q13 -14 26 2" fill="none" stroke="#3b4552" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect y="74" width="120" height="16" fill="#9cc9e8"/></svg><p>זום 1: שחף בשמיים</p></div><div class="ev-zoom"><span class="ev-n">2</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fdf0e3"/><rect x="44" y="50" width="34" height="30" rx="11" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="44" y="24" width="6.5" height="32" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="51" y="19" width="6.5" height="36" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="58" y="17" width="6.5" height="38" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="65" y="19" width="6.5" height="36" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="72" y="24" width="6.5" height="32" rx="3.2" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="80" y="46" width="7" height="22" rx="3.5" transform="rotate(38 83 57)" fill="#f2c4a0" stroke="#b9825d" stroke-width="1.4"/><rect x="46" y="78" width="30" height="12" fill="#8c7ae6"/></svg><p>זום 2: היד שמנופפת לשלום</p></div><div class="ev-zoom"><span class="ev-n">3</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect y="60" width="120" height="30" fill="#efe3c8"/><circle cx="14" cy="12" r="8" fill="#f4c542"/><polygon points="26,70 34,70 62,80 50,80" fill="#bfae8a"/><circle cx="30" cy="40" r="6" fill="#f2c4a0"/><rect x="25" y="46" width="10" height="24" rx="3" fill="#e76f86"/><polygon points="92,70 96,70 70,80 62,80" fill="#bfae8a"/><rect x="92" y="22" width="4" height="48" fill="#5b6574"/><circle cx="94" cy="20" r="5" fill="#f4c542" stroke="#5b6574" stroke-width="1.5"/></svg><p>זום 3: הילדה והפנס בשמש</p></div><div class="ev-zoom"><span class="ev-n">4</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fbfaf7"/><g><rect x="10" y="10" width="100" height="16" fill="#fff"/><rect x="10" y="10" width="14" height="16" fill="#e76f86"/><rect x="38" y="10" width="14" height="16" fill="#e76f86"/><rect x="66" y="10" width="14" height="16" fill="#e76f86"/><rect x="94" y="10" width="16" height="16" fill="#e76f86"/></g><rect x="18" y="34" width="84" height="38" rx="6" fill="#fff" stroke="#1f2a37" stroke-width="2.5"/><text x="60" y="62" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="22" fill="#1f2a37">גלידה</text></svg><p>זום 4: השלט של הדוכן</p></div><div class="ev-zoom"><span class="ev-n">5</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#e3f1ee"/><polygon points="46,42 74,42 60,86" fill="#e3a868" stroke="#a8743a" stroke-width="1.5"/><path d="M50 52 L70 48 M53 62 L67 58 M56 72 L64 69" stroke="#a8743a" stroke-width="1.2"/><circle cx="60" cy="32" r="17" fill="#f4b6c6"/><path d="M45 40 q0 10 4 10 q4 0 4 -8 M66 44 q0 14 4 14 q4 0 3 -14" fill="#f4b6c6"/></svg><p>זום 5: הגלידה נמסה ומטפטפת</p></div><div class="ev-zoom"><span class="ev-n">6</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect x="57" y="74" width="6" height="16" fill="#8a93a1"/><circle cx="60" cy="46" r="34" fill="#fff" stroke="#1f2a37" stroke-width="3"/><text x="60.0" y="24.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">12</text><text x="72.5" y="27.6" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">1</text><text x="81.7" y="36.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">2</text><text x="85.0" y="49.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">3</text><text x="81.7" y="61.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">4</text><text x="72.5" y="71.0" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">4</text><text x="60.0" y="74.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">6</text><text x="47.5" y="71.0" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">7</text><text x="38.3" y="61.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">8</text><text x="35.0" y="49.3" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">8</text><text x="38.3" y="36.8" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">13</text><text x="47.5" y="27.6" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="9" fill="#1f2a37">11</text><path d="M60 46 L74 38" stroke="#1f2a37" stroke-width="3" stroke-linecap="round"/><path d="M60 46 L58 26 M60 46 L66 27" stroke="#be3455" stroke-width="2" stroke-linecap="round"/><circle cx="60" cy="46" r="2.5" fill="#1f2a37"/></svg><p>זום 6: השעון על עמוד הטיילת</p></div><div class="ev-zoom"><span class="ev-n">7</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#fdf0e3"/><path d="M14 36 h40 v14 a14 14 0 0 1 -14 14 h-12 a14 14 0 0 1 -14 -14z" fill="#24425c"/><path d="M66 36 h40 v14 a14 14 0 0 1 -14 14 h-12 a14 14 0 0 1 -14 -14z" fill="#24425c"/><path d="M54 40 q6 -5 12 0" fill="none" stroke="#1f2a37" stroke-width="3"/><path d="M18 52 q5 -4 10 0 t10 0 t10 0 M70 52 q5 -4 10 0 t10 0 t10 0" fill="none" stroke="#9cc9e8" stroke-width="2.5"/><circle cx="24" cy="42" r="3" fill="#fff" opacity=".8"/><circle cx="76" cy="42" r="3" fill="#fff" opacity=".8"/></svg><p>זום 7: המשקפיים משקפים את הים</p></div><div class="ev-zoom"><span class="ev-n">8</span><svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#dbeefe"/><rect y="58" width="120" height="32" fill="#9cc9e8"/><path d="M8 26 H112" stroke="#3b4552" stroke-width="4" stroke-linecap="round"/><path d="M18 26 V84 M36 26 V84" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M54 26 C54 52 72 50 72 84" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M72 26 C72 40 68 46 64 52" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M90 26 V60" stroke="#3b4552" stroke-width="3.5" fill="none"/><path d="M104 26 C104 60 98 62 90 84" stroke="#3b4552" stroke-width="3.5" fill="none"/></svg><p>זום 8: המעקה של הטיילת</p></div></div>
+<div class="ev-train">🎯 <b>חדר אימונים (רשות, 2 דקות):</b> חוקר/ת התמונות פותח/ת במכשיר אחר את <a href="https://artsandculture.google.com/experiment/odd-one-out/wAHNn4JsVTFOiw" target="_blank" rel="noopener">Odd One Out</a> ומשחק/ת סבב: בכל סבב יש 4 תמונות, ואחת מהן נוצרה ב-AI. מה עזר לכם לזהות אותה? חפשו את אותם סימנים בזומים.</div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של הזומים שיש בהם סימן ל-AI, מהקטן לגדול. <span class="ev-note">בדיוק 4 זומים חשודים.</span></div></div>
+</article></div>
+</section>
+<section class="page" id="p-ev2" data-label="תיק ראיות 2">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 2 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 2</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev2" style="--c:#f4a259;--cs:#fdf0e3;--ci:#c2630f"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>2</span></div><div><span class="dept">📊 מחלקת הגרפים</span><h3>הגרף שזינק</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">חברת המשקאות הבדיונית "שוקו-על" פרסמה את הגרף הזה עם הכיתוב: "העמודה של 2024 גבוהה פי כמה! הקונים משתגעים עלינו!" מפעל הזיופים דאג שהגרף ייראה דרמטי. התפקיד שלכם: לבדוק כמה המכירות עלו באמת.</div>
+<div class="ev-chartwrap"><div class="ev-chart"><svg viewBox="0 0 520 360" aria-label="גרף המכירות של שוקו-על">
+<text x="260" y="26" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="24" fill="#1f2a37">🚀 המכירות של שוקו-על זינקו!</text>
+<g font-family="Heebo,Arial" font-size="15" fill="#5b6574" text-anchor="end" direction="ltr">
+<text x="62" y="305">99</text><text x="62" y="261.7">100</text><text x="62" y="218.3">101</text><text x="62" y="175">102</text><text x="62" y="131.7">103</text><text x="62" y="88.3">104</text><text x="62" y="45">105</text></g>
+<g stroke="#e7e3dc" stroke-width="1.5"><line x1="72" y1="300" x2="500" y2="300"/><line x1="72" y1="256.7" x2="500" y2="256.7"/><line x1="72" y1="213.3" x2="500" y2="213.3"/><line x1="72" y1="170" x2="500" y2="170"/><line x1="72" y1="126.7" x2="500" y2="126.7"/><line x1="72" y1="83.3" x2="500" y2="83.3"/><line x1="72" y1="40" x2="500" y2="40"/></g>
+<line x1="72" y1="40" x2="72" y2="300" stroke="#1f2a37" stroke-width="2"/><line x1="72" y1="300" x2="500" y2="300" stroke="#1f2a37" stroke-width="2"/>
+<rect x="135" y="256.7" width="110" height="43.3" fill="#f4a259"/><rect x="325" y="83.3" width="110" height="216.7" fill="#e76f86"/>
+<text x="190" y="248" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="18" fill="#1f2a37">100</text>
+<text x="380" y="75" text-anchor="middle" font-family="Rubik,Arial" font-weight="800" font-size="18" fill="#1f2a37">104</text>
+<text x="190" y="326" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="18" fill="#1f2a37">2023</text>
+<text x="380" y="326" text-anchor="middle" font-family="Rubik,Arial" font-weight="700" font-size="18" fill="#1f2a37">2024</text>
+<text x="286" y="352" text-anchor="middle" font-family="Heebo,Arial" font-size="14" fill="#5b6574">מכירות באלפי בקבוקים · כל משבצת = אלף בקבוקים</text>
+</svg></div>
+<div class="ev-side">
+<div class="ev-card"><b>📏 שאלה 1:</b> ספרו משבצות. העמודה של 2024 <b>נראית</b> גבוהה פי <span class="ev-fill"></span> מהעמודה של 2023.</div>
+<div class="ev-card"><b>🧮 שאלה 2:</b> המכירות עלו מ-100 אלף ל-104 אלף בקבוקים. כלומר, באמת הן עלו ב-<span class="ev-fill"></span> אחוזים בלבד.</div>
+<div class="ev-card"><b>🔎 שאלה לדף הראיות:</b> מאיזה מספר מתחיל הציר? איך הגרף היה נראה אילו הציר היה מתחיל ב-0?</div>
+</div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> התשובה לשאלה 1 ומיד אחריה התשובה לשאלה 2 (שתי ספרות ברצף).</div></div>
+</article></div>
+</section>
+<section class="page" id="p-ev3" data-label="תיק ראיות 3">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 3 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 3</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev3" style="--c:#8c7ae6;--cs:#efecfb;--ci:#6a55c9"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>3</span></div><div><span class="dept">💬 מחלקת הציטוטים</span><h3>קיר הציטוטים</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">על הקיר בחדר הזה תלויות 6 תמונות ציטוט שהמפעל הפיץ. בחלק מהן הציטוט אמיתי, ובחלק מישהו "הלביש" משפט שהמציא על שם של אדם מפורסם, כי שם מפורסם גורם לאנשים לשתף. מותר לחפש ברשת.</div>
+<div class="ev-quotes"><div class="ev-quote"><span class="ev-n">1</span><div class="who"><i>👨‍🚀</i><div><b>ניל ארמסטרונג</b><small>אסטרונאוט אמריקאי</small></div></div><q>זהו צעד קטן לאדם, צעד ענק לאנושות.</q><div class="meta"><span>🔁 21K שיתופים</span><span>📌 ציטוט 1</span></div></div><div class="ev-quote"><span class="ev-n">2</span><div class="who"><i>🎩</i><div><b>אברהם לינקולן</b><small>נשיא ארצות הברית</small></div></div><q>הבעיה עם ציטוטים באינטרנט היא שקשה לדעת אם הם אמיתיים.</q><div class="meta"><span>🔁 88K שיתופים</span><span>📌 ציטוט 2</span></div></div><div class="ev-quote"><span class="ev-n">3</span><div class="who"><i>📜</i><div><b>בנימין זאב הרצל</b><small>חוזה המדינה</small></div></div><q>אם תרצו, אין זו אגדה.</q><div class="meta"><span>🔁 15K שיתופים</span><span>📌 ציטוט 3</span></div></div><div class="ev-quote"><span class="ev-n">4</span><div class="who"><i>🧪</i><div><b>אלברט איינשטיין</b><small>מדען, פרס נובל לפיזיקה</small></div></div><q>מי שגולל בטיקטוק יותר משעה ביום מאבד את הדמיון שלו.</q><div class="meta"><span>🔁 130K שיתופים</span><span>📌 ציטוט 4</span></div></div><div class="ev-quote"><span class="ev-n">5</span><div class="who"><i>🎭</i><div><b>ויליאם שייקספיר</b><small>מחזאי ומשורר אנגלי</small></div></div><q>מי שמאמין לכל מה שהוא רואה בטלוויזיה חי בסרט.</q><div class="meta"><span>🔁 42K שיתופים</span><span>📌 ציטוט 5</span></div></div><div class="ev-quote"><span class="ev-n">6</span><div class="who"><i>✊</i><div><b>מרטין לותר קינג</b><small>מנהיג המאבק לזכויות האזרח בארה״ב</small></div></div><q>יש לי חלום.</q><div class="meta"><span>🔁 64K שיתופים</span><span>📌 ציטוט 6</span></div></div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של הציטוטים המזויפים, מהקטן לגדול. <span class="ev-note">בדיוק 3 ציטוטים מזויפים.</span></div></div>
+</article></div>
+</section>
+<section class="page" id="p-ev4" data-label="תיק ראיות 4">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 4 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 4</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev4" style="--c:#4c8bd6;--cs:#e7f0fa;--ci:#2f6db5"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>4</span></div><div><span class="dept">📰 מחלקת הכותרות</span><h3>מכונת הכותרות</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-article"><b>📄 הכתבה המקורית</b><span class="tag">בדיונית</span><br>בבית ספר בעיר הדמיונית "נווה חלב" בדקו 40 תלמידים. מי שישן לפחות 9 שעות בלילה שלפני המבחן קיבל בממוצע 3 נקודות יותר (מתוך 100). החוקרים כתבו שזו בדיקה קטנה, ושצריך עוד מחקרים כדי לדעת אם השינה היא הסיבה.</div>
+<div class="ev-story" style="margin-bottom:.6em">מכונת הכותרות של המפעל "שדרגה" את הכתבה ל-7 כותרות. רק חלק מהן מספרות מה באמת קרה. השאר הן קליקבייט: מסקרנות בלי לספר, מגזימות, מפחידות או מסיקות מסקנה שלא כתובה בכתבה.</div>
+<div class="ev-heads"><div class="ev-hl"><span class="ev-n">1</span><span class="t">לא תאמינו מה קרה לתלמידים שהלכו לישון מוקדם 😱</span><span class="lt">ק</span></div><div class="ev-hl"><span class="ev-n">2</span><span class="t">בדיקה ב-40 תלמידים: מי שישן 9 שעות קיבל בממוצע 3 נקודות יותר</span><span class="lt">א</span></div><div class="ev-hl"><span class="ev-n">3</span><span class="t">מדענים בהלם: שינה הופכת ילדים לגאונים!</span><span class="lt">ל</span></div><div class="ev-hl"><span class="ev-n">4</span><span class="t">שינה טובה לפני מבחן? בדיקה קטנה מצאה שיפור קטן בציון</span><span class="lt">מ</span></div><div class="ev-hl"><span class="ev-n">5</span><span class="t">הסוד שהמורים לא רוצים שתדעו</span><span class="lt">י</span></div><div class="ev-hl"><span class="ev-n">6</span><span class="t">סוף לשיעורי הבית: מעכשיו רק ישנים</span><span class="lt">ק</span></div><div class="ev-hl"><span class="ev-n">7</span><span class="t">חוקרים: ייתכן שיש קשר בין שינה לציונים, וצריך לבדוק עוד</span><span class="lt">ת</span></div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> לכל כותרת יש אות. כתבו את האותיות של כותרות הקליקבייט בלבד, מלמעלה למטה. יצאה לכם מילה.</div></div>
+</article></div>
+</section>
+<section class="page" id="p-ev5" data-label="תיק ראיות 5">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 5 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 5</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev5" style="--c:#2f9e80;--cs:#e4f4ee;--ci:#23826f"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>5</span></div><div><span class="dept">🌐 מחלקת האתרים</span><h3>אתר החדשות של המפעל</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">המפעל בנה אתר "חדשות" ופרסם בו ידיעה מבהילה. החוקרים צילמו את המסך וסימנו 8 תוויות. חלק מהתוויות הן סימני אזהרה של אתר מזויף. שאר התוויות לא מוכיחות כלום: הן לא אומרות שהאתר אמין, וגם לא שהוא מזויף.</div>
+<div class="ev-web">
+<div class="ev-browser">
+ <div class="ev-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ev-url">🔒 https://hadashot-emet24.news-il.info/shark</span><span class="ev-n">1</span><span class="ev-n">2</span></div>
+ <div class="ev-site">
+  <div class="ev-logo"><b>חדשות אמת 24</b><span class="ev-nav">ראשי · חדשות · ספורט · מזג אוויר · אודות <span class="ev-n">3</span></span></div>
+  <h4>בהלה בטיילת: כריש ענק נראה ליד החוף!</h4>
+  <div class="ev-by">✍️ מאת: מערכת האתר <span class="ev-n">4</span></div>
+  <figure class="ev-photo" style="margin:0;margin-top:.45em"><svg viewBox="0 0 300 150" aria-hidden="true"><defs><linearGradient id="evsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><figcaption>📷 צולם הבוקר בטיילת של העיר <span class="ev-n">5</span></figcaption></figure>
+  <div class="ev-foot"><span class="ev-likes">👍 12K לייקים <span class="ev-n">7</span></span><span style="display:flex;align-items:center;gap:.4em"><span class="ev-share">📢 שתפו עכשיו לפני שימחקו את זה!!!</span><span class="ev-n">8</span></span></div>
+ </div>
+</div>
+<div class="ev-side">
+ <div class="ev-lens"><div class="lh">🔍 חיפוש לפי תמונה (Google Lens) על התמונה של תווית 5</div>
+  <div class="res"><svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="evsea2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea2)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><div><b>מגזין "טבע וים"</b>14.3.2017 · "כריש לבן ליד חופי אוסטרליה"<br><small>אותה תמונה בדיוק</small></div></div>
+  <div class="res"><svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="evsea2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa3d6"/><stop offset="1" stop-color="#2f6db5"/></linearGradient></defs>
+<rect width="300" height="64" fill="#cfe6f7"/><rect y="64" width="300" height="86" fill="url(#evsea2)"/>
+<path d="M0 70 q15 -5 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#dbeefe" stroke-width="2"/>
+<path d="M120 112 L150 66 L168 112 Z" fill="#3b4552"/><path d="M100 114 q35 -8 80 0" fill="none" stroke="#dbeefe" stroke-width="3"/>
+<path d="M230 40 l10 -24 l10 24 z" fill="#fff" stroke="#8a93a1"/><rect x="228" y="40" width="26" height="5" fill="#8a93a1"/></svg><div><b>בלוג צלילה</b>2018 · "התמונות הכי מפחידות מהים"<br><small>אותה תמונה בדיוק</small></div></div></div>
+ <div class="ev-about"><span class="ev-n">6</span> <b>לחצנו על "אודות":</b><br>🚧 "הדף בבנייה. נחזור בקרוב!" אין שמות של עורכים, אין כתובת ואין טלפון.</div>
+ <div class="ev-legend">💡 התוויות 1 ו-2 מסמנות שני דברים שונים בשורת הכתובת: 1 = שם האתר, 2 = סמל המנעול (https).</div>
+</div></div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> המספרים של סימני האזהרה בלבד, מהקטן לגדול. <span class="ev-note">בדיוק 5 סימני אזהרה.</span></div></div>
+</article></div>
+</section>
+<section class="page" id="p-ev6" data-label="תיק ראיות 6">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תיק הראיות · חדר 6 מתוך 6</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="evtag"><span>✉️ גרסת נייר: <b>מעטפה 6</b> · את הקוד לוחשים לשומר/ת הכספת</span><span>📝 לפני הקוד: שורה בדף הראיות</span></div>
+  <div class="evp"><article class="ev" id="ev6" style="--c:#0f766e;--cs:#e3f1ee;--ci:#0b5c56"><div class="ev-head"><div class="ev-lock"><span><small>מנעול</small>6</span></div><div><span class="dept">🔢 מחלקת המספרים</span><h3>הפרסומת המבריקה</h3></div><span class="ev-stamp">סודי</span></div>
+<div class="ev-story">החדר האחרון לפני היציאה. על הקיר תלויה פרסומת למסטיק בדיוני. המספרים בה נשמעים מרשימים, אבל ליד כל מספר יש כוכבית, ובתחתית יש אותיות קטנות. מי שקורא אותן מגלה מתוך כמה נבדקו באמת.</div>
+<div class="ev-ad">
+ <div class="brand"><span style="font-size:2.4em;line-height:1">🦷</span><div><b>מסטיק זוהר ✨</b><small>הלבנה, רעננות וחיוך של כוכבים</small></div></div>
+ <div class="ev-claims">
+  <div class="ev-claim"><span class="lab">טענה א</span><div class="big">9 מתוך 10<sup>*</sup></div><p>רופאי שיניים ממליצים על זוהר!</p></div>
+  <div class="ev-claim"><span class="lab">טענה ב</span><div class="big">100%<sup>**</sup></div><p>מהלקוחות מרוצים!</p></div>
+  <div class="ev-claim"><span class="lab">טענה ג</span><div class="big">מלבין פי 2<sup>***</sup></div><p>מוכח במחקר!</p></div>
+ </div>
+ <p class="ev-fine">* נשאלו 10 רופאי שיניים שעובדים בחברת זוהר. ** מתוך 4 לקוחות שענו לסקר באתר שלנו. *** מחקר שהחברה ערכה בעצמה על 6 שיניים, לעומת שיניים שלא צוחצחו בכלל. המחירים עשויים להשתנות. התמונות להמחשה בלבד. זוהר היא חברה בדיונית.</p>
+</div>
+<div class="ev-side" style="margin-top:.7em;grid-template-columns:1fr 1fr 1fr">
+ <div class="ev-card"><b>א:</b> מתוך כמה רופאים? <span class="ev-fill"></span></div>
+ <div class="ev-card"><b>ב:</b> מתוך כמה לקוחות? <span class="ev-fill"></span></div>
+ <div class="ev-card"><b>ג:</b> על כמה שיניים? <span class="ev-fill"></span></div>
+</div>
+<div class="ev-key"><span class="k">🔑</span><div><b>הקוד:</b> שלושת המספרים האמיתיים, לפי הסדר: טענה א, טענה ב, טענה ג (בלי רווחים).</div></div>
+</article></div>
+</section>
+
+<!-- ===================== HINT CARDS ===================== -->
+<section class="page" id="p-hints" data-label="כרטיסי רמז">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · כרטיסי רמז</div><div class="r">2 לצוות · 4 צוותים בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. כל צוות מקבל 2 כרטיסים. ראש/ת הצוות מוסר/ת כרטיס למדריך, ומקבל/ת את הרמז הבא של המנעול שבו הצוות נמצא (הרמזים בעמוד הפתרונות).</p>
+  <div class="cutgrid hintg">
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+    <div class="hc"><span class="em">🃏</span><b>כרטיס רמז</b><span class="cost">‎−3 נקודות</span><small>מוסרים למדריך ומקבלים רמז אחד למנעול שבו אתם</small><span class="tm">צוות: <span class="fill"></span></span></div>
+  </div>
+</section>
+
+<!-- ===================== LETTER CARDS (paper version) ===================== -->
+<section class="page" id="p-letters" data-label="אותיות ושומר/ת הכספת">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · גרסת נייר · כרטיסי אותיות</div><div class="r">למדריך / שומר/ת הכספת</div></div>
+  <p class="cutnote">✂ לגזור שורה לכל צוות (4 צוותים בעמוד). שומר/ת הכספת נותן/ת את האות של מנעול רק אחרי קוד נכון, יחד עם המעטפה הבאה.</p>
+  <div class="cutgrid letg">
+    <div class="lc"><small>מנעול 1</small><b>נ</b></div><div class="lc"><small>מנעול 2</small><b>ו</b></div><div class="lc"><small>מנעול 3</small><b>א</b></div><div class="lc"><small>מנעול 4</small><b>ת</b></div><div class="lc"><small>מנעול 5</small><b>י</b></div><div class="lc"><small>מנעול 6</small><b>מ</b></div>
+    <div class="lc"><small>מנעול 1</small><b>נ</b></div><div class="lc"><small>מנעול 2</small><b>ו</b></div><div class="lc"><small>מנעול 3</small><b>א</b></div><div class="lc"><small>מנעול 4</small><b>ת</b></div><div class="lc"><small>מנעול 5</small><b>י</b></div><div class="lc"><small>מנעול 6</small><b>מ</b></div>
+    <div class="lc"><small>מנעול 1</small><b>נ</b></div><div class="lc"><small>מנעול 2</small><b>ו</b></div><div class="lc"><small>מנעול 3</small><b>א</b></div><div class="lc"><small>מנעול 4</small><b>ת</b></div><div class="lc"><small>מנעול 5</small><b>י</b></div><div class="lc"><small>מנעול 6</small><b>מ</b></div>
+    <div class="lc"><small>מנעול 1</small><b>נ</b></div><div class="lc"><small>מנעול 2</small><b>ו</b></div><div class="lc"><small>מנעול 3</small><b>א</b></div><div class="lc"><small>מנעול 4</small><b>ת</b></div><div class="lc"><small>מנעול 5</small><b>י</b></div><div class="lc"><small>מנעול 6</small><b>מ</b></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🗝️ דף שומר/ת הכספת (לא להראות לצוותים)</h3>
+    <table class="tb"><thead><tr><th>מנעול</th><th>קוד נכון</th><th>אות</th><th>נותנים</th></tr></thead><tbody>
+      <tr><td>1 · התמונה הוויראלית</td><td><b>2368</b></td><td>נ</td><td>מעטפה 2</td></tr>
+      <tr><td>2 · הגרף שזינק</td><td><b>54</b></td><td>ו</td><td>מעטפה 3</td></tr>
+      <tr><td>3 · קיר הציטוטים</td><td><b>245</b></td><td>א</td><td>מעטפה 4</td></tr>
+      <tr><td>4 · מכונת הכותרות</td><td><b>קליק</b></td><td>ת</td><td>מעטפה 5</td></tr>
+      <tr><td>5 · אתר החדשות</td><td><b>14568</b></td><td>י</td><td>מעטפה 6</td></tr>
+      <tr><td>6 · הפרסומת המבריקה</td><td><b>1046</b></td><td>מ</td><td>מעטפה 7 (דלת היציאה)</td></tr>
+      <tr><td>🚪 דלת היציאה</td><td><b>אמינות</b></td><td>—</td><td>רושמים שעה ← "ברחתם!"</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt">קוד שגוי: אומרים רק "המנעול לא נפתח". לא מתקנים ולא רומזים, אלא אם הצוות מוסר כרטיס רמז. במעטפה 7 כותבים: "סדרו את 6 האותיות למילה: מה מפעל הזיופים הכי שונא?"</p></div>
+</section>
+
+<!-- ===================== SOLUTIONS (instructor) ===================== -->
+<section class="page" id="p-solutions" data-label="פתרונות ורמזים">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · פתרונות ורמזים</div><div class="r">🧑‍🏫 למדריך בלבד</div></div>
+  <div class="pt"><div><span class="kick">🔒 לא לחלק · לא להשאיר על השולחן</span><h2>פתרונות <span>ורמזים</span></h2></div><p>כרטיס רמז ראשון במנעול = רמז 1. כרטיס שני באותו מנעול = רמז 2. בטופס, הקוד נבדק אוטומטית (אימות תשובה).</p></div>
+  <table class="tb sol">
+    <thead><tr><th style="width:27mm">מנעול</th><th style="width:20mm">קוד · אות</th><th>למה</th><th style="width:45mm">רמז 1</th><th style="width:45mm">רמז 2</th></tr></thead>
+    <tbody>
+      <tr><td><b>1 · התמונה</b></td><td><b>2368</b> · נ</td><td>2: שש אצבעות (5 + אגודל) · 3: הצללים נופלים לכיוונים הפוכים, והשמש משמאל · 6: שעון עם 13 ומספרים כפולים · 8: מעקה שהעמודים שלו מתמזגים. (1, 4, 5, 7 רגילים: השלט קריא ונכון)</td><td>ספרו אצבעות. ובדקו: לאן הצל אמור ליפול כשהשמש בצד שמאל?</td><td>החשודים: היד, הצללים, השעון והמעקה. מהקטן לגדול.</td></tr>
+      <tr><td><b>2 · הגרף</b></td><td><b>54</b> · ו</td><td>הציר מתחיל ב-99. 2023 = משבצת אחת, 2024 = 5 משבצות ← "פי 5". באמת: מ-100 ל-104 = עלייה של 4 מתוך 100 = 4%.</td><td>ספרו משבצות מהקו התחתון (99) בכל עמודה.</td><td>1 משבצת מול 5 = פי 5. 4 מתוך 100 = 4%. הקוד: 5 ואז 4.</td></tr>
+      <tr><td><b>3 · הציטוטים</b></td><td><b>245</b> · א</td><td>2: לינקולן מת ב-1865, אין אינטרנט · 4: איינשטיין מת ב-1955, אין טיקטוק · 5: שייקספיר מת ב-1616, אין טלוויזיה. אמיתיים: ארמסטרונג (1969, על הירח), הרצל ("אלטנוילנד", 1902), קינג (וושינגטון, 1963).</td><td>חפשו מתי חי כל אחד. האם מה שמוזכר בציטוט היה קיים אז?</td><td>שלושת המזויפים: לינקולן, איינשטיין ושייקספיר.</td></tr>
+      <tr><td><b>4 · הכותרות</b></td><td><b>קליק</b> · ת</td><td>קליקבייט: 1 (סקרנות), 3 (הגזמה), 5 (סוד מפחיד), 6 (מסקנה שלא כתובה) ← ק-ל-י-ק. הכנות: 2, 4, 7 ← א-מ-ת.</td><td>בכתבה המקורית: 40 תלמידים, 3 נקודות, צריך עוד מחקר. איזו כותרת נשארת נאמנה לזה?</td><td>הכנות הן 2, 4 ו-7. כל השאר קליקבייט. קראו את האותיות שלהן מלמעלה למטה.</td></tr>
+      <tr><td><b>5 · האתר</b></td><td><b>14568</b> · י</td><td>1: כתובת מוזרה · 4: "מערכת האתר", אין כותב · 5: חיפוש לפי תמונה: התמונה מ-2017, מאוסטרליה · 6: "אודות" בבנייה, אין שמות · 8: לחץ לשתף. לא סימני אזהרה: 2 (https), 3 (תפריט), 7 (לייקים).</td><td>מנעול https, תפריט ולייקים יש גם לאתרים אמינים. הם לא מוכיחים כלום.</td><td>האזהרות: הכתובת, הכותב, התמונה, "אודות" והלחץ לשתף.</td></tr>
+      <tr><td><b>6 · הפרסומת</b></td><td><b>1046</b> · מ</td><td>* 10 רופאים שעובדים בחברה · ** 4 לקוחות שענו לסקר · *** 6 שיניים, במחקר של החברה עצמה.</td><td>קראו את האותיות הקטנות בתחתית. כל כוכבית מובילה למספר אחד.</td><td>א = 10, ב = 4, ג = 6. ברצף.</td></tr>
+      <tr><td><b>🚪 היציאה</b></td><td><b>אמינות</b></td><td>נ-ו-א-ת-י-מ. מה מפעל הזיופים הכי שונא? מידע אמין.</td><td>מה צריך שיהיה למקור כדי שנסמוך עליו?</td><td>מתחילה ב-א ונגמרת ב-ת: א _ _ _ _ ת</td></tr>
+    </tbody>
+  </table>
+  <div class="box soft" style="margin-top:3.5mm"><h3>🗣️ כשצוות שואל "למה לא נפתח?"</h3><p>"מה כתבתם בדף הראיות? איזו שורה אתם הכי פחות בטוחים בה?" · בקוד של מנעול 2: האם כתבו 45 במקום 54? (סדר השאלות) · במנעול 4: האם כתבו את אותיות הכותרות <b>הכנות</b> (אמת) במקום הקליקבייט? אז הם הבינו הכול: מזכירים לקרוא שוב את שורת הקוד.</p></div>
+</section>
+
+<!-- ===================== PLANNING SHEET ===================== -->
+<section class="page" id="p-plan" data-label="תכנון מדריך השטח">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תכנון מדריך השטח</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🛡️ 16 דקות · 🟡 AI לניסוח בלבד</span><h2>מדריך שטח: <span class="fill l"></span></h2></div><p>הסימנים מגיעים מדף הראיות. סימן = עד 6 מילים. שאלת בדיקה = שאלה שכל אחד יכול לשאול את עצמו ולבדוק. בלי מחשב? הדף הזה (או A3) הוא המדריך.</p></div>
+  <table class="tb plan">
+    <thead><tr><th style="width:15mm">מנעול</th><th>הסימן לזיוף (עד 6 מילים)</th><th>שאלת הבדיקה</th><th style="width:22mm">אייקון</th></tr></thead>
+    <tbody>
+      <tr><td><b>🖼️ 1</b></td><td></td><td></td><td></td></tr>
+      <tr><td><b>📊 2</b></td><td></td><td></td><td></td></tr>
+      <tr><td><b>💬 3</b></td><td></td><td></td><td></td></tr>
+      <tr><td><b>📰 4</b></td><td></td><td></td><td></td></tr>
+      <tr><td><b>🌐 5</b></td><td></td><td></td><td></td></tr>
+      <tr><td><b>🔢 6</b></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm;flex:1">
+    <div class="sketch" data-label="הדוגמה שלנו: ציור קטן, כותרת קליקבייט שהמצאנו, גרף עם ציר מטעה..." style="min-height:52mm"></div>
+    <div class="stack">
+      <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check"><li>כותרת + שם הצוות</li><li>6 סימנים, שאלה לכל סימן</li><li>דוגמה אחת שיצרנו בעצמנו</li><li>זמן הבריחה: <span class="fill s"></span></li><li>לא ברחנו? מנעולים שנפתחו: <span class="fill s"></span></li><li>שם הקובץ: צוות [שם] · מדריך שטח</li></ul></div>
+      <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.4pt">מה ה-AI עשה:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">מה אנחנו עשינו:</p><div class="lines h1"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · עד 16 נקודות</span><h2>איך נמדד <span>מדריך השטח</span></h2></div><p>מסמנים הערכה עצמית בעמודה "אנחנו" לפני ההגשה. המדריך קובע את הרמה הסופית בכל שורה, וסכום 4 השורות (4–16) נכנס ללוח הניקוד.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:20%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">זיהוי מניפולציות<small>מה פרצתם ואיך</small></td><td>נפתחו 1–2 מנעולים בניחוש</td><td>נפתחו 3–4 מנעולים, חלק עם רמזים</td><td>נפתחו 5–6 מנעולים, עם הסבר בדף הראיות</td><td>כל המנעולים נפתחו, ובכל אחד הצוות יודע להסביר את הטריק ולמה הוא עובד על אנשים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">סימנים ושאלות<small>תוכן המדריך</small></td><td>רשימה כללית ("לא להאמין לכל דבר")</td><td>3–4 סימנים בלי שאלת בדיקה</td><td>6 סימנים ושאלת בדיקה לכל אחד</td><td>סימנים מדויקים, שאלות שאפשר לבדוק בפועל, ודוגמה שהצוות יצר בעצמו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עיצוב ובהירות<small>מבחן 30 השניות</small></td><td>קשה לקרוא</td><td>קריא אבל צפוף</td><td>ברור, עם כותרת, אייקונים ומבנה של 6 חלקים</td><td>אפשר להבין את המדריך ב-30 שניות, והוא מתאים לתלייה בכיתה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול</td><td>כולם עשו משהו</td><td>כל תפקיד ביצע את החלק שלו, והראיות נרשמו</td><td>כולם השתתפו בהחלטות על רמזים, וכתוב אם וכיצד נעזרנו ב-AI במדריך</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום 4 השורות = נקודות המחוון (4–16). ובנוסף: מדריך עם 6 סימנים ושאלת בדיקה לכל סימן = <b>6 נקודות</b> של מפרט.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: שורה במדריך ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "📏 גרף עם ציר מוזר" · שאלה: "הגרף נראה בסדר?" יש סימן ויש שאלה, אבל השאלה לא אומרת מה בודקים.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> "📏 ציר שלא מתחיל ב-0" · שאלה: "מאיזה מספר מתחיל הציר, ואיך זה היה נראה מ-0?" ולידה גרף קטן שהצוות צייר: 50 מול 52 שנראה כמו זינוק.</p></div></div>
+</section>
+
+<!-- ===================== VOTE SLIPS ===================== -->
+<section class="page" id="p-votes" data-label="פתקי הצבעה">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · פתקי הצבעה ומשוב לגלריה</div><div class="r">12 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. כל צוות מקבל פתק הצבעה אחד (מצביעים יחד, לא לעצמכם!) ופתקי משוב לפי מספר המדריכים.</p>
+  <div class="cutgrid voteg">
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs"><b>🗳️ פתק הצבעה</b><p>המדריך הכי שימושי:</p><p>צוות <span class="fill"></span></p><p class="why">כי: <span class="fill l"></span></p><small>מצביעים: צוות <span class="fill s"></span></small></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+    <div class="vs fb"><b>💬 משוב גלריה</b><p>❤️ אני אוהב/ת:</p><span class="fill xl"></span><p>✨ הלוואי ש:</p><span class="fill xl"></span></div>
+  </div>
+</section>
+
+<!-- ===================== 8. AI-USE LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · שורת AI · מצורפת למדריך השטח</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה מצורפת לתוצר, או שמעתיקים את שתי השורות לקובץ הצוות ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> </span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> </span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> </span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> </span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ===================== 9. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור (3 דקות), כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מפעל הזיופים</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזה זיוף הכי קשה לתפוס, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>עיצוב</span><span>חקירה</span><span>הצגה</span><span>רישום ראיות</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מפעל הזיופים</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזה זיוף הכי קשה לתפוס, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>עיצוב</span><span>חקירה</span><span>הצגה</span><span>רישום ראיות</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מפעל הזיופים</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזה זיוף הכי קשה לתפוס, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>עיצוב</span><span>חקירה</span><span>הצגה</span><span>רישום ראיות</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>מפעל הזיופים</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איזה זיוף הכי קשה לתפוס, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>עיצוב</span><span>חקירה</span><span>הצגה</span><span>רישום ראיות</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+
+
+<!-- ===================== SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span> · תאריך: <span class="fill s"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מקביל ללוחות במצגת (שקפים 24, 35, 37, 38)</span><h2>דף <span>הניקוד</span></h2></div><p>החדר נפתח בשעה <span class="fill s"></span> · נסגר בשעה <span class="fill s"></span>. בונוס זמן: 5 + דקה שלמה שנשארה עד הסגירה (עד 5).</p></div>
+  <table class="tb sc2">
+    <thead><tr><th style="width:24mm">צוות</th><th>מנעולים<br><small>✓ 1–6</small></th><th>שעת שליחה</th><th>מנעולים ×4<br><small>עד 24</small></th><th>בריחה<br><small>5–10</small></th><th>רמזים<br><small>‎−3</small></th><th>מדריך<br><small>6</small></th><th>מחוון<br><small>4–16</small></th><th>גלריה<br><small>5/3/2</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:11mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">🦊</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦉</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐙</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦅</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐺</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐝</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐬</td><td class="lk6">☐☐☐☐☐☐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🖥️ חדר הבקרה (דקה 41): מי תקוע, ואיפה?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסים</h3><div class="stack" style="gap:2mm;font-size:9.6pt"><p>🏆 הבורחים הגדולים: <span class="fill"></span></p><p>⏱️ הבריחה המהירה: <span class="fill"></span></p><p>🛡️ המדריך הכי שימושי: <span class="fill"></span></p><p>🧠 בלי רמזים בכלל: <span class="fill"></span></p></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🗳️ ספירת קולות הגלריה</h3>
+    <table class="tb"><thead><tr><th style="width:24mm">צוות</th><th>קולות (סימון בקווים)</th><th style="width:20mm">סה״כ</th><th style="width:20mm">מקום</th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td></tr><tr><td class="e">🦅</td><td></td><td></td><td></td></tr><tr><td class="e">🐺</td><td></td><td></td><td></td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>⚖️ תיקו</h3><p style="font-size:9.4pt">1. זמן הבריחה המהיר · 2. פחות רמזים · 3. ציון מחוון גבוה יותר.</p></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== CERTIFICATES ===================== -->
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תעודות</div><div class="r">✂ לגזור לחצי</div></div>
+  <div class="certs">
+    <div class="cert"><div class="cin"><span class="cem">🏆</span><small>Tech It Easy · חדר בריחה: מפעל הזיופים</small><h3>הבורחים הגדולים</h3><p>מוענקת לצוות</p><div class="cname"></div><p>שפרץ את המפעל וצבר את הניקוד הגבוה ביותר: <span class="fill s"></span> נקודות.<br>העיר בטוחה יותר בזכותכם.</p><div class="csign"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+    <div class="cert"><div class="cin"><span class="cem">⏱️</span><small>Tech It Easy · חדר בריחה: מפעל הזיופים</small><h3>הבריחה המהירה</h3><p>מוענקת לצוות</p><div class="cname"></div><p>שפתח את כל 6 המנעולים ואת דלת היציאה בזמן של <span class="fill s"></span> דקות.<br>אף זיוף לא עיכב אתכם.</p><div class="csign"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+  </div>
+</section>
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · תעודות</div><div class="r">✂ לגזור לחצי</div></div>
+  <div class="certs">
+    <div class="cert"><div class="cin"><span class="cem">🛡️</span><small>Tech It Easy · חדר בריחה: מפעל הזיופים</small><h3>המדריך הכי שימושי</h3><p>מוענקת לצוות</p><div class="cname"></div><p>שכתב את מדריך השטח שהכיתה בחרה כשימושי ביותר.<br>המדריך שלכם יגן על העיר.</p><div class="csign"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+    <div class="cert"><div class="cin"><span class="cem">🧠</span><small>Tech It Easy · חדר בריחה: מפעל הזיופים</small><h3>בלי רמזים בכלל</h3><p>מוענקת לצוות</p><div class="cname"></div><p>שפרץ את המנעולים בלי להשתמש באף כרטיס רמז.<br>רק ראיות, היגיון ועבודת צוות.</p><div class="csign"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+  </div>
+</section>
+
+<!-- ===================== DOOR SIGN ===================== -->
+<section class="page" id="p-door" data-label="שלט לדלת">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל הזיופים · שלט לדלת הכיתה</div><div class="r">1 לכיתה</div></div>
+  <div class="door">
+    <div class="dlamp"></div>
+    <span class="dem">🏭</span>
+    <h3>מפעל הזיופים</h3>
+    <p class="dsub">⚠️ כניסה לצוותי בילוש בלבד</p>
+    <div class="dtape">🔒 הדלת ננעלת אחרי הכניסה · 🔒 הדלת ננעלת אחרי הכניסה · 🔒</div>
+    <div class="dlocks"><span>🖼️</span><span>📊</span><span>💬</span><span>📰</span><span>🌐</span><span>🔢</span></div>
+    <p class="dnote">6 מנעולים · 2 כרטיסי רמז · דלת יציאה אחת</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1451 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>התזמורת הווירטואלית | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== התזמורת הווירטואלית — lesson additions (kit styles above are untouched) · light theme, concert wine + gold ===== */
+:root{--wine:#9b3a62;--wine-ink:#7d2a4d;--wine-soft:#fbecf2;--gold:#d9a21b;--gold-ink:#8a5a00;--gold-soft:#fdf5df}
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:6px}
+.slide .tableWrap{flex:none}
+.wine{color:var(--wine-ink)}.gold{color:var(--gold-ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;max-width:1240px}.row2>*{min-width:0}
+.row2.w{grid-template-columns:1.25fr 1fr}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card .mini{display:block;margin-top:8px;font-size:15px;color:var(--accent-ink);font-weight:700}
+.light{display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line);width:max-content}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+/* play buttons */
+.pbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink);border-radius:12px;padding:9px 15px;font-weight:800;font-family:var(--display);font-size:17px;transition:.18s}
+.pbtn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.pbtn.on{background:var(--accent-ink);color:#fff;border-color:var(--accent-ink)}
+.btnRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+/* ---------- hero: concert hall ---------- */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:30px;align-items:center}
+.hero .heroGrid h2{font-size:clamp(44px,5.8vw,92px)}
+.hall{position:relative;border-radius:28px;background:#fff;border:1px solid #ecd7e1;box-shadow:var(--shadow);padding:14px;overflow:hidden}
+.hall svg{display:block;width:100%;height:auto}
+.hall .note{animation:floatN 4s ease-in-out infinite}
+.hall .note:nth-of-type(2){animation-delay:-1.3s}.hall .note:nth-of-type(3){animation-delay:-2.6s}
+@keyframes floatN{0%,100%{transform:translateY(0);opacity:.85}50%{transform:translateY(-10px);opacity:1}}
+.hall .scr rect.face{animation:blink 3.2s ease-in-out infinite}
+@keyframes blink{50%{fill:#fff6fa}}
+.hall .wire{stroke-dasharray:5 6;animation:dash 1.6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-22}}
+.storyBox{margin-top:16px;border:1px solid #ecd7e1;border-inline-start:5px solid var(--wine);border-radius:18px;padding:14px 18px;background:linear-gradient(180deg,#fff7fa,#fff);font-size:clamp(17px,1.6vw,22px);line-height:1.55;max-width:760px}
+.storyBox b{color:var(--wine-ink)}
+/* ---------- conductor reveal ---------- */
+.cond{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
+.cond .card{text-align:center}
+.cond .card .emoji{width:70px;height:70px;font-size:40px;border-radius:20px}
+/* ---------- deliverable strip ---------- */
+.deliver{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:18px;position:relative}
+.dl{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 12px;text-align:center;box-shadow:var(--shadow);position:relative}
+.dl .t{display:block;font-size:13px;font-weight:800;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 8px;width:max-content;margin:0 auto 6px}
+.dl .em{font-size:36px;line-height:1}
+.dl b{display:block;font-family:var(--display);font-size:19px;margin:6px 0 2px}
+.dl small{display:block;color:var(--muted);font-size:15px;line-height:1.35}
+.dl.paper{background:linear-gradient(180deg,#fffaf0,#fff);border-color:#efd9a0}
+/* ---------- draw machine (moods) ---------- */
+.drawBar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+.drawBar select{font:inherit;font-weight:700;font-size:18px;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.moodStage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:22px;align-items:center;margin-top:14px}
+.mcard{perspective:1100px;height:clamp(250px,36vh,330px)}
+.mcard .in{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.mcard.flip .in{transform:rotateY(180deg)}
+.mcard .fc{position:absolute;inset:0;border-radius:24px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;text-align:center;box-shadow:var(--shadow-lg)}
+.mcard .back{background:repeating-linear-gradient(45deg,#fbecf2 0 14px,#fff 14px 28px);border:2px solid #ecd0dd}
+.mcard .back b{font-family:var(--display);font-size:28px;color:var(--wine-ink)}
+.mcard .back span{font-size:64px}
+.mcard .front{transform:rotateY(180deg);background:linear-gradient(180deg,#fff,#fffaf3);border:2px solid #efd9a0}
+.mcard .front .em{font-size:70px;line-height:1}
+.mcard .front .nm{font-family:var(--display);font-weight:800;font-size:clamp(34px,3.6vw,50px);color:var(--wine-ink)}
+.mcard .front .tp{font-size:17px;color:var(--muted)}
+.moodGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mchip{border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px 8px;text-align:center;box-shadow:var(--shadow-sm);transition:.25s}
+.mchip .em{font-size:28px}.mchip b{display:block;font-family:var(--display);font-size:18px}.mchip small{display:block;font-size:13px;color:var(--muted);min-height:1.3em}
+.mchip.taken{background:var(--paper2);opacity:.75}.mchip.taken small{color:var(--wine-ink);font-weight:700}
+.mchip.hit{border-color:var(--gold);box-shadow:0 0 0 4px rgba(217,162,27,.18)}
+/* ---------- compare with sound ---------- */
+.sbox{position:relative}
+.sbox .vis{display:flex;align-items:flex-end;gap:5px;height:70px;margin:12px 0 10px}
+.sbox .vis i{flex:1;border-radius:6px 6px 2px 2px;background:var(--accent-line);height:20%;transition:height .12s}
+.sbox.acc .vis i:nth-child(odd){background:color-mix(in srgb,var(--gold) 45%,#fff)}
+/* ---------- metronome ---------- */
+.metro{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;margin-top:16px}
+.beat{width:clamp(170px,22vh,230px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#fff,var(--accent-soft));border:3px solid var(--accent-line);font-family:var(--display);font-weight:800;font-size:clamp(54px,7vh,82px);color:var(--accent-ink);transition:transform .08s,background .2s,opacity .3s;box-shadow:var(--shadow)}
+.beat.hit{transform:scale(1.09);background:radial-gradient(circle at 40% 35%,#fff,color-mix(in srgb,var(--accent) 30%,#fff))}
+.beat.down{border-color:var(--gold)}
+.beat.silent{opacity:.35;border-style:dashed}
+.metroInfo .phase{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.6vw,36px);min-height:1.3em}
+.bpm{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.bpm button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:800}
+.bpm output{font-family:var(--display);font-size:24px;min-width:3ch;text-align:center}
+.rounds{display:grid;gap:8px;margin-top:12px}
+.rounds div{border:1px solid var(--line);border-radius:14px;padding:8px 14px;background:#fff;font-size:18px}
+.rounds div b{color:var(--accent-ink)}
+/* ---------- dynamics ---------- */
+.dyn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.dynB{border:1px solid var(--line);border-radius:20px;background:#fff;padding:14px;box-shadow:var(--shadow);text-align:center;cursor:pointer;transition:.2s;font:inherit;color:var(--ink)}
+.dynB:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.dynB.on{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.dynB .dots{height:74px;display:flex;align-items:center;justify-content:center;gap:6px}
+.dynB .dots i{display:block;border-radius:50%;background:var(--accent-ink)}
+.dynB b{display:block;font-family:var(--display);font-size:22px}.dynB small{color:var(--muted);font-size:15px}
+/* ---------- graphic score ---------- */
+.scoreBox{margin-top:14px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:14px 16px 12px;max-width:1240px;position:relative}
+.scoreBox svg{display:block;width:100%;height:auto;direction:ltr}
+.scoreBox .ph{transition:none}
+.moments{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.moments span{border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-weight:700;font-size:16px;background:#fff;transition:.25s}
+.moments span.lit{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-ink);transform:scale(1.05)}
+/* ---------- virtual choir wall ---------- */
+.choir{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;border-radius:18px;padding:10px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.choir i{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;font-style:normal;font-size:clamp(13px,1.35vw,20px);background:var(--c,#eef2f6);animation:sing 1.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+.choir i.cd{grid-column:span 2;grid-row:span 2;font-size:clamp(28px,3vw,44px);background:var(--gold-soft);border:2px solid var(--gold);animation:none}
+@keyframes sing{0%,100%{transform:scale(1)}50%{transform:scale(.88)}}
+.bigNum{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,72px);line-height:1;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.numRow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.numCard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px 20px;box-shadow:var(--shadow)}
+.numCard .yr{display:inline-block;font-weight:800;font-size:15px;color:var(--wine-ink);background:var(--wine-soft);border-radius:999px;padding:2px 10px}
+.numCard h3{margin:8px 0 6px}
+.numCard p{margin:6px 0 0;color:var(--muted);font-size:18px}
+.us{margin-top:14px;border:1px dashed var(--gold);background:var(--gold-soft);border-radius:18px;padding:12px 18px;font-size:clamp(17px,1.6vw,22px);font-weight:700;color:var(--gold-ink)}
+/* ---------- pentatonic grid ---------- */
+.gridWrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:12px}
+.pgrid{display:grid;grid-template-columns:44px repeat(16,1fr);gap:3px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:var(--shadow);direction:ltr}
+.pgrid .lab{font-family:var(--display);font-weight:700;font-size:13px;color:var(--muted);display:grid;place-items:center}
+.pgrid button{aspect-ratio:1.35;border:1px solid #ece7df;border-radius:6px;background:#faf8f4;padding:0;min-width:0}
+.pgrid button:nth-child(17n+6),.pgrid button:nth-child(17n+10),.pgrid button:nth-child(17n+14){margin-left:2px}
+.pgrid button.on{background:var(--c);border-color:var(--c)}
+.pgrid button.col{box-shadow:inset 0 0 0 2px var(--gold)}
+.scaleTag{display:inline-flex;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px;background:#fff}
+.scaleTag button{border:0;background:transparent;border-radius:999px;padding:6px 12px;font-weight:800;color:var(--muted)}
+.scaleTag button.on{background:var(--accent-ink);color:#fff}
+/* ---------- steps compact ---------- */
+.steps.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.steps.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.step code{font-family:ui-monospace,Menlo,monospace;font-size:.86em;background:var(--paper2);border-radius:6px;padding:1px 6px;direction:ltr;unicode-bidi:isolate}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:3px;border-radius:7px;padding:0 7px;background:#fff;font-weight:800;font-size:.9em}
+.url{display:inline-block;align-self:flex-start;width:max-content;max-width:100%;direction:ltr;font-family:ui-monospace,Menlo,monospace;font-size:clamp(15px,1.35vw,19px);background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px 10px;color:var(--accent-ink);font-weight:700;margin-top:10px}
+/* length calculator */
+.calc{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:14px;border:1px solid var(--line);border-radius:18px;background:#fff;padding:12px 16px;box-shadow:var(--shadow-sm);max-width:1240px}
+.calc label{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:17px}
+.calc input{width:70px;font:inherit;font-weight:800;text-align:center;padding:5px;border:1px solid var(--line);border-radius:10px;background:#fffef9}
+.calc output{font-family:var(--display);font-weight:800;font-size:26px;color:var(--accent-ink)}
+.calc .verdict{font-weight:800;border-radius:999px;padding:4px 12px}
+.calc .verdict.ok{background:var(--good-bg);color:var(--good)}.calc .verdict.no{background:var(--bad-bg);color:var(--bad)}
+/* ---------- score + rubric tables ---------- */
+.compactT table.t{font-size:clamp(15px,1.45vw,20px)}.compactT table.t th,.compactT table.t td{padding:6px 14px}.compactT h2{margin:6px 0 4px}
+.winline{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.winline span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;font-weight:700;font-size:16px}
+table.t tr.reveal td{transition:inherit}
+.lvl1{background:#fbf3ee}.lvl2{background:#fdf8ea}.lvl3{background:#eef7f2}.lvl4{background:#e8f3f1}
+table.rub{font-size:clamp(14px,1.3vw,18px)}
+table.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+/* big timers */
+.bigTimer .timer{padding:12px 18px 12px 24px}.bigTimer .timer output{font-size:clamp(56px,8vw,112px)}
+.miles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.mile{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.mile small{display:block;font-weight:800;color:var(--accent-ink);font-size:15px}
+.mile p{margin:4px 0 0;font-size:18px;line-height:1.45}
+.sprintTop{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}.sprintTop .lead{flex:1 1 320px;min-width:0}
+.cards.five .card p{font-size:16px}.cards.five .card strong{font-size:20px}
+.whoDoes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px;max-width:1240px}
+.whoDoes div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px 10px;font-size:15.5px;line-height:1.35}
+.whoDoes b{display:block;font-family:var(--display);font-size:16px}
+/* conductor signs */
+.signs .card{text-align:center}
+.signs .card svg{width:84px;height:84px;display:block;margin:0 auto 4px}
+/* prompts */
+.pl{position:relative;padding-left:120px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.prompt.pl{margin-top:12px;font-size:clamp(16px,1.6vw,21px)}
+.prompt .ptag{display:inline-block;font-size:14px;font-weight:800;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 9px;margin-inline-end:6px}
+/* rehearsal */
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pairs span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700;font-size:17px}
+.checks3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.chk{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:flex-start;font:inherit;color:var(--ink);text-align:right;cursor:pointer}
+.chk .bx{flex:none;width:34px;height:34px;border-radius:10px;border:2px solid var(--line2,#d9d3c8);display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff}
+.chk.on{border-color:#86cfa0;background:var(--good-bg)}.chk.on .bx{background:var(--good);border-color:var(--good)}
+.chk b{display:block;font-family:var(--display);font-size:20px}.chk small{color:var(--muted);font-size:15.5px}
+/* live tables */
+.liveBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.liveBar .ghost{padding:6px 12px;font-size:15px}
+table.t.live{font-size:clamp(14px,1.35vw,18px)}
+table.t.live th{font-size:clamp(12.5px,1.15vw,15.5px);padding:7px 7px;line-height:1.25;text-align:center}
+table.t.live td{padding:5px 7px;text-align:center;vertical-align:middle}
+table.t.live td:first-child{text-align:right}
+table.t.live input{width:100%;min-width:52px;max-width:90px;font:inherit;font-weight:700;padding:4px 6px;border:1px solid var(--line);border-radius:9px;background:#fffef9;color:var(--ink);text-align:center}
+table.t.live input.nm{max-width:200px;min-width:120px;text-align:right;font-family:var(--display)}
+table.t.live input.pc{max-width:260px;min-width:150px;text-align:right}
+table.t.live input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:0;background:#fff}
+table.t.live .calcC{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+table.t.live .tot{font-family:var(--display);font-weight:800;font-size:1.25em;color:var(--accent-ink)}
+table.t.live tr.r1 td{background:#fff6d9}table.t.live tr.r2 td{background:#f4f5f7}table.t.live tr.r3 td{background:#fdf0e6}
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button,.tg{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-weight:800;min-width:30px;height:30px;padding:0 6px;font-size:16px;line-height:1}
+.stp button:hover,.tg:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.stp output{min-width:22px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.tg.on{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.slide.liveS h2{font-size:clamp(26px,3vw,42px);margin:6px 0 4px}
+.slide.liveS .lead{margin-bottom:0}
+.slide.liveS .kicker{font-size:15px;padding:5px 12px}
+.slide.liveS .tableWrap{margin-top:8px}
+.scoreLine{margin-top:8px;color:var(--muted);font-weight:700;font-size:16px}
+.linkField{display:inline-block;min-width:260px;border-bottom:2px dashed var(--accent-line);padding:2px 8px;font-weight:800;color:var(--accent-ink);direction:ltr;outline:none}
+.linkField:empty::before{content:"(הקישור יופיע כאן)";color:var(--dim);font-weight:500;direction:rtl}
+/* stage (now playing) */
+.nowWrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;margin-top:12px;align-items:stretch}
+.onStage{position:relative;border-radius:26px;overflow:hidden;border:1px solid #ecd7e1;background:linear-gradient(180deg,#fff,#fff7fa);box-shadow:var(--shadow-lg);padding:20px 22px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.onStage::before,.onStage::after{content:"";position:absolute;top:0;bottom:0;width:13%;background:repeating-linear-gradient(90deg,#9b3a62 0 10px,#b14c77 10px 20px);opacity:.92}
+.onStage::before{right:0;border-bottom-left-radius:40px}.onStage::after{left:0;border-bottom-right-radius:40px}
+.onStage>*{position:relative;z-index:1}
+.onStage small{font-weight:800;letter-spacing:.12em;color:var(--wine-ink);font-size:14px}
+.onStage .ens{font-family:var(--display);font-weight:800;font-size:clamp(34px,4vw,60px);line-height:1.1}
+.onStage .piece{font-size:clamp(20px,2vw,28px);color:var(--muted);font-weight:700;min-height:1.4em}
+.onStage .mood{font-size:18px;font-weight:700;color:var(--gold-ink);background:var(--gold-soft);border-radius:999px;padding:3px 12px;min-height:1.5em}
+.onStage .nav2{display:flex;gap:8px;margin-top:auto;padding-top:10px}
+.order{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.order span{border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-weight:700;font-size:15px;background:#fff;cursor:pointer}
+.order span.cur{background:var(--wine);color:#fff;border-color:var(--wine)}.order span.seen{color:var(--dim)}
+.ritual{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow-sm);margin-top:12px}
+.ritual ol{margin:4px 0 0;padding-inline-start:22px;font-size:17px;line-height:1.55}
+/* awards */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1240px}
+.award{position:relative;border-radius:22px;padding:18px 14px 16px;text-align:center;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:6px}
+.award.main{border-color:#efd9a0;background:linear-gradient(180deg,#fffaf0,#fff)}
+.award .em{font-size:46px;line-height:1}
+.award .ttl{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.7vw,23px);line-height:1.2}
+.award .why{color:var(--muted);font-size:15px;line-height:1.35;min-height:2.7em}
+.award .win{margin-top:auto;font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);color:var(--gold-ink);background:var(--gold-soft);border:1px solid #efd9a0;border-radius:14px;padding:6px 12px;width:100%}
+.award select{margin-top:auto;font:inherit;font-family:var(--display);font-weight:800;font-size:clamp(17px,1.6vw,22px);color:var(--gold-ink);background:var(--gold-soft);border:1px dashed #e0c27a;border-radius:14px;padding:6px 8px;width:100%;text-align:center}
+.award svg{width:70px;height:auto}
+/* finale */
+.finale{position:relative;width:min(900px,100%);margin:10px auto 0;border-radius:26px;overflow:hidden;border:1px solid #ecd7e1;background:#fff;box-shadow:var(--shadow-lg);padding:22px 30px}
+.finale .curtL,.finale .curtR{position:absolute;top:0;bottom:0;width:50%;background:repeating-linear-gradient(90deg,#9b3a62 0 14px,#b14c77 14px 28px);transition:transform 1.6s cubic-bezier(.6,.05,.3,1);z-index:2}
+.finale .curtL{left:0;transform:translateX(-100%)}.finale .curtR{right:0;transform:translateX(100%)}
+.finale.closed .curtL,.finale.closed .curtR{transform:none}
+.finale .bravo{position:absolute;inset:0;display:grid;place-items:center;z-index:3;font-family:var(--display);font-weight:800;font-size:clamp(44px,5vw,72px);color:#fff;opacity:0;pointer-events:none;transition:opacity .6s 1.3s}
+.finale.closed .bravo{opacity:1}
+.prog{list-style:none;margin:0;padding:0;display:grid;gap:6px;text-align:right}
+.prog li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--line);padding:5px 0;font-size:clamp(17px,1.6vw,22px)}
+.prog li b{font-family:var(--display)}
+.prog li span{color:var(--muted)}
+@media (max-height:800px){
+ .slide.tight h2{font-size:clamp(28px,3.4vw,46px);margin:6px 0 6px}
+ .bigTimer .timer output{font-size:clamp(48px,7vw,88px)}
+ .mile{padding:8px 12px}.mile p{font-size:16px}
+ .mcard{height:clamp(220px,34vh,280px)}
+ .dl{padding:10px}.dl .em{font-size:30px}.dl b{font-size:17px}.dl small{font-size:14px}
+ table.t.live td{padding:3px 6px}table.t.live input{padding:3px 5px}
+ .award{padding:12px 10px}.award .em{font-size:38px}
+ .storyBox{padding:10px 14px;margin-top:10px}
+ .compactT table.t{font-size:15.5px}.compactT table.t th,.compactT table.t td{padding:4px 12px}.compactT .winline{margin-top:6px}.compactT .winline span{padding:4px 11px;font-size:15px}
+ .whoDoes div{padding:6px 8px;font-size:14.5px}
+ .signs .card svg{width:64px;height:64px}
+ .beat{width:clamp(150px,22vh,200px)}
+}
+@media (max-width:1000px){.heroGrid,.row2,.row2.w,.moodStage,.gridWrap,.nowWrap,.metro{grid-template-columns:1fr}.cards.five,.deliver,.whoDoes{grid-template-columns:1fr 1fr}.cards.four,.cond,.dyn,.awards,.miles,.checks3,.numRow{grid-template-columns:1fr 1fr}.steps.five,.steps.four{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🎻</div><div><b>התזמורת הווירטואלית</b><small>מנגנים יחד ברשת · קונצרט שרביט הזהב</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+<main class="deck" id="deck">
+<!-- ================= 1. פתיחה ================= -->
+<section class="slide hero" data-topic="פתיחה" data-title="התזמורת הווירטואלית" data-accent="#9b3a62">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🎻 Tech It Easy · הקונצרט של הערב</span>
+      <h2>התזמורת <span class="wine">הווירטואלית</span></h2>
+      <div class="storyBox">התזמורת העירונית נתקעה: <b>הנגנים פזורים בכל העולם ואין להם אולם.</b> המנצחת הראשית שלחה בקשה: כל הרכב יכין יצירה של דקה שאפשר לנגן יחד ברשת. בקונצרט הערב, הקהל יבחר את ההרכב שיקבל את <b>🪄 שרביט הזהב</b>.</div>
+      <div class="btnRow"><button class="pbtn" id="tuneBtn">🎼 התזמורת מתכווננת</button></div>
+    </div>
+    <div class="hall" aria-hidden="true">
+      <svg viewBox="0 0 560 400">
+        <defs>
+          <linearGradient id="curt" x1="0" x2="1"><stop offset="0" stop-color="#7d2a4d"/><stop offset=".5" stop-color="#b14c77"/><stop offset="1" stop-color="#8f3459"/></linearGradient>
+          <linearGradient id="flo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e2b0"/><stop offset="1" stop-color="#e8c56f"/></linearGradient>
+          <linearGradient id="bat" x1="0" x2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset="1" stop-color="#b98510"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="560" height="400" rx="20" fill="#fffaf6"/>
+        <path d="M40 330 L40 120 Q280 -10 520 120 L520 330 Z" fill="#fbf1f5" stroke="#ecd0dd" stroke-width="2"/>
+        <path d="M40 120 Q280 -10 520 120" fill="none" stroke="#d9a21b" stroke-width="5" stroke-linecap="round"/>
+        <path d="M40 118 L40 340 L110 340 Q86 230 120 128 Q80 104 40 118Z" fill="url(#curt)"/>
+        <path d="M520 118 L520 340 L450 340 Q474 230 440 128 Q480 104 520 118Z" fill="url(#curt)"/>
+        <ellipse cx="280" cy="342" rx="250" ry="34" fill="url(#flo)"/>
+        <!-- wires -->
+        <g stroke="#c98aa7" stroke-width="2.4" fill="none" class="wire">
+          <path d="M280 250 Q190 200 150 130"/><path d="M280 250 Q280 170 280 105"/><path d="M280 250 Q370 200 410 130"/>
+          <path d="M280 250 Q190 250 140 240"/><path d="M280 250 Q370 250 420 240"/>
+        </g>
+        <!-- screens -->
+        <g class="scr" font-size="30" text-anchor="middle">
+          <rect class="face" x="108" y="92" width="84" height="62" rx="12" fill="#fff" stroke="#ecd0dd" stroke-width="2"/><text x="150" y="134">🎹</text>
+          <rect class="face" x="238" y="66" width="84" height="62" rx="12" fill="#fff" stroke="#ecd0dd" stroke-width="2"/><text x="280" y="108">🎻</text>
+          <rect class="face" x="368" y="92" width="84" height="62" rx="12" fill="#fff" stroke="#ecd0dd" stroke-width="2"/><text x="410" y="134">🫧</text>
+          <rect class="face" x="96" y="210" width="84" height="62" rx="12" fill="#fff" stroke="#ecd0dd" stroke-width="2"/><text x="138" y="252">🥁</text>
+          <rect class="face" x="380" y="210" width="84" height="62" rx="12" fill="#fff" stroke="#ecd0dd" stroke-width="2"/><text x="422" y="252">🎚️</text>
+        </g>
+        <!-- conductor podium -->
+        <rect x="246" y="262" width="68" height="64" rx="8" fill="#9b3a62"/>
+        <rect x="236" y="254" width="88" height="14" rx="5" fill="#7d2a4d"/>
+        <circle cx="280" cy="222" r="16" fill="#2b2f45"/>
+        <path d="M262 254 Q280 236 298 254Z" fill="#2b2f45"/>
+        <line x1="296" y1="244" x2="336" y2="206" stroke="url(#bat)" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="338" cy="204" r="4" fill="#f6d77a"/>
+        <!-- notes -->
+        <g fill="#9b3a62" font-size="30">
+          <text class="note" x="196" y="196">♪</text><text class="note" x="350" y="180">♫</text><text class="note" x="240" y="168">♩</text>
+        </g>
+        <text x="280" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#8a5a00" font-family="Rubik,Arial">אולם אחד · נגנים מכל העולם · שרביט אחד</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="מקהלת הבלובים" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="blobs" aria-label="הוראות">?</button>
+  <span class="kicker">🫧 חימום: מקהלת הבלובים</span>
+  <h2>ארבעה זמרים. <span class="violet">אף אחד מהם לא אמיתי.</span></h2>
+  <p class="lead">על המקרן: <b>Blob Opera</b>. מתנדב/ת אחד/ת ליד המחשב מזיז/ה את הבלובים, וכל הכיתה מנצחת: מראים בידיים מה הבלובים צריכים לעשות.</p>
+  <div class="cards four">
+    <div class="card"><div class="emoji">⬆️</div><strong>יד עולה</strong><p>הבלוב שר גבוה יותר</p></div>
+    <div class="card"><div class="emoji">⬇️</div><strong>יד יורדת</strong><p>הבלוב שר נמוך יותר</p></div>
+    <div class="card"><div class="emoji">👐</div><strong>ידיים נפתחות</strong><p>יותר דרמה! לגרור מהר</p></div>
+    <div class="card"><div class="emoji">✊</div><strong>אגרוף</strong><p>כולם עוצרים. שקט באולם</p></div>
+  </div>
+  <div class="task"><strong>אחרי דקה, תחשבו:</strong><p>מה היה קל, ומה היה מבולגן כשכולם ניצחו בבת אחת? <b>מה חסר כאן?</b></p></div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="מה עושה מנצח/ת?" data-accent="#9b3a62">
+  <span class="kicker">🎼 שאלה לכיתה</span>
+  <h2>מה בעצם <span class="wine">עושה מנצח/ת</span>? הוא/היא לא מנגן/ת אף תו!</h2>
+  <div class="cond">
+    <div class="card reveal"><div class="emoji">🥁</div><strong>מחזיק/ה את הקצב</strong><p>כולם מנגנים באותה מהירות, גם כשלא שומעים טוב</p></div>
+    <div class="card reveal"><div class="emoji">➡️</div><strong>מסמן/ת כניסות</strong><p>מי מתחיל עכשיו, ומי מחכה</p></div>
+    <div class="card reveal"><div class="emoji">🔊</div><strong>שולט/ת בעוצמה</strong><p>מתי לחש ומתי סערה</p></div>
+    <div class="card reveal"><div class="emoji">✊</div><strong>סוגר/ת יחד</strong><p>כולם מסיימים באותה שנייה בדיוק</p></div>
+  </div>
+  <div class="clickHint">חשבו קודם, ואז "הבא" חושף כל תפקיד</div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#d9a21b">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור, לכל הרכב יש <span class="gold">יצירה מקורית של דקה</span></h2>
+  <div class="deliver">
+    <div class="dl"><span class="t">5–10 שניות</span><div class="em">🫧</div><b>פתיחה אופראית</b><small>ב-Blob Opera</small></div>
+    <div class="dl"><span class="t">8 תיבות לפחות</span><div class="em">🎹</div><b>מלודיה מקורית</b><small>ב-Song Maker</small></div>
+    <div class="dl"><span class="t">2 נגנים לפחות</span><div class="em">🎶</div><b>ליווי חי</b><small>יחד ברשת, ב-Shared Piano</small></div>
+    <div class="dl"><span class="t">קובץ אחד</span><div class="em">🎚️</div><b>מיקס סופי</b><small>ב-BandLab</small></div>
+    <div class="dl paper"><span class="t">על דף</span><div class="em">🎨</div><b>פרטיטורה גרפית</b><small>שהמנצח/ת מנצח/ת לפיה</small></div>
+  </div>
+  <p class="lead" style="margin-top:16px">ובסוף: <b>קונצרט חי</b> מול כל הכיתה. 45–60 שניות, מנגנים באמת, והקהל מצביע.</p>
+</section>
+
+<!-- ================= 2. ההרכבים ================= -->
+<section class="slide tight" data-topic="ההרכבים" data-title="ההרכב שלכם" data-accent="#9b3a62">
+  <span class="kicker">👥 ההרכב שלכם</span>
+  <h2>חמישה תפקידים, <span class="wine">הרכב אחד</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎼</div><strong>מנצח/ת</strong><p>מחזיק/ה את הקצב ואת הפרטיטורה, מסמן/ת כניסות ויציאות. <b>רק הוא/היא</b> קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">🎹</div><strong>מלחין/ה</strong><p>כותב/ת את המלודיה ב-Song Maker ושומר/ת קישור וקובץ WAV.</p></div>
+    <div class="card"><div class="emoji">🎶</div><strong>נגן/ית ליווי</strong><p>מנגן/ת אקורדים או בס ב-Shared Piano לצד המלודיה. בהרכב של 6: שניים.</p></div>
+    <div class="card"><div class="emoji">🫧</div><strong>זמר/ת הבלובים</strong><p>יוצר/ת את הפתיחה ב-Blob Opera, ובקונצרט מצטרף/ת כנגן/ית שני/ה.</p></div>
+    <div class="card"><div class="emoji">🎚️</div><strong>מהנדס/ת הקלטה</strong><p>מקליט/ה את החזרות, מערבב/ת ב-BandLab ומגיש/ה בטופס.</p></div>
+  </div>
+  <div class="sprintTop" style="margin-top:14px">
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <p class="lead" style="margin:0">בוחרים <b>שם להרכב</b>, מחלקים כרטיסים ונכנסים לחשבון Google. בהרכב של 4: זמר/ת הבלובים הוא/היא גם המהנדס/ת.</p>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ההרכבים" data-title="מצב הרוח של היצירה" data-accent="#d9a21b">
+  <span class="kicker">🎲 הגרלה</span>
+  <h2>כל הרכב שולף <span class="gold">מצב רוח</span> ליצירה</h2>
+  <div class="drawBar"><label for="drawTeam"><b>ההרכב:</b></label><select id="drawTeam"></select><button class="btn" id="drawGo">🎲 שולפים!</button><button class="ghost" id="drawPlay">🔊 איך זה נשמע?</button></div>
+  <div class="moodStage">
+    <div class="mcard" id="moodCard"><div class="in">
+      <div class="fc back"><span>🎭</span><b>מצב הרוח שלכם</b></div>
+      <div class="fc front"><span class="em" id="mEm">🗺️</span><span class="nm" id="mNm">הרפתקה</span><span class="tp" id="mTp"></span></div>
+    </div></div>
+    <div class="moodGrid" id="moodGrid"></div>
+  </div>
+</section>
+
+<!-- ================= 3. איך מנגנים יחד ================= -->
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="מלודיה וליווי" data-accent="#4c8bd6">
+  <span class="kicker">🎧 להקשיב</span>
+  <h2>מלודיה <span style="color:var(--sky-ink)">וליווי</span></h2>
+  <p class="lead">אותה מנגינה בדיוק, פעמיים. מה השתנה?</p>
+  <div class="compare">
+    <div class="box sbox" id="sbMel"><span class="label">🎹 רק מלודיה</span>
+      <p style="margin:0">המנגינה שזוכרים ושרים במקלחת. קו אחד של תווים.</p>
+      <div class="vis"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <button class="pbtn" data-demo="mel">▶ השמעה</button></div>
+    <div class="box sbox acc" id="sbAcc"><span class="label">🎹 + 🎶 מלודיה עם ליווי</span>
+      <p style="margin:0">מתחת למנגינה: בס ואקורדים שנותנים לה "קרקע" וצבע.</p>
+      <div class="vis"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <button class="pbtn" data-demo="acc">▶ השמעה</button></div>
+  </div>
+  <div class="revealList"><div class="revealCard reveal">💡 <b>המלודיה</b> היא מה שזוכרים. <b>הליווי</b> הוא מה שגורם לה להישמע מלאה. אצלנו: מלודיה ב-Song Maker, וליווי חי בידיים.</div></div>
+</section>
+
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="קצב משותף" data-accent="#2f9e80">
+  <span class="kicker">👏 ניסוי כיתתי</span>
+  <h2>קצב משותף: <span class="green">מוחאים יחד</span>, ואז בלי לשמוע</h2>
+  <div class="metro">
+    <div class="beat" id="beat">♩</div>
+    <div class="metroInfo">
+      <div class="phase" id="metroPhase">מוכנים? מוחאים על כל פעימה</div>
+      <div class="btnRow"><button class="pbtn" id="metroGo">▶ סבב: 8 שומעים · 8 בשקט · חוזרים</button>
+        <span class="bpm">טמפו <button data-bpm="-10">−</button><output id="bpmOut">90</output><button data-bpm="10">+</button></span></div>
+      <div class="rounds">
+        <div><b>סבב 1:</b> מסתכלים ומקשיבים. קל.</div>
+        <div><b>סבב 2:</b> עיניים עצומות. רק מקשיבים.</div>
+        <div><b>סבב 3:</b> המטרונום משתתק ל-8 פעימות. ממשיכים למחוא… נשארנו יחד כשהוא חזר?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="עוצמה: חזק וחלש" data-accent="#e76f86">
+  <span class="kicker">🔊 עוצמה</span>
+  <h2>אותה מנגינה. <span class="red">ארבעה רגשות.</span></h2>
+  <p class="lead">לוחצים ומקשיבים. בפרטיטורה שלנו: <b>סימן קטן = חלש · סימן גדול = חזק</b>.</p>
+  <div class="dyn">
+    <button class="dynB" data-dyn="pp"><div class="dots"><i style="width:12px;height:12px"></i><i style="width:12px;height:12px"></i><i style="width:12px;height:12px"></i></div><b>לחש</b><small>שקט, סוד, לילה</small></button>
+    <button class="dynB" data-dyn="mf"><div class="dots"><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i><i style="width:26px;height:26px"></i></div><b>רגיל</b><small>מספרים סיפור</small></button>
+    <button class="dynB" data-dyn="ff"><div class="dots"><i style="width:46px;height:46px"></i><i style="width:46px;height:46px"></i><i style="width:46px;height:46px"></i></div><b>חזק!</b><small>חגיגה, סערה, ניצחון</small></button>
+    <button class="dynB" data-dyn="cr"><div class="dots"><i style="width:10px;height:10px"></i><i style="width:22px;height:22px"></i><i style="width:36px;height:36px"></i><i style="width:52px;height:52px"></i></div><b>מתחזקים</b><small>מתח שעולה ועולה</small></button>
+  </div>
+  <div class="revealList"><div class="revealCard reveal">🎯 <b>שינוי עוצמה ביחד</b> הוא אחד משלושת הרגעים שהקהל ישמע אצלכם בקונצרט. בלי מנצח/ת, כל נגן משנה בזמן אחר.</div></div>
+</section>
+
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="פרטיטורה גרפית" data-accent="#d9a21b">
+  <span class="kicker">🎨 כלי העבודה של המנצח/ת</span>
+  <h2>פרטיטורה <span class="gold">גרפית</span>: תווים בלי תווים</h2>
+  <p class="lead">כל שורה היא כלי. כל משבצת היא תיבה. קוראים משמאל לימין, כמו ב-Song Maker. לחצו נגינה ועקבו אחרי הקו.</p>
+  <div class="scoreBox">
+    <svg viewBox="0 0 1200 300" id="gscore" aria-label="פרטיטורה גרפית לדוגמה">
+      <rect x="0" y="0" width="1200" height="300" fill="#fff"/>
+      <g font-family="Rubik,Arial" font-size="22" font-weight="700" fill="#1f2a37" text-anchor="end">
+        <text x="150" y="82">🫧 בלובים</text><text x="150" y="162">🎹 מלודיה</text><text x="150" y="242">🎶 ליווי</text>
+      </g>
+      <g stroke="#e7e3dc" stroke-width="2">
+        <line x1="165" y1="40" x2="1185" y2="40"/><line x1="165" y1="120" x2="1185" y2="120"/><line x1="165" y1="200" x2="1185" y2="200"/><line x1="165" y1="280" x2="1185" y2="280"/>
+      </g>
+      <g stroke="#e7e3dc" stroke-width="1.5" stroke-dasharray="4 5" id="barLines"></g>
+      <g font-family="Rubik,Arial" font-size="14" fill="#8a93a1" text-anchor="middle" id="barNums"></g>
+      <!-- blobs: wavy opening bars 1-2 -->
+      <path d="M178 80 q15 -22 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#8c7ae6" stroke-width="7" stroke-linecap="round"/>
+      <!-- melody: entrance arrow bar 3, small dots bar 3, crescendo wedge bar 4, big dots bars 5-7, long note bar 8 -->
+      <path d="M424 160 l24 0 m-10 -10 l10 10 l-10 10" stroke="#0f766e" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#0f766e"><circle cx="468" cy="160" r="7"/><circle cx="492" cy="152" r="7"/><circle cx="516" cy="166" r="7"/><circle cx="538" cy="158" r="7"/></g>
+      <path d="M562 160 L664 140 M562 160 L664 180" stroke="#d9a21b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <g fill="#0f766e"><circle cx="708" cy="158" r="17"/><circle cx="764" cy="146" r="17"/><circle cx="836" cy="166" r="17"/><circle cx="892" cy="152" r="17"/><circle cx="964" cy="162" r="17"/><circle cx="1020" cy="150" r="17"/></g>
+      <rect x="1064" y="146" width="40" height="28" rx="14" fill="#0f766e"/>
+      <!-- accompaniment: entrance bar 5, big blocks bars 5-8 -->
+      <path d="M660 240 l24 0 m-10 -10 l10 10 l-10 10" stroke="#e76f86" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#e76f86"><rect x="692" y="222" width="100" height="36" rx="10"/><rect x="820" y="222" width="100" height="36" rx="10"/><rect x="948" y="222" width="100" height="36" rx="10"/><rect x="1064" y="222" width="40" height="36" rx="10"/></g>
+      <!-- shared end: fist + line -->
+      <line x1="1124" y1="44" x2="1124" y2="276" stroke="#9b3a62" stroke-width="6" stroke-linecap="round"/>
+      <text x="1160" y="174" font-size="42" text-anchor="middle">✊</text>
+      <!-- playhead -->
+      <g id="playhead" style="display:none"><line x1="0" y1="34" x2="0" y2="286" stroke="#d9a21b" stroke-width="5"/><circle cx="0" cy="34" r="8" fill="#d9a21b"/></g>
+    </svg>
+    <div class="sprintTop" style="margin-top:6px">
+      <button class="pbtn" id="scorePlay">▶ נגינה לפי הפרטיטורה</button>
+      <div class="moments" id="moments"><span data-m="1">➡️ כניסה</span><span data-m="2">🔊 שינוי עוצמה</span><span data-m="3">✊ סיום משותף</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="מקרה: המקהלה הווירטואלית" data-accent="#9b3a62">
+  <span class="kicker">🌍 מקרה אמיתי</span>
+  <div class="row2 w" style="margin-top:4px;align-items:center">
+    <div>
+      <h2 style="margin-top:6px">המקהלה <span class="wine">הווירטואלית</span></h2>
+      <p class="lead">המלחין <b>אריק ויטאקר</b> ביקש מזמרים להקליט את עצמם, כל אחד בבית, וחיבר את כל ההקלטות לביצוע אחד.</p>
+      <div class="task"><strong>שאלה לכיתה</strong><p>הזמרים <b>לא שמעו זה את זה</b> בזמן ההקלטה. מה עזר להם לשיר "ביחד"?</p></div>
+      <div class="revealList">
+        <div class="revealCard reveal">🎬 כל זמר צפה בסרטון של <b>המנצח</b> ושמע באוזניות <b>פסנתר מנחה</b> בקצב קבוע.</div>
+        <div class="revealCard reveal">🎯 ואצלנו? <b>המנצח/ת</b>, <b>הפרטיטורה</b> והטמפו הקבוע של Song Maker.</div>
+      </div>
+    </div>
+    <div class="choir" id="choir" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך מנגנים יחד" data-title="185 ואז 17,572" data-accent="#9b3a62">
+  <span class="kicker">📈 המספרים</span>
+  <h2>מ-185 זמרים <span class="wine">ל-17,572</span></h2>
+  <div class="numRow">
+    <div class="numCard reveal"><span class="yr">2010</span><h3>Lux Aurumque</h3><div class="bigNum" data-count="185">0</div><p>זמרים מ-<b>12</b> מדינות, ששרו כל אחד מהבית</p></div>
+    <div class="numCard reveal"><span class="yr">2020</span><h3>Sing Gently</h3><div class="bigNum" data-count="17572">0</div><p>זמרים מ-<b>129</b> מדינות, באותה יצירה</p></div>
+  </div>
+  <div class="us reveal">🎻 והערב אצלנו: הרכבים של 4–6 נגנים, כל אחד במחשב משלו, וקונצרט אחד. העיקרון אותו עיקרון.</div>
+</section>
+
+<section class="slide quiz" data-topic="איך מנגנים יחד" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1</span>
+  <h2>מה ההבדל בין מלודיה לליווי?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מלודיה היא תמיד מהירה, וליווי תמיד איטי.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מלודיה היא המנגינה שזוכרים, וליווי תומך בה מתחת: בס ואקורדים.</span></button>
+    <button class="option"><span class="letter">ג</span><span>מלודיה מנגנים בפסנתר, וליווי רק בתופים.</span></button>
+    <button class="option"><span class="letter">ד</span><span>אין הבדל, אלה שתי מילים לאותו דבר.</span></button>
+  </div>
+  <div class="explain">✓ נכון! הליווי לא "מתחרה" במלודיה. הוא נותן לה קרקע וצבע.</div>
+</section>
+
+<section class="slide quiz" data-topic="איך מנגנים יחד" data-title="ראשים ממוספרים 2" data-answer="3" data-accent="#9b3a62">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2</span>
+  <h2>הזמרים של ויטאקר לא שמעו זה את זה. מה החזיק אותם ביחד?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>כל אחד שר כמה שיותר חזק.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מחשב תיקן אחר כך את כל הטעויות לבד.</span></button>
+    <button class="option"><span class="letter">ג</span><span>כולם עקבו אחרי אותו מנצח ואותו קצב.</span></button>
+    <button class="option"><span class="letter">ד</span><span>הם התאמנו יחד באולם שנה שלמה.</span></button>
+  </div>
+  <div class="explain">✓ נכון! נקודת התייחסות אחת משותפת, מנצח וקצב, מחליפה את ההקשבה בזמן אמת.</div>
+</section>
+
+<section class="slide quiz" data-topic="איך מנגנים יחד" data-title="ראשים ממוספרים 3" data-answer="1" data-accent="#d9a21b">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3</span>
+  <h2>בפרטיטורה יש עיגולים קטנים שהולכים וגדלים. מה מנגנים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מתחילים חלש ומתחזקים בהדרגה.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מנגנים יותר ויותר מהר.</span></button>
+    <button class="option"><span class="letter">ג</span><span>עוצרים ומחכים למנצח/ת.</span></button>
+    <button class="option"><span class="letter">ד</span><span>כל נגן בוחר לבד מה לעשות.</span></button>
+  </div>
+  <div class="explain">✓ נכון! גודל = עוצמה. וזה בדיוק "שינוי העוצמה" שהקהל ישמע אצלכם.</div>
+</section>
+
+<!-- ================= 4. ארגז הכלים ================= -->
+<section class="slide tight" data-topic="ארגז הכלים" data-title="סולם שקשה לטעות בו" data-accent="#0f766e">
+  <span class="kicker">🎹 הסוד של המלחינים המתחילים</span>
+  <h2>סולם <span class="cyan">שקשה לטעות בו</span></h2>
+  <div class="gridWrap">
+    <div>
+      <div class="pgrid" id="pgrid"></div>
+      <div class="btnRow"><button class="pbtn" id="pgPlay">▶ נגינה</button><button class="ghost" id="pgRand">🎲 אקראי</button><button class="ghost" id="pgClear">✕ ניקוי</button>
+        <span class="scaleTag"><button class="on" data-scale="pent">Pentatonic</button><button data-scale="chrom">Chromatic</button></span></div>
+    </div>
+    <div>
+      <div class="task" style="margin-top:0"><strong>הניסוי</strong><ol><li>לוחצים 🎲 בסולם <b>Pentatonic</b> ומנגנים. נשמע טוב?</li><li>עוברים ל-<b>Chromatic</b>, שוב 🎲. ועכשיו?</li></ol></div>
+      <div class="revealList"><div class="revealCard reveal">💡 בסולם <b>פנטטוני</b> יש רק 5 צלילים, וכמעט כל צירוף שלהם נשמע טוב. לכן ב-Song Maker בוחרים <b>Scale: Pentatonic</b>, וגם נגני הליווי מנגנים רק בצלילים האלה.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="Song Maker בחמישה צעדים" data-accent="#0f766e">
+  <span class="kicker">🎹 למלחין/ה · Chrome Music Lab</span>
+  <h2>Song Maker <span class="cyan">בחמישה צעדים</span></h2>
+  <span class="url">musiclab.chromeexperiments.com/Song-Maker</span>
+  <div class="steps five">
+    <div class="step"><strong>Settings</strong><p><code>Length: 8</code><br><code>Scale: Pentatonic</code><br><code>Start on: C</code></p></div>
+    <div class="step"><strong>Tempo</strong><p>לפי מצב הרוח שהגרלתם (מופיע בקלף)</p></div>
+    <div class="step"><strong>מציירים</strong><p>לחיצה = תו. למעלה = גבוה. השורה התחתונה = תופים</p></div>
+    <div class="step"><strong>מבנה</strong><p>מה שכתבתם בתיבות 1 ו-2 חוזר בתיבות 5 ו-6. כך זוכרים את המנגינה</p></div>
+    <div class="step"><strong>Save</strong><p><code>Copy Link</code><br><code>Download Wav</code><br>בשם היצירה: בלי שמות פרטיים</p></div>
+  </div>
+  <div class="calc" id="lenCalc">
+    <b>⏱ מחשבון אורך:</b>
+    <label>טמפו <input type="number" id="cT" value="100" min="40" max="240"></label>
+    <label>תיבות <input type="number" id="cB" value="8" min="1" max="16"></label>
+    <label>סבבים <input type="number" id="cR" value="2" min="1" max="4"></label>
+    <label>פתיחה (שנ׳) <input type="number" id="cO" value="8" min="0" max="15"></label>
+    = <output id="cOut">—</output><span class="verdict" id="cV"></span>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="Shared Piano: חדר להרכב" data-accent="#e76f86">
+  <button class="helpBtn" data-help="piano" aria-label="הוראות">?</button>
+  <span class="kicker">🎶 לנגני הליווי ולמנצח/ת · עד 10 נגנים בחדר</span>
+  <h2>Shared Piano: <span class="red">חדר חזרות להרכב</span></h2>
+  <span class="url">musiclab.chromeexperiments.com/Shared-Piano</span>
+  <div class="steps four">
+    <div class="step"><strong>אחד פותח</strong><p>המנצח/ת פותח/ת את הדף. נוצר חדר עם כתובת משלו</p></div>
+    <div class="step"><strong>מזמינים</strong><p>מעתיקים את הקישור של החדר ושולחים להרכב בלבד</p></div>
+    <div class="step"><strong>כל אחד כלי אחר</strong><p>בוחרים כלי מהתפריט. כל נגן מקבל צבע משלו</p></div>
+    <div class="step"><strong>🎧 ומנגנים</strong><p>במקלדת או במגע. רואים את התווים של כולם עולים על המסך</p></div>
+  </div>
+  <div class="task"><strong>🎶 ליווי בלי לטעות</strong><p>מנגנים רק את <b>C · D · E · G · A</b> (הקלידים הלבנים, בלי F ו-B). הכי פשוט: תו נמוך אחד ארוך בתחילת כל תיבה, לפי הקצב של המנצח/ת.</p></div>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="Blob Opera: פתיחה" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="opera" aria-label="הוראות">?</button>
+  <span class="kicker">🫧 לזמר/ת הבלובים · Google Arts &amp; Culture</span>
+  <h2>Blob Opera: <span class="violet">פתיחה של 5–10 שניות</span></h2>
+  <div class="steps four">
+    <div class="step"><strong>גוררים</strong><p>בלוב למעלה ולמטה = גובה הצליל. קדימה ואחורה = צורת הפה</p></div>
+    <div class="step"><strong>מקשיבים</strong><p>שלושת האחרים מצטרפים לבד בהרמוניה. גוררים לאט = יפה יותר</p></div>
+    <div class="step"><strong>מקליטים</strong><p>כפתור ההקלטה, 5–10 שניות שמסתיימות בצליל ארוך, ומסיימים</p></div>
+    <div class="step"><strong>משתפים</strong><p>מעתיקים את הקישור להקלטה. המהנדס/ת מקליט/ה אותה גם ב-BandLab</p></div>
+  </div>
+  <div class="revealList"><div class="revealCard reveal">🎯 פתיחה טובה מתאימה ל<b>מצב הרוח</b> שלכם, ונגמרת בצליל שהמלודיה יכולה להיכנס אחריו. המנצח/ת מסמן/ת את הכניסה!</div></div>
+</section>
+
+<!-- ================= 5. האתגר ================= -->
+<section class="slide tight" data-topic="האתגר" data-title="האתגר: שרביט הזהב" data-accent="#d9a21b">
+  <button class="helpBtn" data-help="rules" aria-label="החוקים המלאים">?</button>
+  <span class="kicker">🪄 האתגר</span>
+  <h2>שרביט <span class="gold">הזהב</span></h2>
+  <p class="lead">המנצחת הראשית מחכה ליצירות. <b>המטרה:</b> יצירה מקורית שההרכב מנגן חי ויחד, ושהקהל ישמע בה כניסה, שינוי עוצמה וסיום משותף.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>היצירה 45–60 שניות, עם פתיחה, מלודיה וליווי.</li>
+    <li>לפחות שני נגנים מנגנים יחד בזמן אמת ב-Shared Piano.</li>
+    <li>המנצח/ת מסמן/ת לפחות 3 "רגעים" בפרטיטורה: כניסה, שינוי עוצמה וסיום משותף.</li>
+    <li>בקונצרט מנגנים חי. ההקלטה נשמעת רק אם החיבור נפל.</li>
+    <li>רק מוזיקה מקורית שנוצרה בשיעור, בלי מנגינות מוכרות.</li>
+    <li>מגישים בטופס עד הדקה שעל הטיימר.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight compactT" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#d9a21b">
+  <span class="kicker">🧮 ידוע מראש</span>
+  <h2>טבלת <span class="gold">הניקוד</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>מה</th><th style="width:220px">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎹 מלודיה של 8 תיבות ב-Song Maker</td><td><b>3</b></td></tr>
+      <tr><td>🎶 ליווי חי של 2 נגנים לפחות</td><td><b>3</b></td></tr>
+      <tr><td>🫧 פתיחת Blob Opera</td><td><b>2</b></td></tr>
+      <tr><td>🎚️ מיקס סופי ב-BandLab</td><td><b>3</b></td></tr>
+      <tr><td>✊ סיום משותף: כל הנגנים עוצרים יחד על סימן המנצח/ת</td><td><b>3</b></td></tr>
+      <tr><td>🎨 פרטיטורה גרפית עם 3 רגעים מסומנים</td><td><b>2</b></td></tr>
+      <tr><td>📊 ציון המחוון של המדריך (4 קריטריונים × 1–4)</td><td><b>עד 16</b></td></tr>
+      <tr><td>👏 הצבעת הקהל</td><td><b>מקום 1/2/3 = 5/3/2</b></td></tr>
+    </tbody></table></div>
+  <div class="winline"><span>🪄 שרביט הזהב: הכי הרבה נקודות · בתיקו: המחוון, ואז הקהל</span><span>🏅 עוד פרסים: 👂 ההקשבה · 🫧 הפתיחה המפתיעה · 🎨 הפרטיטורה הכי יפה</span></div>
+</section>
+
+<section class="slide tight compactT" data-topic="האתגר" data-title="המחוון" data-accent="#d9a21b">
+  <span class="kicker">📊 איך מחליטים</span>
+  <h2>המחוון: <span class="gold">מה שומעים ברמה 4?</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th class="lvl1">🌱 1</th><th class="lvl2">🌿 2</th><th class="lvl3">🌳 3</th><th class="lvl4">🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🎹 מלודיה ומבנה</td><td>אין מלודיה ברורה</td><td>מלודיה בלי התחלה וסוף</td><td>8 תיבות עם פתיחה וסיום</td><td>מלודיה שזוכרים, עם מבנה שחוזר ומשתנה</td></tr>
+      <tr class="reveal"><td>👂 תיאום והקשבה</td><td>כל אחד מנגן לבד</td><td>יחד, אבל לא באותו קצב</td><td>קצב משותף, כניסה וסיום משותפים</td><td>מקשיבים זה לזה, משנים עוצמה יחד ומגיבים למנצח/ת</td></tr>
+      <tr class="reveal"><td>🎼 פרטיטורה וניצוח</td><td>אין פרטיטורה</td><td>בלי סימנים ברורים</td><td>3 רגעים מסומנים שהמנצח/ת מבצע/ת</td><td>כל נגן יכול לקרוא אותה, והניצוח מוביל את כל ההרכב</td></tr>
+      <tr class="reveal"><td>🤝 עבודת צוות והפקה</td><td>חלק מהצוות לא השתתף</td><td>כולם עשו משהו, חסר מיקס</td><td>כל תפקיד ביצע, ויש מיקס סופי</td><td>כל תפקיד ביצע ועזר לאחרים, והמיקס נשמע כמו הרכב אחד</td></tr>
+    </tbody></table></div>
+  <div class="clickHint">"הבא" חושף שורה אחרי שורה · המחוון המודפס נמצא על השולחן</div>
+</section>
+
+<!-- ================= 6. ספרינט 1 ================= -->
+<section class="slide tight bigTimer" data-topic="ספרינט 1" data-title="ספרינט 1: מלודיה ופרטיטורה" data-accent="#0f766e">
+  <span class="kicker">🎹 ספרינט 1 · מלודיה ופרטיטורה</span>
+  <div class="sprintTop">
+    <div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light y">🟡 AI לרעיונות בלבד: המוזיקה שלכם</span>
+  </div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 8</small><p>מלודיה של 8 תיבות <b>שמורה</b>: קישור + WAV</p></div>
+    <div class="mile"><small>עד דקה 12</small><p>פרטיטורה על הדף עם <b>3 רגעים</b> מסומנים</p></div>
+    <div class="mile"><small>עד הסוף</small><p>ניסיון ראשון: מלודיה + ליווי <b>בחדר Shared Piano</b></p></div>
+  </div>
+  <div class="whoDoes">
+    <div><b>🎼 מנצח/ת</b>פותח/ת חדר, מצייר/ת את הפרטיטורה עם הבלובים</div>
+    <div><b>🎹 מלחין/ה</b>Song Maker: מלודיה, שמירה, קישור ו-WAV</div>
+    <div><b>🎶 ליווי</b>מצטרף/ת לחדר ומוצא/ת תו בס לכל תיבה</div>
+    <div><b>🫧 בלובים</b>מצייר/ת עם המנצח/ת ומתנסה ב-Blob Opera</div>
+    <div><b>🎚️ מהנדס/ת</b>פותח/ת פרויקט ב-BandLab ומייבא/ת את ה-WAV</div>
+  </div>
+</section>
+
+<section class="slide tight signs" data-topic="ספרינט 1" data-title="סימני המנצח/ת" data-accent="#9b3a62">
+  <span class="kicker">🎼 למנצחים ולנגנים</span>
+  <h2>סימני <span class="wine">המנצח/ת</span>: שפה בלי מילים</h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🙌</div><strong>"מוכנים"</strong><p>שתי ידיים למעלה. כולם מסתכלים</p></div>
+    <div class="card"><div class="emoji">☝️</div><strong>כניסה</strong><p>מצביעים על הנגן ומורידים את היד: עכשיו!</p></div>
+    <div class="card"><div class="emoji">👐</div><strong>חזק</strong><p>הידיים נפתחות לרחבה</p></div>
+    <div class="card"><div class="emoji">🤏</div><strong>חלש</strong><p>הידיים מתקרבות, תנועה קטנה</p></div>
+    <div class="card"><div class="emoji">✊</div><strong>סוף</strong><p>אגרוף נסגר באוויר. כולם עוצרים יחד</p></div>
+  </div>
+  <div class="task"><strong>⏱ הקצב</strong><p>לפני שמתחילים, המנצח/ת סופר/ת בקול ומראה ביד: "1, 2, 3, 4" בטמפו של Song Maker. ואז הסימן "כניסה".</p></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="איך מציירים פרטיטורה" data-accent="#d9a21b">
+  <span class="kicker">🎨 הדף על השולחן</span>
+  <h2>איך מציירים <span class="gold">פרטיטורה</span></h2>
+  <div class="row2">
+    <div class="steps" style="grid-template-columns:1fr;margin-top:0">
+      <div class="step"><strong>שורה לכל כלי</strong><p>🫧 בלובים · 🎹 מלודיה · 🎶 ליווי (1 ו-2) · 👏 גוף או תופים</p></div>
+      <div class="step"><strong>8 משבצות = 8 תיבות</strong><p>בכל משבצת: מי מנגן, וכמה חזק. ריק = שקט</p></div>
+      <div class="step"><strong>מסמנים את 3 הרגעים</strong><p>➡️ כניסה · 🔊 שינוי עוצמה · ✊ סיום משותף, בצבע בולט</p></div>
+    </div>
+    <div class="cards" style="grid-template-columns:1fr 1fr;margin-top:0">
+      <div class="card"><div class="emoji">• ●</div><strong>גודל = עוצמה</strong><p>נקודה קטנה חלש, עיגול גדול חזק</p></div>
+      <div class="card"><div class="emoji">〰️</div><strong>קו גלי</strong><p>צליל ארוך שנמשך (בלובים, אקורד)</p></div>
+      <div class="card"><div class="emoji">◁</div><strong>"פה של תנין"</strong><p>נפתח = מתחזקים · נסגר = נחלשים</p></div>
+      <div class="card"><div class="emoji">⬆️</div><strong>חץ למעלה/למטה</strong><p>המנגינה עולה או יורדת</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="פרומפטים לספרינט" data-accent="#4c8bd6">
+  <span class="kicker">🟡 Gemini לרעיונות · את המוזיקה כותבים אתם</span>
+  <h2>תקועים? <span style="color:var(--sky-ink)">שאלו את Gemini</span>, ואז תחליטו לבד</h2>
+  <div class="prompt pl"><button class="ghost copyBtn">📋 העתקה</button><span class="ptag">מבנה</span><span class="ptext">אנחנו מלחינים יצירה במצב רוח [מצב הרוח שלכם] של 8 תיבות. הצע 3 רעיונות למבנה: איפה חזק, איפה חלש ואיפה שקט.</span></div>
+  <div class="prompt pl"><button class="ghost copyBtn">📋 העתקה</button><span class="ptag">פרטיטורה</span><span class="ptext">הצע 5 סימנים גרפיים פשוטים לפרטיטורה מצוירת: כניסה, חזק, חלש, האטה וסיום.</span></div>
+  <div class="prompt pl"><button class="ghost copyBtn">📋 העתקה</button><span class="ptag">שם</span><span class="ptext">תן 5 שמות ליצירה במצב רוח [מצב הרוח שלכם], עד 3 מילים כל אחד.</span></div>
+  <p class="lead" style="margin-top:10px">🤖 בדף העבודה כותבים: <b>מה ה-AI הציע · מה בחרנו ושינינו</b>. טיפ: בלי שמות ופרטים אישיים בפרומפט.</p>
+</section>
+
+<!-- ================= 7. חזרה כללית ================= -->
+<section class="slide tight" data-topic="חזרה כללית" data-title="חזרה כללית" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="rehearsal" aria-label="איך עושים חזרה">?</button>
+  <span class="kicker">🎭 נקודת ביקורת · חזרה כללית</span>
+  <div class="sprintTop">
+    <h2 style="margin:4px 0">מנגנים פעמיים <span class="violet">מול הרכב שכן</span></h2>
+    <div class="timer" data-seconds="540"><output>09:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <p class="lead">הרכב א׳ מנגן פעמיים עם המנצח/ת, הרכב ב׳ מקשיב ומסמן בכרטיס המאזינים. אחרי 4 דקות מתחלפים. הזוגות:</p>
+  <div class="pairs" id="pairs"></div>
+  <div class="checks3">
+    <button class="chk"><span class="bx">✓</span><span><b>➡️ שמענו כניסה</b><small>נגן נכנס בדיוק על סימן המנצח/ת</small></span></button>
+    <button class="chk"><span class="bx">✓</span><span><b>🔊 שמענו שינוי עוצמה</b><small>כולם התחזקו או נחלשו יחד</small></span></button>
+    <button class="chk"><span class="bx">✓</span><span><b>✊ שמענו סיום משותף</b><small>כולם עצרו באותה שנייה</small></span></button>
+  </div>
+  <p class="lead" style="margin-top:10px">ובסוף, משפט אחד לשכנים: <b>"אהבנו… · הלוואי ש… · תהינו אם…"</b></p>
+</section>
+
+<section class="slide tight center" data-topic="חזרה כללית" data-title="תנועה: המנצח/ת של הכיתה" data-accent="#e76f86">
+  <span class="kicker">🕺 דקה של תנועה</span>
+  <h2>כולם קמים. <span class="red">מנצח/ת אחד/ת</span> לכל הכיתה</h2>
+  <p class="lead">מתנדב/ת עומד/ת מקדימה. הכיתה מזמזמת "מממ" אחד ארוך ועוקבת רק אחרי הידיים.</p>
+  <div class="cards four" style="max-width:1000px;width:100%">
+    <div class="card"><div class="emoji">👐</div><strong>חזק</strong></div>
+    <div class="card"><div class="emoji">🤏</div><strong>חלש</strong></div>
+    <div class="card"><div class="emoji">⬆️</div><strong>גבוה</strong></div>
+    <div class="card"><div class="emoji">✊</div><strong>שקט מוחלט</strong></div>
+  </div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ================= 8. ספרינט 2 ================= -->
+<section class="slide tight bigTimer" data-topic="ספרינט 2" data-title="ספרינט 2: פתיחה ומיקס" data-accent="#8c7ae6">
+  <span class="kicker">🫧 ספרינט 2 · פתיחה, הקלטה ומיקס</span>
+  <div class="sprintTop">
+    <div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light r">🔴 בלי AI: עכשיו רק מנגנים</span>
+  </div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 6</small><p>פתיחת Blob Opera <b>מוקלטת</b> + קישור</p></div>
+    <div class="mile"><small>עד דקה 11</small><p>טייק של כל היצירה, מוקלט ב-BandLab</p></div>
+    <div class="mile"><small>עד הסוף</small><p>מיקס מיוצא ל-Drive + <b>עוד חזרה אחת</b> עם המנצח/ת</p></div>
+  </div>
+  <div class="whoDoes">
+    <div><b>🎼 מנצח/ת</b>מריץ/ה חזרות ומתקן/ת לפי כרטיס המאזינים</div>
+    <div><b>🎹 מלחין/ה</b>משפר/ת את המלודיה. כל שינוי: Save חדש</div>
+    <div><b>🎶 ליווי</b>מתאמן/ת על הכניסה, העוצמה והסיום</div>
+    <div><b>🫧 בלובים</b>מקליט/ה פתיחה ומצטרף/ת לחדר כנגן/ית שני/ה</div>
+    <div><b>🎚️ מהנדס/ת</b>מקליט/ה, מאזן/ת ומייצא/ת מיקס</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="BandLab: מיקס בשלושה צעדים" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="bandlab" aria-label="הוראות מפורטות">?</button>
+  <span class="kicker">🎚️ למהנדס/ת ההקלטה · bandlab.com</span>
+  <h2>BandLab: <span class="green">מיקס בשלושה צעדים</span></h2>
+  <div class="steps" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="step"><strong>📥 ייבוא והקלטה</strong><p>גוררים את ה-WAV של Song Maker לערוץ. בערוץ חדש של מיקרופון מקליטים את הפתיחה ואת הליווי החי מהרמקול</p></div>
+    <div class="step"><strong>⚖️ איזון</strong><p>הפתיחה בהתחלה, המלודיה אחריה. עוצמה לכל ערוץ, כך שהמלודיה נשמעת מעל הליווי. חותכים שקט מיותר</p></div>
+    <div class="step"><strong>📤 ייצוא</strong><p>מייצאים את המיקס לקובץ אחד, מעלים ל-Drive ומשתפים "כל מי שיש לו את הקישור · צפייה"</p></div>
+  </div>
+  <div class="task"><strong>📝 שם הקובץ</strong><p>הרכב [שם] · [שם היצירה]</p></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="טיפים להקלטה" data-accent="#2f9e80">
+  <span class="kicker">🎙️ טייק טוב</span>
+  <h2>חמישה טיפים <span class="green">לטייק נקי</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🎧 <b>אוזניות לכל הנגנים.</b> רמקול אחד בלבד מנגן בקול, ליד המחשב שמקליט.</div>
+    <div class="revealCard reveal">🤫 <b>"שקט, מקליטים!"</b> המנצח/ת מכריז/ה, וההרכבים הסמוכים מנמיכים לדקה.</div>
+    <div class="revealCard reveal">⏱ <b>שתי שניות שקט</b> לפני הספירה ואחרי הסיום. קל לחתוך אחר כך.</div>
+    <div class="revealCard reveal">🔁 <b>תמיד טייק שני.</b> הטייק השני כמעט תמיד טוב יותר.</div>
+    <div class="revealCard reveal">💾 <b>שומרים מיד.</b> מיקס שלא נשמר לא קיים.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#d9a21b">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>ההרכב מוכן? <span class="gold">בחרו משימת צד</span></h2>
+  <div class="cards six">
+    <div class="card"><div class="emoji">😢</div><strong>הגרסה העצובה</strong><p>אותה מלודיה בטמפו איטי ובכלי אחר. שמרו קישור שני</p></div>
+    <div class="card"><div class="emoji">⚡</div><strong>טמפו כפול</strong><p>וריאציה במהירות כפולה. עדיין נשמע כמו אותה יצירה?</p></div>
+    <div class="card"><div class="emoji">🖼️</div><strong>כרזת קונצרט</strong><p>כרזה ב-AutoDraw או על דף: שם ההרכב, היצירה ומצב הרוח</p></div>
+    <div class="card"><div class="emoji">👏</div><strong>שורת גוף</strong><p>שורה חדשה בפרטיטורה: מחיאות או רקיעות לכל הקהל</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>הקדמה לקונצרט</strong><p>2 משפטים שהמנצח/ת אומר/ת לקהל לפני היצירה</p></div>
+    <div class="card"><div class="emoji">🤝</div><strong>נגן אורח</strong><p>עזרו להרכב אחר בחזרה שלו: הקשבה ומשוב</p></div>
+  </div>
+</section>
+
+<!-- ================= 9. הגשה ================= -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשה: תוכניית הקונצרט" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="submit" aria-label="מה בטופס">?</button>
+  <span class="kicker">📨 הגשה · 2 דקות</span>
+  <h2>המהנדס/ת מגיש/ה את <span class="green">"תוכניית הקונצרט"</span></h2>
+  <p class="lead">🔗 הטופס: <span class="linkField" contenteditable="true" spellcheck="false"></span></p>
+  <div class="row2">
+    <div class="task" style="margin-top:6px"><strong>✓ מה בטופס</strong><ol>
+      <li>שם ההרכב ושם היצירה</li>
+      <li>קישור Song Maker</li>
+      <li>קישור לחדר Shared Piano (לקונצרט)</li>
+      <li>קישור למיקס (BandLab או Drive, הרשאת צפייה)</li>
+      <li>צילום של הפרטיטורה הגרפית</li>
+      <li>מי עשה איזה תפקיד, ושורת ה-AI</li>
+    </ol></div>
+    <div>
+      <div class="task" style="margin-top:6px;background:linear-gradient(180deg,#f3fbf6,#fff);border-color:#bfe3cb;border-inline-start-color:var(--good)"><strong style="color:var(--good)">📝 שם הקובץ</strong><p>הרכב [שם] · [שם היצירה]</p></div>
+      <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <p class="lead" style="margin-top:8px">הטופס יוקרן כ<b>תוכניית הקונצרט</b>. מה שלא הוגש, לא עולה לבמה.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10. הקונצרט ================= -->
+<section class="slide tight liveS" data-topic="הקונצרט" data-title="תוכניית הקונצרט" data-accent="#9b3a62">
+  <span class="kicker">📜 תוכניית הקונצרט</span>
+  <h2>הערב <span class="wine">על הבמה</span></h2>
+  <p class="lead">סדר ההופעות לפי סדר ההגשה בטופס. כותבים כאן את שמות היצירות.</p>
+  <div class="tableWrap"><table class="t live" id="progTable"></table></div>
+</section>
+
+<section class="slide tight" data-topic="הקונצרט" data-title="נימוסי קונצרט" data-accent="#9b3a62">
+  <span class="kicker">🎩 לפני שהאורות כבים</span>
+  <h2>נימוסי <span class="wine">קונצרט</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🤫</div><strong>שקט מוחלט</strong><p>מהרגע שהמנצח/ת מרים/ה ידיים</p></div>
+    <div class="card"><div class="emoji">👏</div><strong>מחיאות בסוף</strong><p>רק אחרי ה"✊" ושנייה של שקט</p></div>
+    <div class="card"><div class="emoji">👂</div><strong>מקשיבים באמת</strong><p>מחפשים את 3 הרגעים, כמו בחזרה</p></div>
+    <div class="card"><div class="emoji">🙇</div><strong>קידה!</strong><p>כל הרכב משתחווה בסוף. זה חלק מההופעה</p></div>
+  </div>
+  <div class="task"><strong>🗳️ ההצבעה אחרי הקונצרט</strong><p>כל אחד מצביע פעם אחת, לא להרכב של עצמו. מקום 1 / 2 / 3 מקבלים 5 / 3 / 2 נקודות.</p></div>
+</section>
+
+<section class="slide tight" data-topic="הקונצרט" data-title="על הבמה" data-accent="#9b3a62">
+  <span class="kicker">🎻 הקונצרט</span>
+  <div class="nowWrap">
+    <div class="onStage">
+      <small>NOW ON STAGE · עכשיו על הבמה</small>
+      <div class="ens" id="nowEns">הרכב 1</div>
+      <div class="piece" id="nowPiece"></div>
+      <div class="mood" id="nowMood"></div>
+      <div class="nav2"><button class="ghost" id="stPrev">→ הקודם</button><button class="pbtn" id="stTune">🎼 צליל כיוון</button><button class="btn" id="stNext">ההרכב הבא ←</button></div>
+    </div>
+    <div>
+      <div class="timer" data-seconds="90" id="stTimer"><output>01:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="ritual"><b>הטקס של כל הרכב</b><ol><li>צליל כיוון, וההרכב עולה</li><li>המנצח/ת: 🙌 "מוכנים" ושקט באולם</li><li>פתיחה · מלודיה · ליווי · ✊</li><li>קידה, מחיאות, וההרכב הבא</li></ol></div>
+      <div class="order" id="stOrder"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight liveS" data-topic="הקונצרט" data-title="הצבעת הקהל" data-accent="#d9a21b">
+  <span class="kicker">👏 פרס הקהל</span>
+  <h2>איזו יצירה <span class="gold">נשארה לכם בראש</span>?</h2>
+  <p class="lead">כל אחד מצביע פעם אחת (פתק או יד), לא להרכב של עצמו. מקום 1 / 2 / 3 מקבלים 5 / 3 / 2 נקודות, ישר ללוח.</p>
+  <div class="vote" id="teamVote"></div>
+</section>
+
+<!-- ================= 11. טקס ================= -->
+<section class="slide tight liveS" data-topic="טקס" data-title="לוח הניקוד" data-accent="#d9a21b">
+  <span class="kicker">🧮 לוח הניקוד</span>
+  <h2>לוח הניקוד <span class="gold">של הקונצרט</span></h2>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ הרכב</button><button class="ghost" data-act="delTeam">− הרכב</button><button class="ghost" data-act="resetAll">↺ איפוס לכיתה חדשה</button></div>
+  <div class="tableWrap"><table class="t live" id="scoreTable"></table></div>
+  <p class="scoreLine" id="scoreLine"></p>
+</section>
+
+<section class="slide tight" data-topic="טקס" data-title="והשרביט הולך ל..." data-accent="#d9a21b">
+  <span class="kicker">🏆 טקס הפרסים</span>
+  <h2>ושרביט הזהב <span class="gold">הולך ל…</span></h2>
+  <div class="awards">
+    <div class="award reveal"><span class="em">👂</span><span class="ttl">פרס ההקשבה</span><span class="why">ההרכב הכי מתואם: כניסה, עוצמה וסיום</span><select data-award="listen"></select></div>
+    <div class="award reveal"><span class="em">🫧</span><span class="ttl">הפתיחה האופראית המפתיעה</span><span class="why">הבלובים שגרמו לאולם לחייך</span><select data-award="opera"></select></div>
+    <div class="award reveal"><span class="em">🎨</span><span class="ttl">הפרטיטורה הכי יפה</span><span class="why">ברורה, צבעונית, וכל נגן יכול לקרוא אותה</span><select data-award="art"></select></div>
+    <div class="award main reveal"><svg viewBox="0 0 80 150" aria-hidden="true"><defs><linearGradient id="bg2" x1="0" x2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset=".55" stop-color="#d9a21b"/><stop offset="1" stop-color="#a87510"/></linearGradient></defs><line x1="18" y1="138" x2="60" y2="24" stroke="url(#bg2)" stroke-width="7" stroke-linecap="round"/><rect x="10" y="118" width="18" height="26" rx="6" transform="rotate(20 19 131)" fill="#7d2a4d"/><path d="M62 4 l5 11 12 1 -9 8 3 12 -11 -6 -11 6 3 -12 -9 -8 12 -1z" fill="url(#bg2)"/></svg><span class="ttl">🪄 שרביט הזהב</span><span class="why">הניקוד הכולל הגבוה ביותר</span><span class="win" id="winGold">—</span></div>
+  </div>
+  <div class="clickHint">"הבא" לכל פרס · את שלושת הראשונים בוחר המדריך (אפשר עם 2 תלמידים-שופטים) · פרס הקהל נכנס לניקוד</div>
+</section>
+
+<!-- ================= 12. סיום ================= -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה</span>
+  <h2>לפני שיוצאים <span class="red">מהאולם</span></h2>
+  <span class="light r">🔴 כותבים לבד, בלי AI</span>
+  <div class="cards three">
+    <div class="card"><div class="emoji">👂</div><strong>על להקשיב לאחרים</strong><p>מה למדתי היום על לנגן עם אנשים אחרים?</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>רגע אחד</strong><p>מתי שיניתי משהו בגלל מה ששמעתי מחבר/ה בהרכב?</p></div>
+    <div class="card"><div class="emoji">⭐</div><strong>כמה נהניתי?</strong><p>1–5, ודבר אחד שהייתי משנה בפעם הבאה</p></div>
+  </div>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="הדרן!" data-accent="#9b3a62">
+  <span class="kicker">🎻 המנצחת הראשית מודה לכם</span>
+  <h2>התזמורת <span class="wine">חזרה לנגן</span></h2>
+  <p class="lead">"הערב הוכחתם שאפשר לנגן יחד גם כשכל נגן נמצא במקום אחר. העיקר: להקשיב, ולעקוב אחרי אותו שרביט."</p>
+  <div class="finale" id="finale">
+    <div class="curtL"></div><div class="curtR"></div><div class="bravo">🎻 הדרן! 👏</div>
+    <ul class="prog" id="finProg"></ul>
+  </div>
+  <div class="btnRow" style="justify-content:center"><button class="pbtn" id="curtainBtn">🎭 מסך!</button></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-blobs"><h3>🫧 מקהלת הבלובים</h3><ol><li>מתנדב/ת אחד/ת יושב/ת ליד המחשב ומחזיק/ה את העכבר.</li><li>כל השאר עומדים ומנצחים בידיים: עולה, יורדת, נפתחות, אגרוף.</li><li>המתנדב/ת גורר/ת את הבלוב לפי מה שרוב הכיתה מראה.</li><li>אחרי דקה מחליפים מתנדב/ת, והפעם מנצח/ת רק אחד/ת. מה השתנה?</li></ol></template>
+<template id="help-piano"><h3>🎶 Shared Piano: חדר להרכב</h3><ol><li>רק המנצח/ת פותח/ת את הכתובת. נוצר חדר חדש עם כתובת משלו.</li><li>מעתיקים את הקישור של החדר ושולחים רק לחברי ההרכב (בצ׳אט של הצוות או במייל). לא מפרסמים לכל הכיתה.</li><li>כל נגן בוחר כלי אחר מהתפריט, כדי שיהיה קל לשמוע מי מנגן מה.</li><li>מנגנים במקלדת המחשב, בעכבר או במגע. התווים של כל נגן עולים על המסך בצבע שלו.</li><li>🎧 אוזניות לכולם. בלי אוזניות, כל מחשב מנגן את כל החדר ונוצר בלגן.</li><li>ליווי: רק C · D · E · G · A. ה-C הוא הקליד הלבן שלפני זוג הקלידים השחורים.</li></ol></template>
+<template id="help-opera"><h3>🫧 Blob Opera: פתיחה</h3><ol><li>פותחים את Blob Opera ב-Google Arts &amp; Culture ונכנסים לניסוי.</li><li>גוררים בלוב אחד: למעלה ולמטה משנה את גובה הצליל, קדימה ואחורה משנה את צורת הפה.</li><li>שלושת הבלובים האחרים מצטרפים לבד בהרמוניה.</li><li>לוחצים על כפתור ההקלטה, שרים 5–10 שניות ומסיימים בצליל ארוך, ולוחצים לסיום.</li><li>משתפים ומעתיקים את הקישור להקלטה, ושולחים למהנדס/ת.</li><li>המהנדס/ת מנגן/ת את ההקלטה ברמקול ומקליט/ה אותה ב-BandLab, כדי שתיכנס למיקס.</li></ol></template>
+<template id="help-rules"><h3>🪄 שרביט הזהב: החוקים המלאים</h3><ol><li>היצירה 45–60 שניות: פתיחה של בלובים, מלודיה מ-Song Maker וליווי חי.</li><li>לפחות שני נגנים מנגנים יחד בזמן אמת בחדר Shared Piano של ההרכב.</li><li>בפרטיטורה מסומנים לפחות 3 רגעים: כניסה, שינוי עוצמה וסיום משותף. המנצח/ת מבצע/ת אותם בידיים.</li><li>בקונצרט מנגנים חי. את ההקלטה משמיעים רק אם החיבור נפל.</li><li>רק מוזיקה מקורית שנוצרה היום. בלי מנגינות מוכרות, גם לא "רק ההתחלה".</li><li>מגישים בטופס "תוכניית הקונצרט" עד שהטיימר מגיע לאפס. מה שלא הוגש, לא עולה לבמה.</li><li>המנצח/ת הוא/היא היחיד/ה שקורא/ת למדריך.</li></ol></template>
+<template id="help-rehearsal"><h3>🎭 החזרה הכללית</h3><ol><li>שני הרכבים יושבים יחד. הרכב א׳ מנגן, הרכב ב׳ הוא הקהל.</li><li>הרכב א׳ מנגן את היצירה פעמיים, עם המנצח/ת והפרטיטורה.</li><li>הקהל מסמן בכרטיס המאזינים: שמענו כניסה? שינוי עוצמה? סיום משותף?</li><li>הקהל אומר משפט אחד: "אהבנו… · הלוואי ש… · תהינו אם…"</li><li>אחרי 4 דקות מתחלפים.</li><li>מה שלא עבד הוא בדיוק מה שמתקנים בספרינט 2.</li></ol></template>
+<template id="help-bandlab"><h3>🎚️ BandLab: המיקס</h3><ol><li>נכנסים ל-bandlab.com עם חשבון Google, ופותחים פרויקט חדש בסטודיו (Create / Studio).</li><li>גוררים לסטודיו את קובץ ה-WAV שהורד מ-Song Maker. הוא נכנס כערוץ.</li><li>מוסיפים ערוץ של קול או מיקרופון (Voice/Mic). מחזיקים את המחשב ליד הרמקול, ומקליטים את פתיחת הבלובים ואת הליווי החי.</li><li>מזיזים את הערוצים על הציר: פתיחה בהתחלה, מלודיה וליווי אחריה. מכוונים עוצמה לכל ערוץ וחותכים שקט.</li><li>שומרים, ומייצאים את המיקס לקובץ אחד (Download / Export).</li><li>מעלים ל-Drive, "שיתוף ← כל מי שיש לו את הקישור ← צפייה", ומעתיקים את הקישור לטופס.</li></ol></template>
+<template id="help-submit"><h3>📨 טופס "תוכניית הקונצרט"</h3><ol><li>שם ההרכב ושם היצירה (עד 4 מילים).</li><li>קישור Song Maker (מ-Save ← Copy Link).</li><li>קישור לחדר Shared Piano: האולם יצטרף אליו בקונצרט.</li><li>קישור למיקס: BandLab, או קובץ ב-Drive עם הרשאת צפייה.</li><li>צילום של הפרטיטורה הגרפית (מהטלפון או מהמצלמה של המחשב).</li><li>מי עשה איזה תפקיד: שמות פרטיים בלבד.</li><li>שורת AI: מה ה-AI הציע, ומה אתם בחרתם ושיניתם. או "לא השתמשנו".</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== התזמורת הווירטואלית — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) a tiny Web Audio synth (no files): tuning, melody vs accompaniment, metronome, dynamics, graphic-score playback with playhead,
+      pentatonic grid, mood motifs, curtain chord
+   2) mood draw machine (slide 6), length calculator (17), copy buttons (26), rehearsal checks (27)
+   3) one shared state for the ensembles (names, moods, pieces, points, votes, awards), saved in this browser:
+      draw (6), pairs (27), program (34), stage (36), audience vote (37), scoreboard (38), awards (39), finale (41) */
+(()=>{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=v=>{if(v===''||v===null||v===undefined)return null;const x=parseFloat(String(v).replace(',','.'));return isFinite(x)?x:null};
+/* ---------- 1. synth ---------- */
+let AC=null,bus=null;const timers=[];let raf=0;
+function ac(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}
+function newBus(){const c=ac();if(!c)return null;const g=c.createGain();g.gain.value=.9;const comp=c.createDynamicsCompressor();comp.threshold.value=-16;g.connect(comp);comp.connect(c.destination);bus=g;return g}
+function stopAll(){if(bus&&AC){const g=bus;try{g.gain.cancelScheduledValues(AC.currentTime);g.gain.setTargetAtTime(.0001,AC.currentTime,.05);setTimeout(()=>{try{g.disconnect()}catch(e){}},400)}catch(e){}}
+ bus=null;timers.splice(0).forEach(clearTimeout);cancelAnimationFrame(raf);
+ document.querySelectorAll('.pbtn.on').forEach(b=>{b.classList.remove('on');if(b.dataset.label)b.textContent=b.dataset.label});
+ document.querySelectorAll('.sbox .vis i').forEach(i=>i.style.height='');
+ const ph=$('playhead');if(ph)ph.style.display='none';document.querySelectorAll('#moments span').forEach(s=>s.classList.remove('lit'));
+ const bt=$('beat');if(bt){bt.className='beat';bt.textContent='♩'}const mp=$('metroPhase');if(mp&&metroOn)mp.textContent='מוכנים? מוחאים על כל פעימה';metroOn=false;
+ document.querySelectorAll('.dynB.on').forEach(b=>b.classList.remove('on'));pgStop()}
+const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
+const mf=m=>440*Math.pow(2,(m-69)/12);
+function env(g,t,dur,peak,att,rel){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,peak),t+att);g.gain.setValueAtTime(Math.max(.0002,peak),Math.max(t+att,t+dur-rel));g.gain.exponentialRampToValueAtTime(.0001,t+dur)}
+function osc(type,f,t,dur,peak,o={}){if(!bus)return;const c=AC;const os=c.createOscillator();os.type=type;os.frequency.setValueAtTime(f,t);if(o.to)os.frequency.exponentialRampToValueAtTime(o.to,t+(o.glide||dur));if(o.det)os.detune.value=o.det;
+ if(o.vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=o.vib;lg.gain.value=f*.012;l.connect(lg);lg.connect(os.frequency);l.start(t);l.stop(t+dur+.05)}
+ const g=c.createGain();let src=os;if(o.lp){const fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=o.lp;os.connect(fl);src=fl}
+ if(o.formants){const mix=c.createGain();o.formants.forEach(([fr,q,a])=>{const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=fr;bp.Q.value=q;const ga=c.createGain();ga.gain.value=a;src.connect(bp);bp.connect(ga);ga.connect(mix)});src=mix}
+ src.connect(g);g.connect(bus);if(o.decay){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+(o.att||.005));g.gain.exponentialRampToValueAtTime(.0001,t+dur)}else env(g,t,dur,peak,o.att??.01,o.rel??Math.min(.2,dur/2));
+ os.start(t);os.stop(t+dur+.06)}
+function noise(t,dur,peak,o={}){if(!bus)return;const c=AC,n=Math.max(1,Math.floor(c.sampleRate*dur)),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+ const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type=o.type||'highpass';f.frequency.value=o.f||5000;const g=c.createGain();g.gain.setValueAtTime(peak,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(bus);s.start(t);s.stop(t+dur)}
+const I={
+ piano:(m,t,d,v=.3)=>{osc('triangle',mf(m),t,Math.max(.4,d*1.1),v,{decay:1});osc('sine',mf(m)*2,t,Math.max(.3,d*.7),v*.25,{decay:1})},
+ marimba:(m,t,d,v=.3)=>{osc('sine',mf(m),t,.55,v,{decay:1});osc('sine',mf(m)*4,t,.12,v*.25,{decay:1})},
+ strings:(m,t,d,v=.12)=>{osc('sawtooth',mf(m),t,d,v,{det:-7,lp:1700,att:.09,rel:.25});osc('sawtooth',mf(m),t,d,v,{det:7,lp:1700,att:.09,rel:.25})},
+ woodwind:(m,t,d,v=.2)=>{osc('triangle',mf(m),t,d,v,{vib:5,att:.05,rel:.12,lp:2600});osc('sine',mf(m)*2,t,d,v*.2,{att:.06,rel:.12})},
+ synth:(m,t,d,v=.12)=>{osc('square',mf(m),t,d,v,{lp:1500,att:.01,rel:.08})},
+ bass:(m,t,d,v=.32)=>{osc('triangle',mf(m),t,d,v,{lp:700,att:.01,rel:.15})},
+ choir:(m,t,d,v=.16)=>{osc('sawtooth',mf(m),t,d,v,{vib:5.5,att:.28,rel:.35,formants:[[800,6,1],[1150,7,.7],[2900,9,.25]]})},
+ kick:(t,v=.7)=>osc('sine',140,t,.35,v,{to:45,glide:.25,decay:1}),
+ snare:(t,v=.25)=>{noise(t,.16,v,{f:1800});osc('triangle',190,t,.1,v*.6,{decay:1})},
+ hat:(t,v=.12)=>noise(t,.05,v,{f:7000}),
+ conga:(t,hi,v=.4)=>osc('sine',hi?330:220,t,.25,v,{to:hi?280:180,glide:.1,decay:1}),
+ click:(t,acc)=>{osc('square',acc?1760:1180,t,.05,acc?.35:.22,{decay:1})}
+};
+/* melody (original, C pentatonic) + chords */
+const MEL=[[[64,1],[67,1],[69,1],[67,1]],[[72,1.5],[69,.5],[67,2]],[[64,1],[67,1],[69,1],[72,1]],[[74,3],[0,1]],
+ [[76,1],[74,1],[72,1],[69,1]],[[67,1.5],[69,.5],[67,1],[64,1]],[[62,1],[64,1],[67,1],[62,1]],[[60,3],[0,1]]];
+const CH={C:[48,52,55],Am:[45,48,52],G:[43,50,55]};const BARCH=['C','Am','C','G','Am','C','G','C'];
+function playBar(bi,t,beat,inst,v){let x=t;MEL[bi].forEach(([m,b])=>{if(m)I[inst](m,x,b*beat,typeof v==='function'?v(x-t):v);x+=b*beat})}
+function accBar(ch,t,beat,v=1){const c=CH[ch];I.bass(c[0]-12,t,beat*1.8,.3*v);I.bass(c[0]-12,t+2*beat,beat*1.8,.26*v);c.forEach(m=>I.strings(m+12,t,beat*4,.05*v))}
+function setBtn(b,txt){if(!b.dataset.label)b.dataset.label=b.textContent;b.classList.add('on');b.textContent=txt}
+/* hero: tuning */
+function tuning(t,long){I.woodwind(69,t,2.2,.22);if(!long)return 2.4;const pool=[57,64,69,69,76,81,45,52,69,72];
+ for(let k=0;k<26;k++){const m=pool[k%pool.length]+(Math.random()<.3?(Math.random()<.5?-1:1)*.3:0);const st=t+1.6+Math.random()*3.2;(k%3?I.strings:I.woodwind)(m,st,.6+Math.random()*1.6,k%3?.05:.07)}
+ for(let k=0;k<6;k++)I.marimba(81+[0,2,4,7,9,12][k],t+3+k*.11,.2,.12);
+ [45,57,64,69,73,76].forEach(m=>I.strings(m,t+5.4,2.2,.06));I.kick(t+5.4,.4);return 7.8}
+$('tuneBtn').addEventListener('click',e=>{const b=e.currentTarget;const was=b.classList.contains('on');stopAll();if(was||!newBus())return;setBtn(b,'■ עצירה');const len=tuning(AC.currentTime+.05,true);later(()=>stopAll(),len*1000)});
+$('stTune').addEventListener('click',()=>{stopAll();if(!newBus())return;tuning(AC.currentTime+.05,false);later(()=>stopAll(),2600)});
+/* compare: melody vs accompaniment */
+document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>{const was=b.classList.contains('on');stopAll();if(was||!newBus())return;setBtn(b,'■ עצירה');
+ const acc=b.dataset.demo==='acc',beat=60/100,t=AC.currentTime+.08;for(let i=0;i<4;i++){playBar(i,t+i*4*beat,beat,'piano',.32);if(acc)accBar(BARCH[i],t+i*4*beat,beat)}
+ const bars=[...b.closest('.sbox').querySelectorAll('.vis i')];const iv=setInterval(()=>bars.forEach((x,k)=>x.style.height=(acc||k%2===0?18+Math.random()*80:10+Math.random()*25)+'%'),140);
+ timers.push(iv);later(()=>{clearInterval(iv);stopAll()},16*beat*1000+600)}));
+/* metronome */
+let bpm=90,metroOn=false;
+document.querySelectorAll('[data-bpm]').forEach(b=>b.addEventListener('click',()=>{bpm=Math.max(60,Math.min(140,bpm+Number(b.dataset.bpm)));$('bpmOut').textContent=bpm}));
+$('metroGo').addEventListener('click',e=>{const b=e.currentTarget;const was=b.classList.contains('on');stopAll();if(was||!newBus())return;setBtn(b,'■ עצירה');metroOn=true;
+ const beat=60/bpm,t0=AC.currentTime+.15,bt=$('beat'),ph=$('metroPhase');
+ for(let i=0;i<24;i++){const silent=i>=8&&i<16;const t=t0+i*beat;if(!silent)I.click(t,i%4===0);
+  later(()=>{if(silent){bt.className='beat silent';bt.textContent='🤫';ph.textContent=i===8?'שקט… ממשיכים למחוא בלי לשמוע!':'ממשיכים… '+(16-i)}
+   else{bt.className='beat hit'+(i%4===0?' down':'');bt.textContent=String(i%4+1);ph.textContent=i<8?'מוחאים יחד עם הקליק':(i===16?'חזר! אתם עדיין עליו?':'נשארנו יחד?');later(()=>bt.classList.remove('hit'),110)}},(t-AC.currentTime)*1000)}
+ later(()=>{stopAll();ph.textContent='נשארנו יחד? מי הקדים, ומי איחר?'},(t0+24*beat-AC.currentTime)*1000+300)});
+/* dynamics */
+const DYN={pp:.06,mf:.2,ff:.5};
+document.querySelectorAll('.dynB').forEach(b=>b.addEventListener('click',()=>{const was=b.classList.contains('on');stopAll();if(was||!newBus())return;b.classList.add('on');
+ const beat=60/110,t=AC.currentTime+.06,k=b.dataset.dyn,len=8*beat;const v=k==='cr'?(dt=>.04+.5*Math.min(1,dt/len)):DYN[k];
+ for(let i=0;i<2;i++){playBar(i,t+i*4*beat,beat,'piano',typeof v==='function'?(dt=>v(dt+i*4*beat)):v);const cv=k==='cr'?.3+i*.7:v/.2;accBar(BARCH[i],t+i*4*beat,beat,Math.min(2,cv))}
+ later(()=>stopAll(),len*1000+700)}));
+/* graphic score */
+const SX=165,BW=127.5;
+(()=>{const bl=$('barLines'),bn=$('barNums');if(!bl)return;let h='',n='';for(let i=0;i<=8;i++){h+=`<line x1="${SX+i*BW}" y1="40" x2="${SX+i*BW}" y2="280"/>`;if(i<8)n+=`<text x="${SX+i*BW+BW/2}" y="30">${i+1}</text>`}bl.innerHTML=h;bn.innerHTML=n})();
+$('scorePlay').addEventListener('click',e=>{const b=e.currentTarget;const was=b.classList.contains('on');stopAll();if(was||!newBus())return;setBtn(b,'■ עצירה');
+ const beat=60/112,bar=4*beat,t0=AC.currentTime+.1;
+ I.choir(57,t0,bar,.13);I.choir(64,t0,bar,.1);I.choir(69,t0,bar,.08);I.choir(55,t0+bar,bar*.98,.13);I.choir(62,t0+bar,bar*.98,.1);I.choir(67,t0+bar,bar*.98,.08);
+ playBar(0,t0+2*bar,beat,'piano',.1);playBar(1,t0+3*bar,beat,'piano',dt=>.1+.25*Math.min(1,dt/bar));
+ [2,3,6].forEach((mb,k)=>{playBar(mb,t0+(4+k)*bar,beat,'piano',.4);accBar(BARCH[mb],t0+(4+k)*bar,beat,1.6)});
+ const tEnd=t0+7*bar+3*beat;I.piano(60,t0+7*bar,3*beat,.42);CH.C.forEach(m=>{I.strings(m+12,t0+7*bar,3*beat,.09);I.choir(m+24,t0+7*bar,3*beat,.05)});I.bass(36,t0+7*bar,3*beat,.4);I.kick(t0+7*bar,.5);
+ const ph=$('playhead'),ms=document.querySelectorAll('#moments span');ph.style.display='';
+ const lit=k=>ms[k-1].classList.add('lit');
+ const step=()=>{const el=AC.currentTime-t0;const x=SX+Math.max(0,Math.min(8,el/bar))*BW;ph.setAttribute('transform',`translate(${x},0)`);
+  if(el>=2*bar)lit(1);if(el>=4*bar)lit(2);if(el>=7*bar+3*beat)lit(3);if(el<8*bar)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step);
+ later(()=>{const keep=[...ms].map(s=>s.classList.contains('lit'));stopAll();ms.forEach((s,k)=>s.classList.toggle('lit',keep[k]))},(tEnd-AC.currentTime)*1000+1400)});
+/* choir wall */
+(()=>{const el=$('choir');if(!el)return;const F=['🙂','😀','😮','😄','😊','😌','🤗','😃','😙'],C=['#e3f1ee','#fdf0e3','#efecfb','#fce9ed','#e7f0fa','#e7f6ec','#fdf3d7'];let h='<i class="cd" style="grid-column:6/span 2;grid-row:3/span 2">🎼</i>';
+ for(let i=0;i<68;i++)h+=`<i style="--c:${C[i%C.length]};--d:${(i*0.137%1.8).toFixed(2)}s">${F[(i*7)%F.length]}</i>`;el.innerHTML=h})();
+/* count-up numbers */
+document.querySelectorAll('.numCard').forEach(card=>{const out=card.querySelector('[data-count]');let done=false;
+ new MutationObserver(()=>{if(done||!card.classList.contains('show'))return;done=true;const to=Number(out.dataset.count),t0=performance.now();
+  const f=now=>{const p=Math.min(1,(now-t0)/1400),e=1-Math.pow(1-p,3);out.textContent=Math.round(to*e).toLocaleString('en-US');if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}).observe(card,{attributes:true,attributeFilter:['class']})});
+/* pentatonic grid */
+const ROWS={pent:[[76,'E'],[74,'D'],[72,'C'],[69,'A'],[67,'G'],[64,'E'],[62,'D'],[60,'C']],chrom:[[67,'G'],[66,'F♯'],[65,'F'],[64,'E'],[63,'D♯'],[62,'D'],[61,'C♯'],[60,'C']]};
+const RC=['#e76f86','#f4a259','#e3a82b','#5bb5a2','#2f9e80','#4c8bd6','#8c7ae6','#b14c77'];let scale='pent',pgCells=[],pgIv=null,pgCol=0;
+function pgBuild(){const g=$('pgrid');if(!g)return;let h='';ROWS[scale].forEach(([m,n],r)=>{h+=`<span class="lab">${n}</span>`;for(let c=0;c<16;c++)h+=`<button data-r="${r}" data-c="${c}" style="--c:${RC[r]}" aria-label="${n} ${c+1}"></button>`});g.innerHTML=h;
+ pgCells=[...g.querySelectorAll('button')];if(!pgBuild.done){pgBuild.done=1;[[0,5],[1,4],[2,3],[3,4],[4,2],[6,3],[8,2],[9,1],[10,0],[11,1],[12,3],[14,5],[15,7]].forEach(([c,r])=>cell(r,c).classList.add('on'))}}
+const cell=(r,c)=>pgCells[r*16+c];
+function pgStop(){if(pgIv){clearInterval(pgIv);pgIv=null}pgCells.forEach(x=>x.classList.remove('col'));const b=$('pgPlay');if(b){b.classList.remove('on');b.textContent='▶ נגינה'}}
+$('pgrid').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;b.classList.toggle('on');if(b.classList.contains('on')&&newBusIfNone())I.marimba(ROWS[scale][Number(b.dataset.r)][0],AC.currentTime+.01,.3,.3)});
+function newBusIfNone(){if(bus)return true;return !!newBus()}
+$('pgPlay').addEventListener('click',()=>{if(pgIv){stopAll();return}stopAll();if(!newBus())return;const b=$('pgPlay');b.classList.add('on');b.textContent='■ עצירה';pgCol=0;
+ const tick=()=>{pgCells.forEach(x=>x.classList.remove('col'));for(let r=0;r<8;r++){const x=cell(r,pgCol);x.classList.add('col');if(x.classList.contains('on'))I.marimba(ROWS[scale][r][0],AC.currentTime+.01,.3,.28)}if(pgCol%4===0)I.kick(AC.currentTime+.01,.25);pgCol=(pgCol+1)%16};tick();pgIv=setInterval(tick,240)});
+$('pgRand').addEventListener('click',()=>{pgCells.forEach(x=>x.classList.remove('on'));for(let c=0;c<16;c++){if(Math.random()<.18)continue;const k=Math.random()<.45?2:1;for(let j=0;j<k;j++)cell(Math.floor(Math.random()*8),c).classList.add('on')}});
+$('pgClear').addEventListener('click',()=>pgCells.forEach(x=>x.classList.remove('on')));
+document.querySelectorAll('[data-scale]').forEach(b=>b.addEventListener('click',()=>{if(scale===b.dataset.scale)return;const on=pgCells.map(x=>x.classList.contains('on'));scale=b.dataset.scale;
+ document.querySelectorAll('[data-scale]').forEach(x=>x.classList.toggle('on',x===b));pgBuild();on.forEach((v,i)=>pgCells[i].classList.toggle('on',v))}));
+pgBuild();
+/* length calculator */
+function calcLen(){const T=num($('cT').value)||100,B=num($('cB').value)||8,R=num($('cR').value)||1,O=num($('cO').value)||0;const s=Math.round(B*4*60/T*R+O);
+ $('cOut').textContent='≈ '+s+' שניות';const v=$('cV');if(s<45){v.className='verdict no';v.textContent='קצר מדי: עוד סבב או טמפו איטי יותר'}else if(s>60){v.className='verdict no';v.textContent='ארוך מדי: פחות סבבים'}else{v.className='verdict ok';v.textContent='✓ מתאים לקונצרט'}}
+['cT','cB','cR','cO'].forEach(id=>$(id).addEventListener('input',calcLen));calcLen();
+/* ---------- 2. moods ---------- */
+const MOODS=[
+ {em:'🗺️',nm:'הרפתקה',tp:'טמפו 130 · Strings · קפיצות גדולות למעלה',p:t=>{const b=60/130;[60,67,72,76,74,72,79,79].forEach((m,i)=>I.strings(m,t+i*b*.5,b*(i>5?1.4:.55),.09));[48,48,55,55].forEach((m,i)=>I.bass(m,t+i*b,b,.28));[0,1,2,3].forEach(i=>I.snare(t+i*b+b*.5,.15));return 4*b+1}},
+ {em:'🌙',nm:'שקט',tp:'טמפו 70 · Piano · מעט תווים, הרבה רווח',p:t=>{const b=60/70;[[72,0],[69,1],[67,2],[64,3.5]].forEach(([m,x])=>I.piano(m,t+x*b,b*1.4,.16));I.bass(48,t,b*4,.12);return 4.5*b}},
+ {em:'🕵️',nm:'מסתורין',tp:'טמפו 90 · Woodwind · מתחילים נמוך, חוזרים על תו',p:t=>{const b=60/90;[57,57,60,57,55,57].forEach((m,i)=>I.woodwind(m,t+i*b*.5,b*.45,.2));I.bass(45,t,b*3.2,.22);I.conga(t+b*2,0,.2);return 3.5*b}},
+ {em:'🎉',nm:'חגיגה',tp:'טמפו 150 · Marimba + Kit · תופים מההתחלה',p:t=>{const b=60/150;[72,74,76,79,76,74,72,79,81,79,76,72].forEach((m,i)=>I.marimba(m,t+i*b*.5,.3,.28));for(let i=0;i<6;i++){I.kick(t+i*b,.5);I.hat(t+i*b+b*.5);if(i%2)I.snare(t+i*b,.2)}return 6*b+.5}},
+ {em:'⛈️',nm:'סערה',tp:'טמפו 160 · Synth + Electronic · מלחש לחזק מאוד',p:t=>{const b=60/160;const ns=[48,50,52,55,57,60,62,64,67,69,72,76];ns.forEach((m,i)=>I.synth(m,t+i*b*.5,b*.45,.03+i*.012));for(let i=0;i<6;i++){I.kick(t+i*b,.25+i*.08);I.hat(t+i*b+b*.5,.06+i*.02)}I.kick(t+6*b,.8);I.synth(48,t+6*b,1,.15);return 6*b+1.2}},
+ {em:'☁️',nm:'חלום',tp:'טמפו 80 · Marimba גבוה · תווים גבוהים ורכים',p:t=>{const b=60/80;[84,81,79,76,79,81,84].forEach((m,i)=>I.marimba(m,t+i*b*.5,.4,.14));I.strings(72,t,b*3.5,.035);I.strings(76,t,b*3.5,.03);return 4*b}},
+ {em:'💃',nm:'ריקוד',tp:'טמפו 120 · Piano + Conga · קצב שחוזר כל תיבה',p:t=>{const b=60/120;[67,72,67,74,67,76,74,72].forEach((m,i)=>I.piano(m,t+i*b*.5,b*.45,.22));for(let i=0;i<8;i++)I.conga(t+i*b*.5,i%3===0,.3);I.bass(48,t,b,.3);I.bass(43,t+2*b,b,.3);return 4*b+.4}},
+ {em:'🏆',nm:'ניצחון',tp:'טמפו 110 · Strings + Kit · סיום חזק ומשותף',p:t=>{const b=60/110;[60,64,67].forEach((m,i)=>I.strings(m+12,t+i*b*.5,b*.5,.1));[72,76,79].forEach(m=>I.strings(m,t+1.5*b,b*2.2,.08));I.bass(36,t+1.5*b,b*2.2,.35);I.kick(t+1.5*b,.7);I.snare(t+1.5*b,.25);return 4*b}}
+];
+/* ---------- 3. state ---------- */
+const LS='tie-orchestra-v1:'+location.pathname;
+const blank=n=>({name:n,piece:'',mood:-1,sub:0,mel:0,live:0,blob:0,mix:0,end:0,score:0,rub:'',votes:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(i=>blank('הרכב '+i)),stage:0,awards:{listen:'',opera:'',art:''}});
+let S=null;try{S=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();S.awards=S.awards||{listen:'',opera:'',art:''};S.stage=S.stage||0;
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}};
+/* mood draw */
+function renderMoods(hit){const g=$('moodGrid');if(!g)return;g.innerHTML=MOODS.map((m,i)=>{const who=S.teams.filter(t=>t.mood===i).map(t=>t.name);
+ return `<div class="mchip${who.length?' taken':''}${hit===i?' hit':''}"><div class="em">${m.em}</div><b>${m.nm}</b><small>${who.length?esc(who.join(' · ')):''}</small></div>`}).join('')}
+function showMood(ti,anim){const card=$('moodCard'),t=S.teams[ti];card.classList.remove('flip');if(!t||t.mood<0)return;const m=MOODS[t.mood];
+ const fill=()=>{$('mEm').textContent=m.em;$('mNm').textContent=m.nm;$('mTp').textContent=m.tp;card.classList.add('flip')};if(anim)setTimeout(fill,420);else fill()}
+function playMood(i){stopAll();if(i<0||!newBus())return;const len=MOODS[i].p(AC.currentTime+.05);later(()=>stopAll(),len*1000+500)}
+$('drawGo').addEventListener('click',()=>{const ti=Number($('drawTeam').value),t=S.teams[ti];if(!t)return;const used=S.teams.filter((x,k)=>k!==ti&&x.mood>=0).map(x=>x.mood);
+ const free=MOODS.map((m,i)=>i).filter(i=>!used.includes(i)&&i!==t.mood);const pool=free.length?free:MOODS.map((m,i)=>i);t.mood=pool[Math.floor(Math.random()*pool.length)];save();
+ const grid=$('moodGrid');let k=0;const spin=setInterval(()=>{renderMoods(k++%MOODS.length)},70);setTimeout(()=>{clearInterval(spin);renderMoods(t.mood);showMood(ti,true);setTimeout(()=>playMood(t.mood),700);renderAllButMoods()},700);$('moodCard').classList.remove('flip')});
+$('drawPlay').addEventListener('click',()=>{const t=S.teams[Number($('drawTeam').value)];if(t&&t.mood>=0)playMood(t.mood);else playMood(Math.floor(Math.random()*MOODS.length))});
+$('drawTeam').addEventListener('change',()=>{showMood(Number($('drawTeam').value),false);renderMoods()});
+/* points */
+function audPts(){const v=S.teams.map(t=>num(t.votes)||0);return v.map(x=>{if(x<=0)return 0;const place=1+v.filter(y=>y>x).length;return [0,5,3,2][place]||0})}
+function totals(){const ap=audPts();return S.teams.map((t,i)=>{const rub=Math.min(16,Math.max(0,num(t.rub)||0));return {rub,aud:ap[i],tot:(t.mel||0)+(t.live||0)+(t.blob||0)+(t.mix||0)+(t.end||0)+(t.score||0)+rub+ap[i]}})}
+function order(T){return [...T.keys()].sort((a,b)=>T[b].tot-T[a].tot||T[b].rub-T[a].rub||T[b].aud-T[a].aud)}
+const nameText=i=>`<span data-c="name" data-i="${i}">${esc(S.teams[i].name)}</span>`;
+const tg=(i,f,v)=>`<button class="tg" data-tog="${f}" data-v="${v}" data-i="${i}"></button>`;
+function renderSelects(){const sel=$('drawTeam');if(sel){const v=sel.value;sel.innerHTML=S.teams.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');if(v!==''&&S.teams[v])sel.value=v}
+ document.querySelectorAll('select[data-award]').forEach(s=>{s.innerHTML='<option value="">— בוחרים הרכב —</option>'+S.teams.map(t=>`<option>${esc(t.name)}</option>`).join('');s.value=S.awards[s.dataset.award]||''})}
+function renderPairs(){const el=$('pairs');if(!el)return;const n=S.teams.length,out=[];for(let i=0;i<n;i+=2){if(i+1<n)out.push(esc(S.teams[i].name)+' ⇄ '+esc(S.teams[i+1].name));else if(out.length)out[out.length-1]+=' ⇄ '+esc(S.teams[i].name);else out.push(esc(S.teams[i].name))}el.innerHTML=out.map(x=>`<span>🎭 ${x}</span>`).join('')}
+function renderProg(){const el=$('progTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>#</th><th>הרכב</th><th>שם היצירה</th><th>מצב רוח</th><th>הוגש בטופס</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td><b>${i+1}</b></td><td><input type="text" class="nm" data-i="${i}" data-f="name" value="${esc(t.name)}" aria-label="שם ההרכב"></td><td><input type="text" class="pc" data-i="${i}" data-f="piece" value="${esc(t.piece)}" placeholder="שם היצירה" aria-label="שם היצירה"></td><td data-c="mood" data-i="${i}"></td><td>${tg(i,'sub',1)}</td></tr>`).join('')+'</tbody>'}
+function renderVote(){const el=$('teamVote');if(!el)return;
+ el.innerHTML=S.teams.map((t,i)=>`<div class="voteItem" data-vi="${i}"><div class="emoji">🎻</div><strong>${nameText(i)}</strong><div class="voteCtl"><button data-step="votes" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output data-c="votes" data-i="${i}">${t.votes||0}</output><button data-step="votes" data-i="${i}" data-d="1" aria-label="יותר">+</button></div><div class="bar"><i data-c="vbar" data-i="${i}"></i></div></div>`).join('')}
+function renderScore(){const el=$('scoreTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>הרכב</th><th>🎹 מלודיה<br>3</th><th>🎶 ליווי חי<br>3</th><th>🫧 פתיחה<br>2</th><th>🎚️ מיקס<br>3</th><th>✊ סיום<br>3</th><th>🎨 פרטיטורה<br>2</th><th>📊 מחוון<br>4–16</th><th>👏 קהל<br>עד 5</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-srow="${i}"><td><input type="text" class="nm" data-i="${i}" data-f="name" value="${esc(t.name)}" aria-label="שם ההרכב"></td><td>${tg(i,'mel',3)}</td><td>${tg(i,'live',3)}</td><td>${tg(i,'blob',2)}</td><td>${tg(i,'mix',3)}</td><td>${tg(i,'end',3)}</td><td>${tg(i,'score',2)}</td><td><input type="number" inputmode="numeric" min="0" max="16" data-i="${i}" data-f="rub" value="${esc(t.rub)}" aria-label="ציון המחוון"></td><td class="calcC" data-c="aud" data-i="${i}"></td><td class="tot" data-c="tot" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+function renderStage(){if(!$('nowEns'))return;S.stage=Math.min(Math.max(0,S.stage),S.teams.length-1);const t=S.teams[S.stage];$('nowEns').textContent=t.name;$('nowPiece').textContent=t.piece?'״'+t.piece+'״':'';
+ $('nowMood').textContent=t.mood>=0?MOODS[t.mood].em+' '+MOODS[t.mood].nm:'';$('nowMood').style.visibility=t.mood>=0?'visible':'hidden';
+ $('stOrder').innerHTML=S.teams.map((x,i)=>`<span data-go="${i}" class="${i===S.stage?'cur':i<S.stage?'seen':''}"><b>${i+1}</b> · ${esc(x.name)}</span>`).join('')}
+function renderFinale(){const el=$('finProg');if(!el)return;const T=totals(),ord=order(T),any=T.some(x=>x.tot>0);
+ el.innerHTML=S.teams.map((t,i)=>`<li><b>${any&&ord[0]===i?'🪄 ':''}${esc(t.name)}</b><span>${t.piece?'״'+esc(t.piece)+'״':''}${t.mood>=0?' · '+MOODS[t.mood].em:''}</span></li>`).join('')}
+function update(){const T=totals(),ord=order(T),rank={};ord.forEach((i,k)=>rank[i]=k);const any=T.some(x=>x.tot>0);const maxV=Math.max(1,...S.teams.map(t=>num(t.votes)||0));
+ document.querySelectorAll('[data-c]').forEach(el=>{const i=Number(el.dataset.i),t=S.teams[i];if(!t)return;const c=el.dataset.c;
+  if(c==='name')el.textContent=t.name;
+  else if(c==='mood')el.textContent=t.mood>=0?MOODS[t.mood].em+' '+MOODS[t.mood].nm:'—';
+  else if(c==='aud')el.textContent=T[i].aud||'—';
+  else if(c==='tot')el.textContent=(any&&rank[i]<3&&T[i].tot>0?['🥇 ','🥈 ','🥉 '][rank[i]]:'')+T[i].tot;
+  else if(c==='vbar')el.style.width=((num(t.votes)||0)/maxV*100)+'%';
+  else if(c==='votes')el.textContent=t.votes||0});
+ document.querySelectorAll('.tg[data-tog]').forEach(b=>{const f=b.dataset.tog,v=S.teams[Number(b.dataset.i)]?.[f];b.classList.toggle('on',!!v);b.textContent=f==='sub'?(v?'✓ הוגש':'—'):(v?'✓ '+v:'0')});
+ document.querySelectorAll('input[data-f]').forEach(el=>{if(el!==document.activeElement)el.value=S.teams[Number(el.dataset.i)]?.[el.dataset.f]??''});
+ const topV=Math.max(0,...S.teams.map(t=>num(t.votes)||0));
+ document.querySelectorAll('#teamVote .voteItem').forEach(v=>{const n=num(S.teams[Number(v.dataset.vi)].votes)||0;v.classList.toggle('lead1',topV>0&&n===topV)});
+ document.querySelectorAll('#scoreTable tr[data-srow]').forEach(r=>{const i=Number(r.dataset.srow);r.className=any&&T[i].tot>0&&rank[i]<3?'r'+(rank[i]+1):''});
+ const line=$('scoreLine');if(line)line.textContent=any?('🪄 מוביל/ה כרגע: '+S.teams[ord[0]].name+' · בתיקו מכריע ציון המחוון, ואז הקהל'):'לוחצים על משבצת כדי לתת את הנקודות. נקודות הקהל עוברות לכאן לבד מההצבעה. מחוון: סכום 4 הקריטריונים.';
+ if($('winGold'))$('winGold').textContent=any?S.teams[ord[0]].name:'—';renderFinale()}
+function renderAllButMoods(){renderSelects();renderPairs();renderProg();renderVote();renderScore();renderStage();update()}
+function renderAll(){renderAllButMoods();renderMoods();showMood(Number($('drawTeam').value||0),false)}
+/* events */
+document.addEventListener('input',e=>{const el=e.target;if(!el.matches('input[data-f]'))return;const t=S.teams[Number(el.dataset.i)];if(!t)return;t[el.dataset.f]=el.value;save();
+ if(el.dataset.f==='name'){renderSelects();renderPairs();renderStage();renderMoods()}if(el.dataset.f==='piece')renderStage();update()});
+document.addEventListener('change',e=>{const el=e.target;if(el.matches('select[data-award]')){S.awards[el.dataset.award]=el.value;save()}});
+document.addEventListener('click',e=>{const go=e.target.closest('[data-go]');if(go){S.stage=Number(go.dataset.go);save();renderStage();resetSt();return}
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.step){const t=S.teams[Number(b.dataset.i)];t[b.dataset.step]=Math.max(0,Math.min(99,(num(t[b.dataset.step])||0)+Number(b.dataset.d)));save();update();return}
+ if(b.dataset.tog){const t=S.teams[Number(b.dataset.i)];t[b.dataset.tog]=t[b.dataset.tog]?0:Number(b.dataset.v);save();update();return}
+ if(b.classList.contains('chk')){b.classList.toggle('on');return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==='addTeam'&&S.teams.length<10){S.teams.push(blank('הרכב '+(S.teams.length+1)));save();renderAll()}
+ if(a==='delTeam'&&S.teams.length>2){const last=S.teams[S.teams.length-1];const used=last.mel||last.live||last.votes||last.rub!==''||last.mood>=0||last.piece;
+  if(!used||confirm('למחוק את "'+last.name+'" עם הנתונים שלו?')){S.teams.pop();save();renderAll()}}
+ if(a==='resetAll'&&confirm('לאפס את כל הניקוד, ההגרלות וההצבעות? (לכיתה חדשה)')){const names=S.teams.map(t=>t.name);S=fresh();S.teams=names.map(n=>blank(n));save();renderAll()}});
+function resetSt(){document.querySelector('#stTimer [data-t=reset]')?.click()}
+$('stPrev').addEventListener('click',()=>{if(S.stage>0){S.stage--;save();renderStage();resetSt()}});
+$('stNext').addEventListener('click',()=>{if(S.stage<S.teams.length-1){S.stage++;save();renderStage();resetSt()}});
+/* curtain */
+$('curtainBtn').addEventListener('click',()=>{const f=$('finale');const closing=!f.classList.contains('closed');f.classList.toggle('closed');if(!closing)return;stopAll();if(!newBus())return;const t=AC.currentTime+.05,b=.32;
+ [60,64,67].forEach((m,i)=>I.strings(m+12,t+i*b*.5,b*.5,.1));[48,60,64,67,72,76].forEach(m=>I.strings(m,t+1.5*b,2.6,.07));I.bass(36,t+1.5*b,2.6,.4);I.kick(t+1.5*b,.7);I.choir(72,t+1.5*b,2.4,.06);later(()=>stopAll(),4200)});
+/* copy buttons */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',async()=>{const txt=b.parentElement.querySelector('.ptext').innerText.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)}));
+/* stop sound when the slide changes */
+const mo=new MutationObserver(recs=>{if(recs.some(r=>r.oldValue&&r.oldValue.includes('active')&&!r.target.classList.contains('active')))stopAll()});
+document.querySelectorAll('#deck .slide').forEach(s=>mo.observe(s,{attributes:true,attributeFilter:['class'],attributeOldValue:true}));
+renderAll();
+})();
+</script>
+</body>
+</html>

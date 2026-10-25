@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · התזמורת הווירטואלית | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== התזמורת הווירטואלית — lesson additions to the materials kit ===== */
+:root{--wine:#9b3a62;--wine-ink:#7d2a4d;--wine-soft:#fbecf2;--gold:#d9a21b;--gold-ink:#8a5a00;--gold-soft:#fdf5df}
+.ph .l i{background:var(--wine)}
+.pt h2 span{color:var(--wine-ink)}
+.kick{color:var(--wine-ink);background:var(--wine-soft)}
+.r-cond{--c:#9b3a62;--cs:#fbecf2;--c-ink:#7d2a4d}
+.r-comp{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-acc{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.r-blob{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-eng{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+/* graphic score sheet */
+table.gs{width:100%;border-collapse:collapse;table-layout:fixed;direction:ltr}
+table.gs th,table.gs td{border:1.2px solid var(--line2);text-align:center}
+table.gs thead th{font-family:var(--display);font-weight:700;font-size:9pt;background:var(--paper2);height:7mm}
+table.gs td.lane{direction:rtl;text-align:right;padding:1.5mm 2mm;font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper);width:30mm}
+table.gs td.lane small{display:block;font-family:var(--body);font-weight:500;font-size:7.8pt;color:var(--muted)}
+table.gs td.cell{height:24mm;background:#fff}
+table.gs tr.mom td{height:9mm;background:#fffaf0}
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm}
+.legend div{border:1px solid var(--line2);border-radius:2.5mm;padding:2mm 2.4mm;font-size:8.8pt;display:flex;gap:2mm;align-items:center;background:#fff}
+.legend b{font-size:15pt;line-height:1;min-width:8mm;text-align:center;font-family:var(--display)}
+.dir{font-size:8.6pt;color:var(--muted);direction:rtl}
+/* bars plan */
+.bars{display:grid;grid-template-columns:repeat(8,1fr);gap:1.6mm;direction:ltr}
+.bars div{border:1.2px solid var(--line2);border-radius:2mm;min-height:24mm;padding:1.2mm;font-size:7.6pt;color:var(--dim);position:relative;direction:rtl;text-align:right}
+.bars div b{position:absolute;top:1mm;left:1.5mm;font-family:var(--display);color:var(--ink);font-size:9pt}
+.bars div span{position:absolute;bottom:1mm;right:1.4mm;left:1.4mm;font-size:7.4pt}
+.chips{display:flex;flex-wrap:wrap;gap:1.6mm}
+.chips span{border:1px solid var(--line2);border-radius:999px;padding:.4mm 2.4mm;font-size:8.8pt;background:#fff}
+.chips span::before{content:"☐ "}
+/* mood cards */
+.moods{grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;flex:1}
+.mood{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm 5mm;gap:1.4mm;position:relative}
+.mood::after{content:"";position:absolute;inset:auto 0 0 0;height:1.8mm;background:var(--wine)}
+.mood .em{font-size:28pt;line-height:1}
+.mood b{font-family:var(--display);font-weight:800;font-size:17pt;color:var(--wine-ink)}
+.mood .set{font-size:9pt;font-weight:700;background:var(--gold-soft);color:var(--gold-ink);border-radius:999px;padding:.6mm 3mm}
+.mood small{font-size:8.8pt;color:var(--muted);max-width:75mm}
+.mood .no{position:absolute;top:2.5mm;left:3mm;font-size:8pt;color:var(--dim);font-weight:700}
+/* conductor signs */
+.signsheet{grid-template-rows:1fr 1fr;flex:1}
+.sgn{padding:5mm 6mm;display:flex;flex-direction:column;gap:2.5mm}
+.sgn .hd{display:flex;justify-content:space-between;align-items:center}
+.sgn .hd b{font-family:var(--display);font-weight:800;font-size:15pt;color:var(--wine-ink)}
+.sgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:2.5mm}
+.sgrid div{border:1px solid var(--line2);border-radius:3mm;padding:2.5mm 1.5mm;text-align:center;background:#fff}
+.sgrid .em{font-size:24pt;line-height:1.1}
+.sgrid b{display:block;font-family:var(--display);font-size:11pt;margin-top:1mm}
+.sgrid small{display:block;font-size:8pt;color:var(--muted);line-height:1.3}
+/* listener cards */
+.listen{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ls{padding:4.5mm 5mm;display:flex;flex-direction:column;gap:1.8mm;font-size:9.3pt}
+.ls .eh{display:flex;justify-content:space-between;align-items:center}
+.ls .eh b{font-family:var(--display);font-weight:800;font-size:12pt}
+.ls table{width:100%;border-collapse:collapse;font-size:8.8pt}
+.ls td,.ls th{border:1px solid var(--line2);padding:1.2mm 1.6mm;text-align:right}
+.ls th{background:var(--paper2);font-family:var(--display);font-weight:600}
+.ls td.c{width:13mm;text-align:center}
+/* vote slips */
+.slips{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr);flex:1}
+.slip{padding:3mm;display:flex;flex-direction:column;justify-content:center;gap:1.5mm;text-align:center;font-size:8.6pt}
+.slip b{font-family:var(--display);font-size:10.5pt}
+.slip .em{font-size:15pt;line-height:1}
+.slip .fill{min-width:30mm}
+/* program */
+table.prog{width:100%;border-collapse:collapse;font-size:11pt}
+table.prog th,table.prog td{border-bottom:1.2px solid var(--line2);padding:2.5mm 2mm;text-align:right}
+table.prog th{font-family:var(--display);color:var(--muted);font-size:9.5pt}
+table.prog td.n{width:10mm;font-family:var(--display);font-weight:800;font-size:14pt;color:var(--wine-ink)}
+table.prog td{height:13mm}
+.curtain{height:12mm;border-radius:3mm 3mm 0 0;background:repeating-linear-gradient(90deg,#9b3a62 0 6mm,#b14c77 6mm 12mm);margin-bottom:4mm}
+/* certificates */
+.certs{display:grid;grid-template-rows:1fr 1fr;gap:6mm;flex:1}
+.cert{position:relative;border:2.2mm double var(--gold);border-radius:4mm;padding:7mm 10mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;background:linear-gradient(180deg,#fffdf6,#fff)}
+.cert::before{content:"";position:absolute;inset:2.5mm;border:.4mm solid #efd9a0;border-radius:2.5mm;pointer-events:none}
+.cert .em{font-size:30pt;line-height:1}
+.cert .t{font-size:9pt;font-weight:800;letter-spacing:.15em;color:var(--gold-ink)}
+.cert h3{font-family:var(--display);font-weight:800;font-size:24pt;color:var(--wine-ink);margin:0}
+.cert p{font-size:11pt;color:var(--ink)}
+.cert .fill{min-width:80mm;height:1.3em}
+.cert .sig{display:flex;justify-content:space-between;width:100%;margin-top:3mm;font-size:9pt;color:var(--muted)}
+.cert .sig .fill{min-width:40mm}
+.cert svg{width:22mm;height:auto}
+#p-score td.e{height:6mm}#p-score table.tb th,#p-score table.tb td{padding:1.3mm 2mm}
+#p-score .pt{margin-bottom:3mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · התזמורת הווירטואלית<small>מוזיקה וסאונד · 90 דקות · קונצרט שרביט הזהב</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". דף הפרטיטורה (עמוד 5) מומלץ להדפיס ב-A3 ("התאמה לגודל הדף"). מה שרואים כאן הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · למדריך</div><div class="r">לא לחלק</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>החישוב לכיתה של 28 תלמידים ב-6 הרכבים של 4–5. בכיתה אחרת: לפי מספר ההרכבים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד (5), כרטיס הרכב של 4/6 ונורמות</td><td>1 סט להרכב (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה: שרביט הזהב</td><td>1 להרכב (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף הפרטיטורה הגרפית</td><td>1 להרכב + 2 רזרבה (8)</td><td><b>A3</b> אם אפשר</td><td>לא</td></tr>
+      <tr><td>6</td><td>דף עבודה: תכנון היצירה</td><td>1 להרכב (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>קלפי מצב רוח (8)</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>8</td><td>כרטיס סימני המנצח/ת (2 בעמוד)</td><td>3 עמודים (6 כרטיסים)</td><td>בריסטול</td><td>לחצי</td></tr>
+      <tr><td>9</td><td>כרטיסי מאזינים לחזרה הכללית</td><td>2 עמודים (8)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>10</td><td>משימות צד ובנק צלילי גוף</td><td>1 לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>11</td><td>מחוון</td><td>1 להרכב + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>פתקי הצבעת קהל (20 בעמוד)</td><td>2 עמודים (40)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>13</td><td>כרטיסי יציאה (4 בעמוד)</td><td>7 עמודים (28)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>14</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>תוכניית הקונצרט (לתליה או לגרסה בלי מחשבים)</td><td>1</td><td>רגיל או A3</td><td>לא</td></tr>
+      <tr><td>16–17</td><td>תעודות: שרביט הזהב ו-3 פרסים</td><td>1 מכל אחת</td><td>בריסטול לבן או שמנת</td><td>לחצי</td></tr>
+      <tr><td>18</td><td>שלט הרכב לשולחן</td><td>1 להרכב (6)</td><td>בריסטול</td><td>קיפול</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בארגז של כל הרכב</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + כרטיס סימני המנצח/ת</li><li>כרטיס משימה, דף עבודה ומחוון</li><li>דף פרטיטורה A3 + 4 טושים בצבעים שונים</li><li>שלט הרכב מקופל</li><li>אוזניות לכל נגן (מבקשים מהתלמידים להביא) ורמקול אחד</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>קלפי מצב רוח, הפוכים, בכובע או בקופסה</li><li>משימות צד, כרטיסי מאזינים ופתקי הצבעה</li><li>דף הניקוד ועט · 4 תעודות</li><li>רמקול חיצוני למחשב "האולם" (המקרן)</li><li>שרביט: עיפרון ארוך או מקל עטוף בנייר זהב 🪄</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS 1-4 ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · ההרכב</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. כל אחד מקבל כרטיס אחד בתחילת השיעור.</p>
+  <div class="cutgrid roles">
+    <article class="role r-cond">
+      <div class="rh"><span class="ic">🎼</span><div><b>מנצח/ת</b><small>הקצב, הכניסות והסיום</small></div></div>
+      <p class="mis">המשימה שלי: שכל ההרכב מנגן כמו אחד. אני לא מנגן/ת, אני מוביל/ה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>פותח/ת את חדר ה-Shared Piano ושולח/ת את הקישור להרכב.</li><li>מצייר/ת עם זמר/ת הבלובים את הפרטיטורה ומסמן/ת 3 רגעים.</li><li>סופר/ת "1, 2, 3, 4" ומסמן/ת כניסה, עוצמה וסיום (✊).</li><li>מריץ/ה חזרות ושומר/ת על הזמן. <b>רק אני</b> קורא/ת למדריך.</li></ul>
+      <div class="say">💬 "שקט, מתחילים מההתחלה." · "עוד פעם, הפעם חלש יותר." · "מסתכלים עליי בסוף!"</div>
+      <p class="no">✗ לא מחליט/ה לבד מה מנגנים. המלחין/ה והנגנים מחליטים איתי.</p>
+      <p class="bonus">✓ הצלחתי כש: כל ההרכב עצר באותה שנייה על ה-✊</p>
+    </article>
+    <article class="role r-comp">
+      <div class="rh"><span class="ic">🎹</span><div><b>מלחין/ה</b><small>המנגינה שכולם יזכרו</small></div></div>
+      <p class="mis">המשימה שלי: מלודיה מקורית של 8 תיבות לפחות ב-Song Maker, שמורה ובטוחה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>בהגדרות (Settings): אורך 8 תיבות, סולם Pentatonic, מתחילים ב-C. טמפו לפי קלף מצב הרוח.</li><li>כותב/ת מנגינה שיש בה חזרה: מה שבתיבות 1 ו-2 חוזר בתיבות 5 ו-6.</li><li>Save ← Copy Link + Download Wav. שולח/ת למהנדס/ת.</li><li>בקונצרט: לוחץ/ת Play ועוצר/ת על ה-✊ של המנצח/ת.</li></ul>
+      <div class="say">💬 "תקשיבו לגרסה הזאת." · "איפה כדאי שיהיה חזק?" · "שמרתי, הנה הקישור."</div>
+      <p class="no">✗ לא מעתיק/ה מנגינה מוכרת, גם לא "רק את ההתחלה".</p>
+      <p class="bonus">✓ הצלחתי כש: מישהו מהרכב אחר זמזם את המנגינה שלנו</p>
+    </article>
+    <article class="role r-acc">
+      <div class="rh"><span class="ic">🎶</span><div><b>נגן/ית ליווי</b><small>הקרקע שמתחת למנגינה</small></div></div>
+      <p class="mis">המשימה שלי: ליווי חי ב-Shared Piano, בקצב של המנצח/ת. בהרכב של 6: שני נגנים.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>נכנס/ת לחדר של ההרכב, בוחר/ת כלי אחר מהמלחין/ה, ושם/ה אוזניות.</li><li>מנגן/ת רק C · D · E · G · A (בלי F ו-B).</li><li>מוצא/ת תו בס אחד לכל תיבה וכותב/ת אותו בדף העבודה.</li><li>מתאמן/ת על הכניסה, על שינוי העוצמה ועל העצירה המשותפת.</li></ul>
+      <div class="say">💬 "אפשר עוד פעם את תיבה 5?" · "אני נכנס/ת אחרי הבלובים." · "יותר לאט?"</div>
+      <p class="no">✗ לא מנגן/ת מעל המלודיה בחזק כל הזמן. הליווי תומך, לא מתחרה.</p>
+      <p class="bonus">✓ הצלחתי כש: נכנסתי בדיוק על הסימן של המנצח/ת</p>
+    </article>
+    <article class="role r-blob">
+      <div class="rh"><span class="ic">🫧</span><div><b>זמר/ת הבלובים</b><small>הפתיחה האופראית</small></div></div>
+      <p class="mis">המשימה שלי: פתיחה של 5–10 שניות ב-Blob Opera, שמתאימה למצב הרוח.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מצייר/ת עם המנצח/ת את הפרטיטורה הגרפית.</li><li>גורר/ת בלובים: למעלה ולמטה = גובה, קדימה ואחורה = צורת הפה.</li><li>מקליט/ה פתיחה שנגמרת בצליל ארוך, ומעתיק/ה את הקישור.</li><li>בקונצרט: אחרי הפתיחה מצטרף/ת לחדר כנגן/ית ליווי שני/ה.</li></ul>
+      <div class="say">💬 "זה מספיק דרמטי?" · "הפתיחה נגמרת, ועכשיו המלודיה." · "אני מנגן/ת בס."</div>
+      <p class="no">✗ לא מקליט/ה פתיחה של יותר מ-10 שניות. הקהל מחכה למלודיה.</p>
+      <p class="bonus">✓ הצלחתי כש: האולם חייך כשהבלובים התחילו לשיר</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLE CARDS 5 + sizes + norms ===================== -->
+<section class="page" id="p-roles2" data-label="תפקיד 5 ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, כרטיס גודל ההרכב, נורמות ההרכב ורמזור ה-AI. שלושת האחרונים נשארים על השולחן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-eng">
+      <div class="rh"><span class="ic">🎚️</span><div><b>מהנדס/ת הקלטה</b><small>הזיכרון של ההרכב</small></div></div>
+      <p class="mis">המשימה שלי: שהיצירה נשמרת כקובץ אחד, ושההגשה נכנסת בזמן.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>נכנס/ת ל-bandlab.com עם Google ופותח/ת פרויקט חדש.</li><li>מייבא/ת את ה-WAV, ומקליט/ה מהרמקול את הפתיחה ואת הליווי החי.</li><li>מאזן/ת עוצמות, מייצא/ת מיקס ומעלה ל-Drive (צפייה).</li><li><b>מגיש/ה</b> את טופס "תוכניית הקונצרט" עם כל הקישורים וצילום הפרטיטורה.</li></ul>
+      <div class="say">💬 "שקט, מקליטים!" · "עוד טייק אחד." · "שלחו לי את הקישורים."</div>
+      <p class="no">✗ לא מגיש/ה בלי שההרכב שמע את המיקס.</p>
+      <p class="bonus">✓ הצלחתי כש: המיקס נשמע כמו הרכב אחד, וההגשה נכנסה בזמן</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">👥</span><div><b>הרכב של 4 או 6?</b><small>כך מחלקים</small></div></div>
+      <table class="tb" style="font-size:9pt">
+        <thead><tr><th>גודל</th><th>מה משתנה</th></tr></thead>
+        <tbody>
+          <tr><td><b>4</b></td><td>זמר/ת הבלובים הוא/היא גם המהנדס/ת. בקונצרט: הנגנים החיים הם הליווי + זמר/ת הבלובים.</td></tr>
+          <tr><td><b>5</b></td><td>תפקיד אחד לכל אחד. שני הנגנים החיים: הליווי + זמר/ת הבלובים.</td></tr>
+          <tr><td><b>6</b></td><td>שני נגני ליווי: אחד בס, אחד אקורדים. זמר/ת הבלובים מצטרף/ת כשלישי/ת.</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.8pt;color:var(--muted)">המנצח/ת לא מנגן/ת אף פעם. הידיים שלו/שלה תפוסות בניצוח.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות ההרכב</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל ההרכב סיים.</li>
+        <li>כשהמנצח/ת מרים/ה ידיים, כולם שקטים.</li>
+        <li>מנסים רעיון מוזיקלי לפני שמבקרים אותו: "בואו נשמע".</li>
+        <li>מבקרים צלילים, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>אוזניות על הראש, ורמקול אחד בקול.</li>
+      </ol>
+      <p class="bonus">🤝 הרכב ששומר על הנורמות מועמד לפרס ההקשבה</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="y"><b>🟡 ספרינט 1: AI לרעיונות</b>Gemini מציע מבנה, סימנים לפרטיטורה ושמות. את המוזיקה כותבים אתם.</div>
+        <div class="r"><b>🔴 ספרינט 2: בלי AI</b>עכשיו רק מנגנים, מקליטים ומתאמנים.</div>
+        <div class="r"><b>🔴 כרטיס יציאה: בלי AI</b>כל אחד כותב לבד.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט ובשם היצירה לא כותבים שמות ופרטים אישיים.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · כרטיס המשימה</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🪄 האתגר: שרביט הזהב</span><h2>יצירה של דקה, <span>שמנגנים יחד ברשת</span></h2></div><p>התזמורת העירונית נתקעה: הנגנים פזורים בכל העולם ואין להם אולם. המנצחת הראשית ביקשה מכל הרכב יצירה של דקה שאפשר לנגן יחד ברשת. בקונצרט הערב, הקהל יבחר את ההרכב שיקבל את שרביט הזהב.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המוצר</h3><ul class="clean"><li>🫧 פתיחה של 5–10 שניות ב-Blob Opera</li><li>🎹 מלודיה מקורית של 8 תיבות לפחות ב-Song Maker</li><li>🎶 ליווי חי של 2 נגנים לפחות ב-Shared Piano</li><li>🎚️ מיקס סופי ב-BandLab, קובץ אחד</li><li>🎨 פרטיטורה גרפית על דף, עם 3 רגעים</li></ul><p style="margin-top:1.5mm;font-size:9pt;color:var(--muted)">יחד: 45–60 שניות.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>45–60 שניות, עם פתיחה, מלודיה וליווי.</li><li>לפחות שני נגנים יחד בזמן אמת ב-Shared Piano.</li><li>3 רגעים בפרטיטורה: כניסה, שינוי עוצמה, סיום משותף.</li><li>בקונצרט מנגנים חי. ההקלטה רק אם החיבור נפל.</li><li>רק מוזיקה מקורית מהשיעור.</li><li>מגישים בטופס עד הדקה שעל הטיימר.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:34mm">נקודות</th></tr></thead><tbody>
+      <tr><td>🎹 מלודיה של 8 תיבות ב-Song Maker</td><td>3</td></tr>
+      <tr><td>🎶 ליווי חי של 2 נגנים לפחות</td><td>3</td></tr>
+      <tr><td>🫧 פתיחת Blob Opera · 🎨 פרטיטורה עם 3 רגעים מסומנים</td><td>2 + 2</td></tr>
+      <tr><td>🎚️ מיקס סופי ב-BandLab</td><td>3</td></tr>
+      <tr><td>✊ סיום משותף: כל הנגנים עוצרים יחד על סימן המנצח/ת</td><td>3</td></tr>
+      <tr><td>📊 ציון המחוון של המדריך (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+      <tr><td>👏 הצבעת הקהל: מקום 1 / 2 / 3</td><td>5 / 3 / 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.5mm;font-size:9pt;color:var(--muted)">🪄 שרביט הזהב = הכי הרבה נקודות. בתיקו: ציון המחוון, ואז הקהל. עוד פרסים: 👂 ההקשבה · 🫧 הפתיחה המפתיעה · 🎨 הפרטיטורה הכי יפה.</p></div>
+  <div class="grid3" style="margin-top:3.5mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9pt">מלודיה של 8 תיבות לפי "תכנון התיבות" בדף העבודה. ליווי: תו בס אחד ארוך בכל תיבה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9pt">מלודיה עם חזרה (תיבות 1 ו-2 חוזרות ב-5 ו-6), בס + אקורד, ושינוי עוצמה אחד שכולם עושים יחד.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9pt">16 תיבות במבנה א-א-ב-א, שני שינויי עוצמה, והמלחין/ה מנגן/ת את המלודיה חי בחדר. זו הדרך הקצרה לרמה 4.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. GRAPHIC SCORE ===================== -->
+<section class="page" id="p-gscore" data-label="פרטיטורה גרפית">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · הפרטיטורה הגרפית</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎨 המנצח/ת וזמר/ת הבלובים · מומלץ A3</span><h2>הפרטיטורה של <span class="fill l"></span></h2></div><p>שם היצירה: <span class="fill l"></span> &nbsp; מצב רוח: <span class="fill"></span> &nbsp; טמפו: <span class="fill s"></span></p></div>
+  <p class="dir">↤ קוראים משמאל לימין, כמו ב-Song Maker: תיבה 1 משמאל. בכל משבצת מציירים מי מנגן וכמה חזק. משבצת ריקה = שקט.</p>
+  <table class="gs" style="margin-top:2mm">
+    <thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th style="width:30mm;direction:rtl">כלי</th></tr></thead>
+    <tbody>
+      <tr><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="lane">🫧 בלובים<small>פתיחה</small></td></tr>
+      <tr><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="lane">🎹 מלודיה<small>Song Maker</small></td></tr>
+      <tr><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="lane">🎶 ליווי 1<small>בס</small></td></tr>
+      <tr><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="lane">🎶 ליווי 2<small>אקורד / נגן שני</small></td></tr>
+      <tr><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="lane">👏 גוף / תופים<small>לא חובה</small></td></tr>
+      <tr class="mom"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="lane">⭐ רגעים<small>➡️ · 🔊 · ✊</small></td></tr>
+    </tbody>
+  </table>
+  <div class="legend" style="margin-top:3.5mm">
+    <div><b>➡️</b>כניסה: מישהו מתחיל לנגן</div>
+    <div><b>• ●</b>גודל = עוצמה: קטן חלש, גדול חזק</div>
+    <div><b dir="ltr" style="unicode-bidi:isolate">&lt;</b>"פה של תנין" נפתח: מתחזקים</div>
+    <div><b dir="ltr" style="unicode-bidi:isolate">&gt;</b>"פה של תנין" נסגר: נחלשים</div>
+    <div><b>〰</b>צליל ארוך שנמשך</div>
+    <div><b>↗ ↘</b>המנגינה עולה / יורדת</div>
+    <div><b>⏸</b>הפסקה: כולם מחכים</div>
+    <div><b>✊</b>סיום משותף: כולם עוצרים</div>
+  </div>
+  <div class="grid3" style="margin-top:3.5mm">
+    <div class="box"><h3>➡️ רגע 1: כניסה</h3><p style="font-size:9pt">בתיבה <span class="fill s"></span> נכנס/ת <span class="fill s"></span></p></div>
+    <div class="box"><h3>🔊 רגע 2: שינוי עוצמה</h3><p style="font-size:9pt">בתיבה <span class="fill s"></span> כולם ☐ מתחזקים ☐ נחלשים</p></div>
+    <div class="box"><h3>✊ רגע 3: סיום משותף</h3><p style="font-size:9pt">בסוף תיבה <span class="fill s"></span>, על האגרוף של המנצח/ת</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. WORKSHEET ===================== -->
+<section class="page" id="p-work" data-label="דף עבודה">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · דף עבודה</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎹 ספרינט 1 + 2 · נשאר על השולחן</span><h2>תכנון <span>היצירה</span></h2></div></div>
+  <div class="stack grow">
+    <div class="grid2">
+      <div class="box"><h3>1. מצב הרוח וההגדרות</h3>
+        <table class="tb"><tbody>
+          <tr><td style="width:36mm">🎭 מצב הרוח שהגרלנו</td><td></td></tr>
+          <tr><td>⏱ טמפו ב-Song Maker</td><td></td></tr>
+          <tr><td>🎹 כלי (Instrument)</td><td></td></tr>
+          <tr><td>📏 Length (תיבות)</td><td>☐ 8 &nbsp; ☐ 16</td></tr>
+          <tr><td>🎼 Scale · Start on</td><td><b>Pentatonic · C</b></td></tr>
+        </tbody></table></div>
+      <div class="box"><h3>2. כמה זמן זה ייקח? (45–60 שנ׳)</h3>
+        <table class="tb" style="text-align:center"><thead><tr><th>תיבות</th><th>טמפו</th><th>סבבים</th><th>פתיחה (שנ׳)</th><th style="background:var(--gold-soft)">= שניות</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+        <p style="font-size:9pt;margin-top:2mm"><b>החישוב:</b> תיבות × 240 ÷ טמפו × סבבים + פתיחה</p>
+        <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">דוגמה: 8 תיבות בטמפו 100, פעמיים, עם פתיחה של 8 שניות = 46 שניות. יותר מדי? סבב אחד פחות. מעט מדי? Length 16.</p></div>
+    </div>
+    <div class="box"><h3>3. תכנון התיבות (קוראים משמאל לימין)</h3>
+      <p style="font-size:8.8pt;color:var(--muted);margin-bottom:1.5mm">בכל תיבה: מה קורה, וכמה חזק. בשורה התחתונה: תו הבס של נגן/ית הליווי (C / A / G / D / E).</p>
+      <div class="bars"><div><b>1</b><span>בס: ___</span></div><div><b>2</b><span>בס: ___</span></div><div><b>3</b><span>בס: ___</span></div><div><b>4</b><span>בס: ___</span></div><div><b>5</b><span>בס: ___</span></div><div><b>6</b><span>בס: ___</span></div><div><b>7</b><span>בס: ___</span></div><div><b>8</b><span>בס: ___</span></div></div>
+      <p style="font-size:8.6pt;color:var(--muted);margin-top:1.5mm">💡 רעיון שעובד: מה שבתיבות 1 ו-2 חוזר בתיבות 5 ו-6 · תיבה 8 נגמרת על C ארוך · בס פשוט: C · A · C · G · A · C · G · C</p></div>
+    <div class="grid2">
+      <div class="box"><h3>4. הקישורים שלנו</h3>
+        <table class="tb"><tbody><tr><td style="width:30mm">🎹 Song Maker</td><td class="e"></td></tr><tr><td>🎶 חדר Shared Piano</td><td class="e"></td></tr><tr><td>🫧 Blob Opera</td><td class="e"></td></tr><tr><td>🎚️ מיקס (Drive)</td><td class="e"></td></tr></tbody></table></div>
+      <div class="box"><h3>5. שם היצירה (עד 4 מילים)</h3><div class="lines h1"></div>
+        <h3 style="margin-top:2mm">6. מה המנצח/ת אומר/ת לקהל?</h3><div class="lines h2"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check"><li>מלודיה של 8 תיבות שמורה (קישור + WAV)</li><li>2 נגנים לפחות בחדר, באוזניות</li><li>פתיחת בלובים מוקלטת</li><li>3 רגעים בפרטיטורה + צילום</li><li>מיקס מיוצא, Drive בהרשאת צפייה</li><li>טופס הוגש עם שם הקובץ הנכון</li></ul></div>
+      <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.2pt">מה Gemini הציע:</p><div class="lines h1"></div><p style="font-size:9.2pt;margin-top:1mm">מה אנחנו בחרנו ושינינו:</p><div class="lines h1"></div><p style="font-size:8.6pt;color:var(--muted)">☐ לא השתמשנו ב-AI · את המוזיקה כתבנו בעצמנו</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 7. MOOD CARDS ===================== -->
+<section class="page" id="p-moods" data-label="קלפי מצב רוח">
+  <div class="ph"><div class="l"><i>TIE</i>קלפי מצב רוח · 8 קלפים</div><div class="r">סט 1 לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולהפוך. המנצח/ת של כל הרכב שולף/ת קלף אחד (או מגרילים במצגת, שקף 6). אין שני הרכבים עם אותו מצב רוח.</p>
+  <div class="cutgrid moods">
+    <div class="mood"><span class="no">1</span><span class="em">🗺️</span><b>הרפתקה</b><span class="set">טמפו 130 · Strings</span><small>קפיצות גדולות למעלה, כמו מישהו שיוצא לדרך</small></div>
+    <div class="mood"><span class="no">2</span><span class="em">🌙</span><b>שקט</b><span class="set">טמפו 70 · Piano</span><small>מעט תווים, הרבה רווח. שקט זה גם מוזיקה</small></div>
+    <div class="mood"><span class="no">3</span><span class="em">🕵️</span><b>מסתורין</b><span class="set">טמפו 90 · Woodwind</span><small>מתחילים נמוך, וחוזרים על אותו תו כמו צעדים בחושך</small></div>
+    <div class="mood"><span class="no">4</span><span class="em">🎉</span><b>חגיגה</b><span class="set">טמפו 150 · Marimba + Kit</span><small>תופים מההתחלה. טמפו מהיר: כדאי Length 16</small></div>
+    <div class="mood"><span class="no">5</span><span class="em">⛈️</span><b>סערה</b><span class="set">טמפו 160 · Synth + Electronic</span><small>מלחש לחזק מאוד. טמפו מהיר: כדאי Length 16</small></div>
+    <div class="mood"><span class="no">6</span><span class="em">☁️</span><b>חלום</b><span class="set">טמפו 80 · Marimba גבוה</span><small>תווים גבוהים ורכים, שמרחפים</small></div>
+    <div class="mood"><span class="no">7</span><span class="em">💃</span><b>ריקוד</b><span class="set">טמפו 120 · Piano + Conga</span><small>קצב שחוזר בכל תיבה. אי אפשר לשבת בשקט</small></div>
+    <div class="mood"><span class="no">8</span><span class="em">🏆</span><b>ניצחון</b><span class="set">טמפו 110 · Strings + Kit</span><small>מנגינה שעולה, וסיום חזק ומשותף</small></div>
+  </div>
+</section>
+
+<!-- ===================== 8. CONDUCTOR SIGNS ===================== -->
+<section class="page" id="p-signs" data-label="סימני המנצח/ת">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס סימני המנצח/ת · 2 בעמוד</div><div class="r">1 להרכב</div></div>
+  <p class="cutnote">✂ לגזור לחצי. הכרטיס עומד מול הנגנים בזמן החזרות.</p>
+  <div class="cutgrid signsheet">
+    <div class="sgn"><div class="hd"><b>🎼 סימני המנצח/ת</b><span>הרכב: <span class="fill"></span></span></div>
+      <div class="sgrid">
+        <div><span class="em">🙌</span><b>מוכנים</b><small>שתי ידיים למעלה. כולם מסתכלים ושקטים</small></div>
+        <div><span class="em">☝️</span><b>כניסה</b><small>מצביעים על נגן ומורידים את היד: עכשיו!</small></div>
+        <div><span class="em">👐</span><b>חזק</b><small>הידיים נפתחות לרחבה</small></div>
+        <div><span class="em">🤏</span><b>חלש</b><small>הידיים מתקרבות, תנועה קטנה</small></div>
+        <div><span class="em">✊</span><b>סוף</b><small>אגרוף נסגר באוויר. כולם עוצרים יחד</small></div>
+      </div>
+      <div class="box soft"><h3>⏱ לפני כל ניסיון</h3><p style="font-size:9.4pt">המנצח/ת סופר/ת בקול ומראה ביד <b>"1, 2, 3, 4"</b> בטמפו של Song Maker, ואז ☝️. המלחין/ה לוחץ/ת Play על ה-1 הבא.</p></div>
+    </div>
+    <div class="sgn"><div class="hd"><b>🎼 סימני המנצח/ת</b><span>הרכב: <span class="fill"></span></span></div>
+      <div class="sgrid">
+        <div><span class="em">🙌</span><b>מוכנים</b><small>שתי ידיים למעלה. כולם מסתכלים ושקטים</small></div>
+        <div><span class="em">☝️</span><b>כניסה</b><small>מצביעים על נגן ומורידים את היד: עכשיו!</small></div>
+        <div><span class="em">👐</span><b>חזק</b><small>הידיים נפתחות לרחבה</small></div>
+        <div><span class="em">🤏</span><b>חלש</b><small>הידיים מתקרבות, תנועה קטנה</small></div>
+        <div><span class="em">✊</span><b>סוף</b><small>אגרוף נסגר באוויר. כולם עוצרים יחד</small></div>
+      </div>
+      <div class="box soft"><h3>⏱ לפני כל ניסיון</h3><p style="font-size:9.4pt">המנצח/ת סופר/ת בקול ומראה ביד <b>"1, 2, 3, 4"</b> בטמפו של Song Maker, ואז ☝️. המלחין/ה לוחץ/ת Play על ה-1 הבא.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9. LISTENER CARDS ===================== -->
+<section class="page" id="p-listen" data-label="כרטיסי מאזינים">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס מאזינים · החזרה הכללית</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ההרכב המקשיב ממלא כרטיס אחד, ומוסר אותו להרכב שניגן.</p>
+  <div class="cutgrid listen">
+    <div class="ls"><div class="eh"><b>👂 כרטיס מאזינים</b><span>חזרה כללית</span></div>
+      <p>אנחנו, הרכב <span class="fill"></span>, הקשבנו להרכב <span class="fill"></span></p>
+      <table><thead><tr><th>מה שמענו?</th><th class="c">ניסיון 1</th><th class="c">ניסיון 2</th></tr></thead>
+      <tbody><tr><td>➡️ כניסה על הסימן</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>🔊 שינוי עוצמה ביחד</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>✊ סיום משותף</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>⏱ בערך 45–60 שניות</td><td class="c">☐</td><td class="c">☐</td></tr></tbody></table>
+      <p><b>אהבנו:</b> <span class="fill l"></span></p><p><b>הלוואי ש:</b> <span class="fill l"></span></p><p><b>תהינו אם:</b> <span class="fill l"></span></p></div>
+    <div class="ls"><div class="eh"><b>👂 כרטיס מאזינים</b><span>חזרה כללית</span></div>
+      <p>אנחנו, הרכב <span class="fill"></span>, הקשבנו להרכב <span class="fill"></span></p>
+      <table><thead><tr><th>מה שמענו?</th><th class="c">ניסיון 1</th><th class="c">ניסיון 2</th></tr></thead>
+      <tbody><tr><td>➡️ כניסה על הסימן</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>🔊 שינוי עוצמה ביחד</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>✊ סיום משותף</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>⏱ בערך 45–60 שניות</td><td class="c">☐</td><td class="c">☐</td></tr></tbody></table>
+      <p><b>אהבנו:</b> <span class="fill l"></span></p><p><b>הלוואי ש:</b> <span class="fill l"></span></p><p><b>תהינו אם:</b> <span class="fill l"></span></p></div>
+    <div class="ls"><div class="eh"><b>👂 כרטיס מאזינים</b><span>חזרה כללית</span></div>
+      <p>אנחנו, הרכב <span class="fill"></span>, הקשבנו להרכב <span class="fill"></span></p>
+      <table><thead><tr><th>מה שמענו?</th><th class="c">ניסיון 1</th><th class="c">ניסיון 2</th></tr></thead>
+      <tbody><tr><td>➡️ כניסה על הסימן</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>🔊 שינוי עוצמה ביחד</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>✊ סיום משותף</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>⏱ בערך 45–60 שניות</td><td class="c">☐</td><td class="c">☐</td></tr></tbody></table>
+      <p><b>אהבנו:</b> <span class="fill l"></span></p><p><b>הלוואי ש:</b> <span class="fill l"></span></p><p><b>תהינו אם:</b> <span class="fill l"></span></p></div>
+    <div class="ls"><div class="eh"><b>👂 כרטיס מאזינים</b><span>חזרה כללית</span></div>
+      <p>אנחנו, הרכב <span class="fill"></span>, הקשבנו להרכב <span class="fill"></span></p>
+      <table><thead><tr><th>מה שמענו?</th><th class="c">ניסיון 1</th><th class="c">ניסיון 2</th></tr></thead>
+      <tbody><tr><td>➡️ כניסה על הסימן</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>🔊 שינוי עוצמה ביחד</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>✊ סיום משותף</td><td class="c">☐</td><td class="c">☐</td></tr><tr><td>⏱ בערך 45–60 שניות</td><td class="c">☐</td><td class="c">☐</td></tr></tbody></table>
+      <p><b>אהבנו:</b> <span class="fill l"></span></p><p><b>הלוואי ש:</b> <span class="fill l"></span></p><p><b>תהינו אם:</b> <span class="fill l"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 10. SIDE QUESTS + BODY SOUNDS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>משימות צד · ובנק צלילי גוף וחפצים</div><div class="r">1 לכיתה</div></div>
+  <p class="cutnote">✂ לגזור את 6 הכרטיסים לקופסת משימות הצד. הרכב שסיים ובדק את הצ׳קליסט שולף כרטיס.</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(2,1fr);flex:0 0 120mm">
+    <div class="cc" style="--c:#8c7ae6;--cs:#efecfb"><span class="cat">משימת צד</span><span class="no">S1</span><span class="em">😢</span><b>הגרסה העצובה</b><small>אותה מלודיה בטמפו איטי ובכלי אחר. שמרו קישור שני והשמיעו לשכנים</small></div>
+    <div class="cc" style="--c:#e76f86;--cs:#fce9ed"><span class="cat">משימת צד</span><span class="no">S2</span><span class="em">⚡</span><b>טמפו כפול</b><small>וריאציה במהירות כפולה. האם עדיין מזהים שזו אותה יצירה?</small></div>
+    <div class="cc" style="--c:#f4a259;--cs:#fdf0e3"><span class="cat">משימת צד</span><span class="no">S3</span><span class="em">🖼️</span><b>כרזת קונצרט</b><small>ב-AutoDraw או על דף: שם ההרכב, שם היצירה ומצב הרוח</small></div>
+    <div class="cc" style="--c:#5bb5a2;--cs:#e7f6ec"><span class="cat">משימת צד</span><span class="no">S4</span><span class="em">👏</span><b>שורת גוף</b><small>שורה חדשה בפרטיטורה: מחיאות או רקיעות שכל הקהל מצטרף אליהן</small></div>
+    <div class="cc" style="--c:#4c8bd6;--cs:#e7f0fa"><span class="cat">משימת צד</span><span class="no">S5</span><span class="em">🎤</span><b>הקדמה לקונצרט</b><small>2 משפטים שהמנצח/ת אומר/ת לקהל: מה נשמע, ולמה לחכות</small></div>
+    <div class="cc" style="--c:#9b3a62;--cs:#fbecf2"><span class="cat">משימת צד</span><span class="no">S6</span><span class="em">🤝</span><b>נגן אורח</b><small>עזרו להרכב אחר בחזרה: הקשבה, כרטיס מאזינים ומשוב</small></div>
+  </div>
+  <div class="box" style="margin-top:5mm"><h3>🥁 בנק צלילי גוף וחפצים (לגרסה בלי מחשבים, ולשורת הגוף)</h3>
+    <table class="tb"><thead><tr><th>צליל</th><th>איך</th><th>מתאים ל…</th><th>בפרטיטורה</th></tr></thead><tbody>
+      <tr><td>👏 מחיאה</td><td>כף בכף, או 2 אצבעות בכף (חלש)</td><td>קצב, חגיגה</td><td>X גדול / x קטן</td></tr>
+      <tr><td>🦶 רקיעה</td><td>כף רגל ברצפה</td><td>בס, סערה, ניצחון</td><td>■</td></tr>
+      <tr><td>🫲 טפיחה</td><td>כפות ידיים על הברכיים</td><td>ריקוד, הרפתקה</td><td>▲</td></tr>
+      <tr><td>✏️ עיפרון</td><td>עיפרון על השולחן, או שני עפרונות זה בזה</td><td>מסתורין, שעון מתקתק</td><td>· · ·</td></tr>
+      <tr><td>🎵 זמזום</td><td>"מממ" על צליל אחד, חזק או חלש</td><td>שקט, חלום (כמו הבלובים)</td><td>〰</td></tr>
+      <tr><td>📄 דף</td><td>מנערים או משפשפים דף נייר</td><td>גשם, רוח, סערה</td><td>≈</td></tr>
+      <tr><td>🤫 שקט</td><td>כולם עוצרים, ידיים באוויר</td><td>מתח לפני סיום</td><td>⏸</td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ===================== 11. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · המחוון</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>היצירה</span></h2></div><p>בחזרה הכללית המדריך מסמן איפה אתם עכשיו. בהגשה, הערכה עצמית. בקונצרט המדריך קובע את הציון הסופי: סכום 4 הקריטריונים (4–16 נקודות).</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">מלודיה ומבנה<small>מה שזוכרים</small></td><td>אין מלודיה ברורה</td><td>מלודיה בלי התחלה וסוף</td><td>מלודיה של 8 תיבות עם פתיחה וסיום</td><td>מלודיה שזוכרים, עם מבנה שחוזר ומשתנה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">תיאום והקשבה<small>מנגנים כאחד</small></td><td>כל אחד מנגן לבד</td><td>מנגנים יחד, אבל לא באותו קצב</td><td>קצב משותף, כניסה וסיום משותפים</td><td>הנגנים מקשיבים זה לזה, משנים עוצמה יחד ומגיבים למנצח/ת</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">פרטיטורה וניצוח<small>הדף והידיים</small></td><td>אין פרטיטורה</td><td>פרטיטורה בלי סימנים ברורים</td><td>3 רגעים מסומנים שהמנצח/ת מבצע/ת</td><td>פרטיטורה שכל נגן יכול לקרוא, וניצוח שמוביל את כל ההרכב</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עבודת צוות והפקה<small>תפקידים ומיקס</small></td><td>חלק מהצוות לא השתתף</td><td>כולם עשו משהו, חסר מיקס</td><td>כל תפקיד ביצע, ויש מיקס סופי</td><td>כל תפקיד ביצע ועזר לאחרים, והמיקס נשמע כמו הרכב אחד</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום 4 הקריטריונים = <b>4 עד 16 נקודות</b> בלוח הניקוד. לדוגמה: 3 + 4 + 3 + 3 = 13.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד שנשפר אחרי החזרה</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "תיאום והקשבה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> הבס נכנס בתיבה 3 על הסימן, כולם נשארים בקצב של Song Maker ועוצרים יחד על האגרוף. בתיבה 5 רק המלודיה מתחזקת, והליווי נשאר כמו שהיה.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> אותו דבר, אבל בתיבה 5 המנצחת פותחת ידיים וכל ההרכב מתחזק יחד. כשנגן הבס מאחר קצת, הוא שומע ומתקן תוך תיבה, ואחרי האגרוף יש שנייה של שקט לפני המחיאות.</p></div></div>
+</section>
+
+<!-- ===================== 12. VOTE SLIPS ===================== -->
+<section class="page" id="p-vote" data-label="פתקי הצבעה">
+  <div class="ph"><div class="l"><i>TIE</i>פתקי הצבעת קהל · 20 בעמוד</div><div class="r">פתק אחד לכל תלמיד</div></div>
+  <p class="cutnote">✂ לגזור. כל אחד מצביע פעם אחת, לא להרכב של עצמו. המדריך סופר ומקליד במצגת (שקף 37).</p>
+  <div class="cutgrid slips">
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+    <div class="slip"><span class="em">👏</span><b>פרס הקהל</b><p>היצירה שנשארה לי בראש:</p><span class="fill"></span><small>☐ זה לא ההרכב שלי</small></div>
+  </div>
+</section>
+
+<!-- ===================== 13. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד, תוך 3 דקות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>התזמורת הווירטואלית</span></div><p>הרכב: <span class="fill"></span> · התפקיד שלי: <span class="fill s"></span></p>
+      <p class="q">מה למדתי היום על לנגן עם אנשים אחרים?</p><div class="lines h2"></div>
+      <p class="q">רגע אחד שבו שיניתי משהו בגלל מה ששמעתי מחבר/ה:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להרכב:</p>
+      <div class="tags"><span>הלחנה</span><span>ליווי</span><span>ניצוח</span><span>בלובים</span><span>הקלטה</span><span>עזרתי להרכב אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>התזמורת הווירטואלית</span></div><p>הרכב: <span class="fill"></span> · התפקיד שלי: <span class="fill s"></span></p>
+      <p class="q">מה למדתי היום על לנגן עם אנשים אחרים?</p><div class="lines h2"></div>
+      <p class="q">רגע אחד שבו שיניתי משהו בגלל מה ששמעתי מחבר/ה:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להרכב:</p>
+      <div class="tags"><span>הלחנה</span><span>ליווי</span><span>ניצוח</span><span>בלובים</span><span>הקלטה</span><span>עזרתי להרכב אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>התזמורת הווירטואלית</span></div><p>הרכב: <span class="fill"></span> · התפקיד שלי: <span class="fill s"></span></p>
+      <p class="q">מה למדתי היום על לנגן עם אנשים אחרים?</p><div class="lines h2"></div>
+      <p class="q">רגע אחד שבו שיניתי משהו בגלל מה ששמעתי מחבר/ה:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להרכב:</p>
+      <div class="tags"><span>הלחנה</span><span>ליווי</span><span>ניצוח</span><span>בלובים</span><span>הקלטה</span><span>עזרתי להרכב אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>התזמורת הווירטואלית</span></div><p>הרכב: <span class="fill"></span> · התפקיד שלי: <span class="fill s"></span></p>
+      <p class="q">מה למדתי היום על לנגן עם אנשים אחרים?</p><div class="lines h2"></div>
+      <p class="q">רגע אחד שבו שיניתי משהו בגלל מה ששמעתי מחבר/ה:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להרכב:</p>
+      <div class="tags"><span>הלחנה</span><span>ליווי</span><span>ניצוח</span><span>בלובים</span><span>הקלטה</span><span>עזרתי להרכב אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 14. INSTRUCTOR SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>התזמורת הווירטואלית · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוח הניקוד במצגת (שקף 38)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. רכיב שהושג = מלוא הנקודות, רכיב שחסר = 0.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:26mm">הרכב</th><th>🎹 מלודיה<br><small>3</small></th><th>🎶 ליווי חי<br><small>3</small></th><th>🫧 פתיחה<br><small>2</small></th><th>🎚️ מיקס<br><small>3</small></th><th>✊ סיום<br><small>3</small></th><th>🎨 פרטיטורה<br><small>2</small></th><th>📊 מחוון<br><small>4–16</small></th><th>👏 קהל<br><small>5/3/2</small></th><th style="background:var(--gold-soft)">סה״כ</th><th style="width:13mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🎭 החזרה הכללית (דקות 44–53): מה שמעתי, ומי תקוע?</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:26mm">הרכב</th><th>מלודיה<br>1–4</th><th>תיאום<br>1–4</th><th>ניצוח<br>1–4</th><th>צוות<br>1–4</th><th>➡️</th><th>🔊</th><th>✊</th><th>תקועים ב… / מה עוזרים</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🗳️ ספירת הצבעת הקהל</h3><table class="tb" style="font-size:9pt"><thead><tr><th>הרכב</th><th>סימון בקווים</th><th>סה״כ</th></tr></thead><tbody><tr><td class="e">1</td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td></tr></tbody></table></div>
+    <div class="box"><h3>🏆 הזוכים</h3><div class="stack" style="gap:2.6mm;font-size:9.6pt"><p>🪄 שרביט הזהב: <span class="fill"></span></p><p>👂 פרס ההקשבה: <span class="fill"></span></p><p>🫧 הפתיחה המפתיעה: <span class="fill"></span></p><p>🎨 הפרטיטורה הכי יפה: <span class="fill"></span></p><p>👏 פרס הקהל: <span class="fill"></span></p></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. CONCERT PROGRAM ===================== -->
+<section class="page" id="p-program" data-label="תוכניית הקונצרט">
+  <div class="ph"><div class="l"><i>TIE</i>תוכניית הקונצרט · לתליה על הלוח</div><div class="r">תאריך: <span class="fill s"></span></div></div>
+  <div class="curtain"></div>
+  <div class="pt" style="text-align:center"><div><span class="kick">🎻 התזמורת הווירטואלית מציגה</span><h2>קונצרט <span>שרביט הזהב</span></h2></div><p style="margin:1.5mm auto 0">ערב של יצירות מקוריות של דקה, שנכתבו ונוגנו יחד ברשת, בשיעור אחד.</p></div>
+  <table class="prog">
+    <thead><tr><th>#</th><th>הרכב</th><th>שם היצירה</th><th>מצב רוח</th><th>מנצח/ת</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td></td><td></td><td></td><td></td></tr><tr><td class="n">2</td><td></td><td></td><td></td><td></td></tr><tr><td class="n">3</td><td></td><td></td><td></td><td></td></tr><tr><td class="n">4</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">5</td><td></td><td></td><td></td><td></td></tr><tr><td class="n">6</td><td></td><td></td><td></td><td></td></tr><tr><td class="n">7</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🎩 נימוסי קונצרט</h3><ul class="clean"><li>🤫 שקט מוחלט מהרגע שהמנצח/ת מרים/ה ידיים</li><li>👏 מחיאות רק אחרי ה-✊ ושנייה של שקט</li><li>👂 מקשיבים לשלושת הרגעים</li><li>🙇 כל הרכב מסיים בקידה</li></ul></div>
+    <div class="box soft"><h3>🏆 הפרסים הערב</h3><ul class="clean"><li>🪄 שרביט הזהב: הניקוד הכולל</li><li>👂 פרס ההקשבה: ההרכב הכי מתואם</li><li>🫧 הפתיחה האופראית המפתיעה</li><li>🎨 הפרטיטורה הכי יפה</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 16. CERTIFICATES 1 ===================== -->
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · 2 בעמוד</div><div class="r">✂ לגזור לחצי</div></div>
+  <div class="certs">
+    <div class="cert">
+      <svg viewBox="0 0 80 150" aria-hidden="true"><defs><linearGradient id="cb1" x1="0" x2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset=".55" stop-color="#d9a21b"/><stop offset="1" stop-color="#a87510"/></linearGradient></defs><line x1="18" y1="138" x2="60" y2="24" stroke="url(#cb1)" stroke-width="7" stroke-linecap="round"/><rect x="10" y="118" width="18" height="26" rx="6" transform="rotate(20 19 131)" fill="#7d2a4d"/><path d="M62 4 l5 11 12 1 -9 8 3 12 -11 -6 -11 6 3 -12 -9 -8 12 -1z" fill="url(#cb1)"/></svg>
+      <span class="t">התזמורת הווירטואלית · קונצרט שרביט הזהב</span>
+      <h3>🪄 שרביט הזהב</h3>
+      <p>מוענק להרכב <span class="fill"></span></p>
+      <p>על היצירה <span class="fill"></span>, שצברה את הניקוד הגבוה בקונצרט.</p>
+      <div class="sig"><span>המנצחת הראשית: <span class="fill"></span></span><span>תאריך: <span class="fill"></span></span></div>
+    </div>
+    <div class="cert">
+      <span class="em">👂</span>
+      <span class="t">התזמורת הווירטואלית · קונצרט שרביט הזהב</span>
+      <h3>פרס ההקשבה</h3>
+      <p>מוענק להרכב <span class="fill"></span></p>
+      <p>שנכנס, התחזק ועצר כאיש אחד, כי כל נגן הקשיב לאחרים.</p>
+      <div class="sig"><span>המנצחת הראשית: <span class="fill"></span></span><span>תאריך: <span class="fill"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 17. CERTIFICATES 2 ===================== -->
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · 2 בעמוד</div><div class="r">✂ לגזור לחצי</div></div>
+  <div class="certs">
+    <div class="cert">
+      <span class="em">🫧</span>
+      <span class="t">התזמורת הווירטואלית · קונצרט שרביט הזהב</span>
+      <h3>הפתיחה האופראית המפתיעה</h3>
+      <p>מוענק להרכב <span class="fill"></span></p>
+      <p>על בלובים שגרמו לכל האולם לחייך כבר בשנייה הראשונה.</p>
+      <div class="sig"><span>המנצחת הראשית: <span class="fill"></span></span><span>תאריך: <span class="fill"></span></span></div>
+    </div>
+    <div class="cert">
+      <span class="em">🎨</span>
+      <span class="t">התזמורת הווירטואלית · קונצרט שרביט הזהב</span>
+      <h3>הפרטיטורה הכי יפה</h3>
+      <p>מוענק להרכב <span class="fill"></span></p>
+      <p>על פרטיטורה ברורה וצבעונית, שכל נגן יכול היה לקרוא ולנגן לפיה.</p>
+      <div class="sig"><span>המנצחת הראשית: <span class="fill"></span></span><span>תאריך: <span class="fill"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 18. TABLE SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט הרכב">
+  <div class="ph"><div class="l"><i>TIE</i>שלט הרכב · מקפלים לאורך הקו האמצעי</div><div class="r">1 להרכב</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🎻</span><b>הרכב</b><div class="nm"></div><p style="color:var(--muted)">התזמורת הווירטואלית · מצב רוח: ____________</p></div>
+    <div><span class="em">🎻</span><b>הרכב</b><div class="nm"></div><p style="color:var(--muted)">התזמורת הווירטואלית · מצב רוח: ____________</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם ההרכב משני הצדדים</p>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

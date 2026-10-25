@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>רדיו בשידור חי | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== רדיו בשידור חי — lesson additions (kit styles above are untouched) · light theme, on-air red + dial amber ===== */
+:root{--onair:#d23c3c;--onair-ink:#a32626;--onair-soft:#fdeceb;--onair-line:#f3c4c1;--amber:#e3a82b;--amber-ink:#8a5300;--amber-soft:#fdf5df;--amber-line:#efd9a0;
+ --lcd:#e9f2d9;--lcd-ink:#24401a;--lcd-line:#c9dbb0}
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:4px}
+.slide .tableWrap{flex:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px;max-width:1220px}.row2>*{min-width:0}
+.red-t{color:var(--onair-ink)}.amb{color:var(--amber-ink)}
+.light{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line)}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+.timerRow{display:flex;flex-wrap:wrap;align-items:center;gap:14px}.lights{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:12px}.lights .light{margin-top:0}.timerRow .timer{margin-top:12px}.timerRow .light{margin-top:12px}
+.bigTimer .timer{padding:10px 18px 10px 24px}.bigTimer .timer output{font-size:clamp(54px,7.4vw,104px)}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card .ex{display:block;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);font-size:16px;color:var(--ink);font-style:italic}
+.card .tm{display:inline-block;margin-top:8px;font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 10px}
+.agenda{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px;max-width:1220px}
+.agenda span{padding:6px 12px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-weight:600;font-size:16px}
+.agenda i{font-style:normal;color:var(--dim);font-weight:700}
+.agenda span.hot{background:var(--onair-soft);border-color:var(--onair-line);color:var(--onair-ink)}
+.miles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;max-width:1220px}
+.mile{border:1px solid var(--line);border-radius:18px;padding:12px 16px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile small{display:block;font-family:var(--display);font-weight:700;color:var(--accent-ink);font-size:15px;margin-bottom:3px}
+.mile p{margin:0;font-size:clamp(15px,1.5vw,20px);line-height:1.45}
+.rolesLine{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;max-width:1220px}
+.rolesLine span{padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:clamp(14px,1.3vw,17px);box-shadow:var(--shadow-sm)}
+.rolesLine b{font-family:var(--display)}
+.noteLine{margin-top:12px;max-width:1200px;color:var(--muted);font-size:clamp(15px,1.45vw,18px)}.noteLine b{color:var(--ink)}
+.ui{display:inline-block;font-family:var(--display);font-weight:700;font-size:.92em;background:#eef3fb;border:1px solid #c3d8f2;color:#1f4f8a;border-radius:7px;padding:0 6px;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+.src{margin-top:10px;color:var(--dim);font-size:14px;direction:ltr;text-align:right}
+.askBox{margin-top:14px;max-width:1150px;border-radius:18px;padding:13px 20px;font-size:clamp(18px,1.85vw,24px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.askBox b{color:var(--accent-ink)}
+/* ---------- ON AIR lamp ---------- */
+.onair{display:inline-flex;align-items:center;gap:12px;padding:12px 26px;border-radius:14px;border:3px solid #c9c2b6;background:#f1ede6;color:#a39a8c;
+ font-family:var(--display);font-weight:800;font-size:clamp(26px,3vw,42px);letter-spacing:.14em;direction:ltr;cursor:pointer;transition:background .25s,color .25s,border-color .25s,box-shadow .25s;user-select:none}
+.onair .dot{width:.55em;height:.55em;border-radius:50%;background:#c9c2b6;transition:.25s}
+.onair.live{background:var(--onair);border-color:#9e2424;color:#fff;box-shadow:0 0 0 7px rgba(210,60,60,.14),0 10px 26px -10px rgba(163,38,38,.55);animation:lamp 1.6s ease-in-out infinite}
+.onair.live .dot{background:#fff}
+@keyframes lamp{50%{box-shadow:0 0 0 12px rgba(210,60,60,.08),0 10px 26px -10px rgba(163,38,38,.55)}}
+.onair.small{font-size:20px;padding:7px 16px;border-width:2px;gap:8px}
+/* ---------- hero radio ---------- */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:30px;align-items:center}
+.hero .heroGrid h2{font-size:clamp(46px,6.2vw,96px)}
+.radioWrap{display:flex;flex-direction:column;align-items:center;gap:70px}
+.radioWrap .lampHint{margin-top:-50px}
+.radio{position:relative;width:min(400px,100%);aspect-ratio:1.55;border-radius:34px 34px 26px 26px;background:linear-gradient(180deg,#f7e6c9,#efd5a9);border:1px solid #dcbf8c;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 24px 50px -24px rgba(138,83,0,.45);padding:22px;display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
+.radio::before{content:"";position:absolute;left:50%;top:-58px;width:4px;height:70px;background:#8a7a62;border-radius:4px;transform:rotate(-24deg);transform-origin:bottom}
+.radio::after{content:"";position:absolute;left:calc(50% - 30px);top:-62px;width:12px;height:12px;border-radius:50%;background:var(--onair)}
+.grill{border-radius:18px;background:radial-gradient(circle,#b9925a 1.7px,transparent 2.3px) 0 0/11px 11px,#f3dfbd;border:1px solid #dcbf8c}
+.rside{display:flex;flex-direction:column;gap:12px}
+.dialWin{position:relative;height:46%;border-radius:12px;background:var(--lcd);border:1px solid var(--lcd-line);overflow:hidden;box-shadow:inset 0 2px 6px rgba(36,64,26,.12)}
+.dialWin .scale{position:absolute;inset:auto 8px 8px 8px;height:16px;background:repeating-linear-gradient(90deg,#5a6e48 0 1.5px,transparent 1.5px 9px);opacity:.6}
+.dialWin .fq{position:absolute;top:6px;left:0;right:0;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(18px,2vw,26px);color:var(--lcd-ink);direction:ltr;font-variant-numeric:tabular-nums}
+.dialWin .needle{position:absolute;top:4px;bottom:4px;width:3px;border-radius:3px;background:var(--onair);left:20%;animation:tune 6s ease-in-out infinite}
+@keyframes tune{0%,100%{left:18%}40%{left:66%}60%{left:58%}}
+.knobs{display:flex;justify-content:space-around;align-items:center;flex:1}
+.knob{width:clamp(44px,4.6vw,62px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,#8a6a3a,#c99a5a,#8a6a3a,#c99a5a,#8a6a3a);border:3px solid #f7e6c9;box-shadow:0 4px 10px rgba(90,60,20,.35);position:relative}
+.knob::after{content:"";position:absolute;top:5px;left:calc(50% - 2px);width:4px;height:30%;border-radius:3px;background:#fff}
+.knob.k2{animation:turn 6s ease-in-out infinite}@keyframes turn{40%{transform:rotate(130deg)}60%{transform:rotate(110deg)}}
+.waves{position:absolute;right:-46px;top:16%;width:70px;height:110px}
+.waves path{fill:none;stroke:var(--onair);stroke-width:5;stroke-linecap:round;opacity:.15;animation:wv 1.8s ease-in-out infinite}
+.waves path:nth-child(2){animation-delay:.3s}.waves path:nth-child(3){animation-delay:.6s}
+@keyframes wv{50%{opacity:.85}}
+.lampHint{color:var(--dim);font-size:15px;font-weight:700}
+/* ---------- letter ---------- */
+.letter{position:relative;max-width:1080px;margin-top:14px;border-radius:8px 8px 18px 18px;background:#fffdf7;border:1px solid #eadfc8;box-shadow:var(--shadow-lg);padding:22px 30px 22px}
+.letter::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;border-radius:8px 8px 0 0;background:repeating-linear-gradient(90deg,var(--onair) 0 26px,#fff 26px 34px,#4c8bd6 34px 60px,#fff 60px 68px)}
+.lhead{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:clamp(15px,1.45vw,19px);color:var(--muted);border-bottom:1px dashed #e0d4bb;padding:6px 0 10px;margin-bottom:10px}
+.lhead b{color:var(--ink);font-family:var(--display)}
+.letter p{font-size:clamp(18px,1.85vw,25px);line-height:1.55;margin:0 0 8px}
+.stamps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 6px}
+.stamps div{border:2px dashed var(--amber-line);background:var(--amber-soft);border-radius:14px;padding:10px 10px;text-align:center;font-family:var(--display);font-weight:700;font-size:clamp(15px,1.5vw,20px);color:var(--amber-ink)}
+.stamps div span{display:block;font-size:30px;line-height:1.1}
+.sign{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;color:var(--muted);font-size:16px}
+.sign .seal{transform:rotate(-8deg);border:3px double var(--onair);color:var(--onair-ink);border-radius:12px;padding:4px 12px;font-family:var(--display);font-weight:800;font-size:17px}
+/* ---------- 1938 case ---------- */
+.caseGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;margin-top:12px;align-items:start;max-width:1240px}
+.facts{display:grid;gap:9px}
+.fact{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:10px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.6vw,21px);line-height:1.45}
+.fact .em{flex:none;font-size:25px;line-height:1.2}
+.clip{position:relative;transform:rotate(1.6deg);background:#f6efdf;border:1px solid #e2d5b8;border-radius:4px;padding:18px 20px 16px;box-shadow:0 18px 36px -20px rgba(90,70,30,.5);font-family:Georgia,"Times New Roman",serif;color:#2b2416}
+.clip::after{content:"";position:absolute;top:-12px;left:42%;width:90px;height:26px;background:rgba(244,162,89,.35);transform:rotate(-4deg)}
+.clip .mast{text-align:center;font-size:clamp(17px,1.7vw,24px);font-weight:700;border-bottom:3px double #2b2416;padding-bottom:6px;direction:ltr;letter-spacing:.02em}
+.clip .date{display:flex;justify-content:space-between;direction:ltr;font-size:12px;border-bottom:1px solid #2b2416;padding:3px 0;margin-bottom:10px;font-family:Arial,sans-serif;letter-spacing:.05em}
+.clip .hl{direction:ltr;text-align:center;font-size:clamp(22px,2.4vw,34px);font-weight:900;line-height:1.1;text-transform:uppercase}
+.clip .cols{margin-top:10px;height:56px;background:repeating-linear-gradient(0deg,#cbbd9c 0 2px,transparent 2px 9px);opacity:.7;-webkit-mask-image:linear-gradient(90deg,#000 47%,transparent 47% 53%,#000 53%);mask-image:linear-gradient(90deg,#000 47%,transparent 47% 53%,#000 53%)}
+.clip .he{font-family:var(--body);font-size:16px;color:var(--muted);text-align:center;margin-top:8px}
+/* ---------- hot clock ---------- */
+.clockGrid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:26px;align-items:center;margin-top:8px;max-width:1240px}
+.hotclock{width:min(100%,clamp(260px,40vh,400px));aspect-ratio:1;margin:auto;position:relative}
+.hotclock svg{width:100%;height:100%;overflow:visible}
+.hotclock .seg{cursor:pointer;transition:opacity .2s,transform .2s;transform-origin:50% 50%}
+.hotclock.focus .seg{opacity:.28}.hotclock.focus .seg.on{opacity:1}
+.hotclock .hand{transform-origin:50% 50%;animation:sweep 20s linear infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.hotclock .mid{position:absolute;inset:31%;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;text-align:center;box-shadow:var(--shadow-sm);pointer-events:none}
+.hotclock .mid b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(20px,2.4vw,32px);color:var(--ink);line-height:1.1}
+.hotclock .mid small{color:var(--muted);font-size:14px;font-weight:700}
+.legend{display:grid;gap:4px}
+.legend button{display:grid;grid-template-columns:14px 100px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:right;border:1px solid var(--line);border-radius:11px;padding:3px 12px;white-space:nowrap;background:var(--card);color:var(--ink);font-size:clamp(15px,1.35vw,18px);box-shadow:var(--shadow-sm);transition:.15s}
+.legend button:hover,.legend button.on{border-color:var(--accent-line);background:var(--accent-soft)}
+.legend i{width:14px;height:14px;border-radius:4px}
+.legend .t{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;direction:ltr;color:var(--muted);font-size:.9em}
+.legend .s{font-family:var(--display);font-weight:700;color:var(--muted);font-size:.85em}
+/* ---------- jingle ear test ---------- */
+.earGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;max-width:1150px}
+.jbox{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.jbox .jh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.jbox .jh b{font-family:var(--display);font-weight:800;font-size:26px}
+.jbox .jh b span{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);margin-inline-end:8px}
+.playBtn{border:1px solid var(--teal-deep);border-radius:999px;padding:9px 18px;font-weight:700;color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));font-size:17px}
+.playBtn.on{background:var(--onair);border-color:#9e2424}
+.notes{display:flex;align-items:flex-end;gap:5px;height:70px;padding:6px 8px;border-radius:12px;background:var(--paper2)}
+.notes i{flex:1;border-radius:5px 5px 2px 2px;background:#d8d2c7;transition:background .1s,transform .1s}
+.notes i.hit{background:var(--accent);transform:scaleY(1.06)}
+.jbox .voteCtl{justify-content:flex-start}
+.jbox .voteCtl span{font-weight:700;color:var(--muted);margin-inline-end:auto}
+/* ---------- mini song maker ---------- */
+.makerWrap{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;margin-top:12px;max-width:1240px;align-items:start}
+.maker{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:5px;padding:12px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);direction:ltr}
+.maker button{aspect-ratio:1.5;border-radius:7px;border:1px solid var(--line);background:var(--paper);transition:background .12s,transform .12s;padding:0}
+.maker button:nth-child(48n+1),.maker button:nth-child(48n+2),.maker button:nth-child(48n+3),.maker button:nth-child(48n+4),
+.maker button:nth-child(48n+13),.maker button:nth-child(48n+14),.maker button:nth-child(48n+15),.maker button:nth-child(48n+16){}
+.maker button.on{border-color:transparent}
+.maker button.col{outline:2px solid var(--amber);outline-offset:0}
+.maker .drum{border-radius:50%;aspect-ratio:1.5}
+.makerSide{display:grid;gap:10px}
+.makerSide .ghost,.makerSide .btn{width:100%;font-size:17px}
+.tempo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--muted)}
+.tempo input{flex:1;accent-color:var(--teal)}
+.tempo output{font-family:var(--display);color:var(--ink);min-width:3ch}
+.secs{font-size:15px;color:var(--muted)}
+/* ---------- voice draw ---------- */
+.drawPanel{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;margin-top:16px;max-width:1180px}
+.drawCard{border-radius:22px;padding:18px 22px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.drawCard small{font-family:var(--display);font-weight:700;color:var(--accent-ink);font-size:15px}
+.drawCard .v{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.5vw,34px);line-height:1.25}
+.drawCard.mood{background:var(--amber-soft);border-color:var(--amber-line)}
+.drawCard.rolling .v{filter:blur(2px);opacity:.6}
+/* ---------- tf labels ---------- */
+.tf.air .tfRow button[data-v="1"]{min-width:104px}
+/* ---------- prompts with copy ---------- */
+.prompt{position:relative;padding-left:118px}
+.prompt.small{font-size:clamp(16px,1.55vw,20px);margin-top:10px;padding-top:12px;padding-bottom:12px}
+.copyBtn{position:absolute;left:12px;top:10px;font-size:15px;padding:6px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.fillin{background:var(--hl);border-radius:6px;padding:0 5px}
+.ptag{display:inline-block;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 10px;margin-inline-end:6px}
+/* ---------- frequency registry ---------- */
+.regBar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+.regBar select{font:inherit;font-weight:700;font-size:17px;padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.reg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px;max-width:1240px}
+.st{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px 12px 12px;display:flex;flex-direction:column;gap:8px;position:relative}
+.st .top{display:flex;align-items:center;gap:8px}
+.st .em{font-size:26px;line-height:1}
+.st input{flex:1;min-width:0;font:inherit;font-family:var(--display);font-weight:700;font-size:18px;border:1px solid var(--line);border-radius:10px;padding:5px 9px;color:var(--ink);background:#fffef9}
+.st input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent)}
+.lcd{display:flex;align-items:baseline;justify-content:center;gap:6px;border-radius:12px;background:var(--lcd);border:1px solid var(--lcd-line);padding:6px 8px;color:var(--lcd-ink);font-family:var(--display);font-weight:800;direction:ltr;font-variant-numeric:tabular-nums;box-shadow:inset 0 2px 5px rgba(36,64,26,.1)}
+.lcd b{font-size:clamp(24px,2.5vw,34px);line-height:1}.lcd small{font-size:14px;font-weight:700;opacity:.7}
+.lcd.rolling b{opacity:.55}
+.st .dice{font-size:15px;padding:6px 10px}
+/* ---------- studio hand signals ---------- */
+.sig{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.sig div{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px 16px}
+.sig .h{flex:none;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:32px;background:var(--onair-soft);border:1px solid var(--onair-line)}
+.sig b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(17px,1.7vw,22px)}
+.sig p{margin:0;color:var(--muted);font-size:clamp(14px,1.35vw,17px);line-height:1.35}
+/* ---------- live console ---------- */
+.console{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:22px;align-items:center;margin-top:6px;max-width:1260px}
+.ring{position:relative;width:min(100%,clamp(250px,44vh,420px));aspect-ratio:1;margin:auto}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .bg{fill:none;stroke:#ece8e1;stroke-width:18}
+.ring .zone{fill:none;stroke:#9fd8b3;stroke-width:18}
+.ring .prog{fill:none;stroke:var(--teal);stroke-width:18;stroke-linecap:round;transition:stroke .3s}
+.ring.live .prog{stroke:var(--onair)}
+.ring.inzone .prog{stroke:var(--good)}
+.ring .face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
+.ring .face output{font-family:var(--display);font-weight:800;font-size:clamp(56px,8vw,110px);line-height:1;font-variant-numeric:tabular-nums;direction:ltr;color:var(--ink)}
+.ring.live .face output{color:var(--onair-ink)}
+.ring .face small{font-weight:700;color:var(--muted);font-size:16px}
+.ring .face .cd{font-family:var(--display);font-weight:800;font-size:clamp(70px,10vw,140px);color:var(--onair);line-height:1}
+.cside{display:flex;flex-direction:column;gap:12px}
+.cside select{font:inherit;font-family:var(--display);font-weight:700;font-size:22px;padding:9px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.cbtns{display:flex;flex-wrap:wrap;gap:10px}
+.goBtn{font-size:21px;padding:12px 22px;border-radius:14px;border:1px solid #9e2424;background:linear-gradient(180deg,#e05050,var(--onair));color:#fff;font-weight:800}
+.goBtn:disabled{opacity:.45}
+.stopBtn{font-size:21px;padding:12px 22px;border-radius:14px;font-weight:800}
+.verdict{min-height:48px;border-radius:14px;padding:10px 14px;font-size:clamp(16px,1.6vw,20px);font-weight:700;background:var(--paper2);border:1px solid var(--line)}
+.verdict.ok{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}.verdict.no{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.log{display:flex;flex-wrap:wrap;gap:6px}
+.log span{font-size:15px;padding:4px 10px;border-radius:10px;background:var(--paper2);border:1px solid var(--line);direction:rtl}
+.log span b{font-family:var(--display);font-variant-numeric:tabular-nums}
+.log span.in{background:var(--good-bg);border-color:#bfe3cb}
+/* ---------- memory test ---------- */
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.mrow{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm);padding:12px 14px;display:grid;gap:8px}
+.mrow .nm{font-family:var(--display);font-weight:800;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .nm small{font-weight:700;color:var(--muted);font-size:14px;direction:ltr;unicode-bidi:isolate}
+.mctl{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted);font-weight:700}
+.mctl span{flex:1}
+.mctl button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font-size:19px;font-weight:700;line-height:1;color:var(--ink)}
+.mctl output{min-width:26px;text-align:center;font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink)}
+/* ---------- scoreboard ---------- */
+table.t.score th,table.t.score td{padding:8px 10px;text-align:center}
+table.t.score td:first-child,table.t.score th:first-child{text-align:right}
+table.t.score td[contenteditable]{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums}
+table.t.score td.tot{font-family:var(--display);font-weight:800;font-size:1.15em;background:var(--amber-soft);color:var(--amber-ink)}
+table.t.score tr.lead td{background:#fff8e4;color:var(--ink)}
+table.t.score tr.lead td:first-child::after{content:" 📻";}
+table.t.score th small{display:block;font-family:var(--body);font-weight:500;font-size:13px;color:var(--dim)}
+.sbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.sbar .noteLine{margin:0}
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1240px}
+.award{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px 16px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;position:relative;overflow:hidden}
+.award .em{font-size:46px;line-height:1}
+.award b{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,23px)}
+.award .win{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,24px);line-height:1.25;color:var(--accent-ink);min-height:1.3em}
+.award .win .det{display:block;font-size:15px;font-weight:700;color:var(--muted);margin-top:2px}
+.award small{color:var(--muted);font-size:14.5px}
+.award.gold{background:linear-gradient(180deg,#fff8e1,#fff);border-color:#efd59a;grid-column:span 1}
+.award.gold .win{color:var(--amber-ink)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:10px;height:16px;border-radius:2px;animation:fall 2.8s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.9}}
+/* ---------- move dial ---------- */
+.moves{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.moves div{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow-sm);padding:16px;text-align:center;transition:.25s}
+.moves div span{display:block;font-size:40px}
+.moves div b{display:block;font-family:var(--display);font-size:20px;margin:4px 0}
+.moves div p{margin:0;color:var(--muted);font-size:16px}
+.moves div.on{border-color:var(--onair);background:var(--onair-soft);transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.moves div small{font-family:var(--display);font-weight:800;color:var(--lcd-ink);background:var(--lcd);border-radius:8px;padding:1px 8px;direction:ltr;display:inline-block}
+/* ---------- compact tables ---------- */
+table.t.compact th,table.t.compact td{padding:7px 14px}
+.regBar .timer{padding:4px 8px 4px 12px}.regBar .timer output{font-size:30px}
+.cside .onair{align-self:flex-start}
+/* ---------- script table ---------- */
+table.t.script td:first-child{font-family:var(--display);font-weight:800;direction:ltr;text-align:right;white-space:nowrap;color:var(--accent-ink)}
+table.t.script td{font-size:clamp(14px,1.35vw,18px)}
+@media (max-height:800px){table.t.compact th,table.t.compact td{padding:5px 12px}}
+.closing{font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,42px);color:var(--onair-ink)}
+.formLink{display:inline-block;min-width:260px;border-bottom:3px dashed var(--accent-line);font-family:var(--display);font-weight:800;color:var(--accent-ink);padding:0 6px;direction:ltr}
+@media (max-height:800px){
+ .radio{width:min(330px,100%)}.hero .heroGrid h2{font-size:clamp(42px,5.4vw,80px)}
+ .letter{padding:16px 24px}.letter p{font-size:clamp(16px,1.6vw,21px)}.stamps div span{font-size:24px}
+ .fact{padding:7px 14px;font-size:clamp(15px,1.45vw,19px)}
+ .legend button{padding:4px 10px;font-size:15px}
+ .st{padding:9px 10px;gap:6px}.lcd b{font-size:24px}
+ .sig div{padding:9px 12px}.sig .h{width:48px;height:48px;font-size:26px}
+ .mrow{padding:9px 12px;gap:5px}
+ .award{padding:13px 12px}.award .em{font-size:36px}
+ .notes{height:54px}.jbox{padding:14px 16px;gap:9px}
+ .mile{padding:9px 13px}
+ .drawCard{min-height:104px;padding:13px 18px}
+}
+@media (max-width:1100px){.cards.five{grid-template-columns:repeat(3,minmax(0,1fr))}.reg,.mem{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">FM</div><div><b>רדיו בשידור חי</b><small>מקימים תחנה ומתחרים על התדר הזהוב</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ===================== 1 · פתיח ===================== -->
+<section class="slide hero" data-topic="פתיחה" data-title="רדיו בשידור חי" data-accent="#d23c3c">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">📻 Tech It Easy · מוזיקה וסאונד</span>
+      <h2>רדיו <span class="red-t">בשידור חי</span></h2>
+      <p class="lead">הלילה רשות השידור של הכיתה מחלקת תדרים חדשים. כל צוות הוא תחנה, ורק תחנה שתוכיח שהיא יודעת לשדר תקבל את <b>התדר הזהוב</b>.</p>
+      <div class="tags"><span>🎹 ג׳ינגל</span><span>📰 חדשות בדיוניות</span><span>🎙️ ראיון</span><span>🪐 מזג אוויר בכוכב אחר</span><span>⏱️ 90 שניות חי</span></div>
+    </div>
+    <div class="radioWrap">
+      <button class="onair" id="heroLamp" type="button" aria-pressed="false"><span class="dot"></span>ON AIR</button>
+      <div class="radio" aria-hidden="true">
+        <div class="grill"></div>
+        <div class="rside">
+          <div class="dialWin"><div class="fq">FM 101.3</div><div class="scale"></div><div class="needle"></div></div>
+          <div class="knobs"><div class="knob"></div><div class="knob k2"></div></div>
+        </div>
+        <svg class="waves" viewBox="0 0 70 110"><path d="M10 35 Q22 55 10 75"/><path d="M26 22 Q46 55 26 88"/><path d="M42 9 Q70 55 42 101"/></svg>
+      </div>
+      <span class="lampHint">לחצו על הנורה 🔴</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide tight" data-topic="פתיחה" data-title="מכתב מרשות השידור" data-accent="#d23c3c">
+  <span class="kicker">✉️ הגיע מכתב רשמי</span>
+  <div class="letter">
+    <div class="lhead"><b>אל:</b><span>כל הצוותים בכיתה</span><b>מאת:</b><span>רשות השידור של הכיתה</span><b>נושא:</b><span>חלוקת תדרים חדשים · דחוף</span></div>
+    <p>הלילה יחולקו תדרים רק לתחנות שיוכיחו שהן יודעות לשדר. כל תחנה תקליט פרק של <b>4–5 דקות</b>, ותעלה ל<b>שידור חי של 90 שניות</b> מול הוועדה. התחנה הטובה ביותר תקבל את <b class="amb">התדר הזהוב</b>.</p>
+    <p>ארבעה מבחנים לכל תחנה:</p>
+    <div class="stamps">
+      <div><span>🎹</span>ג׳ינגל שנתקע בראש</div>
+      <div><span>📰</span>חדשות מצחיקות ובדיוניות</div>
+      <div><span>🎙️</span>ראיון עם אורח מיוחד</div>
+      <div><span>🪐</span>תחזית לכוכב אחר</div>
+    </div>
+    <div class="sign"><span>בברכת "נשמע אתכם באוויר",<br><b>הוועדה</b> (כלומר: כל הכיתה)</span><span class="seal">📻 מאושר לשידור</span></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide tight" data-topic="פתיחה" data-title="30 באוקטובר 1938" data-accent="#4c8bd6">
+  <span class="kicker">📰 סיפור אמיתי מעולם הרדיו</span>
+  <h2>30 באוקטובר 1938, שמונה בערב</h2>
+  <div class="caseGrid">
+    <div class="facts">
+      <div class="fact"><span class="em">📻</span><span>רשת הרדיו <b>CBS</b> בארצות הברית משדרת תסכית (מחזה רדיו) לכבוד ליל כל הקדושים.</span></div>
+      <div class="fact"><span class="em">🎬</span><span>הבמאי והקריין: <b>אורסון וולס</b>, בן 23.</span></div>
+      <div class="fact"><span class="em">👽</span><span>התסכית "מלחמת העולמות" בנוי כמו <b>מבזקי חדשות חיים</b>: חייזרים נוחתים בניו ג׳רזי.</span></div>
+      <div class="fact"><span class="em">🗞️</span><span>למחרת בבוקר, בעיתונים:</span></div>
+    </div>
+    <div class="clip" aria-label="כותרת עיתון מ-1938">
+      <div class="mast">The New York Times</div>
+      <div class="date"><span>MONDAY</span><span>OCTOBER 31, 1938</span></div>
+      <div class="hl">Radio Listeners in Panic, Taking War Drama as Fact</div>
+      <div class="cols"></div>
+      <div class="he">"מאזיני רדיו בבהלה, חשבו שמחזה המלחמה אמיתי"</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-topic="פתיחה" data-title="האם הייתה בהלה?" data-accent="#4c8bd6">
+  <span class="kicker">🗳️ הצבעה</span>
+  <h2>מה אתם חושבים: האם באמת הייתה <span class="cyan">בהלה</span> בכל ארצות הברית?</h2>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">😱</div><strong>כן, בכל המדינה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">😬</div><strong>קצת, במקומות מסוימים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🤷</div><strong>כמעט לא</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <p class="noteLine">מצביעים בהרמת יד. אחר כך נבדוק מה החוקרים גילו.</p>
+</section>
+
+<!-- 5 -->
+<section class="slide tight" data-topic="פתיחה" data-title="מה החוקרים גילו" data-accent="#4c8bd6">
+  <span class="kicker">🔎 בדיקת עובדות</span>
+  <h2>מה החוקרים גילו</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">📞 באותו לילה חברת סקרים התקשרה ל-<b>5,000 בתים</b>. רק <b>כ-2%</b> אמרו שהם מאזינים לתסכית.</div>
+    <div class="revealCard reveal">📢 בשידור עצמו אמרו <b>ארבע פעמים</b> שזה מחזה: בהתחלה, לפני ההפסקה, אחרי ההפסקה ובסוף.</div>
+    <div class="revealCard reveal">📰 לעיתונים הייתה סיבה להגזים: הרדיו לקח מהם כסף של פרסומות, והם רצו להראות שאי אפשר לסמוך עליו.</div>
+    <div class="revealCard reveal">🧑‍🏫 רוב החוקרים היום: חלק מהמאזינים התבלבלו, אבל <b>בהלה בכל המדינה לא הייתה</b>.</div>
+  </div>
+  <div class="askBox reveal">🤔 יוצא שגם <b>"החדשות על הבהלה"</b> היו מוגזמות. מה זה מלמד אותנו על חדשות שאנחנו שומעים?</div>
+  <p class="src">Source: en.wikipedia.org/wiki/The_War_of_the_Worlds_(1938_radio_drama)</p>
+</section>
+
+<!-- 6 -->
+<section class="slide tight" data-topic="פתיחה" data-title="למה לסמן 'בדיוני'?" data-accent="#d23c3c">
+  <span class="kicker">💭 חושבים רגע</span>
+  <h2>אז למה אנחנו אומרים בסוף: <span class="red-t">"זה בדיוני"</span>?</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🕐</div><strong>מי שנכנס באמצע</strong><p>פספס את ההתחלה, ולא יודע שזו המצאה.</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>קטע שעובר הלאה</strong><p>מישהו שולח לחבר רק 20 שניות מהפרק.</p></div>
+    <div class="card"><div class="emoji">😂</div><strong>הומור צריך הקשר</strong><p>בדיחה עובדת רק כשברור שהיא בדיחה.</p></div>
+    <div class="card"><div class="emoji">🧠</div><strong>מאזין חכם</strong><p>שואל תמיד: "מאיפה זה? זה אמיתי?"</p></div>
+  </div>
+  <div class="askBox"><b>אצלנו:</b> בסוף כל פרק אומרים בקול: <b>"כל מה ששמעתם בתוכנית בדיוני."</b></div>
+</section>
+
+<!-- 7 -->
+<section class="slide tight" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#e3a82b">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל תחנה יהיו</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🎹</div><strong>ג׳ינגל מקורי</strong><p>5–10 שניות, הלחנה שלכם ב-Song Maker.</p></div>
+    <div class="card"><div class="emoji">📜</div><strong>תסריט עם זמנים</strong><p>מה אומרים, מי אומר, ובאיזו שנייה.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>פרק מוקלט</strong><p>4–5 דקות: פתיח, 3 פינות, מעברים וסגירה.</p></div>
+    <div class="card"><div class="emoji">🔴</div><strong>שידור חי</strong><p>90 שניות מול הכיתה, בלי עצירות.</p></div>
+  </div>
+  <div class="agenda"><span>📻 תחנות ותפקידים</span><i>←</i><span>🎓 איך בנוי שידור</span><i>←</i><span>✍️ תסריט וג׳ינגל</span><i>←</i><span>🎭 חזרה גנרלית</span><i>←</i><span>🎚️ הקלטה</span><i>←</i><span>📨 הגשה</span><i>←</i><span class="hot">🔴 השידור החי</span><i>←</i><span>🏆 התדר הזהוב</span></div>
+</section>
+
+<!-- ===================== 8–9 · תחנות ותפקידים ===================== -->
+<section class="slide tight" data-topic="תחנות ותפקידים" data-title="צוות האולפן" data-accent="#8c7ae6">
+  <span class="kicker">🎧 צוות האולפן</span>
+  <h2>חמישה תפקידים בכל תחנה</h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">⏱️</div><strong>מנהל/ת שידור</strong><p>מחזיק/ה את השעון ואת התסריט עם הזמנים, ומאותת/ת כניסות ויציאות. רק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">🎙️</div><strong>מגיש/ה</strong><p>פותח/ת וסוגר/ת את התוכנית, מוביל/ה את המעברים ואת הראיון.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>עורך/ת תוכן</strong><p>כותב/ת את החדשות ואת שאלות הראיון, ודואג/ת שהכול בדיוני ומצחיק בלי לפגוע.</p></div>
+    <div class="card"><div class="emoji">🎹</div><strong>מפיק/ה מוזיקלי/ת</strong><p>מלחין/ה את הג׳ינגל ב-Song Maker ומוסיף/ה מוזיקת מעבר.</p></div>
+    <div class="card"><div class="emoji">🎚️</div><strong>טכנאי/ת</strong><p>מקליט/ה ועורך/ת ב-BandLab, מייצא/ת ומגיש/ה בטופס.</p></div>
+  </div>
+  <p class="noteLine">👥 <b>צוות של 4:</b> המפיק/ה המוזיקלי/ת הוא/היא גם הטכנאי/ת. · 🎤 <b>בפרק המוקלט כולם נשמעים</b>, כל אחד לפחות במשפט אחד.</p>
+</section>
+
+<!-- 9 -->
+<section class="slide tight" data-topic="תחנות ותפקידים" data-title="מחלקים תדרים" data-accent="#5bb5a2">
+  <button class="helpBtn" data-help="names" aria-label="הוראות">?</button>
+  <span class="kicker">📡 חלוקת התדרים</span>
+  <h2>שם לתחנה ותדר משלה</h2>
+  <p class="lead">בוחרים שם (עד 3 מילים). מנהל/ת השידור כותב/ת אותו בלוח ולוחץ/ת 🎲. השם והתדר נכתבים על שלט ה-ON AIR.</p>
+  <div class="regBar">
+    <label class="lampHint" for="stCount">מספר תחנות:</label>
+    <select id="stCount"><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option></select>
+    <button class="ghost" id="drawAll" type="button">🎲 הגרלה לכולם</button>
+    <div class="timer" data-seconds="180" style="margin-top:0"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="reg" id="reg"></div>
+</section>
+
+<!-- ===================== 10–20 · מיני-שיעור ===================== -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="המבנה" data-accent="#e3a82b">
+  <span class="kicker">🎓 איך בנוי שידור</span>
+  <h2>חמש חתיכות שכל תוכנית רדיו צריכה</h2>
+  <div class="steps">
+    <div class="step"><strong>🎹 ג׳ינגל</strong><p>"איפה אני?" שם התחנה במנגינה, 5–10 שניות.</p></div>
+    <div class="step"><strong>🎙️ פתיח</strong><p>"שלום לכל המאזינים, אתם עם..." ומה מחכה היום.</p></div>
+    <div class="step"><strong>📰 פינה</strong><p>חלק עם נושא אחד: חדשות, ראיון, תחזית.</p></div>
+    <div class="step"><strong>🎵 מעבר</strong><p>מוזיקה קצרה או משפט גשר בין הפינות.</p></div>
+    <div class="step"><strong>👋 סגירה</strong><p>תודה, "זה בדיוני", והג׳ינגל עוד פעם.</p></div>
+  </div>
+  <div class="askBox">🎧 <b>ברדיו אין תמונה.</b> כל מה שהמאזין צריך לדעת עובר רק בקול: מילים, מוזיקה וצלילים.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="שעון השידור" data-accent="#e3a82b">
+  <span class="kicker">🕐 הסוד של אנשי הרדיו</span>
+  <h2>שעון השידור</h2>
+  <div class="clockGrid">
+    <div class="hotclock" id="hotclock"><svg viewBox="-110 -110 220 220" aria-hidden="true"></svg><div class="mid"><div><b>4:55</b><small>דקות פרק</small></div></div></div>
+    <div>
+      <p class="lead" style="margin-bottom:8px">תחנות רדיו מתכננות כל שעה על <b>עיגול של שעון</b>: כל פינה מקבלת "פרוסה". ככה יודעים בדיוק מתי נכנסים ומתי יוצאים. הנה דוגמה לפרק שלנו:</p>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="מה עושה ג׳ינגל טוב" data-accent="#8c7ae6">
+  <span class="kicker">🎹 ג׳ינגל</span>
+  <h2>מה עושה ג׳ינגל <span class="violet">שנתקע בראש</span>?</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">⏱️</div><strong>קצר</strong><p>5–10 שניות. ארוך מזה? כבר שיר.</p></div>
+    <div class="card"><div class="emoji">📛</div><strong>שם התחנה בפנים</strong><p>שרים או אומרים אותו על המנגינה.</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>מוטיב שחוזר</strong><p>3–4 תווים שחוזרים פעמיים. המוח אוהב חזרות.</p></div>
+    <div class="card"><div class="emoji">🎨</div><strong>מתאים לאופי</strong><p>תחנה מטורפת? מהיר וקופצני. תחנת לילה? רך ואיטי.</p></div>
+  </div>
+  <p class="noteLine">🧪 בשקף הבא: מבחן אוזן. שתי מנגינות, אחת מהן "נדבקת".</p>
+</section>
+
+<!-- 13 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="מבחן האוזן" data-accent="#8c7ae6">
+  <span class="kicker">👂 מבחן האוזן</span>
+  <h2>איזו מנגינה תזמזמו בהפסקה?</h2>
+  <div class="earGrid">
+    <div class="jbox" data-j="A"><div class="jh"><b><span>A</span>מנגינה 1</b><button class="playBtn" type="button">▶ השמעה</button></div><div class="notes"></div>
+      <div class="voteCtl"><span>מי בעד?</span><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div></div>
+    <div class="jbox" data-j="B"><div class="jh"><b><span>B</span>מנגינה 2</b><button class="playBtn" type="button">▶ השמעה</button></div><div class="notes"></div>
+      <div class="voteCtl"><span>מי בעד?</span><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div></div>
+  </div>
+  <div class="askBox reveal">🎯 במנגינה 2 יש <b>מוטיב קצר שחוזר</b> ונגמר "בבית". במנגינה 1 כל תו חדש, ואין למוח במה להיאחז. ככה בנויים רוב הג׳ינגלים.</div>
+</section>
+
+<!-- 14 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="קול רדיו" data-accent="#d23c3c">
+  <span class="kicker">🎙️ קול רדיו</span>
+  <h2>אותו טקסט, שני קולות</h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">😐 קורא מהדף</span>"שלום. זאת תחנת רדיו. היום יש לנו חדשות. ואחר כך ראיון. ואחר כך מזג אוויר."</div>
+    <div class="box good"><span class="label">😃 קול חי</span>"בוקר טוב לכל המאזינים! אתם עם רדיו מסדרון, ויש לנו היום חדשות מטורפות, אורח שלא תאמינו... ותחזית מכוכב אחר!"</div>
+  </div>
+  <div class="cards four">
+    <div class="card"><div class="emoji">😊</div><strong>מחייכים</strong><p>חיוך נשמע בקול, גם כשלא רואים אותו.</p></div>
+    <div class="card"><div class="emoji">🐢</div><strong>לאט יותר</strong><p>ממה שנראה לכם. ובמיקרופון, עוד יותר לאט.</p></div>
+    <div class="card"><div class="emoji">📈</div><strong>עולים ויורדים</strong><p>מרימים ומורידים את הקול, עוצרים לפני הפתעה.</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>למאזין אחד</strong><p>מדברים כאילו יש מולכם חבר אחד, לא "קהל".</p></div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="משפט אחד, שלושה קולות" data-accent="#d23c3c">
+  <span class="kicker">🎭 תרגול בזוגות</span>
+  <h2>משפט אחד, שלושה קולות</h2>
+  <p class="lead">מגרילים משפט ומצב רוח. בזוגות: כל אחד אומר את המשפט בקול שהוגרל, ואז בעוד שני קולות לבחירתו. בן/בת הזוג מנחש/ת את מצב הרוח.</p>
+  <div class="drawPanel">
+    <div class="drawCard" id="dSent"><small>📜 המשפט</small><div class="v">"מכונת השתייה בקומה השנייה הודיעה הבוקר על פרישה."</div></div>
+    <div class="drawCard mood" id="dMood"><small>🎭 מצב הרוח</small><div class="v">📢 מבזק דחוף</div></div>
+  </div>
+  <div class="timerRow"><button class="btn" id="dBtn" type="button" style="margin-top:12px;font-size:19px">🎲 הגרלה</button>
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<!-- 16 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="שלוש הפינות" data-accent="#4c8bd6">
+  <span class="kicker">📻 התוכן</span>
+  <h2>שלוש הפינות בפרק שלכם</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">📰</div><strong>חדשות בדיוניות</strong><p>2–3 ידיעות מצחיקות על בית ספר דמיוני.</p><span class="tm">⏱ בערך 60 שניות</span><span class="ex">"בלעדי: הלוח החכם בכיתה ח׳ התחיל לכתוב שירה, ומסרב לחזור לחשבון."</span></div>
+    <div class="card"><div class="emoji">🎙️</div><strong>ראיון עם אורח בדיוני</strong><p>חפץ, חיה או דמות. 3–4 שאלות, תשובות ארוכות.</p><span class="tm">⏱ בערך 80 שניות</span><span class="ex">"איתנו באולפן: מכונת השתייה מהמסדרון. מה הכי קשה בעבודה שלך?"</span></div>
+    <div class="card"><div class="emoji">🪐</div><strong>מזג אוויר בכוכב אחר</strong><p>תחזית מטורפת ועצה למאזינים.</p><span class="tm">⏱ בערך 60 שניות</span><span class="ex">"בנוגה: 460 מעלות בצל. אל תשכחו קרם הגנה. הרבה קרם הגנה."</span></div>
+  </div>
+  <p class="noteLine">🌡️ עובדה: על פני נוגה באמת חם בערך 460 מעלות. תחזית טובה מערבבת עובדה אמיתית עם דמיון פרוע.</p>
+</section>
+
+<!-- 17 -->
+<section class="slide tight" data-topic="איך בנוי שידור" data-title="בדיוני, לא פוגע" data-accent="#15803d">
+  <span class="kicker">🚦 מה עולה לאוויר?</span>
+  <h2>בדיוני ומצחיק, <span class="green">בלי לפגוע</span></h2>
+  <div class="tf air">
+    <div class="tfRow" data-true="1"><span>"מכונת השתייה במסדרון הכריזה על שביתה: מהיום רק מיץ גזר."</span><div class="tfBtns"><button data-v="1">✓ עולה</button><button data-v="0">✗ לא עולה</button></div><div class="tfNote">עולה! דמות בדיונית, אף אחד לא נפגע.</div></div>
+    <div class="tfRow" data-true="0"><span>"[שם של תלמיד מהכיתה] נרדם בשיעור ונפל מהכיסא."</span><div class="tfBtns"><button data-v="1">✓ עולה</button><button data-v="0">✗ לא עולה</button></div><div class="tfNote">לא עולה. שם אמיתי, וצוחקים על מישהו. גם אם "זה רק צחוק".</div></div>
+    <div class="tfRow" data-true="1"><span>"בשבתאי יורד היום גשם של יהלומים. קחו מטריה חזקה."</span><div class="tfBtns"><button data-v="1">✓ עולה</button><button data-v="0">✗ לא עולה</button></div><div class="tfNote">עולה. ובונוס: מדענים באמת משערים שיש גשם של יהלומים בכוכבי הלכת הענקיים.</div></div>
+    <div class="tfRow" data-true="0"><span>"המורה לספורט שלנו (בשם האמיתי) נתקע על עץ ובכה."</span><div class="tfBtns"><button data-v="1">✓ עולה</button><button data-v="0">✗ לא עולה</button></div><div class="tfNote">לא עולה. אדם אמיתי. ממציאים דמות: "המאמן של כוכב מאדים".</div></div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide quiz" data-topic="איך בנוי שידור" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#e3a82b">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1 מתוך 3</span>
+  <h2>מה צריך לבוא ראשון בפרק?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>הראיון עם האורח</span></button>
+    <button class="option"><span class="letter">ב</span><span>הג׳ינגל</span></button>
+    <button class="option"><span class="letter">ג</span><span>תחזית מזג האוויר</span></button>
+    <button class="option"><span class="letter">ד</span><span>"כל מה ששמעתם בדיוני"</span></button>
+  </div>
+  <div class="explain">✓ נכון! הג׳ינגל אומר למאזין "אתה אצלנו", ורק אחר כך הפתיח.</div>
+</section>
+
+<!-- 19 -->
+<section class="slide quiz" data-topic="איך בנוי שידור" data-title="ראשים ממוספרים 2" data-answer="2" data-accent="#e3a82b">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2 מתוך 3</span>
+  <h2>הפרק יצא 6 וחצי דקות. מה הכי כדאי?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>לדבר מהר יותר לאורך כל הפרק</span></button>
+    <button class="option"><span class="letter">ב</span><span>לבדוק בשעון השידור איזו פינה ארוכה מדי, ולקצר אותה</span></button>
+    <button class="option"><span class="letter">ג</span><span>להוריד את הג׳ינגל</span></button>
+    <button class="option"><span class="letter">ד</span><span>להשאיר. מה זה כבר משנה</span></button>
+  </div>
+  <div class="explain">✓ נכון! מקצרים במקום אחד מתוכנן, ולא מאיצים הכול. דיבור מהיר לא מובן ברדיו.</div>
+</section>
+
+<!-- 20 -->
+<section class="slide quiz" data-topic="איך בנוי שידור" data-title="ראשים ממוספרים 3" data-answer="3" data-accent="#e3a82b">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3 מתוך 3</span>
+  <h2>המגיש אומר: "כמו שאתם רואים, האורח שלנו לבוש בירוק." מה הבעיה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>אסור להגיד צבעים ברדיו</span></button>
+    <button class="option"><span class="letter">ב</span><span>המשפט ארוך מדי</span></button>
+    <button class="option"><span class="letter">ג</span><span>ברדיו לא רואים! צריך לתאר במילים ובצלילים</span></button>
+    <button class="option"><span class="letter">ד</span><span>אין שום בעיה</span></button>
+  </div>
+  <div class="explain">✓ נכון! ברדיו מתארים: "האורח שלנו מזמזם ומטפטף קצת..." ומוסיפים צליל (דלת, צעדים, בקבוק שנפתח).</div>
+</section>
+
+<!-- ===================== 21–23 · תדריך ===================== -->
+<section class="slide tight" data-topic="תדריך האתגר" data-title="האתגר: התדר הזהוב" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר</span>
+  <h2>התדר <span class="amb">הזהוב</span></h2>
+  <p class="lead"><b>המטרה:</b> פרק רדיו שהכיתה זוכרת, ושידור חי שנגמר בדיוק בזמן.</p>
+  <div class="task"><strong>📏 החוקים</strong><ol>
+    <li>הפרק המוקלט: <b>4–5 דקות</b>, עם ג׳ינגל ושלוש פינות.</li>
+    <li>הכול בדיוני: <b>בלי שמות אמיתיים</b> של תלמידים, מורים או אנשים מהשכונה.</li>
+    <li>הומור כן, העלבה לא. אף פינה לא צוחקת על מישהו.</li>
+    <li>בסוף הפרק אומרים בקול: <b>"כל מה ששמעתם בתוכנית בדיוני."</b></li>
+    <li>בשידור החי: <b>90 שניות</b>. בשנייה 90 חותכים, גם באמצע מילה.</li>
+    <li>מגישים בטופס עד הדקה שעל הטיימר.</li>
+  </ol></div>
+</section>
+
+<!-- 22 -->
+<section class="slide tight" data-topic="תדריך האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד ידוע מראש</span>
+  <h2>איך צוברים נקודות</h2>
+  <div class="tableWrap"><table class="t compact">
+    <thead><tr><th>מה</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎹 ג׳ינגל מקורי (שלכם, מ-Song Maker)</td><td><b>3</b></td></tr>
+      <tr><td>📻 שלוש פינות בפרק המוקלט</td><td><b>2 לכל פינה</b> (עד 6)</td></tr>
+      <tr><td>⏱️ אורך הפרק 4–5 דקות</td><td><b>3</b></td></tr>
+      <tr><td>📢 שורת "זה בדיוני" בסוף</td><td><b>2</b></td></tr>
+      <tr><td>🔴 השידור החי נגמר בין שנייה 85 ל-90 (בלי שחתכו אתכם)</td><td><b>4</b></td></tr>
+      <tr><td>🧠 מבחן הזיכרון: מאזין מתחנה אחרת שזוכר את השם או את הג׳ינגל</td><td><b>1 לכל מאזין</b> (עד 5)</td></tr>
+      <tr><td>📊 המחוון של המדריך (4 קריטריונים × 1–4)</td><td><b>עד 16</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="noteLine">⭐ <b>בונוס:</b> משימת צד שהושלמה = 1 (עד 2). · 🏆 הכי הרבה נקודות = <b>התדר הזהוב</b>. שובר שוויון: השידור החי הקרוב ביותר ל-90 שניות.</p>
+</section>
+
+<!-- 23 -->
+<section class="slide tight" data-topic="תדריך האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון</span>
+  <h2>ככה המדריך מחליט</h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.35vw,18px)">
+    <thead><tr><th style="width:15%">קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td><b>מבנה וזמנים</b></td><td>אין מבנה, קצר או ארוך מאוד</td><td>יש פינות, בלי מעברים</td><td>ג׳ינגל, פתיח, 3 פינות ומעברים, בזמן</td><td>מבנה מדויק, מעברים חלקים, והשידור החי נגמר בזמן</td></tr>
+      <tr class="reveal"><td><b>תוכן והומור</b></td><td>משעמם או פוגע</td><td>רעיונות טובים, ביצוע חלש</td><td>פינות מצחיקות ומקוריות, הכול בדיוני ומסומן</td><td>כל פינה מפתיעה, הראיון מרגיש אמיתי, התחזית יצירתית במיוחד</td></tr>
+      <tr class="reveal"><td><b>קול וסאונד</b></td><td>לא שומעים, רעשי רקע</td><td>שומעים, אבל מונוטוני</td><td>קולות ברורים, ג׳ינגל ומוזיקת מעבר</td><td>קול רדיו עם אנרגיה, עוצמות מאוזנות, ג׳ינגל שנתקע</td></tr>
+      <tr class="reveal"><td><b>צוות ושקיפות AI</b></td><td>אחד עשה הכול</td><td>כולם עשו משהו, בלי תיאום</td><td>כל תפקיד ביצע, כתוב מה ה-AI הציע ומה אתם כתבתם</td><td>כולם נשמעים בפרק, ויודעים להסביר במה הקול שלכם טוב יותר מסקירה של AI</td></tr>
+    </tbody>
+  </table></div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף שורה</div>
+</section>
+
+<!-- ===================== 24–28 · ספרינט 1 ===================== -->
+<section class="slide tight" data-topic="ספרינט 1: תסריט וג׳ינגל" data-title="ג׳ינגל ב-Song Maker" data-accent="#8c7ae6">
+  <span class="kicker">🎹 הדגמה · Chrome Music Lab</span>
+  <h2>ג׳ינגל ב-Song Maker</h2>
+  <div class="steps">
+    <div class="step"><strong>נכנסים</strong><p><span class="ui">Song Maker</span> ב-Chrome Music Lab. בלי חשבון.</p></div>
+    <div class="step"><strong>Settings</strong><p><span class="ui">Length</span> 3 או 4 · <span class="ui">Scale</span> Pentatonic (כל תו נשמע טוב).</p></div>
+    <div class="step"><strong>Tempo</strong><p>100–130. בדקו: 3 תיבות בטמפו 120 = 6 שניות.</p></div>
+    <div class="step"><strong>מלחינים</strong><p>מוטיב של 3–4 תווים, פעמיים, וסיום "בבית". תופים בשורה התחתונה.</p></div>
+    <div class="step"><strong>Save</strong><p><span class="ui">Copy Link</span> + <span class="ui">Download Wav</span>. את הקובץ מכניסים לפרק.</p></div>
+  </div>
+  <p class="noteLine">🔗 musiclab.chromeexperiments.com/Song-Maker · 🔒 השיר נשמר בקישור ציבורי, אז בלי שמות אמיתיים בשם השיר. · 🎧 עובדים עם אוזניות.</p>
+</section>
+
+<!-- 25 -->
+<section class="slide tight" data-topic="ספרינט 1: תסריט וג׳ינגל" data-title="מלחינים יחד" data-accent="#8c7ae6">
+  <span class="kicker">🎼 מלחינים יחד, עכשיו</span>
+  <h2>ג׳ינגל כיתתי ב-30 שניות</h2>
+  <div class="makerWrap">
+    <div class="maker" id="maker" aria-label="לוח הלחנה"></div>
+    <div class="makerSide">
+      <button class="btn" id="mkPlay" type="button">▶ נגן</button>
+      <button class="ghost" id="mkDemo" type="button">🎲 דוגמה עם מוטיב</button>
+      <button class="ghost" id="mkClear" type="button">🗑 ניקוי</button>
+      <div class="tempo"><span>Tempo</span><input type="range" id="mkTempo" min="80" max="160" value="120"><output id="mkTempoV">120</output></div>
+      <p class="secs" id="mkSecs">2 תיבות · 4.0 שניות</p>
+      <p class="secs">ב-Song Maker תעשו 3 או 4 תיבות. כל לחיצה מוסיפה תו. השורה התחתונה: תוף. נסו מוטיב של 3 תווים, ואז אותו מוטיב שוב.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 26 -->
+<section class="slide tight" data-topic="ספרינט 1: תסריט וג׳ינגל" data-title="Gemini: פרקליט השטן" data-accent="#4c8bd6">
+  <span class="kicker">🤖 Gemini · עוזר לעורכי התוכן</span>
+  <h2>ה-AI מסמן, <span class="cyan">אתם מחליטים</span></h2>
+  <div class="prompt small"><button class="ghost copyBtn" type="button">📋 העתקה</button><span class="ptag">רעיונות</span>אנחנו תחנת רדיו בדיונית של כיתה. תן 6 כותרות חדשות מצחיקות ובדיוניות לגמרי על בית ספר, בלי שמות של אנשים ובלי לצחוק על אף אחד.</div>
+  <div class="prompt small"><button class="ghost copyBtn" type="button">📋 העתקה</button><span class="ptag">תחזית</span>תן 3 רעיונות לתחזית מזג אוויר בכוכב <span class="fillin">[שם כוכב]</span>, עם "משקעים" מוזרים ועצה לשומעים.</div>
+  <div class="prompt small"><button class="ghost copyBtn" type="button">📋 העתקה</button><span class="ptag">פרקליט השטן</span>הנה התסריט שלנו עם זמנים: <span class="fillin">[תסריט]</span>. אל תשכתב. סמן רק: איזו פינה ארוכה מדי, ואיפה משהו לא מובן כשרק שומעים ולא רואים.</div>
+  <p class="noteLine">✋ בוחרים רעיון אחד מתוך השישה ו<b>כותבים אותו מחדש במילים שלכם</b>. 🔴 התשובות של האורח בראיון: רק שלכם. · 🔒 בפרומפט כותבים על התחנה, לא על עצמכם.</p>
+</section>
+
+<!-- 27 -->
+<section class="slide tight bigTimer" data-topic="ספרינט 1: תסריט וג׳ינגל" data-title="ספרינט 1" data-accent="#d23c3c">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <span class="kicker">✍️ ספרינט 1</span>
+  <h2>תסריט וג׳ינגל</h2>
+  <div class="timerRow"><div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="lights"><span class="light y">🟡 Gemini לרעיונות ולבדיקה</span><span class="light r">🔴 תשובות האורח: רק שלכם</span></div></div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 8</small><p>שם, תדר ושלוש הפינות בראשי פרקים.</p></div>
+    <div class="mile"><small>עד דקה 13</small><p>תסריט עם זמנים על הדף, מהשנייה הראשונה ועד 5 דקות.</p></div>
+    <div class="mile"><small>עד דקה 16</small><p>ג׳ינגל שמור: קישור + קובץ WAV.</p></div>
+  </div>
+  <div class="rolesLine"><span><b>⏱️ מנהל/ת:</b> שעון ותסריט</span><span><b>🎙️ מגיש/ה:</b> פתיח וסגירה</span><span><b>✍️ עורך/ת:</b> חדשות וראיון</span><span><b>🎹 מפיק/ה:</b> ג׳ינגל</span><span><b>🎚️ טכנאי/ת:</b> פותח/ת BandLab ובודק/ת מיקרופון</span></div>
+</section>
+
+<!-- 28 -->
+<section class="slide tight" data-topic="ספרינט 1: תסריט וג׳ינגל" data-title="תסריט עם זמנים" data-accent="#e3a82b">
+  <span class="kicker">📜 דוגמה: "רדיו מסדרון 101.3"</span>
+  <h2>ככה נראה תסריט עם זמנים</h2>
+  <div class="tableWrap"><table class="t script compact">
+    <thead><tr><th>זמן</th><th>פינה</th><th>מי</th><th>מה אומרים / משמיעים</th></tr></thead>
+    <tbody>
+      <tr><td>0:00</td><td>🎹 ג׳ינגל</td><td>—</td><td>"רדיו מס-דרון, אחת אפס אחת נקודה שלוש!"</td></tr>
+      <tr><td>0:10</td><td>🎙️ פתיח</td><td>מגישה</td><td>"בוקר טוב לכל המאזינים! היום: שביתה במזנון, אורח מתוק, ותחזית מצדק."</td></tr>
+      <tr><td>0:35</td><td>📰 חדשות</td><td>עורך + מגישה</td><td>3 ידיעות, 20 שניות לכל אחת</td></tr>
+      <tr><td>1:35</td><td>🎵 מעבר</td><td>מפיק</td><td>4 שניות מהג׳ינגל + "ועכשיו, לאולפן!"</td></tr>
+      <tr><td>1:45</td><td>🎙️ ראיון</td><td>מגישה + "מכונת השתייה"</td><td>4 שאלות, האורח מזמזם בין התשובות</td></tr>
+      <tr><td>3:15</td><td>🪐 מזג אוויר</td><td>מנהל שידור</td><td>"בצדק: סופה ורודה, רוחות של מאות קמ״ש..."</td></tr>
+      <tr><td>4:15</td><td>👋 סגירה</td><td>כולם</td><td>תודה · "כל מה ששמעתם בתוכנית בדיוני" · ג׳ינגל</td></tr>
+    </tbody>
+  </table></div>
+  <p class="noteLine">💡 כתבו את הזמן ליד כל שורה. כשקוראים בקול, מנהל/ת השידור בודק/ת: הקדמנו? איחרנו?</p>
+</section>
+
+<!-- ===================== 29–30 · חזרה גנרלית ===================== -->
+<section class="slide tight" data-topic="חזרה גנרלית" data-title="חזרה גנרלית" data-accent="#5bb5a2">
+  <span class="kicker">🎭 נקודת ביקורת</span>
+  <h2>חזרה גנרלית</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">📖</div><strong>1. קוראים בקול</strong><p>לתחנה השכנה, את כל התסריט עם הזמנים. בלי הקלטה, כמו בשידור.</p></div>
+    <div class="card"><div class="emoji">🎹</div><strong>2. משמיעים ג׳ינגל</strong><p>מהמחשב או בשירה. השכנים מנסים לזמזם אותו מיד אחרי.</p></div>
+    <div class="card"><div class="emoji">⏱️</div><strong>3. השכנים מודדים</strong><p>בטלפון: כמה זמן יצא? איזו פינה הכי מצחיקה? איזו ארוכה מדי?</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <span class="light g">💬 משוב: "אהבתי ___ · הלוואי ש___"</span></div>
+  <p class="noteLine">🔄 3 וחצי דקות לכל תחנה ואז מתחלפים. המשוב נכתב בדף "חזרה גנרלית".</p>
+</section>
+
+<!-- 30 -->
+<section class="slide tight" data-topic="חזרה גנרלית" data-title="תנועה: גלי רדיו" data-accent="#d23c3c">
+  <span class="kicker">🌊 דקה של תנועה</span>
+  <h2>מכוונים את החוגה</h2>
+  <p class="lead">כולם קמים. בכל לחיצה על החוגה נדלק תדר אחר, וכל הכיתה עושה את התנועה שלו.</p>
+  <div class="moves" id="moves">
+    <div><small>FM 88.1</small><span>🌊</span><b>גל</b><p>זרועות מצד לצד, כמו גל באצטדיון</p></div>
+    <div><small>FM 94.5</small><span>📡</span><b>אנטנה</b><p>ידיים למעלה, מסתובבים לאט</p></div>
+    <div><small>FM 101.3</small><span>🔊</span><b>ווליום</b><p>מתכופפים לאט ועולים למעלה</p></div>
+    <div><small>FM 107.9</small><span>🤫</span><b>שקט באולפן</b><p>קופאים במקום, 5 שניות</p></div>
+  </div>
+  <div class="timerRow"><button class="btn" id="dialBtn" type="button" style="margin-top:12px;font-size:19px">🎛️ סובבו את החוגה</button>
+    <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<!-- ===================== 31–34 · ספרינט 2 ===================== -->
+<section class="slide tight" data-topic="ספרינט 2: הקלטה" data-title="הקלטה ב-BandLab" data-accent="#d23c3c">
+  <span class="kicker">🎚️ הדגמה · BandLab</span>
+  <h2>מקליטים ועורכים ב-BandLab</h2>
+  <div class="steps">
+    <div class="step"><strong>פרויקט</strong><p>bandlab.com · נכנסים עם חשבון Google · <span class="ui">Create</span> ← <span class="ui">Studio</span></p></div>
+    <div class="step"><strong>ערוץ קול</strong><p><span class="ui">Voice/Mic</span> ומאשרים לדפדפן את המיקרופון.</p></div>
+    <div class="step"><strong>● הקלטה</strong><p>פינה אחת = טייק אחד. לא טוב? מקליטים שוב.</p></div>
+    <div class="step"><strong>ג׳ינגל</strong><p>גוררים את קובץ ה-WAV לערוץ חדש, בתחילת הפרק ובסוף.</p></div>
+    <div class="step"><strong>ייצוא</strong><p><span class="ui">Save</span> ואז <span class="ui">Download › Mixdown As</span> ← WAV או MP3.</p></div>
+  </div>
+  <p class="noteLine">🧰 <b>חלופות:</b> Audacity במחשב · מקליט קולי בטלפון, ומעלים את הקובץ ל-Drive. מה שחשוב: פרק אחד של 4–5 דקות.</p>
+</section>
+
+<!-- 32 -->
+<section class="slide tight bigTimer" data-topic="ספרינט 2: הקלטה" data-title="ספרינט 2" data-accent="#d23c3c">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">🎚️ ספרינט 2</span>
+  <h2>הקלטה ועריכה</h2>
+  <div class="timerRow"><div class="timer" data-seconds="840"><output>14:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="lights"><span class="light r">🔴 הקולות בפרק: רק שלכם</span><span class="light g">🟢 משימת צד: סקירה קולית ב-Notebook</span></div></div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 7</small><p>כל הפינות מוקלטות, אחת אחרי השנייה.</p></div>
+    <div class="mile"><small>דקה 10: בדיקת אולפן</small><p>המדריך עובר: ג׳ינגל, אורך, ו-5 השניות האחרונות.</p></div>
+    <div class="mile"><small>עד דקה 14</small><p>פרק מיוצא, 4–5 דקות, ומוכן להגשה.</p></div>
+  </div>
+  <div class="rolesLine"><span><b>⏱️ מנהל/ת:</b> "שקט, מקליטים! 3, 2, 1"</span><span><b>🎙️ מגיש/ה:</b> מוביל/ה את הטייקים</span><span><b>✍️ עורך/ת:</b> מסמן/ת בתסריט מה הוקלט</span><span><b>🎹 מפיק/ה:</b> מעברים ומוזיקה</span><span><b>🎚️ טכנאי/ת:</b> מקליט/ה, חותך/ת, מייצא/ת</span></div>
+</section>
+
+<!-- 33 -->
+<section class="slide tight" data-topic="ספרינט 2: הקלטה" data-title="טיפים לאולפן" data-accent="#5bb5a2">
+  <span class="kicker">🎧 האולפן שלכם</span>
+  <h2>שש עצות של אנשי סאונד</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🤫 <b>פינה שקטה:</b> רחוק מהמזגן, מהדלת ומהתחנה השכנה. מסדרון שקט עובד מצוין.</div>
+    <div class="revealCard reveal">✋ <b>מרחק כף יד:</b> הטלפון או המיקרופון בערך 20 ס״מ מהפה, לא צמוד.</div>
+    <div class="revealCard reveal">🧥 <b>פחות הד:</b> מקליטים מול וילון, מעיל או ארון בגדים, לא מול קיר חשוף.</div>
+    <div class="revealCard reveal">🎬 <b>"שקט, מקליטים!"</b> מנהל/ת השידור סופר/ת 3-2-1, ואז שתי שניות שקט לפני שמדברים.</div>
+    <div class="revealCard reveal">🔁 <b>תמיד טייק שני.</b> השני כמעט תמיד טוב יותר, כי כבר יודעים את הטקסט.</div>
+    <div class="revealCard reveal">✂️ <b>עורכים בסוף:</b> טעיתם? עוצרים שנייה, אומרים שוב את המשפט, וחותכים אחר כך.</div>
+  </div>
+</section>
+
+<!-- 34 -->
+<section class="slide tight" data-topic="ספרינט 2: הקלטה" data-title="משימות צד" data-accent="#8c7ae6">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>כל משימה = נקודה (עד 2)</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🤖</div><strong>AI נגד התחנה</strong><p>מדביקים את התסריט ב-Gemini Notebook ויוצרים סקירה קולית. מקשיבים דקה וכותבים: במה אנחנו טובים יותר?</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>פרסומת בדיונית</strong><p>15 שניות לאירוע בית ספרי דמיוני, עם הג׳ינגל שלכם ברקע.</p></div>
+    <div class="card"><div class="emoji">✉️</div><strong>שאלה מהמאזינים</strong><p>פינה של 30 שניות: שאלה אמיתית מתלמיד בכיתה ותשובה מצחיקה.</p></div>
+    <div class="card"><div class="emoji">🎨</div><strong>עטיפה לפודקאסט</strong><p>תמונה מרובעת לתחנה ב-AutoDraw או ב-Gemini, בלי אנשים אמיתיים.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 35 · הגשה ===================== -->
+<section class="slide tight" data-topic="הגשה" data-title="רישום תדר" data-accent="#4c8bd6">
+  <span class="kicker">📨 הגשה · הטכנאי/ת מגיש/ה</span>
+  <h2>טופס "רישום תדר"</h2>
+  <div class="row2">
+    <div class="task" style="margin-top:0"><strong>✓ מה מכניסים לטופס</strong><ul>
+      <li>שם התחנה והתדר</li>
+      <li>קישור לפרק (BandLab, או קובץ ב-Drive עם הרשאת צפייה)</li>
+      <li>קישור לג׳ינגל ב-Song Maker</li>
+      <li>צילום של התסריט עם הזמנים</li>
+      <li>אורך הפרק (דקות:שניות)</li>
+      <li>🤖 מה ה-AI עשה · מה אנחנו עשינו</li>
+    </ul></div>
+    <div>
+      <div class="box"><span class="label">🔗 הקישור לטופס</span><span class="formLink" contenteditable="true" spellcheck="false">forms.gle/______</span></div>
+      <div class="box" style="margin-top:12px"><span class="label">📁 שם הקובץ</span><b>תחנת [שם] · פרק 1</b></div>
+      <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 36–39 · השידור החי ===================== -->
+<section class="slide tight" data-topic="השידור החי" data-title="חוקי השידור החי" data-accent="#d23c3c">
+  <span class="kicker">🔴 עוד רגע עולים לאוויר</span>
+  <h2>השידור החי: ככה זה עובד</h2>
+  <div class="steps">
+    <div class="step"><strong>ליד המחשב</strong><p>מנהל/ת השידור עומד/ת ליד הלוח ולוחץ/ת "עולים לאוויר".</p></div>
+    <div class="step"><strong>3, 2, 1</strong><p>הנורה נדלקת. ג׳ינגל (מהטלפון או בשירה), ומתחילים.</p></div>
+    <div class="step"><strong>90 שניות</strong><p>הפינה הכי טובה שלכם. בלי עצירות ובלי "רגע, מההתחלה".</p></div>
+    <div class="step"><strong>סוף שידור</strong><p>סיימתם? מנהל/ת השידור לוחץ/ת "סוף שידור". 85–90 = 4 נקודות.</p></div>
+    <div class="step"><strong>✂️ שנייה 90</strong><p>חותכים, גם באמצע מילה. ואז מחיאות כפיים לתחנה.</p></div>
+  </div>
+  <div class="askBox">👂 <b>הקהל:</b> מקשיבים בשקט, ורושמים בדף "מבחן הזיכרון" את שם התחנה ואת מה שזוכרים מהג׳ינגל.</div>
+</section>
+
+<!-- 37 -->
+<section class="slide tight" data-topic="השידור החי" data-title="סימני ידיים של אולפן" data-accent="#d23c3c">
+  <span class="kicker">✋ השפה הסודית של האולפן</span>
+  <h2>מנהל/ת השידור מדבר/ת בידיים</h2>
+  <div class="sig">
+    <div><span class="h">✋</span><span><b>היכון</b><p>יד פתוחה למעלה: עוד רגע אתם באוויר.</p></span></div>
+    <div><span class="h">👉</span><span><b>אתם באוויר</b><p>הצבעה על המגיש/ה: מתחילים לדבר.</p></span></div>
+    <div><span class="h">🔄</span><span><b>להאיץ</b><p>אצבע מסתובבת מהר: מאחרים, מקצרים.</p></span></div>
+    <div><span class="h">↔️</span><span><b>למתוח</b><p>ידיים נפרדות לאט, כמו מסטיק: יש זמן, מאריכים.</p></span></div>
+    <div><span class="h">🔟</span><span><b>עשר שניות</b><p>שתי ידיים פתוחות: עוד 10 שניות לסוף.</p></span></div>
+    <div><span class="h">✂️</span><span><b>סיום</b><p>יד שטוחה בתנועת חיתוך: עוצרים עכשיו.</p></span></div>
+  </div>
+  <p class="noteLine">🎯 תרגלו פעם אחת בתחנה לפני שעולים: מנהל/ת השידור מסמן/ת, המגיש/ה מגיב/ה.</p>
+</section>
+
+<!-- 38 -->
+<section class="slide tight" data-topic="השידור החי" data-title="ON AIR" data-accent="#d23c3c">
+  <span class="kicker">🔴 השידור החי · 90 שניות</span>
+  <div class="console">
+    <div class="ring" id="ring">
+      <svg viewBox="0 0 200 200"><circle class="bg" cx="100" cy="100" r="86"/><circle class="zone" id="ringZone" cx="100" cy="100" r="86"/><circle class="prog" id="ringProg" cx="100" cy="100" r="86"/></svg>
+      <div class="face"><output id="liveT">0:00</output><small id="liveSub">מתוך 1:30</small></div>
+    </div>
+    <div class="cside">
+      <button class="onair" id="liveLamp" type="button" tabindex="-1"><span class="dot"></span>ON AIR</button>
+      <select id="liveSt" aria-label="בחירת תחנה"></select>
+      <div class="cbtns"><button class="goBtn" id="liveGo" type="button">🔴 עולים לאוויר</button><button class="ghost stopBtn" id="liveStop" type="button" disabled>⏹ סוף שידור</button><button class="ghost" id="liveReset" type="button">↺</button></div>
+      <div class="verdict" id="liveVerdict">הפס הירוק בטבעת = שניות 85–90. שם צריך לסיים.</div>
+      <div class="log" id="liveLog"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="השידור החי" data-title="מבחן הזיכרון" data-accent="#8c7ae6">
+  <span class="kicker">🧠 מבחן הזיכרון + 🪐 הצבעה</span>
+  <h2>מי נשאר לכם בראש?</h2>
+  <p class="lead">לכל תחנה: מי כתב נכון את השם או זמזם את הג׳ינגל? (לא מהתחנה עצמה, עד 5). ואז: איזו תחזית הכי מטורפת? כל אחד מצביע פעם אחת, לא לתחנה שלו.</p>
+  <div class="mem" id="mem"></div>
+</section>
+
+<!-- ===================== 40–42 · טקס ===================== -->
+<section class="slide tight" data-topic="טקס התדר הזהוב" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 לוח הניקוד</span>
+  <h2>סופרים נקודות</h2>
+  <div class="tableWrap"><table class="t score" id="score">
+    <thead><tr><th>תחנה</th><th>🎹<small>עד 3</small></th><th>📻 פינות<small>עד 6</small></th><th>⏱️ אורך<small>3</small></th><th>📢 בדיוני<small>2</small></th><th>🔴 חי<small>4</small></th><th>🧠 זיכרון<small>עד 5</small></th><th>📊 מחוון<small>עד 16</small></th><th>⭐ צד<small>עד 2</small></th><th>סה״כ</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div class="sbar"><p class="noteLine">✏️ לוחצים על תא ומקלידים מספר. "חי" ו"זיכרון" מתמלאים לבד מהשקפים הקודמים.</p><button class="ghost" id="scoreReset" type="button" style="margin-inline-start:auto">↺ איפוס הלוח</button></div>
+</section>
+
+<!-- 41 -->
+<section class="slide tight center" data-topic="טקס התדר הזהוב" data-title="והתדר הזהוב הולך ל..." data-accent="#e3a82b">
+  <span class="kicker">🏆 טקס הפרסים</span>
+  <h2>והתדר הזהוב הולך ל...</h2>
+  <div class="awards">
+    <div class="award reveal" data-award="precise"><span class="em">⏱️</span><b>פרס הדיוק</b><span class="win"></span><small>הכי קרוב ל-90 שניות</small></div>
+    <div class="award reveal" data-award="weather"><span class="em">🪐</span><b>התחזית הכי מטורפת</b><span class="win"></span><small>הצבעת הכיתה</small></div>
+    <div class="award reveal" data-award="jingle"><span class="em">🎵</span><b>הג׳ינגל שנתקע בראש</b><span class="win"></span><small>הכי הרבה במבחן הזיכרון</small></div>
+    <div class="award gold reveal" data-award="gold"><span class="em">📻</span><b>התדר הזהוב</b><span class="win"></span><small>הניקוד הכולל</small></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף פרס</div>
+</section>
+
+<!-- 42 -->
+<section class="slide tight" data-topic="טקס התדר הזהוב" data-title="כרטיס יציאה" data-accent="#d23c3c">
+  <span class="kicker">🎟 כרטיס יציאה · כל אחד לבד</span>
+  <h2>לפני שמכבים את הנורה</h2>
+  <div class="row2">
+    <div class="task" style="margin-top:0"><strong>✍️ על הכרטיס</strong><ol>
+      <li>דבר אחד שלמדתי היום על רדיו.</li>
+      <li>שאלה אחת שנשארה לי.</li>
+      <li>כמה הבנתי? 0–5. ומה תרמתי לתחנה?</li>
+      <li><b>מה עשה את הקול שלכם טוב יותר מקול של AI?</b></li>
+    </ol></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span class="light r" style="width:max-content">🔴 בלי AI, כותבים לבד</span>
+      <div class="box"><span class="label">🎧 הפרקים שלכם</span>מגיעים לקישור של הכיתה. אפשר להשמיע אותם בהפסקה, ולהקליט פרק 2 עם פינת "שאלה מהמאזינים".</div>
+      <p class="closing">📻 נשמע אתכם באוויר! והפעם זה לא בדיוני: אתם באמת יודעים לשדר.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-names"><h3>📡 איך בוחרים שם לתחנה?</h3><ol><li>עד 3 מילים, שקל להגיד בקול ולזכור.</li><li>שם שמתאים לאופי: "רדיו מסדרון", "גלי הפסקה", "תדר הצחוק".</li><li>בלי שמות של אנשים אמיתיים ובלי שם של תחנה אמיתית.</li><li>תקועים? 🟡 אפשר לבקש מ-Gemini: "הצע 5 שמות לתחנת רדיו של כיתה, עם סלוגן של עד 4 מילים לכל אחד." ואז בוחרים ומשנים.</li><li>מנהל/ת השידור כותב/ת את השם בלוח ולוחץ/ת 🎲. התדר נכתב על שלט ה-ON AIR.</li></ol></template>
+<template id="help-rules"><h3>🏆 התדר הזהוב: כל החוקים</h3><ol><li>פרק מוקלט של 4–5 דקות: ג׳ינגל, פתיח, שלוש פינות (חדשות בדיוניות, ראיון עם אורח בדיוני, מזג אוויר בכוכב אחר), מעברים וסגירה.</li><li>בלי שמות אמיתיים של תלמידים, מורים או אנשים מהשכונה. ממציאים דמויות.</li><li>הומור כן, העלבה לא.</li><li>בסוף הפרק: "כל מה ששמעתם בתוכנית בדיוני."</li><li>שידור חי: 90 שניות. מסיימים בין שנייה 85 ל-90 = 4 נקודות. בשנייה 90 חותכים.</li><li>הגשה בטופס "רישום תדר" עד שהטיימר נגמר. הטכנאי/ת מגיש/ה.</li><li>בכל הפרק כל חברי התחנה נשמעים, לפחות במשפט אחד.</li></ol></template>
+<template id="help-sprint1"><h3>✍️ ספרינט 1: מה עושים</h3><ol><li><b>מנהל/ת השידור</b> מצייר/ת שעון שידור על הדף ומחלק/ת את 5 הדקות.</li><li><b>עורך/ת התוכן</b> כותב/ת 2–3 ידיעות ו-4 שאלות לראיון. Gemini מותר לרעיונות 🟡.</li><li><b>המגיש/ה</b> כותב/ת פתיח (עד 25 מילים) וסגירה עם "זה בדיוני".</li><li><b>המפיק/ה המוזיקלי/ת</b> מלחין/ה ג׳ינגל ב-Song Maker: Length 3–4, Pentatonic, Tempo 100–130. שומר/ת קישור + WAV.</li><li><b>הטכנאי/ת</b> נכנס/ת ל-BandLab, פותח/ת פרויקט ומקליט/ה 5 שניות ניסיון.</li><li>בסוף: קוראים את התסריט פעם אחת עם שעון. יצא יותר מ-5 דקות? מקצרים פינה אחת.</li></ol></template>
+<template id="help-sprint2"><h3>🎚️ ספרינט 2: סדר ההקלטה</h3><ol><li>מקליטים פינה אחרי פינה, לא את כל הפרק בבת אחת.</li><li>לפני כל טייק: "שקט, מקליטים! 3, 2, 1", ושתי שניות שקט.</li><li>הג׳ינגל (WAV) נכנס בהתחלה ובסוף. בין הפינות: 3–4 שניות מהג׳ינגל או משפט גשר.</li><li>בודקים את האורך בסרגל הזמן: 4:00–5:00.</li><li>מאזינים ל-5 השניות האחרונות: שומעים "כל מה ששמעתם בתוכנית בדיוני"?</li><li>Save ← Download › Mixdown As ← WAV או MP3. שם הקובץ: "תחנת [שם] · פרק 1".</li><li>אין BandLab? מקליטים בטלפון, ומעלים ל-Drive עם הרשאת צפייה.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== רדיו בשידור חי — lesson script (after the engine). Stations registry shared by: frequencies · ON AIR · memory test · scoreboard · awards ===== */
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY='radio-live:stations:v1';
+const EMO=['📻','🎙️','🎧','🛰️','🌙','⚡','🎷','🦜'];
+const blank=i=>({name:'תחנה '+(i+1),freq:null,em:EMO[i],sc:{jingle:'',seg:'',len:'',fic:'',live:'',mem:'',rub:'',side:''},time:null,cut:false,weather:0});
+let S={n:7,st:EMO.map((_,i)=>blank(i))};
+try{const raw=localStorage.getItem(KEY);if(raw){const o=JSON.parse(raw);if(o&&Array.isArray(o.st)&&o.st.length===8)S=o}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const act=()=>S.st.slice(0,S.n);
+const fq=f=>f?f.toFixed(1):'--.-';
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const label=s=>s.em+' '+(s.name||'').trim();
+const hlabel=s=>s.em+' <bdi>'+esc((s.name||'').trim())+'</bdi>';
+
+/* ---------- audio (WebAudio, starts only after a click) ---------- */
+let AC=null;const ac=()=>{if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC};
+function tone(f,t,d,type='triangle',vol=.22){const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;
+ g.gain.setValueAtTime(0,c.currentTime+t);g.gain.linearRampToValueAtTime(vol,c.currentTime+t+.015);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+d);
+ o.connect(g).connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+d+.05)}
+function drum(t,vol=.5){const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(150,c.currentTime+t);o.frequency.exponentialRampToValueAtTime(45,c.currentTime+t+.18);
+ g.gain.setValueAtTime(vol,c.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+.22);o.connect(g).connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+.3)}
+const N={C4:261.63,D4:293.66,E4:329.63,G4:392,A4:440,C5:523.25,D5:587.33,E5:659.25,G5:783.99,A5:880,F4:349.23,B4:493.88};
+function sting(){[['C5',0],['E5',.14],['G5',.28],['C5',.5],['G5',.64]].forEach(([n,t],i)=>tone(N[n],t,i===4?.6:.18,'triangle',.2));drum(0);drum(.5)}
+function beep(f=880,d=.12){tone(f,0,d,'sine',.25)}
+function buzz(){tone(140,0,.6,'square',.12);tone(147,0,.6,'square',.1)}
+
+/* ---------- hero lamp ---------- */
+const hl=$('#heroLamp');if(hl)hl.onclick=()=>{const on=!hl.classList.contains('live');hl.classList.toggle('live',on);hl.setAttribute('aria-pressed',on);if(on)sting()};
+
+/* ---------- frequency registry ---------- */
+const reg=$('#reg'),cnt=$('#stCount');
+function randFreq(used){let f,k=0;do{f=88.1+2*Math.floor(Math.random()*100)*.1;f=Math.round(f*10)/10;k++}while((used.includes(f)||f>107.9)&&k<200);return f}
+function renderReg(){if(!reg)return;cnt.value=String(S.n);reg.innerHTML='';
+ act().forEach((s,i)=>{const d=document.createElement('div');d.className='st';
+  d.innerHTML=`<div class="top"><span class="em">${s.em}</span><input maxlength="22" aria-label="שם התחנה ${i+1}"></div><div class="lcd"><small>FM</small><b>${fq(s.freq)}</b></div><button class="ghost dice" type="button">🎲 הגרלת תדר</button>`;
+  const inp=d.querySelector('input');inp.value=s.name;inp.oninput=()=>{s.name=inp.value;save();renderAll(true)};
+  d.querySelector('.dice').onclick=()=>roll(i,d);reg.appendChild(d)})}
+function roll(i,d){const s=S.st[i],lcd=d.querySelector('.lcd'),b=lcd.querySelector('b');lcd.classList.add('rolling');let k=0;
+ const used=act().filter((_,j)=>j!==i).map(x=>x.freq);const iv=setInterval(()=>{b.textContent=(88+Math.random()*20).toFixed(1);tone(600+Math.random()*500,0,.04,'square',.05);if(++k>14){clearInterval(iv);s.freq=randFreq(used);b.textContent=fq(s.freq);lcd.classList.remove('rolling');beep(1320,.18);save();renderAll(true)}},60)}
+if(cnt)cnt.onchange=()=>{S.n=Number(cnt.value);save();renderAll()};
+const da=$('#drawAll');if(da)da.onclick=()=>{[...reg.children].forEach((d,i)=>setTimeout(()=>roll(i,d),i*160))};
+
+/* ---------- hot clock ---------- */
+const SEG=[['🎹 ג׳ינגל',0,10,'#8c7ae6'],['🎙️ פתיח',10,35,'#4c8bd6'],['📰 חדשות',35,95,'#e76f86'],['🎵 מעבר',95,105,'#c9c2b6'],['🎙️ ראיון',105,185,'#f4a259'],['🎵 מעבר',185,195,'#c9c2b6'],['🪐 מזג אוויר',195,255,'#5bb5a2'],['👋 סגירה',255,285,'#0f766e'],['📢 בדיוני + ג׳ינגל',285,295,'#d23c3c']];
+const hc=$('#hotclock'),lg=$('#legend');
+if(hc&&lg){const svg=hc.querySelector('svg'),T=300,R=100,r0=0;const pt=(s,rad)=>{const a=s/T*2*Math.PI-Math.PI/2;return[(rad*Math.cos(a)).toFixed(2),(rad*Math.sin(a)).toFixed(2)]};
+ const mm=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');let html='';
+ SEG.forEach(([n,a,b,c],i)=>{const[x1,y1]=pt(a,R),[x2,y2]=pt(b,R),large=(b-a)/T>.5?1:0;html+=`<path class="seg" data-i="${i}" d="M0 0 L${x1} ${y1} A${R} ${R} 0 ${large} 1 ${x2} ${y2} Z" fill="${c}" stroke="#fff" stroke-width="1.5"/>`});
+ for(let m=0;m<5;m++){const[x,y]=pt(m*60,R+9);html+=`<text x="${x}" y="${y}" font-size="9" font-weight="700" fill="#5b6574" text-anchor="middle" dominant-baseline="middle" font-family="Rubik,Arial">${m}:00</text>`}
+ html+=`<g class="hand"><line x1="0" y1="0" x2="0" y2="-104" stroke="#1f2a37" stroke-width="3" stroke-linecap="round"/></g>`;svg.innerHTML=html;
+ SEG.forEach(([n,a,b,c],i)=>{const bt=document.createElement('button');bt.type='button';bt.dataset.i=i;bt.innerHTML=`<i style="background:${c}"></i><span class="t">${mm(a)}–${mm(b)}</span><span>${n}</span><span class="s">${b-a} שנ׳</span>`;lg.appendChild(bt)});
+ const focus=i=>{const same=hc.dataset.f===String(i);hc.dataset.f=same?'':i;hc.classList.toggle('focus',!same);svg.querySelectorAll('.seg').forEach(p=>p.classList.toggle('on',!same&&p.dataset.i===String(i)));lg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',!same&&x.dataset.i===String(i)))};
+ lg.querySelectorAll('button').forEach(b=>b.onclick=()=>focus(b.dataset.i));svg.querySelectorAll('.seg').forEach(p=>p.onclick=()=>focus(p.dataset.i))}
+
+/* ---------- ear test jingles ---------- */
+const JA=[['D4',0],['A4',.3],['E4',.6],['C5',.9],['G4',1.2],['F4',1.5],['B4',1.8],['D5',2.1],['A4',2.4],['E5',2.7]];
+const JB=[['C5',0],['E5',.25],['G5',.5],['C5',.9],['E5',1.15],['G5',1.4],['A5',1.8],['G5',2.05],['E5',2.3],['C5',2.7]];
+$$('.jbox').forEach(bx=>{const seq=bx.dataset.j==='A'?JA:JB,notes=bx.querySelector('.notes'),btn=bx.querySelector('.playBtn');
+ const fs=seq.map(x=>N[x[0]]),mn=Math.min(...fs),mx=Math.max(...fs);
+ notes.innerHTML=seq.map(([n])=>`<i style="height:${25+70*(N[n]-mn)/(mx-mn)}%"></i>`).join('');
+ btn.onclick=()=>{btn.classList.add('on');btn.textContent='♪ מתנגן...';const bars=notes.querySelectorAll('i');
+  seq.forEach(([n,t],i)=>{tone(N[n],t,i===seq.length-1?.7:.24,'triangle',.22);setTimeout(()=>{bars.forEach(b=>b.classList.remove('hit'));bars[i].classList.add('hit')},t*1000)});
+  if(bx.dataset.j==='B'){[0,.9,1.8,2.7].forEach(t=>drum(t,.35))}
+  setTimeout(()=>{bars.forEach(b=>b.classList.remove('hit'));btn.classList.remove('on');btn.textContent='▶ השמעה'},3600)};
+ bx.querySelectorAll('.voteCtl button').forEach(b=>b.onclick=()=>{const o=bx.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d))})});
+
+/* ---------- mini song maker ---------- */
+const mk=$('#maker');
+if(mk){const COLS=16,ROWS=['A5','G5','E5','D5','C5','A4','G4','E4'];const NR=ROWS.length+1;const COL=['#e76f86','#f4a259','#e3a82b','#5bb5a2','#4c8bd6','#8c7ae6','#e76f86','#f4a259'];
+ let grid=Array.from({length:NR},()=>Array(COLS).fill(false));
+ for(let r=0;r<NR;r++)for(let c=0;c<COLS;c++){const b=document.createElement('button');b.type='button';b.dataset.r=r;b.dataset.c=c;if(r===NR-1)b.classList.add('drum');
+  if(c%4===0)b.style.marginLeft='0';b.onclick=()=>{grid[r][c]=!grid[r][c];paint();if(grid[r][c]){r===NR-1?drum(0,.4):tone(N[ROWS[r]],0,.25)}};mk.appendChild(b)}
+ const btns=[...mk.children];
+ function paint(){btns.forEach(b=>{const r=+b.dataset.r,c=+b.dataset.c,on=grid[r][c];b.classList.toggle('on',on);b.style.background=on?(r===NR-1?'#1f2a37':COL[r]):((Math.floor(c/8))%2?'#f4f1ea':'#fbfaf7')})}
+ const tempo=$('#mkTempo'),tv=$('#mkTempoV'),secs=$('#mkSecs');
+ const upd=()=>{tv.textContent=tempo.value;const s=COLS/2*60/tempo.value;secs.textContent=`2 תיבות · ${s.toFixed(1)} שניות`};tempo.oninput=upd;upd();
+ let playing=null;
+ $('#mkPlay').onclick=()=>{if(playing)return;const step=60/tempo.value/2;let c=0;
+  playing=setInterval(()=>{btns.forEach(b=>b.classList.toggle('col',+b.dataset.c===c));for(let r=0;r<NR;r++)if(grid[r][c]){r===NR-1?drum(0,.4):tone(N[ROWS[r]],0,step*1.6)}
+   if(++c>=COLS){clearInterval(playing);playing=null;setTimeout(()=>btns.forEach(b=>b.classList.remove('col')),step*1000)}},step*1000)};
+ $('#mkClear').onclick=()=>{grid=grid.map(r=>r.map(()=>false));paint()};
+ $('#mkDemo').onclick=()=>{grid=grid.map(r=>r.map(()=>false));const set=(n,c)=>{grid[ROWS.indexOf(n)][c]=true};
+  [['C5',0],['E5',1],['G5',2],['C5',4],['E5',5],['G5',6],['A5',8],['G5',9],['E5',10],['D5',12],['C5',14]].forEach(([n,c])=>set(n,c));[0,4,8,12].forEach(c=>grid[NR-1][c]=true);paint()};
+ paint()}
+
+/* ---------- voice draw ---------- */
+const SENT=['"מכונת השתייה בקומה השנייה הודיעה הבוקר על פרישה."','"התחזית למחר: גשם של סוכריות גומי, בעיקר אדומות."','"ואנחנו עוברים עכשיו לשידור חי מהמזנון."','"יש לנו אורח מיוחד באולפן: העציץ מחדר המורים."','"פקק ענק במסדרון של קומה שלוש. סעו בזהירות."','"הפעמון של בית הספר החליט לצלצל רק בשירים."','"בלעדי: התיק של מישהו שקל היום 40 קילו."','"וזה היה השיר הכי מוזר ששמעתם השבוע."'];
+const MOOD=['😌 רגוע, קריין לילה','🤩 נרגש, שדר כדורגל','🕵️ מסתורי ולוחש','😴 מנומנם','📢 מבזק דחוף','👑 מלכותי וחגיגי','😱 מבוהל','🤖 רובוט'];
+const dB=$('#dBtn');if(dB)dB.onclick=()=>{const a=$('#dSent'),b=$('#dMood');a.classList.add('rolling');b.classList.add('rolling');let k=0;
+ const iv=setInterval(()=>{a.querySelector('.v').textContent=SENT[Math.floor(Math.random()*SENT.length)];b.querySelector('.v').textContent=MOOD[Math.floor(Math.random()*MOOD.length)];tone(500+k*40,0,.04,'square',.04);
+  if(++k>12){clearInterval(iv);a.classList.remove('rolling');b.classList.remove('rolling');beep(1046,.15)}},70)};
+
+/* ---------- move dial ---------- */
+const dl=$('#dialBtn');if(dl)dl.onclick=()=>{const m=[...$('#moves').children];let k=0,last=m.findIndex(x=>x.classList.contains('on'));
+ const iv=setInterval(()=>{m.forEach(x=>x.classList.remove('on'));m[k%m.length].classList.add('on');tone(700,0,.03,'square',.04);k++;
+  if(k>8+Math.floor(Math.random()*4)){clearInterval(iv);let pick;do{pick=Math.floor(Math.random()*m.length)}while(pick===last&&m.length>1);m.forEach(x=>x.classList.remove('on'));m[pick].classList.add('on');beep(988,.2)}},110)};
+
+/* ---------- copy buttons ---------- */
+$$('.copyBtn').forEach(b=>b.onclick=()=>{const p=b.parentElement.cloneNode(true);p.querySelectorAll('.copyBtn,.ptag').forEach(x=>x.remove());const t=p.textContent.trim();
+ const done=()=>{b.classList.add('done');b.textContent='✓ הועתק';setTimeout(()=>{b.classList.remove('done');b.textContent='📋 העתקה'},1600)};
+ try{navigator.clipboard.writeText(t).then(done,done)}catch(e){done()}});
+
+/* ---------- live console ---------- */
+const sel=$('#liveSt'),go=$('#liveGo'),stop=$('#liveStop'),rs=$('#liveReset'),lamp=$('#liveLamp'),ring=$('#ring'),prog=$('#ringProg'),zone=$('#ringZone'),out=$('#liveT'),sub=$('#liveSub'),ver=$('#liveVerdict'),log=$('#liveLog');
+const C=2*Math.PI*86,LIM=90;
+if(prog){prog.style.strokeDasharray=C;prog.style.strokeDashoffset=C;zone.style.strokeDasharray=`${C*5/90} ${C}`;zone.style.strokeDashoffset=-C*85/90}
+let t0=0,raf=0,state='idle',cdT=[];
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function setRing(s){prog.style.strokeDashoffset=C*(1-Math.min(s,LIM)/LIM);ring.classList.toggle('inzone',s>=85&&s<=LIM)}
+function renderConsole(){if(!sel)return;const v=sel.value;sel.innerHTML=act().map((s,i)=>`<option value="${i}">${label(s)}${s.freq?' · FM '+fq(s.freq):''}${s.time!=null?' ✓':''}</option>`).join('');if(v!==''&&Number(v)<S.n)sel.value=v;
+ log.innerHTML=act().filter(s=>s.time!=null).map(s=>`<span class="${!s.cut&&s.time>=85&&s.time<=90?'in':''}">${hlabel(s)} · <b>${s.time.toFixed(1)}</b> שנ׳${s.cut?' ✂️':''}</span>`).join('')}
+function tick(){const s=(performance.now()-t0)/1000;out.textContent=fmt(s);setRing(s);if(s>=LIM){finish(true);return}raf=requestAnimationFrame(tick)}
+function finish(cut){cancelAnimationFrame(raf);const s=Math.min((performance.now()-t0)/1000,LIM);state='done';lamp.classList.remove('live');ring.classList.remove('live');stop.disabled=true;go.disabled=false;
+ const st=S.st[Number(sel.value)];st.time=Math.round(s*10)/10;st.cut=!!cut;const ok=!cut&&st.time>=85&&st.time<=90;st.sc.live=ok?4:0;save();
+ out.textContent=cut?'1:30':fmt(s);if(cut){buzz();sub.textContent='✂️ נחתך!'}else{sub.textContent=st.time.toFixed(1)+' שניות';if(ok)sting();else beep(660,.25)}
+ ver.className='verdict '+(ok?'ok':'no');ver.textContent=cut?`✂️ ${label(st)}: נחתכתם בשנייה 90. אין 4 נקודות, אבל מחיאות כפיים!`:ok?`🎯 ${label(st)}: ${st.time.toFixed(1)} שניות. בפס הירוק! +4 נקודות`:`${label(st)}: ${st.time.toFixed(1)} שניות. ${st.time<85?'קצת מוקדם מדי':''} (צריך 85–90)`;
+ renderAll(true)}
+if(go){go.onclick=()=>{if(state==='cd'||state==='live')return;state='cd';go.disabled=true;setRing(0);ring.classList.remove('inzone');out.textContent='0:00';ver.className='verdict';ver.textContent='היכון...';
+ const face=ring.querySelector('.face');let n=3;const show=()=>{sub.textContent='';out.innerHTML=`<span class="cd">${n}</span>`;beep(n?660:1320,.15)};show();
+ cdT=[1,2,3].map(k=>setTimeout(()=>{n=3-k;if(n>0)show();else{out.textContent='0:00';beep(1320,.25);state='live';lamp.classList.add('live');ring.classList.add('live');stop.disabled=false;sub.textContent='מתוך 1:30';ver.textContent='🔴 באוויר!';t0=performance.now();raf=requestAnimationFrame(tick)}},k*1000))};
+ stop.onclick=()=>{if(state==='live')finish(false)};
+ rs.onclick=()=>{cdT.forEach(clearTimeout);cancelAnimationFrame(raf);state='idle';lamp.classList.remove('live');ring.classList.remove('live','inzone');stop.disabled=true;go.disabled=false;out.textContent='0:00';sub.textContent='מתוך 1:30';setRing(0);ver.className='verdict';ver.textContent='הפס הירוק בטבעת = שניות 85–90. שם צריך לסיים.'};
+ sel.onchange=()=>{if(state!=='live'&&state!=='cd')rs.onclick()}}
+
+/* ---------- memory test + weather vote ---------- */
+const mem=$('#mem');
+function renderMem(){if(!mem)return;mem.innerHTML='';act().forEach((s,i)=>{const d=document.createElement('div');d.className='mrow';
+ d.innerHTML=`<div class="nm">${hlabel(s)} <small>${s.freq?'FM '+fq(s.freq):''}</small></div>
+ <div class="mctl"><span>🧠 זוכרים</span><button data-k="mem" data-d="-1">−</button><output>${s.sc.mem===''?0:s.sc.mem}</output><button data-k="mem" data-d="1">+</button></div>
+ <div class="mctl"><span>🪐 תחזית</span><button data-k="w" data-d="-1">−</button><output>${s.weather||0}</output><button data-k="w" data-d="1">+</button></div>`;
+ d.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dd=Number(b.dataset.d);if(b.dataset.k==='mem'){const v=Math.max(0,Math.min(5,(Number(s.sc.mem)||0)+dd));s.sc.mem=v}else{s.weather=Math.max(0,(s.weather||0)+dd)}save();renderAll()});mem.appendChild(d)})}
+
+/* ---------- scoreboard ---------- */
+const COLS=[['jingle',3],['seg',6],['len',3],['fic',2],['live',4],['mem',5],['rub',16],['side',2]];
+const tb=$('#score tbody');
+const total=s=>COLS.reduce((a,[k])=>a+(Number(s.sc[k])||0),0);
+function renderScore(){if(!tb)return;tb.innerHTML='';act().forEach((s,i)=>{const tr=document.createElement('tr');
+ tr.innerHTML=`<td><b>${hlabel(s)}</b></td>`+COLS.map(([k,m])=>`<td contenteditable="true" data-k="${k}" data-m="${m}" inputmode="numeric">${s.sc[k]===''?'':s.sc[k]}</td>`).join('')+`<td class="tot">${total(s)}</td>`;
+ tr.querySelectorAll('td[contenteditable]').forEach(td=>{td.addEventListener('input',()=>{const k=td.dataset.k,m=Number(td.dataset.m);const raw=td.textContent.replace(/[^\d]/g,'');s.sc[k]=raw===''?'':Math.min(m,Number(raw));save();tr.querySelector('.tot').textContent=total(s);markLead()});
+  td.addEventListener('blur',()=>{td.textContent=s.sc[td.dataset.k]===''?'':s.sc[td.dataset.k]});
+  td.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();td.blur()}})});tb.appendChild(tr)});markLead()}
+function ranked(){return act().map((s,i)=>({s,i,t:total(s)})).sort((a,b)=>b.t-a.t||closeness(a.s)-closeness(b.s))}
+const closeness=s=>s.time==null?999:(s.cut?500:Math.abs(90-s.time));
+function markLead(){if(!tb)return;const r=ranked(),top=r[0];[...tb.children].forEach((tr,i)=>tr.classList.toggle('lead',!!top&&top.t>0&&i===top.i))}
+const sr=$('#scoreReset');if(sr)sr.onclick=()=>{if(!confirm('לאפס את כל הניקוד, הזמנים וההצבעות? (שמות התחנות והתדרים נשארים)'))return;S.st.forEach(s=>{Object.keys(s.sc).forEach(k=>s.sc[k]='');s.time=null;s.cut=false;s.weather=0});save();renderAll()};
+
+/* ---------- awards ---------- */
+function winners(){const a=act();const W=(list,det)=>list.length?list.map(hlabel).join('<br>')+(det?`<span class="det">${det}</span>`:''):'—';
+ const best=(f,unit)=>{let top=null;a.forEach(s=>{const v=f(s);if(top==null||v>top.v)top={v,list:[s]};else if(v===top.v)top.list.push(s)});return top&&top.v>0?W(top.list,top.v+' '+unit):'—'};
+ const pr=a.filter(s=>s.time!=null&&!s.cut);let precise='—';if(pr.length){const m=Math.min(...pr.map(s=>Math.abs(90-s.time)));const l=pr.filter(s=>Math.abs(90-s.time)===m);precise=W(l,l[0].time.toFixed(1)+' שניות')}
+ const r=ranked();const top=r.length?r[0].t:0;const gold=top>0?W(r.filter(x=>x.t===top&&closeness(x.s)===closeness(r[0].s)).map(x=>x.s),top+' נקודות'):'—';
+ return{precise,weather:best(s=>s.weather||0,'קולות'),jingle:best(s=>Number(s.sc.mem)||0,'זוכרים'),gold}}
+function fillAwards(){const w=winners();$$('.award').forEach(c=>{c.querySelector('.win').innerHTML=w[c.dataset.award]})}
+const aw=document.querySelector('[data-award="gold"]');
+if(aw){const slide=aw.closest('.slide');new MutationObserver(()=>{if(slide.classList.contains('active'))fillAwards()}).observe(slide,{attributes:true,attributeFilter:['class']});
+ new MutationObserver(()=>{if(aw.classList.contains('show'))party()}).observe(aw,{attributes:true,attributeFilter:['class']});
+ $$('.award').forEach(c=>{if(c!==aw)new MutationObserver(()=>{if(c.classList.contains('show')){tone(N.G4,0,.15);tone(N.C5,.12,.3)}}).observe(c,{attributes:true,attributeFilter:['class']})})}
+function party(){[0,.12,.24,.36].forEach((t,i)=>drum(t,.3));[['C5',.5],['E5',.62],['G5',.74],['C5',.98],['E5',1.1],['G5',1.22],['A5',1.5],['G5',1.7],['C5',2]].forEach(([n,t],i)=>tone(N[n],t,i===8?.9:.22,'triangle',.2));
+ const box=document.createElement('div');box.className='confetti';const cols=['#d23c3c','#e3a82b','#0f766e','#8c7ae6','#4c8bd6','#5bb5a2'];
+ for(let i=0;i<110;i++){const c=document.createElement('i');c.style.left=Math.random()*100+'vw';c.style.background=cols[i%cols.length];c.style.animationDelay=(Math.random()*.9)+'s';c.style.animationDuration=(2.2+Math.random()*1.6)+'s';c.style.transform=`rotate(${Math.random()*180}deg)`;box.appendChild(c)}
+ document.body.appendChild(box);setTimeout(()=>box.remove(),4800)}
+
+function renderAll(skipReg){if(!skipReg)renderReg();renderConsole();renderMem();renderScore();fillAwards()}
+renderAll();
+})();
+</script>
+
+</body>
+</html>

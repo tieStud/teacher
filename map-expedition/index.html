@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- ============================================================================
+       ACTIVITY MENU TEMPLATE — copy to <activity-folder>/index.html and fill in:
+       1. The six activity-* metas below. The teacher library (https://tiestud.github.io/teacher/)
+          reads them to build its card for this activity, so use exactly these names.
+            activity-status    active | editing   ("editing" shows a "בעריכה" badge in the library)
+            activity-category  the topic group, reuse an existing one when it fits:
+                               "בסיס AI" · "פרומפטים" · "חשיבה ביקורתית" · "השוואת כלים" ·
+                               "בטיחות ואתיקה" · "יזמות"
+            activity-ages      grades, Hebrew letters with geresh and an en dash: "ה׳–ט׳", "ז׳–י״ב"
+            activity-duration  "45 דק׳" or "45–90 דק׳"
+            activity-icon      ONE emoji
+            activity-desc      one short line (max ~60 characters), no full stop at the end
+       2. <title>: "<activity name> — בחירת תצוגה". The text before "—" is the card name in the library.
+       3. The visible header in <body> (marked FILL): same icon, category, ages, duration, name, desc.
+       4. The cards: keep "מצגת מורה" and "מערך / הנחיות למדריך"; un-comment "פעילות תלמידים"
+          only when a student activity exists in the lab repo (tiestud.github.io/lab/FOLDER/).
+          90-minute lessons (RICH90) also un-comment "חומרים להדפסה" (materials.html).
+       Do not change the <style>.
+       ============================================================================ -->
+  <meta name="activity-status" content="active">
+  <meta name="activity-category" content="AI במקצועות">
+  <meta name="activity-ages" content="ה׳–ט׳">
+  <meta name="activity-duration" content="90 דק׳">
+  <meta name="activity-icon" content="🧭">
+  <meta name="activity-desc" content="מנחשים מקומות ב-Street View ובונים סיור ב-Google Earth">
+  <title>משלחת המפה — בחירת תצוגה</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+  <style>
+    :root{
+      --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+      --teal:#0f766e;--teal-soft:#e3f1ee;
+      --shadow:0 6px 18px rgba(31,42,55,.06);--shadow-h:0 10px 26px rgba(31,42,55,.10);
+      --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;overflow-x:hidden}
+    .bg{position:absolute;inset:0 0 auto 0;height:620px;overflow:hidden;z-index:0;pointer-events:none}
+    .bg i{position:absolute;top:-240px;left:-200px;width:600px;height:600px;border-radius:50%;background:#e6f4f1}
+    .wrap{position:relative;z-index:1;width:min(1040px,100%);margin:0 auto;padding:0 28px 48px;min-height:100vh;display:flex;flex-direction:column}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+    .mark{width:36px;height:36px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.5px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none;font-weight:500;font-size:15px;box-shadow:var(--shadow);transition:.18s ease}
+    .back:hover{border-color:var(--teal);color:var(--teal)}
+    main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 0 20px}
+    .hero{display:flex;align-items:center;gap:26px}
+    .hero-ico{flex:none;width:96px;height:96px;border-radius:26px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;font-size:50px;line-height:1}
+    .facts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+    .facts span{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:14px;font-weight:500}
+    .facts .cat{background:var(--teal-soft);border-color:transparent;color:var(--teal);font-weight:700}
+    h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-.5px}
+    .desc{margin:12px 0 0;color:var(--muted);font-size:19px;max-width:620px}
+    .label{margin:46px 0 16px;color:var(--dim);font-size:14px;font-weight:700;letter-spacing:.3px}
+    .grid{display:flex;flex-wrap:wrap;gap:18px}
+    .card{position:relative;flex:1 1 260px;max-width:100%;display:flex;flex-direction:column;align-items:flex-start;min-height:236px;padding:26px 24px 22px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);color:var(--ink);text-decoration:none;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-h);border-color:#dcd6cc}
+    .card:focus-visible,.back:focus-visible{outline:3px solid rgba(15,118,110,.35);outline-offset:2px}
+    .card .ico{width:58px;height:58px;border-radius:16px;background:var(--cs);display:grid;place-items:center;font-size:30px;line-height:1}
+    .card strong{margin-top:18px;font-family:var(--display);font-weight:700;font-size:23px;line-height:1.2}
+    .card .sub{margin-top:6px;color:var(--muted);font-size:15.5px}
+    .card .open{margin-top:auto;padding-top:18px;display:inline-flex;align-items:center;gap:8px;color:var(--ci);font-weight:700;font-size:15px}
+    .card .open i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--cs);transition:transform .2s ease}
+    .card:hover .open i{transform:translateX(-4px)}
+    .teach{--c:#0f766e;--ci:#0f766e;--cs:#e3f1ee}
+    .lab{--c:#f4a259;--ci:#c2630f;--cs:#fdf0e3}
+    .guide{--c:#8c7ae6;--ci:#6a55c9;--cs:#efecfb}
+    .print{--c:#4c8bd6;--ci:#2f6db5;--cs:#e7f0fa}
+    footer{color:var(--dim);font-size:13.5px;padding-top:24px}
+    @media (max-width:640px){
+      .wrap{padding:0 16px 32px}
+      .topbar{padding:16px 0}
+      main{justify-content:flex-start;padding-top:18px}
+      .hero{flex-direction:column;align-items:flex-start;gap:18px}
+      .hero-ico{width:72px;height:72px;border-radius:20px;font-size:38px}
+      .desc{font-size:17px}
+      .label{margin-top:32px}
+      .grid{gap:12px}
+      .card{flex-basis:100%;min-height:0;display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;column-gap:14px;align-items:center;padding:18px}
+      .card .ico{grid-row:1 / span 2;width:52px;height:52px;font-size:27px}
+      .card strong{margin:0;font-size:19px}
+      .card .sub{margin:2px 0 0;font-size:14.5px;grid-column:2}
+      .card .open{grid-column:3;grid-row:1 / span 2;padding:0;font-size:0;gap:0}
+      .card .open i{font-size:16px;width:32px;height:32px}
+    }
+    @media (prefers-reduced-motion:reduce){*{transition:none !important}}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><i></i></div>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><span class="mark">TIE</span>Tech It Easy</div>
+      <a class="back" href="../">← לספרייה</a>
+    </header>
+
+    <main>
+      <!-- FILL: same values as the activity-* metas above -->
+      <section class="hero">
+        <div class="hero-ico" aria-hidden="true">🧭</div>
+        <div>
+          <div class="facts">
+            <span class="cat">AI במקצועות</span>
+            <span>🎓 כיתות ה׳–ט׳</span>
+            <span>⏱ 90 דק׳</span>
+          </div>
+          <h1>משלחת המפה</h1>
+          <p class="desc">מנחשים מקומות ב-Street View ובונים סיור ב-Google Earth</p>
+        </div>
+      </section>
+
+      <p class="label">בחרו לאיזו גרסה להיכנס</p>
+      <div class="grid">
+        <a class="card teach" href="presentation.html">
+          <span class="ico" aria-hidden="true">🧑‍🏫</span>
+          <strong>מצגת מורה</strong>
+          <span class="sub">לוח הכיתה והצגת השלבים</span>
+          <span class="open">פתיחה <i aria-hidden="true">←</i></span>
+        </a>
+        <!-- only when a student activity exists in tieStud/lab (replace FOLDER):
+        <a class="card lab" href="https://tiestud.github.io/lab/FOLDER/">
+          <span class="ico" aria-hidden="true">🎮</span>
+          <strong>פעילות תלמידים</strong>
+          <span class="sub">פתיחת גרסת התלמידים</span>
+          <span class="open">פתיחה <i aria-hidden="true">←</i></span>
+        </a> -->
+        <a class="card guide" href="guide.html">
+          <span class="ico" aria-hidden="true">📋</span>
+          <strong>מערך / הנחיות למדריך</strong>
+          <span class="sub">מהלך השיעור, זמנים ודגשים</span>
+          <span class="open">פתיחה <i aria-hidden="true">←</i></span>
+        </a>
+        <a class="card print" href="materials.html">
+          <span class="ico" aria-hidden="true">🖨️</span>
+          <strong>חומרים להדפסה</strong>
+          <span class="sub">כרטיסים, דפי עבודה, מחוון וכרטיס יציאה</span>
+          <span class="open">פתיחה <i aria-hidden="true">←</i></span>
+        </a>
+      </div>
+    </main>
+
+    <footer>Tech It Easy · ספריית פעילויות למדריך</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1483 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>האוצרים: תערוכה וירטואלית | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== האוצרים — lesson additions (kit styles above are untouched) · light theme + museum gold & burgundy ===== */
+:root{--gold:#b8892b;--gold-ink:#7a5a12;--gold-soft:#fbf3e0;--wall:#f6f1e7;--museum:#7a2e3a;--museum-soft:#f7e9ec}
+.nw{white-space:nowrap}
+.c-gold{color:var(--gold-ink)}.c-sky{color:var(--sky-ink)}.c-rose{color:var(--rose-ink)}.c-violet{color:var(--violet-ink)}.c-mus{color:var(--museum)}
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:6px}
+.split{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(18px,3vw,46px);align-items:center}
+.split.even{grid-template-columns:1fr 1fr}
+.split.wideL{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}
+/* ---------- museum facade (hero) ---------- */
+.museumHero h2{margin-bottom:8px}
+.facadeWrap{position:relative;max-width:520px;justify-self:center;width:100%}
+.facadeWrap svg{display:block;width:100%;height:auto;filter:drop-shadow(0 22px 30px rgba(60,40,10,.14))}
+.facade .doorL,.facade .doorR{transform-box:fill-box;animation:doorOpen 2.4s .7s cubic-bezier(.55,0,.2,1) forwards}
+.facade .doorL{transform-origin:100% 50%}.facade .doorR{transform-origin:0% 50%}
+@keyframes doorOpen{to{transform:scaleX(.07)}}
+.facade .rays{opacity:0;animation:raysIn 1.6s 1.6s ease forwards}
+@keyframes raysIn{to{opacity:1}}
+/* ---------- gilded frame + zoom ---------- */
+.gframe{position:relative;padding:13px;border-radius:5px;background:linear-gradient(135deg,#e9cd7c,#b8892b 28%,#f3dd96 50%,#a67a22 74%,#dcb95e);
+ box-shadow:0 20px 40px -18px rgba(70,45,10,.5),inset 0 0 0 2px rgba(255,255,255,.35);justify-self:center;width:100%}
+.gframe::after{content:"";position:absolute;inset:8px;border:1px solid rgba(90,60,10,.5);border-radius:2px;pointer-events:none}
+.gframe .canvas{position:relative;overflow:hidden;border-radius:2px;background:#1b1c1a;box-shadow:inset 0 0 0 1px rgba(0,0,0,.35)}
+.gframe.portrait{max-width:330px}
+.zoomBox svg{display:block;width:100%;height:auto;transform-origin:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,5));transition:transform 2.8s cubic-bezier(.6,.04,.2,1)}
+.zoomBadge{direction:ltr;position:absolute;top:10px;left:10px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink);font-family:var(--display);font-weight:700;font-size:15px;box-shadow:var(--shadow-sm);transition:opacity .5s}
+.zoomKey.show~.split .zoomBox svg,.quiz.solved .zoomBox svg{transform:none}
+.zoomKey.show~.split .zoomBadge,.quiz.solved .zoomBadge{opacity:0}
+.afterZoom{opacity:0;transform:translateY(8px);transition:opacity .6s 2s,transform .6s 2s}
+.zoomKey.show~.split .afterZoom{opacity:1;transform:none}
+.artCap{margin-top:10px;font-size:14px;color:var(--muted);text-align:center}
+/* ---------- museum wall label ---------- */
+.wlabel{position:relative;background:#fff;border:1px solid #e3ddd1;border-radius:4px;padding:15px 20px 15px;box-shadow:0 12px 26px -16px rgba(31,42,55,.35);font-size:clamp(17px,1.65vw,22px);line-height:1.6;color:var(--ink)}
+.wlabel .wt{display:block;font-family:var(--display);font-weight:700;font-size:1em;line-height:1.3}
+.wlabel .wm{display:block;font-size:.72em;color:var(--muted);margin:2px 0 8px;letter-spacing:.2px}
+.wlabel.slim{padding:11px 16px;font-size:clamp(16px,1.45vw,20px)}
+.wcount{display:inline-block;font-family:var(--display);font-size:14px;font-weight:700;padding:2px 10px;border-radius:999px;margin-inline-start:8px;vertical-align:middle}
+.wcount.ok{background:var(--good-bg);color:var(--good)}.wcount.no{background:var(--bad-bg);color:var(--bad)}
+/* ---------- five-up cards ---------- */
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.roleNote{margin-top:12px;color:var(--muted);font-size:17px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+/* ---------- envelopes (the draw) ---------- */
+.envGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1150px}
+.env{position:relative;height:122px;perspective:900px;cursor:pointer;border:0;background:none;padding:0;font:inherit;color:inherit}
+.env .in{position:absolute;inset:0;transition:transform .75s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.env.open .in{transform:rotateY(180deg)}
+.env .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid #e6d7b4;box-shadow:var(--shadow);overflow:hidden}
+.env .front{background:linear-gradient(170deg,#fcf5e4,#f1e2bf)}
+.env .front::before{content:"";position:absolute;inset:0 0 auto 0;height:58%;background:linear-gradient(170deg,#f6ead0,#ead7ad);clip-path:polygon(0 0,100% 0,50% 100%);border-bottom:1px solid #e0cc9f}
+.env .seal{position:relative;z-index:1;width:42px;height:42px;margin-top:6px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#b8475a,#7a2e3a 70%);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;box-shadow:0 3px 8px rgba(122,46,58,.35)}
+.env .front small{position:relative;z-index:1;font-family:var(--display);font-weight:600;color:var(--gold-ink);font-size:14px;margin-top:6px}
+.env .back{transform:rotateY(180deg);background:#fff;border-top:4px solid var(--c,#b8892b)}
+.env .back .em{font-size:32px;line-height:1}
+.env .back b{font-family:var(--display);font-weight:800;font-size:21px;color:var(--ink)}
+.env .back small{font-size:13.5px;color:var(--muted);direction:ltr}
+.env.pulse .front{box-shadow:0 0 0 4px rgba(184,137,43,.55),var(--shadow-hover)}
+.drawBar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.drawBar output{font-family:var(--display);font-weight:700;color:var(--gold-ink);font-size:18px}
+/* ---------- walls (choose = give up) ---------- */
+.wall{height:165px;border-radius:10px;background:var(--wall);border:1px solid #e6dccb;position:relative;overflow:hidden;margin:8px 0 10px;box-shadow:inset 0 -18px 0 #ece3d2}
+.wall.salon{display:grid;grid-template-columns:repeat(9,1fr);grid-auto-rows:1fr;gap:4px;padding:8px 8px 22px}
+.wall.salon i{border:3px solid #c39a3f;background:var(--c);border-radius:1px}
+.wall.curated{display:flex;align-items:center;justify-content:space-around;padding:0 12px 18px}
+.wall.curated i{position:relative;width:12%;height:52%;border:4px solid #c39a3f;background:var(--c);box-shadow:0 10px 14px -8px rgba(0,0,0,.35)}
+.wall.curated i::after{content:"";position:absolute;bottom:-17px;left:20%;width:60%;height:7px;background:#fff;border:1px solid #d9d0bf;border-radius:1px}
+/* ---------- order = story ---------- */
+.orderRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:10px;background:var(--paper2);border:1px solid var(--line);font-size:clamp(14px,1.25vw,17px);font-weight:500;white-space:nowrap}
+.chip b{font-family:var(--display)}
+.orderRow .arr{color:var(--dim);font-weight:700}
+.storyTag{font-family:var(--display);font-weight:700;color:var(--gold-ink)}
+/* ---------- word counter ---------- */
+.counterTool{margin-top:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;max-width:1150px}
+.counterTool label{font-family:var(--display);font-weight:700;font-size:16px;color:var(--muted);display:block;margin-bottom:6px}
+.counterTool textarea{width:100%;min-height:86px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:clamp(16px,1.5vw,20px);line-height:1.55;color:var(--ink);background:#fffef9}
+.counterTool textarea:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:1px}
+.wcOut{display:flex;align-items:center;gap:10px;margin-top:8px;font-family:var(--display);font-weight:700;font-size:20px}
+.wcOut .n{font-size:30px;font-variant-numeric:tabular-nums}
+.wcOut .st{font-size:15px;padding:3px 12px;border-radius:999px}
+.wcOut .st.ok{background:var(--good-bg);color:var(--good)}.wcOut .st.no{background:var(--bad-bg);color:var(--bad)}
+/* ---------- night watch figure ---------- */
+.nwWrap{position:relative}
+.nwWrap svg{display:block;width:100%;height:auto;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.live{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:14px;color:var(--bad)}
+.live::before{content:"";width:9px;height:9px;border-radius:50%;background:#e0352b;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.facts .revealCard{font-size:clamp(16px,1.5vw,20px);padding:10px 16px}
+.facts .revealCard b{font-family:var(--display)}
+/* ---------- tables ---------- */
+.rubT{font-size:clamp(14px,1.22vw,18px)!important}
+.rubT td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+.rubT th{white-space:nowrap}
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--gold-ink);white-space:nowrap;text-align:center}
+/* ---------- traffic light chips ---------- */
+.tl{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tl span{padding:6px 13px;border-radius:999px;font-weight:700;font-size:clamp(15px,1.35vw,18px);border:1px solid var(--line)}
+.tl .r{background:var(--bad-bg);color:#9a3412;border-color:#f2cdbb}.tl .y{background:var(--warn-bg);color:#854d0e;border-color:#efd9a0}.tl .g{background:var(--good-bg);color:#166534;border-color:#bfe3cb}
+.miles{display:grid;gap:8px;margin-top:12px}
+.mile{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.5vw,20px);line-height:1.45}
+.mile b{font-family:var(--display);color:var(--accent-ink);white-space:nowrap}
+.roleList{display:grid;gap:7px}
+.roleList div{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:clamp(15px,1.35vw,18px);line-height:1.4}
+.roleList div>span:first-child{font-size:22px;line-height:1.2}
+/* ---------- worked example (blue wing) ---------- */
+.exHead{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-top:6px}
+.exHead .nm{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.4vw,34px);color:var(--sky-ink)}
+.exHead .cs{font-size:clamp(15px,1.4vw,19px);color:var(--muted);max-width:760px}
+.wallEx{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:14px;padding:16px 14px 14px;border-radius:14px;background:var(--wall);border:1px solid #e6dccb}
+.mini{display:flex;flex-direction:column;gap:7px;align-items:stretch}
+.mini .mf{position:relative;aspect-ratio:4/5;border:5px solid #c39a3f;box-shadow:0 10px 14px -8px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.2)}
+.mini .mf::before{content:attr(data-n);position:absolute;top:-12px;right:-12px;width:26px;height:26px;border-radius:50%;background:var(--museum);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:13px}
+.mini .ml{background:#fff;border:1px solid #ddd3c2;border-radius:3px;padding:5px 7px;font-size:12.5px;line-height:1.35;color:var(--ink)}
+.mini .ml b{display:block;font-family:var(--display);font-size:13.5px}
+.mini .ml i{font-style:normal;color:var(--muted);display:block}
+.mini .mood{font-family:var(--display);font-weight:700;font-size:13px;color:var(--sky-ink);text-align:center}
+.t-guitar{background:radial-gradient(ellipse at 56% 68%,#8a6a3c 0 13%,transparent 14%),radial-gradient(ellipse at 45% 26%,#9db4d6 0 9%,transparent 10%),linear-gradient(165deg,#1f3a6b,#3c5f96)}
+.t-starry{background:radial-gradient(circle at 24% 28%,#f6d55c 0 5%,transparent 6%),radial-gradient(circle at 74% 20%,#f7c948 0 8%,transparent 9%),radial-gradient(ellipse at 14% 80%,#16241a 0 16%,transparent 17%),repeating-radial-gradient(circle at 50% 42%,#2c55a0 0 5px,#6f95cf 5px 8px),#1d3a7a}
+.t-wave{background:radial-gradient(circle at 32% 58%,transparent 0 27%,#f8f4ea 28% 33%,transparent 34%),radial-gradient(circle at 32% 58%,#1f3d6b 0 40%,transparent 41%),linear-gradient(#efe3c6 0 42%,#2c4f7c 42%)}
+.t-pearl{background:radial-gradient(circle at 40% 68%,#eeeae0 0 4%,transparent 5%),radial-gradient(ellipse at 52% 56%,#e9c7a4 0 20%,transparent 21%),radial-gradient(ellipse at 52% 32%,#2f5aa8 0 25%,transparent 26%),radial-gradient(ellipse at 70% 52%,#e2b65a 0 14%,transparent 15%),#1b1c1a}
+.t-boy{background:radial-gradient(ellipse at 50% 20%,#e9c7a4 0 8%,transparent 9%),radial-gradient(ellipse at 50% 62%,#4c8bd6 0 24%,transparent 25%),linear-gradient(#6b5a45,#3e3b33)}
+.t-lilies{background:radial-gradient(circle at 30% 38%,#e9a5b8 0 4%,transparent 5%),radial-gradient(circle at 66% 66%,#f0b8c6 0 4%,transparent 5%),radial-gradient(ellipse at 30% 41%,#5f8f5a 0 11%,transparent 12%),radial-gradient(ellipse at 66% 69%,#5f8f5a 0 12%,transparent 13%),linear-gradient(160deg,#6d8fc4,#3f6a9e 55%,#7fa7c9)}
+/* ---------- site mock ---------- */
+.browser{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-lg);overflow:hidden;max-width:1100px}
+.browser .bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--paper2);border-bottom:1px solid var(--line)}
+.browser .bar i{width:11px;height:11px;border-radius:50%;background:#e2ddd3}
+.browser .bar .url{flex:1;margin-inline-start:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 14px;font-size:14px;color:var(--muted);direction:ltr;text-align:left}
+.browser .nav2{display:flex;gap:18px;justify-content:flex-start;padding:10px 20px;border-bottom:1px solid var(--line2);font-family:var(--display);font-weight:600;font-size:15px;color:var(--muted)}
+.browser .nav2 b{color:var(--sky-ink)}
+.browser .hero2{padding:18px 22px 14px;background:linear-gradient(135deg,#eaf1fb,#fff 60%)}
+.browser .hero2 b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(24px,2.4vw,34px);color:#1f3a6b}
+.browser .hero2 p{margin:4px 0 10px;color:var(--muted);font-size:16px}
+.player{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;max-width:440px;font-size:14px;color:var(--muted)}
+.player .pb{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:12px}
+.player .tr{flex:1;height:5px;border-radius:9px;background:linear-gradient(90deg,var(--teal) 35%,#e5e0d6 35%)}
+.browser .rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:14px 22px 18px}
+.browser .room{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:start}
+.browser .room .mf{aspect-ratio:4/5;border:4px solid #c39a3f}
+.browser .room p{margin:0;font-size:13.5px;line-height:1.45;color:var(--ink)}
+.browser .room p b{display:block;font-family:var(--display);font-size:14.5px}
+.browser .room p i{font-style:normal;color:var(--muted);display:block;font-size:12.5px}
+.callouts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.callouts span{padding:6px 12px;border-radius:999px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent-ink);font-weight:700;font-size:clamp(14px,1.3vw,17px)}
+/* ---------- tour (opening night) ---------- */
+.tour{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:12px}
+.tourPanel{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:16px 18px}
+.tourTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tourTop .rnd{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.2vw,30px);color:var(--museum)}
+.tourClock{font-family:var(--display);font-weight:800;font-size:clamp(56px,7vw,104px);line-height:1;font-variant-numeric:tabular-nums;text-align:center;margin:10px 0 8px;color:var(--ink)}
+.tourClock.run{color:var(--accent-ink)}.tourClock.over{color:var(--bad)}
+.tourBtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tourMap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tourMap div{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line);font-size:clamp(15px,1.4vw,19px)}
+.tourMap b{font-family:var(--display)}
+.tourMap .to{font-family:var(--display);font-weight:800;color:var(--museum)}
+.teamsCtl{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted)}
+.teamsCtl button{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font-weight:800}
+.teamsCtl output{font-family:var(--display);font-weight:800;color:var(--ink);font-size:18px;min-width:20px;text-align:center}
+.flashGo{animation:flashGo 1s 3}
+@keyframes flashGo{50%{background:#fff3d6;border-color:#e3b341}}
+/* ---------- scoreboard ---------- */
+table.score td,table.score th{text-align:center;padding:7px 8px}
+table.score th{font-size:15px;line-height:1.25;white-space:nowrap}table.score th small{display:block;color:var(--dim);font-weight:500}
+table.score td:first-child,table.score th:first-child{text-align:right}
+table.score td[contenteditable]{min-width:46px}
+table.score td.calc{font-family:var(--display);font-weight:700;color:var(--muted);background:var(--paper)}
+table.score td.tot{font-family:var(--display);font-weight:800;font-size:1.15em;color:var(--ink);background:var(--gold-soft)}
+table.score tr.leader td{background:#fff7e0}
+table.score tr.leader td:first-child::after{content:" 🏅"}
+.scoreTools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center;color:var(--dim);font-size:15px}
+.vote.teams7{grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.vote.teams7 .voteItem{padding:12px 8px}.vote.teams7 .voteItem strong{font-size:18px}.vote.teams7 .emoji{font-size:30px}
+.vote.teams7 .voteCtl{gap:4px}.vote.teams7 .voteCtl button{width:34px;height:34px}
+.vote.compact{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.vote.compact .voteItem{padding:9px 6px}.vote.compact .voteItem .emoji{font-size:26px}.vote.compact .voteItem strong{margin:2px 0 6px;font-size:17px}.vote.compact .voteCtl{gap:4px}.vote.compact .voteCtl button{width:32px;height:32px;font-size:19px}.vote.compact .voteCtl output{min-width:28px;font-size:24px}
+.vote.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* ---------- medals ---------- */
+.medals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1150px}
+.medal{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:20px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow)}
+.medal.big{grid-column:1/-1;border-color:#e3c77a;background:linear-gradient(135deg,#fffaf0,#fff 60%);box-shadow:0 0 0 4px rgba(227,168,43,.14),var(--shadow-hover)}
+.medal .md{flex:none;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-size:34px;background:radial-gradient(circle at 35% 30%,#fff3c4,#e3b341 60%,#b8892b);box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.medal.big .md{width:86px;height:86px;font-size:46px}
+.medal strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(18px,1.7vw,23px)}
+.medal .who{display:block;font-family:var(--display);font-weight:800;font-size:clamp(22px,2.3vw,32px);color:var(--museum);min-width:120px;border-bottom:2px dashed transparent}
+.medal .who[contenteditable]:empty::before{content:"לחצו לכתוב";color:var(--dim);font-weight:500;font-size:18px}
+.medal .why{color:var(--muted);font-size:15px}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;animation:fall 2.8s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes fall{to{transform:translateY(760px) rotate(540deg);opacity:.9}}
+/* ---------- statues ---------- */
+.statue .card{text-align:center}.statue .card .emoji{font-size:38px;width:66px;height:66px}
+.statue .card .ans{margin-top:8px;font-family:var(--display);font-weight:700;color:var(--museum);font-size:18px}
+/* ---------- closing ---------- */
+.ticketBig{display:inline-flex;align-items:center;gap:14px;margin-top:18px;padding:14px 22px;border:2px dashed #d9c38c;border-radius:16px;background:var(--gold-soft);font-family:var(--display);font-weight:700;font-size:clamp(18px,1.8vw,24px);color:var(--gold-ink)}
+.editLink{direction:ltr;unicode-bidi:isolate;display:inline-block;min-width:200px;padding:2px 10px;border-bottom:2px dashed var(--accent-line);font-family:var(--display);font-weight:800;color:var(--accent-ink)}
+.editLink:focus{outline:2px solid var(--accent-line);border-radius:8px}
+@media (max-height:800px){
+ .env{height:104px}.env .back b{font-size:19px}.env .back .em{font-size:27px}
+ .wall{height:140px}
+ .wallEx{padding:12px 10px 10px;gap:10px;margin-top:10px}.mini .mf{aspect-ratio:1/1;border-width:4px}.mini .mood{font-size:12px}.exHead .nm{font-size:24px}.mini .ml{font-size:11.5px}.mini .ml b{font-size:12.5px}
+ .tourClock{font-size:clamp(50px,6vw,84px)}
+ .gframe{padding:10px}.gframe.portrait{max-width:280px}
+ .counterTool textarea{min-height:70px}
+ table.score td,table.score th{padding:6px 8px}
+ .medal{padding:12px 14px}.medal.big .md{width:70px;height:70px;font-size:38px}
+}
+@media (max-width:1100px){.cards.five{grid-template-columns:repeat(3,minmax(0,1fr))}.vote.teams7{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.split,.split.even,.split.wideL,.tour{grid-template-columns:1fr}.cards.five,.cards.four,.cards.three,.envGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.wallEx{grid-template-columns:repeat(3,1fr)}.browser .rooms{grid-template-columns:1fr}.medals{grid-template-columns:1fr}.vote.four{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">TIE</div><div><b>האוצרים: תערוכה וירטואלית</b><small>ערב הפתיחה של המוזיאון הכיתתי</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ===================== 1 · פתיחה ===================== -->
+<section class="slide hero museumHero" data-topic="פתיחה" data-title="האוצרים" data-accent="#b8892b">
+  <div class="split">
+    <div>
+      <span class="kicker">🏛️ Tech It Easy · ערב פתיחה</span>
+      <h2>האוצרים</h2>
+      <p class="lead">המוזיאון הווירטואלי של הכיתה נפתח <b>הערב</b>, אבל האגפים עדיין ריקים. מנהלת המוזיאון השאירה לכל צוות מעטפה עם שם של אגף. יש לכם שיעור אחד: <b>6 יצירות מכל העולם, טקסטי קיר ומדריך קולי</b>. בערב הפתיחה המבקרים יחליטו מי מקבל את <b class="c-gold">מדליית המבקרים</b>.</p>
+      <div class="tags"><span>🔍 לחפש</span><span>✂️ לוותר</span><span>✍️ לכתוב</span><span>🎧 להקליט</span><span>🥂 לפתוח</span></div>
+    </div>
+    <div class="facadeWrap" aria-hidden="true">
+      <svg class="facade" viewBox="0 0 400 330">
+        <defs>
+          <radialGradient id="fcGlow" cx="50%" cy="65%" r="70%"><stop offset="0" stop-color="#fff8dc"/><stop offset=".6" stop-color="#f8dc8f"/><stop offset="1" stop-color="#e9b955"/></radialGradient>
+          <linearGradient id="fcCol" x1="0" x2="1"><stop offset="0" stop-color="#ece4d3"/><stop offset=".5" stop-color="#fbf8f1"/><stop offset="1" stop-color="#e3d9c4"/></linearGradient>
+        </defs>
+        <ellipse cx="200" cy="318" rx="190" ry="10" fill="#efe8da"/>
+        <rect x="18" y="298" width="364" height="14" rx="2" fill="#e6dcc8"/>
+        <rect x="30" y="286" width="340" height="14" rx="2" fill="#eee6d5"/>
+        <rect x="42" y="274" width="316" height="14" rx="2" fill="#f5efe3"/>
+        <rect x="46" y="118" width="308" height="158" fill="#f7f2e8" stroke="#ddd2bd"/>
+        <polygon points="30,120 200,42 370,120" fill="#f1eadb" stroke="#d6c9b0" stroke-width="2"/>
+        <polygon points="62,112 200,58 338,112" fill="none" stroke="#e0d4bc" stroke-width="2"/>
+        <circle cx="200" cy="92" r="11" fill="#e8dcc0" stroke="#d6c9b0"/>
+        <text x="200" y="96.5" font-size="12" text-anchor="middle" fill="#7a5a12" font-family="Rubik,Arial" font-weight="700">★</text>
+        <rect x="40" y="118" width="320" height="24" fill="#ebe2cf" stroke="#d6c9b0"/>
+        <text x="200" y="135" font-size="14" text-anchor="middle" fill="#7a5a12" font-family="Rubik,Arial" font-weight="700" letter-spacing="1">המוזיאון של הכיתה</text>
+        <g fill="url(#fcCol)" stroke="#d9ceb8">
+          <rect x="60" y="150" width="18" height="124"/><rect x="104" y="150" width="18" height="124"/><rect x="148" y="150" width="18" height="124"/>
+          <rect x="234" y="150" width="18" height="124"/><rect x="278" y="150" width="18" height="124"/><rect x="322" y="150" width="18" height="124"/>
+        </g>
+        <g fill="#ebe2cf" stroke="#d6c9b0">
+          <rect x="56" y="142" width="26" height="9"/><rect x="100" y="142" width="26" height="9"/><rect x="144" y="142" width="26" height="9"/>
+          <rect x="230" y="142" width="26" height="9"/><rect x="274" y="142" width="26" height="9"/><rect x="318" y="142" width="26" height="9"/>
+        </g>
+        <rect x="174" y="168" width="52" height="106" rx="26" ry="0" fill="url(#fcGlow)"/>
+        <path d="M174 194 A26 26 0 0 1 226 194 V274 H174Z" fill="url(#fcGlow)"/>
+        <rect x="190" y="212" width="20" height="16" fill="#b8892b"/><rect x="193" y="215" width="14" height="10" fill="#4c78b8"/>
+        <polygon class="rays" points="178,274 222,274 262,330 138,330" fill="#f8dc8f" opacity=".45"/>
+        <path class="doorL" d="M174 194 A26 26 0 0 1 200 168 V274 H174Z" fill="#7a2e3a" stroke="#5e2029"/>
+        <path class="doorR" d="M200 168 A26 26 0 0 1 226 194 V274 H200Z" fill="#8a3644" stroke="#5e2029"/>
+        <rect x="140" y="152" width="120" height="18" rx="3" fill="#7a2e3a"/>
+        <text x="200" y="165.5" font-size="11.5" text-anchor="middle" fill="#fff" font-family="Rubik,Arial" font-weight="700">הערב: פתיחה</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2 · זום אין 1 ===================== -->
+<section class="slide tight" data-topic="זום אין" data-title="זום אין #1" data-accent="#4c8bd6">
+  <span class="reveal zoomKey" aria-hidden="true"></span>
+  <div class="split">
+    <div>
+      <span class="kicker">🔍 זום אין · 1 מתוך 3</span>
+      <h2>מה אתם <span class="c-sky">רואים?</span></h2>
+      <p class="lead">התקרבנו פי 6 לפרט קטן מיצירה מפורסמת מאוד. 10 שניות לחשוב לבד, ואז ללחוש לשכן/ה ניחוש אחד.</p>
+      <div class="wlabel afterZoom">
+        <span class="wt">הגל הגדול של קנגאווה</span>
+        <span class="wm">קצושיקה הוקוסאי · יפן · בערך 1831 · הדפס עץ</span>
+        הפרט הקטן הוא <b>הר פוג׳י</b>, ההר הכי מפורסם ביפן. הוקוסאי הקטין אותו כל כך שהוא נראה כמו עוד גל.
+      </div>
+    </div>
+    <div class="gframe">
+      <div class="canvas zoomBox" style="--z:6;--ox:62.5%;--oy:69.5%">
+        <svg viewBox="0 0 320 220" role="img" aria-label="איור בהשראת הגל הגדול של הוקוסאי">
+          <defs><linearGradient id="gwSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6c39a"/><stop offset="1" stop-color="#f2e8cf"/></linearGradient></defs>
+          <rect width="320" height="220" fill="url(#gwSky)"/>
+          <rect y="166" width="320" height="54" fill="#3d6492"/>
+          <path d="M176 168 L200 138 L224 168 Z" fill="#4f6585"/>
+          <path d="M193 147 L200 138 L207 147 L204 145 L201 149 L198 145 Z" fill="#fbf8f0"/>
+          <path d="M150 220 C160 190 190 170 222 171 C250 172 262 190 254 204 C246 194 232 192 226 202 C220 194 206 196 204 208 L204 220Z" fill="#23497a"/>
+          <path d="M226 202 C232 192 246 194 254 204 C258 196 252 184 240 181 C230 179 222 188 226 202Z" fill="#f8f4ea"/>
+          <path d="M0 220 V128 C8 82 48 36 104 28 C150 22 186 44 182 74 C179 96 152 100 144 84 C138 70 152 60 162 68 C146 50 112 56 96 86 C80 118 86 168 118 220 Z" fill="#1f3d6b"/>
+          <path d="M0 220 V150 C12 110 40 80 70 70 C52 98 50 150 70 220Z" fill="#2f5b91"/>
+          <path d="M22 220 C24 170 40 120 76 92" stroke="#7ea3cc" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M44 220 C48 176 62 136 92 110" stroke="#7ea3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M104 28 C150 22 186 44 182 74 C179 96 152 100 144 84 C138 70 152 60 162 68 C158 52 140 42 118 42 C96 42 76 54 62 70 C70 50 86 32 104 28Z" fill="#f8f4ea"/>
+          <g fill="#f8f4ea"><circle cx="150" cy="96" r="5"/><circle cx="160" cy="100" r="4"/><circle cx="170" cy="98" r="4.5"/><circle cx="178" cy="90" r="4"/><circle cx="142" cy="92" r="3.5"/></g>
+          <g fill="#fbf8f0"><circle cx="187" cy="60" r="2.5"/><circle cx="193" cy="70" r="2"/><circle cx="191" cy="49" r="1.8"/><circle cx="197" cy="58" r="1.6"/></g>
+          <path d="M58 178 C90 166 130 170 152 183 C120 188 86 188 58 178Z" fill="#e8d6a6" stroke="#6b5530" stroke-width="1"/>
+          <g fill="#2a2a2a"><circle cx="90" cy="173" r="2"/><circle cx="100" cy="172" r="2"/><circle cx="110" cy="173" r="2"/><circle cx="120" cy="174" r="2"/><circle cx="130" cy="176" r="2"/></g>
+          <path d="M262 206 C278 198 300 200 314 208 C296 212 276 212 262 206Z" fill="#e8d6a6" stroke="#6b5530" stroke-width="1"/>
+        </svg>
+        <span class="zoomBadge">🔍 ×6</span>
+      </div>
+    </div>
+  </div>
+  <div class="clickHint">"הבא" = מתרחקים לאט לאט</div>
+</section>
+
+<!-- ===================== 3 · זום אין 2 (quiz) ===================== -->
+<section class="slide quiz tight" data-topic="זום אין" data-title="זום אין #2" data-answer="2" data-accent="#8c7ae6">
+  <span class="reveal zoomKey" aria-hidden="true"></span>
+  <div class="split">
+    <div>
+      <span class="kicker">🔍 זום אין · 2 מתוך 3</span>
+      <h2>מה <span class="c-violet">הפרט</span> הזה?</h2>
+      <div class="options" style="grid-template-columns:1fr 1fr">
+        <button class="option"><span class="letter">א</span><span>גלים בים סוער</span></button>
+        <button class="option"><span class="letter">ב</span><span>שמיים בלילה</span></button>
+        <button class="option"><span class="letter">ג</span><span>שיער מתולתל</span></button>
+        <button class="option"><span class="letter">ד</span><span>עשן ממדורה</span></button>
+      </div>
+      <div class="explain">✓ שמיים בלילה! <b>"ליל כוכבים"</b> של וינסנט ואן גוך, 1889. מקרוב רואים שהשמיים בנויים ממשיכות מכחול עבות שמסתחררות.</div>
+    </div>
+    <div class="gframe">
+      <div class="canvas zoomBox" style="--z:5;--ox:48.5%;--oy:39%">
+        <svg viewBox="0 0 320 220" role="img" aria-label="איור בהשראת ליל כוכבים של ואן גוך">
+          <defs><linearGradient id="snSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b3570"/><stop offset="1" stop-color="#3561a8"/></linearGradient></defs>
+          <rect width="320" height="220" fill="url(#snSky)"/>
+          <g fill="none" stroke-linecap="round">
+            <path d="M20 40 C70 25 110 50 160 40 S250 20 310 35" stroke="#5b80bd" stroke-width="4"/>
+            <path d="M10 70 C60 50 90 95 140 80 S230 50 300 75" stroke="#6f95cf" stroke-width="5"/>
+            <path d="M0 104 C50 88 80 124 130 112 S220 94 320 112" stroke="#8fb0e0" stroke-width="4"/>
+            <path d="M0 132 C60 120 110 140 170 130 S270 118 320 130" stroke="#5f86c4" stroke-width="4"/>
+            <path d="M100 96 C98 54 152 36 182 58 C206 78 198 116 164 120" stroke="#9fc0ec" stroke-width="5"/>
+            <path d="M110 92 C112 62 150 50 172 64 C192 78 186 104 164 108 C146 111 136 96 146 86 C154 78 166 82 166 90" stroke="#e3ecf8" stroke-width="5"/>
+            <path d="M122 90 C124 72 146 64 160 72 C172 80 170 98 158 100" stroke="#bcd3f2" stroke-width="3"/>
+            <path d="M190 90 C200 70 230 68 240 84 C248 98 234 110 222 104" stroke="#cfe0f6" stroke-width="4"/>
+          </g>
+          <g><circle cx="40" cy="30" r="11" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="40" cy="30" r="6" fill="#f6d55c"/>
+            <circle cx="96" cy="22" r="10" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="96" cy="22" r="5" fill="#f6d55c"/>
+            <circle cx="236" cy="36" r="11" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="236" cy="36" r="6" fill="#f6d55c"/>
+            <circle cx="272" cy="100" r="10" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="272" cy="100" r="5" fill="#f6d55c"/>
+            <circle cx="58" cy="98" r="10" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="58" cy="98" r="5" fill="#f6d55c"/>
+            <circle cx="214" cy="132" r="9" fill="none" stroke="#f3e9a6" stroke-width="2" opacity=".7"/><circle cx="214" cy="132" r="4.5" fill="#f6d55c"/></g>
+          <circle cx="286" cy="34" r="21" fill="none" stroke="#f3b94a" stroke-width="3" opacity=".8"/>
+          <circle cx="286" cy="34" r="13" fill="#f7c948"/><circle cx="292" cy="29" r="11" fill="#1f3b78"/>
+          <path d="M0 165 C60 140 120 150 180 142 S280 140 320 150 V220 H0Z" fill="#2a4a86"/>
+          <path d="M0 180 C70 166 140 174 200 168 S290 170 320 174 V220 H0Z" fill="#1d3363"/>
+          <g fill="#14233f">
+            <rect x="110" y="186" width="16" height="12"/><polygon points="108,186 118,178 128,186"/>
+            <rect x="136" y="188" width="18" height="12"/><polygon points="134,188 145,180 156,188"/>
+            <rect x="214" y="186" width="16" height="12"/><polygon points="212,186 222,178 232,186"/>
+            <rect x="240" y="190" width="20" height="12"/><polygon points="238,190 250,182 262,190"/>
+            <rect x="186" y="170" width="10" height="28"/><polygon points="186,170 191,134 196,170"/>
+          </g>
+          <g fill="#f6d55c"><rect x="114" y="190" width="3" height="3"/><rect x="141" y="192" width="3" height="3"/><rect x="219" y="190" width="3" height="3"/><rect x="246" y="194" width="3" height="3"/></g>
+          <path d="M30 220 C24 180 34 150 38 110 C40 80 48 60 52 40 C58 70 62 100 66 130 C70 160 76 190 72 220Z" fill="#14231a"/>
+          <path d="M46 212 C44 170 50 120 52 62" stroke="#2f4a35" stroke-width="3" fill="none"/>
+        </svg>
+        <span class="zoomBadge">🔍 ×5</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 · זום אין 3 (vote) ===================== -->
+<section class="slide tight" data-topic="זום אין" data-title="זום אין #3" data-accent="#e76f86">
+  <span class="reveal zoomKey" aria-hidden="true"></span>
+  <div class="split wideL">
+    <div>
+      <span class="kicker">🗳️ זום אין · 3 מתוך 3 · מי ראה את זה קודם?</span>
+      <h2>ומה <span class="c-rose">זה?</span></h2>
+      <p class="lead">כל אחד מרים 1–4 אצבעות. סופרים, ואז מתרחקים.</p>
+      <div class="vote compact">
+        <div class="voteItem"><div class="emoji">⚪</div><strong>1 · פנינה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+        <div class="voteItem"><div class="emoji">🫧</div><strong>2 · בועת סבון</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+        <div class="voteItem"><div class="emoji">💧</div><strong>3 · טיפת מים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+        <div class="voteItem"><div class="emoji">🌕</div><strong>4 · ירח מלא</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+      </div>
+      <div class="wlabel slim afterZoom" style="margin-top:12px">
+        <span class="wt">נערה עם עגיל פנינה</span>
+        <span class="wm">יוהנס ורמיר · הולנד · בערך 1665 · מוזיאון מאוריצהאוס, האג</span>
+        מקרוב, ה"פנינה" היא רק כמה משיכות מכחול לבנות ואפורות, ואין לה אפילו וו שמחבר אותה לאוזן. העין שלנו משלימה את השאר.
+      </div>
+    </div>
+    <div class="gframe portrait">
+      <div class="canvas zoomBox" style="--z:7;--ox:41%;--oy:64.6%">
+        <svg viewBox="0 0 220 260" role="img" aria-label="איור בהשראת נערה עם עגיל פנינה של ורמיר">
+          <rect width="220" height="260" fill="#17181a"/>
+          <path d="M150 70 C175 90 182 150 176 210 C168 196 160 150 150 120Z" fill="#d9ad52"/>
+          <path d="M152 78 C168 98 172 140 170 190" stroke="#b58a35" stroke-width="3" fill="none"/>
+          <path d="M40 260 C50 215 80 195 110 196 C150 196 178 220 186 260Z" fill="#9c7a3e"/>
+          <path d="M70 232 C85 212 100 207 118 208" stroke="#7a5d2c" stroke-width="3" fill="none"/>
+          <path d="M96 168 C96 190 100 205 108 210 C120 208 128 196 128 176Z" fill="#d7b08a"/>
+          <path d="M78 214 C92 200 120 198 140 206 C128 216 98 220 78 214Z" fill="#f1ece0"/>
+          <path d="M80 112 C78 150 92 182 116 186 C140 188 152 160 150 128 C148 100 132 86 112 86 C94 86 82 96 80 112Z" fill="#ecc9a5"/>
+          <path d="M80 112 C78 150 92 182 116 186 C100 176 92 150 94 120 C95 104 100 96 108 90 C94 90 82 98 80 112Z" fill="#c99d76"/>
+          <ellipse cx="104" cy="128" rx="5" ry="3.5" fill="#3a2a20"/><circle cx="105" cy="127" r="1.2" fill="#fff"/>
+          <ellipse cx="134" cy="127" rx="5" ry="3.5" fill="#3a2a20"/><circle cx="135" cy="126" r="1.2" fill="#fff"/>
+          <path d="M121 132 C123 144 124 150 118 152" stroke="#b9875f" stroke-width="2" fill="none"/>
+          <path d="M110 164 C116 160 126 160 132 164 C126 170 116 170 110 164Z" fill="#c4534f"/>
+          <circle cx="124" cy="163" r="1.3" fill="#fff" opacity=".9"/>
+          <path d="M76 110 C70 80 92 56 124 56 C150 56 162 74 156 96 C146 86 130 84 112 86 C96 88 84 96 76 110Z" fill="#2f5aa8"/>
+          <path d="M92 70 C108 62 132 62 148 72" stroke="#5a83cf" stroke-width="3" fill="none"/>
+          <path d="M150 58 C162 52 172 58 170 72 C168 82 158 84 152 78Z" fill="#d9ad52"/>
+          <ellipse cx="90" cy="168" rx="7.5" ry="8.5" fill="#8f949a"/>
+          <ellipse cx="90" cy="170" rx="6" ry="6" fill="#a9aeb3"/>
+          <ellipse cx="88" cy="164" rx="2.6" ry="2.2" fill="#ffffff"/>
+          <path d="M84 173 C88 176 93 176 96 172" stroke="#e8e3d6" stroke-width="1.6" fill="none"/>
+        </svg>
+        <span class="zoomBadge">🔍 ×7</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5 · המשימה של היום ===================== -->
+<section class="slide" data-topic="המשימה" data-title="המשימה של היום" data-accent="#b8892b">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור, לכל צוות יהיה <span class="c-gold">אגף פתוח</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🖼️</div><strong>6 יצירות</strong><p>מכל העולם, מלפחות 3 מוזיאונים, עם קרדיט מלא.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>6 טקסטי קיר</strong><p>עד 40 מילים כל אחד, עם פרט שרואים רק בזום.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>מדריך קולי</strong><p>60–90 שניות, בקולות של הצוות.</p></div>
+    <div class="card"><div class="emoji">🌐</div><strong>אתר מפורסם</strong><p>תערוכה ב-Google Sites שנפתחת מכל מכשיר.</p></div>
+    <div class="card"><div class="emoji">🥂</div><strong>ערב פתיחה</strong><p>המבקרים קוראים, מקשיבים, מחפשים ומדרגים.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6 · צוות האוצרים ===================== -->
+<section class="slide tight" data-topic="המשימה" data-title="צוות האוצרים" data-accent="#8c7ae6">
+  <span class="kicker">👥 התפקיד שלך היום</span>
+  <h2>צוות <span class="c-violet">האוצרים</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🗝️</div><strong>אוצר/ת ראשי/ת</strong><p>מחליט/ה על הרעיון ועל סדר היצירות, שומר/ת על הזמן. רק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">🔎</div><strong>חוקר/ת אוסף</strong><p>מחפש/ת יצירות, אוסף/ת שם, אמן/ית, שנה ומוזיאון, ובודק/ת עובדות בשני מקורות.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>כותב/ת טקסטי קיר</strong><p>מוביל/ה את הכתיבה: כל אחד כותב טקסט, והכותב/ת עורך/ת את כולם לקול אחד.</p></div>
+    <div class="card"><div class="emoji">🖥️</div><strong>מעצב/ת חללים</strong><p>בונה את האתר ב-Sites: ערכת נושא, דפים, תמונות, כפתורים ופרסום.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>קול המוזיאון</strong><p>כותב/ת ומקליט/ה את המדריך הקולי עם הצוות, ומגיש/ה בטופס.</p></div>
+  </div>
+  <p class="roleNote">צוות של 4: האוצר/ת הראשי/ת הוא/היא גם קול המוזיאון · צוות של 6: שני כותבים, 3 טקסטים לכל אחד.</p>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ===================== 7 · ההגרלה ===================== -->
+<section class="slide tight" data-topic="המשימה" data-title="ההגרלה: האגף שלכם" data-accent="#7a2e3a">
+  <span class="kicker">✉️ ההגרלה</span>
+  <h2>איזה <span class="c-mus">אגף</span> קיבלתם?</h2>
+  <p class="lead">האוצר/ת הראשי/ת שולף/ת מעטפה. מה שיצא, זה האגף, ואין החלפות. מתחת לשם: מילות חיפוש באנגלית.</p>
+  <div class="envGrid" id="envGrid">
+    <button class="env" style="--c:#4c8bd6"><span class="in"><span class="face front"><span class="seal">1</span><small>אגף</small></span><span class="face back"><span class="em">💙</span><b>הצבע הכחול</b><small>blue · ultramarine · indigo</small></span></span></button>
+    <button class="env" style="--c:#f4a259"><span class="in"><span class="face front"><span class="seal">2</span><small>אגף</small></span><span class="face back"><span class="em">🦊</span><b>חיות באמנות</b><small>animals · horse · bird · cat</small></span></span></button>
+    <button class="env" style="--c:#5bb5a2"><span class="in"><span class="face front"><span class="seal">3</span><small>אגף</small></span><span class="face back"><span class="em">☁️</span><b>שמיים</b><small>sky · clouds · sunset</small></span></span></button>
+    <button class="env" style="--c:#e76f86"><span class="in"><span class="face front"><span class="seal">4</span><small>אגף</small></span><span class="face back"><span class="em">🍎</span><b>אוכל</b><small>still life · fruit · feast</small></span></span></button>
+    <button class="env" style="--c:#8c7ae6"><span class="in"><span class="face front"><span class="seal">5</span><small>אגף</small></span><span class="face back"><span class="em">🎻</span><b>מוזיקה בציור</b><small>music · violin · musician</small></span></span></button>
+    <button class="env" style="--c:#1f2a37"><span class="in"><span class="face front"><span class="seal">6</span><small>אגף</small></span><span class="face back"><span class="em">🌙</span><b>לילה</b><small>night · moon · nocturne</small></span></span></button>
+    <button class="env" style="--c:#2f6db5"><span class="in"><span class="face front"><span class="seal">7</span><small>אגף</small></span><span class="face back"><span class="em">🌊</span><b>ים</b><small>sea · wave · ship</small></span></span></button>
+    <button class="env" style="--c:#b8892b"><span class="in"><span class="face front"><span class="seal">8</span><small>אגף</small></span><span class="face back"><span class="em">✋</span><b>ידיים</b><small>hands · gesture · touch</small></span></span></button>
+  </div>
+  <div class="drawBar"><button class="btn" id="drawBtn">🎲 הגרלה</button><button class="ghost" id="drawReset">↺ סגירת כל המעטפות</button><output id="drawOut"></output></div>
+</section>
+
+<!-- ===================== 8 · מה עושה אוצר/ת ===================== -->
+<section class="slide" data-topic="להיות אוצר/ת" data-title="מה עושה אוצר/ת?" data-accent="#b8892b">
+  <span class="kicker">🗝️ מושג</span>
+  <h2>אוצר/ת = מי ש<span class="c-gold">מחליט/ה</span> מה תראו</h2>
+  <p class="lead">באנגלית Curator, מהמילה הלטינית curare: לטפל, לשמור. במוזיאון גדול יש אלפי יצירות, ועל הקיר נכנסות רק מעטות.</p>
+  <div class="steps">
+    <div class="step"><strong>🔍 בוחרים</strong><p>מתוך מאות יצירות, רק מה שמתאים לרעיון של התערוכה.</p></div>
+    <div class="step"><strong>✂️ מוותרים</strong><p>גם על יצירה שאוהבים, אם היא לא חלק מהסיפור.</p></div>
+    <div class="step"><strong>↔️ מסדרים</strong><p>הסדר הוא הסיפור: מה ראשון, מה מפתיע, מה אחרון.</p></div>
+    <div class="step"><strong>✍️ מסבירים</strong><p>טקסט קיר קצר שגורם להסתכל שוב.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 9 · לבחור זה לוותר ===================== -->
+<section class="slide tight" data-topic="להיות אוצר/ת" data-title="לבחור זה לוותר" data-accent="#b8892b">
+  <span class="kicker">✂️ עיקרון 1</span>
+  <h2>לבחור זה <span class="c-gold">לוותר</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ קיר צפוף</span>
+      <div class="wall salon" aria-hidden="true">
+        <i style="--c:#7d5a3a"></i><i style="--c:#4c78b8"></i><i style="--c:#c9a24a"></i><i style="--c:#7a2e3a"></i><i style="--c:#5f8f5a"></i><i style="--c:#d9b07a"></i><i style="--c:#2f4a6b"></i><i style="--c:#a85d4a"></i><i style="--c:#6d8fc4"></i>
+        <i style="--c:#e2c68f"></i><i style="--c:#3b5d3a"></i><i style="--c:#9c7a3e"></i><i style="--c:#b8475a"></i><i style="--c:#4f6585"></i><i style="--c:#c4a35a"></i><i style="--c:#6b4a24"></i><i style="--c:#8fb0e0"></i><i style="--c:#7d5a3a"></i>
+        <i style="--c:#5b80bd"></i><i style="--c:#d7b08a"></i><i style="--c:#2a4a86"></i><i style="--c:#a9aeb3"></i><i style="--c:#7a2e3a"></i><i style="--c:#e9a5b8"></i><i style="--c:#3d6492"></i><i style="--c:#c9a24a"></i><i style="--c:#5f8f5a"></i>
+      </div>
+      27 יצירות מהרצפה עד התקרה, כמו בסלונים של פריז במאה ה-19. העין לא יודעת איפה לעצור.</div>
+    <div class="box good"><span class="label">✓ קיר של אוצר/ת</span>
+      <div class="wall curated" aria-hidden="true"><i style="--c:#2f5aa8"></i><i style="--c:#1d3a7a"></i><i style="--c:#3d6492"></i><i style="--c:#4c78b8"></i><i style="--c:#6d8fc4"></i><i style="--c:#8fb0e0"></i></div>
+      6 יצירות, מקום לנשום, ותווית קטנה ליד כל אחת. כל יצירה מקבלת תשומת לב.</div>
+  </div>
+  <p class="lead" style="margin-top:12px">❓ על איזו יצירה הכי קשה לוותר? בסוף השיעור תצטרכו לענות על זה.</p>
+</section>
+
+<!-- ===================== 10 · הסדר מספר סיפור ===================== -->
+<section class="slide tight" data-topic="להיות אוצר/ת" data-title="הסדר מספר סיפור" data-accent="#5bb5a2">
+  <span class="kicker">↔️ עיקרון 2 · דוגמה מאגף "שמיים"</span>
+  <h2>אותן 6 יצירות, <span class="cyan">שני סיפורים</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal"><span class="storyTag">סדר א: "יום אחד בשמיים"</span>
+      <div class="orderRow"><span class="chip">🌅 <b>מונה</b> רושם, זריחה</span><span class="arr">←</span><span class="chip">☁️ <b>קונסטבל</b> עגלת החציר</span><span class="arr">←</span><span class="chip">🌫️ <b>פרידריך</b> מעל ים הערפל</span><span class="arr">←</span><span class="chip">🌇 <b>טרנר</b> הטמרייר</span><span class="arr">←</span><span class="chip">🌗 <b>מגריט</b> אימפריית האור</span><span class="arr">←</span><span class="chip">🌌 <b>ואן גוך</b> ליל כוכבים</span></div></div>
+    <div class="revealCard reveal"><span class="storyTag">סדר ב: "מהמציאות אל החלום"</span>
+      <div class="orderRow"><span class="chip">☁️ <b>קונסטבל</b></span><span class="arr">←</span><span class="chip">🌇 <b>טרנר</b></span><span class="arr">←</span><span class="chip">🌅 <b>מונה</b></span><span class="arr">←</span><span class="chip">🌫️ <b>פרידריך</b></span><span class="arr">←</span><span class="chip">🌌 <b>ואן גוך</b></span><span class="arr">←</span><span class="chip">🌗 <b>מגריט</b> יום ולילה ביחד</span></div></div>
+    <div class="revealCard reveal">💡 <b>אותן יצירות, סיפור אחר.</b> ההחלטה מה ראשון ומה אחרון היא ההחלטה הכי חשובה של האוצר/ת. היצירה האחרונה היא מה שהמבקרים לוקחים איתם הביתה.</div>
+  </div>
+  <div class="clickHint">"הבא" חושף סדר אחרי סדר</div>
+</section>
+
+<!-- ===================== 11 · טקסט קיר טוב ===================== -->
+<section class="slide tight" data-topic="טקסט קיר" data-title="טקסט קיר טוב" data-accent="#4c8bd6">
+  <span class="kicker">✍️ עיקרון 3 · אותה יצירה, שני טקסטים</span>
+  <h2>טקסט קיר גורם <span class="c-sky">להסתכל שוב</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ ערך בוויקיפדיה</span>
+      <div class="wlabel slim"><span class="wt">הגל הגדול של קנגאווה</span><span class="wm">קצושיקה הוקוסאי · בערך 1831</span>"הגל הגדול של קנגאווה" הוא הדפס עץ של האמן היפני קצושיקה הוקוסאי. ההדפס הוא חלק מהסדרה "36 מראות של הר פוג׳י", ונחשב לאחת היצירות היפניות המפורסמות בעולם.</div>
+      <p style="margin:10px 0 0;font-size:18px;color:var(--muted)">נכון, אבל המבקר/ת קורא/ת וממשיך/ה ללכת.</p></div>
+    <div class="box good"><span class="label">✓ טקסט קיר <span class="wcount ok">33 מילים</span></span>
+      <div class="wlabel slim"><span class="wt">הגל הגדול של קנגאווה</span><span class="wm">קצושיקה הוקוסאי · בערך 1831</span>חפשו את הר פוג׳י. מצאתם? הוא הקטנטן שבתחתית, וכמעט נראה כמו עוד גל. הוקוסאי הקטין את ההר הכי חשוב ביפן והגדיל את הגל. ועכשיו ספרו: כמה סירות יש כאן, ומה מרגישים האנשים בתוכן?</div>
+      <p style="margin:10px 0 0;font-size:18px;color:var(--muted)">המבקר/ת עוצר/ת, מחפש/ת וסופר/ת.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 12 · נוסחת 40 המילים ===================== -->
+<section class="slide tight" data-topic="טקסט קיר" data-title="נוסחת 40 המילים" data-accent="#4c8bd6">
+  <span class="kicker">🧪 הנוסחה</span>
+  <h2>נוסחת <span class="c-sky">40 המילים</span></h2>
+  <div class="cards three" style="margin-top:12px">
+    <div class="card"><div class="emoji">🔍</div><strong>פרט מהזום</strong><p>משהו שרואים רק כשמתקרבים. "התקרבו ל..."</p></div>
+    <div class="card"><div class="emoji">🧭</div><strong>הקשר אחד</strong><p>מי, מתי או למה. עובדה אחת שבדקתם.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>שאלה למבקר/ת</strong><p>שאלה ששולחת את העין חזרה ליצירה.</p></div>
+  </div>
+  <div class="counterTool">
+    <label for="wcText">🧮 מונה המילים של המוזיאון: הדביקו טקסט קיר</label>
+    <textarea id="wcText" dir="rtl">התקרבו לפנינה: אין לה וו! ורמיר צייר אותה בכמה משיכות מכחול לבנות ואפורות, בלי שום חיבור לאוזן. ובכל זאת אנחנו רואים פנינה. מה עוד העין שלנו "משלימה" לבד?</textarea>
+    <div class="wcOut"><span class="n" id="wcN">0</span><span>מילים</span><span class="st" id="wcSt"></span></div>
+  </div>
+</section>
+
+<!-- ===================== 13 · עובר או לא ===================== -->
+<section class="slide tight" data-topic="טקסט קיר" data-title="נסו: עובר או לא?" data-accent="#4c8bd6">
+  <span class="kicker">🧐 מבחן הטקסט · "הגיטריסט הזקן", פבלו פיקאסו</span>
+  <h2>3 טקסטים: מי <span class="c-sky">עובר את המבחן?</span></h2>
+  <p class="lead">המבחן: עד 40 מילים · פרט מהזום · שאלה למבקר/ת.</p>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>"הגיטריסט הזקן" הוא ציור שמן על בד מאת פבלו פיקאסו, שצויר בשנים <span class="nw">1903–1904</span> בברצלונה, בתקופה הכחולה של האמן. הציור נמצא כיום במכון לאמנות של שיקגו. הוא מתאר אדם עיוור ורזה שמנגן בגיטרה ברחוב, ושייך לסדרת ציורים על עוני, בדידות וסבל, שפיקאסו צייר אחרי מות חברו הקרוב.</span><div class="tfBtns"><button data-v="1">✓ עובר</button><button data-v="0">✗ לא עובר</button></div><div class="tfNote">✗ 46 מילים, אין פרט מהזום ואין שאלה. זה ערך באנציקלופדיה, לא טקסט קיר.</div></div>
+    <div class="tfRow" data-true="1"><span>התקרבו לצוואר של הגיטריסט: מבצבצים שם קווים של פנים נוספות. פיקאסו היה עני, וצייר מעל ציור קודם. הכול כחול, חוץ מהגיטרה החומה. למה דווקא היא קיבלה צבע אחר?</span><div class="tfBtns"><button data-v="1">✓ עובר</button><button data-v="0">✗ לא עובר</button></div><div class="tfNote">✓ 28 מילים, פרט מהזום (הפנים המוסתרות), הקשר אחד ושאלה שמחזירה את העין לציור.</div></div>
+    <div class="tfRow" data-true="0"><span>בציור יש איש זקן עם גיטרה. הוא יושב ומנגן. הוא נראה עצוב. יש הרבה כחול בציור. זה ציור יפה מאוד של פיקאסו.</span><div class="tfBtns"><button data-v="1">✓ עובר</button><button data-v="0">✗ לא עובר</button></div><div class="tfNote">✗ קצר, אבל אין פרט מהזום ואין שאלה. "יפה מאוד" לא אומר למבקר/ת איפה להסתכל.</div></div>
+  </div>
+</section>
+
+<!-- ===================== 14 · מבצע משמר הלילה ===================== -->
+<section class="slide tight" data-topic="משמר הלילה" data-title="מקרה: מבצע משמר הלילה" data-accent="#b8892b">
+  <span class="kicker">🖼️ מקרה אמיתי · הרייקסמוזיאון, אמסטרדם</span>
+  <h2>מבצע <span class="c-gold">משמר הלילה</span></h2>
+  <div class="split even" style="align-items:start">
+    <div class="nwWrap" aria-hidden="true">
+      <svg viewBox="0 0 360 236">
+        <defs><radialGradient id="nwL" cx="56%" cy="58%" r="62%"><stop offset="0" stop-color="#7a5528"/><stop offset=".5" stop-color="#32220f"/><stop offset="1" stop-color="#120c06"/></radialGradient></defs>
+        <rect width="360" height="236" fill="#eef3f6"/>
+        <rect x="6" y="6" width="348" height="224" rx="8" fill="#e5eef4" stroke="#b9cbd6" stroke-width="2"/>
+        <g stroke="#c9d8e2" stroke-width="1.5"><line x1="92" y1="6" x2="92" y2="230"/><line x1="180" y1="6" x2="180" y2="230"/><line x1="268" y1="6" x2="268" y2="230"/></g>
+        <rect x="16" y="40" width="30" height="158" fill="rgba(194,65,12,.07)" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="31" y="128" font-size="13" fill="#c2410c" font-family="Rubik,Arial" font-weight="700" text-anchor="middle" transform="rotate(-90 31 120)">נחתך ב-1715 ✂</text>
+        <rect x="46" y="34" width="290" height="170" fill="#9a7428"/>
+        <rect x="52" y="40" width="278" height="158" fill="url(#nwL)"/>
+        <g stroke="#5c4428" stroke-width="2" stroke-linecap="round"><line x1="70" y1="196" x2="150" y2="56"/><line x1="96" y1="196" x2="180" y2="50"/><line x1="250" y1="196" x2="300" y2="60"/><line x1="276" y1="196" x2="318" y2="76"/></g>
+        <g fill="#3f2d18"><ellipse cx="96" cy="118" rx="12" ry="22"/><ellipse cx="124" cy="104" rx="10" ry="20"/><ellipse cx="262" cy="110" rx="12" ry="22"/><ellipse cx="292" cy="118" rx="11" ry="21"/><ellipse cx="236" cy="96" rx="9" ry="18"/></g>
+        <g fill="#8a6a3e"><circle cx="96" cy="94" r="6"/><circle cx="124" cy="82" r="5.5"/><circle cx="262" cy="86" r="6"/><circle cx="292" cy="95" r="5.5"/><circle cx="236" cy="77" r="5"/></g>
+        <path d="M118 60 C132 54 146 62 158 56 L156 78 C144 84 132 76 120 82Z" fill="#c9b27a" opacity=".7"/>
+        <path d="M140 150 C140 128 146 116 152 116 C158 116 164 128 164 150 L166 176 H138Z" fill="#ecd486"/>
+        <circle cx="152" cy="108" r="7" fill="#f3dfae"/>
+        <path d="M172 196 L176 132 C176 118 184 110 194 110 C204 110 212 118 212 132 L216 196Z" fill="#141210"/>
+        <path d="M178 136 L210 168 L206 174 L176 144Z" fill="#b3312c"/>
+        <ellipse cx="194" cy="90" rx="15" ry="5" fill="#0d0c0b"/><circle cx="194" cy="100" r="9" fill="#e6c79f"/>
+        <path d="M218 196 L222 136 C222 124 230 116 240 116 C250 116 256 124 256 136 L260 196Z" fill="#d8b25a"/>
+        <circle cx="239" cy="106" r="8.5" fill="#e9cfa6"/><ellipse cx="239" cy="96" rx="13" ry="4.5" fill="#cfa84f"/><path d="M246 94 C256 84 262 86 266 90" stroke="#fbf6e8" stroke-width="3" fill="none"/>
+        <circle cx="312" cy="172" r="12" fill="#5c4428" stroke="#8a6a3e" stroke-width="2"/>
+      </svg>
+      <span class="live">שידור חי</span>
+    </div>
+    <div class="revealList facts" style="margin-top:0">
+      <div class="revealCard reveal">🎨 <b>1642.</b> רמברנדט מצייר ציור ענק של משמר אזרחי באמסטרדם. השם "משמר הלילה" נדבק אליו אחר כך, כי הלכה השחירה. בעצם זו סצנת יום.</div>
+      <div class="revealCard reveal">✂️ <b>1715.</b> כדי שייכנס לקיר בבית העירייה, חותכים אותו מכל הצדדים. החלקים שנחתכו אבדו.</div>
+      <div class="revealCard reveal">🔴 <b>2019.</b> "מבצע משמר הלילה": שחזור ענק בתוך חדר זכוכית באמצע המוזיאון, בשידור חי ברשת.</div>
+      <div class="revealCard reveal">🤖 <b>2021.</b> רשתות נוירונים משלימות את החלקים החסרים, לפי העתק ישן של גריט לונדנס. ההשלמות נתלו ליד המקור רק לזמן קצר.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 15 · ארבע פינות ===================== -->
+<section class="slide tight" data-topic="משמר הלילה" data-title="השלמה של AI: מוצג או לא?" data-accent="#e76f86">
+  <span class="kicker">🗳️ ארבע פינות</span>
+  <h2>השלמה של AI ליצירה: <span class="c-rose">להציג או לא?</span></h2>
+  <p class="lead">כל פינה בכיתה היא תשובה. הולכים לפינה, ונציג/ה מכל פינה מסביר/ה במשפט אחד למה.</p>
+  <div class="vote four">
+    <div class="voteItem"><div class="emoji">🖼️</div><strong>תמיד, צמוד למקור</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">⏳</div><strong>רק לזמן קצר</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪧</div><strong>רק בנפרד, עם שלט</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🚫</div><strong>אף פעם</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="task" style="margin-top:14px"><strong>ובתערוכה שלכם?</strong><p>איך המבקר/ת יידע/תדע מה מקורי, מה כתבתם אתם ומה עשה ה-AI? זה בדיוק תפקיד הקרדיט ושורת ה-AI.</p></div>
+</section>
+
+<!-- ===================== 16–18 · ראשים ממוספרים ===================== -->
+<section class="slide quiz tight" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#8c7ae6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1 מתוך 3</span>
+  <h2>יש 100 יצירות ומקום ל-6. <span class="c-violet">מה עושים קודם?</span></h2>
+  <p class="lead">20 שניות התייעצות בצוות. מספר מוגרל עונה בשם הצוות.</p>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>בוחרים את 6 המפורסמות ביותר</span></button>
+    <button class="option"><span class="letter">ב</span><span>מחליטים על רעיון מרכזי, ובוחרים לפיו</span></button>
+    <button class="option"><span class="letter">ג</span><span>תולים את כולן, צפוף</span></button>
+    <button class="option"><span class="letter">ד</span><span>נותנים ל-AI לבחור במקומנו</span></button>
+  </div>
+  <div class="explain">✓ קודם רעיון, אחר כך יצירות. הרעיון הוא מה שעוזר לוותר.</div>
+</section>
+
+<section class="slide quiz tight" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 2" data-answer="3" data-accent="#8c7ae6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2 מתוך 3</span>
+  <h2>איזה משפט הוא <span class="c-violet">"פרט מהזום"</span>?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>הציור צויר בשנת 1889.</span></button>
+    <button class="option"><span class="letter">ב</span><span>זה אחד הציורים המפורסמים בעולם.</span></button>
+    <button class="option"><span class="letter">ג</span><span>בפינה, מתחת לגשר, יושב חתול קטן שכמעט לא רואים.</span></button>
+    <button class="option"><span class="letter">ד</span><span>האמן היה הולנדי.</span></button>
+  </div>
+  <div class="explain">✓ פרט מהזום אומר למבקר/ת בדיוק איפה להסתכל, ומשהו שרואים רק מקרוב.</div>
+</section>
+
+<section class="slide quiz tight" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 3" data-answer="2" data-accent="#8c7ae6">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3 מתוך 3</span>
+  <h2>במדליית המבקרים, <span class="c-violet">AI מותר כדי...</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>לכתוב את טקסטי הקיר</span></button>
+    <button class="option"><span class="letter">ב</span><span>לבדוק עובדה על יצירה, ואז להשוות לדף היצירה</span></button>
+    <button class="option"><span class="letter">ג</span><span>להשלים שנה כשלא מוצאים אותה</span></button>
+    <button class="option"><span class="letter">ד</span><span>להקליט את המדריך הקולי במקומנו</span></button>
+  </div>
+  <div class="explain">✓ AI עוזר לבדוק ולשאול שאלות. את הטקסטים ואת הקולות עושים אתם, וכל עובדה נבדקת מול דף היצירה.</div>
+</section>
+
+<!-- ===================== 19 · Arts & Culture ===================== -->
+<section class="slide tight" data-topic="הדגמה" data-title="Arts & Culture: לחפש ולהתקרב" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="artsculture" aria-label="הוראות">?</button>
+  <span class="kicker">🔎 הכלי · Google Arts &amp; Culture</span>
+  <h2>לחפש, <span class="c-sky">להתקרב</span>, לאסוף</h2>
+  <p class="lead">artsandculture.google.com · מאות מוזיאונים, ויצירות שאפשר להתקרב אליהן עד משיכת המכחול.</p>
+  <div class="steps">
+    <div class="step"><strong>🔍 חיפוש</strong><p>זכוכית המגדלת ← מילה באנגלית מהמעטפה: <span class="nw" dir="ltr">blue · night · horse</span></p></div>
+    <div class="step"><strong>🖼️ פריטים</strong><p>בתוצאות בוחרים בלשונית הפריטים (Items) ופותחים יצירה.</p></div>
+    <div class="step"><strong>🔍 זום</strong><p>לחיצה על התמונה, גלגלת או "+". מחפשים פרט שאף אחד לא שם לב אליו.</p></div>
+    <div class="step"><strong>📋 פרטים</strong><p>גוללים ל"פרטים" (Details): שם, יוצר/ת, שנה ומוזיאון. מצלמים מסך ומעתיקים קישור.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 20 · Gemini ===================== -->
+<section class="slide tight" data-topic="הדגמה" data-title="לבדוק עובדה עם Gemini" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="prompts" aria-label="כל הפרומפטים">?</button>
+  <span class="kicker">🤖 הכלי · Gemini בודק עובדות</span>
+  <h2>AI <span class="c-violet">בודק</span>, לא כותב במקומכם</h2>
+  <div class="prompt">מה ידוע על הציור [שם היצירה] של [אמן/ית]? תן 3 עובדות, ולכל עובדה כתוב איפה אפשר לבדוק אותה.</div>
+  <div class="compare" style="margin-top:14px">
+    <div class="box good"><span class="label">✓ מותר</span>בדיקת עובדות · שאלות "למה הצייר עשה ככה?" · רשימת רעיונות ליצירות שבודקים ב-<bdi class="nw">Arts &amp; Culture</bdi></div>
+    <div class="box bad"><span class="label">✗ אסור</span>לכתוב את טקסטי הקיר · להמציא פרט שלא מופיע בדף היצירה</div>
+  </div>
+  <p class="lead" style="margin-top:12px">⚠️ AI לפעמים מתבלבל בשנה או במוזיאון. כל עובדה נבדקת מול דף היצירה. ובפרומפט כותבים על היצירה, לא על עצמנו.</p>
+</section>
+
+<!-- ===================== 21 · Sites ===================== -->
+<section class="slide tight" data-topic="הדגמה" data-title="Sites בשלושה צעדים" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sites" aria-label="הוראות מפורטות">?</button>
+  <span class="kicker">🌐 הכלי · Google Sites</span>
+  <h2>מוזיאון ברשת <span class="cyan">בשלושה צעדים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🏗️ פותחים</strong><p>sites.google.com ← "+" אתר ריק ← שם: <b>אגף [נושא] · [שם התערוכה]</b> ← ערכת נושא.</p></div>
+    <div class="step"><strong>🚪 חדרים</strong><p>"דפים" ← "+" לכל חדר. בכל חדר: תמונה, טקסט קיר עם קרדיט, וכפתור לקישור היצירה.</p></div>
+    <div class="step"><strong>🚀 מפרסמים</strong><p>"פרסום" ← כתובת ← "פרסום". פותחים את הקישור בחלון גלישה בסתר. כל שינוי = לפרסם שוב.</p></div>
+  </div>
+  <p class="lead" style="margin-top:14px">🤝 מעצב/ת החללים משתף/ת את האתר עם הצוות כעורכים, וכולם יכולים לעבוד עליו יחד.</p>
+</section>
+
+<!-- ===================== 22 · האתגר ===================== -->
+<section class="slide tight" data-topic="האתגר" data-title="האתגר: מדליית המבקרים" data-accent="#b8892b">
+  <button class="helpBtn" data-help="rules" aria-label="החוקים המלאים">?</button>
+  <span class="kicker">🏅 האתגר</span>
+  <h2>מדליית <span class="c-gold">המבקרים</span></h2>
+  <p class="lead"><b>המטרה:</b> תערוכה שהמבקרים לא מצליחים להפסיק להסתכל עליה, עם טקסטים שגורמים להם למצוא פרטים בעצמם.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>בדיוק 6 יצירות, כולן בנושא האגף, מלפחות 3 מוזיאונים שונים.</li>
+    <li>לכל יצירה: שם, אמן/ית, שנה, מוזיאון וקרדיט "Google Arts &amp; Culture".</li>
+    <li>טקסט קיר עד 40 מילים, שכתבתם בעצמכם, עם פרט אחד שרואים רק בזום.</li>
+    <li>AI מותר לבדיקת עובדות ולשאלות. לא לכתיבת טקסטי הקיר.</li>
+    <li>האתר מפורסם, והקישור נבדק בחלון גלישה בסתר לפני ההגשה.</li>
+    <li>בערב הפתיחה האוצרים לא מסבירים. המבקרים קוראים ומקשיבים לבד.</li>
+  </ol></div>
+</section>
+
+<!-- ===================== 23 · טבלת הניקוד ===================== -->
+<section class="slide tight" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#b8892b">
+  <span class="kicker">🧮 הניקוד, ידוע מראש</span>
+  <h2>איך צוברים <span class="c-gold">נקודות</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>מה</th><th style="text-align:center">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🖼️ יצירה עם כל פרטי הקרדיט</td><td class="pts">1 לכל יצירה · עד 6</td></tr>
+      <tr><td>✍️ טקסט קיר עד 40 מילים עם פרט מהזום</td><td class="pts">1 לכל טקסט · עד 6</td></tr>
+      <tr><td>🎧 מדריך קולי מוקלט, 60–90 שניות</td><td class="pts">4</td></tr>
+      <tr><td>🌐 אתר מפורסם שנפתח מהקישור</td><td class="pts">3</td></tr>
+      <tr><td>🔍 אתגר הזום: מבקר/ת שמצא/ה את הפרט מהטקסט</td><td class="pts">1 לכל מבקר/ת · עד 5</td></tr>
+      <tr><td>📊 המחוון של המדריך (4 קריטריונים × 4)</td><td class="pts">עד 16</td></tr>
+      <tr><td>⭐ כוכבי המבקרים: מקום 1 / 2 / 3</td><td class="pts">5 / 3 / 2</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="margin-top:10px">מקסימום 45 נקודות · <b>שובר שוויון:</b> יותר מבקרים שמצאו את הפרט מהזום.</p>
+</section>
+
+<!-- ===================== 24 · המחוון ===================== -->
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#b8892b">
+  <span class="kicker">📊 המחוון · שורה בכל לחיצה</span>
+  <h2>איך <span class="c-gold">מחליטים</span></h2>
+  <div class="tableWrap"><table class="t rubT">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>💡 רעיון אוצרותי</td><td>היצירות לא קשורות זו לזו</td><td>כולן בנושא, בלי סדר או רעיון</td><td>משפט אוצרות ברור ויצירות שמתאימות לו</td><td>הסדר מספר סיפור, ויש יצירה אחת שמפתיעה</td></tr>
+      <tr class="reveal"><td>✍️ טקסטי קיר</td><td>מועתקים או חסרים</td><td>מתארים מה רואים</td><td>עד 40 מילים, פרט מהזום ומשהו שלא רואים במבט ראשון</td><td>כל טקסט גורם להסתכל שוב, עם שאלה ושפה חיה</td></tr>
+      <tr class="reveal"><td>🔎 דיוק ועובדות</td><td>פרטים חסרים או שגויים</td><td>רוב הפרטים נכונים, בלי בדיקה</td><td>כל הקרדיטים מלאים, ועובדה אחת נבדקה בשני מקורות</td><td>כל עובדה נבדקה, ונתפסה ותוקנה טעות של AI</td></tr>
+      <tr class="reveal"><td>🤝 צוות והגשה</td><td>אחד עשה הכול, האתר לא מפורסם</td><td>כולם עשו משהו, חסר מדריך קולי או פרסום</td><td>כל תפקיד ביצע, האתר מפורסם עם מדריך קולי</td><td>כל הקולות נשמעים במדריך, והאתר עובד מכל מכשיר</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ===================== 25 · ארבע דרכים לנצח ===================== -->
+<section class="slide" data-topic="האתגר" data-title="ארבע דרכים לנצח" data-accent="#b8892b">
+  <span class="kicker">🏆 הפרסים של ערב הפתיחה</span>
+  <h2>ארבע דרכים <span class="c-gold">לנצח</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🏅</div><strong>מדליית המבקרים</strong><p>הניקוד הכולל הגבוה ביותר.</p></div>
+    <div class="card"><div class="emoji">🦅</div><strong>עין הנשר</strong><p>הפרט המוסתר הכי מפתיע בכל המוזיאון.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>הקול הסוחף</strong><p>המדריך הקולי שהכי בא להמשיך להקשיב לו.</p></div>
+    <div class="card"><div class="emoji">🧭</div><strong>הסדר החכם</strong><p>תערוכה שמספרת סיפור מהיצירה הראשונה עד האחרונה.</p></div>
+  </div>
+  <p class="lead" style="margin-top:16px">צוות יכול לזכות רק בפרס אחד. ככה יותר צוותים עולים לבמה.</p>
+</section>
+
+<!-- ===================== 26 · ספרינט 1 ===================== -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: אוסף וטקסטים" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint1" aria-label="מה כל תפקיד עושה">?</button>
+  <span class="kicker">⏱ ספרינט 1 · 20 דקות</span>
+  <h2>האוסף <span class="cyan">והטקסטים</span></h2>
+  <div class="split even" style="align-items:start">
+    <div>
+      <div class="miles">
+        <div class="mile"><b>עד דקה 10</b><span>6 יצירות בסדר שלהן, עם שם, אמן/ית, שנה ומוזיאון בדף התכנון.</span></div>
+        <div class="mile"><b>עד דקה 20</b><span>6 טקסטי קיר בטיוטה, ולפחות 2 גמורים לסיור המקדים.</span></div>
+        <div class="mile"><b>וגם</b><span>משפט אוצרות אחד ושם לתערוכה.</span></div>
+      </div>
+      <div class="tl"><span class="r">🔴 טקסטי קיר: בלי AI</span><span class="y">🟡 רעיונות ובדיקת עובדות: AI מציע, אתם בודקים</span></div>
+      <div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+    <div class="roleList">
+      <div><span>🗝️</span><span><b>אוצר/ת ראשי/ת:</b> רעיון, סדר, ומי כותב איזה טקסט.</span></div>
+      <div><span>🔎</span><span><b>חוקר/ת אוסף:</b> מחפש/ת, ממלא/ת קרדיטים, בודק/ת עובדה בשני מקורות.</span></div>
+      <div><span>✍️</span><span><b>כותב/ת:</b> מוביל/ה את נוסחת 40 המילים ועורך/ת.</span></div>
+      <div><span>🖥️</span><span><b>מעצב/ת חללים:</b> פותח/ת את האתר, משתף/ת ומעלה צילומי מסך.</span></div>
+      <div><span>🎧</span><span><b>קול המוזיאון:</b> כותב/ת טקסט אחד ומתחיל/ה את תסריט המדריך.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 27 · דוגמה פתורה ===================== -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="דוגמה פתורה: כחול עמוק" data-accent="#4c8bd6">
+  <span class="kicker">📋 דף התכנון · דוגמה פתורה מאגף "הצבע הכחול"</span>
+  <div class="exHead"><span class="nm">"כחול עמוק"</span><span class="cs">משפט האוצרות: כחול הוא לא צבע אחד. בתערוכה הוא עובר מעצב, דרך סערה וכוח, ועד לשקט של מים.</span></div>
+  <div class="wallEx">
+    <div class="mini"><div class="mf t-guitar" data-n="1"></div><div class="mood">כחול עצוב</div><div class="ml"><b>הגיטריסט הזקן</b>פבלו פיקאסו · <span class="nw">1903–1904</span><i>המכון לאמנות של שיקגו</i></div></div>
+    <div class="mini"><div class="mf t-starry" data-n="2"></div><div class="mood">כחול סוער</div><div class="ml"><b>ליל כוכבים</b>וינסנט ואן גוך · 1889<i>MoMA, ניו יורק</i></div></div>
+    <div class="mini"><div class="mf t-wave" data-n="3"></div><div class="mood">כחול חזק</div><div class="ml"><b>הגל הגדול של קנגאווה</b>הוקוסאי · בערך 1831<i>המטרופוליטן, ניו יורק</i></div></div>
+    <div class="mini"><div class="mf t-pearl" data-n="4"></div><div class="mood">כחול יקר</div><div class="ml"><b>נערה עם עגיל פנינה</b>יוהנס ורמיר · בערך 1665<i>מאוריצהאוס, האג</i></div></div>
+    <div class="mini"><div class="mf t-boy" data-n="5"></div><div class="mood">כחול חגיגי</div><div class="ml"><b>הנער בכחול</b>תומאס גיינסבורו · בערך 1770<i>ספריית הנטינגטון, קליפורניה</i></div></div>
+    <div class="mini"><div class="mf t-lilies" data-n="6"></div><div class="mood">כחול שקט</div><div class="ml"><b>חבצלות מים</b>קלוד מונה · 1906<i>המכון לאמנות של שיקגו</i></div></div>
+  </div>
+  <div class="wlabel slim" style="margin-top:12px"><span class="wt">4 · נערה עם עגיל פנינה <span class="wcount ok">28 מילים</span></span>התקרבו לפנינה: אין לה וו! ורמיר צייר אותה בכמה משיכות מכחול לבנות ואפורות, בלי שום חיבור לאוזן. ובכל זאת אנחנו רואים פנינה. מה עוד העין שלנו "משלימה" לבד?</div>
+</section>
+
+<!-- ===================== 28 · סיור מקדים ===================== -->
+<section class="slide tight" data-topic="סיור מקדים" data-title="סיור מקדים" data-accent="#e76f86">
+  <span class="kicker">👀 נקודת ביקורת · 7 דקות</span>
+  <h2>סיור <span class="c-rose">מקדים</span> אצל השכנים</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🖼️</div><strong>מראים</strong><p>6 היצירות בסדר שלהן ו-2 טקסטים גמורים.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>אתגר הזום</strong><p>השכנים קוראים טקסט אחד ומחפשים את הפרט ב-30 שניות.</p></div>
+    <div class="card"><div class="emoji">💬</div><strong>אני אוהב/ת · הלוואי</strong><p>משפט אחד מכל סוג. מבקרים טקסט, לא אנשים.</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>מתחלפים</strong><p>אחרי 3 דקות הצוות השני מראה. ואז מתקנים טקסט אחד.</p></div>
+  </div>
+  <div class="row" style="margin-top:4px">
+    <div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="timer" data-seconds="30"><output>00:30</output><button class="ghost" data-t="toggle">🔍 אתגר הזום</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- ===================== 29 · פסלים במוזיאון ===================== -->
+<section class="slide tight statue" data-topic="סיור מקדים" data-title="תנועה: פסלים במוזיאון" data-accent="#b8892b">
+  <span class="kicker">🧍 דקה של תנועה</span>
+  <h2>פסלים <span class="c-gold">במוזיאון</span></h2>
+  <p class="lead">כולם קמים. צוות אחד מקבל בסוד שם של יצירה וקופא בתנוחה שלה. שאר הכיתה מנחשת. "הבא" חושף.</p>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🤔</div><strong>יצירה 1</strong><div class="ans reveal">"החושב" · אוגוסט רודן</div></div>
+    <div class="card"><div class="emoji">😱</div><strong>יצירה 2</strong><div class="ans reveal">"הצעקה" · אדוארד מונק</div></div>
+    <div class="card"><div class="emoji">🙏</div><strong>יצירה 3</strong><div class="ans reveal">"ידיים מתפללות" · אלברכט דירר</div></div>
+    <div class="card"><div class="emoji">☝️</div><strong>יצירה 4</strong><div class="ans reveal">"בריאת האדם" · מיכלאנג׳לו</div></div>
+  </div>
+</section>
+
+<!-- ===================== 30 · ספרינט 2 ===================== -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: בונים את המוזיאון" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint2" aria-label="מה כל תפקיד עושה">?</button>
+  <span class="kicker">⏱ ספרינט 2 · 16 דקות</span>
+  <h2>בונים את <span class="cyan">המוזיאון</span></h2>
+  <div class="split even" style="align-items:start">
+    <div>
+      <div class="miles">
+        <div class="mile"><b>עד דקה 8</b><span>6 היצירות באתר: תמונה, טקסט קיר, קרדיט וכפתור.</span></div>
+        <div class="mile"><b>עד דקה 13</b><span>מדריך קולי מוקלט ומוטמע (או כפתור עם קישור).</span></div>
+        <div class="mile"><b>עד דקה 16</b><span>מפורסם ונבדק בחלון גלישה בסתר.</span></div>
+      </div>
+      <div class="tl"><span class="r">🔴 התסריט והקולות: שלכם</span><span class="g">🟢 מי שסיים: סקירה קולית ב-<bdi class="nw">Gemini Notebook</bdi> להשוואה</span></div>
+      <div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+    <div class="roleList">
+      <div><span>🖥️</span><span><b>מעצב/ת חללים:</b> בונה את הדפים ומפרסם/ת.</span></div>
+      <div><span>✍️</span><span><b>כותב/ת:</b> מדביק/ה טקסטים ובודק/ת 40 מילים.</span></div>
+      <div><span>🔎</span><span><b>חוקר/ת:</b> בודק/ת שכל קרדיט מלא ושכל קישור עובד.</span></div>
+      <div><span>🎧</span><span><b>קול המוזיאון:</b> מקליט/ה עם כל הצוות ומעלה ל-Drive.</span></div>
+      <div><span>🗝️</span><span><b>אוצר/ת ראשי/ת:</b> שומר/ת על הזמן ומכין/ה את שלט האגף.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 31 · המוזיאון ברשת ===================== -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ככה נראה אגף באתר" data-accent="#4c8bd6">
+  <span class="kicker">🌐 ככה נראה אגף מוכן</span>
+  <h2>דף הפתיחה <span class="c-sky">של התערוכה</span></h2>
+  <div class="browser" aria-hidden="true">
+    <div class="bar"><i></i><i></i><i></i><span class="url">sites.google.com/view/blue-wing</span></div>
+    <div class="nav2"><b>פתיחה</b><span>חדר 1 · עצב</span><span>חדר 2 · כוח</span><span>חדר 3 · שקט</span></div>
+    <div class="hero2"><b>אגף הצבע הכחול · "כחול עמוק"</b><p>כחול הוא לא צבע אחד. בתערוכה הוא עובר מעצב, דרך סערה וכוח, ועד לשקט של מים.</p>
+      <div class="player"><span class="pb">▶</span><span>🎧 המדריך הקולי</span><span class="tr"></span><span>1:14</span></div></div>
+    <div class="rooms">
+      <div class="room"><div class="mf t-guitar"></div><p><b>הגיטריסט הזקן</b>התקרבו לצוואר של הגיטריסט: מבצבצים שם קווים של פנים נוספות...<i>פיקאסו · <span class="nw">1903–1904</span> · המכון לאמנות של שיקגו · Google Arts &amp; Culture</i></p></div>
+      <div class="room"><div class="mf t-wave"></div><p><b>הגל הגדול של קנגאווה</b>חפשו את הר פוג׳י. מצאתם? הוא הקטנטן שבתחתית...<i>הוקוסאי · בערך 1831 · המטרופוליטן · Google Arts &amp; Culture</i></p></div>
+      <div class="room"><div class="mf t-lilies"></div><p><b>חבצלות מים</b>חפשו את השמיים. אין? הם נמצאים בתוך המים...<i>מונה · 1906 · המכון לאמנות של שיקגו · Google Arts &amp; Culture</i></p></div>
+    </div>
+  </div>
+  <div class="callouts"><span>🏷️ שם האגף והתערוכה</span><span>💬 משפט אוצרות</span><span>🎧 מדריך קולי למעלה</span><span>🔗 כפתור "לזום ביצירה"</span><span>©️ קרדיט מלא</span></div>
+</section>
+
+<!-- ===================== 32 · איך מקליטים ===================== -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="מדריך קולי: איך מקליטים" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="audio" aria-label="הוראות הקלטה">?</button>
+  <span class="kicker">🎧 המדריך הקולי · 60–90 שניות</span>
+  <h2>מקליטים <span class="c-violet">בארבעה צעדים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>📝 תסריט</strong><p>פתיח עם שאלה, משפט או שניים לכל חדר, וסיום. בערך 100–150 מילים.</p></div>
+    <div class="step"><strong>🎙️ הקלטה</strong><p>מקליט הקול בטלפון או במחשב. פינה שקטה, מכשיר קרוב לפה.</p></div>
+    <div class="step"><strong>☁️ Drive</strong><p>מעלים את הקובץ ל-Drive ← שיתוף: "כל מי שיש לו את הקישור".</p></div>
+    <div class="step"><strong>🌐 לאתר</strong><p>ב-Sites: "הוספה" ← Drive ← הקובץ. לא מתנגן? כפתור עם הקישור.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 33 · איך נשמעים ===================== -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="מדריך קולי: איך נשמעים" data-accent="#8c7ae6">
+  <span class="kicker">🎙️ טיפים מהמדריכים של המוזיאונים</span>
+  <h2>ככה נשמע <span class="c-violet">מדריך שבא להקשיב לו</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">❓ <b>פותחים בשאלה,</b> לא ב"שלום, אנחנו צוות 3". "איזה צבע יש לעצב?"</div>
+    <div class="revealCard reveal">👉 <b>אומרים איפה להסתכל:</b> "חפשו את הפינה השמאלית", "התקרבו לידיים".</div>
+    <div class="revealCard reveal">🐢 <b>מדברים לאט,</b> עם הפסקה קטנה בין חדר לחדר.</div>
+    <div class="revealCard reveal">🗣️ <b>כל קול, חדר אחד.</b> כולם נשמעים, ואף אחד לא קורא הכול.</div>
+    <div class="revealCard reveal">🔁 <b>מקליטים עד הסוף,</b> בלי לחפש מושלם. ובלי שמות מלאים בהקלטה.</div>
+  </div>
+</section>
+
+<!-- ===================== 34 · משימות צד ===================== -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#f4a259">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>עוד חדר <span class="orange">במוזיאון</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🕵️</div><strong>היצירה השביעית הסודית</strong><p>ציור שלכם (על נייר או ב-AutoDraw) עם טקסט קיר, בחדר נסתר.</p></div>
+    <div class="card"><div class="emoji">🎧</div><strong>מי מדריך טוב יותר?</strong><p>סקירה קולית ב-<bdi class="nw">Gemini Notebook</bdi> מטקסטי הקיר. מה ה-AI פספס או המציא?</p></div>
+    <div class="card"><div class="emoji">🇬🇧</div><strong>For our visitors</strong><p>שני טקסטי קיר באנגלית, למבקרים מחו״ל.</p></div>
+    <div class="card"><div class="emoji">📱</div><strong>מוזיאון בכיס</strong><p>קוד QR לאתר מתפריט השיתוף של Chrome, על שלט האגף.</p></div>
+    <div class="card"><div class="emoji">🗺️</div><strong>מפת התערוכה</strong><p>מפת חשיבה ב-Notebook שמראה איך 6 היצירות מתחברות.</p></div>
+    <div class="card"><div class="emoji">🦅</div><strong>פרט שני</strong><p>עוד פרט מוסתר ביצירה הכי עמוסה, בשביל עין הנשר.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 35 · הגשה ===================== -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשה" data-accent="#0f766e">
+  <span class="kicker">📨 הגשה · שתי דקות</span>
+  <h2>קול המוזיאון <span class="cyan">פותח/ת את התערוכה</span></h2>
+  <p class="lead">הטופס "פתיחת תערוכה": <span class="editLink" contenteditable="true" spellcheck="false">forms.gle/______</span></p>
+  <div class="split even" style="align-items:start">
+    <div class="task" style="margin-top:8px"><strong>✓ בטופס</strong><ul>
+      <li>שם האגף ושם התערוכה</li>
+      <li>קישור לאתר המפורסם</li>
+      <li>קישור למדריך הקולי</li>
+      <li>6 היצירות והמוזיאונים</li>
+      <li>🤖 מה ה-AI עשה · מה אנחנו עשינו</li>
+    </ul></div>
+    <div>
+      <div class="wlabel slim" style="margin-top:8px"><span class="wt">שם האתר</span><span class="wm">בדיוק בפורמט הזה</span><b>אגף [נושא] · [שם התערוכה]</b><br>למשל: אגף הצבע הכחול · כחול עמוק</div>
+      <div class="wlabel slim" style="margin-top:12px"><span class="wt">🤖 שורת AI לדוגמה</span>מה ה-AI עשה: בדק את השנה של שתי יצירות והציע 8 רעיונות. מה אנחנו עשינו: בחרנו 6, כתבנו את כל הטקסטים, הקלטנו ותפסנו שנה שגויה.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 36 · חוקי הסיור ===================== -->
+<section class="slide tight" data-topic="ערב הפתיחה" data-title="ערב הפתיחה: חוקי הסיור" data-accent="#7a2e3a">
+  <span class="kicker">🥂 ערב הפתיחה</span>
+  <h2>המוזיאון <span class="c-mus">נפתח</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🖥️ מכינים</strong><p>האתר פתוח בדף הפתיחה, שלט האגף ליד המחשב, והמעטפה פתוחה: זו תיבת הקלפי.</p></div>
+    <div class="step"><strong>🚶 עוברים</strong><p>כל הצוות יחד לתחנה לפי המפה. 3 דקות בכל תחנה.</p></div>
+    <div class="step"><strong>👂 קוראים ומקשיבים</strong><p>טקסטי הקיר והמדריך הקולי. האוצרים לא מסבירים!</p></div>
+    <div class="step"><strong>🔍 מחפשים</strong><p>בוחרים טקסט, פותחים את היצירה ומחפשים את הפרט בזום.</p></div>
+    <div class="step"><strong>🎟️ מדרגים</strong><p>בכרטיס המבקר: מצאתי? מה? 1–3 כוכבים ומשפט. התלוש נכנס למעטפה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 37 · הסיור ===================== -->
+<section class="slide tight" data-topic="ערב הפתיחה" data-title="הסיור" data-accent="#7a2e3a">
+  <span class="kicker">🗺️ הסיור · 3 סבבים של 3 דקות</span>
+  <h2>לאן הולכים <span class="c-mus">עכשיו?</span></h2>
+  <div class="tour" id="tour">
+    <div class="tourPanel">
+      <div class="tourTop"><span class="rnd" id="tourRound">סבב 1 מתוך 3</span>
+        <span class="teamsCtl">צוותים: <button id="tourMinus" aria-label="פחות צוותים">−</button><output id="tourN">7</output><button id="tourPlus" aria-label="יותר צוותים">+</button></span></div>
+      <div class="tourClock" id="tourClock">03:00</div>
+      <div class="tourBtns"><button class="btn" id="tourGo">▶ התחלה</button><button class="ghost" id="tourNext">הסבב הבא ←</button><button class="ghost" id="tourReset">↺</button></div>
+    </div>
+    <div class="tourPanel"><div class="tourMap" id="tourMap"></div></div>
+  </div>
+  <p class="lead" style="margin-top:10px">🔔 בצלצול: מכניסים תלוש למעטפה ועוברים לתחנה הבאה.</p>
+</section>
+
+<!-- ===================== 38 · אתגר הזום ===================== -->
+<section class="slide tight" data-topic="ערב הפתיחה" data-title="אתגר הזום: מי מצא?" data-accent="#4c8bd6">
+  <span class="kicker">🔍 אתגר הזום · סופרים את התלושים במעטפה</span>
+  <h2>כמה מבקרים <span class="c-sky">מצאו את הפרט?</span></h2>
+  <p class="lead">רק תלוש שכתוב בו מה נמצא, והצוות מאשר שזה הפרט. עד 5 נקודות לצוות. המספרים עוברים ללוח הניקוד.</p>
+  <div class="vote teams7" id="zoomVote">
+    <div class="voteItem"><div class="emoji">1️⃣</div><strong>צוות 1</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">2️⃣</div><strong>צוות 2</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">3️⃣</div><strong>צוות 3</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">4️⃣</div><strong>צוות 4</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">5️⃣</div><strong>צוות 5</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">6️⃣</div><strong>צוות 6</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">7️⃣</div><strong>צוות 7</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+</section>
+
+<!-- ===================== 39 · לוח הניקוד ===================== -->
+<section class="slide tight" data-topic="טקס המדליות" data-title="לוח הניקוד" data-accent="#b8892b">
+  <span class="kicker">🧮 לוח הניקוד · לוחצים על תא ומקלידים</span>
+  <h2>לוח הניקוד <span class="c-gold">של המוזיאון</span></h2>
+  <div class="tableWrap"><table class="t score" id="scoreT">
+    <thead><tr><th>צוות / אגף</th><th>🖼️ יצירות<small>עד 6</small></th><th>✍️ טקסטים<small>עד 6</small></th><th>🎧 קולי<small>4</small></th><th>🌐 אתר<small>3</small></th><th>🔍 זום<small>עד 5</small></th><th>📊 מחוון<small>עד 16</small></th><th>⭐ כוכבים<small>סה״כ</small></th><th>⭐ נק׳<small>5/3/2</small></th><th>🏅 סה״כ<small>מתוך 45</small></th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div class="scoreTools"><button class="ghost" id="scoreReset">↺ איפוס הלוח</button><span>שמות הצוותים: לוחצים על השם ומשנים. הכוכבים מתורגמים לנקודות לבד, והלוח נשמר במחשב הזה.</span></div>
+</section>
+
+<!-- ===================== 40 · המדליות ===================== -->
+<section class="slide tight" data-topic="טקס המדליות" data-title="והמדליה הולכת ל..." data-accent="#b8892b">
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <span class="kicker">🏅 טקס המדליות</span>
+  <h2>והמדליה <span class="c-gold">הולכת ל...</span></h2>
+  <div class="medals">
+    <div class="medal reveal"><span class="md">🦅</span><div><strong>עין הנשר</strong><span class="who" contenteditable="true" spellcheck="false"></span><span class="why">הפרט המוסתר הכי מפתיע</span></div></div>
+    <div class="medal reveal"><span class="md">🎧</span><div><strong>הקול הסוחף</strong><span class="who" contenteditable="true" spellcheck="false"></span><span class="why">המדריך הקולי שבא להמשיך להקשיב לו</span></div></div>
+    <div class="medal reveal"><span class="md">🧭</span><div><strong>הסדר החכם</strong><span class="who" contenteditable="true" spellcheck="false"></span><span class="why">תערוכה שמספרת סיפור</span></div></div>
+    <div class="medal big reveal" id="medalBig"><span class="md">🏅</span><div><strong>מדליית המבקרים</strong><span class="who" id="medalWho" contenteditable="true" spellcheck="false"></span><span class="why" id="medalWhy">הניקוד הכולל הגבוה ביותר</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 41 · כרטיס יציאה ===================== -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד</span>
+  <h2>לפני שהמוזיאון <span class="c-rose">נסגר</span></h2>
+  <div class="task"><strong>שלוש שאלות, שתי דקות</strong><ol>
+    <li>על איזו יצירה הכי קשה היה לוותר, ולמה?</li>
+    <li>פרט אחד שגיליתי היום בזום, ושלא הייתי רואה בלי להתקרב.</li>
+    <li>מה הופך טקסט קיר לכזה שגורם להסתכל שוב?</li>
+  </ol></div>
+  <div class="tl"><span class="r">🔴 בלי AI: כותבים לבד</span></div>
+</section>
+
+<!-- ===================== 42 · המוזיאון פתוח ===================== -->
+<section class="slide center hero" data-topic="סיום" data-title="המוזיאון פתוח" data-accent="#b8892b">
+  <span class="kicker">🏛️ ערב הפתיחה הסתיים</span>
+  <h2>האגפים כבר <span class="c-gold">לא ריקים</span></h2>
+  <p class="lead">בתחילת השיעור היו כאן קירות לבנים. עכשיו יש מוזיאון שלם, עם יצירות מכל העולם, טקסטים שכתבתם ומדריכים בקולות שלכם. והוא פתוח 24 שעות ביממה.</p>
+  <div class="ticketBig">🎟️ שלחו את הקישור למישהו בבית, ובקשו ממנו למצוא את הפרט המוסתר</div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+
+<template id="help-artsculture"><h3>🔎 Arts &amp; Culture: איך מוצאים ואוספים</h3><ol>
+<li>נכנסים ל-<b>artsandculture.google.com</b> ולוחצים על זכוכית המגדלת.</li>
+<li>מחפשים <b>באנגלית</b>: המילים שעל המעטפה (blue, night, horse) או שם של אמן/ית.</li>
+<li>בתוצאות בוחרים <b>פריטים / Items</b>, כדי לראות יצירות ולא כתבות.</li>
+<li>פותחים יצירה ← לוחצים על התמונה ← מתקרבים בגלגלת או ב-"+".</li>
+<li>גוללים ל<b>פרטים / Details</b>: שם (Title), יוצר/ת (Creator), שנה (Date) והמוזיאון שמציג.</li>
+<li>צילום מסך: Windows ‏<b>Win+Shift+S</b> · Mac ‏<b>Cmd+Shift+4</b> · Chromebook ‏<b>Ctrl+Shift+מקש החלונות</b>.</li>
+<li>מעתיקים את הקישור של היצירה, בשביל הכפתור באתר.</li>
+<li>רוצים לחפש לפי צבע? בניסוי <b>Art Palette</b> של Arts &amp; Culture בוחרים צבעים ומקבלים יצירות.</li></ol></template>
+
+<template id="help-prompts"><h3>🤖 פרומפטים מוכנים ל-Gemini</h3><ol>
+<li>מה ידוע על הציור [שם היצירה] של [אמן/ית]? תן 3 עובדות, ולכל עובדה כתוב איפה אפשר לבדוק אותה.</li>
+<li>אנחנו בונים תערוכה בנושא [נושא האגף]. הצע 8 יצירות מפורסמות ממוזיאונים שונים שמתאימות לנושא, עם שם, אמן/ית ומוזיאון. אנחנו נבדוק כל אחת ב-Arts &amp; Culture.</li>
+<li>הנה טקסט הקיר שכתבנו: [טקסט]. אל תשכתב אותו. סמן לנו רק: כמה מילים יש, ואם יש בו עובדה שכדאי לבדוק.</li>
+<li>תשחק מבקר/ת צעיר/ה במוזיאון שקורא/ת את הטקסט הזה: [טקסט]. מה לא הבנת? איזו שאלה היית שואל/ת?</li>
+<li>הנה 6 היצירות שבחרנו: [רשימה]. הצע שני סדרים שונים להצגתן, ולכל סדר כתוב איזה סיפור הוא מספר.</li></ol>
+<p>🔴 את טקסטי הקיר כותבים בלי AI. ✅ כל עובדה נבדקת מול דף היצירה.</p></template>
+
+<template id="help-sites"><h3>🌐 Google Sites צעד אחרי צעד</h3><ol>
+<li><b>sites.google.com</b> ← "+" (אתר ריק). בשם האתר: <b>אגף [נושא] · [שם התערוכה]</b>.</li>
+<li><b>שיתוף:</b> אייקון האדם עם ה-"+" למעלה ← מוסיפים את חברי הצוות כעורכים.</li>
+<li><b>ערכת נושא:</b> בצד, "עיצובים" (Themes). בוחרים אחת שמתאימה לצבע של האגף.</li>
+<li><b>דף פתיחה:</b> שם התערוכה, משפט האוצרות והמדריך הקולי.</li>
+<li><b>חדרים:</b> "דפים" (Pages) ← "+" ← "חדר 1". שתי יצירות בכל חדר. אין זמן? דף אחד ארוך.</li>
+<li><b>יצירה:</b> "הוספה" (Insert) ← "תמונות" (צילום המסך) ← "תיבת טקסט" (טקסט קיר + קרדיט) ← "לחצן" (Button) עם הקישור ליצירה.</li>
+<li><b>פרסום:</b> "פרסום" (Publish) ← כתובת קצרה באנגלית ← "פרסום".</li>
+<li><b>בדיקה:</b> פותחים את הקישור בחלון גלישה בסתר. כל שינוי = לפרסם שוב.</li></ol></template>
+
+<template id="help-rules"><h3>🏅 מדליית המבקרים: כל החוקים</h3><ol>
+<li>בדיוק 6 יצירות, כולן בנושא האגף, מלפחות 3 מוזיאונים שונים.</li>
+<li>לכל יצירה: שם, אמן/ית, שנה, מוזיאון וקרדיט "Google Arts &amp; Culture".</li>
+<li>טקסט קיר עד 40 מילים, שהצוות כתב, עם פרט אחד שרואים רק בזום.</li>
+<li>AI מותר לבדיקת עובדות ולשאלות, לא לכתיבת טקסטי הקיר. שורת AI בטופס ההגשה.</li>
+<li>האתר מפורסם, והקישור נפתח בחלון גלישה בסתר לפני ההגשה.</li>
+<li>בערב הפתיחה האוצרים לא מסבירים. מסבירים גם אחרי אזהרה? התלושים של אותו סבב לא נספרים באתגר הזום.</li>
+<li>תלוש זום נחשב רק אם כתוב בו מה נמצא, והצוות מאשר שזה הפרט.</li>
+<li>לא מדרגים את האגף של הצוות שלכם.</li>
+<li>שובר שוויון: יותר מבקרים שמצאו את הפרט מהזום.</li></ol></template>
+
+<template id="help-sprint1"><h3>⏱ ספרינט 1: מה כל אחד עושה</h3><ol>
+<li><b>🗝️ אוצר/ת ראשי/ת:</b> מקריא/ה את כרטיס המשימה, מחליט/ה עם הצוות על הרעיון, ובדקה 10 נועל/ת את 6 היצירות ואת הסדר.</li>
+<li><b>🔎 חוקר/ת אוסף:</b> מחפש/ת ב-Arts &amp; Culture, ממלא/ת קרדיטים בדף התכנון, בודק/ת עובדה אחת לפחות בשני מקורות.</li>
+<li><b>✍️ כותב/ת:</b> מחלק/ת טקסטים, כותב/ת שניים ועורך/ת את כולם לפי נוסחת 40 המילים.</li>
+<li><b>🖥️ מעצב/ת חללים:</b> פותח/ת את האתר, משתף/ת עם הצוות, אוסף/ת צילומי מסך וקישורים.</li>
+<li><b>🎧 קול המוזיאון:</b> כותב/ת טקסט אחד ומתחיל/ה את תסריט המדריך הקולי.</li></ol></template>
+
+<template id="help-sprint2"><h3>⏱ ספרינט 2: מה כל אחד עושה</h3><ol>
+<li><b>🖥️ מעצב/ת חללים:</b> דף פתיחה ו-3 חדרים, ופרסום.</li>
+<li><b>✍️ כותב/ת:</b> מדביק/ה את הטקסטים ובודק/ת שכל אחד עד 40 מילים (מונה המילים בשקף 12).</li>
+<li><b>🔎 חוקר/ת אוסף:</b> בודק/ת קרדיטים וכפתורים, ופותח/ת את האתר בחלון גלישה בסתר.</li>
+<li><b>🎧 קול המוזיאון:</b> מקליט/ה עם כל הצוות, מעלה ל-Drive ומטמיע/ה באתר.</li>
+<li><b>🗝️ אוצר/ת ראשי/ת:</b> שומר/ת על הזמן, ממלא/ת את שלט האגף ומכין/ה את המעטפה.</li>
+<li><b>סיימתם?</b> משימת צד מהשקף הבא, או סקירה קולית ב-Gemini Notebook להשוואה.</li></ol></template>
+
+<template id="help-audio"><h3>🎧 המדריך הקולי: הקלטה והעלאה</h3><ol>
+<li><b>תסריט:</b> פתיח עם שאלה, משפט או שניים לכל חדר, וסיום שמזמין להסתכל שוב.</li>
+<li><b>הקלטה:</b> אפליקציית מקליט הקול בטלפון, או במחשב (Windows: "מקליט קול", Mac: "תזכורות קוליות"). אפשר גם vocaroo.com בדפדפן.</li>
+<li><b>Drive:</b> drive.google.com ← "+ חדש" ← "העלאת קובץ" ← לחיצה ימנית ← "שיתוף" ← "כל מי שיש לו את הקישור".</li>
+<li><b>Sites:</b> "הוספה" (Insert) ← Drive ← בוחרים את הקובץ.</li>
+<li><b>לא מתנגן?</b> "לחצן" (Button) עם הקישור לקובץ: "🎧 המדריך הקולי".</li>
+<li>בלי שמות מלאים ובלי פרטים אישיים בהקלטה.</li></ol></template>
+
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== האוצרים — lesson widgets (runs after the kit engine; the engine itself is untouched) ===== */
+(()=>{
+const LS='tie-museum-curators:';
+const store={get(k,d){try{const v=localStorage.getItem(LS+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(LS+k,JSON.stringify(v))}catch(e){}}};
+const $=id=>document.getElementById(id);
+
+/* ---------- 1. the envelope draw ---------- */
+const envs=[...document.querySelectorAll('#envGrid .env')];const dOut=$('drawOut');let drawing=false;
+function envUpd(){const n=envs.filter(e=>!e.classList.contains('open')).length;if(dOut)dOut.textContent=n?('נשארו '+n+' מעטפות סגורות'):'כל האגפים חולקו 🎉'}
+envs.forEach(e=>e.addEventListener('click',()=>{if(drawing)return;e.classList.toggle('open');envUpd()}));
+if($('drawBtn'))$('drawBtn').onclick=()=>{if(drawing)return;const closed=envs.filter(e=>!e.classList.contains('open'));if(!closed.length)return;drawing=true;
+ const pick=closed[Math.floor(Math.random()*closed.length)];let i=0;const steps=closed.length>1?12+Math.floor(Math.random()*6):1;
+ const tick=()=>{closed.forEach(e=>e.classList.remove('pulse'));
+  if(i>=steps){pick.classList.add('pulse');setTimeout(()=>{pick.classList.remove('pulse');pick.classList.add('open');drawing=false;envUpd()},380);return}
+  closed[i%closed.length].classList.add('pulse');i++;setTimeout(tick,70+i*14)};tick()};
+if($('drawReset'))$('drawReset').onclick=()=>{envs.forEach(e=>e.classList.remove('open','pulse'));envUpd()};
+envUpd();
+
+/* ---------- 2. word counter ---------- */
+const ta=$('wcText'),wn=$('wcN'),ws=$('wcSt');
+const wc=t=>t.trim().split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+function wcUpd(){const n=wc(ta.value);wn.textContent=n;ws.textContent=n===0?'':(n<=40?'✓ עובר את מבחן 40 המילים':'✗ לקצר עוד '+(n-40)+' מילים');ws.className='st '+(n<=40?'ok':'no');if(!n)ws.className='st'}
+if(ta){ta.addEventListener('input',wcUpd);wcUpd()}
+
+/* ---------- 3. scoreboard ---------- */
+const T=$('scoreT'),tb=T?T.querySelector('tbody'):null;
+const COLS=['art','txt','aud','site','zoom','rub','stars'];const MAX={art:6,txt:6,aud:4,site:3,zoom:5,rub:16};const N=7;
+const blank=()=>Array.from({length:N},(_,i)=>({name:'צוות '+(i+1),art:'',txt:'',aud:'',site:'',zoom:'',rub:'',stars:''}));
+let data=store.get('score',null);if(!Array.isArray(data)||data.length!==N)data=blank();
+const num=(v,k)=>{const n=parseFloat(String(v).replace(/[^\d.]/g,''));if(isNaN(n))return 0;return MAX[k]!=null?Math.min(n,MAX[k]):n};
+function build(){if(!tb)return;tb.innerHTML='';data.forEach(r=>{const tr=document.createElement('tr');
+  const nm=document.createElement('td');nm.contentEditable='true';nm.spellcheck=false;nm.dataset.k='name';nm.textContent=r.name;tr.appendChild(nm);
+  COLS.forEach(k=>{const td=document.createElement('td');td.contentEditable='true';td.dataset.k=k;td.inputMode='numeric';td.textContent=r[k];tr.appendChild(td);
+   if(k==='stars'){const c=document.createElement('td');c.className='calc';c.dataset.c='sp';tr.appendChild(c)}});
+  const tot=document.createElement('td');tot.className='tot';tr.appendChild(tot);tb.appendChild(tr)})}
+function calc(){if(!tb)return;const st=data.map(r=>num(r.stars,'stars'));const ranks=[...new Set(st.filter(s=>s>0))].sort((a,b)=>b-a);const P=[5,3,2];
+  const totals=data.map((r,i)=>{const sp=st[i]>0&&ranks.indexOf(st[i])<3?P[ranks.indexOf(st[i])]:0;
+   const t=['art','txt','aud','site','zoom','rub'].reduce((a,k)=>a+num(r[k],k),0)+sp;const tr=tb.children[i];
+   tr.querySelector('[data-c=sp]').textContent=sp||'';tr.querySelector('.tot').textContent=t;return t});
+  const top=Math.max(...totals);[...tb.children].forEach((tr,i)=>tr.classList.toggle('leader',top>0&&totals[i]===top));
+  const who=$('medalWho'),why=$('medalWhy');
+  if(who&&!who.dataset.manual){who.textContent=top>0?data.filter((r,i)=>totals[i]===top).map(r=>r.name).join(' + '):'';}
+  if(why&&!(who&&who.dataset.manual))why.textContent=top>0?('הניקוד הכולל הגבוה ביותר · '+top+' נקודות'):'הניקוד הכולל הגבוה ביותר'}
+function syncNames(){document.querySelectorAll('#zoomVote .voteItem strong').forEach((s,i)=>{if(data[i])s.textContent=data[i].name});tourMap()}
+if(tb){build();
+ tb.addEventListener('input',e=>{const td=e.target.closest('td');if(!td)return;const i=[...tb.children].indexOf(td.parentElement);data[i][td.dataset.k]=td.textContent.trim();store.set('score',data);calc();if(td.dataset.k==='name')syncNames()});
+ tb.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});}
+const rs=$('scoreReset');let rsArm=0;
+if(rs)rs.onclick=()=>{if(Date.now()-rsArm>3000){rsArm=Date.now();rs.textContent='לחצו שוב כדי לאפס';setTimeout(()=>rs.textContent='↺ איפוס הלוח',3000);return}
+ data=blank();store.set('score',data);build();calc();syncNames();const who=$('medalWho');if(who)delete who.dataset.manual;rs.textContent='↺ איפוס הלוח';rsArm=0};
+const mw=$('medalWho');if(mw)mw.addEventListener('input',()=>{mw.dataset.manual='1'});
+
+/* ---------- 4. zoom tally → scoreboard ---------- */
+const zItems=[...document.querySelectorAll('#zoomVote .voteItem')];
+zItems.forEach((it,i)=>{it.querySelectorAll('button[data-d]').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>{
+  const n=Number(it.querySelector('output').textContent)||0;if(!data[i])return;data[i].zoom=String(Math.min(5,n));store.set('score',data);
+  const td=tb&&tb.children[i]?tb.children[i].querySelector('[data-k=zoom]'):null;if(td)td.textContent=data[i].zoom;calc()},0)));
+ const saved=num(data[i]&&data[i].zoom,'zoom');const o=it.querySelector('output');if(saved&&o){o.textContent=saved;it.querySelector('button[data-d="1"]').click();it.querySelector('button[data-d="-1"]').click()}});
+
+/* ---------- 5. opening-night tour ---------- */
+let tn=Math.min(8,Math.max(3,Number(store.get('tourN',7))||7)),round=1,left=180,iv=null;
+const clock=$('tourClock'),rEl=$('tourRound'),go=$('tourGo');
+const rounds=()=>Math.min(3,tn-1);const name=i=>(data[i]&&data[i].name)||('צוות '+(i+1));
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function tourMap(){const m=$('tourMap');if(!m)return;m.innerHTML='';
+  for(let t=0;t<tn;t++){const to=(t+round)%tn;const d=document.createElement('div');const b=document.createElement('b');b.textContent=name(t);const s=document.createElement('span');s.className='to';s.textContent='← '+name(to);d.append(b,s);m.appendChild(d)}
+  if(rEl)rEl.textContent=round>rounds()?'הסיור הסתיים 🥂':('סבב '+round+' מתוך '+rounds());if($('tourN'))$('tourN').textContent=tn}
+function draw(){if(!clock)return;clock.textContent=left>0?fmt(left):'🔔 עוברים!';clock.classList.toggle('run',!!iv&&left>0);clock.classList.toggle('over',left<=0)}
+function stop(){clearInterval(iv);iv=null;if(go)go.textContent='▶ התחלה'}
+function chime(){try{const C=window.AudioContext||window.webkitAudioContext;const ac=new C();[0,.24,.48].forEach((t,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=[988,784,1175][i];
+  g.gain.setValueAtTime(.0001,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(.28,ac.currentTime+t+.02);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+t+.7);o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.75)})}catch(e){}}
+if(go)go.onclick=()=>{if(round>rounds())return;if(iv){stop();go.textContent='▶ המשך';draw();return}if(left<=0)left=180;
+  iv=setInterval(()=>{left--;if(left<=0){left=0;stop();chime();const p=$('tour');if(p){p.querySelectorAll('.tourPanel').forEach(x=>{x.classList.remove('flashGo');void x.offsetWidth;x.classList.add('flashGo')})}}draw()},1000);go.textContent='⏸ עצירה';draw()};
+if($('tourNext'))$('tourNext').onclick=()=>{stop();if(round<=rounds())round++;left=180;tourMap();draw()};
+if($('tourReset'))$('tourReset').onclick=()=>{stop();round=1;left=180;tourMap();draw()};
+const setN=d=>{tn=Math.min(8,Math.max(3,tn+d));store.set('tourN',tn);if(round>rounds()+1)round=rounds()+1;tourMap()};
+if($('tourMinus'))$('tourMinus').onclick=()=>setN(-1);if($('tourPlus'))$('tourPlus').onclick=()=>setN(1);
+
+/* ---------- 6. confetti for the big medal ---------- */
+const big=$('medalBig'),cf=$('confetti');
+function burst(){cf.innerHTML='';const cols=['#b8892b','#e3b341','#7a2e3a','#4c8bd6','#5bb5a2','#e76f86','#8c7ae6'];
+ for(let i=0;i<90;i++){const s=document.createElement('i');s.style.left=(Math.random()*100)+'%';s.style.background=cols[i%cols.length];s.style.animationDelay=(Math.random()*.7)+'s';s.style.animationDuration=(2.1+Math.random()*1.5)+'s';cf.appendChild(s)}}
+if(big&&cf)new MutationObserver(()=>{if(big.classList.contains('show')&&!cf.dataset.done){cf.dataset.done='1';burst()}if(!big.classList.contains('show')){delete cf.dataset.done;cf.innerHTML=''}}).observe(big,{attributes:true,attributeFilter:['class']});
+
+/* ---------- 7. a solved zoom quiz also counts as "zoomed out" (no dead "next" press) ---------- */
+document.querySelectorAll('.quiz').forEach(q=>q.querySelectorAll('.option').forEach(o=>o.addEventListener('click',()=>setTimeout(()=>{if(q.classList.contains('solved'))q.querySelectorAll('.zoomKey').forEach(z=>z.classList.add('show'))},0))));
+
+calc();syncNames();draw();
+})();
+</script>
+
+</body>
+</html>

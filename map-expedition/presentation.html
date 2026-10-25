@@ -1,0 +1,1482 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>משלחת המפה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== משלחת המפה — lesson styles (after the kit styles; the kit is untouched) ===== */
+.slide.tight h2{font-size:clamp(30px,4vw,58px);margin:10px 0 8px}
+.slide.tight .lead{font-size:clamp(16px,1.6vw,22px)}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(18px,2.6vw,40px);align-items:center}
+.split.wide{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips span,.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:16px;color:var(--ink);box-shadow:var(--shadow-sm)}
+.chip.t{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-ink)}
+.mono{font-family:"Rubik",var(--display);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.small{font-size:15px;color:var(--muted)}
+.gold{color:#a86d00}
+.ai-light{display:inline-flex;gap:6px;align-items:center;padding:6px 13px;border-radius:999px;font-weight:700;font-size:16px;border:1px solid}
+.ai-light.y{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}.ai-light.g{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}.ai-light.r{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+/* ---------- hero ---------- */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:24px;align-items:center;height:100%}
+.globeWrap{position:relative;display:grid;place-items:center;aspect-ratio:1;max-height:62vh;margin:auto;width:100%}
+.globeWrap canvas{position:relative;z-index:1;width:100%;height:100%;display:block}
+.slide.hero.globeHero::before{display:none}
+.globeWrap::before{content:"";position:absolute;inset:7%;border-radius:50%;background:radial-gradient(circle at 38% 32%,#ffffff 0,#eef7f5 45%,#dcefea 100%);box-shadow:inset -18px -22px 40px rgba(15,118,110,.10),0 30px 60px -30px rgba(15,118,110,.35)}
+.globeWrap .ring{position:absolute;inset:2%;border-radius:50%;border:1.5px dashed #c9e2dc;animation:spin 60s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sealEnv{position:absolute;z-index:2;bottom:4%;right:-2%;width:clamp(120px,13vw,190px);aspect-ratio:1.5;transform:rotate(-8deg);filter:drop-shadow(0 14px 18px rgba(31,42,55,.18));animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:rotate(-6deg) translateY(-8px)}}
+.envShape{position:absolute;inset:0;border-radius:10px;background:linear-gradient(160deg,#f8ecd4,#efdcb7);border:1px solid #dcc79c;overflow:hidden}
+.envShape::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#f3e3c3,#e8d2a6);clip-path:polygon(0 0,100% 0,50% 58%)}
+.envShape::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.04),transparent);clip-path:polygon(0 100%,50% 50%,100% 100%)}
+.wax{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-38%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#e35d6a,#b3263b 60%,#8e1b2e);display:grid;place-items:center;font-size:clamp(18px,2vw,30px);box-shadow:0 3px 8px rgba(142,27,46,.4),inset 0 2px 3px rgba(255,255,255,.25)}
+.stamp{position:absolute;top:8%;left:7%;font-size:11px;font-weight:800;color:#8a5300;letter-spacing:.5px;border:1.5px solid #c99a4a;border-radius:4px;padding:1px 5px;transform:rotate(-4deg);background:rgba(255,255,255,.4)}
+/* ---------- where am I ---------- */
+.placeStage{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,46px);align-items:center;margin-top:8px}
+.placeNum{position:relative;width:clamp(170px,19vw,280px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#fff,var(--accent-soft));border:2px solid var(--accent-line);box-shadow:var(--shadow-lg)}
+.placeNum b{font-family:var(--display);font-weight:800;font-size:clamp(90px,11vw,170px);line-height:1;color:var(--accent-ink)}
+.placeNum small{position:absolute;bottom:16%;font-weight:700;color:var(--muted);font-size:15px}
+.placeNum.flash{animation:pop .5s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes pop{0%{transform:scale(.8);opacity:.3}100%{transform:none;opacity:1}}
+.pips{display:flex;gap:10px;margin-top:6px}
+.pip{width:44px;height:12px;border-radius:99px;background:var(--paper2);border:1px solid var(--line);opacity:1!important;transform:none!important;filter:none!important}
+.pip.on,.pip.show{background:var(--accent);border-color:var(--accent)}
+.lookFor{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.lookFor div{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:10px 12px;font-weight:700;font-size:17px;display:flex;gap:8px;align-items:center;box-shadow:var(--shadow-sm)}
+.lookFor div i{font-style:normal;font-size:24px}
+/* dot map */
+.dotmap{display:block;width:100%;height:auto;overflow:hidden}
+.dotmap .land{fill:none;stroke:#a9cfc6;stroke-linecap:round}
+.dotmap .grat{stroke:#ece7de;stroke-width:.25;fill:none}
+.dotmap .eq{stroke:#e3b6a3;stroke-width:.35;stroke-dasharray:1.2 1.2;fill:none}
+.pin{transition:opacity .4s,transform .5s cubic-bezier(.2,.9,.3,1.3)}
+.pin .pulse{fill:none;stroke-width:.6;animation:pulse 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%{r:1.5;opacity:.9}100%{r:7;opacity:0}}
+.pin text{font-family:var(--display);font-weight:700;font-size:3.6px;paint-order:stroke;stroke:#fff;stroke-width:1.1px;fill:var(--ink)}
+.mapCard{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#fff,#fbfaf6);box-shadow:var(--shadow);padding:12px 14px}
+.ansList{display:grid;gap:8px}
+.ans{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;border:1px solid var(--line);border-inline-start:5px solid var(--c,var(--accent));border-radius:14px;background:var(--card);padding:8px 14px;box-shadow:var(--shadow-sm)}
+.ans .n{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:800;color:#fff;background:var(--c,var(--accent))}
+.ans b{font-family:var(--display);font-size:clamp(17px,1.7vw,22px)}
+.ans p{margin:0;color:var(--muted);font-size:clamp(14px,1.3vw,17px);line-height:1.35}
+/* scoring grid */
+.wgrid{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(15px,1.5vw,20px)}
+.wgrid th,.wgrid td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--line2)}
+.wgrid th{font-family:var(--display);font-weight:600;color:var(--muted);background:var(--paper2)}
+.wgrid td:first-child,.wgrid th:first-child{text-align:right}
+.wgrid input.nm{width:100%;min-width:120px;border:1px solid transparent;background:transparent;border-radius:9px;padding:5px 8px;font:700 clamp(15px,1.5vw,19px) var(--display);color:var(--ink)}
+.wgrid input.nm:hover,.wgrid input.nm:focus{border-color:var(--line);background:#fff;outline:none}
+.cyc{min-width:74px;border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:var(--paper);font-weight:800;color:var(--dim);transition:.15s}
+.cyc[data-v="3"]{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.cyc[data-v="1"]{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}
+.cyc[data-v="0"]{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+.tot{font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);color:var(--accent-ink)}
+.lead1row td{background:#fffaf0}
+/* team names strip */
+.teamStrip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.teamStrip input{width:150px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font:700 16px var(--display);color:var(--ink);background:#fff}
+.teamStrip input:focus{outline:2px solid var(--accent-line)}
+.teamStrip .ghost{padding:6px 11px}
+/* ---------- envelopes ---------- */
+.drawUI{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start;margin-top:8px}
+.envGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.envTile{position:relative;aspect-ratio:1.45;border:0;padding:0;background:none;cursor:pointer;transition:transform .2s}
+.envTile:hover{transform:translateY(-3px) rotate(-1deg)}
+.envTile .envShape{border-radius:9px}
+.envTile .wax{width:28%;font-size:clamp(14px,1.4vw,20px)}
+.envTile .no{position:absolute;top:6%;right:8%;font:800 13px var(--display);color:#8a5300}
+.envTile.taken{cursor:default;transform:none;opacity:.55;filter:grayscale(.5)}
+.envTile.taken .wax{background:#c9c2b6;box-shadow:none}
+.envTile .who{position:absolute;inset:auto 4% 6% 4%;font:700 12px var(--body);color:var(--ink);background:rgba(255,255,255,.85);border-radius:6px;padding:1px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawCtl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.drawCtl select{border:1px solid var(--line);border-radius:12px;padding:8px 12px;font:700 17px var(--display);background:#fff;color:var(--ink)}
+.envLetter{position:relative;border-radius:18px;background:#fffdf7;border:1px solid #e8dcc2;box-shadow:var(--shadow-lg);padding:18px 22px 16px;min-height:300px;overflow:hidden}
+.envLetter::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 33px,#f1e8d6 33px 34px);opacity:.6;pointer-events:none}
+.letter>*{position:relative}
+.envLetter .lhead{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#8a5300;font-size:15px}
+.envLetter .theme{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.2vw,44px);line-height:1.1;margin:10px 0 2px}
+.envLetter .region{color:var(--muted);font-weight:700;font-size:18px}
+.envLetter .coords{display:inline-block;margin:12px 0 8px;padding:8px 14px;border-radius:12px;background:#1f2a37;color:#fff;font-size:clamp(22px,2.4vw,32px);font-weight:700;letter-spacing:.5px}
+.envLetter .riddle{font-size:clamp(17px,1.7vw,22px);line-height:1.5}
+.envLetter .empty{display:grid;place-items:center;text-align:center;min-height:250px;color:var(--dim);font-weight:700;font-size:19px}
+.envLetter.open{animation:unfold .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes unfold{0%{transform:translateY(40px) scale(.94) rotate(-2deg);opacity:0}100%{transform:none;opacity:1}}
+.drawLog{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.drawLog span{font-size:14px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:3px 10px}
+/* ---------- clue scenes (CSS illustrations) ---------- */
+.scene{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:16/8;background:linear-gradient(180deg,#cfe6f5,#eef6fb 60%)}
+.scene .sun{position:absolute;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle,#ffe08a,#f4b740);box-shadow:0 0 0 10px rgba(255,214,102,.25)}
+.road{position:absolute;inset:auto 0 0 0;height:46%;background:linear-gradient(180deg,#8b939c,#6b737c)}
+.road::before{content:"";position:absolute;left:0;right:0;top:48%;height:5px;background:repeating-linear-gradient(90deg,#fff 0 40px,transparent 40px 76px)}
+.car{position:absolute;font-size:clamp(34px,4vw,56px);line-height:1}
+.signPost{position:absolute;right:12%;bottom:30%;display:flex;flex-direction:column;align-items:center}
+.signPost .plate{background:#1a5fb4;color:#fff;border:3px solid #fff;outline:2px solid #1a5fb4;border-radius:6px;padding:8px 16px;font:800 clamp(18px,2.2vw,30px) Arial,sans-serif;direction:ltr;white-space:nowrap}
+.signPost .pole{width:8px;height:70px;background:#7b8590}
+.ground{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,#dfe9c9,#cbdcae)}
+.postShadow{position:absolute;bottom:22%;height:7px;background:rgba(31,42,55,.35);border-radius:6px;transform-origin:right center}
+.compassMini{position:absolute;top:10px;left:12px;width:64px;height:64px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font:800 13px var(--display);box-shadow:var(--shadow-sm)}
+.compassMini i{position:absolute;font-style:normal}
+.tree{position:absolute;bottom:30%;font-size:44px}
+/* ---------- coordinates ---------- */
+.latlon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.decoder{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:20px;align-items:start;margin-top:10px}
+.dIn{display:grid;gap:10px}
+.dIn label{display:grid;gap:4px;font-weight:700;color:var(--muted);font-size:15px}
+.dIn input{border:1px solid var(--line);border-radius:12px;padding:10px 14px;font:700 26px var(--display);direction:ltr;text-align:left;color:var(--ink);background:#fff;width:100%}
+.dIn input:focus{outline:3px solid var(--accent-line)}
+.readout{border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:14px;padding:10px 14px;font-weight:700;color:var(--ink);font-size:18px;line-height:1.5;min-height:84px}
+.readout b{color:var(--accent-ink)}
+/* ---------- GeoGuessr ---------- */
+.ggCard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:12px}
+.ggFacts{display:grid;gap:10px}
+.ggFacts div{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:10px 14px;font-size:clamp(16px,1.6vw,21px);box-shadow:var(--shadow-sm)}
+.ggFacts i{font-style:normal;font-size:26px}
+.ggMeter{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:16px 18px;box-shadow:var(--shadow)}
+.ggMeter .rounds{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.ggMeter .rd{border-radius:12px;background:var(--paper2);height:120px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.ggMeter .rd i{position:absolute;inset:auto 0 0 0;background:linear-gradient(0deg,var(--accent),color-mix(in srgb,var(--accent) 50%,#fff));transition:height 1s cubic-bezier(.2,.8,.2,1);height:0}
+.ggMeter .rd span{position:absolute;inset:auto 0 6px 0;text-align:center;font:800 14px var(--display);color:var(--ink)}
+.ggMeter .sum{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;font-weight:700}
+.ggMeter .sum b{font:800 34px var(--display);color:var(--accent-ink)}
+/* ---------- Earth station mock ---------- */
+.earthMock{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);background:#fff;margin-top:12px}
+.emPanel{padding:14px 16px;display:grid;gap:8px;align-content:start;border-inline-end:1px solid var(--line)}
+.emPanel .bar{height:auto;display:flex;gap:6px;align-items:center;background:none;margin:0;font-size:13px;color:var(--muted);font-weight:700}
+.emPanel .bar i{width:10px;height:10px;border-radius:50%;background:#e7e3dc;display:inline-block}
+.emPanel h3{margin:2px 0 0;font-size:clamp(20px,2vw,26px)}
+.emPic{height:110px;border-radius:12px;position:relative;overflow:hidden;background:linear-gradient(180deg,#bcdcf0,#e8f3fa 55%,#7aa7c7 56%,#5d8fb3)}
+.emPic .bld{position:absolute;bottom:42%;left:12%;right:12%;height:34%;background:linear-gradient(180deg,#efe6d6,#e2d4bb);clip-path:polygon(0 100%,0 40%,8% 40%,8% 20%,14% 20%,14% 40%,40% 40%,44% 10%,50% -40%,56% 10%,60% 40%,86% 40%,86% 20%,92% 20%,92% 40%,100% 40%,100% 100%)}
+.emPic .roof{position:absolute;bottom:62%;left:43%;width:14%;height:24%;background:#b5483b;border-radius:50% 50% 0 0}
+.emPic .lbl{position:absolute;top:6px;right:8px;font-size:11px;font-weight:800;background:rgba(255,255,255,.85);border-radius:6px;padding:1px 6px}
+.emText{border:1px dashed var(--accent-line);border-radius:12px;padding:8px 10px;font-size:clamp(15px,1.45vw,18px);line-height:1.5;min-height:80px;background:#fffef9}
+.emText:focus{outline:2px solid var(--accent-line);background:#fff}
+.wc{font-weight:800;font-size:14px;border-radius:999px;padding:2px 10px;width:max-content}
+.wc.ok{background:var(--good-bg);color:var(--good)}.wc.no{background:var(--bad-bg);color:var(--bad)}
+.emRow{display:flex;gap:8px;align-items:flex-start;font-size:clamp(14px,1.35vw,17px);line-height:1.45;border-radius:10px;padding:6px 10px;background:var(--paper)}
+.emRow b{white-space:nowrap}
+.emMap{position:relative;background:#f2f7f6;display:grid;place-items:center;padding:10px}
+.emMap .tag{position:absolute;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;box-shadow:var(--shadow-sm)}
+.emMap .toc{position:absolute;bottom:10px;right:10px;left:10px;display:flex;gap:4px}
+.emMap .toc span{flex:1;height:8px;border-radius:99px;background:#d7e8e4}
+.emMap .toc span.on{background:var(--accent)}
+.anno{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.anno span{font-size:15px;font-weight:700;border-radius:999px;padding:4px 12px;background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent-line)}
+/* ---------- prompt box ---------- */
+.pList{display:grid;gap:10px;margin-top:12px}
+.pItem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:14px;background:#f8f6f1;padding:10px 14px}
+.pItem .k{font:800 15px var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:10px;padding:4px 9px;white-space:nowrap}
+.pItem p{margin:0;font-size:clamp(15px,1.5vw,19px);line-height:1.5}
+.copyBtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 11px;font-weight:700;color:var(--ink);white-space:nowrap}
+.copyBtn.done{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+/* ---------- sprint ---------- */
+.sprintTop{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.sprintTop .timer{margin-top:4px}
+.sprintTop .timer output{font-size:clamp(46px,5.6vw,80px)}
+.milestones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.ms{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:12px 14px;box-shadow:var(--shadow-sm)}
+.ms .when{font:800 14px var(--display);color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 10px;display:inline-block}
+.ms p{margin:6px 0 0;font-size:clamp(15px,1.5vw,19px);line-height:1.45}
+.roleRow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
+.roleRow div{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:8px 10px;font-size:clamp(13px,1.25vw,16px);line-height:1.4}
+.roleRow b{display:block;font-family:var(--display);font-size:clamp(14px,1.35vw,17px)}
+/* ---------- human compass ---------- */
+.compassUI{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center;margin-top:6px}
+.cityBtns{display:flex;flex-wrap:wrap;gap:8px}
+.cityBtns button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;font:700 18px var(--display);color:var(--ink)}
+.cityBtns button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.rose{width:clamp(220px,25vw,360px);aspect-ratio:1;position:relative}
+.rose svg{width:100%;height:100%}
+.needle{transition:transform 1.6s cubic-bezier(.3,1.5,.4,1);transform-origin:100px 100px}
+.cdText{font:800 clamp(40px,5vw,72px) var(--display);color:var(--accent-ink);min-height:1.2em;margin-top:10px}
+.cdText.small{font-size:clamp(18px,1.8vw,24px);color:var(--ink)}
+/* ---------- steppers + boards ---------- */
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--paper);font-weight:800;font-size:18px;line-height:1;color:var(--ink)}
+.stp button:hover{background:var(--accent-soft);border-color:var(--accent-line)}
+.stp output{min-width:28px;text-align:center;font:800 20px var(--display);font-variant-numeric:tabular-nums}
+.board input[type=number]{width:70px;border:1px solid var(--line);border-radius:9px;padding:5px 6px;font:800 18px var(--display);text-align:center;color:var(--ink);background:#fffef9}
+.board td.calc{font:700 18px var(--display);color:var(--muted)}
+.board tr.first td{background:#fff8e6}
+.board tr.first td:first-child{box-shadow:inset 4px 0 0 #e3a82b}
+.medal{font-size:20px}
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pairs>span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-weight:700;font-size:clamp(15px,1.5vw,19px);box-shadow:var(--shadow-sm)}
+.pairs>span em{font-style:normal;color:var(--accent-ink)}
+.linkBox{display:inline-block;min-width:min(520px,80%);border:2px dashed var(--accent-line);border-radius:14px;padding:8px 16px;font:800 clamp(22px,2.6vw,36px) var(--display);direction:ltr;text-align:center;color:var(--accent-ink);background:#fff}
+.linkBox:empty::before{content:"forms.gle/……";color:var(--dim)}
+.resetBtn{font-size:14px;padding:6px 11px}
+/* ---------- medals ---------- */
+.medals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px}
+.mcard{position:relative;text-align:center;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#fff,#fffaf0);padding:18px 14px 16px;box-shadow:var(--shadow-lg)}
+.mcard .disc{width:96px;height:96px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:46px;background:radial-gradient(circle at 35% 30%,#fff3c4,#f2c14e 55%,#c8901d);box-shadow:0 8px 18px rgba(200,144,29,.35),inset 0 2px 4px rgba(255,255,255,.6)}
+.mcard.m2 .disc{background:radial-gradient(circle at 35% 30%,#e6f3ff,#8fb8e6 55%,#4c7fbf)}
+.mcard.m3 .disc{background:radial-gradient(circle at 35% 30%,#e9f8ef,#86cfa0 55%,#2f8f57)}
+.mcard.m4 .disc{background:radial-gradient(circle at 35% 30%,#fde9ee,#ee9cb0 55%,#c4506f)}
+.mcard strong{display:block;font:800 21px var(--display)}
+.mcard p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.mcard .win{margin-top:10px;font:800 clamp(18px,1.8vw,24px) var(--display);color:var(--ink);min-height:1.3em}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@media (max-height:800px){
+ .placeNum{width:clamp(150px,16vw,220px)}.lookFor div{padding:7px 10px;font-size:15px}
+ .envLetter{min-height:250px;padding:14px 18px}.envLetter .coords{margin:8px 0 6px}
+ .ggMeter .rd{height:90px}.emPic{height:86px}.emText{min-height:64px}
+ .milestones{margin-top:10px}.ms{padding:9px 12px}.roleRow{margin-top:8px}
+ .mcard .disc{width:76px;height:76px;font-size:36px}.wgrid th,.wgrid td{padding:5px 7px}
+}
+@media (max-width:1100px){.heroGrid,.split,.split.wide,.drawUI,.decoder,.ggCard,.earthMock,.compassUI,.placeStage{grid-template-columns:minmax(0,1fr)}.medals,.roleRow{grid-template-columns:repeat(2,minmax(0,1fr))}.globeWrap{max-height:36vh}}
+</style>
+<style>
+.cards.compact{gap:10px;margin-top:14px}.cards.compact .card{padding:12px 14px}
+.cards.compact .card .emoji{width:42px;height:42px;font-size:23px;border-radius:12px}
+.cards.compact .card strong{font-size:19px;margin:6px 0 3px}.cards.compact .card p{font-size:15.5px;line-height:1.4}
+.rolesBottom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;margin-top:12px}
+.teamStrip input{width:128px}
+</style>
+<style>
+.scene.top{background:linear-gradient(180deg,#dfe9c9,#cfe0b2)}
+.sceneTag{position:absolute;top:10px;right:12px;z-index:3;font:800 14px var(--display);background:#fff;border-radius:8px;padding:3px 9px;box-shadow:var(--shadow-sm)}
+.vroad{position:absolute;top:0;bottom:0;left:calc(50% - 100px);width:200px;background:linear-gradient(90deg,#7b838c,#8b939c 50%,#7b838c)}
+.vroad::before{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 3px);width:6px;background:repeating-linear-gradient(180deg,#fff 0 26px,transparent 26px 50px)}
+.tcar{position:absolute;width:44px;height:80px;border-radius:14px;background:linear-gradient(90deg,#c0392b,#e05a4c 50%,#c0392b);box-shadow:0 6px 10px rgba(0,0,0,.25)}
+.tcar::before{content:"";position:absolute;left:6px;right:6px;height:18px;border-radius:6px;background:#bfe0f5}
+.tcar.up::before{top:10px}.tcar.down::before{bottom:10px}
+.tcar.down{background:linear-gradient(90deg,#2f6db5,#4c8bd6 50%,#2f6db5)}
+.scene .arrow{position:absolute;font-size:28px;line-height:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.scene.top .tree{bottom:auto;font-size:40px}
+.dir{position:absolute;font:800 18px var(--display);background:#fff;border-radius:8px;padding:2px 9px;box-shadow:var(--shadow-sm)}
+.poleDot{position:absolute;left:calc(50% - 11px);top:calc(42% - 11px);width:22px;height:22px;border-radius:50%;background:#4b5563;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.shadowBar{position:absolute;left:calc(50% - 7px);top:42%;width:14px;height:40%;border-radius:7px;background:linear-gradient(180deg,rgba(31,42,55,.55),rgba(31,42,55,.15))}
+.cards.compact .card p{font-size:16.5px}
+</style>
+<style>
+.emMap{overflow:hidden}
+.emPanel{gap:6px;padding:12px 14px}.emPic{height:84px}.emText{min-height:0;font-size:clamp(14px,1.3vw,16.5px)}
+.emRow{padding:4px 9px;font-size:clamp(13px,1.25vw,15.5px)}
+</style>
+<style>
+.slide.tight table.t th,.slide.tight table.t td{padding:8px 14px}
+.slide.tight .tableWrap{margin-top:12px}
+</style>
+<style>
+.board th{font-size:14px!important;line-height:1.25;padding:6px 10px!important}
+.board td{padding:5px 10px!important}
+.board td:first-child{white-space:nowrap}
+#teamVote{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+#teamVote .voteItem strong{font-size:18px}
+.mcard .win{font-size:clamp(16px,1.5vw,21px)}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🧭</div><div><b>משלחת המפה</b><small>החברה הגאוגרפית העולמית · סיור ב-Google Earth</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide hero globeHero" data-topic="פתיחה" data-title="משלחת המפה">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🧭 החברה הגאוגרפית העולמית · גיוס משלחות</span>
+      <h2>משלחת <span class="cyan">המפה</span></h2>
+      <p class="lead">החברה הגאוגרפית העולמית מגייסת משלחות. כל משלחת תקבל <b>מעטפה חתומה</b> עם אזור בעולם ונושא, ותחזור עם <b>סיור של 6 תחנות</b> שמשלחת אחרת תעבור בעצמה. רק סיור שכל העובדות בו נבדקו יקבל את <b>מדליית המצפן</b>.</p>
+      <div class="tags"><span>🔍 לחפש רמזים</span><span>🌍 לטוס לכל מקום</span><span>✅ לבדוק כל עובדה</span><span>🏅 לזכות במדליה</span></div>
+    </div>
+    <div class="globeWrap" aria-hidden="true">
+      <div class="ring"></div>
+      <canvas id="globe" width="640" height="640"></canvas>
+      <div class="sealEnv"><div class="envShape"></div><span class="stamp">סודי · למשלחת בלבד</span><div class="wax">🧭</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-topic="איפה אני?" data-title="איך משחקים" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="wai" aria-label="הוראות">?</button>
+  <span class="kicker">📍 משימת פתיחה · סבב "איפה אני?"</span>
+  <h2>נחתתם במקום לא מוכר. <span class="cyan">איפה אתם?</span></h2>
+  <div class="split">
+    <div class="task"><strong>החוקים</strong><ol>
+      <li>על המסך יופיעו 5 מקומות ב-Street View. אפשר להסתובב, אי אפשר לזוז.</li>
+      <li>לכל מקום יש 60 שניות. המשלחת מתייעצת בלחש.</li>
+      <li>כותבים בדף הניחושים: <b>מדינה</b> + <b>הרמז שעזר לכם</b>.</li>
+      <li>בלי טלפונים ובלי חיפוש. רק העיניים והראש.</li>
+    </ol></div>
+    <div class="cards" style="margin-top:0;grid-template-columns:1fr 1fr">
+      <div class="card"><div class="emoji">🎯</div><strong>3 נקודות</strong><p>ניחשתם את המדינה הנכונה.</p></div>
+      <div class="card"><div class="emoji">🌍</div><strong>נקודה 1</strong><p>המדינה לא נכונה, אבל היבשת כן.</p></div>
+    </div>
+  </div>
+  <p class="clickHint">5 מקומות × 3 נקודות = עד 15 נקודות כבר בפתיחה</p>
+</section>
+
+<!-- 3 -->
+<section class="slide" id="waiSlide" data-topic="איפה אני?" data-title="5 מקומות" data-accent="#4c8bd6">
+  <span class="kicker">📍 איפה אני?</span>
+  <div class="placeStage">
+    <div>
+      <div class="placeNum" id="placeNum"><b id="placeN">1</b><small>מתוך 5</small></div>
+      <div class="pips"><span class="pip on"></span><span class="pip reveal"></span><span class="pip reveal"></span><span class="pip reveal"></span><span class="pip reveal"></span></div>
+    </div>
+    <div>
+      <h2 style="margin-top:0">מסתכלים, מתייעצים, <span class="cyan">כותבים</span></h2>
+      <div class="timer" id="waiTimer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="lookFor">
+        <div><i>🔤</i>שפה וכתב בשלטים</div>
+        <div><i>🚗</i>באיזה צד נוסעים?</div>
+        <div><i>🌴</i>עצים וצמחייה</div>
+        <div><i>☀️</i>שמש וצללים</div>
+        <div><i>⛰️</i>נוף, אדמה ומזג אוויר</div>
+        <div><i>🏠</i>בתים, רכבים ולוחיות</div>
+      </div>
+    </div>
+  </div>
+  <p class="clickHint">"הבא" עובר למקום הבא ומאפס את הטיימר</p>
+</section>
+
+<!-- 4 -->
+<section class="slide tight" id="ansSlide" data-topic="איפה אני?" data-title="התשובות" data-accent="#4c8bd6">
+  <span class="kicker">🔓 החשיפה</span>
+  <h2>איפה היינו, <span class="cyan">ומה הסגיר את המקום?</span></h2>
+  <div class="split wide">
+    <div class="ansList">
+      <div class="ans reveal" data-pin="0" style="--c:#4c8bd6"><span class="n">1</span><div><b>🇺🇸 ארה״ב · ניו יורק, טיימס סקוור</b><p>מוניות צהובות, שלטים באנגלית ונסיעה בצד ימין. צפון אמריקה.</p></div></div>
+      <div class="ans reveal" data-pin="1" style="--c:#e76f86"><span class="n">2</span><div><b>🇯🇵 יפן · טוקיו, צומת שיבויה</b><p>נוסעים בצד <b>שמאל</b>, ובשלטים כתב יפני. אסיה.</p></div></div>
+      <div class="ans reveal" data-pin="2" style="--c:#f4a259"><span class="n">3</span><div><b>🇧🇷 ברזיל · ריו דה ז׳ניירו, קופקבנה</b><p>מדרכת הגלים המפורסמת, עצי דקל ושלטים בפורטוגזית. דרום אמריקה.</p></div></div>
+      <div class="ans reveal" data-pin="3" style="--c:#5bb5a2"><span class="n">4</span><div><b>🇿🇦 דרום אפריקה · קייפטאון, בו-קאפ</b><p>נסיעה בצד שמאל, הר השולחן השטוח ברקע ושלטים באנגלית. אפריקה.</p></div></div>
+      <div class="ans reveal" data-pin="4" style="--c:#8c7ae6"><span class="n">5</span><div><b>🇮🇸 איסלנד · רייקיאוויק</b><p>האות <b class="mono">ð</b> בשלטי הרחוב וכמעט בלי עצים. אירופה.</p></div></div>
+    </div>
+    <div class="mapCard"><svg class="dotmap" id="ansMap" viewBox="0 0 360 150" role="img" aria-label="מפת עולם עם חמשת המקומות"></svg></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide tight" data-topic="איפה אני?" data-title="ניקוד הסבב" data-accent="#4c8bd6">
+  <span class="kicker">🧮 ניקוד הסבב</span>
+  <h2>כמה <span class="cyan">עיני נשר</span> יש בכיתה?</h2>
+  <p class="lead">לוחצים על משבצת כדי להחליף: <b class="green">✓ מדינה = 3</b> · <b class="yellow">יבשת = 1</b> · <b class="red">✗ = 0</b>. הניקוד עובר לבד ללוח הניקוד.</p>
+  <div class="tableWrap"><table class="wgrid" id="waiGrid"></table></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-topic="המשלחת" data-title="המשימה של היום" data-accent="#f4a259">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל משלחת יהיה <span class="cyan">סיור שאפשר לטוס בו</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🌍</div><strong>סיור ב-Google Earth</strong><p>6 תחנות בנושא שהגרלתם, עם מצב מצגת וקישור שיתוף.</p></div>
+    <div class="card"><div class="emoji">📸</div><strong>בכל תחנה</strong><p>תמונה או Street View, עד 40 מילים, עובדה בדוקה עם מקור ושאלה.</p></div>
+    <div class="card"><div class="emoji">📝</div><strong>חידון ב-Forms</strong><p>6 שאלות, שאלה לכל תחנה. עונים עליהן רק אחרי שעוברים את הסיור.</p></div>
+    <div class="card"><div class="emoji">🧳</div><strong>משלחת אורחת</strong><p>בסוף, משלחת אחרת עוברת את הסיור שלכם ונבחנת עליו.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide tight" data-topic="המשלחת" data-title="התפקידים במשלחת" data-accent="#f4a259">
+  <button class="helpBtn" data-help="roles" aria-label="הוראות">?</button>
+  <span class="kicker">👥 התפקידים במשלחת</span>
+  <h2>חמישה תפקידים, <span class="cyan">משלחת אחת</span></h2>
+  <div class="cards compact" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    <div class="card"><div class="emoji">🧭</div><strong>ראש/ת המשלחת</strong><p>הזמן והמעטפות. מחליט/ה על סדר התחנות. רק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">🗺️</div><strong>נווט/ת</strong><p>מוצא/ת את המקומות ב-Earth וב-Street View ומוסיף/ה לפרויקט.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת עובדות</strong><p>עובדה לכל תחנה, בדוקה בשני מקורות. גם מה ש-Gemini כתב.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>כותב/ת הסיור</strong><p>עד 40 מילים לכל תחנה, במילים שלנו, ושאלת חידון.</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>מדריך/ת הטיולים</strong><p>בונה את החידון ב-Forms, מגיש/ה ומציג/ה בערב המשלחות.</p></div>
+  </div>
+  <div class="rolesBottom">
+    <div><b style="font-family:var(--display);font-size:20px">⏳ 3 דקות: תפקידים + שם למשלחת</b>
+      <div class="teamStrip" id="teamStrip"></div></div>
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide tight" data-topic="המשלחת" data-title="פתחו את המעטפה" data-accent="#f4a259">
+  <button class="helpBtn" data-help="env" aria-label="הוראות">?</button>
+  <span class="kicker">✉️ המעטפות החתומות</span>
+  <h2>פתחו את <span class="cyan">המעטפה</span></h2>
+  <div class="drawUI">
+    <div>
+      <div class="drawCtl"><select id="drawTeam" aria-label="איזו משלחת מגרילה"></select><button class="btn" id="drawGo">🎲 הגרלה</button></div>
+      <div class="envGrid" id="envGrid"></div>
+      <div class="drawLog" id="drawLog"></div>
+    </div>
+    <div class="envLetter" id="envLetter"><div class="empty">✉️<br>בוחרים משלחת ולוחצים "הגרלה",<br>או בוחרים מעטפה בעצמכם</div></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide tight" data-topic="לחשוב כמו גאוגרף" data-title="שישה סוגי רמזים" data-accent="#5bb5a2">
+  <span class="kicker">🧠 לחשוב כמו גאוגרף</span>
+  <h2>גאוגרף לא מנחש. <span class="cyan">הוא אוסף רמזים.</span></h2>
+  <div class="cards compact" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="card reveal"><div class="emoji">🔤</div><strong>שפה וכתב</strong><p>אותיות כמו ð, ñ או ã מצמצמות את האפשרויות למדינות בודדות.</p></div>
+    <div class="card reveal"><div class="emoji">🚗</div><strong>צד הכביש</strong><p>בעשרות מדינות נוסעים בצד שמאל: יפן, בריטניה, אוסטרליה, דרום אפריקה, הודו.</p></div>
+    <div class="card reveal"><div class="emoji">☀️</div><strong>שמש וצללים</strong><p>בצהריים, בחצי הכדור הצפוני השמש בדרום. בחצי הדרומי היא בצפון.</p></div>
+    <div class="card reveal"><div class="emoji">🌴</div><strong>צמחייה</strong><p>דקלים = חם. אורנים ושדרות ליבנה = קר. בלי עצים בכלל = מדבר או צפון רחוק.</p></div>
+    <div class="card reveal"><div class="emoji">⛰️</div><strong>נוף ואדמה</strong><p>אדמה אדומה, פסגות מושלגות, חוף טרופי או מישור ירוק. כל אחד מספר משהו.</p></div>
+    <div class="card reveal"><div class="emoji">🚙</div><strong>רכבים ולוחיות</strong><p>לוחית צהובה? ישראל, הולנד, וגם הלוחית האחורית בבריטניה.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide quiz tight" data-topic="לחשוב כמו גאוגרף" data-title="רמז 1: הכביש" data-answer="2" data-accent="#5bb5a2">
+  <span class="kicker">🔎 מה הרמז הזה מגלה? · 1 מתוך 3</span>
+  <h2>המכונית נוסעת <span class="cyan">בצד הזה</span> של הכביש. איפה אנחנו?</h2>
+  <div class="split">
+    <div class="scene top" aria-hidden="true">
+      <span class="sceneTag">🛰️ מבט מלמעלה</span>
+      <div class="vroad"></div>
+      <div class="tcar up" style="left:calc(50% - 74px);top:38%"></div><span class="arrow" style="left:calc(50% - 64px);top:14%">⬆</span>
+      <div class="tcar down" style="left:calc(50% + 30px);top:16%"></div><span class="arrow" style="left:calc(50% + 40px);top:66%">⬇</span>
+      <div class="tree" style="left:12%;top:20%">🌳</div><div class="tree" style="right:12%;top:52%">🌳</div>
+    </div>
+    <div class="options" style="grid-template-columns:1fr">
+      <button class="option"><span class="letter">א</span><span>צרפת</span></button>
+      <button class="option"><span class="letter">ב</span><span>יפן</span></button>
+      <button class="option"><span class="letter">ג</span><span>ארה״ב</span></button>
+      <button class="option"><span class="letter">ד</span><span>ברזיל</span></button>
+    </div>
+  </div>
+  <div class="explain">✓ יפן. המכוניות נוסעות בצד <b>שמאל</b> של הכביש. בצרפת, בארה״ב ובברזיל נוסעים בצד ימין.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide quiz tight" data-topic="לחשוב כמו גאוגרף" data-title="רמז 2: השלט" data-answer="2" data-accent="#5bb5a2">
+  <span class="kicker">🔎 מה הרמז הזה מגלה? · 2 מתוך 3</span>
+  <h2>שלט רחוב עם אות <span class="cyan">מוזרה</span>. איפה אנחנו?</h2>
+  <div class="split">
+    <div class="scene" aria-hidden="true" style="background:linear-gradient(180deg,#dfe7ee,#f3f6f8 62%)">
+      <div class="ground" style="background:linear-gradient(180deg,#9aa3ab,#7d868f)"></div>
+      <div style="position:absolute;bottom:30%;left:6%;width:26%;height:38%;background:#e9c46a;clip-path:polygon(0 30%,50% 0,100% 30%,100% 100%,0 100%)"></div>
+      <div style="position:absolute;bottom:30%;left:34%;width:22%;height:32%;background:#c8553d;clip-path:polygon(0 30%,50% 0,100% 30%,100% 100%,0 100%)"></div>
+      <div class="signPost"><span class="plate">Skólavörðustígur</span><span class="pole"></span></div>
+    </div>
+    <div class="options" style="grid-template-columns:1fr">
+      <button class="option"><span class="letter">א</span><span>שוודיה</span></button>
+      <button class="option"><span class="letter">ב</span><span>איסלנד</span></button>
+      <button class="option"><span class="letter">ג</span><span>גרמניה</span></button>
+      <button class="option"><span class="letter">ד</span><span>ספרד</span></button>
+    </div>
+  </div>
+  <div class="explain">✓ איסלנד. האות <b class="mono">ð</b> ("אֶד") נמצאת כמעט רק באיסלנדית (וגם בפארואזית). זה שם של רחוב אמיתי ברייקיאוויק.</div>
+</section>
+
+<!-- 12 -->
+<section class="slide quiz tight" data-topic="לחשוב כמו גאוגרף" data-title="רמז 3: הצל" data-answer="4" data-accent="#5bb5a2">
+  <span class="kicker">🔎 מה הרמז הזה מגלה? · 3 מתוך 3</span>
+  <h2>שתים עשרה בצהריים. הצל מצביע <span class="cyan">דרומה</span>. איפה אנחנו?</h2>
+  <div class="split">
+    <div class="scene top" aria-hidden="true" style="background:linear-gradient(180deg,#e4eccf,#d4e2b8)">
+      <span class="sceneTag">🛰️ מבט מלמעלה · 12:00</span>
+      <span class="dir" style="top:8px;left:50%;transform:translateX(-50%)">צ ☀️</span><span class="dir" style="bottom:8px;left:50%;transform:translateX(-50%)">ד</span>
+      <span class="dir" style="right:10px;top:50%;transform:translateY(-50%)">מז</span><span class="dir" style="left:10px;top:50%;transform:translateY(-50%)">מע</span>
+      <div class="shadowBar"></div><div class="poleDot"></div>
+    </div>
+    <div class="options" style="grid-template-columns:1fr">
+      <button class="option"><span class="letter">א</span><span>נורווגיה</span></button>
+      <button class="option"><span class="letter">ב</span><span>איטליה</span></button>
+      <button class="option"><span class="letter">ג</span><span>קנדה</span></button>
+      <button class="option"><span class="letter">ד</span><span>אוסטרליה</span></button>
+    </div>
+  </div>
+  <div class="explain">✓ אוסטרליה. בחצי הכדור הדרומי (מחוץ לאזור הטרופי) השמש של הצהריים נמצאת בצפון, ולכן הצל מצביע דרומה. בשלוש המדינות האחרות זה הפוך.</div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-topic="לחשוב כמו גאוגרף" data-title="קואורדינטות" data-accent="#5bb5a2">
+  <span class="kicker">📐 הכתובת של כל נקודה בעולם</span>
+  <h2>קואורדינטות: <span class="cyan">שני מספרים</span> ואתם שם</h2>
+  <div class="latlon">
+    <div class="card"><div class="emoji">↕️</div><strong>קו רוחב (Latitude)</strong><p>כמה צפונה או דרומה מקו המשווה. מ-0 בקו המשווה ועד 90 בקטבים. <b>בא ראשון.</b></p></div>
+    <div class="card"><div class="emoji">↔️</div><strong>קו אורך (Longitude)</strong><p>כמה מזרחה או מערבה מגריניץ׳ שבלונדון. מ-0 ועד 180. <b>בא שני.</b></p></div>
+  </div>
+  <div class="prompt mono" style="font-size:clamp(26px,3vw,40px);text-align:left">29.9792, 31.1342</div>
+  <div class="chips"><span>➖ מינוס בקו רוחב = דרום</span><span>➖ מינוס בקו אורך = מערב</span><span>⌨️ מקלידים בחיפוש של Google Earth</span></div>
+</section>
+
+<!-- 14 -->
+<section class="slide tight" data-topic="לחשוב כמו גאוגרף" data-title="מפענחים קואורדינטות" data-accent="#5bb5a2">
+  <span class="kicker">🛰️ מפענח הקואורדינטות</span>
+  <h2>קודם מנחשים יבשת, <span class="cyan">אחר כך נוחתים</span></h2>
+  <div class="decoder">
+    <div class="dIn">
+      <label>קו רוחב<input id="dLat" type="text" inputmode="decimal" value="-33.8568" aria-label="קו רוחב"></label>
+      <label>קו אורך<input id="dLon" type="text" inputmode="decimal" value="151.2153" aria-label="קו אורך"></label>
+      <div class="row"><button class="btn" id="dGo">🪂 נחיתה</button>
+        <button class="ghost" data-ll="40.6892,-74.0445">חידה 2</button><button class="ghost" data-ll="31.7767,35.2345">חידה 3</button><button class="ghost" data-ll="-0.7393,-90.3305">חידה 4</button></div>
+      <div class="readout" id="dOut">מה אומר המינוס במספר הראשון? באיזו יבשת ננחת?</div>
+    </div>
+    <div class="mapCard"><svg class="dotmap" id="decMap" viewBox="0 0 360 150" role="img" aria-label="מפת עולם לנחיתה"></svg></div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide tight" data-topic="לחשוב כמו גאוגרף" data-title="מקרה: GeoGuessr" data-accent="#5bb5a2">
+  <span class="kicker">🌐 מקרה אמיתי</span>
+  <h2>GeoGuessr: <span class="cyan">כל העולם הוא לוח משחק</span></h2>
+  <div class="ggCard">
+    <div class="ggFacts">
+      <div><i>🇸🇪</i><span>נוצר על ידי <b>אנטון ולן</b>, יועץ מחשבים משוודיה, ויצא <b>במאי 2013</b>.</span></div>
+      <div><i>📍</i><span>המשחק מציב אתכם במקום אקראי ב-Street View, ואתם מנחשים בעזרת סיכה על מפה.</span></div>
+      <div><i>🏆</i><span>בכל סבב אפשר לקבל <b>עד 5,000 נקודות</b>. ככל שהסיכה קרובה יותר, יותר נקודות.</span></div>
+      <div><i>💬</i><span><b>לדיון:</b> אילו רמזים שחקנים טובים מחפשים, ומה זה מלמד על גאוגרפיה?</span></div>
+    </div>
+    <div class="ggMeter">
+      <b style="font-family:var(--display);font-size:20px">משחק קלאסי: 5 סבבים</b>
+      <div class="rounds" id="ggRounds">
+        <div class="rd"><i data-h="98"></i><span>4,912</span></div>
+        <div class="rd"><i data-h="61"></i><span>3,050</span></div>
+        <div class="rd"><i data-h="100"></i><span>5,000</span></div>
+        <div class="rd"><i data-h="24"></i><span>1,204</span></div>
+        <div class="rd"><i data-h="83"></i><span>4,150</span></div>
+      </div>
+      <div class="sum"><span>משחק מושלם = 25,000</span><span>כאן: <b id="ggSum">0</b></span></div>
+      <p class="small" style="margin:6px 0 0">דוגמה למשחק אחד (הסבבים להמחשה)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-topic="הכלים" data-title="פרויקט ב-Earth" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="earth" aria-label="הוראות">?</button>
+  <span class="kicker">🌍 Google Earth · פרויקטים</span>
+  <h2>סיור ב-Earth <span class="cyan">בחמישה צעדים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>פרויקט חדש</strong><p>earth.google.com/web ← סמל הפרויקטים בצד ← פרויקט חדש ← נותנים שם.</p></div>
+    <div class="step"><strong>מחפשים מקום</strong><p>זכוכית מגדלת ← שם המקום או קואורדינטות ← התוצאה הראשונה.</p></div>
+    <div class="step"><strong>מוסיפים לפרויקט</strong><p>בכרטיס המקום: "הוספה לפרויקט" ← שמירה.</p></div>
+    <div class="step"><strong>טקסט ותמונה</strong><p>עריכה ← סמל המצלמה לתמונה ← תיאור עד 40 מילים. Street View: האיש הצהוב ← "צילום התצוגה".</p></div>
+    <div class="step"><strong>מצב מצגת</strong><p>גוררים לסדר הנכון ← הצגה. בסוף: שיתוף ← קישור לשיתוף.</p></div>
+  </div>
+  <p class="clickHint">הפרויקט נשמר לבד ב-Drive שלכם</p>
+</section>
+
+<!-- 17 -->
+<section class="slide tight" data-topic="הכלים" data-title="תחנה טובה נראית כך" data-accent="#8c7ae6">
+  <span class="kicker">⭐ דוגמה פתורה</span>
+  <h2>תחנה טובה <span class="cyan">נראית כך</span></h2>
+  <div class="earthMock">
+    <div class="emPanel">
+      <div class="bar"><i></i><i></i><i></i> משלחת הנהר · סיור · ערים על נהר · תחנה 2 מתוך 6</div>
+      <h3>🏛️ הפרלמנט של בודפשט</h3>
+      <div class="emPic"><span class="lbl">📸 Street View מהגדה השנייה</span><div class="roof"></div><div class="bld"></div></div>
+      <div class="emText" id="emText" contenteditable="true" spellcheck="false">ממול, על גדת נהר הדנובה, עומד בניין ענק עם כיפה וגג אדום. זה הפרלמנט של הונגריה, הבניין הגדול ביותר במדינה. בנו אותו כמעט עשרים שנה, ובלילה הוא מואר כולו ומשתקף במים.</div>
+      <span class="wc ok" id="emWc">0 / 40 מילים</span>
+      <div class="emRow"><b>✅ עובדה:</b><span>הבניין הגדול ביותר בהונגריה. <span class="small">מקורות: ויקיפדיה + Britannica</span></span></div>
+      <div class="emRow"><b>❓ שאלה:</b><span>מה צבע הגג של הבניין? (רואים רק בתמונה)</span></div>
+    </div>
+    <div class="emMap"><svg class="dotmap" id="emMap" viewBox="150 20 90 55" role="img" aria-label="מפה של אירופה"></svg>
+      <span class="tag" style="top:12px;right:12px">▶ הצגה</span><span class="tag" style="top:12px;left:12px">🔗 שיתוף</span>
+      <div class="toc"><span class="on"></span><span class="on"></span><span></span><span></span><span></span><span></span></div></div>
+  </div>
+  <div class="anno"><span>📸 תמונה או Street View</span><span>✍️ עד 40 מילים, במילים שלנו</span><span>✅ עובדה + 2 מקורות</span><span>❓ שאלה שעונים רק מהסיור</span></div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-topic="הכלים" data-title="Gemini כעוזר מחקר" data-accent="#8c7ae6">
+  <span class="kicker">🤖 Gemini כמדריך טיולים</span>
+  <h2>מבקשים עובדה, <span class="cyan">ומיד גם איך לבדוק אותה</span></h2>
+  <div class="prompt">תן עובדה אחת מעניינת על <span class="mark-hl">מפלי איגואסו</span>, וכתוב איפה אפשר לבדוק אותה. אם אתה לא בטוח, תגיד.</div>
+  <div class="cards" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="card"><div class="emoji">💡</div><strong>Gemini מציע</strong><p>רעיונות למקומות, עובדות ושאלות. מהר.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>אנחנו בודקים</strong><p>כל עובדה בשני מקורות: אתר רשמי, אנציקלופדיה, אתר מורשת.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>אנחנו כותבים</strong><p>הטקסט בתחנה במילים שלנו, עד 40 מילים.</p></div>
+  </div>
+  <p class="clickHint">טיפ פרטיות: כותבים על המקום, לא על עצמנו. בלי שמות, כתובות או תמונות של אנשים.</p>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-topic="הכלים" data-title="בודקים פעמיים" data-accent="#8c7ae6">
+  <span class="kicker">🔍 בדיקה צולבת</span>
+  <h2>עובדה של AI <span class="cyan">מול עובדה בדוקה</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">❌ עובדה של AI בלי בדיקה</span>"את חומת סין אפשר לראות מהחלל בעין, בלי משקפת."<br><span class="small">נשמע מוכר? זו אגדה ידועה, וגם AI חוזר עליה לפעמים.</span></div>
+    <div class="box good reveal"><span class="label">✅ אחרי בדיקה בשני מקורות</span>"החומה ארוכה מאוד אבל צרה, ובעין רגילה כמעט אי אפשר לראות אותה ממסלול סביב כדור הארץ."<br><span class="small">מקורות: אתר NASA · אנציקלופדיה בריטניקה</span></div>
+  </div>
+  <div class="chips reveal"><span>עובדה של AI בלי בדיקה = 0 נקודות</span><span>עובדה שגויה שצוות אחר תפס = מינוס 1</span></div>
+</section>
+
+<!-- 20 -->
+<section class="slide tight" data-topic="הכלים" data-title="אמת או המצאה" data-accent="#8c7ae6">
+  <span class="kicker">🕵️ אמת או המצאה?</span>
+  <h2>ה-AI כתב 4 עובדות. <span class="cyan">מה נכון?</span></h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>המדבר הגדול בעולם הוא הסהרה.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה, וזו טעות נפוצה. המדבר הגדול בעולם הוא אנטארקטיקה (מדבר = מעט משקעים). הסהרה הוא המדבר החם הגדול בעולם.</div></div>
+    <div class="tfRow" data-true="1"><span>נהר הנילוס זורם מדרום לצפון.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. הוא זורם צפונה עד שהוא נשפך לים התיכון במצרים.</div></div>
+    <div class="tfRow" data-true="1"><span>אוסטרליה רחבה יותר מהירח.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. הקוטר של הירח כ-3,475 ק״מ, ואוסטרליה רחבה כ-4,000 ק״מ ממזרח למערב.</div></div>
+    <div class="tfRow" data-true="0"><span>בירת קנדה היא טורונטו.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. הבירה היא אוטווה. טורונטו היא העיר הגדולה ביותר.</div></div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide quiz" data-topic="ראשים ממוספרים" data-title="ראשים ממוספרים 1" data-answer="2" data-accent="#e76f86">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1</span>
+  <h2>מה אומר המינוס ב-<span class="mono cyan">-33.86, 151.21</span>?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>שהמקום במערב</span></button>
+    <button class="option"><span class="letter">ב</span><span>שהמקום מדרום לקו המשווה</span></button>
+    <button class="option"><span class="letter">ג</span><span>שהמקום מתחת לפני הים</span></button>
+    <button class="option"><span class="letter">ד</span><span>שיש טעות הקלדה</span></button>
+  </div>
+  <div class="explain">✓ מינוס במספר הראשון (קו הרוחב) = דרום. זו סידני, אוסטרליה.</div>
+</section>
+
+<!-- 22 -->
+<section class="slide quiz" data-topic="ראשים ממוספרים" data-title="ראשים ממוספרים 2" data-answer="3" data-accent="#e76f86">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2</span>
+  <h2>Gemini נתן עובדה מדהימה לתחנה. <span class="cyan">מה עושים?</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מעתיקים מיד, AI לא טועה בעובדות</span></button>
+    <button class="option"><span class="letter">ב</span><span>שואלים את Gemini שוב אם הוא בטוח</span></button>
+    <button class="option"><span class="letter">ג</span><span>בודקים בשני מקורות אחרים ורושמים את המקור</span></button>
+    <button class="option"><span class="letter">ד</span><span>מוחקים, כי אסור להשתמש ב-AI</span></button>
+  </div>
+  <div class="explain">✓ בודקים בשני מקורות ורושמים מקור. לשאול את אותו AI שוב זו לא בדיקה.</div>
+</section>
+
+<!-- 23 -->
+<section class="slide quiz" data-topic="ראשים ממוספרים" data-title="ראשים ממוספרים 3" data-answer="1" data-accent="#e76f86">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3</span>
+  <h2>המשלחת האורחת פותחת את הקישור שלכם ורואה <span class="cyan">"אין גישה"</span>. מה שכחתם?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>שיתוף ← קישור לשיתוף (כל מי שיש לו קישור יכול לצפות)</span></button>
+    <button class="option"><span class="letter">ב</span><span>ללחוץ "הצגה"</span></button>
+    <button class="option"><span class="letter">ג</span><span>להוסיף עוד תחנה</span></button>
+    <button class="option"><span class="letter">ד</span><span>לשמור ב-Drive</span></button>
+  </div>
+  <div class="explain">✓ פרויקט ב-Earth פרטי עד שמשתפים אותו. בודקים את הקישור בחלון גלישה בסתר לפני ההגשה.</div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-topic="האתגר" data-title="מדליית המצפן" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="challenge" aria-label="הוראות">?</button>
+  <span class="kicker">🏅 האתגר של היום</span>
+  <h2>מדליית <span class="gold">המצפן</span></h2>
+  <div class="task"><strong>המטרה: סיור של 6 תחנות שמשלחת אחרת עוברת לבד, וכל עובדה בו נכונה</strong><ol>
+    <li>6 תחנות, כולן קשורות לנושא שהגרלתם.</li>
+    <li>בכל תחנה עובדה אחת עם מקור, שנבדקה בשני מקורות. עובדה של AI בלי בדיקה לא נחשבת.</li>
+    <li>עד 40 מילים לתחנה, במילים שלכם.</li>
+    <li>על שאלות החידון אפשר לענות רק אחרי שעוברים את הסיור.</li>
+    <li>בלי מיקום של בתים פרטיים, ובלי הבתים שלכם.</li>
+    <li>מגישים בטופס עד הדקה שעל הטיימר.</li>
+  </ol></div>
+</section>
+
+<!-- 25 -->
+<section class="slide tight" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד ידוע מראש</span>
+  <h2>איך צוברים <span class="gold">נקודות</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>מה</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>📍 סבב "איפה אני?": ניחשתם מדינה (5 מקומות)</td><td><b>3</b> לכל מקום</td></tr>
+      <tr><td>🌍 סבב "איפה אני?": רק היבשת נכונה</td><td><b>1</b></td></tr>
+      <tr><td>🗺️ כל תחנה מלאה: תמונה, טקסט, עובדה עם מקור, שאלה</td><td><b>2</b> (עד 12)</td></tr>
+      <tr><td>🧳 ערב המשלחות: כל תשובה נכונה של האורחים בחידון שלכם</td><td><b>1 לכם ו-1 להם</b> (עד 6)</td></tr>
+      <tr><td>🎒 משימת צד שהושלמה</td><td><b>1</b> (עד 2)</td></tr>
+      <tr><td>⚠️ עובדה שמשלחת אחרת גילתה שהיא שגויה (אחרי אזהרה, אפשר לתקן)</td><td class="red"><b>מינוס 1</b></td></tr>
+      <tr><td>⚖️ ציון השופטים לפי המחוון (4 קריטריונים × 4)</td><td><b>עד 16</b></td></tr>
+    </tbody></table></div>
+  <p class="clickHint">שובר שוויון: ציון השופטים, ואחריו יותר תשובות נכונות בחידונים</p>
+</section>
+
+<!-- 26 -->
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">⚖️ המחוון</span>
+  <h2>ככה השופטים <span class="gold">מחליטים</span></h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.35vw,18px)">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td><b>תחנות ותוכן</b></td><td>פחות מ-4 תחנות, או בלי קשר לנושא</td><td>6 תחנות, חלקן בלי טקסט או תמונה</td><td>6 תחנות מלאות שקשורות לנושא</td><td>6 תחנות מלאות, בסדר הגיוני, עם סיפור שמחבר ביניהן</td></tr>
+      <tr class="reveal"><td><b>בדיקת עובדות</b></td><td>עובדות בלי מקור</td><td>מקור לחלק מהעובדות</td><td>כל עובדה עם מקור</td><td>כל עובדה בשני מקורות, ויש דוגמה לעובדה של AI שתוקנה</td></tr>
+      <tr class="reveal"><td><b>חידון</b></td><td>שאלות שלא קשורות לסיור</td><td>שאלות שאפשר לנחש</td><td>6 שאלות שהתשובה עליהן בסיור</td><td>שאלות מגוונות שמחייבות להסתכל במפה או ב-Street View</td></tr>
+      <tr class="reveal"><td><b>עבודת צוות</b></td><td>אחד עשה הכול</td><td>כל אחד עשה משהו, בלי תיאום</td><td>כל תפקיד ביצע את החלק שלו</td><td>כל תפקיד ביצע ועזר לאחרים, וכולם הציגו בערב המשלחות</td></tr>
+    </tbody></table></div>
+  <p class="clickHint">"הבא" חושף שורה אחר שורה</p>
+</section>
+
+<!-- 27 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <div class="sprintTop">
+    <div><span class="kicker">⏱ ספרינט 1 · 20 דקות</span>
+      <h2>מחקר ו<span class="cyan">שלוש תחנות</span></h2>
+      <div class="row"><span class="ai-light g">🟢 AI כשותף: Gemini למחקר, ותמיד בודקים</span></div></div>
+    <div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="milestones">
+    <div class="ms"><span class="when">עד דקה 3</span><p>פתרתם את חידת המעטפה ויש פרויקט חדש בשם הנכון.</p></div>
+    <div class="ms"><span class="when">עד דקה 8</span><p>6 מקומות נבחרו ונכתבו בדף התכנון, בסדר הגיוני.</p></div>
+    <div class="ms"><span class="when">עד דקה 20</span><p>3 תחנות מלאות בפרויקט: תמונה, טקסט, עובדה + מקור, שאלה.</p></div>
+  </div>
+  <div class="roleRow">
+    <div><b>🧭 ראש המשלחת</b>פותח/ת פרויקט ומחליט/ה על הסדר.</div>
+    <div><b>🗺️ נווט/ת</b>מוסיף/ה מקומות ו-Street View.</div>
+    <div><b>🔍 חוקר/ת</b>עובדה + שני מקורות לכל תחנה.</div>
+    <div><b>✍️ כותב/ת</b>40 מילים + שאלה לכל תחנה.</div>
+    <div><b>📣 מדריך/ת טיולים</b>פותח/ת טופס חידון ומתחיל/ה שאלות.</div>
+  </div>
+</section>
+
+<!-- 28 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ארגז הפרומפטים" data-accent="#0f766e">
+  <span class="kicker">🧰 ארגז הפרומפטים ל-Gemini</span>
+  <h2>מעתיקים, משלימים, <span class="cyan">בודקים</span></h2>
+  <div class="pList">
+    <div class="pItem"><span class="k">מקומות</span><p>אנחנו בונים סיור בנושא [נושא] באזור [אזור]. הצע 10 מקומות מעניינים שאפשר לראות ב-Google Earth, עם משפט אחד על כל אחד.</p><button class="copyBtn">📋 העתקה</button></div>
+    <div class="pItem"><span class="k">עובדה</span><p>תן עובדה אחת מעניינת על [מקום], וכתוב איפה אפשר לבדוק אותה. אם אתה לא בטוח, תגיד.</p><button class="copyBtn">📋 העתקה</button></div>
+    <div class="pItem"><span class="k">קיצור</span><p>הנה הטקסט שלנו לתחנה: [טקסט]. קצר אותו ל-40 מילים בלי לשנות את העובדות.</p><button class="copyBtn">📋 העתקה</button></div>
+    <div class="pItem"><span class="k">חידון</span><p>הצע 3 שאלות חידון על [מקום] שאפשר לענות עליהן רק מתוך תמונה או Street View של המקום.</p><button class="copyBtn">📋 העתקה</button></div>
+    <div class="pItem"><span class="k">רמזים</span><p>אילו רמזים בתמונת רחוב יכולים לעזור לנחש באיזו מדינה אני? תן 6 רמזים עם דוגמה לכל אחד.</p><button class="copyBtn">📋 העתקה</button></div>
+  </div>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-topic="ספרינט 1" data-title="איפה מוצאים מקורות" data-accent="#0f766e">
+  <span class="kicker">📚 מקור טוב = מישהו שאחראי על המידע</span>
+  <h2>איפה <span class="cyan">בודקים</span> עובדה?</h2>
+  <div class="cards" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="card"><div class="emoji">🏛️</div><strong>אתרי מורשת עולמית</strong><p>whc.unesco.org: דף רשמי לכל אתר מורשת בעולם.</p></div>
+    <div class="card"><div class="emoji">📖</div><strong>אנציקלופדיות</strong><p>Britannica, ויקיפדיה (נקודת פתיחה: בודקים את המקורות בתחתית הערך).</p></div>
+    <div class="card"><div class="emoji">🌲</div><strong>פארקים ושמורות</strong><p>האתר הרשמי של הפארק, רשות הטבע והגנים, ‏nps.gov בארה״ב.</p></div>
+    <div class="card"><div class="emoji">🛰️</div><strong>מדע וחלל</strong><p>NASA Earth Observatory: תמונות לוויין והסברים.</p></div>
+    <div class="card"><div class="emoji">🏙️</div><strong>אתרים רשמיים</strong><p>אתר העירייה, המוזיאון או אתר התיירות הרשמי של המדינה.</p></div>
+    <div class="card"><div class="emoji">🚩</div><strong>לא מקור</strong><p>תשובה של AI, פוסט ברשת, תגובה בפורום. אלה רמזים, לא הוכחה.</p></div>
+  </div>
+</section>
+
+<!-- 30 -->
+<section class="slide tight" data-topic="דיווח מהשטח" data-title="דיווח מהשטח" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="check" aria-label="הוראות">?</button>
+  <div class="sprintTop">
+    <div><span class="kicker">📡 נקודת ביקורת</span>
+      <h2>דיווח <span class="cyan">מהשטח</span></h2></div>
+    <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="steps">
+    <div class="step"><strong>מציגים</strong><p>מדריך/ת הטיולים מציג/ה למשלחת השכנה 3 תחנות במצב מצגת. דקה וחצי.</p></div>
+    <div class="step"><strong>בודקים</strong><p>השכנים בוחרים עובדה אחת ובודקים אותה בעצמם בחיפוש. מצאו טעות? מסמנים.</p></div>
+    <div class="step"><strong>משוב</strong><p>"אהבנו ש..." · "הלוואי ש..." · "תהינו אם..."</p></div>
+    <div class="step"><strong>מתחלפים</strong><p>עכשיו הם מציגים ואתם בודקים.</p></div>
+  </div>
+  <p class="clickHint">עובדה שגויה שנתפסה עכשיו היא אזהרה: מתקנים עד ההגשה ולא מאבדים נקודה</p>
+</section>
+
+<!-- 31 -->
+<section class="slide tight" data-topic="דיווח מהשטח" data-title="מצפן אנושי" data-accent="#4c8bd6">
+  <span class="kicker">🕺 קום, תזוז: מצפן אנושי</span>
+  <h2>כולם קמים. <span class="cyan">לאן מצביעים?</span></h2>
+  <div class="compassUI">
+    <div>
+      <p class="lead">בוחרים עיר, סופרים 3-2-1, וכל הכיתה מצביעה לכיוון שלה. אחר כך המחט מראה את התשובה.</p>
+      <div class="cityBtns" id="cityBtns"></div>
+      <div class="cdText" id="cdText"></div>
+    </div>
+    <div class="rose"><svg viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="94" fill="#fff" stroke="#e7e3dc" stroke-width="2"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#efebe4" stroke-width="1.5" stroke-dasharray="2 4"/>
+      <g font-family="Rubik,Arial" font-weight="800" font-size="16" text-anchor="middle" fill="#1f2a37"><text x="100" y="26">צ</text><text x="100" y="186">ד</text><text x="182" y="106">מז</text><text x="18" y="106">מע</text></g>
+      <g stroke="#cfc8bc" stroke-width="2"><line x1="100" y1="32" x2="100" y2="42"/><line x1="100" y1="158" x2="100" y2="168"/><line x1="32" y1="100" x2="42" y2="100"/><line x1="158" y1="100" x2="168" y2="100"/></g>
+      <g class="needle" id="needle"><polygon points="100,34 108,100 92,100" fill="#be3455"/><polygon points="100,166 108,100 92,100" fill="#8a93a1"/><circle cx="100" cy="100" r="8" fill="#1f2a37"/></g>
+    </svg></div>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <div class="sprintTop">
+    <div><span class="kicker">⏱ ספרינט 2 · 15 דקות</span>
+      <h2>עוד שלוש תחנות <span class="cyan">וחידון</span></h2>
+      <div class="row"><span class="ai-light g">🟢 Gemini לרעיונות לשאלות</span><span class="ai-light y">🟡 את הטקסט כותבים בעצמנו</span></div></div>
+    <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="milestones">
+    <div class="ms"><span class="when">עד דקה 7</span><p>6 תחנות מלאות. תוקנה כל עובדה שהשכנים סימנו.</p></div>
+    <div class="ms"><span class="when">עד דקה 12</span><p>חידון של 6 שאלות ב-Forms, במצב בוחן, עם מפתח תשובות. פורסם.</p></div>
+    <div class="ms"><span class="when">עד דקה 15</span><p>ניסיון במצב מצגת מההתחלה עד הסוף + בדיקת הקישור בחלון בסתר.</p></div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-topic="ספרינט 2" data-title="חידון ב-Forms" data-accent="#0f766e">
+  <span class="kicker">📝 Google Forms במצב בוחן</span>
+  <h2>חידון שבודק <span class="cyan">את עצמו</span></h2>
+  <div class="steps">
+    <div class="step"><strong>טופס ריק</strong><p>forms.google.com ← טופס ריק ← שם: "חידון · משלחת [שם]".</p></div>
+    <div class="step"><strong>הגדרה כבוחן</strong><p>"הגדרות" ← מפעילים "הגדרה כבוחן".</p></div>
+    <div class="step"><strong>6 שאלות</strong><p>שאלה אמריקאית לכל תחנה ← "מפתח תשובות" ← התשובה הנכונה + נקודה.</p></div>
+    <div class="step"><strong>פרסום</strong><p>"פרסום" ← "פרסום הטופס" ← מעתיקים את קישור המשיבים.</p></div>
+  </div>
+  <p class="clickHint">טופס שלא פורסם לא מקבל תשובות. בודקים פעם אחת בעצמכם.</p>
+</section>
+
+<!-- 34 -->
+<section class="slide" data-topic="ספרינט 2" data-title="שאלה טובה לחידון" data-accent="#0f766e">
+  <span class="kicker">❓ שאלה טובה לחידון</span>
+  <h2>שאלה שאי אפשר <span class="cyan">לנחש</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">😴 שאלה שמנחשים או מגגלים</span>"מה הבירה של איטליה?"<br><span class="small">לא צריך לעבור את הסיור כדי לענות.</span></div>
+    <div class="box good"><span class="label">🔍 שאלה שמחייבת להסתכל</span>"בתחנה 3, ב-Street View: מה רואים מימין לגשר?"<br><span class="small">רק מי שטס לתחנה ומסתכל, יודע.</span></div>
+  </div>
+  <div class="chips"><span>👀 מה רואים בתמונה?</span><span>🔢 כמה יש?</span><span>🎨 איזה צבע?</span><span>🧭 מה מצפון לתחנה?</span><span>📏 מה רחוק יותר?</span></div>
+</section>
+
+<!-- 35 -->
+<section class="slide" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#0f766e">
+  <span class="kicker">🎒 סיימתם? משימות צד (נקודה לכל אחת, עד 2)</span>
+  <h2>למשלחות <span class="cyan">המהירות</span></h2>
+  <div class="cards" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="card"><div class="emoji">⭐</div><strong>תחנת בונוס</strong><p>תחנה שביעית מפתיעה בנושא שלכם, עם עובדה בדוקה.</p></div>
+    <div class="card"><div class="emoji">📏</div><strong>קו המסלול</strong><p>מציירים קו בין התחנות ומודדים בכלי המדידה של Earth: כמה ק״מ טסנו?</p></div>
+    <div class="card"><div class="emoji">🎙️</div><strong>קריינות</strong><p>מקליטים 20 שניות של "מדריך טיולים" לתחנה אחת ומוסיפים קישור.</p></div>
+    <div class="card"><div class="emoji">🧩</div><strong>חידת Street View</strong><p>מקום שמזהים רק לפי רמז אחד: שלט, צל או צמח. מה הרמז?</p></div>
+  </div>
+</section>
+
+<!-- 36 -->
+<section class="slide tight" data-topic="ערב המשלחות" data-title="הגשה" data-accent="#e76f86">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📮 הגשה · מדריך/ת הטיולים מגיש/ה</span>
+  <h2>טופס <span class="cyan">"הגשת משלחת"</span></h2>
+  <div class="row" style="margin:4px 0 6px"><span class="small">הקישור לטופס:</span><span class="linkBox" id="linkBox" contenteditable="true" spellcheck="false"></span></div>
+  <div class="split" style="align-items:start">
+    <div class="task" style="margin-top:8px"><strong>✓ צ׳קליסט לפני שליחה</strong><ol>
+      <li>שם הפרויקט: <b>משלחת [שם] · סיור · [נושא]</b></li>
+      <li>קישור שיתוף ל-Earth (כל מי שיש לו קישור יכול לצפות). נבדק בחלון בסתר.</li>
+      <li>קישור לחידון שפורסם.</li>
+      <li>רשימת 6 המקורות.</li>
+      <li>שורת AI: <b>מה ה-AI עשה · מה אנחנו עשינו</b>.</li>
+    </ol></div>
+    <div class="box" style="margin-top:8px"><span class="label">🤖 שורת AI לדוגמה</span><b>מה ה-AI עשה:</b> הציע 10 מקומות ו-5 רעיונות לשאלות.<br><b>מה אנחנו עשינו:</b> בחרנו 6, בדקנו כל עובדה בשני מקורות, תיקנו עובדה אחת שגויה וכתבנו את הטקסטים בעצמנו.</div>
+  </div>
+</section>
+
+<!-- 37 -->
+<section class="slide tight" data-topic="ערב המשלחות" data-title="איך זה עובד" data-accent="#e76f86">
+  <span class="kicker">🌙 ערב המשלחות</span>
+  <h2>עכשיו אתם <span class="cyan">התיירים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>מחליפים קישור</strong><p>כל משלחת מקבלת את הסיור ואת החידון של המשלחת שכתובה לידה.</p></div>
+    <div class="step"><strong>טסים</strong><p>עוברים את הסיור במצב מצגת, תחנה אחרי תחנה. מסתכלים ב-Street View.</p></div>
+    <div class="step"><strong>נבחנים</strong><p>עונים על החידון שלהם. כל תשובה נכונה = נקודה לכם ונקודה להם.</p></div>
+    <div class="step"><strong>בודקים עובדה</strong><p>מצאתם עובדה שנראית לכם שגויה? מראים למדריך עם מקור.</p></div>
+  </div>
+  <div class="pairs" id="pairs1"></div>
+</section>
+
+<!-- 38 -->
+<section class="slide tight" data-topic="ערב המשלחות" data-title="זמן משלחת" data-accent="#e76f86">
+  <div class="sprintTop">
+    <div><span class="kicker">🧳 זמן משלחת</span><h2>טסים, מסתכלים, <span class="cyan">עונים</span></h2>
+      <div class="row"><span class="ai-light r">🔴 בלי AI: עונים רק ממה שרואים בסיור</span></div></div>
+    <div class="timer" data-seconds="600"><output>10:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="pairs" id="pairs2"></div>
+  <div class="milestones">
+    <div class="ms"><span class="when">דקות 0–6</span><p>עוברים את כל 6 התחנות במצב מצגת.</p></div>
+    <div class="ms"><span class="when">דקות 6–9</span><p>עונים על החידון ושולחים פעם אחת.</p></div>
+    <div class="ms"><span class="when">דקה 10</span><p>כל משלחת כותבת מה הייתה התחנה הכי מפתיעה בסיור שעברה.</p></div>
+  </div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="ערב המשלחות" data-title="תוצאות החידונים" data-accent="#e76f86">
+  <span class="kicker">📊 תוצאות החידונים</span>
+  <h2>כמה תשובות נכונות <span class="cyan">ענו האורחים?</span></h2>
+  <p class="lead">כל משלחת מסתכלת ב"תשובות ← סיכום" בטופס שלה ואומרת מספר. אותו מספר נכנס גם למשלחת האורחת.</p>
+  <div class="tableWrap"><table class="t board" id="quizTable"></table></div>
+</section>
+
+<!-- 40 -->
+<section class="slide tight" data-topic="ערב המשלחות" data-title="התחנה המפתיעה" data-accent="#e76f86">
+  <span class="kicker">🌍 פרס "התחנה המפתיעה"</span>
+  <h2>איזו תחנה <span class="cyan">הכי הפתיעה אתכם?</span></h2>
+  <p class="lead">שתי משלחות מציגות את התחנה הכי טובה שלהן (דקה כל אחת). אחר כך כל משלחת מצביעה פעם אחת, לא לעצמה.</p>
+  <div class="vote" id="teamVote"></div>
+</section>
+
+<!-- 41 -->
+<section class="slide tight" data-topic="טקס המדליות" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <div class="row" style="justify-content:space-between"><span class="kicker">🧮 לוח הניקוד</span><button class="ghost resetBtn" id="resetAll">↺ איפוס לשיעור חדש</button></div>
+  <h2>לוח הניקוד <span class="gold">של החברה הגאוגרפית</span></h2>
+  <div class="tableWrap"><table class="t board" id="scoreTable"></table></div>
+  <p class="clickHint">"איפה אני?" ו"חידון" מתמלאים לבד מהשקפים הקודמים. שופטים: 4 קריטריונים × 4</p>
+</section>
+
+<!-- 42 -->
+<section class="slide" data-topic="טקס המדליות" data-title="המדליות" data-accent="#e3a82b">
+  <span class="kicker">🏅 טקס המדליות</span>
+  <h2>והמדליות <span class="gold">הולכות ל...</span></h2>
+  <div class="medals">
+    <div class="mcard reveal" data-award="eagle"><div class="disc">🦅</div><strong>עין הנשר</strong><p>הכי הרבה מדינות מדויקות בסבב "איפה אני?"</p><div class="win" data-win="eagle"></div></div>
+    <div class="mcard m3 reveal" data-award="facts"><div class="disc">📚</div><strong>בודקי העובדות</strong><p>אף עובדה לא נפסלה</p><div class="win" data-win="facts"></div></div>
+    <div class="mcard m4 reveal" data-award="surprise"><div class="disc">🌍</div><strong>התחנה המפתיעה</strong><p>הצבעת המשלחות</p><div class="win" data-win="surprise"></div></div>
+    <div class="mcard m2 reveal" data-award="compass"><div class="disc">🧭</div><strong>מדליית המצפן</strong><p>הניקוד הכולל הגבוה ביותר</p><div class="win" data-win="compass"></div></div>
+  </div>
+</section>
+
+<!-- 43 -->
+<section class="slide" data-topic="טקס המדליות" data-title="כרטיס יציאה" data-accent="#e3a82b">
+  <span class="kicker">🎟 כרטיס יציאה · כל אחד לבד</span>
+  <h2>לפני שנוחתים <span class="cyan">בבית</span></h2>
+  <div class="row"><span class="ai-light r">🔴 בלי AI · 3 דקות</span></div>
+  <div class="task"><strong>על הכרטיס (או בטופס)</strong><ol>
+    <li>דבר אחד שלמדתי היום.</li>
+    <li>שאלה אחת שנשארה לי.</li>
+    <li><b>איזה רמז במקום תחפשו בפעם הבאה שתראו תמונה ממקום לא מוכר?</b></li>
+    <li>עובדה אחת שבדקתי היום, ואיפה בדקתי אותה.</li>
+  </ol></div>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 44 -->
+<section class="slide tight" data-topic="טקס המדליות" data-title="המשלחות חזרו" data-accent="#0f766e">
+  <span class="kicker">🧭 החברה הגאוגרפית העולמית</span>
+  <h2>כל המשלחות <span class="cyan">חזרו הביתה</span></h2>
+  <div class="split wide">
+    <div>
+      <p class="lead">היום טסתם לכל העולם, קראתם רמזים כמו גאוגרפים, ובדקתם כל עובדה לפני שמישהו נבחן עליה. החברה הגאוגרפית מודה לכל המשלחות.</p>
+      <div class="cards" style="grid-template-columns:1fr 1fr;margin-top:12px">
+        <div class="card"><div class="emoji">🏘️</div><strong>בבית</strong><p>סיור של 6 מקומות ציבוריים בעיר שלכם, לחברים או למשפחה.</p></div>
+        <div class="card"><div class="emoji">🔁</div><strong>בפעם הבאה</strong><p>מחליפים סיורים עם כיתה אחרת בגרסת My Maps.</p></div>
+      </div>
+    </div>
+    <div class="mapCard"><svg class="dotmap" id="endMap" viewBox="0 0 360 150" role="img" aria-label="מפת המשלחות"></svg></div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-wai"><h3>📍 איך משחקים "איפה אני?"</h3><ol><li>כל משלחת מקבלת דף ניחושים אחד. ראש/ת המשלחת מחזיק/ה את העט.</li><li>על המסך נפתח מקום ב-Street View. מסתכלים על כל הפרטים: שלטים, צד הכביש, עצים, שמש, בתים.</li><li>60 שניות להתייעץ בלחש. בסוף הזמן כותבים מדינה + רמז אחד שעזר.</li><li>בלי טלפונים ובלי חיפוש. מי שמחפש, המקום לא נספר.</li><li>אחרי 5 מקומות חושפים את התשובות וסופרים: מדינה נכונה = 3, רק היבשת = 1.</li></ol></template>
+<template id="help-roles"><h3>👥 3 דקות להתארגנות</h3><ol><li>כרטיסי התפקיד עוברים בשולחן. כל אחד קורא את הכרטיס שלו בשקט.</li><li>בצוות של 4: מדריך/ת הטיולים לוקח/ת גם את הכתיבה.</li><li>בוחרים שם למשלחת (עד 3 מילים). ראש/ת המשלחת אומר/ת אותו למדריך.</li><li>הנווט/ת פותח/ת earth.google.com/web ומתחבר/ת לחשבון Google.</li></ol></template>
+<template id="help-env"><h3>✉️ פותחים את המעטפה</h3><ol><li>ראש/ת המשלחת מקבל/ת מעטפה חתומה (או שהמשלחת מוגרלת כאן על המסך).</li><li>במעטפה: נושא, אזור בעולם וקואורדינטות.</li><li>הנווט/ת מקליד/ה את הקואורדינטות בחיפוש של Google Earth, בדיוק כמו שכתוב (עם הפסיק והמינוס).</li><li>פותרים את החידה. המקום שמצאתם הוא התחנה הראשונה בסיור.</li><li>לא מגלים את הנושא למשלחות אחרות עד ערב המשלחות.</li></ol></template>
+<template id="help-earth"><h3>🌍 Google Earth צעד אחרי צעד</h3><ol><li>נכנסים ל-earth.google.com/web ומתחברים.</li><li>בסרגל הצד: סמל <b>הפרויקטים</b> ← "פרויקט חדש" (או "יצירה" בפעם הראשונה).</li><li>לוחצים על העיפרון ליד "פרויקט ללא שם": <b>משלחת [שם] · סיור · [נושא]</b>.</li><li>זכוכית מגדלת ← שם המקום או קואורדינטות ← התוצאה הראשונה ← <b>"הוספה לפרויקט"</b> ← שמירה.</li><li>בפרויקט: מעבירים את העכבר על המקום ← <b>עריכה</b> ← סמל המצלמה (חיפוש תמונה ברשת או קישור) ← תיאור.</li><li>Street View: האיש הצהוב בפינה ← גוררים למקום ← מסתובבים ← "צילום התצוגה" ← שם ← שמירה.</li><li>גוררים את התחנות לסדר הנכון ← <b>הצגה</b>.</li><li>שיתוף ← קישור לשיתוף ← העתקה. בודקים בחלון גלישה בסתר.</li></ol></template>
+<template id="help-challenge"><h3>🏅 מדליית המצפן: מה נחשב?</h3><ol><li><b>תחנה מלאה</b> = תמונה או Street View + טקסט עד 40 מילים + עובדה עם מקור + שאלת חידון.</li><li><b>עובדה בדוקה</b> = מצאתם אותה בשני מקורות שאינם AI, ורשמתם לפחות אחד מהם.</li><li><b>במילים שלכם</b> = לא מעתיקים פסקה מוויקיפדיה או מ-Gemini. מותר לבקש מ-Gemini לקצר טקסט שכתבתם.</li><li><b>מקומות ציבוריים בלבד</b>: אתרים, שמורות, ערים, מבנים מפורסמים.</li><li>עובדה שגויה שנתפסה בדיווח מהשטח = אזהרה בלבד. עובדה שגויה שנתפסה בערב המשלחות = מינוס 1.</li></ol></template>
+<template id="help-sprint1"><h3>⏱ ספרינט 1: הסדר הכי מהיר</h3><ol><li>ראש/ת המשלחת מקריא/ה את המעטפה. הנווט/ת פותח/ת פרויקט חדש.</li><li>פותרים את החידה. זו תחנה 1.</li><li>החוקר/ת מבקש/ת מ-Gemini 10 רעיונות (ארגז הפרומפטים). המשלחת בוחרת 5 נוספים ורושמת בדף התכנון.</li><li>לכל תחנה: נווט/ת מוסיף/ה ← חוקר/ת מוצא/ת עובדה ובודק/ת ← כותב/ת כותב/ת 40 מילים ושאלה.</li><li>מדריך/ת הטיולים פותח/ת טופס חידון ומכניס/ה שאלה לכל תחנה שמוכנה.</li></ol></template>
+<template id="help-check"><h3>📡 דיווח מהשטח</h3><ol><li>כל משלחת עובדת מול המשלחת השכנה (המדריך אומר מי).</li><li>משלחת א׳ מציגה 3 תחנות במצב מצגת (דקה וחצי).</li><li>משלחת ב׳ בוחרת עובדה אחת, ובודקת אותה בעצמה בחיפוש (לא ב-Gemini).</li><li>משוב קצר: "אהבנו ש..." · "הלוואי ש..." · "תהינו אם...".</li><li>מתחלפים. בינתיים המדריך עובר ומסמן רמה במחוון.</li></ol></template>
+<template id="help-sprint2"><h3>⏱ ספרינט 2</h3><ol><li>משלימים 3 תחנות. מתקנים כל עובדה שהשכנים סימנו.</li><li>מדריך/ת הטיולים: forms.google.com ← טופס ריק ← "הגדרות" ← "הגדרה כבוחן".</li><li>6 שאלות אמריקאיות, אחת לכל תחנה ← "מפתח תשובות" ← תשובה נכונה ונקודה.</li><li>"פרסום" ← "פרסום הטופס" ← מעתיקים את קישור המשיבים.</li><li>הנווט/ת מריץ/ה "הצגה" מההתחלה עד הסוף. מתקנים מה שנראה עקום.</li><li>בודקים את שני הקישורים בחלון גלישה בסתר.</li></ol></template>
+<template id="help-submit"><h3>📮 טופס "הגשת משלחת"</h3><ol><li>שם המשלחת (מהרשימה) והנושא שהוגרל.</li><li>קישור שיתוף לפרויקט ב-Earth: שיתוף ← קישור לשיתוף (כל מי שיש לו קישור יכול לצפות).</li><li>קישור המשיבים לחידון ב-Forms.</li><li>6 המקורות: מקור אחד לכל תחנה.</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו.</li><li>שולחים פעם אחת. אם שכחתם משהו, אומרים למדריך.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== משלחת המפה — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) dot world map (land mask 2.5°, from Natural Earth 110m land, public domain) + spinning globe (slide 1)
+   2) "where am I?" place stepper (slide 3) + answer pins (slide 4) + round scoring grid (slide 5)
+   3) teams, envelope draw (slide 8), coordinates decoder (14), GeoGuessr meter (15), station word counter (17)
+   4) prompt copy (28), human compass (31), pairs (37–38), quiz results (39), vote (40), scoreboard (41), medals (42), end map (44)
+   State (team names, draws, points) is saved in this browser only. */
+(()=>{
+const MASK='000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ff9ffffe0000000000000000000000000133fcfffff000700000000c000000000000129900fffff00000000e001f8000000000003c034003fff00000006007ff80080008040017c6fe01ffe000000061dfffff7f80007ffffd43b381ff80001fe05ebfffffffffff3fffffffc3e1fc04007fd3fffffffffffff00fffffff51c1f00800f7ffffffffffffffe03ffffffc0600e00003e7ffffffffffffef801e07fffe07a0000003e7fffffffffff808000801ffff87e00000214fffffffffffe038000000ffffeff80000d1fffffffffffff0300000007ffffffc00003ffffffffffffff0000000003fffff4e00003ffffffffffffff0000000003fffffc000001fff5fffffffffe0000000003fffff0000001ebe0fffffffffc4000000003ffffe000000f86f6fffffffff08000000001ffffc000000f029ffffffffe208000000001ffffc0000000f007ffffffff1300000000007fff80000007f003ffffffff0400000000005ffe0000000ffeebffffffff8000000000003fc10000000fffffefffffff8000000000000f810000003ffffdf3ffffff00000000000007800000003ffffdfe1ffffe80000000000003880000007ffffeff0fe7e000000000000003d81800003ffffefe07c3d000000000000000780000007fffff780781e0800000000000000e0000007fffffe00301f0c0000000000000002800003fffff9003016000000000000000017f00001ffffff000010020000000000000007f80000fbffff000808000000000000000007ff000000fffe00001860000000000000000fff000000fffc00000ce0000000000000000fffc00000fff800000ce8c00000000000000ffff80000fff0000004083c0000000000000ffffc00007ff0000002001e0000000000000ffffc00007ff00000001a0800000000000007fff800007ff0000000000000000000000007fff000007ff100000000c000000000000001fff000007ff300000007e400000000000000fff000007fc300000007fe00000000000000fff000007fc60000003fff00000000000000ffc000003fc60000007fff00000000000000ff8000003f800000007fff80000000000001ff0000001f800000003fff80000000000001ff0000001f000000003fff80000000000001fe0000001c000000003c3f80000000000001f80000000000000000000f00000000000001f00000000000000000000200200000000003c00000000000000000000200400000000001c000000000000000000000008000000000038000000000000000000000010000000000038000000000000000000000000000000000030800000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',MW=144,MH=72,ST=2.5;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ---------- land cells ---------- */
+const LAND=[];{let k=0;for(const ch of MASK){const v=parseInt(ch,16);for(let b=3;b>=0;b--){if(v>>b&1){const r=Math.floor(k/MW),c=k%MW;LAND.push([90-(r+.5)*ST,-180+(c+.5)*ST])}k++}}}
+/* ---------- places ---------- */
+const ENV=[
+ {e:'🏜️',t:'מדבריות',r:'אפריקה והמזרח התיכון',c:[29.9792,31.1342],q:'נחתתם ליד הפלא היחיד מ"שבעת פלאי העולם העתיק" שעדיין עומד. מה שמו?'},
+ {e:'🌉',t:'ערים על נהר',r:'אירופה',c:[47.5072,19.0458],q:'הבניין הענק שמתחתיכם עומד על גדת נהר. איך קוראים לנהר, ובאיזו עיר אתם?'},
+ {e:'🏝️',t:'איים',r:'האוקיינוס השקט',c:[-27.1258,-109.2769],q:'עברו ל-Street View וספרו: כמה פסלי אבן ענקיים עומדים כאן בשורה אחת?'},
+ {e:'🏔️',t:'הרים',r:'אסיה',c:[27.9881,86.9250],q:'אתם על הנקודה הגבוהה ביותר על פני כדור הארץ. מה שם ההר, ועל הגבול של אילו שתי מדינות הוא?'},
+ {e:'🌋',t:'הרי געש',r:'"טבעת האש" של האוקיינוס השקט',c:[35.3606,138.7274],q:'ההר הזה הוא סמל של מדינה שלמה. מה שמו, ובאיזו מדינה הוא?'},
+ {e:'💦',t:'מפלים ויערות גשם',r:'דרום אמריקה',c:[-25.6953,-54.4367],q:'המפלים כאן נמצאים על הגבול בין שתי מדינות. מה שמם, ואילו מדינות?'},
+ {e:'🏛️',t:'ערים עתיקות',r:'הים התיכון',c:[41.8902,12.4922],q:'כאן נלחמו גלדיאטורים לפני כמעט 2,000 שנה. איך נקרא המבנה, ובאיזו עיר הוא?'},
+ {e:'🧊',t:'קרח וקור',r:'הצפון הרחוק',c:[78.2232,15.6267],q:'אתם באחד היישובים הצפוניים בעולם. מפני איזו חיה מזהירים השלטים ביציאה מהיישוב?'}
+];
+const WAI=[[40.758,-73.9855,'ניו יורק','#4c8bd6'],[35.6595,139.7005,'טוקיו','#e76f86'],[-22.9711,-43.1822,'ריו','#f4a259'],[-33.9208,18.4152,'קייפטאון','#2f9e80'],[64.1417,-21.9266,'רייקיאוויק','#8c7ae6']];
+const REF=[['תל אביב','אסיה',32.08,34.78],['ירושלים','אסיה',31.7767,35.2345],['אילת','אסיה',29.557,34.952],['פסל החירות, ניו יורק','צפון אמריקה',40.6892,-74.0445],['בית האופרה של סידני','אוסטרליה',-33.8568,151.2153],['איי גלפגוס, אקוודור','דרום אמריקה',-0.74,-90.33],
+ ['לונדון','אירופה',51.507,-0.128],['פריז','אירופה',48.857,2.352],['רומא','אירופה',41.89,12.49],['בודפשט','אירופה',47.5,19.04],['מוסקבה','אירופה',55.756,37.617],['רייקיאוויק','אירופה',64.147,-21.94],['סבאלברד','אירופה',78.22,15.63],
+ ['קהיר וגיזה','אפריקה',29.98,31.13],['ניירובי','אפריקה',-1.286,36.817],['קייפטאון','אפריקה',-33.925,18.42],['לאגוס','אפריקה',6.52,3.38],['מרקש','אפריקה',31.63,-7.99],
+ ['טוקיו','אסיה',35.68,139.77],['בייג׳ינג','אסיה',39.904,116.407],['מומבאי','אסיה',19.076,72.877],['קטמנדו והאוורסט','אסיה',27.9,86.5],['בנגקוק','אסיה',13.756,100.502],['דובאי','אסיה',25.2,55.27],
+ ['מקסיקו סיטי','צפון אמריקה',19.43,-99.13],['טורונטו','צפון אמריקה',43.65,-79.38],['לוס אנג׳לס','צפון אמריקה',34.05,-118.24],['הוואי','צפון אמריקה (האוקיינוס השקט)',19.6,-155.5],['ריו דה ז׳ניירו','דרום אמריקה',-22.907,-43.173],['בואנוס איירס','דרום אמריקה',-34.6,-58.38],['לימה','דרום אמריקה',-12.05,-77.04],['מפלי איגואסו','דרום אמריקה',-25.69,-54.44],
+ ['פרת׳','אוסטרליה',-31.95,115.86],['אוקלנד','ניו זילנד (אוקיאניה)',-36.85,174.76],['אי הפסחא','האוקיינוס השקט',-27.12,-109.35]];
+const CITIES=[['לונדון',51.507,-0.128],['ניו יורק',40.713,-74.006],['טוקיו',35.68,139.77],['קייפטאון',-33.925,18.42],['ריו דה ז׳ניירו',-22.907,-43.173],['סידני',-33.869,151.209],['אילת',29.557,34.952],['מוסקבה',55.756,37.617],['ניו דלהי',28.614,77.209]];
+const HOME=[32.08,34.78];
+const rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
+function dist(a,b,c,d){const p1=rad(a),p2=rad(c),dl=rad(d-b);return 6371*Math.acos(Math.min(1,Math.sin(p1)*Math.sin(p2)+Math.cos(p1)*Math.cos(p2)*Math.cos(dl)))}
+function bearing(a,b,c,d){const p1=rad(a),p2=rad(c),dl=rad(d-b);const x=Math.sin(dl)*Math.cos(p2),y=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);return (deg(Math.atan2(x,y))+360)%360}
+const WIND=['צפון','צפון-מזרח','מזרח','דרום-מזרח','דרום','דרום-מערב','מערב','צפון-מערב'];
+const fmtKm=k=>Math.round(k/100)*100>=1000?Math.round(k/100)*100+'':Math.round(k)+'';
+const thou=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+/* ---------- dot map ---------- */
+const NS='http://www.w3.org/2000/svg';
+function el(n,a){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e}
+function makeMap(svg,o={}){if(!svg)return null;const vb=svg.viewBox.baseVal;const w=o.dot||1.7;
+ let g='';for(let lon=-180;lon<=180;lon+=30)g+=`M${lon+180} 0V150`;for(let lat=60;lat>=-60;lat-=30)g+=`M0 ${90-lat}H360`;
+ svg.appendChild(el('path',{class:'grat',d:g}));svg.appendChild(el('path',{class:'eq',d:'M0 90H360'}));
+ let d='';for(const [la,lo] of LAND){if(la<-58)continue;d+=`M${(lo+180).toFixed(2)} ${(90-la).toFixed(2)}h0`}
+ svg.appendChild(el('path',{class:'land',d,'stroke-width':w}));
+ const layer=el('g',{});svg.appendChild(layer);const sc=o.scale||1;
+ return {layer,pin(lat,lon,label,color='#be3455',hidden=false){const x=lon+180,y=90-lat;const p=el('g',{class:'pin'});
+   p.appendChild(el('circle',{class:'pulse',cx:x,cy:y,r:2,stroke:color}));
+   p.appendChild(el('path',{d:`M${x} ${y}c-${2*sc} -${2.4*sc} -${2.6*sc} -${3.6*sc} -${2.6*sc} -${5*sc}a${2.6*sc} ${2.6*sc} 0 1 1 ${5.2*sc} 0c0 ${1.4*sc} -${.6*sc} ${2.6*sc} -${2.6*sc} ${5*sc}z`,fill:color,stroke:'#fff','stroke-width':.5*sc}));
+   p.appendChild(el('circle',{cx:x,cy:y-5*sc,r:1*sc,fill:'#fff'}));
+   if(label){const t=el('text',{x:x,y:y-8.2*sc,'text-anchor':'middle'});t.textContent=label;if(sc!==1)t.style.fontSize=(3.6*sc)+'px';p.appendChild(t)}
+   if(hidden){p.style.opacity=0;p.style.transform='translateY(-6px)'}layer.appendChild(p);return p},clear(){layer.innerHTML=''}}}
+/* ---------- 1. globe ---------- */
+(()=>{const cv=$('globe');if(!cv)return;const ctx=cv.getContext('2d');const W=cv.width,C=W/2,R=W*.43,tilt=rad(18);let lam=-30,last=0;const hero=cv.closest('.slide');
+ const pins=ENV.map(e=>e.c);
+ function frame(t){if(!reduce&&!hero.classList.contains('active')){last=0;requestAnimationFrame(frame);return}
+  const dt=last?Math.min(50,t-last):16;last=t;if(!reduce)lam+=dt*.012;ctx.clearRect(0,0,W,W);
+  const l0=rad(lam),st=Math.sin(tilt),ct=Math.cos(tilt);
+  for(const [la,lo] of LAND){const p=rad(la),dl=rad(lo)-l0;const cp=Math.cos(p),sp=Math.sin(p),cd=Math.cos(dl);const cosc=st*sp+ct*cp*cd;if(cosc<=0)continue;
+   const x=C+R*cp*Math.sin(dl),y=C-R*(ct*sp-st*cp*cd);ctx.globalAlpha=.25+.75*cosc;ctx.fillStyle='#2f9e80';ctx.beginPath();ctx.arc(x,y,2.6+1.6*cosc,0,6.283);ctx.fill()}
+  const blink=.55+.45*Math.sin(t/300);
+  pins.forEach(([la,lo],i)=>{const p=rad(la),dl=rad(lo)-l0;const cp=Math.cos(p),sp=Math.sin(p),cd=Math.cos(dl);const cosc=st*sp+ct*cp*cd;if(cosc<=.05)return;
+   const x=C+R*cp*Math.sin(dl),y=C-R*(ct*sp-st*cp*cd);ctx.globalAlpha=cosc;ctx.fillStyle='#e76f86';ctx.beginPath();ctx.arc(x,y,7,0,6.283);ctx.fill();
+   ctx.globalAlpha=cosc*blink*.5;ctx.strokeStyle='#e76f86';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,13+6*(1-blink),0,6.283);ctx.stroke()});
+  ctx.globalAlpha=1;if(!reduce)requestAnimationFrame(frame)}
+ requestAnimationFrame(frame);
+})();
+/* ---------- state ---------- */
+const LS='tie-map-expedition-v1:'+location.pathname;
+const blank=i=>({name:'משלחת '+i,wai:[null,null,null,null,null],st:0,side:0,err:0,jury:'',got:0,votes:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(blank),draws:{},link:''});
+let S=null;try{S=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();S.draws=S.draws||{};
+S.teams.forEach((t,i)=>Object.assign(t,Object.assign(blank(i+1),t)));
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}};
+const N=()=>S.teams.length;
+/* ---------- 2. where am I: stepper ---------- */
+(()=>{const sl=$('waiSlide');if(!sl)return;const pips=[...sl.querySelectorAll('.pip.reveal')],n=$('placeN'),box=$('placeNum'),tm=$('waiTimer');
+ const upd=()=>{const k=1+pips.filter(p=>p.classList.contains('show')).length;if(n.textContent!==String(k)){n.textContent=k;box.classList.remove('flash');void box.offsetWidth;box.classList.add('flash');
+  tm.querySelector('[data-t=reset]').click();if(k>1)tm.querySelector('[data-t=toggle]').click()}};
+ const mo=new MutationObserver(upd);pips.forEach(p=>mo.observe(p,{attributes:true,attributeFilter:['class']}))})();
+/* answers map */
+const ansMap=makeMap($('ansMap'),{dot:2,scale:1.7});const ansPins=WAI.map(([la,lo,l,c])=>ansMap&&ansMap.pin(la,lo,l,c,true));
+document.querySelectorAll('#ansSlide .ans').forEach(a=>{const i=Number(a.dataset.pin);new MutationObserver(()=>{const p=ansPins[i];if(!p)return;const on=a.classList.contains('show');p.style.opacity=on?1:0;p.style.transform=on?'none':'translateY(-6px)'}).observe(a,{attributes:true,attributeFilter:['class']})});
+/* ---------- helpers for boards ---------- */
+const waiPts=t=>t.wai.reduce((s,v)=>s+(v||0),0),eagle=t=>t.wai.filter(v=>v===3).length;
+const gotOf=i=>Math.min(6,num(S.teams[i].got)),gaveOf=i=>gotOf((i+1)%N());
+function totals(){return S.teams.map((t,i)=>{const w=waiPts(t),st=Math.min(6,num(t.st))*2,q=gotOf(i)+gaveOf(i),side=Math.min(2,num(t.side)),err=num(t.err),jury=Math.max(0,Math.min(16,num(t.jury)));return {w,st,q,side,err,jury,tot:w+st+q+side-err+jury}})}
+function order(T){return [...T.keys()].sort((a,b)=>T[b].tot-T[a].tot||T[b].jury-T[a].jury||T[b].q-T[a].q)}
+const stp=(i,f,max)=>`<span class="stp"><button data-step="${f}" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output data-o="${f}" data-i="${i}">${num(S.teams[i][f])}</output><button data-step="${f}" data-i="${i}" data-d="1" data-max="${max}" aria-label="יותר">+</button></span>`;
+const tn=i=>`<span data-tn="${i}">${esc(S.teams[i].name)}</span>`;
+const CYC={null:'—',3:'✓ 3',1:'יבשת 1',0:'✗ 0'};
+/* ---------- renderers ---------- */
+function rStrip(){const el=$('teamStrip');if(!el)return;el.innerHTML=S.teams.map((t,i)=>`<input type="text" data-name="${i}" value="${esc(t.name)}" aria-label="שם משלחת ${i+1}">`).join('')+
+ `<button class="ghost" data-act="addTeam" aria-label="עוד משלחת">＋</button><button class="ghost" data-act="delTeam" aria-label="משלחת אחת פחות">－</button>`}
+function rWai(){const el=$('waiGrid');if(!el)return;
+ el.innerHTML='<thead><tr><th>משלחת</th>'+[1,2,3,4,5].map(k=>`<th>מקום ${k}</th>`).join('')+'<th>🦅</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td><input class="nm" type="text" data-name="${i}" value="${esc(t.name)}" aria-label="שם המשלחת"></td>`+t.wai.map((v,p)=>`<td><button class="cyc" data-cyc="${i}" data-p="${p}" data-v="${v===null?'':v}">${CYC[v]}</button></td>`).join('')+`<td data-o="eagle" data-i="${i}">${eagle(t)}</td><td class="tot" data-o="waiTot" data-i="${i}">${waiPts(t)}</td></tr>`).join('')+'</tbody>'}
+function rDraw(){const sel=$('drawTeam');if(!sel)return;const v=sel.value;sel.innerHTML=S.teams.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');if(v!==''&&S.teams[v])sel.value=v;
+ const taken={};Object.entries(S.draws).forEach(([ti,ei])=>{if(S.teams[ti])taken[ei]=Number(ti)});
+ $('envGrid').innerHTML=ENV.map((e,k)=>`<button class="envTile${taken[k]!==undefined?' taken':''}" data-env="${k}" aria-label="מעטפה ${k+1}"><div class="envShape"></div><span class="no">${k+1}</span><div class="wax">${taken[k]!==undefined?e.e:'🧭'}</div>${taken[k]!==undefined?`<span class="who">${esc(S.teams[taken[k]].name)}</span>`:''}</button>`).join('');
+ $('drawLog').innerHTML=Object.entries(S.draws).filter(([ti])=>S.teams[ti]).map(([ti,ei])=>`<span><b>${esc(S.teams[ti].name)}:</b> ${ENV[ei].e} ${esc(ENV[ei].t)}</span>`).join('')}
+function showLetter(k,ti,anim){const e=ENV[k],L=$('envLetter');if(!L)return;
+ L.innerHTML=`<div class="lhead"><span>✉️ מעטפה ${k+1} · ${ti!==null&&S.teams[ti]?esc(S.teams[ti].name):''}</span><span>החברה הגאוגרפית העולמית</span></div>
+ <div class="theme">${e.e} ${esc(e.t)}</div><div class="region">📍 האזור: ${esc(e.r)}</div>
+ <div class="coords mono">${e.c[0]}, ${e.c[1]}</div>
+ <p class="riddle"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. ${esc(e.q)}</p>
+ <p class="small" style="margin:6px 0 0">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא, באזור הזה.</p>`;
+ if(anim){L.classList.remove('open');void L.offsetWidth;L.classList.add('open')}}
+function rPairs(){const n=N();const html=S.teams.map((t,i)=>`<span>🧳 ${tn(i)} <em>עוברת את הסיור של</em> ${tn((i+1)%n)}</span>`).join('');['pairs1','pairs2'].forEach(id=>{const el=$(id);if(el)el.innerHTML=html})}
+function rQuiz(){const el=$('quizTable');if(!el)return;const n=N();
+ el.innerHTML='<thead><tr><th>משלחת</th><th>האורחים שלכם</th><th>האורחים ענו נכון<br>בחידון שלכם (0–6)</th><th>נקודות<br>מהחידון שלכם</th><th>נקודות<br>מהסיור שעברתם</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td><b>${tn(i)}</b></td><td>${tn((i-1+n)%n)}</td><td>${stp(i,'got',6)}</td><td class="calc" data-o="got" data-i="${i}"></td><td class="calc" data-o="gave" data-i="${i}"></td><td class="tot" data-o="q" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+function rVote(){const el=$('teamVote');if(!el)return;el.innerHTML=S.teams.map((t,i)=>`<div class="voteItem" data-vi="${i}"><div class="emoji">🌍</div><strong>${tn(i)}</strong><div class="voteCtl"><button data-step="votes" data-i="${i}" data-d="-1">−</button><output data-o="votes" data-i="${i}">${num(t.votes)}</output><button data-step="votes" data-i="${i}" data-d="1" data-max="99">+</button></div><div class="bar"><i data-o="vbar" data-i="${i}"></i></div></div>`).join('')}
+function rScore(){const el=$('scoreTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>משלחת</th><th>איפה אני?<br>עד 15</th><th>תחנות<br>× 2</th><th>חידון<br>לכם+להם</th><th>צד<br>עד 2</th><th>שגיאות<br>מינוס 1</th><th>שופטים<br>עד 16</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-row="${i}"><td><span class="medal" data-o="medal" data-i="${i}"></span> <b>${tn(i)}</b></td><td class="calc" data-o="w" data-i="${i}"></td><td>${stp(i,'st',6)}</td><td class="calc" data-o="q" data-i="${i}"></td><td>${stp(i,'side',2)}</td><td>${stp(i,'err',20)}</td><td><input type="number" min="0" max="16" inputmode="numeric" data-jury="${i}" value="${esc(t.jury)}" aria-label="ציון שופטים"></td><td class="tot" data-o="tot" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+function rEnd(){const m=endMap;if(!m)return;m.clear();const used=Object.entries(S.draws).filter(([ti])=>S.teams[ti]);
+ if(used.length)used.forEach(([ti,ei])=>m.pin(ENV[ei].c[0],ENV[ei].c[1],ENV[ei].e+' '+S.teams[ti].name,'#be3455'));else ENV.forEach(e=>m.pin(e.c[0],e.c[1],e.e,'#0f766e'))}
+function winners(){const T=totals();const ord=order(T);const n=N();const any=T.some(x=>x.tot>0);
+ const names=a=>a.map(i=>S.teams[i].name).join(' · ');
+ const best=(f)=>{const v=S.teams.map((t,i)=>f(t,i));const m=Math.max(...v);return m>0?names(v.map((x,i)=>x===m?i:-1).filter(i=>i>=0)):'—'};
+ const eg=(()=>{const v=S.teams.map(t=>eagle(t)*100+waiPts(t));const m=Math.max(...v);return m>0?names(v.map((x,i)=>x===m?i:-1).filter(i=>i>=0)):'—'})();
+ const fc=S.teams.map((t,i)=>(num(t.err)===0&&num(t.st)>0)?i:-1).filter(i=>i>=0);
+ return {compass:any?S.teams[ord[0]].name:'—',eagle:eg,facts:fc.length?names(fc):'—',surprise:best(t=>num(t.votes))}}
+function update(){const T=totals(),ord=order(T),any=T.some(x=>x.tot>0);const maxV=Math.max(1,...S.teams.map(t=>num(t.votes)));
+ document.querySelectorAll('[data-tn]').forEach(e=>{const t=S.teams[e.dataset.tn];if(t)e.textContent=t.name});
+ document.querySelectorAll('[data-o]').forEach(e=>{const i=Number(e.dataset.i),t=S.teams[i];if(!t)return;const o=e.dataset.o;
+  if(o==='eagle')e.textContent=eagle(t);else if(o==='waiTot')e.textContent=waiPts(t);else if(o==='w')e.textContent=T[i].w;
+  else if(o==='got')e.textContent=gotOf(i);else if(o==='gave')e.textContent=gaveOf(i);else if(o==='q')e.textContent=T[i].q;
+  else if(o==='tot')e.textContent=T[i].tot;else if(o==='vbar')e.style.width=(num(t.votes)/maxV*100)+'%';
+  else if(o==='medal')e.textContent=any?(['🥇','🥈','🥉'][ord.indexOf(i)]||''):'';
+  else if(['st','side','err','got','votes'].includes(o))e.textContent=num(t[o])});
+ document.querySelectorAll('#scoreTable tr[data-row]').forEach(r=>r.classList.toggle('first',any&&Number(r.dataset.row)===ord[0]));
+ document.querySelectorAll('#teamVote .voteItem').forEach(v=>{const x=num(S.teams[v.dataset.vi]?.votes);v.classList.toggle('lead1',x>0&&x===maxV)});
+ const W=winners();document.querySelectorAll('[data-win]').forEach(e=>e.textContent=W[e.dataset.win]);
+ const sel=$('drawTeam');if(sel)[...sel.options].forEach((o,i)=>{if(S.teams[i])o.textContent=S.teams[i].name})}
+function renderAll(){rStrip();rWai();rDraw();rPairs();rQuiz();rVote();rScore();rEnd();update()}
+/* ---------- events ---------- */
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.dataset.name!==undefined){const i=Number(t.dataset.name);if(!S.teams[i])return;S.teams[i].name=t.value.trim()||('משלחת '+(i+1));
+  document.querySelectorAll(`input[data-name="${i}"]`).forEach(x=>{if(x!==t)x.value=t.value});save();update();rDraw()}
+ else if(t.dataset.jury!==undefined){S.teams[t.dataset.jury].jury=t.value;save();update()}
+ else if(t.id==='emText')wc();
+ else if(t.id==='linkBox'){S.link=t.textContent.trim();save()}});
+document.addEventListener('focusout',e=>{if(e.target.dataset&&e.target.dataset.name!==undefined)rEnd()});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.cyc!==undefined){const t=S.teams[b.dataset.cyc],p=Number(b.dataset.p);const nx={null:3,3:1,1:0,0:null};t.wai[p]=nx[t.wai[p]];b.dataset.v=t.wai[p]===null?'':t.wai[p];b.textContent=CYC[t.wai[p]];save();update()}
+ else if(b.dataset.step){const t=S.teams[b.dataset.i],f=b.dataset.step;const mx=Number(b.dataset.max||99);t[f]=Math.max(0,Math.min(mx||99,num(t[f])+Number(b.dataset.d)));if(Number(b.dataset.d)<0)t[f]=Math.max(0,num(t[f]));save();update()}
+ else if(b.dataset.act==='addTeam'&&N()<8){S.teams.push(blank(N()+1));save();renderAll()}
+ else if(b.dataset.act==='delTeam'&&N()>3){const i=N()-1;S.teams.pop();delete S.draws[i];save();renderAll()}
+ else if(b.dataset.env!==undefined){const k=Number(b.dataset.env);const owner=Object.entries(S.draws).find(([,ei])=>ei===k);
+  if(owner){showLetter(k,Number(owner[0]),true);return}const ti=Number($('drawTeam').value);S.draws[ti]=k;save();rDraw();rEnd();showLetter(k,ti,true)}
+ else if(b.id==='drawGo'){const ti=Number($('drawTeam').value);const used=Object.entries(S.draws).filter(([t])=>Number(t)!==ti).map(([,v])=>v);const free=ENV.map((_,k)=>k).filter(k=>!used.includes(k));
+  if(!free.length)return;const k=free[Math.floor(Math.random()*free.length)];S.draws[ti]=k;save();rDraw();rEnd();
+  const tile=document.querySelector(`.envTile[data-env="${k}"]`);if(tile&&!reduce){tile.animate([{transform:'scale(1)'},{transform:'scale(1.15) rotate(-4deg)'},{transform:'scale(1)'}],{duration:500})}
+  setTimeout(()=>showLetter(k,ti,true),reduce?0:350);const sel=$('drawTeam');if(sel.selectedIndex<sel.options.length-1)setTimeout(()=>{sel.selectedIndex++},400)}
+ else if(b.id==='resetAll'){if(confirm('לאפס את כל הניקוד, השמות וההגרלות לשיעור חדש?')){S=fresh();save();renderAll();const L=$('envLetter');if(L)L.innerHTML='<div class="empty">✉️<br>בוחרים משלחת ולוחצים "הגרלה",<br>או בוחרים מעטפה בעצמכם</div>'}}
+ else if(b.classList.contains('copyBtn')){const txt=b.parentElement.querySelector('p').textContent;const ok=()=>{b.classList.add('done');b.textContent='✓ הועתק';setTimeout(()=>{b.classList.remove('done');b.textContent='📋 העתקה'},1600)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,()=>fallback(txt,ok));else fallback(txt,ok)}
+ else if(b.dataset.ll){const [a,c]=b.dataset.ll.split(',');$('dLat').value=a;$('dLon').value=c;$('dOut').innerHTML='באיזה חצי של כדור הארץ זה? באיזו יבשת? מנחשים ואז "נחיתה".';decMap&&decMap.clear()}
+ else if(b.id==='dGo')land();
+ else if(b.dataset.city!==undefined)point(Number(b.dataset.city))});
+document.addEventListener('change',e=>{if(e.target.id==='drawTeam'){const ti=Number(e.target.value);if(S.draws[ti]!==undefined)showLetter(S.draws[ti],ti,false)}});
+function fallback(txt,ok){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){}ta.remove()}
+/* ---------- decoder ---------- */
+const decMap=makeMap($('decMap'),{dot:2,scale:1.7});
+function land(){const la=num($('dLat').value),lo=num($('dLon').value),out=$('dOut');
+ if(Math.abs(la)>90||Math.abs(lo)>180){out.innerHTML='⚠️ קו רוחב: בין ‎-90 ל-90. קו אורך: בין ‎-180 ל-180.';return}
+ decMap.clear();const p=decMap.pin(la,lo,'',"#be3455",true);requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.opacity=1;p.style.transform='none'}));
+ let best=null,bd=1e9;REF.forEach(r=>{const d=dist(la,lo,r[2],r[3]);if(d<bd){bd=d;best=r}});
+ const hem=(la>=0?'<b>צפון</b> לקו המשווה':'<b>דרום</b> לקו המשווה')+' · '+(lo>=0?'<b>מזרח</b> לגריניץ׳':'<b>מערב</b> לגריניץ׳');
+ out.innerHTML=hem+'<br>'+(bd<60?`נחתתם ב: <b>${esc(best[0])}</b> (${esc(best[1])})`:bd<1500?`הכי קרוב ל: <b>${esc(best[0])}</b> (${esc(best[1])}), כ-${thou(fmtKm(bd))} ק״מ`:`🌊 רחוק מכל מה שברשימה: אולי באמצע האוקיינוס?`)}
+/* ---------- GeoGuessr meter ---------- */
+(()=>{const box=$('ggRounds');if(!box)return;const sl=box.closest('.slide');const sum=$('ggSum');let done=false;
+ new MutationObserver(()=>{const on=sl.classList.contains('active');if(on&&!done){done=true;setTimeout(()=>{box.querySelectorAll('i').forEach((i,k)=>setTimeout(()=>i.style.height=i.dataset.h+'%',k*250));
+  let v=0;const target=18316;const st=performance.now();const tick=t=>{v=Math.min(target,Math.round(target*(t-st)/1600));sum.textContent=thou(v);if(v<target)requestAnimationFrame(tick)};requestAnimationFrame(tick)},300)}
+  if(!on&&done){done=false;box.querySelectorAll('i').forEach(i=>i.style.height=0);sum.textContent='0'}}).observe(sl,{attributes:true,attributeFilter:['class']})})();
+/* ---------- station word counter ---------- */
+function wc(){const t=$('emText'),o=$('emWc');if(!t||!o)return;const n=t.textContent.trim().split(/\s+/).filter(Boolean).length;o.textContent=n+' / 40 מילים';o.className='wc '+(n<=40?'ok':'no')}
+const emMap=makeMap($('emMap'),{dot:1.5,scale:1});if(emMap)emMap.pin(47.5072,19.0458,'בודפשט','#be3455');wc();
+/* ---------- human compass ---------- */
+(()=>{const box=$('cityBtns');if(!box)return;box.innerHTML=CITIES.map((c,i)=>`<button data-city="${i}">${esc(c[0])}</button>`).join('')})();
+let cdT=null,rot=0;
+function point(i){const c=CITIES[i],txt=$('cdText'),nd=$('needle');clearInterval(cdT);document.querySelectorAll('#cityBtns button').forEach((b,k)=>b.classList.toggle('on',k===i));
+ const b=bearing(HOME[0],HOME[1],c[1],c[2]),d=dist(HOME[0],HOME[1],c[1],c[2]);let k=3;txt.className='cdText';txt.textContent=k;
+ cdT=setInterval(()=>{k--;if(k>0){txt.textContent=k;return}clearInterval(cdT);txt.textContent='👉 הצביעו!';
+  setTimeout(()=>{let target=b;while(target-rot>180)target-=360;while(target-rot<-180)target+=360;rot=target;nd.style.transform=`rotate(${rot}deg)`;
+   txt.className='cdText small';txt.innerHTML=`<b>${esc(c[0])}</b>: ${Math.round(b)}° · ${WIND[Math.round(b/45)%8]} · כ-${thou(fmtKm(d))} ק״מ`+(c[0]==='ניו יורק'?'<br>😮 כמעט כמו פריז! על כדור עגול, הדרך הקצרה לניו יורק עוברת צפונה.':'')},1200)},800)}
+/* ---------- maps that depend on state ---------- */
+const endMap=makeMap($('endMap'),{dot:2,scale:2});
+/* medals: confetti when the compass medal opens */
+document.querySelectorAll('.mcard[data-award="compass"]').forEach(m=>new MutationObserver(()=>{if(m.classList.contains('show')&&!reduce)confetti()}).observe(m,{attributes:true,attributeFilter:['class']}));
+function confetti(){const c=document.createElement('div');c.className='confetti';const cols=['#0f766e','#f4a259','#8c7ae6','#e76f86','#4c8bd6','#e3a82b'];
+ for(let i=0;i<90;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'vw';p.style.background=cols[i%cols.length];p.style.animationDuration=(2+Math.random()*2.2)+'s';p.style.animationDelay=Math.random()*.6+'s';c.appendChild(p)}
+ document.body.appendChild(c);setTimeout(()=>c.remove(),5200)}
+const lb=$('linkBox');if(lb&&S.link)lb.textContent=S.link;
+renderAll();
+})();
+</script>
+
+</body>
+</html>

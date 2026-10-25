@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · משלחת המפה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+#p-mission table.tb td{padding:1.3mm 2.2mm;font-size:9.2pt}#p-mission .box{padding:3mm 3.6mm}#p-mission .grid3 p{font-size:8.8pt!important}
+#p-side .cc b{font-size:16pt}#p-side .cc small{font-size:11pt;line-height:1.5;max-width:52mm}#p-side .cc .em{font-size:34pt}
+.envs{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.envc{position:relative;padding:5mm 6mm;display:flex;flex-direction:column;gap:2mm;background:linear-gradient(180deg,#fffdf7,#fff)}
+.envc::before{content:"";position:absolute;inset:0 0 auto 0;height:2.4mm;background:var(--c)}
+.envc .eh{display:flex;align-items:center;justify-content:space-between;font-family:var(--display);font-weight:700;font-size:9.5pt;color:var(--muted);margin-top:1mm}
+.envc .seal{width:9mm;height:9mm;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e35d6a,#b3263b 60%,#8e1b2e);display:grid;place-items:center;font-size:12pt}
+.envc .sec{font-size:7.5pt;border:1px solid #c99a4a;color:#8a5300;border-radius:1mm;padding:.2mm 1.5mm}
+.envc .eem{font-size:30pt;line-height:1;margin-top:1mm}
+.envc .et{font-family:var(--display);font-weight:800;font-size:19pt;line-height:1.1}
+.envc .er{color:var(--muted);font-weight:700;font-size:10pt}
+.envc .ec{align-self:flex-start;background:#1f2a37;color:#fff;border-radius:2.5mm;padding:2mm 4mm;font-family:var(--display);font-weight:700;font-size:15pt;letter-spacing:.3px}
+.envc .eq{font-size:11.5pt;line-height:1.55}
+.envc .ef{margin-top:auto;font-size:9pt;color:var(--muted);border-top:1px dashed var(--line2);padding-top:2mm}
+.mono{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+table.guess td{height:18mm;vertical-align:middle}
+table.guess td.big,table.plan td.big,table.quizt td.big{font-family:var(--display);font-weight:800;font-size:16pt;text-align:center;color:var(--teal)}
+table.plan td{height:27mm;font-size:9pt;vertical-align:top}
+table.plan .cell2{height:12mm;border-bottom:1px solid #e7e3dc;font-size:8.6pt;color:var(--muted)}
+table.plan .cell2:last-child{border-bottom:0}
+td.ck{text-align:center;font-size:14pt;vertical-align:middle!important}
+.clues{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.clue{padding:5mm 6mm;display:flex;flex-direction:column;gap:2.5mm}
+.clue .ch{display:flex;justify-content:space-between;align-items:center}
+.clue .ch b{font-family:var(--display);font-weight:800;font-size:16pt;color:var(--sky-ink)}
+.clue .ch span{font-size:22pt}
+.clue p{font-size:12.5pt;line-height:1.6}
+.clue .cq{margin-top:auto;font-weight:700}
+.clue.tipc{background:var(--paper)}
+.halves{grid-template-rows:1fr 1fr;flex:1}
+.half{padding:5mm 6mm;display:flex;flex-direction:column;gap:2mm;font-size:10pt}
+.half .hh{display:flex;justify-content:space-between;align-items:center;gap:3mm}
+.half .hh b{font-family:var(--display);font-weight:800;font-size:13pt}
+.half .q{font-weight:700;font-size:9.6pt}
+.small2{font-size:8.6pt;color:var(--muted);margin-top:auto}
+table.quizt td{height:14.5mm}
+.bank h3{font-family:var(--display);font-weight:800;font-size:14pt;margin-bottom:2mm}
+.bank table.tb td{font-size:10pt;padding:2.6mm 2.4mm}
+.certs{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.cert{position:relative;padding:9mm 7mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3.5mm;background:radial-gradient(circle at 50% 0,var(--cs),#fff 70%)}
+.cert::after{content:"";position:absolute;inset:3mm;border:1.2px solid var(--c);border-radius:3mm;pointer-events:none;opacity:.55}
+.cert .cm{width:22mm;height:22mm;border-radius:50%;display:grid;place-items:center;font-size:26pt;background:var(--cs);border:2px solid var(--c)}
+.cert .ck2{font-size:9pt;color:var(--muted)}
+.cert .ct{font-family:var(--display);font-weight:800;font-size:23pt}
+.cert .cm{width:28mm!important;height:28mm!important;font-size:34pt!important}
+.cert .cn{font-size:11pt;font-weight:700}
+.cert .cw{font-size:9.6pt;color:var(--muted);max-width:75mm}
+.cert .cf{margin-top:8mm;display:flex;gap:6mm;font-size:9.5pt}
+.cert .cn{font-size:12.5pt!important}.cert .cw{font-size:10.5pt!important}
+</style>
+</head>
+<body>
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · משלחת המפה<small>🧭 90 דקות · ה׳–ט׳</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+<main class="sheets">
+<section class="page" id="p-print" data-label="דף הדפסה">
+<div class="ph"><div class="l"><i>TIE</i>משלחת המפה · חומרים להדפסה</div><div class="r">למדריך</div></div>
+<div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6 משלחות. כמויות לכיתה אחרת: לפי מספר המשלחות.</p></div>
+<table class="tb"><thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead><tbody>
+<tr><td>2–3</td><td>כרטיסי תפקיד (5), נורמות ורמזור</td><td>1 סט למשלחת (6)</td><td>בריסטול</td><td>כן</td></tr><tr><td>4</td><td>כרטיס המשימה (3 רמות)</td><td>1 למשלחת</td><td>רגיל</td><td>לא</td></tr><tr><td>5–6</td><td>8 כרטיסי מעטפה</td><td>1 סט</td><td>בריסטול צבעוני אם אפשר</td><td>כן, כל כרטיס במעטפה</td></tr><tr><td>7</td><td>דף ניחושים "איפה אני?"</td><td>1 למשלחת</td><td>רגיל</td><td>לא</td></tr><tr><td>8</td><td>כרטיסי רמזים (גרסת נייר)</td><td>1 סט</td><td>רגיל</td><td>כן</td></tr><tr><td>9</td><td>דף תכנון הסיור</td><td>1 למשלחת + 2</td><td>רגיל או A3</td><td>לא</td></tr><tr><td>10</td><td>דיווח מהשטח</td><td>1 למשלחת (3 דפים)</td><td>רגיל</td><td>כן, לחצאים</td></tr><tr><td>11</td><td>דף חידון לאורחים (גיבוי)</td><td>1 למשלחת (3 דפים)</td><td>רגיל</td><td>כן, לחצאים</td></tr><tr><td>12</td><td>מחוון</td><td>1 למשלחת + 1</td><td>רגיל</td><td>לא</td></tr><tr><td>13</td><td>שורת AI</td><td>2 דפים</td><td>רגיל</td><td>כן, לרבעים</td></tr><tr><td>14</td><td>כרטיסי יציאה</td><td>8 דפים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr><tr><td>15</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr><tr><td>16</td><td>כרטיסי משימות צד</td><td>1 סט</td><td>בריסטול</td><td>כן</td></tr><tr><td>17–20</td><td>בנק התחנות (8 נושאים)</td><td>1 סט למדריך</td><td>רגיל</td><td>לא</td></tr><tr><td>21</td><td>תעודות מדליות</td><td>1–2</td><td>בריסטול</td><td>כן, לרבעים</td></tr>
+</tbody></table>
+<div class="grid2" style="margin-top:3mm">
+ <div class="box soft"><h3>📦 על כל שולחן משלחת</h3><ul class="check"><li>5 כרטיסי תפקיד + כרטיס נורמות ורמזור</li><li>דף ניחושים, דף תכנון הסיור, מחוון</li><li>מפת עולם A3 (גיבוי) ופתקים דביקים</li><li>2 טושים ועט</li><li>מעטפת משלחת לדפים</li></ul></div>
+ <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3><ul class="check"><li>8 מעטפות סגורות עם "חותם" (כרטיס מעמ׳ 5–6 בכל אחת)</li><li>כרטיסי רמזים, דפי דיווח מהשטח וחידון לאורחים</li><li>כרטיסי משימות צד בקופסה</li><li>בנק התחנות, דף הניקוד, תעודות</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף "צפון" להדבקה על הקיר</li></ul></div>
+</div>
+<div class="box" style="margin-top:3mm"><h3>✉️ הכנת המעטפות (10 דקות)</h3><p>גוזרים את 8 כרטיסי המעטפה, מקפלים לשניים כך שהקואורדינטות בפנים, ומכניסים כל כרטיס למעטפה. על המעטפה כותבים רק את המספר (1–8) ומדביקים מדבקה עגולה אדומה כ"חותם". התשובות לחידות: במערך, סעיף "8 המעטפות".</p></div>
+</section>
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+<div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · משלחת המפה</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. כל אחד קורא את הכרטיס שלו בשקט בתחילת השיעור.</p>
+<div class="cutgrid roles"><article class="role r-ceo"><div class="rh"><span class="ic">🧭</span><div><b>ראש/ת המשלחת</b><small>הזמן, המעטפה וההחלטות</small></div></div>
+<p class="mis">המשימה שלי: שהמשלחת מתחילה מהר, שכל אחד יודע מה הוא עושה, ושעומדים בזמן.</p><h4>מה אני עושה היום</h4><ul><li>מקריא/ה את המעטפה ושומר/ת אותה סגורה עד האות.</li><li>מחליט/ה עם המשלחת על סדר 6 התחנות: מסלול הגיוני.</li><li>שומר/ת על אבני הדרך: דקה 3, 8, 20.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+<div class="say">💬 "מה התחנה הבאה?" · "עוד לא שמענו את ___." · "נשארו 5 דקות."</div><p class="no">✗ לא מחליט/ה לבד ולא עושה את העבודה במקום אחרים.</p><p class="bonus">✓ הצלחתי כש: הגשנו בזמן וכל המשלחת הציגה בערב המשלחות</p></article><article class="role r-res"><div class="rh"><span class="ic">🗺️</span><div><b>נווט/ת</b><small>Earth ו-Street View</small></div></div>
+<p class="mis">המשימה שלי: למצוא את המקומות ולבנות את הפרויקט ב-Google Earth.</p><h4>מה אני עושה היום</h4><ul><li>פותח/ת פרויקט חדש בשם הנכון.</li><li>מקליד/ה את הקואורדינטות מהמעטפה ופותר/ת את החידה.</li><li>מוסיף/ה 6 מקומות, תמונה או "צילום התצוגה" ב-Street View.</li><li>בודק/ת "הצגה" ו"קישור לשיתוף".</li></ul>
+<div class="say">💬 "הקלדתי, נחתנו ב___." · "בואו נסתכל ב-Street View." · "הקישור נפתח בחלון בסתר?"</div><p class="no">✗ לא מוסיף/ה מקום בלי שהמשלחת הסכימה.</p><p class="bonus">✓ הצלחתי כש: הסיור נפתח אצל המשלחת האורחת בלי עזרה</p></article><article class="role r-bld"><div class="rh"><span class="ic">🔍</span><div><b>חוקר/ת עובדות</b><small>שני מקורות לכל עובדה</small></div></div>
+<p class="mis">המשימה שלי: שכל עובדה בסיור נכונה, ושיש לה מקור.</p><h4>מה אני עושה היום</h4><ul><li>מבקש/ת מ-Gemini רעיונות ועובדות (ארגז הפרומפטים).</li><li>בודק/ת כל עובדה בשני מקורות שאינם AI.</li><li>רושם/ת את המקור בדף התכנון.</li><li>בדיווח מהשטח: בודק/ת עובדה של המשלחת השכנה.</li></ul>
+<div class="say">💬 "מאיפה זה?" · "מצאתי את זה גם ב___." · "Gemini כתב ___, אבל באתר הרשמי כתוב ___."</div><p class="no">✗ לא מכניס/ה עובדה של AI בלי בדיקה.</p><p class="bonus">✓ הצלחתי כש: תפסנו טעות של AI ותיקנו אותה עם מקור</p></article><article class="role r-pre"><div class="rh"><span class="ic">✍️</span><div><b>כותב/ת הסיור</b><small>40 מילים ושאלה</small></div></div>
+<p class="mis">המשימה שלי: טקסט קצר, ברור ומעניין לכל תחנה, ושאלת חידון.</p><h4>מה אני עושה היום</h4><ul><li>כותב/ת עד 40 מילים לכל תחנה, במילים שלנו.</li><li>מכניס/ה לטקסט את העובדה הבדוקה.</li><li>כותב/ת שאלה לכל תחנה שעונים עליה רק מהסיור.</li><li>סופר/ת מילים לפני שמכניסים לפרויקט.</li></ul>
+<div class="say">💬 "איך נגיד את זה בשני משפטים?" · "מה הדבר הכי מפתיע פה?" · "אפשר לנחש את השאלה הזאת?"</div><p class="no">✗ לא מעתיק/ה פסקה מוויקיפדיה או מ-Gemini.</p><p class="bonus">✓ הצלחתי כש: האורחים ענו נכון על השאלות שלנו</p></article></div></section>
+<section class="page" id="p-roles2" data-label="תפקיד 5 ונורמות">
+<div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<p class="cutnote">✂ כרטיס חמישי, כרטיס הגדלים, כרטיס הנורמות ורמזור ה-AI. השלושה האחרונים נשארים על השולחן.</p>
+<div class="cutgrid roles"><article class="role r-ai"><div class="rh"><span class="ic">📣</span><div><b>מדריך/ת הטיולים</b><small>החידון, ההגשה וההצגה</small></div></div>
+<p class="mis">המשימה שלי: לבנות את החידון, להגיש, ולהציג את הסיור בערב המשלחות.</p><h4>מה אני עושה היום</h4><ul><li>פותח/ת טופס ב-Forms ← "הגדרות" ← "הגדרה כבוחן".</li><li>שאלה אמריקאית לכל תחנה + "מפתח תשובות".</li><li>"פרסום" ← "פרסום הטופס". מגיש/ה בטופס "הגשת משלחת".</li><li>ממלא/ת את שורת ה-AI: מה ה-AI עשה · מה אנחנו עשינו.</li></ul>
+<div class="say">💬 "איזו שאלה נשים לתחנה 3?" · "בדקתי, הטופס פורסם." · "אני מציג/ה, ו___ מספר/ת על התחנה."</div><p class="no">✗ לא מגיש/ה בלי שהמשלחת ראתה את הסיור.</p><p class="bonus">✓ הצלחתי כש: ההגשה נכנסה בזמן והאורחים נכנסו לחידון</p></article>
+<article class="role" style="--c:#8a93a1;--cs:#f4f1ea"><div class="rh"><span class="ic">👥</span><div><b>משלחת של 4 או 6?</b><small>ככה מחלקים</small></div></div>
+<ul><li><b>4 במשלחת:</b> מדריך/ת הטיולים לוקח/ת גם את הכתיבה.</li><li><b>3 במשלחת:</b> ראש/ת המשלחת גם חוקר/ת, ומדריך/ת הטיולים גם כותב/ת.</li><li><b>6 במשלחת:</b> שני נווטים: אחד/ת ב-Earth ואחד/ת ב-Street View, ומתחלפים כל 7 דקות.</li></ul>
+<div class="say">💬 בכל שיעור הכרטיסים עוברים לאדם שיושב משמאל.</div></article>
+<article class="role" style="--c:#0f766e;--cs:#e3f1ee"><div class="rh"><span class="ic">🤝</span><div><b>נורמות המשלחת</b><small>חלות על כולם</small></div></div>
+<ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm"><li>אף אחד לא סיים עד שכל המשלחת סיימה.</li><li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li><li>לפני שמחליטים, כל אחד אומר משהו.</li><li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li><li>שואלים את המשלחת לפני שקוראים למדריך, ורק ראש/ת המשלחת קורא/ת.</li></ol></article>
+<article class="role" style="--c:#4c8bd6;--cs:#e7f0fa"><div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל שלב</small></div></div>
+<div class="tl" style="flex-direction:column;gap:2mm"><div class="g"><b>🟢 ספרינט 1 ו-2</b>Gemini למחקר ולרעיונות. כל עובדה נבדקת בשני מקורות.</div><div class="y"><b>🟡 הטקסט בתחנה</b>כותבים בעצמנו. מותר לבקש מ-Gemini לקצר.</div><div class="r"><b>🔴 ערב המשלחות וכרטיס יציאה</b>בלי AI ובלי חיפוש.</div></div>
+<p style="font-size:8.8pt;color:var(--muted)">טיפ: כותבים על המקום, לא על עצמנו. בלי פרטים אישיים ובלי תמונות של אנשים אמיתיים.</p></article>
+</div></section>
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+<div class="ph"><div class="l"><i>TIE</i>משלחת המפה · כרטיס המשימה</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<div class="pt"><div><span class="kick">🧭 החברה הגאוגרפית העולמית</span><h2>מדליית <span>המצפן</span></h2></div><p>כל משלחת פותחת מעטפה חתומה עם אזור ונושא, וחוזרת עם סיור של 6 תחנות שמשלחת אחרת תעבור בעצמה. רק סיור שכל העובדות בו נבדקו מקבל את המדליה.</p></div>
+<div class="grid2">
+ <div class="box"><h3>🎯 מה מגישים</h3><ul class="clean"><li>סיור ב-Google Earth: 6 תחנות בנושא שהוגרל.</li><li>בכל תחנה: תמונה או Street View · עד 40 מילים · עובדה בדוקה + מקור · שאלה.</li><li>חידון של 6 שאלות ב-Forms (מצב בוחן).</li><li>שם הפרויקט: <b>משלחת [שם] · סיור · [נושא]</b></li></ul></div>
+ <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>6 תחנות, כולן קשורות לנושא.</li><li>עובדה = שני מקורות. עובדה של AI בלי בדיקה לא נחשבת.</li><li>עד 40 מילים לתחנה, במילים שלכם.</li><li>את השאלות עונים רק אחרי שעוברים את הסיור.</li><li>בלי בתים פרטיים ובלי הבתים שלכם.</li><li>מגישים עד הדקה שעל הטיימר.</li></ol></div>
+</div>
+<div class="box" style="margin-top:3mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+<table class="tb"><thead><tr><th>מה</th><th style="width:36mm">נקודות</th></tr></thead><tbody>
+<tr><td>סבב "איפה אני?": מדינה נכונה / רק יבשת</td><td>3 / 1 (עד 15)</td></tr>
+<tr><td>כל תחנה מלאה (תמונה, טקסט, עובדה + מקור, שאלה)</td><td>2 (עד 12)</td></tr>
+<tr><td>ערב המשלחות: כל תשובה נכונה של האורחים בחידון שלכם</td><td>1 לכם + 1 להם</td></tr>
+<tr><td>משימת צד שהושלמה</td><td>1 (עד 2)</td></tr>
+<tr><td>עובדה שגויה שמשלחת אחרת תפסה בערב המשלחות (עם מקור)</td><td>מינוס 1</td></tr>
+<tr><td>ציון השופטים לפי המחוון</td><td>4–16</td></tr>
+</tbody></table>
+<p style="margin-top:2mm;font-size:9pt;color:var(--muted)">מנצחים: הניקוד הכולל. שובר שוויון: ציון השופטים, ואז יותר תשובות נכונות בחידונים. פרסים נוספים: 🦅 עין הנשר · 📚 בודקי העובדות · 🌍 התחנה המפתיעה.</p></div>
+<div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3><table class="tb"><tbody>
+<tr><td style="width:36mm"><b>🧭 ראש/ת המשלחת</b></td><td>מקריא/ה את המעטפה, מחליט/ה על סדר התחנות ושומר/ת על אבני הדרך (דקה 3, 8, 20).</td></tr>
+<tr><td><b>🗺️ נווט/ת</b></td><td>פרויקט חדש, פתרון חידת הקואורדינטות, 6 מקומות ו-Street View, "הצגה" ו"קישור לשיתוף".</td></tr>
+<tr><td><b>🔍 חוקר/ת עובדות</b></td><td>עובדה לכל תחנה, בדוקה בשני מקורות. רושם/ת את המקורות.</td></tr>
+<tr><td><b>✍️ כותב/ת הסיור</b></td><td>עד 40 מילים לכל תחנה ושאלה שעונים עליה רק מהסיור.</td></tr>
+<tr><td><b>📣 מדריך/ת הטיולים</b></td><td>חידון ב-Forms במצב בוחן, הגשה בטופס, הצגה בערב המשלחות.</td></tr>
+</tbody></table></div>
+<div class="grid3" style="margin-top:3mm">
+ <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">🟢 בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">בוחרים 6 תחנות מבנק התחנות של הנושא, ובודקים כל עובדה במקור שני. שאלות מהתבנית: "מה צבע ___ בתחנה ___?"</p></div>
+ <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">🟡 רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">6 תחנות שאתם בוחרים, עם Gemini לרעיונות ובדיקה בשני מקורות.</p></div>
+ <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">🔴 אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">סיור עם סיפור: כל תחנה נגמרת ברמז לבאה, ולפחות 2 שאלות שעונים עליהן רק מ-Street View.</p></div>
+</div>
+</section>
+<section class="page" id="p-env1" data-label="מעטפות 1–4">
+<div class="ph"><div class="l"><i>TIE</i>המעטפות החתומות · משלחת המפה</div><div class="r">מעטפות 1–4</div></div>
+<p class="cutnote">✂ לגזור, לקפל לשניים ולהכניס כל כרטיס למעטפה סגורה עם המספר שלה. לא לגלות לכיתה את התשובות.</p>
+<div class="cutgrid envs"><div class="envc" style="--c:#f4a259;--cs:#fdf0e3"><div class="eh"><span class="seal">🧭</span><span>מעטפה 1</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🏜️</div><b class="et">מדבריות</b><p class="er">📍 האזור: אפריקה והמזרח התיכון</p>
+<div class="ec mono">29.9792, 31.1342</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. נחתתם ליד הפלא היחיד מ"שבעת פלאי העולם העתיק" שעדיין עומד. מה שמו?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>מדבריות</b>, באזור הזה.</p></div><div class="envc" style="--c:#4c8bd6;--cs:#e7f0fa"><div class="eh"><span class="seal">🧭</span><span>מעטפה 2</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🌉</div><b class="et">ערים על נהר</b><p class="er">📍 האזור: אירופה</p>
+<div class="ec mono">47.5072, 19.0458</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. הבניין הענק שמתחתיכם עומד על גדת נהר. איך קוראים לנהר, ובאיזו עיר אתם?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>ערים על נהר</b>, באזור הזה.</p></div><div class="envc" style="--c:#5bb5a2;--cs:#e3f3ef"><div class="eh"><span class="seal">🧭</span><span>מעטפה 3</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🏝️</div><b class="et">איים</b><p class="er">📍 האזור: האוקיינוס השקט</p>
+<div class="ec mono">-27.1258, -109.2769</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. עברו ל-Street View וספרו: כמה פסלי אבן ענקיים עומדים כאן בשורה אחת?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>איים</b>, באזור הזה.</p></div><div class="envc" style="--c:#8c7ae6;--cs:#efecfb"><div class="eh"><span class="seal">🧭</span><span>מעטפה 4</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🏔️</div><b class="et">הרים</b><p class="er">📍 האזור: אסיה</p>
+<div class="ec mono">27.9881, 86.9250</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. אתם על הנקודה הגבוהה ביותר על פני כדור הארץ. מה שם ההר, ועל הגבול של אילו שתי מדינות הוא?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>הרים</b>, באזור הזה.</p></div></div></section>
+<section class="page" id="p-env2" data-label="מעטפות 5–8">
+<div class="ph"><div class="l"><i>TIE</i>המעטפות החתומות · משלחת המפה</div><div class="r">מעטפות 5–8</div></div>
+<p class="cutnote">✂ לגזור, לקפל לשניים ולהכניס כל כרטיס למעטפה סגורה עם המספר שלה. לא לגלות לכיתה את התשובות.</p>
+<div class="cutgrid envs"><div class="envc" style="--c:#e76f86;--cs:#fce9ed"><div class="eh"><span class="seal">🧭</span><span>מעטפה 5</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🌋</div><b class="et">הרי געש</b><p class="er">📍 האזור: "טבעת האש" של האוקיינוס השקט</p>
+<div class="ec mono">35.3606, 138.7274</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. ההר הזה הוא סמל של מדינה שלמה. מה שמו, ובאיזו מדינה הוא?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>הרי געש</b>, באזור הזה.</p></div><div class="envc" style="--c:#2f9e80;--cs:#e3f3ef"><div class="eh"><span class="seal">🧭</span><span>מעטפה 6</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">💦</div><b class="et">מפלים ויערות גשם</b><p class="er">📍 האזור: דרום אמריקה</p>
+<div class="ec mono">-25.6953, -54.4367</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. המפלים כאן נמצאים על הגבול בין שתי מדינות. מה שמם, ואילו מדינות?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>מפלים ויערות גשם</b>, באזור הזה.</p></div><div class="envc" style="--c:#c2630f;--cs:#fdf0e3"><div class="eh"><span class="seal">🧭</span><span>מעטפה 7</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🏛️</div><b class="et">ערים עתיקות</b><p class="er">📍 האזור: הים התיכון</p>
+<div class="ec mono">41.8902, 12.4922</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. כאן נלחמו גלדיאטורים לפני כמעט 2,000 שנה. איך נקרא המבנה, ובאיזו עיר הוא?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>ערים עתיקות</b>, באזור הזה.</p></div><div class="envc" style="--c:#2f6db5;--cs:#e7f0fa"><div class="eh"><span class="seal">🧭</span><span>מעטפה 8</span><span class="sec">סודי · למשלחת בלבד</span></div>
+<div class="eem">🧊</div><b class="et">קרח וקור</b><p class="er">📍 האזור: הצפון הרחוק</p>
+<div class="ec mono">78.2232, 15.6267</div>
+<p class="eq"><b>החידה הראשונה:</b> הקלידו את הקואורדינטות בחיפוש של Google Earth. אתם באחד היישובים הצפוניים בעולם. מפני איזו חיה מזהירים השלטים ביציאה מהיישוב?</p>
+<p class="ef">פתרתם? זו התחנה הראשונה שלכם. עוד 5 תחנות בנושא <b>קרח וקור</b>, באזור הזה.</p></div></div></section>
+<section class="page" id="p-guess" data-label="דף ניחושים">
+<div class="ph"><div class="l"><i>TIE</i>איפה אני? · דף ניחושים</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<div class="pt"><div><span class="kick">📍 משימת פתיחה · 60 שניות לכל מקום</span><h2>איפה <span>אני?</span></h2></div><p>מסתכלים, מתייעצים בלחש וכותבים. בלי טלפונים ובלי חיפוש. מדינה נכונה = 3 נקודות. רק היבשת נכונה = נקודה אחת.</p></div>
+<table class="tb guess"><thead><tr><th style="width:12mm">מקום</th><th>המדינה שלנו</th><th style="width:32mm">יבשת</th><th>הרמז שעזר לנו</th><th style="width:18mm">נקודות</th></tr></thead><tbody>
+<tr><td class="big">1</td><td></td><td></td><td></td><td></td></tr><tr><td class="big">2</td><td></td><td></td><td></td><td></td></tr><tr><td class="big">3</td><td></td><td></td><td></td><td></td></tr><tr><td class="big">4</td><td></td><td></td><td></td><td></td></tr><tr><td class="big">5</td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="4" style="text-align:left;font-weight:700">סה״כ</td><td></td></tr></tbody></table>
+<div class="box soft" style="margin-top:5mm"><h3>🔎 על מה מסתכלים? (סמנו מה עזר לכם)</h3>
+<div class="grid3" style="gap:2mm 4mm"><ul class="check"><li>🔤 שפה וכתב בשלטים</li><li>🚗 באיזה צד נוסעים</li></ul><ul class="check"><li>🌴 עצים וצמחייה</li><li>☀️ שמש וצללים</li></ul><ul class="check"><li>⛰️ נוף, אדמה ומזג אוויר</li><li>🏠 בתים, רכבים ולוחיות</li></ul></div></div>
+<div class="box" style="margin-top:4mm"><h3>🧠 אחרי החשיפה: איזה רמז היה הכי חזק היום, ולמה?</h3><div class="lines h3"></div></div>
+<div class="box" style="margin-top:4mm"><h3>🦅 כמה מדינות ניחשנו בדיוק?</h3><p style="font-size:10pt">⬜ 0 &nbsp; ⬜ 1 &nbsp; ⬜ 2 &nbsp; ⬜ 3 &nbsp; ⬜ 4 &nbsp; ⬜ 5 &nbsp;&nbsp; · הכי הרבה בכיתה = פרס "עין הנשר"</p></div>
+</section>
+<section class="page" id="p-clues" data-label="כרטיסי רמזים">
+<div class="ph"><div class="l"><i>TIE</i>איפה אני? · כרטיסי רמזים (גרסת נייר)</div><div class="r">למדריך</div></div>
+<p class="cutnote">✂ גיבוי לסבב הפתיחה בלי Street View. התשובות במערך, סעיף "מקומות איפה אני?".</p>
+<div class="cutgrid clues"><div class="clue"><div class="ch"><b>מקום 1</b><span>🌆</span></div><p>רחוב רחב מוקף מסכי פרסומת ענקיים ומוארים, גם ביום. הרבה מוניות צהובות. שלטים באנגלית (<bdi>"WALK"</bdi>, <bdi>"7 Av"</bdi>). המכוניות נוסעות בצד ימין.</p><p class="cq">המדינה שלנו: <span class="fill"></span></p></div><div class="clue"><div class="ch"><b>מקום 2</b><span>🚦</span></div><p>צומת ענק עם מעברי חצייה גם באלכסון, ומאות הולכי רגל חוצים יחד. בשלטים כתב עם סימנים מסובכים ואותיות עגולות. המכוניות נוסעות בצד שמאל.</p><p class="cq">המדינה שלנו: <span class="fill"></span></p></div><div class="clue"><div class="ch"><b>מקום 3</b><span>🏖️</span></div><p>טיילת לאורך חוף ים ארוך. המדרכה מרוצפת בדוגמת גלים בשחור ולבן. עצי דקל. שלט רחוב: <bdi>"Avenida Atlântica"</bdi>. הרים ירוקים בקצה החוף.</p><p class="cq">המדינה שלנו: <span class="fill"></span></p></div><div class="clue"><div class="ch"><b>מקום 4</b><span>🏘️</span></div><p>רחוב משופע עם בתים צבועים בצבעים עזים: ורוד, ירוק, צהוב. ברקע הר גבוה שהפסגה שלו שטוחה לגמרי, כמו שולחן. המכוניות נוסעות בצד שמאל. שלטים באנגלית.</p><p class="cq">המדינה שלנו: <span class="fill"></span></p></div><div class="clue"><div class="ch"><b>מקום 5</b><span>⛪</span></div><p>רחוב קטן עם בתים צבעוניים מפח גלי. בקצה הרחוב כנסייה גבוהה מבטון בצורת מדרגות. כמעט אין עצים. שלט הרחוב: <bdi>"Skólavörðustígur"</bdi>. השמש נמוכה בשמיים.</p><p class="cq">המדינה שלנו: <span class="fill"></span></p></div><div class="clue tipc"><div class="ch"><b>איך משתמשים</b><span>📋</span></div><p>כשאין אינטרנט או מקרן: מקריאים או מעבירים כרטיס אחד בכל פעם, 60 שניות לכל מקום. המשלחות כותבים בדף הניחושים. החשיפה והניקוד כמו במצגת (שקפים 4–5).</p></div></div></section>
+<section class="page" id="p-plan" data-label="דף תכנון הסיור">
+<div class="ph"><div class="l"><i>TIE</i>דף תכנון הסיור · משלחת המפה</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<div class="pt" style="margin-bottom:3mm"><div><span class="kick">🗺️ ספרינט 1 ו-2 · זה גם הגיבוי אם אין מחשב</span><h2>הסיור <span>שלנו</span></h2></div></div>
+<div class="grid3" style="gap:3mm;margin-bottom:3mm"><p>הנושא: <span class="fill"></span></p><p>האזור: <span class="fill"></span></p><p>תשובת החידה: <span class="fill"></span></p></div>
+<table class="tb plan"><thead><tr><th style="width:8mm">#</th><th style="width:44mm">המקום</th><th>העובדה הבדוקה (במילים שלנו)</th><th style="width:38mm">שני מקורות</th><th style="width:44mm">שאלת חידון + תשובה</th><th style="width:8mm">✓</th></tr></thead><tbody><tr><td class="big">1</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr><tr><td class="big">2</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr><tr><td class="big">3</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr><tr><td class="big">4</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr><tr><td class="big">5</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr><tr><td class="big">6</td><td><div class="cell2">מקום:</div><div class="cell2 mono" style="direction:rtl">קואורדינטות:</div></td><td></td><td><div class="cell2">1.</div><div class="cell2">2.</div></td><td><div class="cell2">ש:</div><div class="cell2">ת:</div></td><td class="ck">☐</td></tr></tbody></table>
+<div class="grid2" style="margin-top:3mm">
+ <div class="box"><h3>✓ תחנה מלאה =</h3><ul class="check"><li>תמונה או "צילום התצוגה" ב-Street View</li><li>טקסט עד 40 מילים, במילים שלנו</li><li>עובדה + מקור (נבדקה בשני מקורות)</li><li>שאלה שעונים עליה רק מהסיור</li></ul></div>
+ <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.4pt">מה ה-AI עשה:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">מה אנחנו עשינו:</p><div class="lines h1"></div></div>
+</div>
+</section>
+<section class="page" id="p-check" data-label="דיווח מהשטח">
+<div class="ph"><div class="l"><i>TIE</i>נקודת ביקורת · דיווח מהשטח</div><div class="r">2 בעמוד</div></div>
+<p class="cutnote">✂ לגזור לחצאים. כל משלחת ממלאת דף אחד על המשלחת השכנה, ומחזירה לה אותו.</p>
+<div class="cutgrid halves"><div class="half"><div class="hh"><b>📡 דיווח מהשטח</b><span>המשלחת הבודקת: <span class="fill"></span></span></div>
+<p>המשלחת שהציגה: <span class="fill l"></span></p>
+<div class="grid2" style="gap:3mm"><div><p class="q">העובדה שבחרנו לבדוק:</p><div class="lines h3"></div></div><div><p class="q">איפה בדקנו (שם האתר):</p><div class="lines h3"></div></div></div>
+<p class="q" style="margin-top:2mm">התוצאה: &nbsp; ☐ ✓ נכון, מצאנו אותו דבר &nbsp; ☐ ✗ מצאנו משהו אחר: <span class="fill l"></span></p>
+<div class="grid3" style="gap:3mm;margin-top:2mm"><div><p class="q">💚 אהבנו ש...</p><div class="lines h3"></div></div><div><p class="q">✨ הלוואי ש...</p><div class="lines h3"></div></div><div><p class="q">🤔 תהינו אם...</p><div class="lines h3"></div></div></div>
+<p class="small2">עובדה שגויה שנתפסה עכשיו = אזהרה בלבד. מתקנים עד ההגשה.</p></div><div class="half"><div class="hh"><b>📡 דיווח מהשטח</b><span>המשלחת הבודקת: <span class="fill"></span></span></div>
+<p>המשלחת שהציגה: <span class="fill l"></span></p>
+<div class="grid2" style="gap:3mm"><div><p class="q">העובדה שבחרנו לבדוק:</p><div class="lines h3"></div></div><div><p class="q">איפה בדקנו (שם האתר):</p><div class="lines h3"></div></div></div>
+<p class="q" style="margin-top:2mm">התוצאה: &nbsp; ☐ ✓ נכון, מצאנו אותו דבר &nbsp; ☐ ✗ מצאנו משהו אחר: <span class="fill l"></span></p>
+<div class="grid3" style="gap:3mm;margin-top:2mm"><div><p class="q">💚 אהבנו ש...</p><div class="lines h3"></div></div><div><p class="q">✨ הלוואי ש...</p><div class="lines h3"></div></div><div><p class="q">🤔 תהינו אם...</p><div class="lines h3"></div></div></div>
+<p class="small2">עובדה שגויה שנתפסה עכשיו = אזהרה בלבד. מתקנים עד ההגשה.</p></div></div></section>
+<section class="page" id="p-quiz" data-label="חידון לאורחים">
+<div class="ph"><div class="l"><i>TIE</i>ערב המשלחות · דף חידון (גיבוי ל-Forms)</div><div class="r">2 בעמוד</div></div>
+<p class="cutnote">✂ לגזור לחצאים. משמש כשאין Forms או בגרסת הנייר.</p>
+<div class="cutgrid halves"><div class="half"><div class="hh"><b>📝 החידון של משלחת <span class="fill"></span></b><span>האורחים: <span class="fill"></span></span></div>
+<table class="tb quizt"><thead><tr><th style="width:8mm">#</th><th>השאלה (המארחים כותבים)</th><th style="width:50mm">התשובה (האורחים כותבים)</th><th style="width:12mm">✓</th></tr></thead><tbody><tr><td class="big">1</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">2</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">3</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">4</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">5</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">6</td><td></td><td></td><td class="ck">☐</td></tr></tbody></table>
+<p class="small2">🔴 עונים רק ממה שרואים בסיור. המארחים בודקים ומסמנים ✓. תשובות נכונות: <span class="fill s"></span> מתוך 6</p></div><div class="half"><div class="hh"><b>📝 החידון של משלחת <span class="fill"></span></b><span>האורחים: <span class="fill"></span></span></div>
+<table class="tb quizt"><thead><tr><th style="width:8mm">#</th><th>השאלה (המארחים כותבים)</th><th style="width:50mm">התשובה (האורחים כותבים)</th><th style="width:12mm">✓</th></tr></thead><tbody><tr><td class="big">1</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">2</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">3</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">4</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">5</td><td></td><td></td><td class="ck">☐</td></tr><tr><td class="big">6</td><td></td><td></td><td class="ck">☐</td></tr></tbody></table>
+<p class="small2">🔴 עונים רק ממה שרואים בסיור. המארחים בודקים ומסמנים ✓. תשובות נכונות: <span class="fill s"></span> מתוך 6</p></div></div></section>
+<section class="page" id="p-rubric" data-label="מחוון">
+<div class="ph"><div class="l"><i>TIE</i>משלחת המפה · המחוון</div><div class="r">משלחת: <span class="fill"></span></div></div>
+<div class="pt"><div><span class="kick">⚖️ מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>הסיור</span></h2></div><p>בדיווח מהשטח מסמנים איפה אתם עכשיו. בסוף, השופטים מסמנים רמה בכל שורה. ציון השופטים = סכום הרמות (4–16).</p></div>
+<table class="rub"><colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+<thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead><tbody><tr><td class="crit">תחנות ותוכן<small>מה יש בסיור</small></td><td>פחות מ-4 תחנות, או בלי קשר לנושא</td><td>6 תחנות, חלקן בלי טקסט או תמונה</td><td>6 תחנות מלאות שקשורות לנושא</td><td>6 תחנות מלאות, בסדר הגיוני, עם סיפור שמחבר ביניהן</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">בדיקת עובדות<small>מקורות</small></td><td>עובדות בלי מקור</td><td>מקור לחלק מהעובדות</td><td>כל עובדה עם מקור</td><td>כל עובדה בשני מקורות, ויש דוגמה לעובדה של AI שתוקנה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">חידון<small>השאלות לאורחים</small></td><td>שאלות שלא קשורות לסיור</td><td>שאלות שאפשר לנחש</td><td>6 שאלות שהתשובה עליהן בסיור</td><td>שאלות מגוונות שמחייבות להסתכל במפה או ב-Street View</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">עבודת צוות<small>תפקידים והצגה</small></td><td>אחד עשה הכול</td><td>כל אחד עשה משהו, בלי תיאום</td><td>כל תפקיד ביצע את החלק שלו</td><td>כל תפקיד ביצע ועזר לאחרים, וכולם הציגו בערב המשלחות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr></tbody></table>
+<div class="grid2" style="margin-top:5mm">
+ <div class="box soft"><h3>🧮 מהמחוון לנקודות</h3><p>4 קריטריונים × רמה 1–4 = <b>4 עד 16 נקודות</b> בלוח הניקוד. למשל: 3 + 4 + 3 + 3 = 13.</p></div>
+ <div class="box soft"><h3>💬 הדבר האחד שנשפר בספרינט 2</h3><div class="lines h2"></div></div>
+</div>
+<div class="box" style="margin-top:4mm"><h3>דוגמה: "משלחת הנהר · ערים על נהר"</h3>
+<div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> 6 ערים על נהרות באירופה, בכל תחנה צילום, 30–40 מילים, עובדה עם מקור אחד ושאלה. השאלות: "על איזה נהר עומדת פראג?". התשובות נמצאות בטקסט.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> הסדר הוא מסלול שייט עם משפט מעבר בין התחנות. כל עובדה בשני מקורות. בשורת ה-AI הם כתבו שתיקנו טעות: לפי Gemini הפרלמנט נבנה ב-1902, אבל במקורות הבנייה נמשכה מ-1885 עד 1904. שאלה: "בתחנה 3, ב-Street View: כמה מגדלים יש לגשר?".</p></div></div>
+</section>
+<section class="page" id="p-ai" data-label="שורת AI">
+<div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת להגשה</div><div class="r">4 בעמוד</div></div>
+<p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לטופס "הגשת משלחת".</p>
+<div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1"><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · נושא: <span class="fill s"></span></span></div>
+<div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+<div class="foot"><span>עובדה של AI שתיקנו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · נושא: <span class="fill s"></span></span></div>
+<div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+<div class="foot"><span>עובדה של AI שתיקנו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · נושא: <span class="fill s"></span></span></div>
+<div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+<div class="foot"><span>עובדה של AI שתיקנו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div><div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>משלחת: <span class="fill"></span> · נושא: <span class="fill s"></span></span></div>
+<div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div>
+<div class="foot"><span>עובדה של AI שתיקנו: <span class="fill l"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div></div></section>
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+<div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+<p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, 3 דקות, כל אחד לבד.</p>
+<div class="cutgrid exits"><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>משלחת המפה</span></div><p>משלחת: <span class="fill"></span></p>
+<p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+<p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+<p class="q">איזה רמז במקום אחפש בפעם הבאה שאראה תמונה ממקום לא מוכר?</p><div class="lines h1"></div>
+<p class="q">עובדה אחת שבדקתי היום, ואיפה בדקתי אותה:</p><div class="lines h1"></div>
+<p class="lbl">היום תרמתי למשלחת:</p><div class="tags"><span>ניווט</span><span>מחקר</span><span>כתיבה</span><span>חידון</span><span>הצגה</span><span>עזרתי למשלחת אחרת</span></div>
+<p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>משלחת המפה</span></div><p>משלחת: <span class="fill"></span></p>
+<p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+<p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+<p class="q">איזה רמז במקום אחפש בפעם הבאה שאראה תמונה ממקום לא מוכר?</p><div class="lines h1"></div>
+<p class="q">עובדה אחת שבדקתי היום, ואיפה בדקתי אותה:</p><div class="lines h1"></div>
+<p class="lbl">היום תרמתי למשלחת:</p><div class="tags"><span>ניווט</span><span>מחקר</span><span>כתיבה</span><span>חידון</span><span>הצגה</span><span>עזרתי למשלחת אחרת</span></div>
+<p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>משלחת המפה</span></div><p>משלחת: <span class="fill"></span></p>
+<p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+<p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+<p class="q">איזה רמז במקום אחפש בפעם הבאה שאראה תמונה ממקום לא מוכר?</p><div class="lines h1"></div>
+<p class="q">עובדה אחת שבדקתי היום, ואיפה בדקתי אותה:</p><div class="lines h1"></div>
+<p class="lbl">היום תרמתי למשלחת:</p><div class="tags"><span>ניווט</span><span>מחקר</span><span>כתיבה</span><span>חידון</span><span>הצגה</span><span>עזרתי למשלחת אחרת</span></div>
+<p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>משלחת המפה</span></div><p>משלחת: <span class="fill"></span></p>
+<p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+<p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+<p class="q">איזה רמז במקום אחפש בפעם הבאה שאראה תמונה ממקום לא מוכר?</p><div class="lines h1"></div>
+<p class="q">עובדה אחת שבדקתי היום, ואיפה בדקתי אותה:</p><div class="lines h1"></div>
+<p class="lbl">היום תרמתי למשלחת:</p><div class="tags"><span>ניווט</span><span>מחקר</span><span>כתיבה</span><span>חידון</span><span>הצגה</span><span>עזרתי למשלחת אחרת</span></div>
+<p class="red">🔴 כותבים לבד, בלי AI</p></div></div></section>
+<section class="page" id="p-score" data-label="דף ניקוד">
+<div class="ph"><div class="l"><i>TIE</i>משלחת המפה · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+<div class="pt"><div><span class="kick">🧑‍🏫 למדריך · גיבוי ללוח הניקוד שבמצגת (שקף 41)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד.</p></div>
+<table class="tb" style="font-size:9pt"><thead><tr><th style="width:30mm">משלחת</th><th>איפה אני?<br><small>עד 15</small></th><th>תחנות<br><small>×2, עד 12</small></th><th>חידון: לכם<br><small>עד 6</small></th><th>חידון: להם<br><small>עד 6</small></th><th>צד<br><small>עד 2</small></th><th>שגיאות<br><small>מינוס</small></th><th>שופטים<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:13mm">מקום</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+<div class="box" style="margin-top:4mm"><h3>📡 דיווח מהשטח (דקה 48): רמה ראשונית</h3>
+<table class="tb" style="font-size:9pt"><thead><tr><th style="width:30mm">משלחת</th><th>תחנות ותוכן</th><th>בדיקת עובדות</th><th>חידון</th><th>עבודת צוות</th><th>מי תקוע ובמה?</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<div class="grid2" style="margin-top:4mm">
+ <div class="box"><h3>🏅 המדליות</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🧭 המצפן: <span class="fill s"></span></p><p>🦅 עין הנשר: <span class="fill s"></span></p><p>📚 בודקי העובדות: <span class="fill s"></span></p><p>🌍 התחנה המפתיעה: <span class="fill s"></span></p></div></div>
+ <div class="box"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h2"></div></div>
+</div>
+</section>
+<section class="page" id="p-side" data-label="משימות צד">
+<div class="ph"><div class="l"><i>TIE</i>כרטיסי משימות צד · משלחת המפה</div><div class="r">+1 לכל משימה, עד 2</div></div>
+<p class="cutnote">✂ לגזור. משלחת שסיימה את 6 התחנות ואת החידון שולפת כרטיס. מראים למדריך כשסיימו.</p>
+<div class="cutgrid cards" style="grid-template-rows:repeat(2,1fr)"><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">⭐</span><b>תחנת בונוס</b><small>תחנה שביעית מפתיעה בנושא שלכם, עם עובדה בדוקה ומקור.</small></div><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">📏</span><b>קו המסלול</b><small>מציירים ב-Earth קו בין כל התחנות ומודדים בכלי המדידה: כמה ק״מ טסנו?</small></div><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">🎙️</span><b>קריינות</b><small>מקליטים 20 שניות של "מדריך טיולים" לתחנה אחת ומוסיפים קישור בתיאור.</small></div><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">🧩</span><b>חידת Street View</b><small>מקום שמזהים לפי רמז אחד בלבד (שלט, צל, צמח). כותבים מה הרמז ושואלים עליו.</small></div><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">🗺️</span><b>גרסת My Maps</b><small>אותו סיור כמפה ב-mymaps.google.com, לשיתוף עם כיתה אחרת.</small></div><div class="cc" style="--c:#0f766e;--cs:#e3f1ee"><span class="cat">🎒 משימת צד</span><span class="no">+1</span><span class="em">🌐</span><b>הצד השני של העולם</b><small>מה נמצא בנקודה הנגדית לתחנה הראשונה? הופכים את הסימן של קו הרוחב, ומוסיפים או מחסירים 180 מקו האורך.</small></div></div></section>
+<section class="page" id="p-bank1" data-label="בנק התחנות 1">
+<div class="ph"><div class="l"><i>TIE</i>בנק התחנות · משלחת המפה</div><div class="r">דף 1 מתוך 4</div></div>
+<p class="cutnote">למדריך: רעיונות לתחנות לכל נושא. נותנים למשלחת תקועה את החלק של הנושא שלה, או משתמשים כ"דף מקורות מודפס" בגרסת הנייר. גם עובדה מכאן נבדקת במקור נוסף.</p>
+<div class="stack grow"><div class="bank"><h3>🏜️ מדבריות · אפריקה והמזרח התיכון</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>הפירמידה הגדולה, גיזה, מצרים</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">29.9792, 31.1342</td><td>הפלא היחיד מ"שבעת פלאי העולם העתיק" שעדיין עומד.</td></tr><tr><td><b>מכתש רמון, ישראל</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">30.6103, 34.8017</td><td>המכתש הגדול בעולם: אורכו כ-40 ק״מ.</td></tr><tr><td><b>ואדי רם, ירדן</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">29.5760, 35.4200</td><td>נוף אדום שבו צולמו סרטים שמתרחשים על מאדים, כמו The Martian.</td></tr><tr><td><b>פטרה, ירדן</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">30.3285, 35.4444</td><td>עיר שחצובה בסלע אבן חול ורודה. אתר מורשת עולמית.</td></tr><tr><td><b>סוסוסליי, נמיביה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-24.7275, 15.2930</td><td>דיונות אדומות במדבר נמיב, מהמדבריות העתיקים בעולם.</td></tr><tr><td><b>ארג שבי, מרוקו</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">31.1500, -4.0200</td><td>דיונות חול בסהרה שמגיעות לגובה של כ-150 מ׳.</td></tr><tr><td><b>הרובע הריק, ערב הסעודית</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">20.0000, 50.0000</td><td>מדבר החול הרצוף הגדול בעולם.</td></tr></tbody></table></div><div class="bank"><h3>🌉 ערים על נהר · אירופה</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>בודפשט, הונגריה · הדנובה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">47.5072, 19.0458</td><td>בניין הפרלמנט הוא הבניין הגדול ביותר בהונגריה.</td></tr><tr><td><b>פראג, צ׳כיה · הוולטבה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">50.0865, 14.4114</td><td>בניית גשר קארל התחילה ב-1357.</td></tr><tr><td><b>לונדון, בריטניה · התמזה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">51.5055, -0.0754</td><td>גשר טאואר נפתח ב-1894, ומרכזו מתרומם כדי שאוניות יעברו.</td></tr><tr><td><b>פריז, צרפת · הסן</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">48.8584, 2.2945</td><td>מגדל אייפל נבנה לתערוכה העולמית של 1889.</td></tr><tr><td><b>פירנצה, איטליה · הארנו</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">43.7680, 11.2531</td><td>על הגשר פונטה וקיו יש חנויות, בעיקר של צורפים.</td></tr><tr><td><b>קלן, גרמניה · הריין</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">50.9413, 6.9583</td><td>בניית הקתדרלה התחילה ב-1248 והסתיימה רק ב-1880.</td></tr><tr><td><b>סביליה, ספרד · הגוודלקיביר</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">37.3824, -5.9964</td><td>"מגדל הזהב" על גדת הנהר נבנה במאה ה-13.</td></tr></tbody></table></div></div></section>
+<section class="page" id="p-bank2" data-label="בנק התחנות 2">
+<div class="ph"><div class="l"><i>TIE</i>בנק התחנות · משלחת המפה</div><div class="r">דף 2 מתוך 4</div></div>
+<p class="cutnote">למדריך: רעיונות לתחנות לכל נושא. נותנים למשלחת תקועה את החלק של הנושא שלה, או משתמשים כ"דף מקורות מודפס" בגרסת הנייר. גם עובדה מכאן נבדקת במקור נוסף.</p>
+<div class="stack grow"><div class="bank"><h3>🏝️ איים · האוקיינוס השקט</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>אי הפסחא (צ׳ילה) · אהו טונגריקי</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-27.1258, -109.2769</td><td>15 פסלי מואי עומדים בשורה אחת.</td></tr><tr><td><b>האי הגדול, הוואי (ארה״ב) · קילאואה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">19.4069, -155.2834</td><td>אחד מהרי הגעש הפעילים ביותר בעולם.</td></tr><tr><td><b>איי גלפגוס (אקוודור)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-0.7436, -90.3134</td><td>צ׳ארלס דרווין ביקר כאן ב-1835.</td></tr><tr><td><b>בורה בורה (פולינזיה הצרפתית)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-16.5004, -151.7415</td><td>לגונה בצבע טורקיז סביב שרידי הר געש כבוי.</td></tr><tr><td><b>מילפורד סאונד, ניו זילנד</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-44.6414, 167.8974</td><td>פיורד שחצב קרחון באי הדרומי.</td></tr><tr><td><b>פיג׳י</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-17.7134, 178.0650</td><td>מדינה של יותר מ-300 איים.</td></tr></tbody></table></div><div class="bank"><h3>🏔️ הרים · אסיה</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>האוורסט (נפאל / סין)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">27.9881, 86.9250</td><td>ההר הגבוה בעולם: 8,849 מ׳ מעל פני הים.</td></tr><tr><td><b>K2 (פקיסטן / סין)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">35.8808, 76.5155</td><td>ההר השני בגובהו בעולם: 8,611 מ׳.</td></tr><tr><td><b>ג׳אנגג׳יאג׳יה, סין</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">29.3250, 110.4340</td><td>עמודי אבן חול שהשפיעו על "ההרים המרחפים" בסרט "אווטאר".</td></tr><tr><td><b>הואנגשאן ("ההר הצהוב"), סין</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">30.1300, 118.1700</td><td>אתר מורשת עולמית, מפורסם בים העננים ובעצי האורן.</td></tr><tr><td><b>הר קינבלו, מלזיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">6.0750, 116.5580</td><td>ההר הגבוה באי בורנאו: 4,095 מ׳.</td></tr><tr><td><b>טרסות האורז של בנאואה, הפיליפינים</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">16.9330, 121.1330</td><td>מדרגות אורז שנחצבו בידי אדם במדרונות ההרים.</td></tr><tr><td><b>הר אררט, טורקיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">39.7019, 44.2983</td><td>ההר הגבוה בטורקיה: 5,137 מ׳.</td></tr></tbody></table></div></div></section>
+<section class="page" id="p-bank3" data-label="בנק התחנות 3">
+<div class="ph"><div class="l"><i>TIE</i>בנק התחנות · משלחת המפה</div><div class="r">דף 3 מתוך 4</div></div>
+<p class="cutnote">למדריך: רעיונות לתחנות לכל נושא. נותנים למשלחת תקועה את החלק של הנושא שלה, או משתמשים כ"דף מקורות מודפס" בגרסת הנייר. גם עובדה מכאן נבדקת במקור נוסף.</p>
+<div class="stack grow"><div class="bank"><h3>🌋 הרי געש · "טבעת האש"</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>הר פוג׳י, יפן</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">35.3606, 138.7274</td><td>ההר הגבוה ביפן: 3,776 מ׳.</td></tr><tr><td><b>מאונט סנט הלנס, ארה״ב</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">46.1914, -122.1956</td><td>התפרץ ב-18 במאי 1980.</td></tr><tr><td><b>פופוקטפטל, מקסיקו</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">19.0225, -98.6278</td><td>הר געש פעיל כ-70 ק״מ מדרום-מזרח למקסיקו סיטי.</td></tr><tr><td><b>ברומו, אינדונזיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-7.9425, 112.9530</td><td>הר געש פעיל בתוך מכתש ענק (קלדרת טנגר).</td></tr><tr><td><b>קרקטואה, אינדונזיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-6.1020, 105.4230</td><td>ההתפרצות ב-1883 נשמעה במרחק של אלפי קילומטרים.</td></tr><tr><td><b>וייאריקה, צ׳ילה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-39.4200, -71.9390</td><td>בלוע שלו יש לפעמים אגם לבה.</td></tr><tr><td><b>רואפהו, ניו זילנד</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-39.2817, 175.5685</td><td>ההר הגבוה באי הצפוני של ניו זילנד.</td></tr></tbody></table></div><div class="bank"><h3>💦 מפלים ויערות גשם · דרום אמריקה</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>מפלי איגואסו (ארגנטינה / ברזיל)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-25.6953, -54.4367</td><td>כ-275 מפלים לאורך כמעט 3 ק״מ.</td></tr><tr><td><b>מפל אנחל, ונצואלה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">5.9675, -62.5355</td><td>המפל הגבוה בעולם: 979 מ׳.</td></tr><tr><td><b>"מפגש המים" ליד מנאוס, ברזיל</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-3.1360, -59.9010</td><td>נהר כהה ונהר בהיר זורמים זה לצד זה קילומטרים בלי להתערבב.</td></tr><tr><td><b>מאצ׳ו פיצ׳ו, פרו</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-13.1631, -72.5450</td><td>עיר אינקה מהמאה ה-15 על רכס הרים.</td></tr><tr><td><b>מפל קאיאטור, גיאנה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">5.1750, -59.4800</td><td>נפילה אחת של כ-226 מ׳.</td></tr><tr><td><b>איקיטוס, פרו · נהר האמזונס</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">-3.7437, -73.2516</td><td>העיר הגדולה בעולם שאין אליה כביש: מגיעים בסירה או במטוס.</td></tr></tbody></table></div></div></section>
+<section class="page" id="p-bank4" data-label="בנק התחנות 4">
+<div class="ph"><div class="l"><i>TIE</i>בנק התחנות · משלחת המפה</div><div class="r">דף 4 מתוך 4</div></div>
+<p class="cutnote">למדריך: רעיונות לתחנות לכל נושא. נותנים למשלחת תקועה את החלק של הנושא שלה, או משתמשים כ"דף מקורות מודפס" בגרסת הנייר. גם עובדה מכאן נבדקת במקור נוסף.</p>
+<div class="stack grow"><div class="bank"><h3>🏛️ ערים עתיקות · הים התיכון</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>הקולוסיאום, רומא, איטליה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">41.8902, 12.4922</td><td>נחנך בשנת 80 לספירה.</td></tr><tr><td><b>האקרופוליס, אתונה, יוון</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">37.9715, 23.7257</td><td>מקדש הפרתנון נבנה במאה ה-5 לפני הספירה.</td></tr><tr><td><b>פומפיי, איטליה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">40.7489, 14.4848</td><td>העיר נקברה באפר בהתפרצות הר וזוב בשנת 79 לספירה.</td></tr><tr><td><b>אפסוס, טורקיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">37.9395, 27.3417</td><td>חזית ספריית קלסוס העתיקה שוחזרה ועומדת היום.</td></tr><tr><td><b>קיסריה, ישראל</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">32.5000, 34.8920</td><td>עיר נמל שבנה המלך הורדוס.</td></tr><tr><td><b>קנוסוס, כרתים, יוון</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">35.2980, 25.1630</td><td>ארמון של התרבות המינואית.</td></tr><tr><td><b>קרתגו, תוניסיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">36.8530, 10.3230</td><td>עיר עתיקה שהייתה יריבה של רומא.</td></tr></tbody></table></div><div class="bank"><h3>🧊 קרח וקור · הצפון הרחוק</h3><table class="tb"><thead><tr><th style="width:52mm">מקום</th><th style="width:40mm">קואורדינטות</th><th>עובדה (לבדוק במקור נוסף!)</th></tr></thead><tbody><tr><td><b>לונגיירבין, סבאלברד (נורווגיה)</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">78.2232, 15.6267</td><td>שלטים מזהירים מפני דובי קוטב ביציאה מהיישוב.</td></tr><tr><td><b>יוקולסרלון, איסלנד</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">64.0484, -16.1795</td><td>לגונה שבה צפים גושי קרח שהתנתקו מקרחון.</td></tr><tr><td><b>אילוליסאט, גרינלנד</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">69.2198, -51.0986</td><td>פיורד הקרח הסמוך הוא אתר מורשת עולמית.</td></tr><tr><td><b>טרומסו, נורווגיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">69.6492, 18.9553</td><td>מהמקומות הטובים בעולם לראות זוהר צפוני.</td></tr><tr><td><b>רובנייימי, פינלנד</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">66.5039, 25.7294</td><td>העיר נמצאת על החוג הארקטי.</td></tr><tr><td><b>צ׳רצ׳יל, קנדה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">58.7684, -94.1650</td><td>מכונה "בירת דובי הקוטב של העולם".</td></tr><tr><td><b>נורדקאפ, נורווגיה</b></td><td dir="ltr" style="text-align:left;white-space:nowrap">71.1685, 25.7838</td><td>צוק בגובה של כ-300 מ׳ מעל הים בצפון אירופה.</td></tr></tbody></table></div></div></section>
+<section class="page" id="p-cert" data-label="תעודות">
+<div class="ph"><div class="l"><i>TIE</i>תעודות המדליות · משלחת המפה</div><div class="r">4 בעמוד</div></div>
+<p class="cutnote">✂ להדפיס על בריסטול ולגזור לרבעים. ממלאים את שם המשלחת בטקס.</p>
+<div class="cutgrid certs"><div class="cert" style="--c:#e3a82b;--cs:#fff6dc"><div class="cm">🧭</div><p class="ck2">החברה הגאוגרפית העולמית מעניקה את</p><b class="ct">מדליית המצפן</b><p class="cn">למשלחת <span class="fill l"></span></p><p class="cw">על הניקוד הכולל הגבוה ביותר: סיור מלא, בדוק ומדויק.</p><div class="cf"><span>תאריך: <span class="fill s"></span></span><span>✍ <span class="fill s"></span></span></div></div><div class="cert" style="--c:#4c8bd6;--cs:#e7f0fa"><div class="cm">🦅</div><p class="ck2">החברה הגאוגרפית העולמית מעניקה את</p><b class="ct">עין הנשר</b><p class="cn">למשלחת <span class="fill l"></span></p><p class="cw">על הכי הרבה מדינות מדויקות בסבב "איפה אני?".</p><div class="cf"><span>תאריך: <span class="fill s"></span></span><span>✍ <span class="fill s"></span></span></div></div><div class="cert" style="--c:#2f9e80;--cs:#e3f3ef"><div class="cm">📚</div><p class="ck2">החברה הגאוגרפית העולמית מעניקה את</p><b class="ct">בודקי העובדות</b><p class="cn">למשלחת <span class="fill l"></span></p><p class="cw">על סיור שאף עובדה בו לא נפסלה.</p><div class="cf"><span>תאריך: <span class="fill s"></span></span><span>✍ <span class="fill s"></span></span></div></div><div class="cert" style="--c:#e76f86;--cs:#fce9ed"><div class="cm">🌍</div><p class="ck2">החברה הגאוגרפית העולמית מעניקה את</p><b class="ct">התחנה המפתיעה</b><p class="cn">למשלחת <span class="fill l"></span></p><p class="cw">על התחנה שהכי הפתיעה את המשלחות.</p><div class="cf"><span>תאריך: <span class="fill s"></span></span><span>✍ <span class="fill s"></span></span></div></div></div></section>
+</main>
+<script>
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

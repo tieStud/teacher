@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · האוצרים: תערוכה וירטואלית | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== האוצרים — lesson additions to the materials kit ===== */
+.nw{white-space:nowrap}
+.cutgrid.wings{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.wcard{--c:var(--teal);padding:5mm 5.5mm 4.5mm;display:flex;flex-direction:column;gap:1.6mm;position:relative;overflow:hidden}
+.wcard::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.wcard .top{display:flex;align-items:center;gap:3mm;margin-top:2mm}
+.wcard .em{font-size:24pt;line-height:1}
+.wcard b.n{font-family:var(--display);font-weight:800;font-size:16pt;line-height:1.1}
+.wcard .kw{display:block;direction:ltr;text-align:right;font-family:var(--display);font-weight:600;color:var(--muted);font-size:10pt}
+.wcard .dir{font-size:9.8pt}
+.wcard .start{margin-top:auto;font-size:9.2pt;background:var(--paper);border:1px solid var(--line);border-radius:2mm;padding:1.6mm 2.6mm}
+.wcard .tag{position:absolute;top:4.5mm;left:4.5mm;font-family:var(--display);font-size:8.5pt;color:var(--dim);font-weight:700}
+.frames{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:5mm 4mm}
+.fr{border:1px solid var(--line2);border-radius:3mm;padding:3.5mm 3.5mm 3mm;display:flex;flex-direction:column;gap:1.5mm;position:relative;background:#fff}
+.fr .pic{flex:1;min-height:24mm;border:3.5px solid #c39a3f;background:repeating-linear-gradient(45deg,#faf7f0 0 3mm,#f3eee3 3mm 6mm);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.fr .no{position:absolute;top:-3mm;right:-2.5mm;width:8mm;height:8mm;border-radius:50%;background:#7a2e3a;color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:10.5pt;z-index:1}
+.fr p{font-size:9pt;display:flex;gap:1.2mm;align-items:flex-end;white-space:nowrap}
+.fr p .fill{flex:1;min-width:6mm}
+.fr p .fill.s{flex:.6}
+.museumLabel{position:relative;border:1.2px solid #ddd3c2;border-radius:1.5mm;padding:5mm 6mm 4mm;background:#fff;box-shadow:0 2mm 0 #efe9dd}
+.museumLabel .mlk{position:absolute;top:-3mm;right:5mm;background:#e7f6ec;color:#15803d;font-family:var(--display);font-weight:700;font-size:8.6pt;border-radius:999px;padding:.4mm 3mm}
+.museumLabel b{display:block;font-family:var(--display);font-weight:800;font-size:13pt}
+.museumLabel small{display:block;color:var(--muted);font-size:8.8pt;margin-bottom:2mm}
+.museumLabel p{font-size:11.5pt;line-height:1.55}
+.museumLabel .parts{display:flex;flex-wrap:wrap;gap:2mm;margin-top:2.5mm}
+.museumLabel .parts span{font-size:8.6pt;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.5mm 2.6mm}
+.lbls{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:5mm 5mm;flex:1}
+.lbl{border:1.2px solid var(--line2);border-radius:1.5mm;padding:4mm 4.5mm 3.5mm;display:flex;flex-direction:column;gap:1.8mm;box-shadow:0 1.5mm 0 #efe9dd;background:#fff}
+.lbl .t{display:flex;gap:2mm;align-items:flex-end;font-family:var(--display);font-weight:700}
+.lbl .lno{flex:none;width:6.5mm;height:6.5mm;border-radius:50%;background:#7a2e3a;color:#fff;display:grid;place-items:center;font-size:9pt}
+.lbl .mt{display:flex;gap:1.5mm;align-items:flex-end;font-size:8.8pt;color:var(--muted);white-space:nowrap}
+.lbl .lines{flex:1;min-height:25mm}
+.lbl .ft{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1mm 3mm;font-size:8.6pt;color:var(--muted)}
+.scriptT td{vertical-align:middle}.scriptT td small{color:var(--muted);font-size:8.4pt}.scriptT td:last-child{text-align:center;font-family:var(--display);font-weight:700}
+.tix{display:grid;grid-template-rows:repeat(4,1fr);flex:1;border-top:1.2px dashed var(--cut);position:relative}
+.tix::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.tk{display:grid;grid-template-columns:40mm repeat(3,minmax(0,1fr));border-bottom:1.2px dashed var(--cut)}
+.tk .head{background:linear-gradient(160deg,#fcf5e4,#f2e4c2);padding:4mm 3.5mm;display:flex;flex-direction:column;gap:1.8mm;border-left:1.6px solid #e0cc9f;font-size:9pt}
+.tk .head b{font-family:var(--display);font-weight:800;font-size:12.5pt;color:#7a5a12}
+.tk .head small{margin-top:auto;font-size:7.8pt;color:#7a5a12}
+.tk .head .fill.s{min-width:20mm}
+.tk .stub{padding:3.5mm 3.2mm;display:flex;flex-direction:column;gap:1.5mm;font-size:8.7pt;border-left:1.3px dashed var(--cut)}
+.tk .stub:last-child{border-left:0}
+.tk .stub .sh{font-family:var(--display);font-weight:700;font-size:9.3pt;color:#7a2e3a;white-space:nowrap}
+.tk .stub .fill.s{min-width:18mm}
+.tk .stub .lines.h1{min-height:7mm;height:7mm;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(7mm - 1px),#cfc8bc calc(7mm - 1px),#cfc8bc 7mm)}
+.tent .qr{width:52mm;height:30mm;border:1.4px dashed var(--line2);border-radius:2mm;display:grid;place-items:center;color:var(--dim);font-size:9pt}
+.tent>div{gap:3mm;padding:6mm}
+.tent b{font-size:26pt}
+.cc.side{justify-content:flex-start;padding:9mm 6mm 6mm;gap:2mm}
+.cc.side b{font-size:14pt}
+.cc.side small{font-size:9.6pt;line-height:1.5;color:var(--ink)}
+.certs{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.cert{padding:5mm;display:flex}
+.cert .in{flex:1;border:2.4px solid #b8892b;outline:1px solid #d9c38c;outline-offset:-3.4mm;border-radius:2mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2.2mm;padding:7mm 6mm;background:radial-gradient(circle at 50% 0,#fbf3e0,#fff 62%)}
+.cert .md{width:20mm;height:20mm;border-radius:50%;display:grid;place-items:center;font-size:22pt;background:radial-gradient(circle at 35% 30%,#fff3c4,#e3b341 60%,#b8892b);box-shadow:inset 0 -1mm 0 rgba(0,0,0,.12)}
+.cert b{font-family:var(--display);font-weight:800;font-size:17pt;color:#7a2e3a}
+.cert small{color:var(--muted);font-size:8.6pt}
+.cert p{font-size:10pt}
+.cert .sig{margin-top:2mm;font-size:8.6pt;color:var(--muted)}
+.cert .fill{min-width:38mm}.cert .fill.s{min-width:18mm}
+table.tb.tight td,table.tb.tight th{padding:1.25mm 2.2mm}
+table.tb.tight{font-size:9.2pt}
+.roleMini{display:grid;grid-template-columns:1fr 1fr;gap:1mm 4mm;font-size:9pt}
+.roleMini p:last-child{grid-column:1/-1}
+table.works{font-size:9pt}
+table.works td{padding:1.5mm 2.2mm}
+table.works td.wg{font-family:var(--display);font-weight:700;background:var(--paper);vertical-align:middle;text-align:center}
+</style>
+
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · האוצרים: תערוכה וירטואלית<small>90 דקות · אומנות ועיצוב · ערב הפתיחה של המוזיאון הכיתתי</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · דף הדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-7 צוותים. לכיתה אחרת: לפי מספר הצוותים והתלמידים.</p></div>
+  <table class="tb tight">
+    <thead><tr><th style="width:12mm">עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, נורמות ורמזור</td><td>סט לצוות (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>מעטפות האגף: 8 כרטיסים</td><td>סט 1</td><td>בריסטול</td><td>כן, כרטיס בכל מעטפה סגורה</td></tr>
+      <tr><td>6</td><td>דף תכנון "קיר התערוכה"</td><td>1 לצוות + 2 (9)</td><td>A3 ("התאמה לדף")</td><td>לא</td></tr>
+      <tr><td>7</td><td>נוסחת 40 המילים</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>תוויות קיר: 6 טיוטות</td><td>1 לצוות + 2 (9)</td><td>רגיל</td><td>בגרסה בלי מכשירים</td></tr>
+      <tr><td>9</td><td>תסריט המדריך הקולי</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>מחוון</td><td>1 לצוות + 1 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>שורת AI</td><td>2 עמודים (8)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>כרטיס מבקר עם 3 תלושים</td><td>7 עמודים (28)</td><td>רגיל</td><td>כן, לרצועות</td></tr>
+      <tr><td>13</td><td>שלט אגף לערב הפתיחה</td><td>1 לצוות (7)</td><td>בריסטול</td><td>קיפול</td></tr>
+      <tr><td>14</td><td>משימות צד</td><td>סט 1</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>15</td><td>כרטיס יציאה</td><td>7 עמודים (28)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>16</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>17</td><td>תעודות ומדליות</td><td>1–2</td><td>נייר עבה</td><td>כן</td></tr>
+      <tr><td>18–19</td><td>"מוזיאון על הקיר": גרסה בלי מכשירים</td><td>למדריך</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד, נורמות ורמזור</li><li>כרטיס משימה, נוסחת 40 המילים ומחוון</li><li>דף תכנון A3, תוויות קיר ותסריט</li><li>שלט אגף (מקופל) ו-2 טושים</li><li>פתקים דביקים ושורת AI</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>8 מעטפות אגף סגורות (המעטפה = תיבת הקלפי)</li><li>כרטיסי מבקר וכרטיסי יציאה</li><li>קופסת משימות צד</li><li>דף ניקוד, תעודות ומדליות</li><li>רמקול קטן או אוזניות לכל תחנה, אם יש</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>✂ טיפים</h3><p style="font-size:9.4pt">דף התכנון: מדפיסים את עמוד 6 על A3 עם "התאמה לגודל הדף". כרטיסי המבקר: גוזרים לרצועות, ואת התלושים תולשים לאורך הקו המקווקו בזמן הסיור (אפשר לקפל את הקו קודם, כדי שייתלש ישר). מעטפות: כותבים מספר 1–8 על כל מעטפה, ולא את שם האגף.</p></div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · כרטיסי תפקיד</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו. בסוגריים: התפקיד הקבוע בצוות, שאותו הכרטיס מחליף היום.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🗝️</span><div><b>אוצר/ת ראשי/ת</b><small>(🧭 מנכ״ל/ית) · הרעיון והזמן</small></div></div>
+      <p class="mis">המשימה שלי: שלתערוכה יהיה רעיון אחד ברור, ושנגיע לערב הפתיחה בזמן.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>פותח/ת את מעטפת האגף ומקריא/ה את כרטיס המשימה.</li><li>מוביל/ה את ההחלטה על הרעיון ועל משפט האוצרות.</li><li>בדקה 10 של ספרינט 1 נועל/ת 6 יצירות ואת הסדר.</li><li>מחליט/ה מי כותב איזה טקסט, ושומר/ת על הזמן.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שהצוות ניסה.</li></ul>
+      <div class="say">💬 "מה הסיפור של התערוכה שלנו?" · "על מה מוותרים?" · "נשארו 5 דקות."</div>
+      <p class="no">✗ לא בוחר/ת את כל היצירות לבד.</p>
+      <p class="bonus">✓ הצלחתי כש: כל הצוות יודע להסביר למה היצירה האחרונה אחרונה</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">🔎</span><div><b>חוקר/ת אוסף</b><small>(🔍 חוקר/ת + 🤖 AI) · העובדות</small></div></div>
+      <p class="mis">המשימה שלי: שיש לנו מאיפה לבחור, ושכל פרט בתערוכה נכון.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מחפש/ת ב-Arts &amp; Culture במילים באנגלית מהמעטפה.</li><li>ממלא/ת בדף התכנון שם, אמן/ית, שנה ומוזיאון.</li><li>בודק/ת עובדה בשני מקורות, ומשווה כל תשובה של Gemini לדף היצירה.</li><li>ממלא/ת עם הצוות את שורת ה-AI.</li></ul>
+      <div class="say">💬 "איפה זה כתוב?" · "השנה מופיעה גם בדף היצירה?" · "בדקנו את מה ש-Gemini אמר?"</div>
+      <p class="no">✗ לא מעתיק/ה עובדה מ-AI בלי לבדוק.</p>
+      <p class="bonus">✓ הצלחתי כש: תפסנו טעות (גם של AI) ותיקנו אותה</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">✍️</span><div><b>כותב/ת טקסטי קיר</b><small>(תפקיד של היום) · המילים</small></div></div>
+      <p class="mis">המשימה שלי: שכל טקסט יגרום למבקר/ת להסתכל שוב.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מחלק/ת: כל אחד בצוות כותב לפחות טקסט אחד.</li><li>כותב/ת בעצמי שני טקסטים.</li><li>עורך/ת את כולם לפי הנוסחה: פרט מהזום, הקשר, שאלה.</li><li>סופר/ת מילים בכל טקסט ומקצר/ת עד 40.</li></ul>
+      <div class="say">💬 "איפה בדיוק להסתכל?" · "אפשר ב-5 מילים פחות?" · "מה השאלה למבקר/ת?"</div>
+      <p class="no">✗ לא נותן/ת ל-AI לכתוב או לשכתב טקסט.</p>
+      <p class="bonus">✓ הצלחתי כש: מבקר/ת מצא/ה את הפרט רק בזכות הטקסט שלנו</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">🖥️</span><div><b>מעצב/ת חללים</b><small>(🛠️ בונה) · האתר</small></div></div>
+      <p class="mis">המשימה שלי: שהמוזיאון ברשת ייראה כמו מוזיאון, ושייפתח מכל מכשיר.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>פותח/ת אתר ב-Sites: "אגף [נושא] · [שם התערוכה]".</li><li>משתף/ת את האתר עם הצוות כעורכים.</li><li>בונה דף פתיחה ו-3 חדרים: תמונה, טקסט, קרדיט וכפתור.</li><li>מפרסם/ת ובודק/ת בחלון גלישה בסתר.</li></ul>
+      <div class="say">💬 "באיזה חדר היצירה הזאת?" · "פרסמתי שוב?" · "זה נראה טוב בטלפון?"</div>
+      <p class="no">✗ לא משנה את הסדר בלי האוצר/ת.</p>
+      <p class="bonus">✓ הצלחתי כש: הקישור נפתח מכל מכשיר בערב הפתיחה</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLE 5 + NORMS ===================== -->
+<section class="page" id="p-roles2" data-label="קול המוזיאון ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · כרטיסי תפקיד, המשך</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, גודל הצוות, הנורמות והרמזור. שלושת האחרונים נשארים בארגז הצוות.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🎧</span><div><b>קול המוזיאון</b><small>(🎤 מציג/ה ומתעד/ת) · הקול וההגשה</small></div></div>
+      <p class="mis">המשימה שלי: שהמבקרים ישמעו את כל הצוות, ושההגשה תיכנס בזמן.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>כותב/ת תסריט של 60–90 שניות, שמתחיל בשאלה.</li><li>מחלק/ת: כל קול, חדר אחד.</li><li>מקליט/ה, מעלה ל-Drive ומטמיע/ה באתר עם המעצב/ת.</li><li>מגיש/ה את טופס "פתיחת תערוכה" ושומר/ת על המעטפה.</li></ul>
+      <div class="say">💬 "מי מקליט את חדר 2?" · "עוד פעם, יותר לאט." · "הטופס נשלח!"</div>
+      <p class="no">✗ לא מקליט/ה לבד את כל המדריך.</p>
+      <p class="bonus">✓ הצלחתי כש: כל הקולות נשמעים, והטופס נשלח עד דקה 74</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">👥</span><div><b>גודל הצוות</b><small>מי לוקח מה</small></div></div>
+      <ul style="font-size:10pt;display:grid;gap:1.6mm">
+        <li><b>צוות של 5:</b> כל תפקיד אצל אדם אחד.</li>
+        <li><b>צוות של 4:</b> האוצר/ת הראשי/ת הוא/היא גם קול המוזיאון.</li>
+        <li><b>צוות של 3:</b> האוצר/ת גם קול המוזיאון, והחוקר/ת גם כותב/ת.</li>
+        <li><b>צוות של 6:</b> שני כותבים, 3 טקסטים לכל אחד.</li>
+      </ul>
+      <p style="font-size:9.6pt;margin-top:1mm"><b>בכל מקרה:</b> כל אחד כותב לפחות טקסט קיר אחד, וכל אחד נשמע במדריך הקולי.</p>
+      <p class="bonus">🔄 בשיעור הבא הכרטיסים עוברים לאדם שמשמאל</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות הצוות</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל הצוות סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים טקסטים, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את הצוות לפני שקוראים למדריך, ורק האוצר/ת הראשי/ת קורא/ת.</li>
+      </ol>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI של היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>טקסטי הקיר, תסריט המדריך, ההקלטה וכרטיס היציאה.</div>
+        <div class="y"><b>🟡 AI מציע, אנחנו בודקים</b>רעיונות ליצירות ובדיקת עובדות ב-Gemini, תמיד מול דף היצירה.</div>
+        <div class="g"><b>🟢 AI כשותף</b>סקירה קולית ב-Gemini Notebook, רק אחרי שהקלטנו: מה ה-AI פספס?</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט כותבים על היצירה, לא על עצמנו.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏛️ ערב הפתיחה הערב</span><h2>מדליית <span>המבקרים</span></h2></div><p>המוזיאון הווירטואלי של הכיתה נפתח הערב, והאגפים ריקים. במעטפה שלכם מחכה שם האגף. בערב הפתיחה המבקרים מחליטים מי מקבל את המדליה.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p style="font-size:9.8pt">תערוכה ב-Google Sites שהמבקרים לא מצליחים להפסיק להסתכל עליה: 6 יצירות בסדר שמספר סיפור, טקסטים שגורמים למצוא פרטים לבד, ומדריך קולי בקולות שלכם.</p>
+      <h3 style="margin-top:2.5mm">🏆 4 דרכים לנצח</h3><p style="font-size:9.4pt">🏅 מדליית המבקרים (הניקוד הכולל) · 🦅 עין הנשר (הפרט המוסתר הכי מפתיע) · 🎧 הקול הסוחף · 🧭 הסדר החכם. צוות זוכה בפרס אחד לכל היותר.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.3pt">
+      <li>בדיוק 6 יצירות, כולן בנושא האגף, מלפחות 3 מוזיאונים שונים.</li>
+      <li>לכל יצירה: שם, אמן/ית, שנה, מוזיאון וקרדיט "Google Arts &amp; Culture".</li>
+      <li>טקסט קיר עד 40 מילים, שהצוות כתב, עם פרט אחד שרואים רק בזום.</li>
+      <li>AI מותר לבדיקת עובדות ולשאלות, לא לכתיבת טקסטי הקיר.</li>
+      <li>האתר מפורסם, והקישור נבדק בחלון גלישה בסתר לפני ההגשה.</li>
+      <li>בערב הפתיחה האוצרים לא מסבירים. אחרי אזהרה אחת, התלושים של אותו סבב לא נספרים באתגר הזום.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <table class="tb tight"><thead><tr><th>מה</th><th style="width:40mm">נקודות</th></tr></thead><tbody>
+      <tr><td>🖼️ יצירה עם כל פרטי הקרדיט</td><td>1 לכל יצירה · עד 6</td></tr>
+      <tr><td>✍️ טקסט קיר עד 40 מילים, עם פרט מהזום</td><td>1 לכל טקסט · עד 6</td></tr>
+      <tr><td>🎧 מדריך קולי מוקלט, 60–90 שניות</td><td>4</td></tr>
+      <tr><td>🌐 אתר מפורסם שנפתח מהקישור</td><td>3</td></tr>
+      <tr><td>🔍 אתגר הזום: מבקר/ת שמצא/ה את הפרט לפי הטקסט (לפי התלושים)</td><td>1 לכל מבקר/ת · עד 5</td></tr>
+      <tr><td>📊 המחוון: 4 קריטריונים × עד 4</td><td>עד 16</td></tr>
+      <tr><td>⭐ כוכבי המבקרים: מקום 1 / 2 / 3</td><td>5 / 3 / 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.5mm;font-size:9pt;color:var(--muted)">מקסימום 45. שובר שוויון: יותר מבקרים שמצאו את הפרט מהזום.</p></div>
+  <div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <div class="roleMini"><p><b>🗝️ אוצר/ת ראשי/ת:</b> רעיון, משפט אוצרות, נעילת 6 יצירות בדקה 10, זמן.</p><p><b>🔎 חוקר/ת אוסף:</b> חיפוש, קרדיטים, בדיקת עובדות, שורת AI.</p><p><b>✍️ כותב/ת:</b> חלוקת טקסטים, שניים משלו/ה, עריכה וספירת מילים.</p><p><b>🖥️ מעצב/ת חללים:</b> דף פתיחה, 3 חדרים, כפתורים, פרסום.</p><p><b>🎧 קול המוזיאון:</b> תסריט, הקלטה בכל הקולות, Drive והגשה.</p></div></div>
+  <div class="grid3" style="margin-top:3mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.2mm;font-size:8.9pt">משתמשים בדוגמה "כחול עמוק" ובמשפטי הפתיחה מנוסחת 40 המילים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.2mm;font-size:8.9pt">רעיון משלכם, 6 יצירות, 6 טקסטים ומדריך קולי.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.2mm;font-size:8.9pt">יצירה אחת ששוברת ציפייה, וטקסט שמוביל לפרט שני. נקודה נוספת אם מבקרים מצאו את שניהם.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. WING ENVELOPES ===================== -->
+<section class="page" id="p-wings" data-label="מעטפות האגף">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · מעטפות האגף</div><div class="r">8 כרטיסים · סט 1</div></div>
+  <p class="cutnote">✂ לגזור, לקפל ולהכניס כל כרטיס למעטפה סגורה עם מספר בלבד. המילים באנגלית הן מילות החיפוש ב-Arts &amp; Culture.</p>
+  <div class="cutgrid wings">
+    <div class="wcard" style="--c:#4c8bd6"><span class="tag">✉️ אגף 1</span><div class="top"><span class="em">💙</span><b class="n">הצבע הכחול</b></div><span class="kw">blue · ultramarine · indigo</span><p class="dir"><b>כיוונים:</b> כחול עצוב? כחול יקר? כחול של ים ושל לילה?</p><p class="start">🖼️ להתחיל מ: פיקאסו, "הגיטריסט הזקן", <span class="nw">1903–1904</span></p></div>
+    <div class="wcard" style="--c:#f4a259"><span class="tag">✉️ אגף 2</span><div class="top"><span class="em">🦊</span><b class="n">חיות באמנות</b></div><span class="kw">animals · horse · bird · cat</span><p class="dir"><b>כיוונים:</b> חיה אמיתית או דמיונית? חיה כחבר, כסמל או כמפלצת?</p><p class="start">🖼️ להתחיל מ: דירר, "ארנבת צעירה", 1502</p></div>
+    <div class="wcard" style="--c:#5bb5a2"><span class="tag">✉️ אגף 3</span><div class="top"><span class="em">☁️</span><b class="n">שמיים</b></div><span class="kw">sky · clouds · sunset</span><p class="dir"><b>כיוונים:</b> בוקר, סערה, שקיעה, כוכבים, או שמיים שלא קיימים?</p><p class="start">🖼️ להתחיל מ: ואן גוך, "ליל כוכבים", 1889</p></div>
+    <div class="wcard" style="--c:#e76f86"><span class="tag">✉️ אגף 4</span><div class="top"><span class="em">🍎</span><b class="n">אוכל</b></div><span class="kw">still life · fruit · feast</span><p class="dir"><b>כיוונים:</b> ארוחה, שוק, פירות, או אוכל שהופך לפנים?</p><p class="start">🖼️ להתחיל מ: ארצ׳ימבולדו, "ורטומנוס", בערך 1591</p></div>
+    <div class="wcard" style="--c:#8c7ae6"><span class="tag">✉️ אגף 5</span><div class="top"><span class="em">🎻</span><b class="n">מוזיקה בציור</b></div><span class="kw">music · violin · musician</span><p class="dir"><b>כיוונים:</b> מי מנגן? מה שומעים? ואיך מציירים צליל?</p><p class="start">🖼️ להתחיל מ: פיקאסו, "שלושה מוזיקאים", 1921</p></div>
+    <div class="wcard" style="--c:#1f2a37"><span class="tag">✉️ אגף 6</span><div class="top"><span class="em">🌙</span><b class="n">לילה</b></div><span class="kw">night · moon · nocturne</span><p class="dir"><b>כיוונים:</b> אורות העיר, ירח, בדידות, או "לילה" שהוא בעצם יום?</p><p class="start">🖼️ להתחיל מ: אדוארד הופר, "ציפורי לילה", 1942</p></div>
+    <div class="wcard" style="--c:#2f6db5"><span class="tag">✉️ אגף 7</span><div class="top"><span class="em">🌊</span><b class="n">ים</b></div><span class="kw">sea · wave · ship</span><p class="dir"><b>כיוונים:</b> ים שקט, ים מפחיד, ספינות, או חוף של חופשה?</p><p class="start">🖼️ להתחיל מ: הוקוסאי, "הגל הגדול של קנגאווה", בערך 1831</p></div>
+    <div class="wcard" style="--c:#b8892b"><span class="tag">✉️ אגף 8</span><div class="top"><span class="em">✋</span><b class="n">ידיים</b></div><span class="kw">hands · gesture · touch</span><p class="dir"><b>כיוונים:</b> ידיים שעובדות, מתפללות, נוגעות או מדברות?</p><p class="start">🖼️ להתחיל מ: מיכלאנג׳לו, "בריאת האדם", בערך 1512</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. PLANNING SHEET (A3) ===================== -->
+<section class="page" id="p-plan" data-label="דף תכנון (A3)">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · דף תכנון: קיר התערוכה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟡 ספרינט 1 · להדפיס על A3</span><h2>קיר <span>התערוכה</span></h2></div></div>
+  <div class="grid2" style="grid-template-columns:1fr 1.4fr">
+    <div class="box"><p style="line-height:2.3">אגף: <span class="fill"></span><br>שם התערוכה: <span class="fill"></span></p></div>
+    <div class="box"><h3>💬 משפט האוצרות (משפט אחד: מה התערוכה אומרת?)</h3><div class="lines h2"></div></div>
+  </div>
+  <p class="cutnote" style="margin:3mm 0 3.5mm">סדר היצירות על הקיר, מימין לשמאל: 1 ← 2 ← 3 ← 4 ← 5 ← 6. היצירה האחרונה היא מה שהמבקרים לוקחים איתם הביתה.</p>
+  <div class="frames grow">
+    <div class="fr"><span class="no">1</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+    <div class="fr"><span class="no">2</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+    <div class="fr"><span class="no">3</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+    <div class="fr"><span class="no">4</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+    <div class="fr"><span class="no">5</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+    <div class="fr"><span class="no">6</span><div class="pic"></div><p>שם: <span class="fill"></span></p><p>אמן/ית: <span class="fill"></span></p><p>שנה: <span class="fill s"></span> מוזיאון: <span class="fill"></span></p><p>☐ קישור נשמר · ☐ צילום מסך</p><p>🔍 פרט מהזום: <span class="fill"></span></p></div>
+  </div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>↔️ הסיפור של הסדר</h3><p style="font-size:9.4pt">"התערוכה מתחילה ב_______ ונגמרת ב_______, כי _______."</p><div class="lines h1"></div></div>
+    <div class="box"><h3>✓ לפני שנועלים (דקה 10)</h3><ul class="check" style="font-size:9.4pt"><li>6 יצירות, כולן בנושא האגף</li><li>לפחות 3 מוזיאונים שונים</li><li>כל הקרדיטים מלאים, ועובדה אחת נבדקה בשני מקורות</li><li>יצירה אחת מפתיעה</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 7. 40-WORD FORMULA ===================== -->
+<section class="page" id="p-formula" data-label="נוסחת 40 המילים">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · נוסחת 40 המילים</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 טקסטי הקיר: בלי AI</span><h2>נוסחת <span>40 המילים</span></h2></div><p>טקסט קיר לא מסביר הכול. הוא שולח את העין חזרה ליצירה.</p></div>
+  <div class="grid3">
+    <div class="box" style="border-top:2mm solid #f4a259"><h3>🔍 פרט מהזום</h3><p style="font-size:9.6pt">משהו שרואים רק כשמתקרבים, ואומרים בדיוק איפה: "בפינה", "בידיים", "מתחת לגשר".</p></div>
+    <div class="box" style="border-top:2mm solid #5bb5a2"><h3>🧭 הקשר אחד</h3><p style="font-size:9.6pt">מי, מתי או למה. עובדה אחת שבדקתם בדף היצירה, ולא חמש.</p></div>
+    <div class="box" style="border-top:2mm solid #8c7ae6"><h3>❓ שאלה למבקר/ת</h3><p style="font-size:9.6pt">שאלה שאין לה תשובה אחת, ושגורמת להסתכל שוב.</p></div>
+  </div>
+  <div class="museumLabel" style="margin-top:4mm">
+    <span class="mlk">✓ דוגמה פתורה · 28 מילים</span>
+    <b>נערה עם עגיל פנינה</b><small>יוהנס ורמיר · בערך 1665 · מאוריצהאוס, האג · Google Arts &amp; Culture</small>
+    <p>התקרבו לפנינה: אין לה וו! ורמיר צייר אותה בכמה משיכות מכחול לבנות ואפורות, בלי שום חיבור לאוזן. ובכל זאת אנחנו רואים פנינה. מה עוד העין שלנו "משלימה" לבד?</p>
+    <div class="parts"><span>🔍 "התקרבו לפנינה: אין לה וו!"</span><span>🧭 "כמה משיכות מכחול..."</span><span>❓ "מה עוד העין משלימה?"</span></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✏️ משפטי פתיחה</h3><ul class="clean" style="font-size:9.6pt"><li>"התקרבו ל..."</li><li>"חפשו את... מצאתם?"</li><li>"שימו לב ש..."</li><li>"רוב האנשים לא רואים ש..."</li><li>"מה לדעתכם...?" · "למה דווקא...?"</li></ul></div>
+    <div class="box"><h3>✗ מה לא עובר</h3><ul class="clean" style="font-size:9.6pt"><li>"יפה מאוד", "מרשים", "מפורסם" (לא אומר איפה להסתכל)</li><li>ערך מוויקיפדיה: שנה, טכניקה, מוזיאון, וזהו</li><li>טקסט שכתב או שכתב AI</li><li>יותר מ-40 מילים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🧪 תרגול: אותה יצירה, טקסט טוב יותר</h3><p style="font-size:9.4pt;color:var(--muted)">הטקסט הזה לא עובר: "בציור יש איש זקן עם גיטרה. הוא נראה עצוב. זה ציור יפה מאוד." כתבו גרסה עם פרט מהזום ושאלה:</p><div class="lines h3"></div><p style="font-size:9pt;text-align:left">מילים: ____ / 40</p></div>
+  <div class="box soft" style="margin-top:4mm"><h3>🔢 איך סופרים</h3><p style="font-size:9.4pt">כל רצף אותיות בין רווחים הוא מילה, כולל "של", "את" ומספרים. במצגת יש מונה מילים (שקף 12), ואפשר לספור גם ב-Google Docs: כלים ← ספירת מילים.</p></div>
+</section>
+
+<!-- ===================== 8. WALL LABEL DRAFTS ===================== -->
+<section class="page" id="p-labels" data-label="תוויות קיר">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · 6 תוויות קיר (טיוטה)</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✍️ כל אחד בצוות כותב לפחות תווית אחת. הכותב/ת עורך/ת את כולן. בגרסה בלי מכשירים: גוזרים ומדביקים ליד היצירה על הפלקט.</p>
+  <div class="lbls">
+    <div class="lbl"><div class="t"><span class="lno">1</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+    <div class="lbl"><div class="t"><span class="lno">2</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+    <div class="lbl"><div class="t"><span class="lno">3</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+    <div class="lbl"><div class="t"><span class="lno">4</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+    <div class="lbl"><div class="t"><span class="lno">5</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+    <div class="lbl"><div class="t"><span class="lno">6</span><span class="fill" style="flex:1"></span></div><div class="mt">אמן/ית · שנה · מוזיאון: <span class="fill" style="flex:1"></span></div><div class="lines"></div><div class="ft"><span>מילים: ___ / 40</span><span>☐ פרט מהזום</span><span>☐ שאלה</span><span>✍ כתב/ה: ______</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 9. AUDIO GUIDE SCRIPT ===================== -->
+<section class="page" id="p-script" data-label="תסריט המדריך הקולי">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · תסריט המדריך הקולי</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 התסריט והקולות: שלכם · 60–90 שניות</span><h2>המדריך <span>הקולי</span></h2></div><p>בערך 100–150 מילים. כל קול, חדר אחד. מדברים למבקר/ת שעומד/ת מול המסך.</p></div>
+  <table class="tb scriptT">
+    <thead><tr><th style="width:27mm">חלק</th><th style="width:24mm">מי מדבר/ת</th><th>מה אומרים</th><th style="width:15mm">שניות</th></tr></thead>
+    <tbody>
+      <tr><td><b>🎬 פתיח</b><br><small>שאלה, לא "שלום"</small></td><td></td><td><div class="lines h2"></div></td><td>10</td></tr>
+      <tr><td><b>🚪 חדר 1</b><br><small>יצירות 1–2</small></td><td></td><td><div class="lines h3"></div></td><td>20</td></tr>
+      <tr><td><b>🚪 חדר 2</b><br><small>יצירות 3–4</small></td><td></td><td><div class="lines h3"></div></td><td>20</td></tr>
+      <tr><td><b>🚪 חדר 3</b><br><small>יצירות 5–6</small></td><td></td><td><div class="lines h3"></div></td><td>20</td></tr>
+      <tr><td><b>🏁 סיום</b><br><small>מזמינים להסתכל שוב</small></td><td></td><td><div class="lines h2"></div></td><td>10</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🎙️ טיפים</h3><ul class="clean" style="font-size:9.4pt"><li>אומרים איפה להסתכל: "חפשו את הפינה השמאלית".</li><li>מדברים לאט, עם הפסקה קטנה בין חדרים.</li><li>מקליטים עד הסוף, בלי לחפש מושלם.</li><li>בלי שמות מלאים ובלי פרטים אישיים.</li></ul></div>
+    <div class="box"><h3>✓ מהקלטה לאתר</h3><ul class="check" style="font-size:9.4pt"><li>הקלטנו בפינה שקטה, המכשיר קרוב לפה</li><li>העלינו ל-Drive: "+ חדש" ← "העלאת קובץ"</li><li>שיתוף: "כל מי שיש לו את הקישור"</li><li>ב-Sites: "הוספה" ← Drive ← הקובץ</li><li>לא מתנגן? "לחצן" עם הקישור</li><li>האורך בין 60 ל-90 שניות: ____ שנ׳</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 10. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>התערוכה</span></h2></div><p>בסיור המקדים מסמנים איפה אתם עכשיו. בהגשה, הערכה עצמית. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:10%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">💡 רעיון אוצרותי<small>בחירה, ויתור וסדר</small></td><td>היצירות לא קשורות זו לזו</td><td>כולן בנושא, אבל בלי סדר או רעיון</td><td>משפט אוצרות ברור ויצירות שמתאימות לו</td><td>התערוכה מספרת סיפור: הסדר משנה, ויש יצירה אחת שמפתיעה ושוברת ציפייה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">✍️ טקסטי קיר<small>עד 40 מילים</small></td><td>טקסטים מועתקים או חסרים</td><td>טקסטים שמתארים מה רואים</td><td>עד 40 מילים, פרט מהזום ומשהו שלא רואים במבט ראשון</td><td>כל טקסט גורם להסתכל שוב, עם שאלה למבקר ושפה חיה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🔎 דיוק ובדיקת עובדות<small>קרדיטים ו-AI</small></td><td>פרטים חסרים או שגויים</td><td>רוב הפרטים נכונים, בלי בדיקה</td><td>כל הקרדיטים מלאים ועובדה אחת נבדקה בשני מקורות</td><td>כל עובדה בטקסטים נבדקה, ויש טעות של AI שנתפסה ותוקנה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🤝 עבודת צוות והגשה<small>תפקידים, קולות, פרסום</small></td><td>אחד עשה הכול, האתר לא מפורסם</td><td>כולם עשו משהו, חסר מדריך קולי או פרסום</td><td>כל תפקיד ביצע, האתר מפורסם עם מדריך קולי</td><td>כל התפקידים עזרו זה לזה, כל הקולות נשמעים במדריך והאתר עובד מכל מכשיר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4.5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום 4 הקריטריונים = <b>עד 16 נקודות</b> בלוח הניקוד. למשל 3 + 4 + 3 + 3 = 13.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: אגף "הצבע הכחול", רמה 3 מול רמה 4 (קריטריון הרעיון)</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> "כחול עמוק: יצירות שבהן הכחול חשוב". 6 יצירות כחולות ממוזיאונים שונים, בסדר לפי שנים. ברור, אבל אפשר להחליף את הסדר ושום דבר לא ישתנה.</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> "כחול הוא לא צבע אחד: מעצב, דרך סערה וכוח, ועד לשקט של מים". הסדר עובר מהגיטריסט הזקן לחבצלות המים, וב"נער בכחול" המבקרים מגלים בגדי חג, לא עצב.</p></div></div>
+</section>
+
+<!-- ===================== 11. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · שורת AI</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לטופס "פתיחת תערוכה".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אגף: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אגף: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אגף: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אגף: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 12. VISITOR CARDS ===================== -->
+<section class="page" id="p-visitor" data-label="כרטיס מבקר">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · כרטיס מבקר</div><div class="r">4 בעמוד · 1 לתלמיד/ה</div></div>
+  <p class="cutnote">✂ לגזור לרצועות. בכל תחנה ממלאים תלוש, תולשים לאורך הקו ומכניסים למעטפת האגף לפני הצלצול. לא מדרגים את האגף שלכם.</p>
+  <div class="tix">
+    <div class="tk"><div class="head"><b>🎟️ כרטיס מבקר</b><span>ערב הפתיחה</span><span>שם: <span class="fill s"></span></span><span>הצוות שלי: <span class="fill s"></span></span><small>🔍 מצאתם? כתבו מה, אחרת זה לא נספר.</small></div>
+      <div class="stub"><span class="sh">תחנה 1 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 2 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 3 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div></div>
+    <div class="tk"><div class="head"><b>🎟️ כרטיס מבקר</b><span>ערב הפתיחה</span><span>שם: <span class="fill s"></span></span><span>הצוות שלי: <span class="fill s"></span></span><small>🔍 מצאתם? כתבו מה, אחרת זה לא נספר.</small></div>
+      <div class="stub"><span class="sh">תחנה 1 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 2 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 3 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div></div>
+    <div class="tk"><div class="head"><b>🎟️ כרטיס מבקר</b><span>ערב הפתיחה</span><span>שם: <span class="fill s"></span></span><span>הצוות שלי: <span class="fill s"></span></span><small>🔍 מצאתם? כתבו מה, אחרת זה לא נספר.</small></div>
+      <div class="stub"><span class="sh">תחנה 1 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 2 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 3 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div></div>
+    <div class="tk"><div class="head"><b>🎟️ כרטיס מבקר</b><span>ערב הפתיחה</span><span>שם: <span class="fill s"></span></span><span>הצוות שלי: <span class="fill s"></span></span><small>🔍 מצאתם? כתבו מה, אחרת זה לא נספר.</small></div>
+      <div class="stub"><span class="sh">תחנה 1 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 2 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div>
+      <div class="stub"><span class="sh">תחנה 3 · אגף <span class="fill s"></span></span><span>🔍 מצאתי את הפרט? ☐ כן ☐ לא</span><span>מה מצאתי: <span class="fill s"></span></span><span class="stars">⭐ ☐1 ☐2 ☐3</span><span>משפט אחד:</span><div class="lines h1"></div></div></div>
+  </div>
+</section>
+
+<!-- ===================== 13. WING SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט אגף">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · שלט אגף לערב הפתיחה</div><div class="r">1 לצוות · מקפלים בקו האמצעי</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🏛️</span><b>אגף <span class="fill l" style="min-width:90mm"></span></b><p style="font-size:14pt">התערוכה: <span class="fill xl"></span></p><div class="qr">קוד QR או הקישור</div><p style="color:var(--muted)">האוצרים: <span class="fill xl"></span></p></div>
+    <div><span class="em">🏛️</span><b>אגף <span class="fill l" style="min-width:90mm"></span></b><p style="font-size:14pt">התערוכה: <span class="fill xl"></span></p><div class="qr">קוד QR או הקישור</div><p style="color:var(--muted)">✉️ המעטפה ליד השלט היא תיבת הקלפי של כרטיסי המבקר</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · למלא את שני הצדדים</p>
+</section>
+
+<!-- ===================== 14. SIDE QUESTS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · משימות צד</div><div class="r">קופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ לגזור. צוות שסיים ובדק את האתר מקישור שולף כרטיס. משימת צד לא נותנת נקודות, אבל עוזרת לזכות בעין הנשר או בקול הסוחף.</p>
+  <div class="cutgrid cards" style="grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr">
+    <div class="cc side" style="--c:#7a2e3a;--cs:#f7e9ec"><span class="cat">⭐ משימת צד</span><span class="no">1</span><span class="em">🕵️</span><b>היצירה השביעית הסודית</b><small>מציירים יצירה משלכם, על נייר או ב-AutoDraw (autodraw.com), מצלמים, ומוסיפים לאתר דף "חדר נסתר" עם טקסט קיר של עד 40 מילים. אל תגלו למבקרים איפה החדר.</small></div>
+    <div class="cc side" style="--c:#8c7ae6;--cs:#efecfb"><span class="cat">⭐ משימת צד</span><span class="no">2</span><span class="em">🎧</span><b>מי מדריך טוב יותר?</b><small>ב-Gemini Notebook: נוטבוק חדש ← מדביקים את 6 טקסטי הקיר כמקור ← "סקירה קולית". מקשיבים דקה ומשווים למדריך שלכם: מה ה-AI הוסיף שלא כתבתם? מה המציא?</small></div>
+    <div class="cc side" style="--c:#4c8bd6;--cs:#e7f0fa"><span class="cat">⭐ משימת צד</span><span class="no">3</span><span class="em">🇬🇧</span><b>For our visitors</b><small>כותבים בעצמכם שני טקסטי קיר באנגלית, למבקרים מחו״ל, ומוסיפים אותם מתחת לטקסט בעברית. מותר מילון, לא מתרגם אוטומטי.</small></div>
+    <div class="cc side" style="--c:#5bb5a2;--cs:#e3f1ee"><span class="cat">⭐ משימת צד</span><span class="no">4</span><span class="em">📱</span><b>מוזיאון בכיס</b><small>ב-Chrome: פותחים את האתר המפורסם ← תפריט השיתוף ← "יצירת קוד QR" ← הורדה. מדפיסים או מעתיקים לשלט האגף, כדי שמבקרים יסרקו בטלפון.</small></div>
+    <div class="cc side" style="--c:#f4a259;--cs:#fdf0e3"><span class="cat">⭐ משימת צד</span><span class="no">5</span><span class="em">🗺️</span><b>מפת התערוכה</b><small>באותו נוטבוק: "מפת חשיבה". האם ה-AI הבין איך 6 היצירות מתחברות? צלמו מסך והוסיפו לדף הפתיחה, עם משפט אחד: "ה-AI ראה ש... ואנחנו חושבים ש...".</small></div>
+    <div class="cc side" style="--c:#b8892b;--cs:#fbf3e0"><span class="cat">⭐ משימת צד</span><span class="no">6</span><span class="em">🦅</span><b>פרט שני</b><small>בוחרים את היצירה הכי עמוסה בתערוכה ומוצאים בה עוד פרט מוסתר. מוסיפים לטקסט שאלה שנייה: "ומי מוצא גם את...?" (בלי לעבור את 40 המילים).</small></div>
+  </div>
+</section>
+
+<!-- ===================== 15. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 88–90, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האוצרים</span></div><p>שם: <span class="fill"></span> אגף: <span class="fill s"></span></p>
+      <p class="q">על איזו יצירה הכי קשה היה לוותר, ולמה?</p><div class="lines h2"></div>
+      <p class="q">פרט אחד שגיליתי היום בזום, ושלא הייתי רואה בלי להתקרב:</p><div class="lines h1"></div>
+      <p class="q">מה הופך טקסט קיר לכזה שגורם להסתכל שוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האוצרים</span></div><p>שם: <span class="fill"></span> אגף: <span class="fill s"></span></p>
+      <p class="q">על איזו יצירה הכי קשה היה לוותר, ולמה?</p><div class="lines h2"></div>
+      <p class="q">פרט אחד שגיליתי היום בזום, ושלא הייתי רואה בלי להתקרב:</p><div class="lines h1"></div>
+      <p class="q">מה הופך טקסט קיר לכזה שגורם להסתכל שוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האוצרים</span></div><p>שם: <span class="fill"></span> אגף: <span class="fill s"></span></p>
+      <p class="q">על איזו יצירה הכי קשה היה לוותר, ולמה?</p><div class="lines h2"></div>
+      <p class="q">פרט אחד שגיליתי היום בזום, ושלא הייתי רואה בלי להתקרב:</p><div class="lines h1"></div>
+      <p class="q">מה הופך טקסט קיר לכזה שגורם להסתכל שוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>האוצרים</span></div><p>שם: <span class="fill"></span> אגף: <span class="fill s"></span></p>
+      <p class="q">על איזו יצירה הכי קשה היה לוותר, ולמה?</p><div class="lines h2"></div>
+      <p class="q">פרט אחד שגיליתי היום בזום, ושלא הייתי רואה בלי להתקרב:</p><div class="lines h1"></div>
+      <p class="q">מה הופך טקסט קיר לכזה שגורם להסתכל שוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 16. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוח הניקוד במצגת (שקף 39)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקסימום 45. שובר שוויון: אתגר הזום.</p></div>
+  <table class="tb" style="font-size:8.8pt">
+    <thead><tr><th style="width:28mm">צוות / אגף</th><th>🖼️ יצירות<br><small>עד 6</small></th><th>✍️ טקסטים<br><small>עד 6</small></th><th>🎧 קולי<br><small>4</small></th><th>🌐 אתר<br><small>3</small></th><th>🔍 זום<br><small>עד 5</small></th><th>📊 מחוון<br><small>עד 16</small></th><th>⭐ כוכבים<br><small>סה״כ</small></th><th>⭐ נק׳<br><small>5/3/2</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>/45</small></th><th>פרס</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:3mm"><h3>👀 סיור מקדים (דקות 49–55): מה רואים אצל כל צוות</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:28mm">צוות</th><th>6 יצירות בסדר?</th><th>2 טקסטים גמורים?</th><th>רמה במחוון (ר/ט/ד/צ)</th><th>תקוע ב...</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🗺️ מפת הסיור (צוות ← תחנה)</h3><p style="font-size:9.2pt">סבב 1: כל צוות עובר לצוות הבא (1←2, 2←3 ... 7←1).<br>סבב 2: שניים קדימה (1←3 ...). סבב 3: שלושה קדימה (1←4 ...).<br>המצגת (שקף 37) מציגה את המפה לכל סבב.</p></div>
+    <div class="box"><h3>🏆 הפרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.2pt"><p>🏅 מדליית המבקרים: <span class="fill s"></span></p><p>🦅 עין הנשר: <span class="fill s"></span></p><p>🎧 הקול הסוחף: <span class="fill s"></span></p><p>🧭 הסדר החכם: <span class="fill s"></span></p></div></div>
+  </div>
+  <div class="grid2" style="margin-top:3mm">
+    <div class="box soft"><h3>📝 הגשות שחסרות בדקה 74</h3><div class="lines h1"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 17. CERTIFICATES ===================== -->
+<section class="page" id="p-cert" data-label="תעודות ומדליות">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · תעודות</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים, למלא בטקס המדליות ולמסור לאוצר/ת הראשי/ת של הצוות הזוכה.</p>
+  <div class="cutgrid certs">
+    <div class="cert"><div class="in"><span class="md">🏅</span><small>המוזיאון של הכיתה · ערב הפתיחה</small><b>מדליית המבקרים</b><p>מוענקת לאגף <span class="fill"></span></p><p>על התערוכה <span class="fill"></span></p><small>הניקוד הכולל הגבוה ביותר: ____ נקודות</small><p class="sig">תאריך <span class="fill s"></span> · חתימה <span class="fill s"></span></p></div></div>
+    <div class="cert"><div class="in"><span class="md">🦅</span><small>המוזיאון של הכיתה · ערב הפתיחה</small><b>עין הנשר</b><p>מוענקת לאגף <span class="fill"></span></p><p>על הפרט המוסתר <span class="fill"></span></p><small>הפרט שהכי הפתיע את המבקרים</small><p class="sig">תאריך <span class="fill s"></span> · חתימה <span class="fill s"></span></p></div></div>
+    <div class="cert"><div class="in"><span class="md">🎧</span><small>המוזיאון של הכיתה · ערב הפתיחה</small><b>הקול הסוחף</b><p>מוענקת לאגף <span class="fill"></span></p><p>על המדריך הקולי <span class="fill"></span></p><small>המדריך שהכי בא להמשיך להקשיב לו</small><p class="sig">תאריך <span class="fill s"></span> · חתימה <span class="fill s"></span></p></div></div>
+    <div class="cert"><div class="in"><span class="md">🧭</span><small>המוזיאון של הכיתה · ערב הפתיחה</small><b>הסדר החכם</b><p>מוענקת לאגף <span class="fill"></span></p><p>על התערוכה <span class="fill"></span></p><small>תערוכה שמספרת סיפור מהיצירה הראשונה עד האחרונה</small><p class="sig">תאריך <span class="fill s"></span> · חתימה <span class="fill s"></span></p></div></div>
+  </div>
+</section>
+
+<!-- ===================== 18. WALL MUSEUM (no devices) 1 ===================== -->
+<section class="page" id="p-wall1" data-label="מוזיאון על הקיר 1">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · "מוזיאון על הקיר": גרסה בלי מכשירים</div><div class="r">למדריך · 1 מתוך 2</div></div>
+  <div class="pt"><div><span class="kick">📴 אין מחשבים או אינטרנט</span><h2>מוזיאון <span>על הקיר</span></h2></div><p>אותו אתגר, אותו ניקוד, בלי מסכים. התערוכה נבנית על פלקט, המדריך הקולי מבוצע בקול, וערב הפתיחה הוא סיור בין הפלקטים.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🧰 מה מכינים מראש</h3><ul class="check" style="font-size:9.3pt"><li>40 היצירות מהטבלה, כל אחת בחצי A4 צבעוני, מצולמות מ-Arts &amp; Culture</li><li>בגב כל יצירה: שם, אמן/ית, שנה, מוזיאון, ופרט מוגדל אחד (צילום מסך מתוך הזום)</li><li>פלקט לכל צוות, דבק או סלוטייפ, טושים</li><li>תוויות הקיר (עמוד 8) ותסריט המדריך (עמוד 9)</li></ul></div>
+    <div class="box"><h3>🔁 מה משתנה בניקוד</h3><ul class="clean" style="font-size:9.3pt"><li>🌐 "אתר מפורסם" (3) = פלקט עם כותרת, משפט אוצרות ו-6 יצירות מודבקות.</li><li>🎧 "מדריך קולי" (4) = מבוצע בקול בתחילת כל סבב, 60–90 שניות, כל הקולות.</li><li>🔍 אתגר הזום: המבקרים מחפשים את הפרט בהדפסה (בעזרת הפרט המוגדל בגב).</li><li>כל השאר בדיוק כמו בגרסה הרגילה.</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>⏱ איך זה רץ</h3><p style="font-size:9.3pt">ספרינט 1: כל צוות מקבל 5 יצירות של האגף שלו ועוד 5 מאגפים אחרים "מעורבבות" (סה״כ 10), ובוחר 6. ספרינט 2: מסדרים על הפלקט, כותבים תוויות ומתרגלים את המדריך. ערב הפתיחה: הפלקטים על הקירות, 3 סבבים של 3 דקות, ובכל תחנה צוות אחד נשאר לבצע את המדריך בקול (מתחלפים בכל סבב), והשאר מבקרים.</p></div>
+  <p class="cutnote" style="margin:3.5mm 0 2mm">לפני ההדפסה בודקים שהיצירה מופיעה ב-Arts &amp; Culture. אם לא, מחליפים ביצירה אחרת מאותו אגף.</p>
+  <table class="tb works">
+    <thead><tr><th style="width:22mm">אגף</th><th>יצירה</th><th style="width:34mm">אמן/ית</th><th style="width:20mm">שנה</th><th style="width:48mm">מוזיאון</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="5" class="wg">💙 כחול</td><td>הגיטריסט הזקן</td><td>פבלו פיקאסו</td><td class="nw">1903–1904</td><td>המכון לאמנות של שיקגו</td></tr>
+      <tr><td>נערה עם עגיל פנינה</td><td>יוהנס ורמיר</td><td>בערך 1665</td><td>מאוריצהאוס, האג</td></tr>
+      <tr><td>הנער בכחול</td><td>תומאס גיינסבורו</td><td>בערך 1770</td><td>הנטינגטון, קליפורניה</td></tr>
+      <tr><td>הסוס הכחול I</td><td>פרנץ מארק</td><td>1911</td><td>לנבכהאוס, מינכן</td></tr>
+      <tr><td>חבצלות מים</td><td>קלוד מונה</td><td>1906</td><td>המכון לאמנות של שיקגו</td></tr>
+      <tr><td rowspan="5" class="wg">🦊 חיות</td><td>ארנבת צעירה</td><td>אלברכט דירר</td><td>1502</td><td>אלברטינה, וינה</td></tr>
+      <tr><td>נמר בסערה טרופית (הפתעה!)</td><td>אנרי רוסו</td><td>1891</td><td>הגלריה הלאומית, לונדון</td></tr>
+      <tr><td>הסוסים הכחולים הגדולים</td><td>פרנץ מארק</td><td>1911</td><td>מרכז ווקר לאמנות, מיניאפוליס</td></tr>
+      <tr><td>החוחית</td><td>קרל פבריציוס</td><td>1654</td><td>מאוריצהאוס, האג</td></tr>
+      <tr><td>ויסלג׳אק</td><td>ג׳ורג׳ סטאבס</td><td>בערך 1762</td><td>הגלריה הלאומית, לונדון</td></tr>
+      <tr><td rowspan="5" class="wg">☁️ שמיים</td><td>ליל כוכבים</td><td>וינסנט ואן גוך</td><td>1889</td><td>MoMA, ניו יורק</td></tr>
+      <tr><td>רושם, זריחה</td><td>קלוד מונה</td><td>1872</td><td>מוזיאון מרמוטן מונה, פריז</td></tr>
+      <tr><td>הטמרייר הלוחמת</td><td>ויליאם טרנר</td><td>1839</td><td>הגלריה הלאומית, לונדון</td></tr>
+      <tr><td>הנודד מעל ים הערפל</td><td>קספר דוד פרידריך</td><td>בערך 1818</td><td>הקונסטהאלה של המבורג</td></tr>
+      <tr><td>עגלת החציר</td><td>ג׳ון קונסטבל</td><td>1821</td><td>הגלריה הלאומית, לונדון</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 19. WALL MUSEUM 2 ===================== -->
+<section class="page" id="p-wall2" data-label="מוזיאון על הקיר 2">
+  <div class="ph"><div class="l"><i>TIE</i>האוצרים · "מוזיאון על הקיר": 40 יצירות מוצעות</div><div class="r">למדריך · 2 מתוך 2</div></div>
+  <table class="tb works">
+    <thead><tr><th style="width:22mm">אגף</th><th>יצירה</th><th style="width:34mm">אמן/ית</th><th style="width:20mm">שנה</th><th style="width:48mm">מוזיאון</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="5" class="wg">🍎 אוכל</td><td>ורטומנוס</td><td>ג׳וזפה ארצ׳ימבולדו</td><td>בערך 1591</td><td>טירת סקוקלוסטר, שוודיה</td></tr>
+      <tr><td>סל פירות</td><td>קרווג׳ו</td><td>בערך 1599</td><td>הפינקוטקה אמברוזיאנה, מילאנו</td></tr>
+      <tr><td>הקוצרים</td><td>פיטר ברויגל האב</td><td>1565</td><td>המטרופוליטן, ניו יורק</td></tr>
+      <tr><td>החולבת</td><td>יוהנס ורמיר</td><td>בערך 1658</td><td>הרייקסמוזיאון, אמסטרדם</td></tr>
+      <tr><td>פחיות מרק קמפבל</td><td>אנדי וורהול</td><td>1962</td><td>MoMA, ניו יורק</td></tr>
+      <tr><td rowspan="5" class="wg">🎻 מוזיקה</td><td>שלושה מוזיקאים</td><td>פבלו פיקאסו</td><td>1921</td><td>MoMA, ניו יורק</td></tr>
+      <tr><td>קומפוזיציה VIII</td><td>וסילי קנדינסקי</td><td>1923</td><td>מוזיאון גוגנהיים, ניו יורק</td></tr>
+      <tr><td>החלילן</td><td>אדואר מאנה</td><td>1866</td><td>מוזיאון אורסיי, פריז</td></tr>
+      <tr><td>דיוקן עצמי (מציירת כנר)</td><td>יודית לייסטר</td><td>בערך 1630</td><td>הגלריה הלאומית לאמנות, וושינגטון</td></tr>
+      <tr><td>התזמורת של האופרה</td><td>אדגר דגה</td><td>בערך 1870</td><td>מוזיאון אורסיי, פריז</td></tr>
+      <tr><td rowspan="5" class="wg">🌙 לילה</td><td>מרפסת בית הקפה בלילה</td><td>וינסנט ואן גוך</td><td>1888</td><td>מוזיאון קרלר-מילר, הולנד</td></tr>
+      <tr><td>ציפורי לילה (Nighthawks)</td><td>אדוארד הופר</td><td>1942</td><td>המכון לאמנות של שיקגו</td></tr>
+      <tr><td>משמר הלילה (בעצם סצנת יום!)</td><td>רמברנדט</td><td>1642</td><td>הרייקסמוזיאון, אמסטרדם</td></tr>
+      <tr><td>נוקטורן בשחור וזהב: הזיקוק הנופל</td><td>ג׳יימס ויסלר</td><td>בערך 1875</td><td>מכון דטרויט לאמנויות</td></tr>
+      <tr><td>אימפריית האור</td><td>רנה מגריט</td><td>1950</td><td>MoMA, ניו יורק</td></tr>
+      <tr><td rowspan="5" class="wg">🌊 ים</td><td>הגל הגדול של קנגאווה</td><td>קצושיקה הוקוסאי</td><td>בערך 1831</td><td>המטרופוליטן, ניו יורק (ועוד)</td></tr>
+      <tr><td>סופת שלג: ספינת קיטור בפתח נמל</td><td>ויליאם טרנר</td><td>1842</td><td>טייט בריטן, לונדון</td></tr>
+      <tr><td>זרם הגולף</td><td>וינסלו הומר</td><td>1899</td><td>המטרופוליטן, ניו יורק</td></tr>
+      <tr><td>טיול על שפת הים</td><td>חואקין סורויה</td><td>1909</td><td>מוזיאון סורויה, מדריד</td></tr>
+      <tr><td>טיילת הצוקים בפורוויל</td><td>קלוד מונה</td><td>1882</td><td>המכון לאמנות של שיקגו</td></tr>
+      <tr><td rowspan="5" class="wg">✋ ידיים</td><td>בריאת האדם</td><td>מיכלאנג׳לו</td><td>בערך 1512</td><td>הקפלה הסיסטינית, הוותיקן</td></tr>
+      <tr><td>ידיים מתפללות</td><td>אלברכט דירר</td><td>1508</td><td>אלברטינה, וינה</td></tr>
+      <tr><td>הקתדרלה</td><td>אוגוסט רודן</td><td>1908</td><td>מוזיאון רודן, פריז</td></tr>
+      <tr><td>הגברת עם הסמור</td><td>לאונרדו דה וינצ׳י</td><td>בערך 1490</td><td>מוזיאון צ׳רטוריסקי, קרקוב</td></tr>
+      <tr><td>אוכלי תפוחי האדמה</td><td>וינסנט ואן גוך</td><td>1885</td><td>מוזיאון ואן גוך, אמסטרדם</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🔍 פרטים טובים לזום (לגב ההדפסה)</h3><ul class="clean" style="font-size:9.1pt"><li>הגל הגדול: הר פוג׳י הקטן בין הגלים, והחותרים בסירות.</li><li>הגיטריסט הזקן: קווי פנים נוספות ליד הצוואר.</li><li>נערה עם עגיל פנינה: הפנינה בלי וו.</li><li>חבצלות מים: אין קו אופק, השמיים רק משתקפים במים.</li><li>ליל כוכבים: משיכות מכחול עבות שמסתחררות.</li></ul></div>
+    <div class="box soft"><h3>💡 טיפ</h3><p style="font-size:9.3pt">כדאי להדפיס גם 2–3 יצירות "מטעות" לכל אגף (למשל יצירה כחולה באגף ים), כדי שהצוות יצטרך לבחור ולוותר באמת.</p></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

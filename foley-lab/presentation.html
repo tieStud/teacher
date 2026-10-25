@@ -1,0 +1,1438 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>מעבדת הפולי | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== מעבדת הפולי — lesson additions (kit styles above are untouched) · light theme, studio red + amber ===== */
+:root{--rec:#d6455d;--rec-ink:#a8233b;--rec-soft:#fdecef;--amber:#e3a82b;--amber-ink:#8a5a00;--amber-soft:#fdf5df;--night:#1b2740;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:4px}
+.slide .tableWrap{flex:none}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:1260px;margin-top:16px}
+.row2>*{min-width:0}
+.recI{color:var(--rec-ink)}.amb{color:var(--amber-ink)}
+.small{font-size:16px;color:var(--muted)}
+.src{margin-top:12px;font-size:14px;color:var(--dim)}
+/* ---------- REC pill + waveform ---------- */
+.recPill{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.12em;color:var(--rec-ink);background:var(--rec-soft);border:1px solid #f5c3cc}
+.recPill::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--rec);box-shadow:0 0 0 3px rgba(214,69,93,.18)}
+.recPill.on::before{animation:recBlink 1s steps(2) infinite}
+@keyframes recBlink{50%{opacity:.2}}
+.wv{display:flex;align-items:center;gap:3px;height:70px;direction:ltr}
+.wv i{flex:1;min-width:2px;height:6%;border-radius:3px;background:var(--accent-line);transition:height .07s linear}
+.wv.mini{height:34px;gap:2px}
+.wv.live i{background:linear-gradient(180deg,var(--accent),var(--accent-ink))}
+/* ---------- hero console ---------- */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:center}
+.hero .heroGrid h2{font-size:clamp(46px,6.2vw,96px)}
+.console{position:relative;border:1px solid var(--line);border-radius:26px;background:#fff;box-shadow:var(--shadow-lg);padding:16px;display:grid;gap:12px}
+.console .ctop{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--display);font-weight:600;color:var(--muted);font-size:15px}
+.console .tc{font-family:var(--mono);font-weight:700;color:var(--ink);direction:ltr;unicode-bidi:isolate}
+.cscreen{position:relative;border-radius:18px;background:linear-gradient(180deg,#22314d,#1b2740);padding:18px 16px 14px;min-height:clamp(170px,24vh,250px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.cscreen .wv{height:90px}.cscreen .wv i{background:rgba(255,255,255,.22)}
+.cscreen .wv.live i{background:linear-gradient(180deg,#ffd27a,#f4a259)}
+.cmsg{color:#e8edf6;font-family:var(--display);font-weight:700;font-size:clamp(17px,1.7vw,23px);text-align:center;min-height:1.5em}
+.cbig{font-size:46px;text-align:center;line-height:1}
+.console .playBig{justify-self:center}
+.playBig{border:1px solid #93203b;border-radius:999px;padding:11px 22px;font-weight:800;font-size:19px;color:#fff;background:linear-gradient(180deg,#e05a71,var(--rec));box-shadow:0 6px 16px rgba(214,69,93,.28);transition:transform .15s}
+.playBig:hover{transform:translateY(-1px)}
+.playBig.ghosty{background:#fff;color:var(--ink);border-color:var(--line);box-shadow:var(--shadow-sm)}
+/* ---------- memo from the director ---------- */
+.memo{position:relative;max-width:980px;margin-top:14px;border:1px solid #eadfc8;border-radius:10px 10px 22px 22px;background:repeating-linear-gradient(180deg,#fffdf6 0 38px,#f3ecdc 38px 39px);padding:26px 34px 22px;box-shadow:var(--shadow-lg);font-size:clamp(18px,1.85vw,25px);line-height:1.62;color:var(--ink)}
+.memo::before{content:"";position:absolute;top:-10px;right:46px;width:120px;height:26px;background:rgba(244,162,89,.35);transform:rotate(-3deg);border-radius:3px}
+.memo .stamp{position:absolute;left:24px;top:-20px;background:#fffdf6;transform:rotate(-7deg);border:3px solid var(--rec);color:var(--rec-ink);font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.15em;padding:3px 14px;border-radius:8px;opacity:.85}
+.memo .from{font-family:var(--display);font-weight:700;color:var(--muted);font-size:16px;margin-bottom:6px}
+.memo .sig{margin-top:8px;font-family:var(--display);font-weight:700;color:var(--rec-ink)}
+.memo .cond{margin-top:12px;padding:10px 16px;border-radius:12px;background:var(--rec-soft);border:1px solid #f5c3cc;font-weight:700}
+/* ---------- sound quiz ---------- */
+.sndGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1300px}
+.snd{position:relative;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.snd .sh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.snd .no{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;font-family:var(--display);font-weight:800;font-size:18px;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.pbtn{border:1px solid var(--teal-deep);border-radius:999px;padding:7px 15px;font-weight:800;color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));font-size:16px;white-space:nowrap}
+.pbtn.on{background:linear-gradient(180deg,#e05a71,var(--rec));border-color:#93203b}
+.snd .opts{display:grid;gap:6px}
+.snd .opts button{border:1px solid var(--line);border-radius:12px;padding:7px 9px;background:var(--paper);color:var(--ink);font-weight:600;font-size:16px;text-align:right;line-height:1.3;transition:.15s}
+.snd .opts button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.snd .opts button.ok{background:var(--good);border-color:var(--good);color:#fff}
+.snd .opts button.no{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+.snd .note{display:none;font-size:15px;line-height:1.4;color:#14532d;background:var(--good-bg);border-radius:10px;padding:6px 9px}
+.snd.done .note{display:block}
+/* reveal answers */
+.pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);align-items:center;gap:14px}
+.pair .arrow{color:var(--accent-ink);font-weight:800}
+.pair b{font-family:var(--display)}
+/* ---------- five role cards ---------- */
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card .q{display:block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:16px}
+.agenda{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px;max-width:1200px}
+.agenda span{padding:7px 13px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
+.agenda i{font-style:normal;color:var(--dim);font-weight:700}
+/* ---------- ball sync demo ---------- */
+.ballBox{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:14px 16px;display:grid;gap:12px}
+.ballStage{position:relative;height:clamp(150px,22vh,230px);border-radius:16px;background:linear-gradient(180deg,#f7f4ee,#fff);overflow:hidden;border:1px solid var(--line2)}
+.ballStage .floor{position:absolute;inset:auto 0 0 0;height:22px;background:repeating-linear-gradient(90deg,#d9cbb4 0 60px,#cfbfa6 60px 62px)}
+.ballStage .ball{position:absolute;left:calc(50% - 24px);bottom:22px;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff9aa9,var(--rec) 60%,#9c2338);box-shadow:0 6px 10px rgba(156,35,56,.25)}
+.ballStage .shadow{position:absolute;left:calc(50% - 26px);bottom:16px;width:52px;height:10px;border-radius:50%;background:rgba(31,42,55,.18)}
+.ballStage .bang{position:absolute;left:calc(50% + 34px);bottom:30px;font-family:var(--display);font-weight:800;color:var(--rec-ink);font-size:22px;opacity:0;transition:opacity .1s}
+.seg{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.seg button{border:1px solid var(--line);border-radius:12px;padding:8px 14px;background:var(--paper);color:var(--ink);font-weight:700;font-size:16px}
+.seg button.on{background:var(--teal);color:#fff;border-color:var(--teal-deep)}
+.fact{border:1px solid var(--line);border-inline-start:4px solid var(--amber);border-radius:16px;padding:14px 18px;background:#fffdf7;box-shadow:var(--shadow-sm);font-size:clamp(17px,1.6vw,21px);line-height:1.55}
+.fact b{font-family:var(--display)}
+/* ---------- case ---------- */
+.caseGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1260px}
+.caseCard{border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:16px 18px;display:grid;gap:6px;align-content:start}
+.caseCard .big2{font-size:44px;line-height:1}
+.caseCard strong{font-family:var(--display);font-size:22px}
+.caseCard p{margin:0;color:var(--muted);font-size:18px;line-height:1.45}
+.caseCard .via{font-weight:700;color:var(--ink)}
+.qbox{margin-top:14px;max-width:1260px;border-radius:18px;padding:12px 18px;background:var(--amber-soft);border:1px solid #efd9a0;font-family:var(--display);font-weight:700;font-size:clamp(18px,1.8vw,24px);color:var(--amber-ink)}
+/* ---------- vote with play ---------- */
+.voteItem .pbtn{margin:0 auto 8px;display:block}
+.voteItem small{display:block;color:var(--muted);font-size:15px;margin:-6px 0 8px}
+/* ---------- cue sheet ---------- */
+table.t.cue td.tc{font-family:var(--mono);font-weight:700;direction:ltr;text-align:center;color:var(--rec-ink);white-space:nowrap}
+table.t.cue td.ok{text-align:center}
+table.t.cue tr.sil td{color:var(--muted);font-style:italic}
+/* ---------- bar calculator ---------- */
+.calc{display:grid;grid-template-columns:auto auto;gap:16px;align-items:center;justify-content:start;margin-top:14px;padding:16px 20px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);width:max-content;max-width:100%}
+.calc label{font-family:var(--display);font-weight:700;font-size:20px}
+.calc input{width:120px;font-size:30px;font-weight:800;font-family:var(--display);text-align:center;border:1px solid var(--line);border-radius:12px;padding:6px 8px;color:var(--ink);background:#fffef9}
+.calc output{font-family:var(--display);font-weight:800;font-size:clamp(26px,3vw,40px);color:var(--accent-ink)}
+.barRow{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:16px;max-width:1260px}
+.barRow div{border:1px solid var(--line);border-radius:12px;background:#fff;padding:7px 6px;text-align:center;font-size:15px;color:var(--muted);box-shadow:var(--shadow-sm)}
+.barRow div b{display:block;font-family:var(--display);font-size:19px;color:var(--ink)}
+/* ---------- the silent clip (animatic) ---------- */
+.screenWrap{width:min(100%,calc((100dvh - 455px) * 1.7778));min-width:min(100%,420px);margin-top:10px;align-self:center}
+.screen{position:relative;border-radius:18px;overflow:hidden;border:1px solid #2a3957;box-shadow:var(--shadow-lg);background:#0f1726;aspect-ratio:16/9}
+.screen svg{display:block;width:100%;height:100%}
+.sctl{display:flex;align-items:center;gap:10px;margin-top:10px;direction:rtl}
+.sctl .bar2{flex:1;height:10px;border-radius:99px;background:var(--paper2);border:1px solid var(--line);position:relative;cursor:pointer;direction:ltr}
+.sctl .bar2 i{position:absolute;inset:0 auto 0 0;width:0;border-radius:99px;background:linear-gradient(90deg,var(--amber),var(--rec))}
+.sctl .tcOut{font-family:var(--mono);font-weight:800;font-size:20px;min-width:7ch;text-align:center;direction:ltr}
+.plays{font-family:var(--display);font-weight:700;color:var(--muted);font-size:15px}
+.slide.bigScreen>.kicker,.slide.bigScreen>h2{display:none}
+.slide.bigScreen .screenWrap{width:min(100%,calc((100dvh - 275px) * 1.7778))}
+/* ---------- object box ---------- */
+.objGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px;max-width:1300px}
+.obj{border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow-sm);padding:10px 10px 12px;text-align:center;color:var(--ink);min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.obj .e{font-size:34px;line-height:1}
+.obj b{font-family:var(--display);font-size:19px}
+.obj .ideas{display:none;font-size:15px;line-height:1.35;color:var(--muted)}
+.obj.open{background:var(--accent-wash);border-color:var(--accent-line)}
+.obj.open .ideas{display:block}.obj.open .e{font-size:24px}
+.dice{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:14px}
+.diceOut{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.2vw,30px);color:var(--ink);padding:8px 16px;border-radius:14px;background:var(--amber-soft);border:1px solid #efd9a0;min-height:1.6em}
+/* ---------- sprint helpers ---------- */
+.miles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:1200px}
+.miles div{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px 16px;font-size:clamp(17px,1.7vw,22px);box-shadow:var(--shadow-sm)}
+.miles b{display:block;font-family:var(--display);color:var(--accent-ink);font-size:16px}
+.ailight{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;max-width:1200px}
+.ailight div{border-radius:14px;padding:9px 13px;font-size:16px;line-height:1.4;border:1px solid var(--line)}
+.ailight .r{background:var(--bad-bg);border-color:#f2cdbb}.ailight .y{background:var(--warn-bg);border-color:#f0dcaa}.ailight .g{background:var(--good-bg);border-color:#bfe3cb}
+.ailight b{font-family:var(--display)}
+.ailight .off{opacity:.45}
+.roleChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.roleChips span{padding:6px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:16px}
+.timerRow{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+/* ---------- mixer ---------- */
+.mixer{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:16px 18px;display:grid;gap:12px}
+.fader{display:grid;grid-template-columns:130px minmax(0,1fr) 54px;gap:12px;align-items:center;font-family:var(--display);font-weight:700;font-size:19px}
+.fader input{width:100%;accent-color:var(--teal);direction:ltr}
+.fader output{font-family:var(--mono);text-align:center;color:var(--muted)}
+.mixer .meter{height:12px;border-radius:99px;background:var(--paper2);overflow:hidden;direction:ltr}
+.mixer .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--amber),var(--rec));transition:width .08s}
+.mixVerdict{font-family:var(--display);font-weight:700;font-size:19px;padding:8px 12px;border-radius:12px;background:var(--paper2)}
+.mixVerdict.good{background:var(--good-bg);color:var(--good)}.mixVerdict.bad{background:var(--bad-bg);color:var(--bad)}
+/* ---------- golden moments ---------- */
+.moments{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1300px}
+.moment{border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:14px;text-align:center}
+.moment .e{font-size:36px}
+.moment .t{font-family:var(--mono);font-weight:800;font-size:26px;color:var(--rec-ink);direction:ltr}
+.moment p{margin:4px 0 0;color:var(--muted);font-size:17px;line-height:1.35}
+/* ---------- blind test + scoreboard ---------- */
+table.sb{border-collapse:collapse;width:100%;font-size:clamp(15px,1.5vw,20px)}
+table.sb th,table.sb td{padding:5px 9px;border-bottom:1px solid var(--line2);text-align:center}
+table.sb th{font-family:var(--display);font-weight:600;color:var(--muted);background:var(--paper2);font-size:clamp(13px,1.2vw,16px);line-height:1.25}
+table.sb td.nm{text-align:right;font-family:var(--display);font-weight:700;min-width:140px}
+table.sb td.nm span{display:block;padding:3px 6px;border-radius:8px;outline:none}
+table.sb td.nm span:focus{background:#fffef0;box-shadow:0 0 0 2px var(--accent-line)}
+table.sb input{width:58px;font:700 18px var(--display);text-align:center;border:1px solid var(--line);border-radius:10px;padding:4px 2px;background:#fffef9;color:var(--ink)}
+table.sb td.tot{font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);color:var(--ink)}
+table.sb tr.top td{background:#fff8e3}
+table.sb tr.top td.nm::after{content:" 🎙️"}
+table.sb tr:last-child td{border-bottom:0}
+.bt{border:1px solid var(--line);border-radius:12px;width:54px;height:36px;background:var(--paper);font-size:20px;color:var(--dim);transition:.15s}
+.bt.on{background:var(--amber-soft);border-color:var(--amber);color:var(--ink);box-shadow:0 0 0 3px rgba(227,168,43,.16)}
+.pts{font-family:var(--display);font-weight:800;font-size:22px}
+.sbNote{margin-top:10px;color:var(--muted);font-size:15px}
+/* ---------- screening / envelope / prizes ---------- */
+.marquee{display:inline-flex;align-items:center;gap:12px;padding:10px 22px;border-radius:16px;background:#fff;border:1px solid #f0dcaa;box-shadow:var(--shadow);font-family:var(--display);font-weight:800;font-size:clamp(22px,2.6vw,36px);position:relative}
+.marquee::before{content:"";position:absolute;inset:-6px;border-radius:20px;border:4px dotted var(--amber);pointer-events:none;animation:bulb 1.4s steps(2) infinite}
+@keyframes bulb{50%{border-color:#f3d27a}}
+.marquee [contenteditable]{min-width:6ch;border-bottom:2px dashed var(--line);outline:none;color:var(--rec-ink)}
+.envelope{position:relative;margin:18px auto 0;width:min(560px,92%);border-radius:18px;background:linear-gradient(180deg,#fffaf0,#f6ead0);border:1px solid #e6d3a8;box-shadow:0 18px 40px -18px rgba(138,90,0,.45);padding:26px 24px 22px;text-align:center}
+.envelope .seal{width:64px;height:64px;margin:-58px auto 8px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:radial-gradient(circle at 35% 30%,#e0607d,var(--rec) 60%,#93203b);box-shadow:0 0 0 5px rgba(214,69,93,.15)}
+.envelope .win{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,52px);color:var(--ink);outline:none;border-bottom:2px dashed #e0cfa6;display:inline-block;min-width:8ch}
+.prizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1300px}
+.prize{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:16px 14px;text-align:center;display:grid;gap:6px;position:relative;overflow:hidden}
+.prize::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--amber)}
+.prize.gold{background:linear-gradient(180deg,#fff8e3,#fff);border-color:#efd9a0}
+.prize .e{font-size:46px;line-height:1}
+.prize strong{font-family:var(--display);font-size:21px}
+.prize p{margin:0;color:var(--muted);font-size:15px}
+.prize .w{font-family:var(--display);font-weight:800;font-size:22px;color:var(--rec-ink);border-bottom:2px dashed var(--line);min-height:1.4em;outline:none}
+/* ---------- credits ---------- */
+.creditsBox{position:relative;width:min(760px,100%);height:clamp(260px,46vh,470px);margin:12px auto 0;border-radius:22px;background:linear-gradient(180deg,#1b2740,#22314d);overflow:hidden;box-shadow:var(--shadow-lg)}
+.creditsBox::before,.creditsBox::after{content:"";position:absolute;inset:0 0 auto 0;height:60px;background:linear-gradient(180deg,#1b2740,transparent);z-index:1}
+.creditsBox::after{inset:auto 0 0 0;background:linear-gradient(0deg,#22314d,transparent)}
+.roll{position:absolute;inset:auto 0 auto 0;top:70px;text-align:center;color:#e8edf6;animation:roll 24s linear infinite;display:grid;gap:6px}
+.slide:not(.active) .roll{animation:none}
+.roll h4{margin:18px 0 2px;font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.12em;color:#ffd27a}
+.roll p{margin:0;font-family:var(--display);font-weight:700;font-size:22px}
+.roll .end{margin-top:30px;font-size:30px;color:#fff}
+@keyframes roll{to{transform:translateY(calc(-100% - 70px))}}
+/* ---------- density fixes ---------- */
+.slide.dense .prompt{font-size:clamp(16px,1.55vw,21px);padding:11px 18px;margin-top:11px;line-height:1.5}
+table.t.compact{font-size:clamp(15px,1.45vw,20px)}table.t.compact th,table.t.compact td{padding:8px 14px}
+.revealList.two{grid-template-columns:1fr 1fr;max-width:1260px}
+.revealList.two .revealCard{display:grid;gap:2px;padding:11px 16px}
+.revealList.two .revealCard b{font-family:var(--display);font-size:clamp(19px,1.9vw,25px)}
+.revealList.two .revealCard span{color:var(--muted);font-size:clamp(16px,1.55vw,21px)}
+@media (max-height:800px){
+ .sndGrid{gap:9px;margin-top:10px}.snd{padding:9px;gap:6px}.snd .opts button{padding:5px 8px;font-size:15px}.snd .note{font-size:14px}
+ .caseCard{padding:12px 14px}.caseCard .big2{font-size:34px}.caseCard p{font-size:16px}
+ .objGrid{gap:8px}.obj{min-height:96px;padding:8px}.obj .e{font-size:28px}.obj b{font-size:17px}
+ .miles{margin-top:10px}.miles div{padding:9px 13px}.ailight{margin-top:8px}.ailight div{padding:6px 11px;font-size:15px}
+ table.sb th,table.sb td{padding:4px 7px}table.sb input{width:50px;font-size:16px;padding:3px 2px}.bt{height:34px;width:48px}
+ .memo{padding:18px 26px 16px;line-height:1.5}
+ .moment{padding:10px}.moment .e{font-size:28px}.moment .t{font-size:22px}
+ .prize{padding:12px}.prize .e{font-size:36px}
+ .calc{padding:10px 16px;margin-top:10px}.barRow{margin-top:10px}
+}
+@media (max-width:1100px){.sndGrid,.objGrid,.moments{grid-template-columns:repeat(3,minmax(0,1fr))}.cards.five{grid-template-columns:repeat(3,minmax(0,1fr))}.prizes{grid-template-columns:repeat(2,minmax(0,1fr))}.heroGrid{grid-template-columns:1fr}}
+@media (max-width:760px){.revealList.two{grid-template-columns:1fr}.sndGrid,.objGrid,.moments,.caseGrid,.cards.five,.cards.three,.cards.four,.row2,.miles,.ailight{grid-template-columns:1fr}.barRow{grid-template-columns:repeat(4,1fr)}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">FX</div><div><b>מעבדת הפולי</b><small>אולפן הקלטות · המשימה השקטה</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ============ 1–5 · פתיחה ============ -->
+<section class="slide hero" data-topic="פתיחה" data-title="מעבדת הפולי" data-accent="#e76f86">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🔊 Tech It Easy · אולפן הקלטות</span>
+      <h2>מעבדת <span class="recI">הפולי</span></h2>
+      <p class="lead">כל הסאונד של הסרט <b>"המשימה השקטה"</b> נמחק. נשארה סצנה אחת של 30 שניות, בלי אף צליל. אין ספריית צלילים. יש רק את מה שנמצא בכיתה, ואתכם.</p>
+      <div class="tags"><span>🥄 ממציאים צלילים</span><span>🎙️ מקליטים</span><span>✂️ מסנכרנים</span><span>🏆 מיקרופון הזהב</span></div>
+    </div>
+    <div class="console" id="heroConsole">
+      <div class="ctop"><span class="recPill" id="heroRec">REC</span><span>סצנה 7 · טייק 1</span><span class="tc" id="heroTc">00:00</span></div>
+      <div class="cscreen">
+        <div class="cbig" id="heroIcon">🔇</div>
+        <div class="wv" id="heroWave" data-bars="44"></div>
+        <div class="cmsg" id="heroMsg">הסצנה מוכנה להקרנה</div>
+      </div>
+      <button class="playBig" id="heroPlay">▶ נגנו את הסצנה</button>
+    </div>
+  </div>
+</section>
+
+<section class="slide center" data-topic="פתיחה" data-title="הודעה מהבמאי/ת" data-accent="#e76f86">
+  <span class="kicker">📨 הודעה דחופה לכל האולפנים</span>
+  <div class="memo" style="text-align:right">
+    <span class="stamp">דחוף</span>
+    <div class="from">מאת: הבמאי/ת של "המשימה השקטה" · אל: כל אולפני הכיתה</div>
+    <p style="margin:0">שלום לאולפנים. אתמול בלילה השרת קרס, וכל הסאונד של הסרט נמחק: הצעדים, הדלתות, הגשם, הכול. הסצנה הכי חשובה, 30 שניות, נשארה אילמת לגמרי. אני צריך/ה פס קול חדש <b>עד סוף השיעור</b>. האולפן שישכנע אותי יקבל את <b>מיקרופון הזהב</b> ואת השם שלו בכתוביות.</p>
+    <div class="sig">🎬 הבמאי/ת</div>
+    <div class="cond reveal">⚠️ תנאי אחד: אין ספריית צלילים. כל צליל נוצר כאן, מחפץ שנמצא בכיתה.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="מה זה הצליל?" data-title="מה זה הצליל הזה?" data-accent="#e3a82b">
+  <span class="kicker">🎧 אוזניים בלבד</span>
+  <h2>מה <span class="amb">רואים על המסך</span> כשמושמע הצליל הזה?</h2>
+  <p class="lead">מקשיבים, ואז בוחרים. אין תמונה, רק צליל.</p>
+  <div class="sndGrid">
+    <div class="snd" data-snd="snow"><div class="sh"><span class="no">1</span><button class="pbtn">▶ השמעה</button></div><div class="wv mini" data-bars="22"></div>
+      <div class="opts"><button>מישהו לועס חטיף</button><button data-ok>צעדים בשלג</button><button>גשם על גג</button><button>נייר נקרע</button></div>
+      <div class="note">צעדים בשלג. באולפן: קמח תירס בכיס עור.</div></div>
+    <div class="snd" data-snd="fire"><div class="sh"><span class="no">2</span><button class="pbtn">▶ השמעה</button></div><div class="wv mini" data-bars="22"></div>
+      <div class="opts"><button>מחבת מטגנת</button><button>רעש של רדיו</button><button data-ok>אש במדורה</button><button>גשם חזק</button></div>
+      <div class="note">אש. באולפן: צלופן שמקמטים ליד המיקרופון.</div></div>
+    <div class="snd" data-snd="hooves"><div class="sh"><span class="no">3</span><button class="pbtn">▶ השמעה</button></div><div class="wv mini" data-bars="22"></div>
+      <div class="opts"><button data-ok>סוס דוהר</button><button>תיפוף על שולחן</button><button>שעון מתקתק</button><button>כדור קופץ</button></div>
+      <div class="note">סוס. באולפן: שני חצאי קליפת קוקוס.</div></div>
+    <div class="snd" data-snd="wings"><div class="sh"><span class="no">4</span><button class="pbtn">▶ השמעה</button></div><div class="wv mini" data-bars="22"></div>
+      <div class="opts"><button>דגל ברוח</button><button>מאוורר תקרה</button><button>מנערים שטיח</button><button data-ok>ציפור מעופפת</button></div>
+      <div class="note">כנפיים. באולפן: זוג כפפות שמנפנפים בהן.</div></div>
+    <div class="snd" data-snd="thunder"><div class="sh"><span class="no">5</span><button class="pbtn">▶ השמעה</button></div><div class="wv mini" data-bars="22"></div>
+      <div class="opts"><button>משאית עוברת</button><button data-ok>רעם בסערה</button><button>מטוס נמוך</button><button>רעידת אדמה</button></div>
+      <div class="note">רעם. באולפן: "פח רועם", לוח מתכת דק שמנערים.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="מה זה הצליל?" data-title="ככה עושים את זה באולפן" data-accent="#e3a82b">
+  <span class="kicker">🎬 מאחורי הקלעים</span>
+  <h2>ככה עושים את זה <span class="amb">באולפן אמיתי</span></h2>
+  <p class="lead">את הצלילים ששמעתם עכשיו בנינו במחשב. באולפני קולנוע משתמשים בחפצים, כי הם נשמעים חיים יותר.</p>
+  <div class="revealList two">
+    <div class="revealCard reveal"><b>❄️ צעדים בשלג</b><span>← 🫙 קמח תירס בתוך כיס עור, שלוחצים באגרוף</span></div>
+    <div class="revealCard reveal"><b>🔥 אש מתפצפצת</b><span>← 🎞️ צלופן (ניילון שקוף) שמקמטים ליד המיקרופון</span></div>
+    <div class="revealCard reveal"><b>🐎 סוס דוהר</b><span>← 🥥 שני חצאי קליפת קוקוס שמקישים על משטח</span></div>
+    <div class="revealCard reveal"><b>🕊️ כנפי ציפור</b><span>← 🧤 זוג כפפות שמנפנפים בהן</span></div>
+    <div class="revealCard reveal"><b>⛈️ רעם</b><span>← 🔩 "פח רועם": לוח מתכת דק שמנערים ומכופפים</span></div>
+    <div class="revealCard reveal"><b>🦴 עצם נשברת</b><span>← 🥬 חסה קפואה שמפרקים בידיים</span></div>
+  </div>
+  <p class="src">מקור: ויקיפדיה, Foley (filmmaking) · "Common tricks"</p>
+</section>
+
+<section class="slide" data-topic="מה זה הצליל?" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל אולפן יש <span class="cyan">פס קול חדש</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🎞️</div><strong>קליפ של 30 שניות</strong><p>"המשימה השקטה", עם פס קול שלכם, כקובץ MP4 ב-Drive.</p></div>
+    <div class="card"><div class="emoji">🥄</div><strong>8 אפקטים לפחות</strong><p>כולם הוקלטו היום, מחפצים שבכיתה. אף אחד לא מספרייה.</p></div>
+    <div class="card"><div class="emoji">🎼</div><strong>מוזיקת רקע</strong><p>לופ מ-BandLab או מהמאגר של Vids, מתחת לאפקטים.</p></div>
+    <div class="card"><div class="emoji">📋</div><strong>דף רמזים</strong><p>לכל צליל: באיזו שנייה, מה רואים, ומאיזה חפץ הוא נוצר.</p></div>
+  </div>
+  <div class="agenda"><span>🎧 מה זה פולי</span><i>←</i><span>🎬 הבמאי/ת מקרין/ה</span><i>←</i><span>🎙️ מקליטים</span><i>←</i><span>👂 אוזן עיוורת</span><i>←</i><span>✂️ מסנכרנים</span><i>←</i><span>🏆 הקרנת בכורה</span></div>
+</section>
+
+<!-- ============ 6 · האולפן ============ -->
+<section class="slide tight" data-topic="האולפן" data-title="התפקידים באולפן" data-accent="#4c8bd6">
+  <span class="kicker">🎛️ האולפן שלכם · 5 תפקידים</span>
+  <h2>מי עושה מה <span style="color:var(--sky-ink)">באולפן</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎬</div><strong>מפקח/ת סאונד</strong><p>מחזיק/ה את דף הרמזים ואת הזמן, ומחליט/ה איזה צליל נכנס. רק הוא/היא קורא/ת למדריך/ה.</p></div>
+    <div class="card"><div class="emoji">🥄</div><strong>אמן/ית פולי</strong><p>ממציא/ה צלילים מחפצים ומבצע/ת אותם מול המיקרופון.</p></div>
+    <div class="card"><div class="emoji">🎙️</div><strong>מקליט/ה</strong><p>מקליט/ה ב-BandLab, נותן/ת שם לכל צליל ודואג/ת לשקט בזמן הקלטה.</p></div>
+    <div class="card"><div class="emoji">✂️</div><strong>עורך/ת סאונד</strong><p>מסנכרן/ת את הצלילים לווידאו ב-CapCut או ב-Vids ומאזן/ת עוצמות.</p></div>
+    <div class="card"><div class="emoji">🎼</div><strong>מוזיקאי/ת</strong><p>בוחר/ת מוזיקת רקע, מגיש/ה בטופס ומציג/ה את הקליפ לבמאי/ת.</p></div>
+  </div>
+  <div class="timerRow">
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <p class="small" style="margin:14px 0 0">בשלוש הדקות האלה: מחלקים כרטיסים · בוחרים שם לאולפן וכותבים על השלט · פותחים את ארגז החפצים · כולם נכנסים לחשבון Google.<br>באולפן של 4: המקליט/ה הוא/היא גם המוזיקאי/ת.</p>
+  </div>
+</section>
+
+<!-- ============ 7–21 · מה זה פולי ============ -->
+<section class="slide" data-topic="מה זה פולי" data-title="שלושה סוגי סאונד">
+  <span class="kicker">🎚️ פס קול של סרט</span>
+  <h2>שלוש <span class="cyan">שכבות</span> בכל סצנה</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🗣️</div><strong>דיאלוג</strong><p>מה שהדמויות אומרות. היום אין: "המשימה השקטה" היא סצנה בלי מילים.</p></div>
+    <div class="card"><div class="emoji">💥</div><strong>אפקטים</strong><p>כל מה שקורה: צעדים, דלתות, גשם, בגדים. <b>פולי</b> הם האפקטים שמקליטים מחדש באולפן, מול התמונה.</p></div>
+    <div class="card"><div class="emoji">🎼</div><strong>מוזיקה</strong><p>לא קורית בתוך הסצנה, אבל אומרת לנו מה להרגיש: מתח, צחוק, פחד.</p></div>
+  </div>
+  <p class="lead reveal" style="margin-top:18px">🎧 הרבה מהצלילים שאתם שומעים בסרטים <b>לא הוקלטו בזמן הצילומים</b>. מישהו יצר אותם אחר כך, באולפן, בזמן שצפה בסרט.</p>
+</section>
+
+<section class="slide tight" data-topic="מה זה פולי" data-title="מה זה פולי?">
+  <span class="kicker">🎾 ניסוי סנכרון</span>
+  <h2>אותה תמונה, <span class="cyan">שלושה פסי קול</span></h2>
+  <div class="row2">
+    <div class="ballBox">
+      <div class="ballStage"><div class="shadow" id="ballShadow"></div><div class="ball" id="ball"></div><div class="floor"></div><span class="bang" id="ballBang">טוּק!</span></div>
+      <div class="seg" id="ballSeg"><button data-m="mute" class="on">🔇 בלי סאונד</button><button data-m="sync">🔊 עם פולי</button><button data-m="late">🐢 פולי באיחור</button></div>
+    </div>
+    <div style="display:grid;gap:12px">
+      <div class="fact"><b>פולי (Foley)</b> הם צלילים שמקליטים מחדש בזמן שצופים בתמונה: צעדים, בגדים, חפצים. השם בא מ<b>ג׳ק פולי</b>, איש סאונד באולפני יוניברסל, שהיה בצוות שהפך את הסרט "שואו בוט" (1929) מסרט אילם לסרט עם סאונד.</div>
+      <div class="fact reveal">👂 מה קרה ב"באיחור"? הכדור נראה <b>רך ומוזר</b>, כאילו הצליל שייך למשהו אחר. צליל שמאחר ברבע שנייה כבר הורס את הקסם.</div>
+    </div>
+  </div>
+  <p class="src">מקור: ויקיפדיה, Jack Foley</p>
+</section>
+
+<section class="slide" data-topic="מה זה פולי" data-title="פולי בשלוש מגירות">
+  <span class="kicker">🗄️ איך אמני פולי מסדרים את העבודה</span>
+  <h2>שלוש <span class="cyan">מגירות</span> של פולי</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">👟</div><strong>רגליים</strong><p>צעדים. באולפני פולי יש הרבה זוגות נעליים וכמה סוגים של רצפה: עץ, אבן, חצץ.</p><span class="q">אצלנו: ספר, קלקר, שולחן</span></div>
+    <div class="card"><div class="emoji">🧥</div><strong>תנועה</strong><p>רשרוש בגדים כשדמות זזה. משפשפים שתי חתיכות מאותו בד ליד המיקרופון.</p><span class="q">אצלנו: חתיכת בד, מעיל</span></div>
+    <div class="card"><div class="emoji">🔑</div><strong>פרטים</strong><p>כל השאר: מפתחות, מגירות, נייר, כוסות, דלתות.</p><span class="q">אצלנו: כל ארגז החפצים</span></div>
+  </div>
+  <p class="src">מקור: ויקיפדיה, Foley (filmmaking): "feet, moves, and specifics"</p>
+</section>
+
+<section class="slide tight" data-topic="מה זה פולי" data-title="אמת או המצאה?">
+  <span class="kicker">🕵️ אמת או המצאה?</span>
+  <h2>הסוד של הפולי: <span class="cyan">לא מה שרואים</span></h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>צעדים בשלג בסרטים מוקלטים בדרך כלל בשלג אמיתי.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. באולפן מקליטים קמח תירס בכיס עור.</div></div>
+    <div class="tfRow" data-true="1"><span>הנשימה של דארת׳ ויידר הוקלטה דרך ווסת של ציוד צלילה.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. מעצב הסאונד בן בארט נשם דרך ווסת צלילה ישן.</div></div>
+    <div class="tfRow" data-true="1"><span>באולפני פולי מחזיקים הרבה זוגות נעליים וכמה סוגים של רצפה.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. לכל דמות ולכל משטח יש צעד אחר.</div></div>
+    <div class="tfRow" data-true="0"><span>את הצליל של אש מקליטים רק מאש אמיתית, אחרת זה לא משכנע.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. צלופן שמקמטים נשמע כמו אש מתפצפצת.</div></div>
+    <div class="tfRow" data-true="0"><span>צליל טוב בסרט חייב לבוא מאותו דבר שרואים על המסך.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. הקהל "שומע" את מה שהוא רואה, אם הצליל מתאים ומגיע בזמן.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="מה זה פולי" data-title="בן בארט ומלחמת הכוכבים" data-accent="#8c7ae6">
+  <span class="kicker">⭐ מקרה אמיתי</span>
+  <h2>בן בארט ו<span class="violet">צלילי מלחמת הכוכבים</span></h2>
+  <p class="lead">מעצב הסאונד של "מלחמת הכוכבים" (1977) לא בנה צלילים אלקטרוניים. הוא הסתובב עם מקליט וחיפש צלילים אמיתיים בעולם.</p>
+  <div class="caseGrid">
+    <div class="caseCard reveal"><span class="big2">⚔️</span><strong>חרב האור</strong><p class="via">זמזום של מנוע במקרן קולנוע ישן שעומד במקום</p><p>מעורבב עם רעש של טלוויזיה שנקלט במיקרופון.</p></div>
+    <div class="caseCard reveal"><span class="big2">🔫</span><strong>רובי הלייזר</strong><p class="via">מכה בכבל מתוח של מגדל רדיו</p><p>הכבל רטט, ויצא "פיו!" מתכתי וחד.</p></div>
+    <div class="caseCard reveal"><span class="big2">😮‍💨</span><strong>דארת׳ ויידר</strong><p class="via">בארט נשם לתוך ווסת צלילה ישן</p><p>הנשימה הכי מפחידה בקולנוע היא ציוד צלילה.</p></div>
+  </div>
+  <div class="qbox reveal">🤔 איזה חפץ בכיתה שלנו יכול להישמע כמו חרב אור?</div>
+  <p class="src">מקור: ויקיפדיה, Ben Burtt · Foley (filmmaking)</p>
+</section>
+
+<section class="slide center" data-topic="מה זה פולי" data-title="למה מאמינים לצליל?" data-accent="#8c7ae6">
+  <span class="kicker">💬 שאלה לכיתה</span>
+  <h2>אף צליל לא בא ממה שרואים.<br><span class="violet">למה הקהל מאמין?</span></h2>
+  <div class="revealList" style="text-align:right;max-width:1000px">
+    <div class="revealCard reveal">⏱️ <b>תזמון.</b> כשצליל קורה בדיוק ברגע של הפעולה, המוח מחבר את שניהם לדבר אחד.</div>
+    <div class="revealCard reveal">🧠 <b>ציפייה.</b> לא צריך את הצליל האמיתי. צריך את הצליל שהקהל <i>מצפה</i> לשמוע.</div>
+    <div class="revealCard reveal">🔊 <b>הגזמה.</b> הרבה פעמים הצליל האמיתי חלש ומאכזב. הצליל מהאולפן "אמיתי יותר מהאמת".</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="מה זה פולי" data-title="איך נשמעים צעדים?" data-accent="#5bb5a2">
+  <span class="kicker">🗳️ הצבעה</span>
+  <h2>מרגל/ת מתגנב/ת בלילה על <span style="color:var(--mint-ink)">רצפת עץ</span>. איזו גרסה הכי משכנעת?</h2>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">👠</div><strong>גרסה א</strong><small>נקישות חדות</small><button class="pbtn" data-play="stepsA">▶ השמעה</button><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪨</div><strong>גרסה ב</strong><small>צעדים פריכים</small><button class="pbtn" data-play="stepsB">▶ השמעה</button><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🧦</div><strong>גרסה ג</strong><small>צעדים רכים וחריקה</small><button class="pbtn" data-play="stepsC">▶ השמעה</button><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <p class="lead reveal" style="margin-top:14px">👟 אותו צעד, שלוש דמויות שונות. בפולי <b>הצליל מספר מי הולך</b>: כבד או קל, ממהר או מתגנב.</p>
+</section>
+
+<section class="slide tight" data-topic="מה זה פולי" data-title="דף רמזים">
+  <span class="kicker">📋 כלי העבודה של האולפן</span>
+  <h2>דף רמזים: <span class="cyan">כל צליל ושנייה שלו</span></h2>
+  <p class="lead">צופים בסצנה, עוצרים בכל פעולה ורושמים. כך יודעים מה להקליט, ולאן כל צליל הולך. דוגמה מסצנה אחרת:</p>
+  <div class="tableWrap"><table class="t cue">
+    <thead><tr><th>#</th><th>שנייה</th><th>מה רואים</th><th>הצליל</th><th>החפץ שלנו</th><th>הוקלט</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="tc">0:01</td><td>דלת המטבח נפתחת</td><td>חריקה ארוכה</td><td>כיסא ישן שמזיזים לאט</td><td class="ok">✓</td></tr>
+      <tr><td>2</td><td class="tc">0:02–0:04</td><td>שלושה צעדים</td><td>נעליים על אבן</td><td>ספר, טופחים עליו בכף היד</td><td class="ok">✓</td></tr>
+      <tr><td>3</td><td class="tc">0:05.5</td><td>כוס מונחת על השיש</td><td>"טינג" של זכוכית</td><td>כפית על בקבוק</td><td class="ok">✓</td></tr>
+      <tr class="sil"><td>4</td><td class="tc">0:06–0:08</td><td>הדמות קופאת</td><td>שקט מתוכנן</td><td>(בלי צליל)</td><td class="ok">✓</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="slide quiz" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 1" data-answer="2">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1</span>
+  <h2>מה זה פולי?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מוזיקת הרקע של הסרט.</span></button>
+    <button class="option"><span class="letter">ב</span><span>צלילים שמקליטים מחדש מחפצים, בזמן שצופים בתמונה.</span></button>
+    <button class="option"><span class="letter">ג</span><span>הקול של שחקן שמדבב דמות מצוירת.</span></button>
+    <button class="option"><span class="letter">ד</span><span>צלילים מוכנים שמורידים מאתר.</span></button>
+  </div>
+  <div class="explain">✓ נכון! פולי = אפקטים שנוצרים מחדש באולפן, מול התמונה. השם בא מג׳ק פולי.</div>
+</section>
+
+<section class="slide quiz" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 2" data-answer="3">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2</span>
+  <h2>הדלת נטרקת, והטריקה נשמעת חצי שנייה אחר כך. מה הבעיה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>העוצמה חלשה מדי.</span></button>
+    <button class="option"><span class="letter">ב</span><span>החפץ לא מתאים לדלת.</span></button>
+    <button class="option"><span class="letter">ג</span><span>הסנכרון: הצליל לא נופל על הפעולה.</span></button>
+    <button class="option"><span class="letter">ד</span><span>חסרה מוזיקה.</span></button>
+  </div>
+  <div class="explain">✓ נכון! מזיזים את הצליל בציר הזמן עד שהוא מתחיל בדיוק בפריים של הטריקה.</div>
+</section>
+
+<section class="slide quiz" data-topic="בדיקת הבנה" data-title="ראשים ממוספרים 3" data-answer="3">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3</span>
+  <h2>המוזיקה חזקה, ולא שומעים את הצעדים. מה עושים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מוחקים את הצעדים.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מגבירים את כל הערוצים.</span></button>
+    <button class="option"><span class="letter">ג</span><span>מנמיכים את המוזיקה, כך שתהיה מתחת לאפקטים.</span></button>
+    <button class="option"><span class="letter">ד</span><span>מחליפים לשיר אחר.</span></button>
+  </div>
+  <div class="explain">✓ נכון! המוזיקה היא "שטיח". האפקטים עומדים עליו, לא מתחתיו.</div>
+</section>
+
+<section class="slide tight" data-topic="הכלים" data-title="BandLab: מקליטים" data-accent="#e76f86">
+  <button class="helpBtn" data-help="bandlab" aria-label="הוראות">?</button>
+  <span class="kicker">🎙️ הכלי של המקליט/ה</span>
+  <h2>BandLab: <span class="recI">מקליטים</span> בדפדפן</h2>
+  <div class="steps">
+    <div class="step"><strong>נכנסים</strong><p><b>bandlab.com</b> ← כניסה עם Google.</p></div>
+    <div class="step"><strong>פרויקט חדש</strong><p>יצירה (Create) ← סטודיו. בודקים שהטמפו <b>120</b>.</p></div>
+    <div class="step"><strong>ערוץ קול</strong><p>מוסיפים ערוץ Voice / Mic ומאשרים לדפדפן את המיקרופון.</p></div>
+    <div class="step"><strong>3 טייקים</strong><p>● הקלטה. מקליטים כל צליל 3 פעמים ושומרים את הכי טוב.</p></div>
+    <div class="step"><strong>לשנייה הנכונה</strong><p>גוררים כל צליל לשנייה שלו בדף הרמזים. מוסיפים לופ בערוץ חדש.</p></div>
+  </div>
+  <p class="small" style="margin-top:12px">בסוף: ייצוא המיקס (Download ← Mixdown) כקובץ אחד, ואותו מכניסים לעורך הווידאו.</p>
+</section>
+
+<section class="slide tight" data-topic="הכלים" data-title="שעון האולפן" data-accent="#e76f86">
+  <span class="kicker">⏱️ טריק של מקליטים</span>
+  <h2>בטמפו 120: <span class="recI">תיבה = 2 שניות</span></h2>
+  <p class="lead">הסרגל ב-BandLab סופר תיבות ופעמות, לא שניות. בטמפו 120 כל פעמה היא חצי שנייה, וכל תיבה (4 פעמות) היא 2 שניות.</p>
+  <div class="calc"><label for="secIn">השנייה בדף הרמזים:</label><input id="secIn" type="number" min="0" max="30" step="0.5" value="10.5"><span class="small">← בסרגל:</span><output id="barOut">תיבה 6 · פעמה 2</output></div>
+  <div class="barRow">
+    <div>0״<b>תיבה 1</b></div><div>4״<b>תיבה 3</b></div><div>8״<b>תיבה 5</b></div><div>12״<b>תיבה 7</b></div>
+    <div>16״<b>תיבה 9</b></div><div>20״<b>תיבה 11</b></div><div>24״<b>תיבה 13</b></div><div>28״<b>תיבה 15</b></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הכלים" data-title="CapCut: מחברים לתמונה" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="capcut" aria-label="הוראות">?</button>
+  <span class="kicker">✂️ הכלי של העורך/ת</span>
+  <h2>CapCut: <span style="color:var(--sky-ink)">מחברים צליל לתמונה</span></h2>
+  <div class="steps">
+    <div class="step"><strong>פרויקט</strong><p><b>capcut.com</b> ← כניסה עם Google ← פרויקט וידאו חדש.</p></div>
+    <div class="step"><strong>ייבוא</strong><p>מעלים את הקליפ האילם ואת קובץ המיקס מ-BandLab.</p></div>
+    <div class="step"><strong>לציר</strong><p>וידאו למעלה, אודיו מתחתיו. שניהם מתחילים ב-0:00.</p></div>
+    <div class="step"><strong>בודקים</strong><p>מנגנים את 5 רגעי הזהב. צליל זז? מפצלים (Split) וגוררים.</p></div>
+    <div class="step"><strong>ייצוא</strong><p>Export ← MP4 ← מעלים ל-Drive ומשתפים לצפייה.</p></div>
+  </div>
+  <p class="small" style="margin-top:12px">💡 בלי CapCut? <b>vids.new</b> ← סרטון ריק ← מעלים קליפ ואודיו. ב-Vids אפשר גם להקליט ישר מול התמונה (הקלטה ← קריינות).</p>
+</section>
+
+<section class="slide" data-topic="הכלים" data-title="שקט באולפן!" data-accent="#e76f86">
+  <span class="kicker"><span class="recPill on" style="padding:2px 8px;font-size:12px">REC</span> חוקי האולפן</span>
+  <h2>🤫 שקט, <span class="recI">מקליטים!</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🎙️ <b>קרוב:</b> החפץ במרחק של כף יד מהמיקרופון של המחשב.</div>
+    <div class="revealCard reveal">🔴 <b>השלט עולה:</b> לפני כל הקלטה המקליט/ה מרים/ה את "שקט, מקליטים!" וכל האולפן קופא.</div>
+    <div class="revealCard reveal">🔁 <b>3 טייקים:</b> כל צליל שלוש פעמים, ושומרים רק את הטוב. שנייה של שקט לפני ואחרי.</div>
+    <div class="revealCard reveal">🏷️ <b>שם לכל צליל:</b> "דלת_כיסא", "צעדים_ספר". בלי שם, לא נמצא אותו בעריכה.</div>
+    <div class="revealCard reveal">🎧 <b>אוזניות:</b> מקשיבים לצלילים באוזניות, כדי לא להפריע לאולפן השכן.</div>
+  </div>
+</section>
+
+<!-- ============ 22–25 · הבמאי/ת והאתגר ============ -->
+<section class="slide tight" data-topic="הבמאי/ת והאתגר" data-title="הבמאי/ת מקרין/ה" data-accent="#e3a82b">
+  <span class="kicker">🎬 הבמאי/ת האורח/ת מקרין/ה</span>
+  <h2>"המשימה השקטה" · <span class="amb">סצנה 7</span></h2>
+  <div class="screenWrap">
+    <div class="screen">
+<svg id="scene" viewBox="0 0 1600 900" role="img" aria-label="סצנה מצוירת: מרגל/ת נכנס/ת בלילה לחדר, פותח/ת מגירה, חתול מפיל כוס ומרגל/ת בורח/ת">
+<defs>
+  <linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2840"/><stop offset="1" stop-color="#2f405f"/></linearGradient>
+  <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4d3b2b"/><stop offset="1" stop-color="#33261b"/></linearGradient>
+  <linearGradient id="gBeam" gradientUnits="userSpaceOnUse" x1="0" y1="-140" x2="0" y2="330"><stop offset="0" stop-color="#fff1b8" stop-opacity=".85"/><stop offset="1" stop-color="#fff1b8" stop-opacity="0"/></linearGradient>
+  <clipPath id="cWin"><rect x="190" y="180" width="280" height="310" rx="6"/></clipPath>
+</defs>
+<rect width="1600" height="900" fill="url(#gWall)"/>
+<!-- window -->
+<rect x="176" y="166" width="308" height="338" rx="10" fill="#6c7a93"/>
+<rect x="190" y="180" width="280" height="310" rx="6" fill="#0f1828"/>
+<g clip-path="url(#cWin)">
+  <g fill="#1c2a45"><rect x="190" y="390" width="60" height="100"/><rect x="255" y="350" width="48" height="140"/><rect x="308" y="410" width="70" height="80"/><rect x="384" y="370" width="40" height="120"/><rect x="428" y="400" width="42" height="90"/></g>
+  <g fill="#f3c46b" opacity=".55"><rect x="266" y="365" width="8" height="10"/><rect x="284" y="395" width="8" height="10"/><rect x="392" y="388" width="8" height="10"/><rect x="320" y="425" width="8" height="10"/><rect x="440" y="415" width="8" height="10"/></g>
+  <g id="aRain" stroke="#9fb3d9" stroke-width="2" stroke-linecap="round" opacity=".7"></g>
+  <rect id="aWinFlash" x="190" y="180" width="280" height="310" fill="#eef3ff" opacity="0"/>
+</g>
+<rect x="325" y="180" width="10" height="310" fill="#6c7a93"/><rect x="190" y="330" width="280" height="10" fill="#6c7a93"/>
+<rect x="164" y="500" width="332" height="16" rx="4" fill="#7c889e"/>
+<polygon id="aWinLight" points="190,702 470,702 600,900 90,900" fill="#9fb3d9" opacity=".07"/>
+<!-- picture frame -->
+<g id="aFrame"><rect x="1135" y="196" width="150" height="112" rx="4" fill="#8a6b4a"/><rect x="1147" y="208" width="126" height="88" fill="#c9d3e3"/><polygon points="1147,296 1190,240 1222,272 1243,252 1273,296" fill="#7f93b3"/><circle cx="1250" cy="228" r="9" fill="#f3e2a8"/></g>
+<!-- clock -->
+<g transform="translate(905 190)"><circle r="58" fill="#e8e2d4" stroke="#7a6a55" stroke-width="8"/>
+  <g stroke="#7a6a55" stroke-width="4"><line x1="0" y1="-46" x2="0" y2="-38"/><line x1="46" y1="0" x2="38" y2="0"/><line x1="0" y1="46" x2="0" y2="38"/><line x1="-46" y1="0" x2="-38" y2="0"/></g>
+  <line id="aHour" x1="0" y1="0" x2="0" y2="-26" stroke="#2b3345" stroke-width="7" stroke-linecap="round" transform="rotate(-5)"/>
+  <line id="aMin" x1="0" y1="0" x2="0" y2="-40" stroke="#2b3345" stroke-width="5" stroke-linecap="round" transform="rotate(-60)"/>
+  <line id="aSec" x1="0" y1="8" x2="0" y2="-44" stroke="#d6455d" stroke-width="2.5" stroke-linecap="round"/>
+  <circle r="5" fill="#2b3345"/></g>
+<!-- shelf + books -->
+<rect x="500" y="372" width="300" height="16" rx="3" fill="#7a5a3c"/>
+<path d="M520 388 v26 h14 M780 388 v26 h-14" stroke="#5e432b" stroke-width="6" fill="none"/>
+<rect x="508" y="306" width="20" height="66" rx="2" fill="#b65a4a"/><rect x="530" y="316" width="16" height="56" rx="2" fill="#4c8bd6"/><rect x="548" y="300" width="22" height="72" rx="2" fill="#5bb5a2"/>
+<!-- desk -->
+<rect x="760" y="520" width="350" height="24" rx="4" fill="#8b6542"/>
+<rect x="780" y="544" width="20" height="158" fill="#6e4f33"/><rect x="1070" y="544" width="20" height="158" fill="#6e4f33"/>
+<rect x="806" y="544" width="236" height="60" fill="#6a4c31"/>
+<g id="aDrawer"><rect x="820" y="548" width="208" height="46" rx="4" fill="#9a7350" stroke="#5e432b" stroke-width="3"/><circle cx="924" cy="571" r="8" fill="#e3c27a"/></g>
+<g><rect x="790" y="508" width="44" height="12" rx="4" fill="#3d4a5f"/><path d="M812 508 L832 450 L800 420" stroke="#3d4a5f" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M770 432 L830 408 L842 436 Z" fill="#56657d"/></g>
+<rect x="1062" y="478" width="26" height="42" rx="4" fill="#a9c7e8" opacity=".75"/>
+<!-- floor -->
+<rect y="700" width="1600" height="200" fill="url(#gFloor)"/>
+<g stroke="#2a1f16" stroke-width="2" opacity=".55"><line x1="0" y1="750" x2="1600" y2="750"/><line x1="0" y1="810" x2="1600" y2="810"/><line x1="0" y1="870" x2="1600" y2="870"/><line x1="300" y1="700" x2="300" y2="750"/><line x1="900" y1="700" x2="900" y2="750"/><line x1="600" y1="750" x2="600" y2="810"/><line x1="1250" y1="750" x2="1250" y2="810"/><line x1="160" y1="810" x2="160" y2="870"/><line x1="1000" y1="810" x2="1000" y2="870"/></g>
+<rect y="690" width="1600" height="12" fill="#22304a"/>
+<!-- pencils on floor (after the fall) -->
+<g id="aPencils" opacity="0"><g stroke-linecap="round" stroke-width="7"><line x1="690" y1="770" x2="745" y2="760" stroke="#f4a259"/><line x1="760" y1="784" x2="800" y2="748" stroke="#e3c46b"/><line x1="650" y1="790" x2="700" y2="800" stroke="#8c7ae6"/><line x1="815" y1="778" x2="866" y2="790" stroke="#5bb5a2"/></g></g>
+<!-- cup with pencils -->
+<g id="aCup" transform="translate(745 372)"><g stroke-linecap="round" stroke-width="6"><line x1="-8" y1="-40" x2="-14" y2="-74" stroke="#f4a259"/><line x1="2" y1="-40" x2="4" y2="-80" stroke="#e3c46b"/><line x1="10" y1="-40" x2="18" y2="-70" stroke="#8c7ae6"/></g><rect x="-22" y="-46" width="44" height="46" rx="5" fill="#9aa6b8"/><rect x="-22" y="-46" width="44" height="8" rx="3" fill="#b9c3d2"/></g>
+<!-- cat -->
+<g id="aCat" transform="translate(625 372)">
+  <g id="aCatSleep"><path d="M44 -6 C70 -8 66 -34 40 -24" stroke="#e8954a" stroke-width="10" fill="none" stroke-linecap="round"/><ellipse cx="4" cy="-20" rx="42" ry="20" fill="#f0a64b"/><circle cx="-30" cy="-22" r="17" fill="#f0a64b"/><polygon points="-42,-34 -38,-50 -28,-38" fill="#f0a64b"/><polygon points="-28,-37 -20,-51 -16,-35" fill="#f0a64b"/><path d="M-38 -22 q4 3 8 0" stroke="#5a3a1c" stroke-width="2.5" fill="none"/><text id="aZzz" x="-56" y="-62" font-size="26" fill="#cfd8ea" font-family="Rubik,Arial" font-weight="700">z</text></g>
+  <g id="aCatStand" opacity="0">
+    <g id="aCatTail"><path d="M36 -38 C62 -50 70 -80 60 -100" stroke="#e8954a" stroke-width="9" fill="none" stroke-linecap="round"/></g>
+    <rect x="-34" y="-30" width="10" height="30" rx="4" fill="#e8954a"/><rect x="-18" y="-30" width="10" height="30" rx="4" fill="#f0a64b"/><rect x="14" y="-30" width="10" height="30" rx="4" fill="#e8954a"/><rect x="28" y="-30" width="10" height="30" rx="4" fill="#f0a64b"/>
+    <ellipse cx="0" cy="-38" rx="44" ry="20" fill="#f0a64b"/>
+    <circle cx="-42" cy="-60" r="20" fill="#f0a64b"/><polygon points="-56,-72 -54,-92 -42,-78" fill="#f0a64b"/><polygon points="-40,-79 -30,-95 -26,-74" fill="#f0a64b"/>
+    <circle id="aCatEye" cx="-50" cy="-62" r="3.5" fill="#1b2232"/><polygon points="-62,-56 -58,-54 -62,-52" fill="#d9776b"/>
+  </g>
+</g>
+<!-- door -->
+<rect x="1368" y="288" width="174" height="414" fill="#3b2a1d"/>
+<rect x="1384" y="304" width="142" height="398" fill="#f3c46b"/>
+<polygon id="aSpill" points="1384,702 1526,702 1600,900 1230,900" fill="#f3c46b" opacity="0"/>
+<g id="aDoor"><rect x="1384" y="304" width="142" height="398" fill="#6b4a30"/><rect x="1402" y="326" width="106" height="150" rx="4" fill="none" stroke="#583c26" stroke-width="5"/><rect x="1402" y="500" width="106" height="180" rx="4" fill="none" stroke="#583c26" stroke-width="5"/>
+  <g id="aHandle" transform="translate(1404 500)"><circle r="9" fill="#e3c27a"/><rect x="0" y="-4" width="26" height="8" rx="4" fill="#e3c27a"/></g></g>
+<!-- spy -->
+<g id="aSpy" transform="translate(1500 700)" opacity="0"><g id="aSpyFlip"><g id="aSpyBody">
+  <g id="aArmB" transform="rotate(20 6 -255)"><polygon id="aBeam" points="-8,-140 8,-140 150,330 -150,330" fill="url(#gBeam)" opacity="0"/><rect x="-6" y="-255" width="22" height="112" rx="10" fill="#2c3a55"/><rect x="-4" y="-150" width="16" height="30" rx="4" fill="#9aa6b8"/><circle cx="4" cy="-122" r="8" fill="#fff6c8" id="aBulb" opacity=".3"/></g>
+  <g id="aLegB" transform="rotate(0 0 -120)"><rect x="-10" y="-124" width="22" height="124" rx="8" fill="#141b29"/><rect x="-26" y="-13" width="38" height="14" rx="6" fill="#0c111b"/></g>
+  <g id="aLegF" transform="rotate(0 0 -120)"><rect x="-8" y="-124" width="22" height="124" rx="8" fill="#1c2538"/><rect x="-24" y="-13" width="38" height="14" rx="6" fill="#10151f"/></g>
+  <path d="M-36 -272 L30 -272 L52 -96 L-58 -96 Z" fill="#3e5172"/>
+  <rect x="-52" y="-178" width="98" height="12" fill="#2b3a57"/><rect x="-10" y="-180" width="16" height="16" rx="3" fill="#c9a24e"/>
+  <path d="M-36 -272 L-6 -230 L-2 -272 Z" fill="#33445f"/>
+  <circle cx="-4" cy="-302" r="30" fill="#e8c39e"/><circle cx="-34" cy="-300" r="7" fill="#e3b58d"/><circle cx="-18" cy="-306" r="3.5" fill="#1b2232"/>
+  <ellipse cx="-4" cy="-322" rx="50" ry="9" fill="#1b2232"/><rect x="-32" y="-362" width="56" height="42" rx="10" fill="#1b2232"/><rect x="-32" y="-334" width="56" height="7" fill="#7a2f3e"/>
+  <g id="aHeart" opacity="0"><circle cx="-6" cy="-215" r="14" fill="none" stroke="#ff8fa3" stroke-width="4"/></g>
+  <g id="aArmF" transform="rotate(15 -14 -255)">
+    <rect x="-25" y="-255" width="22" height="112" rx="10" fill="#4a5f84"/><circle cx="-14" cy="-140" r="11" fill="#e8c39e"/>
+    <g id="aKeys" opacity="0" transform="translate(-14 -128)"><circle r="10" fill="none" stroke="#e3c27a" stroke-width="4"/><rect x="-3" y="8" width="6" height="26" fill="#e3c27a"/><rect x="3" y="24" width="8" height="5" fill="#e3c27a"/><rect x="8" y="4" width="22" height="6" fill="#c9d3e3" transform="rotate(30)"/></g>
+    <g id="aEnv" opacity="0" transform="translate(-14 -126)"><rect x="-26" y="-4" width="52" height="34" rx="3" fill="#efe4c6"/><polygon points="-26,-4 26,-4 0,14" fill="#ddcfa9"/>
+      <g id="aMap" transform="scale(0 1)"><rect x="-60" y="-50" width="120" height="84" fill="#f7f1e1" stroke="#c9b98e" stroke-width="3"/><path d="M-44 10 C-20 -30 10 20 34 -26" stroke="#be3455" stroke-width="4" stroke-dasharray="8 7" fill="none"/><text x="30" y="-18" font-size="30" fill="#be3455" font-weight="800" font-family="Rubik,Arial">✕</text></g></g>
+  </g>
+  <text id="aAlert" x="-12" y="-382" font-size="64" font-weight="800" fill="#ffd27a" font-family="Rubik,Arial" opacity="0">!</text>
+</g></g></g>
+<!-- overlays -->
+<rect id="aRoomFlash" width="1600" height="900" fill="#dfe8ff" opacity="0"/>
+<g id="aSlate"><rect width="1600" height="900" fill="#0f1726" opacity=".55"/>
+  <g transform="translate(800 470)"><rect x="-300" y="-120" width="600" height="300" rx="16" fill="#1f2430" stroke="#e8edf6" stroke-width="5"/>
+    <g id="aStick" transform="rotate(-24 -300 -120)"><rect x="-300" y="-178" width="600" height="52" rx="8" fill="#e8edf6"/><g fill="#1f2430"><polygon points="-260,-178 -210,-178 -250,-126 -300,-126"/><polygon points="-140,-178 -90,-178 -130,-126 -180,-126"/><polygon points="-20,-178 30,-178 -10,-126 -60,-126"/><polygon points="100,-178 150,-178 110,-126 60,-126"/><polygon points="220,-178 270,-178 230,-126 180,-126"/></g></g>
+    <rect x="-300" y="-120" width="600" height="38" fill="#e8edf6"/><g fill="#1f2430"><polygon points="-260,-120 -210,-120 -250,-82 -300,-82"/><polygon points="-140,-120 -90,-120 -130,-82 -180,-82"/><polygon points="-20,-120 30,-120 -10,-82 -60,-82"/><polygon points="100,-120 150,-120 110,-82 60,-82"/><polygon points="220,-120 270,-120 230,-82 180,-82"/></g>
+    <text x="0" y="-8" text-anchor="middle" font-size="58" font-weight="800" fill="#ffffff" font-family="Rubik,Arial">המשימה השקטה</text>
+    <text x="0" y="66" text-anchor="middle" font-size="36" font-weight="600" fill="#ffd27a" font-family="Rubik,Arial">סצנה 7 · טייק 1</text>
+    <text x="0" y="130" text-anchor="middle" font-size="26" fill="#cfd8ea" font-family="Rubik,Arial">פס קול: _______________</text></g></g>
+<g id="aEnd" opacity="0"><rect width="1600" height="900" fill="#0f1726" opacity=".85"/><text x="800" y="470" text-anchor="middle" font-size="72" font-weight="800" fill="#ffffff" font-family="Rubik,Arial">המשך יבוא…</text></g>
+<g><rect x="28" y="826" width="250" height="50" rx="12" fill="#000" opacity=".55"/><text id="aTc" x="153" y="862" text-anchor="middle" direction="ltr" font-size="32" font-weight="700" fill="#ffffff" font-family="Menlo,Consolas,monospace">00:00.0</text></g>
+</svg>
+    </div>
+    <div class="sctl"><button class="playBig" id="scPlay">▶ הקרנה</button><button class="ghost" id="scReset">↺</button><button class="ghost" id="scBig" title="הגדלת התמונה">⤢</button><div class="bar2" id="scBar"><i id="scFill"></i></div><span class="tcOut" id="scTc">00:00.0</span><span class="plays" id="scPlays">הקרנה 0 מתוך 2</span></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="הבמאי/ת והאתגר" data-title="האתגר: מיקרופון הזהב" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="challenge" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר של היום</span>
+  <h2>מיקרופון <span class="amb">הזהב</span></h2>
+  <p class="lead">הבמאי/ת צריך/ה פס קול חדש ל"המשימה השקטה". כל האולפנים מקבלים את אותו קליפ, וכל אולפן ימציא פתרון אחר.</p>
+  <div class="task"><strong>📏 החוקים</strong><ol>
+    <li>כל האולפנים עובדים על אותו קליפ של 30 שניות.</li>
+    <li>לפחות 8 אפקטים, כולם הוקלטו היום מחפצים. בלי ספריית צלילים.</li>
+    <li>קול אנושי מותר רק אם הוא לא נשמע כמו קול: נשיפה, נקישת לשון.</li>
+    <li>מוזיקת רקע רק מהלופים של BandLab או מהמאגר של Vids.</li>
+    <li>בדף הרמזים כתוב מאיזה חפץ נוצר כל צליל. במבחן האוזן העיוורת לא מגלים מראש.</li>
+    <li>מגישים בטופס עד שהטיימר נגמר.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight" data-topic="הבמאי/ת והאתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד ידוע מראש</span>
+  <h2>איך זוכים <span class="amb">במיקרופון</span></h2>
+  <div class="tableWrap"><table class="t compact">
+    <thead><tr><th>מה נבדק</th><th style="width:30%">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🎧 אפקטים מוקלטים שרשומים בדף הרמזים</td><td>1 לכל אפקט · עד <b>8</b></td></tr>
+      <tr><td>⏱️ תזמון: 5 רגעי הזהב של הסצנה, הצליל נופל בדיוק על הפעולה</td><td>1 לכל רגע מדויק · עד <b>5</b></td></tr>
+      <tr><td>🎼 מוזיקת רקע שלא מסתירה את האפקטים</td><td><b>2</b></td></tr>
+      <tr><td>🪄 אוזן עיוורת: צליל שרוב הכיתה חשבה ש"אמיתי", אבל נוצר מחפץ אחר</td><td>2 לכל צליל · עד <b>6</b></td></tr>
+      <tr><td>📊 המחוון: 4 קריטריונים, רמה 1–4 בכל אחד</td><td>עד <b>16</b></td></tr>
+      <tr><td>🎬 בחירת הבמאי/ת</td><td><b>5</b></td></tr>
+      <tr><td><b>סה״כ אפשרי</b></td><td><b>42</b></td></tr>
+    </tbody></table></div>
+  <p class="small" style="margin-top:10px">שובר שוויון: יותר נקודות 🪄 באוזן העיוורת. ואם עדיין שוויון, הבמאי/ת מחליט/ה. יש גם 3 פרסים נוספים: קוסם הפולי, הסנכרון המושלם, והמוזיקה שהכי שינתה את האווירה.</p>
+</section>
+
+<section class="slide tight" data-topic="הבמאי/ת והאתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון</span>
+  <h2>ככה נראה <span class="amb">פס קול מצטיין</span></h2>
+  <div class="tableWrap"><table class="t" style="font-size:clamp(14px,1.35vw,18px)">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td><b>יצירתיות בצלילים</b></td><td>צלילים מעטים וצפויים</td><td>כמה צלילים מקוריים</td><td>8 צלילים, רובם מחפצים לא צפויים</td><td>צלילים שמשכנעים את הכיתה שהם "אמיתיים", למרות שנוצרו ממשהו אחר לגמרי</td></tr>
+      <tr class="reveal"><td><b>תזמון וסנכרון</b></td><td>הצלילים לא קשורים לתמונה</td><td>חלק מהצלילים בזמן</td><td>רוב הצלילים נופלים על הפעולה</td><td>כל צליל מדויק לפריים, כולל רגעי שקט מתוכננים</td></tr>
+      <tr class="reveal"><td><b>מיקס ואווירה</b></td><td>רעש, צלילים מתנגשים</td><td>שומעים הכול, אבל בלי איזון</td><td>האפקטים ברורים והמוזיקה מתחתם</td><td>המוזיקה והאפקטים יוצרים אווירה שמשנה את הסצנה</td></tr>
+      <tr class="reveal"><td><b>עבודת צוות ותיעוד</b></td><td>אין דף רמזים</td><td>דף רמזים חלקי</td><td>דף רמזים מלא, וכל תפקיד ביצע</td><td>דף רמזים מלא, כולם הקליטו, והאולפן שיפר צלילים אחרי מבחן האוזן</td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ============ 26–28 · ספרינט 1 ============ -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: רמזים והקלטות" data-accent="#e76f86">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <span class="kicker">🎙️ ספרינט 1 · 19 דקות</span>
+  <h2>דף רמזים <span class="recI">והקלטות</span></h2>
+  <div class="miles"><div><b>עד דקה 7</b>דף רמזים עם 10 רגעים לפחות: שנייה, מה רואים, איזה צליל.</div><div><b>עד סוף הספרינט</b>8 אפקטים מוקלטים, כל אחד עם שם, וכל חפץ רשום בדף.</div></div>
+  <div class="ailight"><div class="r"><b>🔴 בלי AI</b> הצלילים עצמם: רק אתם, חפצים ומיקרופון.</div><div class="y"><b>🟡 Gemini לבדיקה</b> "איזה רגע בסצנה עוד בלי צליל?" אחרי שכתבתם דף רמזים.</div><div class="g off"><b>🟢</b> לא היום.</div></div>
+  <div class="roleChips"><span>🎬 מנהל/ת את דף הרמזים</span><span>🥄 מנסה 3 חפצים לכל צליל</span><span>🎙️ מקליט/ה ונותן/ת שמות</span><span>✂️ פותח/ת את CapCut ומייבא/ת את הקליפ</span><span>🎼 מחפש/ת לופ ב-BandLab</span></div>
+  <div class="timer" data-seconds="1140"><output>19:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="ארגז החפצים" data-accent="#e3a82b">
+  <span class="kicker">📦 ארגז החפצים</span>
+  <h2>מה כל חפץ <span class="amb">יכול להיות?</span></h2>
+  <p class="lead">לוחצים על חפץ כדי לקבל רעיונות. אבל הצלילים הכי טובים הם אלה שאתם תגלו.</p>
+  <div class="objGrid" id="objGrid">
+    <button class="obj"><span class="e">📄</span><b>נייר</b><span class="ideas">מקמטים לאט = אש קטנה · מנפנפים = כנפיים · קורעים = בד נקרע</span></button>
+    <button class="obj"><span class="e">🛍️</span><b>שקית ניילון</b><span class="ideas">מקמטים = אש מתפצפצת · מקמטים בקצב = צעדים בעשב</span></button>
+    <button class="obj"><span class="e">⬜</span><b>קלקר</b><span class="ideas">לוחצים ומשפשפים = צעדים בשלג · גוררים על שולחן = חריקה</span></button>
+    <button class="obj"><span class="e">🔑</span><b>מפתחות</b><span class="ideas">צרור מפתחות · שרשרת · מטבעות · פעמון של חתול</span></button>
+    <button class="obj"><span class="e">💧</span><b>בקבוק מים</b><span class="ideas">מנערים = גלים · שופכים לכוס = ברז · לוחצים על הבקבוק = קרקוש</span></button>
+    <button class="obj"><span class="e">🥄</span><b>כפית</b><span class="ideas">על כוס = "טינג" · על בקבוק = זכוכית · על מפתח = מתכת</span></button>
+    <button class="obj"><span class="e">📕</span><b>ספר</b><span class="ideas">סוגרים חזק = טריקה · מדפדפים מהר = ציפור · טופחים = צעדים</span></button>
+    <button class="obj"><span class="e">🧣</span><b>חתיכת בד</b><span class="ideas">משפשפים = תנועת מעיל · מנערים חזק = גלימה או דגל</span></button>
+    <button class="obj"><span class="e">🪢</span><b>גומיות</b><span class="ideas">מותחים ופורטים = "בוינג" · משחררים = חץ</span></button>
+    <button class="obj"><span class="e">🪑</span><b>כיסא</b><span class="ideas">מזיזים לאט = חריקת דלת · נוקשים על המושב = דפיקה</span></button>
+  </div>
+  <div class="dice"><button class="playBig ghosty" id="diceBtn">🎲 אתגר בזק</button><span class="diceOut" id="diceOut">לחצו, וקבלו חפץ וצליל שצריך להוציא ממנו</span></div>
+</section>
+
+<section class="slide tight dense" data-topic="ספרינט 1" data-title="פרומפטים לספרינט" data-accent="#e3a82b">
+  <span class="kicker">🟡 Gemini לבדיקה, לא לצלילים</span>
+  <h2>שלושה פרומפטים <span class="amb">למפקח/ת הסאונד</span></h2>
+  <div class="prompt">אנחנו עושים פולי לסצנה שבה מרגל נכנס בלילה לחדר, פותח מגירה, חתול מפיל כוס והמרגל בורח. מה הצלילים שצריך? תן רשימה לפי הסדר, בלי להגיד לנו מאיזה חפץ לעשות אותם.</div>
+  <div class="prompt">הנה דף הרמזים שלנו: [מדביקים את הטבלה]. איזה רגע בסצנה עוד בלי צליל?</div>
+  <div class="prompt">הצע 3 סוגי מוזיקת רקע לסצנה הזאת: מותחת, מצחיקה ומפחידה. תאר כל אחת במשפט.</div>
+  <p class="small" style="margin-top:12px">🤖 בהגשה כותבים שורה אחת: מה ה-AI עשה · מה אנחנו עשינו. טיפ פרטיות: לא כותבים בפרומפט שמות ופרטים אישיים.</p>
+</section>
+
+<!-- ============ 29 · נקודת ביקורת ============ -->
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="אוזן עיוורת 1" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="blind1" aria-label="הוראות">?</button>
+  <span class="kicker">👂 נקודת ביקורת · אוזן עיוורת, סבב 1</span>
+  <h2>משמיעים לשכנים. <span class="violet">בלי תמונה.</span></h2>
+  <div class="steps">
+    <div class="step"><strong>מתחברים</strong><p>אולפן 1 עם 2, 3 עם 4, 5 עם 6. אולפן 7 מצטרף לשלישייה עם 5 ו-6.</p></div>
+    <div class="step"><strong>4 צלילים</strong><p>משמיעים לשכנים 4 צלילים מוקלטים, בלי הקליפ ובלי רמזים.</p></div>
+    <div class="step"><strong>ניחוש</strong><p>השכנים כותבים בדף הניחושים: מה זה? ומאיזה חפץ?</p></div>
+    <div class="step"><strong>מחליפים</strong><p>אחרי 3 דקות האולפנים מתחלפים בתפקידים.</p></div>
+    <div class="step"><strong>מחליטים</strong><p>צליל שזוהה כחפץ? מקליטים שוב, מגזימים או מחליפים חפץ.</p></div>
+  </div>
+  <div class="timer" data-seconds="420"><output>07:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ============ 30 · תנועה ============ -->
+<section class="slide center" data-topic="תנועה" data-title="תזמורת הגשם" data-accent="#5bb5a2">
+  <span class="kicker">🌧️ דקה של תנועה</span>
+  <h2>כל הכיתה היא <span style="color:var(--mint-ink)">אולפן פולי אחד</span></h2>
+  <p class="lead">עומדים. עוקבים אחרי היד של המדריך/ה, ויוצרים סערה רק עם הגוף.</p>
+  <div class="steps" style="text-align:right;max-width:1150px;width:100%">
+    <div class="step"><strong>טפטוף</strong><p>משפשפים כפות ידיים.</p></div>
+    <div class="step"><strong>מתחיל לרדת</strong><p>נקישות אצבעות.</p></div>
+    <div class="step"><strong>גשם חזק</strong><p>טפיחות על הירכיים.</p></div>
+    <div class="step"><strong>סערה!</strong><p>רקיעות ברגליים.</p></div>
+    <div class="step"><strong>ובחזרה</strong><p>ירכיים, אצבעות, ידיים... ושקט.</p></div>
+  </div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ============ 31–34 · ספרינט 2 ============ -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: סנכרון ומיקס" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">✂️ ספרינט 2 · 15 דקות</span>
+  <h2>סנכרון <span style="color:var(--sky-ink)">ומיקס</span></h2>
+  <div class="miles"><div><b>עד דקה 8</b>כל האפקטים והלופ במקום, והמיקס מיוצא מ-BandLab.</div><div><b>עד סוף הספרינט</b>קליפ MP4 ב-Drive, שבו 5 רגעי הזהב נופלים בדיוק.</div></div>
+  <div class="ailight"><div class="r"><b>🔴 בלי AI</b> הסנכרון והמיקס: האוזן שלכם מחליטה.</div><div class="y"><b>🟡 Gemini לרעיונות</b> 3 סוגי מוזיקה לסצנה, ואתם בוחרים לופ.</div><div class="g off"><b>🟢</b> לא היום.</div></div>
+  <div class="roleChips"><span>🎬 בודק/ת את הסנכרון מול דף הרמזים</span><span>🥄 מקליט/ה מחדש צליל שנכשל</span><span>🎙️ מייצא/ת את המיקס</span><span>✂️ מסנכרן/ת ומייצא/ת MP4</span><span>🎼 מאזן/ת את הלופ ומכין/ה את ההגשה</span></div>
+  <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="איזון עוצמות" data-accent="#4c8bd6">
+  <span class="kicker">🎚️ שולחן המיקס</span>
+  <h2>המוזיקה היא <span style="color:var(--sky-ink)">שטיח</span>, לא קיר</h2>
+  <div class="row2">
+    <div class="mixer">
+      <div class="fader"><span>🎼 מוזיקה</span><input type="range" id="fMusic" min="0" max="100" value="85"><output id="oMusic">85</output></div>
+      <div class="meter"><i id="mMusic"></i></div>
+      <div class="fader"><span>💥 אפקטים</span><input type="range" id="fFx" min="0" max="100" value="45"><output id="oFx">45</output></div>
+      <div class="meter"><i id="mFx"></i></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="playBig" id="mixPlay">▶ הפעלה</button><span class="mixVerdict" id="mixVerdict">הזיזו את המחוונים ותקשיבו</span></div>
+    </div>
+    <div style="display:grid;gap:12px">
+      <div class="box bad"><span class="label">✗ מוזיקה שמסתירה</span>המוזיקה חזקה, והדפיקות והצעדים נבלעים. הקהל לא "רואה" את הצלילים.</div>
+      <div class="box good"><span class="label">✓ מוזיקה מתחת</span>האפקטים בולטים, והמוזיקה מתחתם, בערך בחצי מהעוצמה שלהם. בשקט המתוכנן היא יכולה לעלות קצת.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="5 רגעי הזהב" data-accent="#e3a82b">
+  <span class="kicker">⏱️ את אלה נבדוק בתזמון</span>
+  <h2>5 <span class="amb">רגעי הזהב</span> של הסצנה</h2>
+  <p class="lead">בכל אחד מהם הצליל צריך להתחיל בדיוק כשהפעולה קורה. נקודה לכל רגע מדויק.</p>
+  <div class="moments">
+    <div class="moment"><div class="e">🚪</div><div class="t">0:04</div><p>הדלת מתחילה להיפתח</p></div>
+    <div class="moment"><div class="e">🗄️</div><div class="t">0:10.5</div><p>המגירה נפתחת</p></div>
+    <div class="moment"><div class="e">✏️</div><div class="t">0:17.6</div><p>הכוס פוגעת ברצפה</p></div>
+    <div class="moment"><div class="e">🐈</div><div class="t">0:21</div><p>החתול נוחת</p></div>
+    <div class="moment"><div class="e">💥</div><div class="t">0:27</div><p>הדלת נטרקת</p></div>
+  </div>
+  <p class="small" style="margin-top:12px">💡 עצירה בדיוק על הפריים, ואז מזיזים את הצליל עד שתחילת הגל שלו נוגעת בקו.</p>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד">
+  <span class="kicker">🚀 סיימתם? משימות צד</span>
+  <h2>האולפן <span class="cyan">לא נח</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">😱</div><strong>גרסה מפחידה</strong><p>אותה סצנה עם לופ אחר ושני צלילים חדשים. מה השתנה בסיפור?</p></div>
+    <div class="card"><div class="emoji">😂</div><strong>גרסה מצחיקה</strong><p>צליל אחד "לא נכון" בכוונה: החתול נוחת כמו פיל.</p></div>
+    <div class="card"><div class="emoji">🔊</div><strong>צליל חתימה</strong><p>3 שניות שמזהות את האולפן שלכם, לפני הקליפ.</p></div>
+    <div class="card"><div class="emoji">🌧️</div><strong>שכבת אווירה</strong><p>גשם ותקתוק שעון לכל אורך הסצנה, חלשים מאוד.</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>חפץ אחד, 3 צלילים</strong><p>3 צלילים שונים לגמרי מאותו חפץ.</p></div>
+    <div class="card"><div class="emoji">📚</div><strong>ספריית הכיתה</strong><p>מעלים כל אפקט לתיקייה המשותפת, עם שם: "צעדים_קלקר".</p></div>
+  </div>
+</section>
+
+<!-- ============ 35 · הגשה ============ -->
+<section class="slide tight" data-topic="הגשה" data-title="מסירה לבמאי/ת" data-accent="#15803d">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📤 הגשה · המוזיקאי/ת מגיש/ה</span>
+  <h2>טופס <span class="green">"מסירה לבמאי/ת"</span></h2>
+  <div class="row2" style="margin-top:8px">
+    <div class="task" style="margin-top:0"><strong>✓ לפני שלוחצים "שליחה"</strong><ul>
+      <li>☐ שם האולפן</li>
+      <li>☐ קישור לקליפ: MP4 ב-Drive, "כל מי שיש לו את הקישור · צפייה"</li>
+      <li>☐ צילום של דף הרמזים</li>
+      <li>☐ כמה אפקטים יש בקליפ</li>
+      <li>☐ שורה אחת: מה עשינו בעצמנו · במה השתמשנו מוכן (לופ, AI)</li>
+    </ul></div>
+    <div style="display:grid;gap:12px">
+      <div class="box"><span class="label">🏷️ שם הקובץ</span><b>אולפן [שם] · פולי · המשימה השקטה</b></div>
+      <div class="box"><span class="label">🆘 הייצוא נתקע?</span>מגישים את קובץ המיקס ואת צילום דף הרמזים, ומקרינים מהמחשב של האולפן.</div>
+      <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 36–39 · הגמר ============ -->
+<section class="slide tight" data-topic="הגמר" data-title="מבחן האוזן העיוורת" data-accent="#8c7ae6">
+  <span class="kicker">🕵️ הגמר · מבחן האוזן העיוורת</span>
+  <h2>זה אמיתי, <span class="violet">או חפץ?</span></h2>
+  <div class="steps">
+    <div class="step"><strong>מכריזים</strong><p>האולפן אומר רק מה רואים: "דלת חורקת".</p></div>
+    <div class="step"><strong>משמיעים</strong><p>הצליל בלבד, בלי תמונה. עיניים עצומות.</p></div>
+    <div class="step"><strong>מצביעים</strong><p>כל אולפן אחר מרים שלט: 👍 "אמיתי" או 🕵️ "חפץ!"</p></div>
+    <div class="step"><strong>חושפים</strong><p>רוב 👍? 🪄 2 נקודות. האולפן מראה את החפץ.</p></div>
+    <div class="step"><strong>מקרינים</strong><p>3 צלילים, ואז הקליפ המלא עם פס הקול.</p></div>
+  </div>
+  <p class="lead" style="margin-top:14px">🎯 מי שמרים 🕵️ כותב בדף הניחושים מאיזה חפץ לדעתו בא הצליל.</p>
+</section>
+
+<section class="slide tight" data-topic="הגמר" data-title="ניחושי הכיתה" data-accent="#8c7ae6">
+  <span class="kicker">🪄 ספירה חיה</span>
+  <h2>איזה צליל <span class="violet">עבד על הכיתה?</span></h2>
+  <div class="tableWrap"><table class="sb">
+    <thead><tr><th>אולפן</th><th>צליל 1</th><th>צליל 2</th><th>צליל 3</th><th>🪄 נקודות</th></tr></thead>
+    <tbody id="blBody"></tbody></table></div>
+  <p class="sbNote">לוחצים 🪄 כשרוב השלטים היו 👍. הנקודות עוברות לבד ללוח הניקוד. שמות האולפנים נערכים בלחיצה.</p>
+</section>
+
+<section class="slide center" data-topic="הגמר" data-title="ההקרנה" data-accent="#e3a82b">
+  <span class="kicker">🎞️ הקרנת בכורה</span>
+  <div class="marquee" style="margin-top:12px">עכשיו מוקרן: <span contenteditable="true" spellcheck="false">אולפן ___</span></div>
+  <h2 style="margin-top:24px">3 צלילים עיוורים, ואז <span class="amb">הקליפ</span></h2>
+  <p class="lead">הקהל רושם: הרגע הכי מדויק · הצליל שהכי הפתיע.</p>
+  <div class="timer" data-seconds="90"><output>01:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide center" data-topic="הגמר" data-title="בחירת הבמאי/ת" data-accent="#e76f86">
+  <span class="kicker">🎬 בחירת הבמאי/ת · 5 נקודות</span>
+  <h2>עם איזה פס קול <span class="recI">הסרט יוצא?</span></h2>
+  <p class="lead">הבמאי/ת בוחר/ת את פס הקול שגרם לסצנה להרגיש הכי אמיתית ומותחת.</p>
+  <div class="envelope reveal"><div class="seal">🎬</div><p class="small" style="margin:0 0 6px">הבמאי/ת בחר/ה ב...</p><span class="win" contenteditable="true" spellcheck="false">אולפן ___</span></div>
+</section>
+
+<!-- ============ 40–41 · טקס ============ -->
+<section class="slide tight" data-topic="טקס" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 לוח הניקוד</span>
+  <h2>לוח <span class="amb">מיקרופון הזהב</span></h2>
+  <div class="tableWrap"><table class="sb">
+    <thead><tr><th>אולפן</th><th>🎧 אפקטים<br>עד 8</th><th>⏱️ תזמון<br>עד 5</th><th>🎼 מוזיקה<br>0 / 2</th><th>🪄 אוזן<br>עד 6</th><th>📊 מחוון<br>עד 16</th><th>🎬 במאי/ת<br>0 / 5</th><th>סה״כ</th></tr></thead>
+    <tbody id="sbBody"></tbody></table></div>
+  <p class="sbNote">מקלידים בתאים. הסכום מתעדכן לבד, והמוביל/ה מסומן/ת ב-🎙️. נשמר בדפדפן הזה.</p>
+</section>
+
+<section class="slide tight" data-topic="טקס" data-title="והמיקרופון הולך ל..." data-accent="#e3a82b">
+  <span class="kicker">🏆 טקס הפרסים</span>
+  <h2>והמיקרופון <span class="amb">הולך ל...</span></h2>
+  <div class="prizes">
+    <div class="prize reveal"><span class="e">🪄</span><strong>קוסם הפולי</strong><p>הצליל שהכי עבד על הכיתה</p><span class="w" contenteditable="true" spellcheck="false"></span></div>
+    <div class="prize reveal"><span class="e">⏱️</span><strong>הסנכרון המושלם</strong><p>5 מתוך 5 רגעי זהב, או הכי קרוב</p><span class="w" contenteditable="true" spellcheck="false"></span></div>
+    <div class="prize reveal"><span class="e">🎼</span><strong>המוזיקה שהכי שינתה</strong><p>האווירה שהכי הפתיעה</p><span class="w" contenteditable="true" spellcheck="false"></span></div>
+    <div class="prize gold reveal"><span class="e">🎙️</span><strong>מיקרופון הזהב</strong><p>הניקוד הכולל הגבוה ביותר</p><span class="w" id="goldWin" contenteditable="true" spellcheck="false"></span></div>
+  </div>
+</section>
+
+<!-- ============ 42–43 · סיום ============ -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#15803d">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד · 🔴 בלי AI</span>
+  <h2>לפני שהאולפן <span class="green">נסגר</span></h2>
+  <div class="task"><strong>שלוש שאלות, 3 דקות</strong><ol>
+    <li>איזה צליל הכי הפתיע אותך היום, ולמה?</li>
+    <li>למה הקהל מאמין לצליל שבא מחפץ אחר לגמרי?</li>
+    <li>דבר אחד שהיית משפר/ת בפס הקול של האולפן שלכם.</li>
+  </ol></div>
+  <p class="lead" style="margin-top:14px">ובסוף: כמה הבנת מה זה סנכרון? 0 עד 5. וסמנו מה תרמת היום לאולפן.</p>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="כתוביות סיום" data-accent="#e76f86">
+  <span class="kicker">🎬 הבמאי/ת: "עכשיו הסצנה נשמעת. נתראה בבכורה."</span>
+  <div class="creditsBox"><div class="roll">
+    <h4>סרט של</h4><p>הכיתה שלנו</p>
+    <h4>הסצנה</h4><p>המשימה השקטה · סצנה 7</p>
+    <h4>אמני ואמניות פולי</h4><p>כל האולפנים</p>
+    <h4>צעדים</h4><p>ספר, קלקר וכף יד</p>
+    <h4>אש וגשם</h4><p>שקית ניילון ואצבעות</p>
+    <h4>חתול נוחת</h4><p>חתיכת בד מקופלת</p>
+    <h4>טריקת דלת</h4><p>ספר עבה ושולחן</p>
+    <h4>בהשראת</h4><p>ג׳ק פולי · בן בארט</p>
+    <h4>אף צליל לא נפגע</h4><p>במהלך ההפקה</p>
+    <p class="end">🔊 מעבדת הפולי</p>
+  </div></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-bandlab"><h3>🎙️ BandLab, צעד אחר צעד</h3><ol>
+<li>נכנסים ל-<b>bandlab.com</b> ← Log in ← כניסה עם Google.</li>
+<li>לוחצים <b>Create</b> (יצירה) ← נפתח הסטודיו. בודקים למעלה שהטמפו <b>120</b>.</li>
+<li>מוסיפים ערוץ: <b>Voice / Mic</b>. הדפדפן שואל על המיקרופון: "אישור".</li>
+<li>מציבים את הסמן בתחילת הצליל, מרימים את השלט "שקט, מקליטים!" ולוחצים ● (הקלטה). מבצעים את הצליל 3 פעמים ועוצרים ■.</li>
+<li>משאירים את הטייק הטוב, מוחקים את השאר, ונותנים לערוץ שם.</li>
+<li>גוררים כל צליל לשנייה שלו: בטמפו 120 כל תיבה = 2 שניות (שקף "שעון האולפן").</li>
+<li>מוזיקה: ערוץ חדש ← Browse Loops (לופים) ← גוררים לופ לציר ומנמיכים אותו.</li>
+<li>בסוף: <b>File / Project ← Download ← Mixdown</b>. קובץ אחד שעובר לעורך/ת.</li>
+</ol><p>הכפתורים נקראים קצת אחרת? מחפשים את אותו רעיון: ערוץ, הקלטה, לופים, הורדה.</p></template>
+<template id="help-capcut"><h3>✂️ מחברים צליל לתמונה</h3><ol>
+<li><b>capcut.com</b> ← כניסה עם Google ← פרויקט וידאו חדש (Create new).</li>
+<li>Import / Upload: הקליפ האילם מתיקיית ה-Drive של הכיתה, וקובץ המיקס מ-BandLab.</li>
+<li>גוררים את הווידאו לציר, ואת המיקס לערוץ שמתחתיו. שניהם מתחילים ב-0:00.</li>
+<li>מנגנים ועוצרים בכל אחד מ-5 רגעי הזהב. צליל מוקדם או מאוחר? מסמנים אותו ← Split (פיצול) ← גוררים.</li>
+<li>לא משתמשים ברכיבים שמסומנים Pro: הם מוסיפים סימן מים.</li>
+<li>Export ← MP4 ← שומרים ← מעלים ל-Drive ← שיתוף: "כל מי שיש לו את הקישור · צפייה".</li>
+</ol><h3>🎬 חלופה: Google Vids</h3><ol>
+<li><b>vids.new</b> ← "סרטון ריק" ← העלאה: הקליפ והמיקס.</li>
+<li>אפשר גם בלי BandLab: עומדים על השנייה הנכונה ← סמל ההקלטה ← "קריינות", ומבצעים את הצליל מול התמונה.</li>
+<li>מוזיקה: "מאגר" ← מוזיקה. בסוף: "ייצוא ל-Drive".</li>
+</ol></template>
+<template id="help-challenge"><h3>🏆 מיקרופון הזהב: כל החוקים</h3><ol>
+<li>כל האולפנים עובדים על אותו קליפ: "המשימה השקטה", 30 שניות.</li>
+<li>לפחות 8 אפקטים, כולם הוקלטו היום מחפצים שבכיתה. אסור להוריד צלילים מספרייה.</li>
+<li>קול אנושי רק אם לא שומעים שזה קול: נשיפה, נקישת לשון, שריקה חלשה. בלי מילים ובלי "מיאו".</li>
+<li>מוזיקה רק מהלופים של BandLab או מהמאגר של Vids.</li>
+<li>דף רמזים מלא לכל צליל: שנייה, מה רואים, צליל, חפץ.</li>
+<li>במבחן האוזן העיוורת מכריזים רק מה רואים, לא מה החפץ.</li>
+<li>מגישים בטופס "מסירה לבמאי/ת" עד שהטיימר נגמר.</li>
+</ol><p>ניקוד: עד 42 נקודות. שובר שוויון: נקודות 🪄 באוזן העיוורת.</p></template>
+<template id="help-sprint1"><h3>🎙️ סדר העבודה בספרינט 1</h3><ol>
+<li>צופים בקליפ פעמיים. המפקח/ת עוצר/ת בכל פעולה, וכולם אומרים איזה צליל צריך.</li>
+<li>ממלאים את דף הרמזים: 10 רגעים לפחות. גם רגע של שקט הוא רגע.</li>
+<li>אמן/ית הפולי מנסה 3 חפצים לכל צליל. האולפן מצביע על הכי משכנע.</li>
+<li>המקליט/ה מקליט/ה ב-BandLab, 3 טייקים לכל צליל, ונותן/ת שם.</li>
+<li>העורך/ת פותח/ת כבר עכשיו את CapCut או Vids ומייבא/ת את הקליפ.</li>
+<li>המוזיקאי/ת מחפש/ת 2 לופים מתאימים ב-BandLab.</li>
+</ol></template>
+<template id="help-blind1"><h3>👂 אוזן עיוורת, סבב 1</h3><ol>
+<li>האולפן המשמיע בוחר 4 צלילים מוקלטים.</li>
+<li>מכריזים מספר: "צליל 1". לא אומרים מה זה.</li>
+<li>האולפן המקשיב כותב בדף הניחושים: מה זה (מה רואים) ומאיזה חפץ.</li>
+<li>חושפים. צליל שנוחש נכון כ"מה רואים", אבל לא כחפץ = עובד!</li>
+<li>אחרי 3 דקות מתחלפים.</li>
+<li>שתי דקות אחרונות: כל אולפן מחליט מה להקליט מחדש.</li>
+</ol></template>
+<template id="help-sprint2"><h3>✂️ סדר העבודה בספרינט 2</h3><ol>
+<li>ב-BandLab: כל צליל בשנייה שלו, הלופ בערוץ נפרד ומונמך.</li>
+<li>מקשיבים פעם אחת עם הקליפ בחלון ליד: משהו מוקדם או מאוחר?</li>
+<li>מייצאים מיקס, ומכניסים לעורך מתחת לווידאו.</li>
+<li>בודקים את 5 רגעי הזהב. מתקנים בפיצול וגרירה.</li>
+<li>מייצאים MP4 ומעלים ל-Drive עם שם הקובץ הנכון.</li>
+<li>המוזיקאי/ת ממלא/ת את הטופס תוך כדי, ולוחץ/ת "שליחה" בהגשה.</li>
+</ol></template>
+<template id="help-submit"><h3>📤 טופס "מסירה לבמאי/ת"</h3><ol>
+<li>שם האולפן.</li>
+<li>קישור לקליפ (Drive, "כל מי שיש לו את הקישור · צפייה").</li>
+<li>צילום של דף הרמזים (העלאת קובץ, או צילום בטלפון של חבר/ה באולפן).</li>
+<li>מספר האפקטים בקליפ.</li>
+<li>מה עשינו בעצמנו · במה השתמשנו מוכן (לופ, Gemini).</li>
+<li>הערכה עצמית במחוון: 1–4 בכל קריטריון.</li>
+</ol><p>שם הקובץ: <b>אולפן [שם] · פולי · המשימה השקטה</b></p></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== מעבדת הפולי — lesson script (runs after the kit engine; does not change it) =====
+   1. Web Audio sound lab (all sounds are synthesized, no audio files)
+   2. Hero "silent scene", sound quiz, vote players, ball-sync demo, mixer
+   3. The 30-second silent clip "המשימה השקטה" (SVG animatic with burned-in timecode)
+   4. Bar calculator, object box, live blind-test table + scoreboard (saved in localStorage) */
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+/* ---------- 1. audio ---------- */
+let AC=null,M=null,AN=null,NB=null,FD=null;
+function ctx(){try{if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+function out(){const a=ctx();if(!M){M=a.createGain();M.gain.value=.85;const comp=a.createDynamicsCompressor();AN=a.createAnalyser();AN.fftSize=128;FD=new Uint8Array(AN.frequencyBinCount);M.connect(comp);comp.connect(AN);AN.connect(a.destination)}return M}
+function nbuf(){const a=ctx();if(!NB){NB=a.createBuffer(1,a.sampleRate*2,a.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}return NB}
+function burst(t,dur,o={}){const a=ctx();const s=a.createBufferSource();s.buffer=nbuf();s.loop=true;const f=a.createBiquadFilter();f.type=o.type||'bandpass';f.frequency.setValueAtTime(o.f||1000,t);if(o.f2)f.frequency.exponentialRampToValueAtTime(o.f2,t+dur);f.Q.value=o.q??1;
+ const g=a.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(o.g??.4,t+(o.a??.004));g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(o.out||out());s.start(t,Math.random()*1.5);s.stop(t+dur+.05)}
+function tone(t,dur,o={}){const a=ctx();const os=a.createOscillator();os.type=o.type||'sine';os.frequency.setValueAtTime(o.f||440,t);if(o.f2)os.frequency.exponentialRampToValueAtTime(o.f2,t+dur);
+ const g=a.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(o.g??.3,t+(o.a??.003));g.gain.exponentialRampToValueAtTime(.0001,t+dur);os.connect(g);g.connect(o.out||out());os.start(t);os.stop(t+dur+.05)}
+function creak(t,dur,gain=.5,out2){const a=ctx();const os=a.createOscillator();os.type='sawtooth';os.frequency.setValueAtTime(130,t);os.frequency.linearRampToValueAtTime(215,t+dur*.6);os.frequency.linearRampToValueAtTime(160,t+dur);
+ const bp=a.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1100;bp.Q.value=4;const am=a.createGain();am.gain.value=.5;const lfo=a.createOscillator();lfo.type='square';lfo.frequency.setValueAtTime(32,t);lfo.frequency.linearRampToValueAtTime(17,t+dur);const lg=a.createGain();lg.gain.value=.5;lfo.connect(lg);lg.connect(am.gain);
+ const g=a.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(gain,t+.08);g.gain.setValueAtTime(gain,t+Math.max(.09,dur-.15));g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ os.connect(bp);bp.connect(am);am.connect(g);g.connect(out2||out());os.start(t);lfo.start(t);os.stop(t+dur+.05);lfo.stop(t+dur+.05)}
+const heel=(t,o)=>{burst(t,.035,{type:'highpass',f:2500,q:.7,g:.45,out:o});tone(t,.025,{f:1900,f2:1200,g:.12,out:o})};
+const thud=(t,o,g=.55)=>{tone(t,.13,{f:120,f2:55,g,out:o});burst(t,.07,{type:'lowpass',f:380,q:.7,g:g*.6,out:o})};
+const crunch=t=>{tone(t,.09,{f:95,f2:60,g:.25});const n=7+Math.floor(Math.random()*4);for(let i=0;i<n;i++)burst(t+Math.random()*.2,.02+Math.random()*.03,{f:1400+Math.random()*2600,q:.9,g:.18+Math.random()*.2})};
+const SND={
+ snow(t){for(let k=0;k<4;k++)crunch(t+k*.6);return 2.6},
+ fire(t){burst(t,3.2,{type:'lowpass',f:500,q:.5,g:.06,a:.4});for(let i=0;i<70;i++)burst(t+Math.random()*3,.006+Math.random()*.02,{type:'highpass',f:1800+Math.random()*2500,q:.7,g:.15+Math.random()*.45});for(let i=0;i<10;i++)tone(t+Math.random()*3,.012,{type:'triangle',f:700+Math.random()*900,g:.15});return 3.3},
+ hooves(t){for(let k=0;k<6;k++){const s=t+k*.45;[0,.085,.17].forEach((d,i)=>{tone(s+d,.07,{type:'triangle',f:[540,470,600][i],f2:[380,330,420][i],g:.35});burst(s+d,.035,{f:2200,q:2,g:.12})})}return 2.9},
+ wings(t){for(let k=0;k<7;k++)burst(t+k*.21,.17,{f:500,f2:1300,q:.6,g:.45,a:.06});return 1.7},
+ thunder(t){burst(t,.35,{type:'highpass',f:1200,q:.5,g:.35,a:.01});burst(t+.05,3.8,{type:'lowpass',f:160,q:.8,g:.9,a:.25});for(let i=0;i<5;i++)burst(t+.2+Math.random()*2.2,1+Math.random()*1.2,{type:'lowpass',f:220+Math.random()*200,q:.7,g:.5,a:.15});return 4},
+ slam(t){tone(t,.4,{f:75,f2:38,g:.9});burst(t,.3,{type:'lowpass',f:700,q:.7,g:.7});burst(t+.01,.06,{f:3200,q:1.5,g:.3});burst(t+.12,.18,{f:1800,q:3,g:.08});return .6},
+ stepsA(t){for(let k=0;k<4;k++)heel(t+k*.55);return 2.3},
+ stepsB(t){for(let k=0;k<4;k++)crunch(t+k*.55);return 2.4},
+ stepsC(t){for(let k=0;k<4;k++){thud(t+k*.7,null,.45);if(k%2)creak(t+k*.7+.03,.28,.12)}return 2.9},
+ bounce(t){tone(t,.11,{f:240,f2:80,g:.6});burst(t,.04,{type:'lowpass',f:600,g:.3});return .2}
+};
+let curWave=null,activeUntil=0;
+function play(name,wave){const a=ctx();if(!a)return 0;const d=SND[name](a.currentTime+.05);if(wave){if(curWave&&curWave!==wave)idle(curWave);curWave=wave;wave.classList.add('live')}activeUntil=performance.now()+d*1000+250;return d}
+function idle(w){w.classList.remove('live');w.querySelectorAll('i').forEach(i=>i.style.height='6%')}
+$$('.wv[data-bars]').forEach(w=>{const n=Number(w.dataset.bars)||24;for(let i=0;i<n;i++)w.appendChild(document.createElement('i'))});
+(function loop(){if(curWave){if(AN&&performance.now()<activeUntil){AN.getByteFrequencyData(FD);const bars=curWave.children,n=bars.length;for(let i=0;i<n;i++){const k=Math.abs(i-(n-1)/2)/((n-1)/2);const bin=1+Math.floor(k*26);bars[i].style.height=(6+FD[bin]/255*94)+'%'}}else{idle(curWave);curWave=null}}requestAnimationFrame(loop)})();
+/* ---------- 2a. hero: a silent scene, then sound ---------- */
+(()=>{const btn=$('#heroPlay');if(!btn)return;const icon=$('#heroIcon'),msg=$('#heroMsg'),tc=$('#heroTc'),rec=$('#heroRec'),wave=$('#heroWave');let busy=false;
+ btn.onclick=()=>{if(busy)return;busy=true;btn.disabled=true;rec.classList.add('on');icon.textContent='🔇';msg.textContent='שקט מוחלט…';const t0=performance.now();
+  const iv=setInterval(()=>{const s=(performance.now()-t0)/1000;tc.textContent='00:'+String(Math.floor(s)).padStart(2,'0')},200);
+  setTimeout(()=>{icon.textContent='⚡';msg.textContent='💥 ככה זה נשמע עם סאונד';if(ctx()){play('thunder',wave);setTimeout(()=>{const a=ctx();if(a){SND.slam(a.currentTime+.02);activeUntil=performance.now()+1500}},1300)}},3200);
+  setTimeout(()=>{clearInterval(iv);rec.classList.remove('on');icon.textContent='🎬';msg.textContent='בלי סאונד זה רק תמונה. היום אתם מחזירים לסרט את הקול.';btn.disabled=false;btn.textContent='↺ שוב';busy=false},7600)}})();
+/* ---------- 2b. sound quiz + play buttons ---------- */
+$$('.snd').forEach(c=>{const b=$('.pbtn',c),w=$('.wv',c);b.onclick=()=>{const d=play(c.dataset.snd,w);if(!d)return;b.classList.add('on');b.textContent='🔊 מנגן';setTimeout(()=>{b.classList.remove('on');b.textContent='▶ שוב'},d*1000)};
+ $$('.opts button',c).forEach(o=>o.onclick=()=>{if(c.classList.contains('done'))return;if(o.hasAttribute('data-ok')){o.classList.add('ok');c.classList.add('done')}else o.classList.add('no')})});
+$$('[data-play]').forEach(b=>b.onclick=()=>{const d=play(b.dataset.play,null);if(!d)return;b.classList.add('on');setTimeout(()=>b.classList.remove('on'),d*1000)});
+/* ---------- 2c. ball sync demo ---------- */
+(()=>{const ball=$('#ball');if(!ball)return;const sh=$('#ballShadow'),bang=$('#ballBang'),stage=ball.parentElement;let mode='mute',prev=0;
+ $$('#ballSeg button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;$$('#ballSeg button').forEach(x=>x.classList.toggle('on',x===b));ctx()});
+ const flash=()=>{bang.style.opacity=1;setTimeout(()=>bang.style.opacity=0,160)};
+ (function step(){if(stage.closest('.slide').classList.contains('active')){const P=1.1,ph=(performance.now()/1000%P)/P,H=Math.max(40,stage.clientHeight-90),h=1-Math.pow(2*ph-1,2);
+  ball.style.transform='translateY('+(-H*h)+'px)';sh.style.transform='scale('+(1-.5*h)+')';sh.style.opacity=1-.6*h;
+  if(ph<prev&&mode!=='mute'&&AC){if(mode==='sync'){SND.bounce(AC.currentTime+.01);flash()}else{SND.bounce(AC.currentTime+.28);setTimeout(flash,280)}}prev=ph}requestAnimationFrame(step)})()})();
+/* ---------- 2d. mixer ---------- */
+(()=>{const btn=$('#mixPlay');if(!btn)return;const fM=$('#fMusic'),fF=$('#fFx'),oM=$('#oMusic'),oF=$('#oFx'),mM=$('#mMusic'),mF=$('#mFx'),ver=$('#mixVerdict');let gM=null,gF=null,iv=null,next=0,bar=0;
+ const chords=[[220,277.2,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]];
+ const gain=v=>Math.pow(v/100,2)*2.2;
+ function upd(){oM.value=fM.value;oF.value=fF.value;if(gM){gM.gain.value=gain(fM.value);gF.gain.value=gain(fF.value)}const m=+fM.value,f=+fF.value;
+  ver.className='mixVerdict '+(m>f+12?'bad':f>=m+12?'good':'');ver.textContent=m>f+12?'✗ המוזיקה מסתירה את האפקטים':f>=m+12?'✓ האפקטים בולטים, המוזיקה מתחת':'כמעט… עוד קצת'}
+ fM.oninput=upd;fF.oninput=upd;upd();
+ function sched(){const a=ctx();while(next<a.currentTime+.6){const c=chords[bar%4];c.forEach(fr=>tone(next,2.05,{type:'triangle',f:fr,g:.07,a:.15,out:gM}));tone(next,2,{f:c[0]/2,g:.14,a:.05,out:gM});
+  tone(next,.08,{type:'triangle',f:210,f2:150,g:.5,out:gF});burst(next,.05,{f:900,q:2,g:.25,out:gF});tone(next+.22,.08,{type:'triangle',f:210,f2:150,g:.5,out:gF});burst(next+.22,.05,{f:900,q:2,g:.25,out:gF});
+  [.8,1.3,1.8].forEach(d=>heel(next+d,gF));next+=2;bar++}}
+ btn.onclick=()=>{const a=ctx();if(!a)return;if(iv){clearInterval(iv);iv=null;gM.disconnect();gF.disconnect();gM=gF=null;btn.textContent='▶ הפעלה';mM.style.width=mF.style.width='0';return}
+  gM=a.createGain();gF=a.createGain();gM.connect(out());gF.connect(out());upd();next=a.currentTime+.1;bar=0;sched();iv=setInterval(()=>{sched();mM.style.width=(fM.value*(.75+.25*Math.random()))+'%';mF.style.width=(fF.value*(.6+.4*Math.random()))+'%'},120);btn.textContent='⏸ עצירה'};
+ document.addEventListener('click',e=>{if(iv&&e.target.closest('#nextBtn,#prevBtn,.railTopic,.railItem'))btn.click()})})();
+/* ---------- 3. the silent clip ---------- */
+(()=>{const svg=$('#scene');if(!svg)return;const E=id=>document.getElementById(id),DUR=30;
+ const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),seg=(t,a,b)=>cl((t-a)/(b-a)),lerp=(a,b,x)=>a+(b-a)*x,ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2,eo=x=>1-Math.pow(1-x,3);
+ const keys=(t,k)=>{if(t<=k[0][0])return k[0][1];for(let i=1;i<k.length;i++)if(t<=k[i][0]){const[a,va]=k[i-1],[b,vb]=k[i];return lerp(va,vb,ease(seg(t,a,b)))}return k[k.length-1][1]};
+ // rain
+ const rainG=E('aRain'),drops=[];for(let i=0;i<46;i++){const l=document.createElementNS('http://www.w3.org/2000/svg','line');rainG.appendChild(l);drops.push({l,x:192+Math.random()*276,len:16+Math.random()*16,sp:620+Math.random()*380,ph:Math.random()*340})}
+ const flash=(t,t0)=>{const d=t-t0;if(d<0||d>.6)return 0;if(d<.08)return 1;if(d<.14)return .25;if(d<.3)return .95;return .95*(1-(d-.3)/.3)};
+ const fmt=t=>{const s=Math.floor(t),d=Math.floor((t-s)*10);return '00:'+String(s).padStart(2,'0')+'.'+d};
+ const tr=(el,v)=>el.setAttribute('transform',v),op=(el,v)=>el.setAttribute('opacity',v);
+ const armB=[[5.4,20],[6.0,20],[6.3,58],[9.4,58],[9.9,75],[14.0,75],[14.3,88],[17.7,88],[18.0,99],[20.4,99],[21.0,62],[22.3,70],[23.9,55],[24.0,35]];
+ const armF=[[10.2,15],[10.45,50],[10.5,50],[11.0,36],[11.6,50],[11.9,52],[12.3,112],[12.9,112],[13.2,52],[13.5,95],[17.7,95],[17.8,80],[18.0,95],[22.3,95],[22.9,10],[23.15,50],[23.4,50],[23.7,15]];
+ function render(t){
+  E('aTc').textContent=fmt(t);
+  drops.forEach(d=>{const y=180+((d.ph+t*d.sp)%340)-30;d.l.setAttribute('x1',d.x);d.l.setAttribute('y1',y);d.l.setAttribute('x2',d.x-6);d.l.setAttribute('y2',y+d.len)});
+  const f=flash(t,2.0);op(E('aWinFlash'),f);op(E('aRoomFlash'),f*.28);
+  tr(E('aSec'),'rotate('+((30+Math.floor(t))*6)+')');
+  // slate
+  const sl=E('aSlate');if(t<1.6){sl.style.display='';op(sl,1-seg(t,1.2,1.6));tr(E('aStick'),'rotate('+lerp(-24,0,Math.pow(seg(t,.6,1.0),3))+' -300 -120)')}else sl.style.display='none';
+  op(E('aEnd'),seg(t,29,29.8));
+  // door
+  let s=1;if(t>=4.3&&t<5.2)s=lerp(1,.18,ease(seg(t,4.3,5.2)));else if(t>=5.2&&t<26.7)s=.18;else if(t>=26.7&&t<27)s=lerp(.18,1,Math.pow(seg(t,26.7,27),2));
+  tr(E('aDoor'),'translate(1526 0) scale('+s+' 1) translate(-1526 0)');op(E('aSpill'),(1-s)/.82*.35);
+  tr(E('aHandle'),'translate(1404 500) rotate('+keys(t,[[3.9,0],[4.05,-35],[4.3,-35],[4.5,0]])+')');
+  const sh=t>=27&&t<28.2?4*Math.sin((t-27)*30)*Math.exp(-(t-27)*4):0;tr(E('aFrame'),'rotate('+sh+' 1210 196)');
+  // drawer
+  let dx=0;if(t>=10.5&&t<11)dx=70*eo(seg(t,10.5,11));else if(t>=11&&t<23.25)dx=70;else if(t>=23.25&&t<23.4)dx=70*(1-seg(t,23.25,23.4));tr(E('aDrawer'),'translate('+dx+' 0)');
+  // cup
+  const cup=E('aCup');if(t<17)tr(cup,'translate(745 372)');else if(t<17.15)tr(cup,'translate(745 372) rotate('+30*seg(t,17,17.15)+')');else if(t<17.6){const p=seg(t,17.15,17.6);tr(cup,'translate('+lerp(745,790,p)+' '+lerp(372,768,p*p)+') rotate('+lerp(30,96,p)+')')}else tr(cup,'translate(790 768) rotate(96)');
+  op(E('aPencils'),t>=17.6?1:0);
+  // cat
+  op(E('aCatSleep'),1-seg(t,16,16.4));op(E('aCatStand'),seg(t,16,16.4));
+  tr(E('aCatSleep'),'scale(1 '+(1+.03*Math.sin(t*3))+')');const z=E('aZzz');tr(z,'translate(0 '+(-((t*22)%34))+')');op(z,t<16?.8:0);
+  let cx=625,cy=372,sy=1,face=1;if(t>=17.8&&t<20.4)face=-1;
+  if(t>=20.4&&t<21){const p=seg(t,20.4,21);cx=lerp(625,600,p);cy=lerp(372,745,p*p)-50*Math.sin(Math.PI*p)}else if(t>=21){cy=745;cx=t<21.4?600:lerp(600,380,seg(t,21.4,23.2));if(t<21.15)sy=.84;else if(t>=21.4&&t<23.2)cy=745-Math.abs(Math.sin((t-21.4)*9))*4}
+  tr(E('aCat'),'translate('+cx+' '+cy+') scale('+face+' '+sy+')');
+  tr(E('aCatTail'),'rotate('+(keys(t,[[16.8,0],[17.0,45],[17.2,-10],[17.5,0]])+(t>=28&&t<28.8?14*Math.sin((t-28)*12):0))+' 36 -38)');
+  E('aCatEye').setAttribute('r',t>=28.3&&t<28.5?.8:3.5);
+  // spy
+  let sx=1500;if(t>=5.4&&t<5.9)sx=lerp(1500,1430,seg(t,5.4,5.9));else if(t>=5.9&&t<6.4)sx=1430;else if(t>=6.4&&t<9.4)sx=lerp(1430,1120,seg(t,6.4,9.4));else if(t>=9.4&&t<24)sx=1120;else if(t>=24)sx=lerp(1120,1560,seg(t,24,26.45));
+  const spy=E('aSpy');op(spy,t<26.1?seg(t,5.4,5.8):1-seg(t,26.1,26.45));tr(spy,'translate('+sx+' 700) scale(.88)');
+  tr(E('aSpyFlip'),t>=23.9?'scale(-1 1)':'scale(1 1)');
+  let amp=0,ph=0,lean=0,lift=0;
+  if(t>=5.4&&t<5.9){amp=14;ph=Math.PI/2+(t-5.4)/.5*Math.PI}else if(t>=6.4&&t<9.4){amp=18;ph=Math.PI/2+(t-6.6)/.8*Math.PI;lean=-3;lift=-5}else if(t>=24&&t<26.45){amp=30;ph=Math.PI/2+(t-24)/.4*Math.PI;lean=-9}
+  const sn=Math.sin(ph);let bob=amp?-(1-Math.abs(sn))*amp*.3+lift:0;if(t>=17.7&&t<17.95)bob-=16*Math.sin(seg(t,17.7,17.95)*Math.PI);
+  tr(E('aSpyBody'),'translate(0 '+bob+') rotate('+lean+')');tr(E('aLegF'),'rotate('+(amp*sn)+' 0 -120)');tr(E('aLegB'),'rotate('+(-amp*sn)+' 0 -120)');
+  tr(E('aArmB'),'rotate('+keys(t,armB)+' 6 -255)');
+  const fs=t>=24?10*Math.sin(ph):0;tr(E('aArmF'),'rotate('+(keys(t,armF)+fs)+' -14 -255)');
+  const on=t<6?0:(t<6.08?1:t<6.14?.2:1);op(E('aBeam'),on*.9);op(E('aBulb'),t<6?.3:on);
+  op(E('aKeys'),t>=12&&t<13.1?1:0);tr(E('aKeys'),'translate(-14 -128) rotate('+(t>=12&&t<12.7?18*Math.sin(t*40):0)+')');
+  op(E('aEnv'),t>=13.4&&t<22.9?1:0);const ms=t<22.4?eo(seg(t,14,15)):1-seg(t,22.4,22.9);tr(E('aMap'),'translate(0 -40) scale('+Math.max(.001,ms)+' '+Math.max(.001,ms)+')');
+  const al=E('aAlert');op(al,t>=17.7&&t<19.2?1:0);
+  let hr=0,ho=0;[18.2,18.7,19.2,19.7].forEach(k=>{const p=(t-k)/.35;if(p>=0&&p<=1){hr=14+30*p;ho=.9*(1-p)}});const hc=E('aHeart');op(hc,ho);hc.firstElementChild.setAttribute('r',hr||14);
+ }
+ let T=0,playing=false,start=0,plays=0;const bar=$('#scFill'),tcO=$('#scTc'),pb=$('#scPlay'),pl=$('#scPlays');
+ const show=()=>{render(T);bar.style.width=(T/DUR*100)+'%';tcO.textContent=fmt(T)};
+ function tick(){if(!playing)return;T=(performance.now()-start)/1000;if(T>=DUR){T=DUR;playing=false;plays++;pl.textContent='הקרנה '+Math.min(plays,2)+' מתוך 2';pb.textContent='▶ שוב'}show();if(playing)requestAnimationFrame(tick)}
+ pb.onclick=()=>{if(playing){playing=false;pb.textContent='▶ המשך';return}if(T>=DUR)T=0;start=performance.now()-T*1000;playing=true;pb.textContent='⏸ עצירה';requestAnimationFrame(tick)};
+ $('#scBig').onclick=()=>svg.closest('.slide').classList.toggle('bigScreen');
+ $('#scReset').onclick=()=>{playing=false;T=0;pb.textContent='▶ הקרנה';show()};
+ $('#scBar').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();T=cl((e.clientX-r.left)/r.width)*DUR;if(playing)start=performance.now()-T*1000;show()};
+ const q=new URLSearchParams(location.search).get('t');if(q!==null)T=cl(Number(q)||0,0,DUR);show()})();
+/* ---------- 4a. bar calculator ---------- */
+(()=>{const i=$('#secIn'),o=$('#barOut');if(!i)return;const u=()=>{const s=Math.max(0,Math.min(30,Number(i.value)||0));o.textContent='תיבה '+(Math.floor(s/2)+1)+' · פעמה '+(Math.floor((s%2)/.5)+1)};i.oninput=u;u()})();
+/* ---------- 4b. object box + dice ---------- */
+$$('#objGrid .obj').forEach(b=>b.onclick=()=>b.classList.toggle('open'));
+(()=>{const b=$('#diceBtn'),o=$('#diceOut');if(!b)return;const objs=['📄 נייר','🛍️ שקית ניילון','⬜ קלקר','🔑 מפתחות','💧 בקבוק מים','🥄 כפית','📕 ספר','🧣 חתיכת בד','🪢 גומיות','🪑 כיסא'];
+ const tg=['סוס דוהר','דלת חורקת','רעם','גשם על חלון','כלב שותה מים','רובוט הולך','חרב אור','חתול נוחת','פנס נדלק','צעדים בשלג','אש במדורה','ציפור ממריאה'];
+ b.onclick=()=>{let n=0;const iv=setInterval(()=>{o.textContent=objs[Math.floor(Math.random()*objs.length)]+' ← '+tg[Math.floor(Math.random()*tg.length)];if(++n>9){clearInterval(iv);o.textContent+=' · 60 שניות!'}},70)}})();
+/* ---------- 4c. live tables ---------- */
+(()=>{const sbB=$('#sbBody'),blB=$('#blBody');if(!sbB||!blB)return;const N=7,KEY='tie-foley-lab-score-v1',MAX=[8,5,2,6,16,5];
+ let st={names:Array.from({length:N},(_,i)=>'אולפן '+(i+1)),v:Array.from({length:N},()=>[0,0,0,0,0,0]),bl:Array.from({length:N},()=>[0,0,0])};
+ try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.names&&s.names.length===N)st=s}catch(e){}
+ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ sbB.innerHTML=st.names.map((n,i)=>'<tr data-i="'+i+'"><td class="nm"><span contenteditable="true" spellcheck="false">'+esc(n)+'</span></td>'+MAX.map((m,j)=>'<td><input type="number" min="0" max="'+m+'" step="1" data-j="'+j+'" value="'+(st.v[i][j]||0)+'" aria-label="ניקוד"></td>').join('')+'<td class="tot">0</td></tr>').join('');
+ blB.innerHTML=st.names.map((n,i)=>'<tr data-i="'+i+'"><td class="nm"><span contenteditable="true" spellcheck="false">'+esc(n)+'</span></td>'+[0,1,2].map(k=>'<td><button class="bt'+(st.bl[i][k]?' on':'')+'" data-k="'+k+'" aria-label="צליל '+(k+1)+'">'+(st.bl[i][k]?'🪄':'·')+'</button></td>').join('')+'<td class="pts">0</td></tr>').join('');
+ function calc(){let best=-1,bi=-1;$$('tr',sbB).forEach((r,i)=>{const tot=st.v[i].reduce((a,b)=>a+(Number(b)||0),0);$('.tot',r).textContent=tot;if(tot>best){best=tot;bi=i}});
+  $$('tr',sbB).forEach((r,i)=>{const tot=st.v[i].reduce((a,b)=>a+(Number(b)||0),0);r.classList.toggle('top',best>0&&tot===best)});
+  $$('tr',blB).forEach((r,i)=>$('.pts',r).textContent=st.bl[i].reduce((a,b)=>a+b,0)*2);
+  const g=$('#goldWin');if(g&&best>0&&!g.dataset.edited)g.textContent=st.names[bi];save()}
+ $$('input',sbB).forEach(inp=>inp.oninput=()=>{const i=+inp.closest('tr').dataset.i,j=+inp.dataset.j;let v=Math.round(Number(inp.value)||0);v=Math.max(0,Math.min(MAX[j],v));st.v[i][j]=v;if(String(v)!==inp.value&&inp.value!=='')inp.value=v;calc()});
+ $$('.bt',blB).forEach(b=>b.onclick=()=>{const i=+b.closest('tr').dataset.i,k=+b.dataset.k;st.bl[i][k]=st.bl[i][k]?0:1;b.classList.toggle('on',!!st.bl[i][k]);b.textContent=st.bl[i][k]?'🪄':'·';
+  st.v[i][3]=st.bl[i].reduce((a,c)=>a+c,0)*2;$('input[data-j="3"]',$$('tr',sbB)[i]).value=st.v[i][3];calc()});
+ const syncName=(i,src)=>{st.names[i]=src.textContent.trim()||('אולפן '+(i+1));[sbB,blB].forEach(tb=>{const sp=$('span',$$('tr',tb)[i]);if(sp!==src)sp.textContent=st.names[i]});calc()};
+ [sbB,blB].forEach(tb=>$$('td.nm span',tb).forEach(sp=>sp.oninput=()=>syncName(+sp.closest('tr').dataset.i,sp)));
+ const g=$('#goldWin');if(g)g.oninput=()=>g.dataset.edited='1';
+ calc()})();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · הוצאה לאור: ספר תמונות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== lesson additions: הוצאה לאור · ספר תמונות ===== */
+.r-ed{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-wr{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-il{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-de{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-rd{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.k-hero{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob2{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-place{--c:#5bb5a2;--cs:#e3f4ef;--c-ink:#23826f}
+.cc.joker{background:repeating-linear-gradient(45deg,#fff 0 6px,#faf7f1 6px 12px)}
+/* manuscript */
+.msRow{display:grid;grid-template-columns:13mm 1fr 19mm;gap:3mm;align-items:stretch;border:1px solid var(--line2);border-radius:3mm;padding:2.4mm 3mm;background:#fff}
+.msRow .pn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6mm;border-radius:2.4mm;background:var(--paper2);font-family:var(--display);font-weight:800;font-size:15pt;line-height:1}
+.msRow .pn small{font-family:var(--body);font-weight:700;font-size:7pt;color:var(--muted)}
+.msRow .wc{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1mm;font-size:7.6pt;color:var(--muted);text-align:center}
+.msRow .wc b{display:block;width:15mm;height:9mm;border:1.3px solid var(--ink);border-radius:2mm}
+.msRow .wc span{display:flex;align-items:center;gap:1mm;font-weight:700;color:var(--ink)}
+.msRow .wc span i{font-style:normal;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;display:inline-block}
+.msRow .lines{min-height:17mm}
+.msRow.peak{border:1.6px solid var(--rose)}
+/* book map */
+.map{display:grid;grid-template-columns:1fr 1fr;gap:3.5mm;flex:1}
+.mbox{border:1.2px solid var(--line2);border-radius:3mm;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.mbox .sk{flex:1;min-height:30mm;position:relative;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm)}
+.mbox .sk b{position:absolute;top:2mm;right:2.5mm;display:grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--ink);color:#fff;font-family:var(--display);font-size:9.5pt}
+.mbox .sk small{position:absolute;top:2.6mm;right:11mm;font-family:var(--display);font-weight:700;font-size:8.6pt;color:var(--muted)}
+.mbox .sk em{position:absolute;bottom:2mm;left:2.5mm;font-style:normal;font-size:7.8pt;color:var(--dim)}
+.mbox .tx{border-top:1px dashed var(--line2);padding:1.6mm 2.6mm 2mm}
+.mbox .tx .lines{min-height:8.5mm;height:8.5mm}
+.mbox.peak{border:1.8px solid var(--rose)}
+.mbox.peak .sk small{color:var(--rose-ink)}
+/* character sheet */
+.charGrid{display:grid;grid-template-columns:72mm 1fr;gap:4mm}
+.portrait{border:1.4px dashed var(--line2);border-radius:3mm;min-height:92mm;position:relative;background:#fffdf8}
+.portrait::before{content:"הדמות שלנו (סקיצה)";position:absolute;top:2mm;right:3mm;font-size:8.5pt;font-weight:700;color:var(--dim)}
+.crow{display:grid;grid-template-columns:8mm 26mm 1fr;gap:2.5mm;align-items:end;padding:2mm 0;border-bottom:1px solid var(--line)}
+.crow i{font-style:normal;font-size:13pt}
+.crow b{font-family:var(--display);font-size:10pt}
+.crow .lines{min-height:8.5mm;height:8.5mm}
+.swatches{display:flex;gap:2.5mm;margin-top:2mm}
+.swatches span{width:13mm;height:13mm;border:1.2px solid var(--ink);border-radius:2mm}
+.example{font-size:9pt;color:var(--muted);background:var(--paper);border-radius:2.5mm;padding:2mm 3mm;margin-top:1.5mm}
+/* young readers */
+.readers{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.rdr{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;padding:5mm;position:relative}
+.rdr::before{content:"קורא/ת צעיר/ה";position:absolute;top:3mm;right:3.5mm;font-family:var(--display);font-weight:700;font-size:7.8pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:.3mm 2.4mm}
+.rdr .em{font-size:30pt;line-height:1}
+.rdr b{font-family:var(--display);font-weight:800;font-size:15pt}
+.rdr p{font-size:10pt;max-width:70mm}
+.rdr .say{font-size:9.4pt;background:var(--paper2);border-radius:2mm;padding:1.4mm 3mm;font-weight:700}
+.rdr small{font-size:8pt;color:var(--muted)}
+/* reactions table */
+table.rx th,table.rx td{text-align:center}
+table.rx td:first-child,table.rx th:first-child{text-align:right}
+table.rx td{height:11mm}
+/* certificate */
+.cert{flex:1;border:2.4mm solid var(--teal-soft);outline:1px solid var(--line2);border-radius:4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.6mm;text-align:center;padding:6mm;position:relative;background:#fffdf8}
+.cert .em{font-size:30pt;line-height:1}
+.cert h3{font-family:var(--display);font-weight:800;font-size:20pt}
+.cert p{font-size:10.5pt;color:var(--muted)}
+.cert .pz{display:flex;flex-wrap:wrap;justify-content:center;gap:2mm 4mm;font-size:9.6pt}
+.cert .pz span::before{content:"☐ "}
+.cert .nm{width:110mm;border-bottom:1.5px solid var(--ink);height:10mm}
+.cert .sig{display:flex;gap:16mm;font-size:9pt;color:var(--muted);margin-top:2mm}
+.cert .sig span{border-top:1px solid var(--ink);padding-top:1mm;min-width:40mm}
+/* zine */
+.spreads{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;align-items:center}
+.sp{display:flex;justify-content:center;gap:0}
+.sp i{font-style:normal;display:grid;place-items:center;width:14mm;height:19mm;border:1.2px solid var(--ink);background:#fff;font-family:var(--display);font-weight:800;font-size:12pt}
+.sp i+i{border-right:0}
+.sp i.cv{background:var(--teal-soft)}
+.spLbl{font-size:8.4pt;color:var(--muted);text-align:center;margin-top:1mm}
+.folds{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}
+.folds .box p{font-size:9.4pt}
+.folds .box b.n{display:inline-grid;place-items:center;width:6mm;height:6mm;border-radius:50%;background:var(--teal);color:#fff;font-size:8.5pt;margin-left:1.5mm}
+.folds svg{display:block;width:100%;height:24mm;margin-top:2mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · הוצאה לאור: ספר תמונות<small>90 דקות · אומנות ועיצוב · מבחן הקוראים הצעירים</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- 0. PRINT SHEET -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6 הוצאות. לכיתה גדולה או קטנה יותר: לפי מספר ההוצאות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, נורמות ורמזור</td><td>1 סט להוצאה (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה והאתגר</td><td>1 להוצאה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5–7</td><td>כרטיסי הזמנה: גיבורים, בעיות, מקומות</td><td>1 סט לכיתה</td><td>בריסטול, אם אפשר צבעוני</td><td>כן</td></tr>
+      <tr><td>8</td><td>דף כתב יד</td><td>1 להוצאה + 2 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>תבנית סיפור (רמת בסיס)</td><td>3 לכיתה</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>מפת ספר</td><td>1 להוצאה (6)</td><td>A3 (הגדלה 141%) או A4</td><td>לא</td></tr>
+      <tr><td>11</td><td>גיליון דמות</td><td>1 להוצאה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>מחוון</td><td>1 להוצאה + 1 (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>כרטיסי "קורא צעיר"</td><td>1 סט להוצאה (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>14</td><td>טבלת תגובות קוראים</td><td>1 להוצאה + 2 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>16</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>17</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>18</td><td>תעודות פרס</td><td>3 עמודים (6 תעודות)</td><td>בריסטול</td><td>כן, לחצאים</td></tr>
+      <tr><td>19</td><td>שלט הוצאה</td><td>1 להוצאה (6)</td><td>בריסטול</td><td>קיפול</td></tr>
+      <tr><td>20</td><td>חוברת 8 עמודים (בלי מכשירים)</td><td>1 להוצאה, לפי הצורך</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 במעטפה של כל הוצאה</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + נורמות + רמזור</li><li>כרטיס משימה, דף כתב יד, מפת ספר, גיליון דמות</li><li>מחוון וטבלת תגובות</li><li>סט 6 כרטיסי "קורא צעיר"</li><li>פתקים דביקים, 2 טושים, שלט הוצאה</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>כרטיסי ההזמנה בשלוש ערמות לפי צבע</li><li>3 תבניות סיפור (בסיס)</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד ועיפרון, תעודות</li><li>לקולאז׳ אמיתי: ניירות צבעוניים, דבק, מספריים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>✂ גזירה מהירה</h3><p>כרטיסי ההזמנה: כחול = גיבור/ה · ורוד = בעיה · ירוק = מקום. בכל ערמה 10 כרטיסים ו-2 ג׳וקרים ("המציאו בעצמכם"). כרטיסי "קורא צעיר" נכנסים למעטפה של כל הוצאה, כי כל הוצאה משחקת קוראים בסבב אחד.</p></div>
+</section>
+
+<!-- 1. ROLE CARDS -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · הוצאת ____</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. בתחילת השיעור הכרטיסים עוברים לאדם שיושב משמאל.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ed">
+      <div class="rh"><span class="ic">📋</span><div><b>עורך/ת ראשי/ת</b><small>מחזיק/ה את הספר ואת השעון</small></div></div>
+      <p class="mis">המשימה שלי: שההוצאה מתחילה מהר, שכל עמוד מאושר, ושהספר נשלח לדפוס בזמן.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מקריא/ה את כרטיס המשימה ושולף/ת את ההזמנה.</li><li>מנהל/ת את אבני הדרך: "עד דקה 8: כתב יד מלא".</li><li>מאשר/ת כל עמוד לפני שהוא נכנס ל-Slides.</li><li>מביא/ה את טבלת התגובות לוועדה.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+      <div class="say">💬 "מה עמוד ההפיכה שלנו?" · "עוד לא שמענו את ___." · "מאשר/ת, הבא!"</div>
+      <p class="no">✗ לא כותב/ת את הספר לבד, ולא מאריך/ה דד-ליין.</p>
+      <p class="bonus">✓ הצלחתי כש: הספר נשלח לדפוס לפני 00:00</p>
+    </article>
+    <article class="role r-wr">
+      <div class="rh"><span class="ic">✍️</span><div><b>סופר/ת</b><small>המילים של הספר</small></div></div>
+      <p class="mis">המשימה שלי: סיפור קצר שקוראים צעירים מבינים, ומשפט שהם אומרים איתנו.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>כותב/ת כתב יד לפי עמודים, עד 25 מילים לעמוד. 🔴 בלי AI.</li><li>סופר/ת מילים וכותב/ת את המספר בכל עמוד.</li><li>קורא/ת בקול כדי לשמוע קצב.</li><li>מתקן/ת אחרי קריאת המערכת והעורך המשנה, וכותב/ת את הגב.</li></ul>
+      <div class="say">💬 "את זה התמונה כבר מראה, נמחק?" · "איך זה נשמע בקול?"</div>
+      <p class="no">✗ לא מעתיק/ה סיפור שה-AI כתב.</p>
+      <p class="bonus">✓ הצלחתי כש: הקוראים אמרו איתנו את המשפט החוזר</p>
+    </article>
+    <article class="role r-il">
+      <div class="rh"><span class="ic">🎨</span><div><b>מאייר/ת</b><small>התמונות והסגנון</small></div></div>
+      <p class="mis">המשימה שלי: איורים בסגנון אחד, עם אותה דמות בכל עמוד, שמוסיפים על המילים.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>ממלא/ת את גיליון הדמות לפני האיור הראשון.</li><li>יוצר/ת איורים ב-Gemini באותו צ׳אט, או מצייר/ת ביד ומצלם/ת.</li><li>מדביק/ה את גיליון הדמות בכל פרומפט.</li><li>שומר/ת את הפרומפטים לשורת ה-AI.</li></ul>
+      <div class="say">💬 "מה התמונה תגלה שהמילים לא אומרות?" · "זו אותה דמות?"</div>
+      <p class="no">✗ לא אנשים אמיתיים ולא דמויות מוכרות.</p>
+      <p class="bonus">✓ הצלחתי כש: הקוראים צעקו "הוא מאחורייך!"</p>
+    </article>
+    <article class="role r-de">
+      <div class="rh"><span class="ic">📐</span><div><b>מעצב/ת גרפי/ת</b><small>העמודים והעימוד</small></div></div>
+      <p class="mis">המשימה שלי: 8 עמודים קריאים ויפים, ששולחים לדפוס כ-PDF.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מצייר/ת את מפת הספר: 8 מלבנים עם סקיצה.</li><li>פותח/ת Slides ריבועי עם 8 שקפים.</li><li>מעמד/ת: גופן קריא, 24 ומעלה, טקסט במקום קבוע.</li><li>בונה שער וגב, ומייצא/ת PDF ל-Drive עם שיתוף "צפייה".</li></ul>
+      <div class="say">💬 "רואים את זה מ-2 מטר?" · "איפה הטקסט יושב בכל עמוד?"</div>
+      <p class="no">✗ לא מוחק/ת עמוד בלי אישור העורך/ת.</p>
+      <p class="bonus">✓ הצלחתי כש: ה-PDF נפתח בקישור, וכל 8 העמודים בפנים</p>
+    </article>
+  </div>
+</section>
+
+<!-- 2. ROLE 5 + NORMS + LIGHT + RULES -->
+<section class="page" id="p-roles2" data-label="תפקיד 5 ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, נורמות, רמזור ו"חמשת הכללים". שלושת האחרונים נשארים על השולחן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-rd">
+      <div class="rh"><span class="ic">🎙️</span><div><b>מקריא/ה ואחראי/ת קוראים</b><small>הקול של הספר</small></div></div>
+      <p class="mis">המשימה שלי: להקריא את הספר כך שקוראים צעירים ירצו עוד, ולרשום בדיוק מה קרה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>קורא/ת כל עמוד בקול כשהוא נכתב.</li><li>מתאמן/ת בקול של הדמויות.</li><li>במבחן: מקריא/ה בלי להסביר, ורושם/ת 😂 😮 ❓ 😵 בטבלה.</li><li>מגיש/ה את טופס "שליחה לדפוס" ואת טופס התגובות.</li></ul>
+      <div class="say">💬 "מה לדעתכם יקרה?" · "ספרו לי מה קרה בסיפור."</div>
+      <p class="no">✗ לא רומז/ת לקוראים מתי לצחוק.</p>
+      <p class="bonus">✓ הצלחתי כש: הקוראים סיפרו את הסיפור נכון</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות ההוצאה</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל ההוצאה סיימה.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים עמודים, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את ההוצאה לפני שקוראים למדריך, ורק העורך/ת קורא/ת.</li>
+      </ol>
+      <p class="bonus">🤝 בוויכוח: כל אחד 30 שניות, ואז הצבעה</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 הסיפור: בלי AI</b>כתב היד, המשפט החוזר וכרטיס היציאה הם שלכם.</div>
+        <div class="y"><b>🟡 עורך משנה</b>Gemini מסמן עמודים ארוכים ומילים קשות. אתם מתקנים.</div>
+        <div class="g"><b>🟢 איורים</b>Gemini יוצר איורים לפי גיליון הדמות, ואתם בודקים כל אחד.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט כותבים על הסיפור, לא על עצמכם, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+    <article class="role" style="--c:#e3a82b;--cs:#fdf3d7">
+      <div class="rh"><span class="ic">📚</span><div><b>5 כללים של ספר תמונות</b><small>להשאיר מול העיניים</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.8mm">
+        <li><b>8 עמודים:</b> שער, פתיחה, בעיה, ניסיון, ניסיון, שיא, פתרון, גב.</li>
+        <li><b>עמוד הפיכה:</b> נגמר ב"ואז…" או בשאלה.</li>
+        <li><b>משפט חוזר:</b> הקוראים מצטרפים, ובסוף הוא מתהפך.</li>
+        <li><b>מילה ותמונה:</b> התמונה מוסיפה, לא חוזרת.</li>
+        <li><b>סגנון אחד</b> ועד <b>25 מילים</b> בעמוד.</li>
+      </ol>
+    </article>
+  </div>
+</section>
+
+<!-- 3. MISSION CARD -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · כרטיס המשימה</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📚 הוצאת "דף ראשון"</span><h2>מבחן הקוראים <span>הצעירים</span></h2></div><p>ספריית הגן מחפשת ספרי תמונות חדשים. בית הדפוס נסגר בדקה המדויקת שעל הטיימר, ומה שלא נשלח לא יודפס. אחרי הדפוס מגיעים הקוראים הכי קשוחים בעולם: ילדים.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>ספר תמונות של 8 עמודים שקוראים צעירים <b>מבינים, צוחקים ממנו ורוצים להפוך בו עוד דף</b>, ושנשלח לדפוס בזמן.</p>
+      <h3 style="margin-top:2.5mm">⏱ אבני דרך</h3><p style="font-size:9.6pt">ספרינט 1 (18 דק׳): כתב יד ← מפת ספר + גיליון דמות ← 2 איורים · קריאת מערכת (7) · ספרינט 2 (20): איורים ← עימוד ← עורך משנה ← PDF · דד-ליין (4) · מבחן קוראים (2 × 4:30)</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.8pt"><li>8 עמודים בדיוק: שער, 6 עמודי סיפור וגב.</li><li>עד 25 מילים בכל עמוד סיפור, והטקסט נכתב בידי הצוות.</li><li>כל האיורים באותו סגנון, בלי אנשים אמיתיים ובלי דמויות מוכרות מספרים או מסרטים.</li><li>הטקסט מוקלד בעברית ב-Slides, לא בתוך האיור.</li><li>ה-PDF נשלח לדפוס (בטופס) עד הדקה שעל הטיימר. אחרי זה הדפוס סגור.</li><li>במבחן הקוראים מקריאים את הספר בלי להסביר אותו.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:34mm">נקודות</th></tr></thead><tbody>
+      <tr><td>8 עמודים לפי המבנה</td><td>4</td></tr>
+      <tr><td>כל עמודי הסיפור עד 25 מילים</td><td>3</td></tr>
+      <tr><td>סגנון איור אחיד (בדיקת המדריך)</td><td>3</td></tr>
+      <tr><td>תגובות קוראים: צחוק, "וואו" או שאלה על ההמשך</td><td>1 לכל תגובה, עד 5</td></tr>
+      <tr><td>מבחן הבנה: הקוראים מספרים את הסיפור נכון בשלושה משפטים</td><td>3</td></tr>
+      <tr><td>ועדת ההוצאה לפי המחוון (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.6mm;font-size:9pt;color:var(--muted)">מקסימום 34. שובר שוויון: יותר תגובות קוראים, ואז מי ששלח לדפוס קודם. פרסים: 📚 ספר השנה · 😂 הכי מצחיק · 🎨 האיור הכי יפה · 📖 העמוד שכולם רצו להפוך · 🏃 הכי מוכנים לדפוס.</p></div>
+  <div class="grid3" style="margin-top:3.5mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">משתמשים בתבנית הסיפור (מבקשים מהמדריך) ובמשפט החוזר המוכן.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">המשימה כמו שהיא: 8 עמודים, עמוד הפיכה ומשפט חוזר משלכם.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">עד 15 מילים בעמוד, עמוד אחד בלי מילים, וחזרה שנשברת בסוף.</p></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>📨 מה שולחים בטופס "שליחה לדפוס"</h3><p style="font-size:9.4pt">שם ההוצאה · שם הספר · קישור ל-PDF ב-Drive (צפייה) · מספר המילים בכל עמוד · הסגנון · קישור ל-Vids (אם יש) · מה ה-AI עשה / מה אנחנו עשינו. <b>שם הקובץ:</b> הוצאת [שם] · ספר תמונות · [שם הספר]</p></div>
+</section>
+
+<!-- 4-6. INVITATION CARDS -->
+<section class="page" id="p-cards1" data-label="הזמנה: גיבורים">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי הזמנה מספריית הגן · 🦸 גיבור/ה</div><div class="r">ערמה 1 מתוך 3 · כחול</div></div>
+  <p class="cutnote">✂ לגזור. כל הוצאה שולפת כרטיס אחד מכל ערמה. מותרת החלפה אחת, לכרטיס אחד.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G1</span><span class="em">🦔</span><b>קיפוד קטן</b><small>שכולם חוששים לחבק</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G2</span><span class="em">🐘</span><b>פילה שמנמנה</b><small>בשם תותי</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G3</span><span class="em">🐧</span><b>פינגווין</b><small>שלא אוהב קור</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G4</span><span class="em">🦖</span><b>דינוזאור</b><small>בגודל של כוס</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G5</span><span class="em">🐌</span><b>חילזון</b><small>שתמיד ממהר</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G6</span><span class="em">🐙</span><b>תמנונית</b><small>עם שמונה גרביים שונות</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G7</span><span class="em">🐓</span><b>תרנגולת</b><small>עם קול של אריה</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G8</span><span class="em">🤖</span><b>רובוט חדש</b><small>שלא יודע לשחק</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G9</span><span class="em">🦒</span><b>ג׳ירפה נמוכה</b><small>שלא מגיעה לעלים</small></div>
+    <div class="cc k-hero"><span class="cat">🦸 גיבור/ה</span><span class="no">G10</span><span class="em">🐢</span><b>צב</b><small>שרוצה להיות הכי מהיר</small></div>
+    <div class="cc k-hero joker"><span class="cat">🃏 ג׳וקר</span><span class="no">G11</span><span class="em">✏️</span><b>המציאו גיבור/ה</b><small>חיה או חפץ, לא דמות מוכרת</small></div>
+    <div class="cc k-hero joker"><span class="cat">🃏 ג׳וקר</span><span class="no">G12</span><span class="em">✏️</span><b>המציאו גיבור/ה</b><small>חיה או חפץ, לא דמות מוכרת</small></div>
+  </div>
+</section>
+
+<section class="page" id="p-cards2" data-label="הזמנה: בעיות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי הזמנה מספריית הגן · 😟 בעיה</div><div class="r">ערמה 2 מתוך 3 · ורוד</div></div>
+  <p class="cutnote">✂ לגזור. הבעיה היא מה שמשתבש בעמוד 3, ומה שהגיבור/ה מנסה לפתור בעמודים 4–5.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B1</span><span class="em">🔍</span><b>איבד/ה משהו חשוב</b><small>ומחפש/ת בכל מקום</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B2</span><span class="em">🌙</span><b>לא מצליח/ה להירדם</b><small>כבר מאוחר מאוד</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B3</span><span class="em">🌑</span><b>מפחד/ת מהחושך</b><small>והחשמל נפל</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B4</span><span class="em">🤝</span><b>רוצה חבר/ה</b><small>אבל כולם עסוקים</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B5</span><span class="em">⏰</span><b>חייב/ת להגיע בזמן</b><small>למסיבה, והכול מתעכב</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B6</span><span class="em">🪜</span><b>נתקע/ה למעלה</b><small>ולא יודע/ת איך לרדת</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B7</span><span class="em">📏</span><b>גדל/ה בבת אחת</b><small>לגודל ענק</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B8</span><span class="em">🪽</span><b>רוצה ללמוד לעוף</b><small>אבל אין כנפיים</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B9</span><span class="em">📦</span><b>עובר/ת לבית חדש</b><small>ולא מכיר/ה אף אחד</small></div>
+    <div class="cc k-prob2"><span class="cat">😟 בעיה</span><span class="no">B10</span><span class="em">🛏️</span><b>משהו מתחבא</b><small>מתחת למיטה</small></div>
+    <div class="cc k-prob2 joker"><span class="cat">🃏 ג׳וקר</span><span class="no">B11</span><span class="em">✏️</span><b>המציאו בעיה</b><small>קטנה, ברורה, שאפשר לצייר</small></div>
+    <div class="cc k-prob2 joker"><span class="cat">🃏 ג׳וקר</span><span class="no">B12</span><span class="em">✏️</span><b>המציאו בעיה</b><small>קטנה, ברורה, שאפשר לצייר</small></div>
+  </div>
+</section>
+
+<section class="page" id="p-cards3" data-label="הזמנה: מקומות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי הזמנה מספריית הגן · 📍 מקום</div><div class="r">ערמה 3 מתוך 3 · ירוק</div></div>
+  <p class="cutnote">✂ לגזור. המקום הוא הרקע של רוב האיורים, ולכן כדאי לתאר אותו בכל פרומפט.</p>
+  <div class="cutgrid cards">
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M1</span><span class="em">🧸</span><b>גן ילדים</b><small>בבוקר, לפני שכולם מגיעים</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M2</span><span class="em">🏖️</span><b>חוף הים</b><small>עם גלים וארמונות חול</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M3</span><span class="em">🛒</span><b>מכולת שכונתית</b><small>מדפים גבוהים מאוד</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M4</span><span class="em">📚</span><b>ספרייה בלילה</b><small>כשכולם הלכו הביתה</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M5</span><span class="em">🚀</span><b>חלל</b><small>ליד ירח קטן</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M6</span><span class="em">🌧️</span><b>יער גשום</b><small>טיפות גדולות ועלים ענקיים</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M7</span><span class="em">🚌</span><b>אוטובוס</b><small>בדרך לטיול השנתי</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M8</span><span class="em">🕳️</span><b>מתחת לאדמה</b><small>מנהרות של חפרפרות</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M9</span><span class="em">🏙️</span><b>גג של בניין</b><small>באמצע העיר</small></div>
+    <div class="cc k-place"><span class="cat">📍 מקום</span><span class="no">M10</span><span class="em">🍲</span><b>המטבח של סבתא</b><small>ביום שישי בצהריים</small></div>
+    <div class="cc k-place joker"><span class="cat">🃏 ג׳וקר</span><span class="no">M11</span><span class="em">✏️</span><b>המציאו מקום</b><small>שאפשר לצייר בכמה זוויות</small></div>
+    <div class="cc k-place joker"><span class="cat">🃏 ג׳וקר</span><span class="no">M12</span><span class="em">✏️</span><b>המציאו מקום</b><small>שאפשר לצייר בכמה זוויות</small></div>
+  </div>
+</section>
+
+<!-- 7. MANUSCRIPT -->
+<section class="page" id="p-ms" data-label="דף כתב יד">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · כתב יד</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🔴 ספרינט 1 · בלי AI · עד דקה 8</span><h2>כתב היד של <span class="fill"></span></h2></div></div>
+  <div class="grid2" style="margin-bottom:3mm">
+    <div class="box"><h3>🦸 ההזמנה שלנו</h3><p style="font-size:9.4pt;line-height:2">גיבור/ה: <span class="fill l"></span><br>בעיה: <span class="fill l"></span><br>מקום: <span class="fill l"></span></p></div>
+    <div class="box"><h3>🔁 המשפט החוזר</h3><div class="lines h2"></div><p style="font-size:8.6pt;color:var(--muted)">ואיך הוא מתהפך בסוף?</p><div class="lines h1"></div></div>
+  </div>
+  <div class="stack" style="gap:2.6mm">
+    <div class="msRow"><div class="pn">2<small>פתיחה</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+    <div class="msRow"><div class="pn">3<small>בעיה</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+    <div class="msRow"><div class="pn">4<small>ניסיון</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+    <div class="msRow"><div class="pn">5<small>ניסיון</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+    <div class="msRow"><div class="pn">6<small>שיא</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+    <div class="msRow"><div class="pn">7<small>פתרון</small></div><div class="lines h2"></div><div class="wc">מילים<b></b><span><i></i>↩</span></div></div>
+  </div>
+  <div class="grid2" style="margin-top:3mm">
+    <div class="box"><h3>📗 גב: תקציר בשני משפטים + שאלה</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>✓ לפני שעוברים למחשב</h3><ul class="check" style="font-size:9.2pt"><li>כל עמוד עד 25 מילים (מספר בתיבה)</li><li>סימנו ↩ ליד עמוד ההפיכה</li><li>יש עמוד שבו התמונה תספר משהו שלא כתוב</li><li>הסופר/ת קרא/ה הכול בקול</li></ul></div>
+  </div>
+</section>
+
+<!-- 8. BASIC TEMPLATE -->
+<section class="page" id="p-basic" data-label="תבנית סיפור (בסיס)">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · תבנית סיפור</div><div class="r">רמת בסיס · הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🌱 כרטיס בסיס · מותר לכל הוצאה שנתקעה</span><h2>משלימים <span>את החסר</span></h2></div><p>כל שורה היא עמוד בספר. משלימים במילים שלכם, ואז מעתיקים לדף כתב היד. אפשר לשנות כל מילה.</p></div>
+  <div class="stack">
+    <div class="box"><h3>עמוד 2 · פתיחה</h3><p style="line-height:2.3">פעם אחת היה/הייתה <span class="fill l"></span> שגר/ה ב<span class="fill"></span>. הוא/היא הכי אהב/ה <span class="fill l"></span>.</p></div>
+    <div class="box"><h3>עמוד 3 · בעיה</h3><p style="line-height:2.3">יום אחד <span class="fill xl"></span>. "אוי, לא!" אמר/ה <span class="fill"></span>.</p></div>
+    <div class="box"><h3>עמוד 4 · ניסיון ראשון</h3><p style="line-height:2.3">הוא/היא ניסה/תה <span class="fill l"></span>. אבל <span class="fill l"></span>. <b>"לא פה, לא שם, אז איפה?"</b></p></div>
+    <div class="box"><h3>עמוד 5 · ניסיון שני</h3><p style="line-height:2.3">אז הוא/היא ניסה/תה <span class="fill l"></span>. אבל <span class="fill l"></span>. <b>"לא פה, לא שם, אז איפה?"</b></p></div>
+    <div class="box" style="border-color:var(--rose)"><h3>עמוד 6 · שיא ↩</h3><p style="line-height:2.3">ואז, פתאום, <span class="fill xl"></span>…</p></div>
+    <div class="box"><h3>עמוד 7 · פתרון</h3><p style="line-height:2.3">זה היה <span class="fill l"></span>! ומאז <span class="fill xl"></span>.</p></div>
+    <div class="box soft"><h3>💡 שלושה סופים שעובדים</h3><p style="font-size:9.4pt">🔄 <b>הפתעה:</b> מה שחיפשו היה כל הזמן קרוב (על הראש, מאחורי הגב). · 🤝 <b>חבר:</b> מי שנראה מפחיד עוזר בסוף. · 😂 <b>היפוך:</b> מה שקרה לגיבור קורה עכשיו למישהו אחר.</p></div>
+  </div>
+</section>
+
+<!-- 9. BOOK MAP -->
+<section class="page" id="p-map" data-label="מפת ספר">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · מפת ספר</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🗺️ ספרינט 1 · עד דקה 14 · מומלץ להגדיל ל-A3</span><h2>מפת <span>הספר</span></h2></div><p>סקיצה מהירה לכל עמוד (דמויות כמקלות זה בסדר), ושורת טקסט. בעמוד ההפיכה המסגרת אדומה.</p></div>
+  <div class="map">
+    <div class="mbox"><div class="sk"><b>1</b><small>שער</small><em>שם הספר + הוצאה</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>2</b><small>פתיחה</small><em>מי ואיפה</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>3</b><small>בעיה</small><em>מה השתבש</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>4</b><small>ניסיון</small><em>לא הצליח</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>5</b><small>ניסיון</small><em>עוד פחות…</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox peak"><div class="sk"><b>6</b><small>שיא ↩ עמוד הפיכה</small><em>"ואז…"</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>7</b><small>פתרון</small><em>סוף מפתיע</em></div><div class="tx"><div class="lines"></div></div></div>
+    <div class="mbox"><div class="sk"><b>8</b><small>גב</small><em>תקציר + שאלה</em></div><div class="tx"><div class="lines"></div></div></div>
+  </div>
+</section>
+
+<!-- 10. CHARACTER SHEET -->
+<section class="page" id="p-char" data-label="גיליון דמות">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · גיליון דמות</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎨 המאייר/ת · לפני האיור הראשון</span><h2>גיליון <span>הדמות</span></h2></div><p>את חמש השורות מדביקים בכל פרומפט, מילה במילה. כך הדמות נשארת אותה דמות בכל עמוד, גם אם מציירים ביד.</p></div>
+  <div class="charGrid">
+    <div class="portrait"></div>
+    <div>
+      <div class="crow"><i>🦸</i><b>מי</b><div class="lines"></div></div>
+      <div class="crow"><i>🎨</i><b>צבעים</b><div class="lines"></div></div>
+      <div class="crow"><i>🧣</i><b>בגד / אביזר</b><div class="lines"></div></div>
+      <div class="crow"><i>⭐</i><b>סימן היכר</b><div class="lines"></div></div>
+      <div class="crow"><i>🖌️</i><b>סגנון</b><div class="lines"></div></div>
+      <p style="font-size:9pt;margin-top:2.5mm;font-weight:700">3 הצבעים של הספר (צובעים):</p>
+      <div class="swatches"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="example"><b>דוגמה:</b> מי: שועלה קטנה בשם שולי · צבעים: כתום חלודה, בטן וקצה זנב לבנים · בגד: צעיף כחול עם פס לבן · סימן היכר: אוזן אחת קצת מקופלת · סגנון: קולאז׳ של נייר צבוע ביד, רקע לבן</div>
+  <div class="box" style="margin-top:3.5mm"><h3>💬 הפרומפט שלנו לעמוד הראשון</h3><p style="font-size:9pt;color:var(--muted)">צור איור לספר תמונות לילדים בסגנון ___, רקע לבן. הדמות: [5 השורות]. בעמוד הזה: ___. בלי טקסט בתמונה.</p><div class="lines h3"></div></div>
+  <div class="box" style="margin-top:3.5mm"><h3>🖌️ הסגנון שבחרנו (סמנו)</h3><div class="grid3" style="font-size:9.4pt;gap:1.5mm"><span>☐ קולאז׳ נייר צבוע</span><span>☐ צבעי מים</span><span>☐ עיפרון צבעוני</span><span>☐ גזרי נייר שחור על לבן</span><span>☐ ציור ידני מצולם</span><span>☐ אחר: <span class="fill s"></span></span></div></div>
+</section>
+
+<!-- 11. RUBRIC -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · המחוון</div><div class="r">הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך מחליטה <span>ועדת ההוצאה</span></h2></div><p>בקריאת המערכת מסמנים איפה אתם עכשיו. הוועדה קובעת את הציון הסופי: סכום ארבע השורות, 4–16 נקודות.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">סיפור לקורא צעיר<small>מבנה, אורך, חזרה</small></td><td>אין סיפור ברור או משפטים ארוכים ומסובכים</td><td>יש סיפור, חלק מהעמודים עמוסים</td><td>סיפור ברור עם בעיה ופתרון, משפטים קצרים</td><td>סיפור עם חזרה או משפט קבוע שהקוראים מצטרפים אליו, וסוף מפתיע או מחמם לב</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מילה ותמונה<small>מוסיפה, לא חוזרת</small></td><td>התמונות לא קשורות לטקסט</td><td>התמונות מציירות בדיוק מה שכתוב</td><td>התמונות מוסיפות פרטים שלא כתובים</td><td>מילה ותמונה משלימות זו את זו: יש עמוד שבו התמונה מספרת משהו שהטקסט לא אומר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עיצוב ועימוד<small>סגנון, קריאות, שער וגב</small></td><td>טקסט על התמונה ולא קריא, סגנונות שונים</td><td>קריא, הסגנון משתנה</td><td>סגנון אחיד, גופן קריא ומיקום טקסט קבוע, שער וגב</td><td>עימוד מקצועי: עמוד "הפיכה" עם מתח, שער שמושך לקרוא וגב עם תקציר טוב</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מבחן קוראים ושיפור<small>תגובות ומסקנה</small></td><td>לא התקיים מבחן או לא נרשמו תגובות</td><td>נרשמו תגובות בלי מסקנה</td><td>נרשמו תגובות ומסקנה אחת לשיפור</td><td>נרשמו תגובות, הצוות תיקן עמוד אחד לפני ההגשה הסופית והסביר למה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הציון של הוועדה = סכום ארבע השורות (4–16), ונכנס לטבלת הניקוד. את 🚀 בשורה האחרונה מקבלים אחרי ששולחים בטופס 2 עמוד מתוקן.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד שנתקן אחרי קריאת המערכת</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>דוגמה: עמוד 4 ב"שולי והצעיף שנעלם", רמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> "שולי חיפשה בתוך השיח. ״לא בשיח!״ היא חיפשה מתחת לסלע. ״לא מתחת לסלע!״" באיור: חיפושית מופתעת מתחת לסלע, פרט שלא כתוב.</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> אותו טקסט ועוד "אז איפה הוא?…". באיור, בפינה, קצה של צעיף כחול מתנופף על ענף, ושולי לא רואה. הקוראים צועקים "הוא שם!" ורוצים להפוך.</p></div></div>
+</section>
+
+<!-- 12. YOUNG READER CARDS -->
+<section class="page" id="p-readers" data-label="כרטיסי קורא צעיר">
+  <div class="ph"><div class="l"><i>TIE</i>מבחן הקוראים · כרטיסי "קורא צעיר"</div><div class="r">סט אחד להוצאה</div></div>
+  <p class="cutnote">✂ לגזור. כל קורא/ת שולף/ת כרטיס ומשחק/ת אותו בכנות: מגיבים רק כשזה באמת קורה. בהוצאה של 4–5 שולפים 4–5 כרטיסים.</p>
+  <div class="cutgrid readers">
+    <div class="rdr"><span class="em">😂</span><b>הצוחק/ת</b><p>צוחק/ת בקול כשמשהו מצחיק. אבל רק כשבאמת מצחיק, לא מנימוס.</p><span class="say">"חחחח! הוא נחר!"</span></div>
+    <div class="rdr"><span class="em">❓</span><b>ה"למה?"</b><p>שואל/ת "למה?" כשמשהו לא ברור או לא הגיוני בסיפור.</p><span class="say">"למה היא לא ביקשה עזרה?"</span></div>
+    <div class="rdr"><span class="em">😵</span><b>המתבלבל/ת</b><p>אומר/ת "לא הבנתי" כשמשפט ארוך מדי או שיש מילה קשה.</p><span class="say">"מה זה מסתורין?"</span></div>
+    <div class="rdr"><span class="em">👉</span><b>ה"עוד!"</b><p>מבקש/ת להפוך כשבאמת מתחשק לדעת מה הלאה. אם לא מתחשק, שותק/ת.</p><span class="say">"עוד! תהפכו!"</span></div>
+    <div class="rdr"><span class="em">🙈</span><b>הביישן/ית</b><p>לא מדבר/ת בכלל. רק מצביע/ה על פרטים בתמונה שמעניינים אותו/ה.</p><span class="say">👆 (מצביע/ה על החיפושית)</span></div>
+    <div class="rdr"><span class="em">🧐</span><b>המומחה/ית הקטן/ה</b><p>מתקן/ת כשמשהו לא נכון או לא תואם לתמונה.</p><span class="say">"אבל בתמונה הצעיף אדום!"</span></div>
+  </div>
+</section>
+
+<!-- 13. REACTIONS TABLE -->
+<section class="page" id="p-react" data-label="טבלת תגובות">
+  <div class="ph"><div class="l"><i>TIE</i>מבחן הקוראים · טבלת תגובות</div><div class="r">הוצאה מקריאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎙️ אחראי/ת הקוראים ממלא/ת · נציג/ת הקוראים חותם/ת</span><h2>טבלת <span>התגובות</span></h2></div><p>מסמנים קו (|) על כל תגובה, ליד העמוד שבו היא קרתה. 😵 לא שווה נקודה, אבל הוא מה שמראה מה לתקן.</p></div>
+  <p style="margin-bottom:2mm">הקוראים: ☐ הוצאה <span class="fill s"></span> &nbsp; ☐ כיתה צעירה: <span class="fill"></span> &nbsp; סבב: ☐ 1 ☐ 2</p>
+  <table class="tb rx">
+    <thead><tr><th style="width:24mm">עמוד</th><th>😂 צחוק</th><th>😮 "וואו"</th><th>❓ שאלה על ההמשך</th><th>😵 "לא הבנתי"</th><th style="width:20mm">⭐ רצו להפוך</th></tr></thead>
+    <tbody>
+      <tr><td>1 · שער</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2 · פתיחה</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3 · בעיה</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>4 · ניסיון</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>5 · ניסיון</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>6 · שיא ↩</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>7 · פתרון</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>8 · גב</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td><b>סה״כ</b></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>🏆 נקודות תגובה (😂 + 😮 + ❓, עד 5)</h3><p style="font-size:24pt;font-family:var(--display);font-weight:800;text-align:center;margin-top:2mm">___ / 5</p></div>
+    <div class="box"><h3>🧠 מבחן הבנה: "ספרו לי מה קרה"</h3><ul class="check" style="font-size:9.4pt"><li>התחלה: מי ואיפה</li><li>הבעיה</li><li>הסוף</li></ul><p style="font-size:9pt;margin-top:1.5mm">שלושתם נכונים = <b>3</b> · אחרת = 0</p></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>🔧 מסקנה אחת לשיפור (מה נתקן, באיזה עמוד, ולמה)</h3><div class="lines h2"></div></div>
+  <p style="margin-top:3mm;font-size:9.4pt">✍ חתימת נציג/ת הקוראים: <span class="fill"></span> &nbsp;&nbsp; אחרי השיעור: מעבירים לטופס 2, ואם תיקנתם עמוד, מצרפים קישור.</p>
+</section>
+
+<!-- 14. AI LINE -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לספר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים לפני השליחה לדפוס, ומעתיקים את שתי השורות לטופס.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini עורך משנה ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini עורך משנה ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini עורך משנה ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>הוצאה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini תמונות ☐ Gemini עורך משנה ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- 15. EXIT TICKETS -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד, 2 דקות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ספר תמונות</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי על כתיבה לקורא צעיר:</p><div class="lines h2"></div>
+      <p class="q">איזה עמוד הייתי משנה אחרי מבחן הקוראים, ולמה?</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איורים</span><span>עימוד</span><span>הקראה</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ספר תמונות</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי על כתיבה לקורא צעיר:</p><div class="lines h2"></div>
+      <p class="q">איזה עמוד הייתי משנה אחרי מבחן הקוראים, ולמה?</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איורים</span><span>עימוד</span><span>הקראה</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ספר תמונות</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי על כתיבה לקורא צעיר:</p><div class="lines h2"></div>
+      <p class="q">איזה עמוד הייתי משנה אחרי מבחן הקוראים, ולמה?</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איורים</span><span>עימוד</span><span>הקראה</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ספר תמונות</span></div><p>הוצאה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי על כתיבה לקורא צעיר:</p><div class="lines h2"></div>
+      <p class="q">איזה עמוד הייתי משנה אחרי מבחן הקוראים, ולמה?</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <div class="scale"><span>כמה נהניתי?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להוצאה:</p>
+      <div class="tags"><span>סיפור</span><span>איורים</span><span>עימוד</span><span>הקראה</span><span>עזרתי להוצאה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- 16. INSTRUCTOR SCORING SHEET -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>הוצאה לאור: ספר תמונות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · ועדת ההוצאה · התוצאות עוברות ללוח בשקף 37</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקסימום 34. ביניים: רמה בקריאת המערכת (לא נכנסת לסה״כ, רק לזיהוי הוצאות תקועות).</p></div>
+  <table class="tb" style="font-size:8.8pt">
+    <thead><tr><th style="width:20mm">הוצאה</th><th>ביניים<br><small>סיפור / מ״ת</small></th><th>מבנה<br><small>4</small></th><th>מילים<br><small>3</small></th><th>סגנון<br><small>3</small></th><th>תגובות<br><small>5</small></th><th>הבנה<br><small>3</small></th><th>ועדה<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>34</small></th><th>😂</th><th>⭐</th><th>דפוס<br><small>סדר</small></th></tr></thead>
+    <tbody>
+      <tr><td class="e">📕 1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📗 2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📘 3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📙 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📓 5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📒 6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">📔 7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:3.5mm"><h3>📋 ועדת ההוצאה: פירוט המחוון (1–4 בכל שורה)</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:20mm">הוצאה</th><th>סיפור לקורא צעיר</th><th>מילה ותמונה</th><th>עיצוב ועימוד</th><th>מבחן קוראים ושיפור</th><th style="width:18mm">סכום</th></tr></thead>
+    <tbody><tr><td class="e">📕 1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📗 2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📘 3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📙 4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📓 5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📒 6</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">📔 7</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>🏅 פרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.2pt"><p>📚 ספר השנה: <span class="fill s"></span></p><p>😂 הכי מצחיק: <span class="fill s"></span></p><p>🎨 האיור הכי יפה: <span class="fill s"></span></p><p>📖 עמוד ההפיכה: <span class="fill s"></span></p><p>🏃 מוכנים לדפוס: <span class="fill s"></span></p></div></div>
+    <div class="box"><h3>📏 בדיקה מהירה</h3><p style="font-size:8.8pt">מבנה: 8 עמודים + שער + גב = 4 · חסר אחד = 2 · פחות מ-6 עמודים = 0. מילים: הכול עד 25 = 3 · עמוד אחד מעל = 1. סגנון: אחיד = 3 · עמוד חריג = 1.</p></div>
+  </div>
+</section>
+
+<!-- 17. CERTIFICATES -->
+<section class="page" id="p-cert" data-label="תעודות פרס">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות פרס · 2 בעמוד</div><div class="r">להדפיס 3 עותקים</div></div>
+  <p class="cutnote">✂ לגזור לחצאים. מסמנים את הפרס וכותבים את שם ההוצאה.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div style="padding:5mm;display:flex"><div class="cert"><span class="em">📚</span><h3>הוצאת "דף ראשון" מעניקה</h3><p>להוצאה</p><div class="nm"></div><div class="pz"><span>📚 ספר השנה</span><span>😂 הספר שהצחיק הכי הרבה</span><span>🎨 האיור הכי יפה</span><span>📖 העמוד שכולם רצו להפוך</span><span>🏃 הכי מוכנים לדפוס</span></div><p>על הספר <span class="fill l"></span></p><div class="sig"><span>ועדת ההוצאה</span><span>תאריך</span></div></div></div>
+    <div style="padding:5mm;display:flex"><div class="cert"><span class="em">📚</span><h3>הוצאת "דף ראשון" מעניקה</h3><p>להוצאה</p><div class="nm"></div><div class="pz"><span>📚 ספר השנה</span><span>😂 הספר שהצחיק הכי הרבה</span><span>🎨 האיור הכי יפה</span><span>📖 העמוד שכולם רצו להפוך</span><span>🏃 הכי מוכנים לדפוס</span></div><p>על הספר <span class="fill l"></span></p><div class="sig"><span>ועדת ההוצאה</span><span>תאריך</span></div></div></div>
+  </div>
+</section>
+
+<!-- 18. TABLE SIGN -->
+<section class="page" id="p-sign" data-label="שלט הוצאה">
+  <div class="ph"><div class="l"><i>TIE</i>שלט הוצאה · מקפלים לאורך הקו האמצעי</div><div class="r">1 להוצאה</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">📚</span><b>הוצאת</b><div class="nm"></div><p style="color:var(--muted)">שולחן מספר ___ · ספרי תמונות</p></div>
+    <div><span class="em">📚</span><b>הוצאת</b><div class="nm"></div><p style="color:var(--muted)">שולחן מספר ___ · ספרי תמונות</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם ההוצאה משני הצדדים</p>
+</section>
+
+<!-- 19. ZINE (no devices) -->
+<section class="page" id="p-zine" data-label="חוברת 8 עמודים">
+  <div class="ph"><div class="l"><i>TIE</i>ספר בעבודת יד · חוברת 8 עמודים</div><div class="r">בלי מכשירים · הוצאה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">✂️ בלי מחשב, כמו אריק קארל</span><h2>חוברת של 8 עמודים <span>מ-2 דפי A4</span></h2></div><p>החוברת נפתחת כמו ספר בעברית: הכריכה בצד ימין. מספרים בעיפרון <b>לפני</b> שכותבים, כדי שלא יהיה עמוד הפוך.</p></div>
+  <div class="folds">
+    <div class="box"><p><b class="n">1</b>שמים 2 דפי A4 לרוחב, אחד על השני.</p><svg viewBox="0 0 100 50"><rect x="8" y="10" width="80" height="34" fill="#fff" stroke="#1f2a37"/><rect x="12" y="6" width="80" height="34" fill="#fff" stroke="#1f2a37"/></svg></div>
+    <div class="box"><p><b class="n">2</b>מקפלים את שניהם יחד לחצי, ומחליקים את הקפל.</p><svg viewBox="0 0 100 50"><rect x="30" y="8" width="40" height="36" fill="#fff" stroke="#1f2a37"/><path d="M70 8 V44" stroke="#0f766e" stroke-width="2.5"/></svg></div>
+    <div class="box"><p><b class="n">3</b>מהדקים 2 סיכות בקפל, או תופרים בחוט.</p><svg viewBox="0 0 100 50"><rect x="30" y="8" width="40" height="36" fill="#fff" stroke="#1f2a37"/><path d="M70 8 V44" stroke="#1f2a37"/><path d="M67 16 h6 M67 36 h6" stroke="#be3455" stroke-width="2.5"/></svg></div>
+    <div class="box"><p><b class="n">4</b>הקפל מימין. ממספרים בעיפרון 1–8 בפינה התחתונה.</p><svg viewBox="0 0 100 50"><rect x="30" y="8" width="40" height="36" fill="#e3f1ee" stroke="#1f2a37"/><path d="M70 8 V44" stroke="#0f766e" stroke-width="2.5"/><text x="50" y="31" font-size="12" text-anchor="middle" font-family="Arial" font-weight="700">1</text></svg></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>📖 איך זה נראה כשמדפדפים (מימין לשמאל)</h3>
+    <div class="spreads" style="margin-top:2mm">
+      <div><div class="sp"><i class="cv">1</i></div><p class="spLbl">שער</p></div>
+      <div><div class="sp"><i>2</i><i>3</i></div><p class="spLbl">פתיחה · בעיה</p></div>
+      <div><div class="sp"><i>4</i><i>5</i></div><p class="spLbl">ניסיון · "ואז…"</p></div>
+      <div><div class="sp"><i>6</i><i>7</i></div><p class="spLbl">הפתעה · פתרון</p></div>
+      <div><div class="sp"><i class="cv">8</i></div><p class="spLbl">גב</p></div>
+    </div>
+    <p style="font-size:9pt;color:var(--muted);margin-top:2mm"><b>שימו לב:</b> עמודים 6 ו-7 נראים יחד באותה פתיחה. אם ה"ואז…" כתוב בעמוד 6, הקוראים רואים את ההפתעה בלי להפוך. בחוברת כותבים את ה"ואז…" בעמוד 5 (צד שמאל), ואת ההפתעה בעמוד 6, אחרי הפיכת דף.</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✂️ קולאז׳ כמו קארל</h3><ul class="clean" style="font-size:9.4pt"><li>צובעים דפים בטוש או בצבע, עם קווים ונקודות.</li><li>גוזרים צורות גדולות: עיגולים, טיפות, משולשים.</li><li>מדביקים מהרקע לדמות: קודם שמיים ואדמה, אחר כך הדמות.</li><li>הטקסט בטוש, תמיד באותו מקום בעמוד.</li></ul></div>
+    <div class="box"><h3>✓ לפני "שולחן הדפוס"</h3><ul class="check" style="font-size:9.4pt"><li>8 עמודים ממוספרים</li><li>שם הספר והוצאה על השער</li><li>תקציר בגב</li><li>אותו סגנון בכל העמודים</li><li>כל עמוד עד 25 מילים</li></ul></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+
+</html>

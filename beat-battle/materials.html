@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · קרב הביטים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+
+/* ---------- קרב הביטים: lesson additions ---------- */
+.k-sty{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tmp{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.cc .bpm{font-family:var(--display);font-weight:800;font-size:30pt;line-height:1;color:var(--c-ink);direction:ltr}
+.cc .hint{font-size:8.2pt;color:var(--ink);background:var(--paper2);border-radius:2mm;padding:.6mm 2mm;margin-top:1mm}
+table.grid8{width:100%;border-collapse:collapse;direction:ltr;table-layout:fixed}
+table.grid8 th,table.grid8 td{border:1px solid var(--line2);text-align:center;padding:0}
+table.grid8 th{font-family:var(--display);font-size:9pt;background:var(--paper2);height:6mm}
+table.grid8 td{height:11mm}
+table.grid8 td.lb{direction:rtl;text-align:right;padding:0 2mm;font-weight:700;font-size:9pt;background:var(--paper);width:30mm}
+table.grid8 td.lb small{display:block;font-weight:500;color:var(--muted);font-size:7.6pt}
+table.grid8 td.beat{background:#fbfaf6}
+table.grid8 td.ex{font-size:12pt}
+.barlbl{font-family:var(--display);font-weight:700;font-size:10pt;margin:2mm 0 1mm}
+.vfold{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.vf{display:grid;grid-template-rows:1fr 1fr;position:relative}
+.vf::after{content:"קיפול";position:absolute;inset:50% 4mm auto 4mm;border-top:1.3px dashed var(--teal);text-align:center;font-size:7.5pt;color:var(--teal);line-height:0}
+.vf>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm}
+.vf .t{transform:rotate(180deg)}
+.vf b{font-family:var(--display);font-weight:800;font-size:68pt;line-height:1}
+.vf .A b{color:#c2630f}.vf .B b{color:#6a55c9}
+.vf small{font-size:8.5pt;color:var(--muted)}
+.ticks{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.tk{padding:4mm 4.5mm;display:flex;flex-direction:column;gap:1.6mm;font-size:9.2pt}
+.tk .eh{display:flex;justify-content:space-between;align-items:center}
+.tk .eh b{font-family:var(--display);font-weight:800;font-size:11.5pt}
+.tk .q{font-weight:700}
+.tk .opts{display:flex;gap:2mm;flex-wrap:wrap;font-size:9pt}
+.tk .opts span::before{content:"☐ "}
+.cert{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3mm;padding:8mm;position:relative;border:2.4mm solid var(--c);border-radius:4mm;outline:1px solid var(--line2);outline-offset:-5mm}
+.cert .em{font-size:48pt;line-height:1}
+.cert h3{font-family:var(--display);font-weight:800;font-size:26pt;color:var(--ci);margin:0}
+.cert .sub{color:var(--muted);font-size:11pt}
+.cert .who{width:120mm;border-bottom:1.6px solid var(--ink);height:12mm}
+.cert .meta{display:flex;gap:12mm;font-size:10pt;color:var(--muted)}
+.cert .meta span{min-width:40mm;border-top:1px solid var(--line2);padding-top:1mm}
+.cert-gold{--c:#e3a82b;--ci:#7a4a00}.cert-rose{--c:#e76f86;--ci:#be3455}.cert-sky{--c:#4c8bd6;--ci:#2f6db5}.cert-vio{--c:#8c7ae6;--ci:#6a55c9}
+.side2{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.sd{padding:4mm;display:flex;flex-direction:column;gap:1.4mm;position:relative}
+.sd .tg{font-family:var(--display);font-weight:700;font-size:8pt;border-radius:999px;padding:.4mm 2.4mm;align-self:flex-start}
+.sd.s .tg{background:#e7f6ec;color:#15803d}.sd.r .tg{background:#fdebe3;color:#c2410c}
+.sd .em{font-size:20pt;line-height:1}
+.sd b{font-family:var(--display);font-weight:800;font-size:11.5pt;line-height:1.15}
+.sd p{font-size:9pt;color:var(--ink)}
+.bkA3{display:flex;justify-content:center;min-height:0}.bkA3 svg{display:block;height:212mm;width:auto;max-width:100%}
+.mini{font-size:9pt;color:var(--muted)}
+#p-mission .box{padding:2.6mm 3.5mm}#p-mission table.tb td{padding:1.4mm 2.2mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · קרב הביטים<small>90 דקות · טורניר נוק-אאוט</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · 90 דקות</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>לכיתה של 28–30 תלמידים ב-6 הרכבים. כמויות לכיתה אחרת: לפי מספר ההרכבים והתלמידים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה (בסיס · רגיל · אלופים)</td><td>1 להרכב (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>כרטיסי תפקיד ונורמות ההרכב</td><td>1 להרכב (6)</td><td>בריסטול</td><td>כן, ל-6</td></tr>
+      <tr><td>4</td><td>קלפי סגנון וטמפו</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן, ל-12, שתי ערמות</td></tr>
+      <tr><td>5</td><td>רשת הביט (תכנון ובלי מכשירים)</td><td>1 להרכב + 2 רזרבה (8)</td><td>רגיל, A3 אם אפשר</td><td>לא</td></tr>
+      <tr><td>6</td><td>דף ההפקה</td><td>1 להרכב (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>מחוון</td><td>1 להרכב + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>פתקי בדיקת סאונד</td><td>1 עמוד (6 פתקים)</td><td>רגיל</td><td>כן, ל-6</td></tr>
+      <tr><td>9</td><td>כרטיסי הצבעה א׳/ב׳</td><td>8 עמודים (32 כרטיסים)</td><td>בריסטול</td><td>כן, לרבעים, ומקפלים</td></tr>
+      <tr><td>10</td><td>עץ הטורניר</td><td>1</td><td>הגדלה ל-A3</td><td>לא, תולים על הלוח</td></tr>
+      <tr><td>11</td><td>משימות צד וכרטיסי חילוץ</td><td>1 סט</td><td>רגיל</td><td>כן, ל-12</td></tr>
+      <tr><td>12</td><td>שורת שקיפות</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>13</td><td>כרטיס יציאה</td><td>8 עמודים (32 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>14</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15–16</td><td>תעודות: 4 פרסים</td><td>1 סט</td><td>בריסטול</td><td>כן, לחצאים</td></tr>
+      <tr><td>17</td><td>שלט הרכב</td><td>1 להרכב (6)</td><td>בריסטול</td><td>קיפול</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 על כל שולחן</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד וכרטיס נורמות</li><li>שלט הרכב מקופל</li><li>כרטיס משימה, רשת הביט, דף ההפקה, מחוון</li><li>אוזניות (או מפצל אוזניות) לכל זוג</li><li>מעטפת הרכב לפתקים ולדפים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>ערמת קלפי סגנון וערמת קלפי טמפו</li><li>קופסת כרטיסי הצבעה (אחד לתלמיד)</li><li>קופסת משימות צד וכרטיסי חילוץ</li><li>פתקי בדיקת סאונד וכרטיסי יציאה</li><li>דף הניקוד, עט ותעודות</li><li>עץ הטורניר A3 ומגנטים או סלוטייפ</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ טיפים להכנה</h3><p>כרטיסי ההצבעה: מגזרים לרבעים ומקפלים כל כרטיס לאורך הקו המקווקו, כך שבצד אחד א׳ ובצד השני ב׳. אפשר להדביק בדבק סטיק. קלפי הסגנון (ורוד) והטמפו (כחול) נכנסים לשתי ערמות נפרדות.</p></div>
+</section>
+
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · כרטיס המשימה</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏆 גביע אוזני הזהב</span><h2>הביט שיפתח <span>את הפסטיבל</span></h2></div><p>פסטיבל הביטים העירוני מחפש את הביט שיפתח את הערב. בסוף השיעור הביט שלכם עולה לזירה מול ביט של הרכב אחר, והכיתה מצביעה.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>ביט מקורי של <b>30–45 שניות</b>: לפחות <b>8 תיבות</b> ולפחות <b>3 שכבות</b> (תופים, בס, מלודיה), עם <b>"שינוי"</b> אחד שאפשר לשמוע, ושדרוג ב-BandLab.</p>
+      <p style="margin-top:2mm">סגנון: <span class="fill"></span> · טמפו: <span class="fill s"></span></p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>30–45 שניות, 8 תיבות ו-3 שכבות לפחות.</li><li>הסגנון והטמפו נשמרים (סטייה של עד 10 BPM).</li><li>"שינוי" אחד שאפשר לשמוע.</li><li>רק צלילים מהשיעור: Song Maker, לופים חינמיים של BandLab, הקלטה שלכם.</li><li>בקרב לא מצביעים להרכב של עצמכם.</li><li>מה שלא הוגש בזמן מפסיד בקרב טכני.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>🔢 הניקוד (ידוע מראש)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th>מה</th><th style="width:36mm">נקודות</th></tr></thead><tbody>
+      <tr><td>8 תיבות ו-3 שכבות</td><td>4</td></tr>
+      <tr><td>"שינוי" שאפשר לשמוע</td><td>3</td></tr>
+      <tr><td>שכבה נוספת ב-BandLab</td><td>3</td></tr>
+      <tr><td>מבחן השכבות: הרכב שכן מזהה נכון כמה שכבות יש</td><td>2 לשני ההרכבים</td></tr>
+      <tr><td>ניצחון בקרב (עלייה ישירה = ניצחון טכני)</td><td>4 לכל ניצחון</td></tr>
+      <tr><td>ציון המחוון</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p class="mini" style="margin-top:1.5mm">🏆 הגביע הולך לניקוד הכולל. שובר שוויון: המחוון, ואז מי שהגיש קודם. פרסים נוספים: 🔥 הדרופ של הערב · 🧠 ההפקה הכי חכמה עם הכי מעט צלילים · 🎙️ ההקלטה הכי מקורית.</p></div>
+  <div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb" style="font-size:9pt"><tbody>
+      <tr><td style="width:34mm"><b>🎛️ מפיק/ה</b></td><td>מחזיק/ה את הזמן, מקשיב/ה לכל שכבה, מחליט/ה איפה ה"שינוי". רק הוא/היא קורא/ת למדריך.</td></tr>
+      <tr><td><b>🥁 מתופף/ת</b></td><td>שורות התופים ב-Song Maker (▲ ●), ובספרינט 2 לופ או ביטבוקס.</td></tr>
+      <tr><td><b>🎹 מלחין/ה</b></td><td>בס בתווים הנמוכים ומלודיה בגבוהים, בסולם ובטמפו שהוגרלו.</td></tr>
+      <tr><td><b>🎧 מהנדס/ת סאונד</b></td><td>Settings, Tempo, Save וקישור. WAV ל-BandLab, שכבה, אפקט והורדה.</td></tr>
+      <tr><td><b>🎤 MC</b></td><td>שם לביט, משפט הצגה (עד 12 מילים), הטופס, והצגה בזירה.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:3mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">מעתיקים את תבנית התופים של הסגנון, בס של תו אחד, מלודיה של 3 תווים. השינוי: לופ שנכנס בחזרה השנייה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">המפרט המלא, תבנית תופים משלכם ושינוי שתכננתם מראש בדף ההפקה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">16 תיבות עם מבנה (אינטרו, ביט, דרופ, ביט), הקלטה קולית, ועד 24 תווים במלודיה.</p></div>
+  </div>
+</section>
+
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · כרטיסי תפקיד</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקווים. כרטיס הנורמות נשאר במרכז השולחן.</p>
+  <div class="cutgrid roles" style="grid-template-rows:1fr 1fr 1fr"><article class="role r-ceo"><div class="rh"><span class="ic">🎛️</span><div><b>מפיק/ה</b><small>הכיוון והזמן</small></div></div>
+      <p class="mis">המשימה שלי: שההרכב מתחיל מהר, שכולם יודעים מה הם עושים, ושעומדים בזמן.</p><ul><li>מקריא/ה את כרטיס המשימה ושומר/ת על הטיימר.</li><li>מקשיב/ה לכל שכבה: "תשמיעו לי רק את ___".</li><li>מחליט/ה איפה ה"שינוי" ובודק/ת 30–45 שניות.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+      <div class="say">💬 "מה חסר: דופק, רצפה או מנגינה?"</div><p class="bonus">✓ הצלחתי כש: הגשנו בזמן, וכל אחד יודע להסביר שכבה.</p></article><article class="role r-bld"><div class="rh"><span class="ic">🥁</span><div><b>מתופף/ת</b><small>הדופק</small></div></div>
+      <p class="mis">המשימה שלי: שכבת תופים יציבה שחוזרת וכולם יכולים לזוז אליה.</p><ul><li>בונה ב-Song Maker את ▲ (סנייר) ו-● (קיק).</li><li>מתחיל/ה מתבנית הסגנון ומשנה משהו אחד.</li><li>בספרינט 2: לופ מתאים או הקלטת ביטבוקס.</li><li>בודק/ת שהקצב לא "נופל" בסוף התיבה.</li></ul>
+      <div class="say">💬 "קיק על 1 ו-3, סנייר על 2 ו-4, ומשם משנים."</div><p class="bonus">✓ הצלחתי כש: השכנים ספרו את שכבת התופים בלי היסוס.</p></article><article class="role r-pre"><div class="rh"><span class="ic">🎹</span><div><b>מלחין/ה</b><small>הרצפה והמנגינה</small></div></div>
+      <p class="mis">המשימה שלי: בס שמחזיק את הביט ומלודיה קצרה שנתקעת בראש.</p><ul><li>בס בתווים הנמוכים, מעט תווים, על הפעמות.</li><li>מלודיה של 3–5 תווים בגבוהים, שחוזרת.</li><li>שומר/ת על הסולם (Scale) והטמפו שהוגרלו.</li><li>מתקן/ת לפי בדיקת הסאונד.</li></ul>
+      <div class="say">💬 "פחות תווים, יותר הוק."</div><p class="bonus">✓ הצלחתי כש: מישהו מהכיתה זמזם את המלודיה שלנו.</p></article><article class="role r-res"><div class="rh"><span class="ic">🎧</span><div><b>מהנדס/ת סאונד</b><small>הכלים והקובץ</small></div></div>
+      <p class="mis">המשימה שלי: שהביט נשמר, יוצא כקובץ, ונשמע טוב ב-BandLab.</p><ul><li>Settings, Tempo, ו-Save אחרי כל שינוי גדול.</li><li>Copy Link לצ׳אט ההרכב, Download Wav.</li><li>BandLab: ייבוא, BPM נכון, שכבה, אפקט, הורדה.</li><li>דואג/ת לאוזניות ולווליום נמוך.</li></ul>
+      <div class="say">💬 "שמרתם? תנו לי את הקישור האחרון."</div><p class="bonus">✓ הצלחתי כש: הקובץ עלה לטופס ונשמע בזירה בלי תקלה.</p></article><article class="role r-ai"><div class="rh"><span class="ic">🎤</span><div><b>MC</b><small>הקול של ההרכב</small></div></div>
+      <p class="mis">המשימה שלי: שהביט מגיע לזירה עם שם, משפט הצגה והגשה מסודרת.</p><ul><li>נותן/ת שם לביט (אפשר להיעזר ב-Gemini).</li><li>כותב/ת משפט הצגה של עד 12 מילים.</li><li>רושם/ת "מה עשינו בעצמנו · מה לקחנו מוכן".</li><li>ממלא/ת את טופס "הרשמה לזירה" ומציג/ה בזירה.</li></ul>
+      <div class="say">💬 "שם הביט: ___. תקשיבו לתיבה 7."</div><p class="bonus">✓ הצלחתי כש: הקהל חיכה לדרופ בגלל המשפט שלי.</p></article><article class="role" style="--c:#0f766e;--cs:#e3f1ee"><div class="rh"><span class="ic">🤝</span><div><b>נורמות ההרכב</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:9.6pt;display:grid;gap:1.2mm"><li>אף אחד לא סיים עד שכל ההרכב סיים.</li><li>מותר לבקש עזרה, וחובה לעזור.</li><li>לפני שמחליטים, כל אחד אומר משהו.</li><li>מבקרים ביט, לא אנשים: אדיב · ספציפי · מועיל.</li><li>אוזניות בספרינט. ברמקול רק המדריך.</li></ol>
+      <p class="bonus">הרכב של 4: המפיק/ה הוא/היא גם ה-MC · הרכב של 3: המתופף/ת בונה גם את הבס</p></article></div>
+</section>
+
+<section class="page" id="p-cards" data-label="קלפי סגנון וטמפו">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · קלפי ההגרלה</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ל-12 ולמיין לשתי ערמות: ורוד = סגנון, כחול = טמפו. המפיק/ה של כל הרכב שולף/ת אחד מכל ערמה.</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(4,1fr)"><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S1</span><span class="em">🎤</span><b>היפ-הופ</b><small>קיק כבד, סנייר על 2 ו-4, הרבה שקט</small><span class="hint">Song Maker: Piano · Kit</span></div><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S2</span><span class="em">⚡</span><b>אלקטרוני</b><small>קיק על כל פעמה, מחיאה על 2 ו-4</small><span class="hint">Song Maker: Synth · Electronic</span></div><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S3</span><span class="em">💃</span><b>לטיני</b><small>מקצב 3-3-2, קונגות, פסנתר שמדלג</small><span class="hint">Song Maker: Marimba · Conga</span></div><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S4</span><span class="em">🎸</span><b>רוק</b><small>קיק וסנייר ישרים, בס על תו אחד</small><span class="hint">Song Maker: Strings · Kit</span></div><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S5</span><span class="em">👾</span><b>משחק וידאו</b><small>מהיר, תווים קצרים, Pentatonic</small><span class="hint">Song Maker: Synth · Blocks</span></div><div class="cc k-sty"><span class="cat">🎶 סגנון</span><span class="no">S6</span><span class="em">🪘</span><b>ים תיכוני</b><small>דום-תק-תק-דום-תק, צבע מזרחי</small><span class="hint">Song Maker: Woodwind · Conga</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T1</span><span class="bpm">80</span><b>BPM</b><small>רגוע, כמו הליכה</small><span class="hint">מותר לסטות עד 10</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T2</span><span class="bpm">90</span><b>BPM</b><small>ראש שזז לאט</small><span class="hint">מותר לסטות עד 10</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T3</span><span class="bpm">100</span><b>BPM</b><small>הליכה מהירה</small><span class="hint">מותר לסטות עד 10</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T4</span><span class="bpm">110</span><b>BPM</b><small>קופצני</small><span class="hint">מותר לסטות עד 10</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T5</span><span class="bpm">120</span><b>BPM</b><small>ריקוד</small><span class="hint">מותר לסטות עד 10</span></div><div class="cc k-tmp"><span class="cat">⏱️ טמפו</span><span class="no">T6</span><span class="bpm">130</span><b>BPM</b><small>אנרגיה מלאה</small><span class="hint">מותר לסטות עד 10</span></div></div>
+</section>
+
+<section class="page" id="p-grid" data-label="רשת הביט">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · רשת הביט</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🥁 ספרינט 1 · תכנון (וגם הגרסה בלי מחשבים)</span><h2>רשת <span>הביט</span></h2></div><p>כל משבצת = עמודה אחת ב-Song Maker (כש-Split beats into = 2). מסמנים ▲ ● לתופים, ובשורות הבס והמלודיה כותבים אות של תו (ד = דו, ר = רה, מ = מי, פ = פה, ס = סול, ל = לה, ס״י = סי). בלי מחשבים: כל אחד מבצע שורה בגוף.</p></div>
+  <div class="box soft"><h3>דוגמה: היפ-הופ, תיבה אחת</h3><table class="grid8"><thead><tr><th style="width:30mm"></th><th>1</th><th>ו</th><th>2</th><th>ו</th><th>3</th><th>ו</th><th>4</th><th>ו</th></tr></thead><tbody><tr><td class="lb">▲ גבוה / 👏<small>סנייר · מחיאה</small></td><td class="beat"></td><td class=""></td><td class="beat ex">▲</td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat ex">▲</td><td class=""></td></tr><tr><td class="lb">● נמוך / 🦶<small>קיק · רקיעה</small></td><td class="beat ex">●</td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=" ex">●</td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎸 בס / 🐝<small>תו נמוך · זמזום</small></td><td class="beat ex">ל</td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat ex">ל</td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎹 מלודיה / ✏️<small>תו גבוה · עט על השולחן</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr></tbody></table></div>
+  <p class="barlbl">תיבה א׳: התבנית שחוזרת</p><table class="grid8"><thead><tr><th style="width:30mm"></th><th>1</th><th>ו</th><th>2</th><th>ו</th><th>3</th><th>ו</th><th>4</th><th>ו</th></tr></thead><tbody><tr><td class="lb">▲ גבוה / 👏<small>סנייר · מחיאה</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">● נמוך / 🦶<small>קיק · רקיעה</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎸 בס / 🐝<small>תו נמוך · זמזום</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎹 מלודיה / ✏️<small>תו גבוה · עט על השולחן</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr></tbody></table>
+  <p class="barlbl">תיבה ב׳: הגרסה עם ה"שינוי" (מה יוצא? מה נכנס?)</p><table class="grid8"><thead><tr><th style="width:30mm"></th><th>1</th><th>ו</th><th>2</th><th>ו</th><th>3</th><th>ו</th><th>4</th><th>ו</th></tr></thead><tbody><tr><td class="lb">▲ גבוה / 👏<small>סנייר · מחיאה</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">● נמוך / 🦶<small>קיק · רקיעה</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎸 בס / 🐝<small>תו נמוך · זמזום</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr><tr><td class="lb">🎹 מלודיה / ✏️<small>תו גבוה · עט על השולחן</small></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td><td class="beat"></td><td class=""></td></tr></tbody></table>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box"><h3>⚙️ Settings</h3><p style="font-size:9.4pt">Length: <span class="fill s"></span> · Scale: <span class="fill s"></span><br>Tempo: <span class="fill s"></span> · Range: <span class="fill s"></span></p></div>
+    <div class="box"><h3>🎹 כלים</h3><p style="font-size:9.4pt">כלי נגינה: <span class="fill s"></span><br>תופים: <span class="fill s"></span></p></div>
+    <div class="box"><h3>🔢 חשבון מהיר</h3><p style="font-size:9.4pt">תיבות × 4 = <span class="fill s"></span> פעמות<br>פעמות ÷ (טמפו ÷ 60) = <span class="fill s"></span> שניות</p></div>
+  </div>
+</section>
+
+<section class="page" id="p-prod" data-label="דף ההפקה">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · דף ההפקה</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🎧 ספרינט 1–2 · מתמלא לאורך השיעור</span><h2>דף <span>ההפקה</span></h2></div><p>מה שכתוב כאן עובר לטופס "הרשמה לזירה". ה-MC אחראי/ת לדף.</p></div>
+  <div class="stack grow">
+    <div class="grid2">
+      <div class="box"><h3>🎶 הביט שלנו</h3><p style="line-height:2.3">שם ההרכב: <span class="fill l"></span><br>שם הביט: <span class="fill l"></span><br>סגנון: <span class="fill"></span> · טמפו: <span class="fill s"></span> BPM</p></div>
+      <div class="box"><h3>🔗 קישורים (מדביקים גם בצ׳אט ההרכב)</h3><p style="font-size:9.4pt">קישור Song Maker האחרון:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">קובץ BandLab (שם הקובץ):</p><div class="lines h1"></div></div>
+    </div>
+    <div class="box"><h3>🧱 השכבות שלנו (מבחן השכבות: כמה השכנים צריכים לשמוע?)</h3>
+      <table class="tb"><thead><tr><th style="width:8mm">#</th><th style="width:38mm">שכבה</th><th>מה היא עושה (במילים שלנו)</th><th style="width:30mm">מי בנה</th></tr></thead><tbody>
+      <tr><td>1</td><td>🥁 תופים</td><td class="e"></td><td></td></tr><tr><td>2</td><td>🎸 בס</td><td class="e"></td><td></td></tr><tr><td>3</td><td>🎹 מלודיה</td><td class="e"></td><td></td></tr><tr><td>4</td><td>✨ שכבה ב-BandLab</td><td class="e"></td><td></td></tr></tbody></table></div>
+    <div class="grid2">
+      <div class="box"><h3>💥 ה"שינוי" שלנו</h3><ul class="check"><li>דרופ (שקט ואז בום)</li><li>כניסה של שכבה חדשה</li><li>סטופ של התופים</li><li>אחר: <span class="fill"></span></li></ul><p style="margin-top:1.5mm">מתי? בשנייה <span class="fill s"></span> / בתיבה <span class="fill s"></span></p></div>
+      <div class="box"><h3>🎤 משפט ההצגה של ה-MC (עד 12 מילים)</h3><div class="lines h3"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check"><li>30–45 שניות</li><li>8 תיבות לפחות</li><li>3 שכבות לפחות</li><li>הסגנון והטמפו מההגרלה</li><li>"שינוי" שאפשר לשמוע</li><li>Save אחרון והקישור בטופס</li></ul></div>
+      <div class="box"><h3>🔎 שורת שקיפות</h3><p style="font-size:9.4pt">✋ מה עשינו בעצמנו:</p><div class="lines h2"></div><p style="font-size:9.4pt;margin-top:1mm">📦 במה השתמשנו מוכן (לופים, רעיונות מ-AI):</p><div class="lines h1"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · המחוון</div><div class="r">הרכב: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>הביט</span></h2></div><p>בבדיקת הסאונד מסמנים איפה אתם עכשיו. המדריך קובע את הרמה הסופית. ציון המחוון = סכום ארבעת הקריטריונים (4–16 נקודות).</p></div>
+  <table class="rub"><colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody><tr><td class="crit">שכבות ומבנה<small>השכבות והתבנית</small></td><td>שכבה אחת או שתיים, בלי חזרה</td><td>3 שכבות, אבל הן לא מתחברות</td><td>3 שכבות ברורות ותבנית של 8 תיבות</td><td>השכבות נכנסות ויוצאות בתכנון, וכל אחת נשמעת בבירור</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">קצב ו"שינוי"<small>יציבות והפתעה</small></td><td>הקצב לא יציב, אין שינוי</td><td>קצב יציב, בלי שינוי</td><td>קצב יציב ושינוי אחד שאפשר לשמוע</td><td>השינוי מגיע ברגע הנכון ויוצר "וואו" בכיתה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">סגנון ומקוריות<small>מה שהוגרל, ומשהו שלנו</small></td><td>לא קשור לסגנון שהוגרל</td><td>רמזים לסגנון</td><td>הסגנון והטמפו ברורים</td><td>הסגנון ברור, ויש משהו מפתיע שאף הרכב אחר לא עשה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr><tr><td class="crit">עבודת צוות<small>תפקידים והסבר</small></td><td>אחד עשה הכול</td><td>כל אחד עשה משהו, בלי תיאום</td><td>כל תפקיד ביצע את החלק שלו</td><td>כל תפקיד ביצע ועזר לאחרים, וההרכב יודע להסביר כל שכבה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr></tbody></table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🔢 מהמחוון לנקודות</h3><p>סכום 4 הקריטריונים: <b>מינימום 4, מקסימום 16</b> נקודות בלוח הניקוד. בתיקו בניקוד הכולל, מי שקיבל יותר במחוון לוקח את הגביע.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד שנשפר בספרינט 2</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "דום-תק בחצר" (ים תיכוני · 100 BPM) ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> 8 תיבות, ● על 1 ו-5, ▲ על 2, 4 ו-7. בס על כל ●, מלודיה של 5 תווים. ב-BandLab ה-WAV פעמיים, ולופ מחיאות נכנס בחזרה השנייה (שנייה 19).</p>
+    <p style="font-size:9.4pt"><b>🚀 רמה 4:</b> כל זה, ובתיבה 7 של החזרה השנייה התופים יוצאים, ה-MC קורא "יאללה!" עם הד, וכל השכבות חוזרות יחד. ההרכב מסביר למה כל שכבה שם.</p></div></div>
+</section>
+
+<section class="page" id="p-check" data-label="פתקי בדיקת סאונד">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · בדיקת סאונד (נקודת ביקורת)</div><div class="r">6 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור ל-6. כל הרכב ממלא פתק על הביט של ההרכב השכן ומחזיר להם. ניחוש נכון של מספר השכבות = 2 נקודות לשני ההרכבים.</p>
+  <div class="cutgrid ticks"><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div><div class="tk"><div class="eh"><b>🔊 בדיקת סאונד</b><span>מבחן השכבות</span></div>
+  <p>אנחנו: <span class="fill"></span> · שמענו את: <span class="fill"></span></p>
+  <p class="q">כמה שכבות שמעתם?</p><div class="opts"><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span></div>
+  <p class="q">איפה ה"שינוי"? <span class="fill"></span></p>
+  <p class="q">💚 אני אוהב/ת:</p><div class="lines h1"></div>
+  <p class="q">💡 הלוואי:</p><div class="lines h1"></div></div></div>
+</section>
+
+<section class="page" id="p-vote" data-label="כרטיסי הצבעה">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · כרטיסי הצבעה א׳/ב׳</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים, לקפל כל כרטיס לאורך הקו (אפשר להדביק). צד אחד א׳, צד שני ב׳. בספירה "3, 2, 1, הצבעה!" מרימים צד אחד.</p>
+  <div class="cutgrid vfold"><div class="vf"><div class="t B"><b>ב׳</b><small>הביט השני</small></div><div class="A"><b>א׳</b><small>הביט הראשון</small></div></div><div class="vf"><div class="t B"><b>ב׳</b><small>הביט השני</small></div><div class="A"><b>א׳</b><small>הביט הראשון</small></div></div><div class="vf"><div class="t B"><b>ב׳</b><small>הביט השני</small></div><div class="A"><b>א׳</b><small>הביט הראשון</small></div></div><div class="vf"><div class="t B"><b>ב׳</b><small>הביט השני</small></div><div class="A"><b>א׳</b><small>הביט הראשון</small></div></div></div>
+</section>
+
+<section class="page" id="p-bracket" data-label="עץ הטורניר">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · עץ הטורניר</div><div class="r">להדפיס בהגדלה ל-A3</div></div>
+  <div class="pt" style="margin-bottom:2mm"><div><span class="kick">🌳 גיבוי למצגת · תלוי על הלוח</span><h2>עץ <span>הטורניר</span></h2></div><p>כותבים את שמות ההרכבים אחרי ההגרלה. משבצת ריקה ברבע הגמר = עלייה ישירה (ניצחון טכני, 4 נקודות).</p></div>
+  <div class="bkA3 grow"><svg viewBox="0 0 600 820" role="img" aria-label="עץ טורניר ריק"><g fill="none" stroke="#c9c2b6" stroke-width="2"><path d="M72.0 60 V105.0 H222.0 V60 M147.0 105.0 V150"/><path d="M378.0 60 V105.0 H528.0 V60 M453.0 105.0 V150"/><path d="M147.0 190 V245.0 H453.0 V190 M300.0 245.0 V300"/><path d="M72.0 760 V715.0 H222.0 V760 M147.0 715.0 V670"/><path d="M378.0 760 V715.0 H528.0 V760 M453.0 715.0 V670"/><path d="M147.0 630 V575.0 H453.0 V630 M300.0 575.0 V520"/></g><rect x="8" y="20" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="72.0" y="33" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="16" y1="51" x2="128" y2="51" stroke="#cfc8bc" stroke-width="1"/><rect x="158" y="20" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="222.0" y="33" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="166" y1="51" x2="278" y2="51" stroke="#cfc8bc" stroke-width="1"/><rect x="314" y="20" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="378.0" y="33" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="322" y1="51" x2="434" y2="51" stroke="#cfc8bc" stroke-width="1"/><rect x="464" y="20" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="528.0" y="33" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="472" y1="51" x2="584" y2="51" stroke="#cfc8bc" stroke-width="1"/><rect x="83.0" y="150" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="147.0" y="163" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">חצי גמר</text><line x1="91.0" y1="181" x2="203.0" y2="181" stroke="#cfc8bc" stroke-width="1"/><rect x="389.0" y="150" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="453.0" y="163" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">חצי גמר</text><line x1="397.0" y1="181" x2="509.0" y2="181" stroke="#cfc8bc" stroke-width="1"/><rect x="236.0" y="300" width="128" height="40" rx="9" fill="#fff8e6" stroke="#edd08d" stroke-width="1.4"/><text x="300.0" y="313" font-size="10" fill="#7a4a00" font-family="Heebo,Arial" text-anchor="middle">גמר</text><line x1="244.0" y1="331" x2="356.0" y2="331" stroke="#cfc8bc" stroke-width="1"/><rect x="8" y="760" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="72.0" y="773" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="16" y1="791" x2="128" y2="791" stroke="#cfc8bc" stroke-width="1"/><rect x="158" y="760" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="222.0" y="773" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="166" y1="791" x2="278" y2="791" stroke="#cfc8bc" stroke-width="1"/><rect x="314" y="760" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="378.0" y="773" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="322" y1="791" x2="434" y2="791" stroke="#cfc8bc" stroke-width="1"/><rect x="464" y="760" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="528.0" y="773" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">רבע גמר</text><line x1="472" y1="791" x2="584" y2="791" stroke="#cfc8bc" stroke-width="1"/><rect x="83.0" y="630" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="147.0" y="643" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">חצי גמר</text><line x1="91.0" y1="661" x2="203.0" y2="661" stroke="#cfc8bc" stroke-width="1"/><rect x="389.0" y="630" width="128" height="40" rx="9" fill="#fff" stroke="#d9d3c8" stroke-width="1.4"/><text x="453.0" y="643" font-size="10" fill="#8a93a1" font-family="Heebo,Arial" text-anchor="middle">חצי גמר</text><line x1="397.0" y1="661" x2="509.0" y2="661" stroke="#cfc8bc" stroke-width="1"/><rect x="236.0" y="480" width="128" height="40" rx="9" fill="#fff8e6" stroke="#edd08d" stroke-width="1.4"/><text x="300.0" y="493" font-size="10" fill="#7a4a00" font-family="Heebo,Arial" text-anchor="middle">גמר</text><line x1="244.0" y1="511" x2="356.0" y2="511" stroke="#cfc8bc" stroke-width="1"/><text x="300.0" y="418" font-size="40" text-anchor="middle">🏆</text><text x="300.0" y="455" font-size="15" text-anchor="middle" fill="#7a4a00" font-family="Rubik,Arial" font-weight="800">גביע אוזני הזהב</text><text x="450.0" y="418" font-size="13" text-anchor="middle" fill="#5b6574" font-family="Heebo,Arial">האלופים:</text><line x1="395.0" y1="440" x2="505.0" y2="440" stroke="#1f2a37" stroke-width="1.4"/></svg></div>
+</section>
+
+<section class="page" id="p-side" data-label="משימות צד וחילוץ">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · משימות צד וכרטיסי חילוץ</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ל-12. משימות הצד בקופסה למי שסיים. כרטיסי החילוץ אצל המדריך: המפיק/ה מבקש/ת כרטיס כשההרכב תקוע.</p>
+  <div class="cutgrid side2" style="grid-template-rows:repeat(4,1fr)"><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">🎬</span><b>אינטרו של 4 תיבות</b><p>פתיחה שקטה עם שכבה אחת בלבד, לפני שהביט נכנס.</p></div><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">🔁</span><b>גרסת רמיקס</b><p>אותו ביט, שכבה אחת אחרת לגמרי. שומרים כקישור נפרד.</p></div><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">🖼️</span><b>עטיפה לביט</b><p>מציירים ב-AutoDraw את עטיפת הסינגל, עם שם הביט.</p></div><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">🗣️</span><b>ביטבוקס הרכב</b><p>כל ההרכב מקליט שכבת ביטבוקס ב-BandLab.</p></div><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">⏱️</span><b>גרסת ג׳ינגל</b><p>15 שניות בלבד, רק ההוק הכי חזק.</p></div><div class="sd s"><span class="tg">⭐ משימת צד</span><span class="em">🧠</span><b>פחות צלילים</b><p>אותו ביט עם חצי מהתווים. עדיין עובד? מועמדים לפרס!</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">🤷</span><b>אין רעיון למלודיה</b><p>בוחרים 3 תווים צמודים. מנגנים: עולה, עולה, יורד. חוזרים על זה בכל תיבה.</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">🌀</span><b>הקצב נשמע מבולגן</b><p>מוחקים הכול חוץ מ-● על 1 ו-3 ו-▲ על 2 ו-4. בונים מחדש שכבה אחרי שכבה.</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">💾</span><b>ה-WAV לא יורד</b><p>Save קודם, ואז Download Wav. לא יורד? מגישים את הקישור, וזה עדיין ביט בזירה.</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">🚪</span><b>BandLab לא נפתח</b><p>לא נלחמים. בונים את ה"שינוי" ב-Song Maker: תיבה בלי תופים, ואז הכול חוזר.</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">⏳</span><b>הביט קצר מדי</b><p>8 תיבות בטמפו 120 = 16 שניות. מעתיקים את ה-WAV פעמיים ב-BandLab, או Length 16.</p></div><div class="sd r"><span class="tg">🛟 כרטיס חילוץ</span><span class="em">🗯️</span><b>ויכוח בהרכב</b><p>כל אחד 30 שניות. בונים שתי גרסאות, ובבדיקת הסאונד השכנים מכריעים.</p></div></div>
+</section>
+
+<section class="page" id="p-ai" data-label="שורת שקיפות">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · שורת שקיפות</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ה-MC ממלא/ת ומעתיק/ה את שתי השורות לטופס "הרשמה לזירה".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1"><div class="aiw"><div class="head"><b>🔎 שורת שקיפות</b><span>הרכב: <span class="fill"></span> · ביט: <span class="fill"></span></span></div>
+  <div class="cols"><div class="col we-c"><b>✋ מה עשינו בעצמנו</b><div class="lines"></div></div><div class="col ai-c"><b>📦 במה השתמשנו מוכן (לופים, AI)</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: Song Maker · BandLab · <span class="fill s"></span></span><span>☐ הכול יצרנו בעצמנו</span></div></div><div class="aiw"><div class="head"><b>🔎 שורת שקיפות</b><span>הרכב: <span class="fill"></span> · ביט: <span class="fill"></span></span></div>
+  <div class="cols"><div class="col we-c"><b>✋ מה עשינו בעצמנו</b><div class="lines"></div></div><div class="col ai-c"><b>📦 במה השתמשנו מוכן (לופים, AI)</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: Song Maker · BandLab · <span class="fill s"></span></span><span>☐ הכול יצרנו בעצמנו</span></div></div><div class="aiw"><div class="head"><b>🔎 שורת שקיפות</b><span>הרכב: <span class="fill"></span> · ביט: <span class="fill"></span></span></div>
+  <div class="cols"><div class="col we-c"><b>✋ מה עשינו בעצמנו</b><div class="lines"></div></div><div class="col ai-c"><b>📦 במה השתמשנו מוכן (לופים, AI)</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: Song Maker · BandLab · <span class="fill s"></span></span><span>☐ הכול יצרנו בעצמנו</span></div></div><div class="aiw"><div class="head"><b>🔎 שורת שקיפות</b><span>הרכב: <span class="fill"></span> · ביט: <span class="fill"></span></span></div>
+  <div class="cols"><div class="col we-c"><b>✋ מה עשינו בעצמנו</b><div class="lines"></div></div><div class="col ai-c"><b>📦 במה השתמשנו מוכן (לופים, AI)</b><div class="lines"></div></div></div>
+  <div class="foot"><span>כלים: Song Maker · BandLab · <span class="fill s"></span></span><span>☐ הכול יצרנו בעצמנו</span></div></div></div>
+</section>
+
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · כרטיס יציאה</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בשתי הדקות האחרונות, והפתקים נכנסים למעטפת ההרכב.</p>
+  <div class="cutgrid exits"><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>קרב הביטים</span></div><p>הרכב: <span class="fill"></span></p>
+  <p class="q">איזו שכבה הכי שינתה את הביט שלנו? למה?</p><div class="lines h2"></div>
+  <p class="q">דבר אחד שלמדתי על איך בנוי ביט:</p><div class="lines h1"></div>
+  <p class="q">שמעתי אצל הרכב אחר, ואשמח לנסות:</p><div class="lines h1"></div>
+  <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="lbl">היום תרמתי להרכב:</p>
+  <div class="tags"><span>תופים</span><span>בס/מלודיה</span><span>BandLab</span><span>שם והצגה</span><span>עזרתי להרכב אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>קרב הביטים</span></div><p>הרכב: <span class="fill"></span></p>
+  <p class="q">איזו שכבה הכי שינתה את הביט שלנו? למה?</p><div class="lines h2"></div>
+  <p class="q">דבר אחד שלמדתי על איך בנוי ביט:</p><div class="lines h1"></div>
+  <p class="q">שמעתי אצל הרכב אחר, ואשמח לנסות:</p><div class="lines h1"></div>
+  <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="lbl">היום תרמתי להרכב:</p>
+  <div class="tags"><span>תופים</span><span>בס/מלודיה</span><span>BandLab</span><span>שם והצגה</span><span>עזרתי להרכב אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>קרב הביטים</span></div><p>הרכב: <span class="fill"></span></p>
+  <p class="q">איזו שכבה הכי שינתה את הביט שלנו? למה?</p><div class="lines h2"></div>
+  <p class="q">דבר אחד שלמדתי על איך בנוי ביט:</p><div class="lines h1"></div>
+  <p class="q">שמעתי אצל הרכב אחר, ואשמח לנסות:</p><div class="lines h1"></div>
+  <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="lbl">היום תרמתי להרכב:</p>
+  <div class="tags"><span>תופים</span><span>בס/מלודיה</span><span>BandLab</span><span>שם והצגה</span><span>עזרתי להרכב אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>קרב הביטים</span></div><p>הרכב: <span class="fill"></span></p>
+  <p class="q">איזו שכבה הכי שינתה את הביט שלנו? למה?</p><div class="lines h2"></div>
+  <p class="q">דבר אחד שלמדתי על איך בנוי ביט:</p><div class="lines h1"></div>
+  <p class="q">שמעתי אצל הרכב אחר, ואשמח לנסות:</p><div class="lines h1"></div>
+  <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="lbl">היום תרמתי להרכב:</p>
+  <div class="tags"><span>תופים</span><span>בס/מלודיה</span><span>BandLab</span><span>שם והצגה</span><span>עזרתי להרכב אחר</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div></div>
+</section>
+
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · דף ניקוד למדריך</div><div class="r">כיתה: <span class='fill'></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מקור האמת של הניקוד</span><h2>דף <span>הניקוד</span></h2></div><p>מקלידים בלוח הניקוד במצגת (שקף 40). הניצחונות נספרים שם לבד מהעץ, וכאן רושמים אותם לגיבוי.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:30mm">הרכב</th><th>8 תיבות<br><small>4</small></th><th>שינוי<br><small>3</small></th><th>BandLab<br><small>3</small></th><th>שכבות<br><small>0–4</small></th><th>ניצחונות<br><small>×4</small></th><th>מחוון<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ</th><th>מקום</th><th>הגשה (שעה)</th></tr></thead>
+    <tbody><tr><td class="e">🦊 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐝 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐬 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦁 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐢 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦄 <span class="fill s"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+  <div class="box" style="margin-top:4mm"><h3>📊 מחוון לכל הרכב (1–4 בכל קריטריון)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:30mm">הרכב</th><th>שכבות ומבנה</th><th>קצב ושינוי</th><th>סגנון ומקוריות</th><th>עבודת צוות</th><th>סכום</th><th>הערה</th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦄</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🔊 בדיקת סאונד (דקה 52): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🏆 גביע: <span class="fill s"></span></p><p>🔥 דרופ: <span class="fill s"></span></p><p>🧠 חכמה: <span class="fill s"></span></p><p>🎙️ הקלטה: <span class="fill s"></span></p></div></div>
+  </div>
+</section>
+
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · תעודות</div><div class="r">2 בעמוד</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1;border:0"><div class="cert cert-gold"><span class="kick">פסטיבל הביטים העירוני · Tech It Easy</span><span class="em">🏆</span><h3>גביע אוזני הזהב</h3><p class="sub">הניקוד הכולל הגבוה ביותר בקרב הביטים</p><p>מוענק להרכב</p><div class="who"></div><p class="sub">על הביט: <span class="fill l"></span></p><div class="meta"><span>תאריך</span><span>חתימת המדריך/ה</span></div></div><div class="cert cert-rose"><span class="kick">פסטיבל הביטים העירוני · Tech It Easy</span><span class="em">🔥</span><h3>הדרופ של הערב</h3><p class="sub">השינוי שהכי הרים את כל הכיתה</p><p>מוענק להרכב</p><div class="who"></div><p class="sub">על הביט: <span class="fill l"></span></p><div class="meta"><span>תאריך</span><span>חתימת המדריך/ה</span></div></div></div>
+</section>
+
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>TIE</i>קרב הביטים · תעודות</div><div class="r">2 בעמוד</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1;border:0"><div class="cert cert-sky"><span class="kick">פסטיבל הביטים העירוני · Tech It Easy</span><span class="em">🧠</span><h3>ההפקה הכי חכמה</h3><p class="sub">הכי הרבה ביט עם הכי מעט צלילים</p><p>מוענק להרכב</p><div class="who"></div><p class="sub">על הביט: <span class="fill l"></span></p><div class="meta"><span>תאריך</span><span>חתימת המדריך/ה</span></div></div><div class="cert cert-vio"><span class="kick">פסטיבל הביטים העירוני · Tech It Easy</span><span class="em">🎙️</span><h3>ההקלטה הכי מקורית</h3><p class="sub">הקול או הצליל שאף אחד לא ציפה לו</p><p>מוענק להרכב</p><div class="who"></div><p class="sub">על הביט: <span class="fill l"></span></p><div class="meta"><span>תאריך</span><span>חתימת המדריך/ה</span></div></div></div>
+</section>
+
+<section class="page" id="p-sign" data-label="שלט הרכב">
+  <div class="ph"><div class="l"><i>TIE</i>שלט הרכב · מקפלים לאורך הקו האמצעי</div><div class="r">1 להרכב</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🥁</span><b>הרכב</b><div class="nm"></div><p style="color:var(--muted)">קרב הביטים · סגנון: ______ · טמפו: ____</p></div>
+    <div><span class="em">🥁</span><b>הרכב</b><div class="nm"></div><p style="color:var(--muted)">קרב הביטים · סגנון: ______ · טמפו: ____</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם ההרכב משני הצדדים</p>
+</section>
+</main>
+
+<script>
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

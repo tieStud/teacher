@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · יריד המדע: המדען מול המכונה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== יריד המדע — lesson additions to the materials kit ===== */
+.r-lab{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-exp{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-mea{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-sta{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-spk{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* experiment instruction cards: 2 per page */
+.expgrid{grid-template-columns:1fr;grid-template-rows:1fr 1fr;flex:1}
+.xc{--c:var(--teal);--cs:var(--teal-soft);padding:4.5mm 5mm;display:flex;flex-direction:column;gap:2mm;position:relative;overflow:hidden;font-size:9.3pt;line-height:1.38}
+.xc::before{content:"";position:absolute;inset:0 0 auto 0;height:2mm;background:var(--c)}
+.xc .xh{display:flex;align-items:center;justify-content:space-between;gap:3mm;margin-top:1mm}
+.xc .xh b{font-family:var(--display);font-weight:800;font-size:15pt}
+.xc .xh span{font-family:var(--display);font-weight:700;font-size:9pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.6mm 3mm}
+.xc .cols{display:grid;grid-template-columns:1fr 1.25fr;gap:4mm}
+.xc h4{font-family:var(--display);font-weight:700;font-size:10pt;color:var(--c-ink,var(--teal));margin-bottom:.8mm}
+.xc ol,.xc ul{margin:0;padding-inline-start:4.5mm}
+.xc li{margin-bottom:.5mm}
+.xc .var3{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm}
+.xc .var3 div{border:1px solid var(--line2);border-radius:2.5mm;padding:1.6mm 2.2mm;background:#fff;font-size:8.8pt}
+.xc .var3 div b{display:block;font-family:var(--display);font-size:9pt;color:var(--c-ink,var(--teal))}
+.xc .pr{background:var(--paper);border:1px solid var(--line2);border-inline-start:3px solid var(--c);border-radius:2mm;padding:1.6mm 2.6mm;font-size:8.8pt}
+.xc .src{font-size:8.3pt;color:var(--muted);direction:rtl}
+.xc .src i{font-style:normal;direction:ltr;unicode-bidi:isolate;color:var(--ink);white-space:nowrap}
+.xc .why{background:var(--cs);border-radius:2mm;padding:1.6mm 2.6mm;font-size:8.6pt}
+.x-heli{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.x-ramp{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.x-ice{--c:#5bb5a2;--cs:#e3f1ee;--c-ink:#23826f}
+.x-pend{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+/* helicopter templates */
+.helis{display:flex;justify-content:space-around;align-items:flex-start;margin-top:2mm}
+.helis figure{margin:0;text-align:center}
+.helis figcaption{font-family:var(--display);font-weight:800;font-size:12pt;margin-bottom:2mm}
+.helis svg{display:block;margin:auto;overflow:visible}
+.legend{display:flex;gap:6mm;justify-content:center;font-size:9pt;margin-top:3mm;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:2mm}
+.legend i{display:inline-block;width:12mm;border-top:1.4px solid var(--ink)}
+.legend i.d{border-top:1.4px dashed var(--teal)}
+/* data table */
+table.dt{width:100%;border-collapse:collapse;font-size:9pt;table-layout:fixed}
+table.dt th,table.dt td{border:1px solid var(--line2);padding:1.4mm 1.6mm;text-align:center;height:8.5mm}
+table.dt th{font-family:var(--display);font-weight:600;background:var(--paper2);font-size:8.6pt;height:auto}
+table.dt td.l{text-align:right}
+table.dt .hl{background:#f2f8f6}
+.calcrow{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.frac{display:inline-grid;text-align:center;vertical-align:middle;margin:0 1.5mm;font-size:9pt}
+.frac span:first-child{border-bottom:1.2px solid var(--ink);padding:0 2mm}
+.graph{border:1.2px solid var(--line2);border-radius:2.5mm;background:repeating-linear-gradient(0deg,#ece7de 0 .3mm,transparent .3mm 5mm),repeating-linear-gradient(90deg,#ece7de 0 .3mm,transparent .3mm 5mm);position:relative}
+.graph::before{content:attr(data-label);position:absolute;top:1.5mm;right:2.5mm;font-size:8.3pt;color:var(--muted);font-weight:700;background:#fff;padding:0 1mm}
+/* judge sheet */
+.judges{grid-template-columns:1fr;grid-template-rows:1fr 1fr;flex:1}
+.js{padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;font-size:9.4pt}
+.js .jh{display:flex;justify-content:space-between;align-items:center}
+.js .jh b{font-family:var(--display);font-weight:800;font-size:14pt}
+.js table{width:100%;border-collapse:collapse;font-size:8.8pt}
+.js td,.js th{border:1px solid var(--line2);padding:1.4mm 2mm;text-align:right;vertical-align:middle}
+.js th{background:var(--paper2);font-family:var(--display);font-weight:600}
+.js .circ{white-space:nowrap;text-align:center}
+.js .circ i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;margin:0 .6mm;font-size:8pt;font-weight:700}
+.js .tot{display:flex;gap:6mm;align-items:center;font-weight:700}
+.js .tot .box16{border:1.6px solid var(--ink);border-radius:2mm;width:22mm;height:10mm;display:inline-block;vertical-align:middle}
+/* strips */
+.strips{grid-template-rows:repeat(4,1fr);flex:1}
+.pr4{display:flex;flex-direction:column;gap:2mm;padding:4mm 5mm;font-size:9.2pt}
+.pr4 .head{display:flex;justify-content:space-between;align-items:center}
+.pr4 .head b{font-family:var(--display);font-weight:800;font-size:12pt}
+.pr4 .q3{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm}
+.pr4 .q3 div{border:1px solid var(--line2);border-radius:2mm;padding:1.4mm 2mm;font-size:8.6pt}
+.pr4 .two{display:grid;grid-template-columns:1fr 1fr;gap:3mm;flex:1}
+.pr4 .two div{border-radius:2.5mm;padding:1.6mm 2.4mm;display:flex;flex-direction:column}
+.pr4 .two .lines{flex:1;min-height:10mm}
+/* certificate */
+.certs{grid-template-rows:1fr 1fr;flex:1}
+.cert{margin:5mm;border:2.2mm double #e3a82b;border-radius:4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.6mm;text-align:center;padding:6mm;background:linear-gradient(180deg,#fffaf0,#fff);position:relative}
+.cert .em{font-size:34pt;line-height:1}
+.cert .t1{font-family:var(--display);font-weight:600;font-size:10pt;color:var(--teal)}
+.cert h3{font-family:var(--display);font-weight:800;font-size:22pt;margin:0}
+.cert .to{font-size:12pt}
+.cert .nm{display:inline-block;width:95mm;border-bottom:1.4px solid var(--ink);height:9mm;vertical-align:bottom}
+.cert .opts{display:flex;gap:4mm;flex-wrap:wrap;justify-content:center;font-size:10pt}
+.cert .opts span::before{content:"☐ "}
+.cert .sig{display:flex;gap:16mm;font-size:9pt;color:var(--muted);margin-top:2mm}
+.cert .sig span{border-top:1px solid var(--ink);padding-top:1mm;min-width:40mm}
+/* booth sign */
+.booth{flex:1;display:flex;flex-direction:column;gap:5mm;border:1.4px solid var(--line2);border-radius:5mm;padding:9mm 10mm;position:relative;overflow:hidden}
+.booth::before{content:"";position:absolute;inset:0 0 auto 0;height:5mm;background:repeating-linear-gradient(90deg,#0f766e 0 18mm,#fff 18mm 36mm)}
+.booth .k{font-family:var(--display);font-weight:700;color:var(--teal);font-size:12pt;margin-top:4mm;text-align:center}
+.booth h2{font-family:var(--display);font-weight:800;font-size:34pt;text-align:center}
+.booth h2 .fill{min-width:100mm;border-bottom-width:2px;height:.9em}
+.booth .ex4{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm;text-align:center;font-size:11pt;font-weight:700}
+.booth .ex4 div{border:1.4px solid var(--line2);border-radius:4mm;padding:4mm 2mm}
+.booth .ex4 div b{display:block;font-size:30pt;line-height:1.1}
+.booth .qq{font-size:13pt}
+.booth .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:5mm;align-items:center;text-align:center}
+.booth .vs div{border-radius:5mm;padding:5mm;font-family:var(--display);font-weight:800;font-size:15pt}
+.booth .vs .h{background:#e7f6ec;color:#15803d}.booth .vs .m{background:#efecfb;color:#6a55c9}
+.booth .vs .bigf{display:block;margin:3mm auto 0;width:40mm;height:14mm;border-bottom:2px solid currentColor}
+.booth .vs i{font-style:normal;font-family:var(--display);font-weight:800;font-size:18pt;color:var(--dim)}
+.sq{grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;flex:1}
+.sq .cc{padding:6mm;gap:2mm}
+.sq .cc small{font-size:9.6pt;color:var(--ink);line-height:1.4}
+.sq .cc b{font-size:14pt}
+.k-a{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}.k-b{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}.k-c{--c:#5bb5a2;--cs:#e3f1ee;--c-ink:#23826f}
+.k-d{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-e{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-f{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+#p-score td.e{height:6.6mm;padding:1mm 2mm}
+#p-score table.tb td,#p-score table.tb th{padding:1.1mm 1.8mm}
+#p-work .lines.h3{height:17mm;min-height:17mm}
+#p-work table.dt td{height:7.2mm}
+#p-work table.tb td.e{height:6.6mm}
+#p-work table.tb td,#p-work table.tb th{padding:1.2mm 2mm}
+#p-work .check{gap:.5mm}
+#p-work .box{padding:2.8mm 3.6mm}
+@media print{.xc,.js,.pr4,.cert,.booth{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · יריד המדע<small>המדען מול המכונה · 90 דקות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · המדען מול המכונה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28–35 תלמידים ב-7 מעבדות. כמויות לכיתה אחרת: לפי מספר המעבדות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, רמזור ונורמות</td><td>1 סט למעבדה (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה</td><td>1 למעבדה (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5–6</td><td>כרטיסי הוראות לניסויים</td><td>2 סטים (לכל ארגז)</td><td>בריסטול</td><td>לחצאים</td></tr>
+      <tr><td>7</td><td>תבנית מסוקי נייר</td><td>5 (2 לכל מעבדת מסוקים + פתיח)</td><td>רגיל 80 גרם</td><td>כן</td></tr>
+      <tr><td>8</td><td>דף הניסוי</td><td>1 למעבדה + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>דף שיפוט (2 בעמוד)</td><td>7 עמודים (14 דפים)</td><td>רגיל</td><td>לחצאים</td></tr>
+      <tr><td>10</td><td>פתקי ביקורת עמיתים + שורת AI</td><td>1 למעבדה (7)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>11</td><td>כרטיסי משימות צד</td><td>1 סט</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>12</td><td>מחוון והערכה עצמית</td><td>1 למעבדה + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>כרטיסי יציאה</td><td>9 עמודים (36 כרטיסים)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>14</td><td>דף ניקוד + טבלת סבבי היריד</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>תעודות מדליה</td><td>2 עמודים (4 תעודות)</td><td>בריסטול</td><td>לחצאים</td></tr>
+      <tr><td>16</td><td>שלט דוכן</td><td>1 למעבדה (7)</td><td>רגיל או בריסטול</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🧰 ארגזי ניסוי (2 מכל סוג)</h3>
+      <ul class="check" style="font-size:9.2pt"><li><b>🚁 מסוקים:</b> תבניות, מספריים, 3 אטבים זהים, סרט לסימון 2 מ׳, סרגל</li><li><b>🚗 מדרון:</b> קרטון/לוח 60 ס״מ, ספרים, מכונית צעצוע, סרט מדידה 3 מ׳</li><li><b>🧊 קרח:</b> 15 קוביות זהות (בצידנית), 15 כוסות מסומנות, מלח, סוכר, כפית, מזרק 10 מ״ל, מגש, מגבות</li><li><b>⏱️ מטוטלת:</b> חוט 1 מ׳, 5 אטבים או מפתח, סרט הדבקה, סרגל</li><li>טלפון או שעון עצר לכל מעבדה</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check" style="font-size:9.2pt"><li>שני מסוקים לפתיח: כנף 4 ס״מ וכנף 8 ס״מ</li><li>4 מעטפות "תחזית המכונה" (תכנית ב)</li><li>קופסת משימות צד, דפי שיפוט, כרטיסי יציאה</li><li>דף ניקוד, עט, תעודות</li><li>הקישורים הקצרים לטופס ולתבנית הגיליון, כתובים על הלוח</li><li>צידנית קרח ומגבות נייר</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה והרכבה מהירה</h3><p style="font-size:9.4pt">כרטיסי הניסוי נכנסים לארגז המתאים. תבניות המסוקים: גוזרים רק את קו המתאר. את קו האמצע של הכנפיים התלמידים חותכים בעצמם, כחלק מהבנייה. מסמנים 2 מטרים על הקיר לכל מעבדת מסוקים לפני השיעור.</p></div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS (4) ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיסי תפקיד במעבדה</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. מעבדה של 4: ראש/ת המעבדה גם מודד/ת. מעבדה של 6: שני נסיינים.</p>
+  <div class="cutgrid roles">
+    <article class="role r-lab">
+      <div class="rh"><span class="ic">🧑‍🔬</span><div><b>ראש/ת המעבדה</b><small>המצפן והשעון</small></div></div>
+      <p class="mis">המשימה שלי: שהמעבדה עובדת לפי השיטה המדעית, בזמן, ושהתחזית נשמרת לפני המדידה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מקריא/ה בקול את כרטיס הניסוי ושאלת המחקר.</li><li>בודק/ת: יש צילום מסך של Gemini עם שעה? רק אז מודדים.</li><li>מכריז/ה "נשארו 5 דקות" ומחלק/ת את הזמן בין התנאים.</li><li>כותב/ת את המסקנה: מי צדק, בכמה ולמה.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+      <div class="say">💬 "מה השאלה שלנו?" · "התחזית שמורה?" · "עוד לא שמענו את ___."</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא מודד/ת במקום אחרים.</p>
+      <p class="bonus">✓ הצלחתי כש: כל 15 הניסיונות נמדדו, והגשנו בזמן</p>
+    </article>
+    <article class="role r-exp">
+      <div class="rh"><span class="ic">🧪</span><div><b>נסיין/ית</b><small>הידיים של הניסוי</small></div></div>
+      <p class="mis">המשימה שלי: לבנות את הניסוי ולבצע כל ניסיון באותה צורה בדיוק.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בונה את הניסוי לפי הכרטיס, ומביא/ה ומחזיר/ה את הארגז.</li><li>משנה <b>רק</b> את המשתנה שבכרטיס. כל השאר נשאר קבוע.</li><li>משחרר/ת, לא דוחף/ת. כל פעם מאותה נקודה.</li><li>ניסיון מוזר? אומר/ת "חריג!" וחוזר/ת עליו.</li><li>ביריד: מדגים/ה ניסיון חי לשופטים.</li></ul>
+      <div class="say">💬 "מה נשאר קבוע?" · "מוכנים? 3, 2, 1, שחרור!" · "עוד פעם, באותה צורה."</div>
+      <p class="no">✗ לא משנה שני דברים בבת אחת.</p>
+      <p class="bonus">✓ הצלחתי כש: ההדגמה ביריד יצאה קרובה למספרים בטבלה</p>
+    </article>
+    <article class="role r-mea">
+      <div class="rh"><span class="ic">⏱️</span><div><b>מודד/ת</b><small>המספרים האמיתיים</small></div></div>
+      <p class="mis">המשימה שלי: למדוד מדויק, באותה דרך, ולהגיד כל מספר בקול.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מודד/ת זמן, מרחק או מ״ל, תמיד אני, באותה דרך.</li><li>קורא/ת כל מספר בקול לסטטיסטיקאי/ת, עם היחידות.</li><li>במטוטלת: סופר/ת 10 תנודות שלמות.</li><li>בודק/ת שהיחידות בטבלה ובגרף נכונות.</li><li>שואל/ת: "המספר הזה הגיוני?"</li></ul>
+      <div class="say">💬 "1.62 שניות!" · "נמדוד שוב?" · "זה נתון, לא ניחוש."</div>
+      <p class="no">✗ לא מעגל/ת ולא "מתקן/ת" מספר כדי שיתאים.</p>
+      <p class="bonus">✓ הצלחתי כש: הפיזור בין הניסיונות שלנו היה קטן</p>
+    </article>
+    <article class="role r-sta">
+      <div class="rh"><span class="ic">📊</span><div><b>סטטיסטיקאי/ת</b><small>הטבלה והגרף</small></div></div>
+      <p class="mis">המשימה שלי: לרשום הכול, לחשב ולהפוך מספרים לגרף שמובן במבט אחד.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>פותח/ת עותק של תבנית הגיליון ומקליד/ה כל ניסיון.</li><li>רושם/ת גם בדף הניסוי, כגיבוי.</li><li>ממוצע (<b>AVERAGE</b>), סטייה לשני הצדדים, פיזור.</li><li>גרף עם כותרת, צירים ויחידות.</li><li>ביריד: מציג/ה את הגרף והאחוזים.</li></ul>
+      <div class="say">💬 "תגיד/י שוב את המספר?" · "הממוצע יוצא ___." · "מי היה קרוב יותר?"</div>
+      <p class="no">✗ לא מקליד/ה סכום ביד במקום נוסחה.</p>
+      <p class="bonus">✓ הצלחתי כש: השופטים הבינו את הגרף בלי הסבר</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. SPOKESPERSON + NORMS ===================== -->
+<section class="page" id="p-roles2" data-label="דובר/ת ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיסי תפקיד, המשך</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, הרמזור, הנורמות וכרטיס "מי מה היום". שלושת האחרונים נשארים על השולחן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-spk">
+      <div class="rh"><span class="ic">🎤</span><div><b>דובר/ת היריד</b><small>הקול של המעבדה, והקשר עם ה-AI</small></div></div>
+      <p class="mis">המשימה שלי: לבקש תחזית והסבר מה-AI בחוכמה, ולהציג את המעבדה ביריד.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>שולח/ת ל-Gemini את פרומפט התחזית, ומצלם/ת מסך <b>עם השעה</b>.</li><li>ב-Notebook: מעלה את המקור ושואל/ת "למה?".</li><li>מעצב/ת את הפוסטר ומגיש/ה בטופס.</li><li>ממלא/ת את שורת ה-AI: מה ה-AI עשה · מה אנחנו עשינו.</li><li>טיפ פרטיות: כותבים רק על הניסוי.</li></ul>
+      <div class="say">💬 "תן מספר אחד לכל תנאי." · "איפה זה כתוב במקור?" · "מה ה-AI עשה כאן?"</div>
+      <p class="no">✗ לא מעתיק/ה הסבר מהצ׳אט בלי מקור.</p>
+      <p class="bonus">✓ הצלחתי כש: הסברנו בדוכן למה התחזית צדקה או טעתה</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="g"><b>🟢 ספרינט 1: Gemini חוזה</b>תחזית במספרים, לפני המדידה. אנחנו מודדים.</div>
+        <div class="g"><b>🟢 ספרינט 2: Notebook מסביר</b>הסבר עם מקור וציטוט. אנחנו בודקים ומחליטים.</div>
+        <div class="r"><b>🔴 כרטיס יציאה</b>כל אחד לבד, בלי AI.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">תחזית של מכונה היא השערה. מה שמכריע: המדידה.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות המעבדה</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל המעבדה סיימה.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>בודקים, לא מתווכחים: עוד ניסיון.</li>
+        <li>לא מתקנים מספרים. אף פעם.</li>
+      </ol>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">📋</span><div><b>מי מה היום</b><small>כותבים שם פרטי</small></div></div>
+      <table class="tb" style="font-size:9.4pt">
+        <tbody>
+          <tr><td style="width:42%">🧑‍🔬 ראש/ת המעבדה</td><td></td></tr>
+          <tr><td>🧪 נסיין/ית</td><td></td></tr>
+          <tr><td>⏱️ מודד/ת</td><td></td></tr>
+          <tr><td>📊 סטטיסטיקאי/ת</td><td></td></tr>
+          <tr><td>🎤 דובר/ת היריד</td><td></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:9pt">שם המעבדה: <span class="fill"></span></p>
+      <p style="font-size:9pt">הניסוי שלנו: ☐ 🚁 ☐ 🚗 ☐ 🧊 ☐ ⏱️</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיס המשימה</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔬 ביתן "המדען מול המכונה"</span><h2>מדליית הזהב: <span>המדען מול המכונה</span></h2></div><p>יריד המדע פתח השנה ביתן חדש. כל מעבדה מקבלת ניסוי, מבקשת ממכונת התחזיות לנחש מה יקרה, ובודקת במציאות. השופטים יבקשו לראות את המספרים.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>להוכיח במספרים מי חזה טוב יותר את תוצאת הניסוי, <b>אתם או Gemini</b>, ולהסביר למה, עם מקור.</p>
+      <h3 style="margin-top:3mm">🖼️ התוצר</h3><p style="font-size:9.6pt">פוסטר מדעי (Slides או Canva): שאלה, השערה, תחזית Gemini, שיטה, טבלה 3 × 5 עם ממוצעים, גרף, סטייה מול סטייה, הסבר עם מקור, מסקנה ושורת AI. + קישור לגיליון.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.6pt"><li>ההשערה והתחזית של Gemini נכתבות לפני המדידה הראשונה, עם שעה.</li><li>משנים רק משתנה אחד. כל השאר קבוע.</li><li>לפחות 3 תנאים × 5 ניסיונות. כל ניסיון נרשם, גם "מוזר".</li><li>לא מתקנים מספרים. נתון מומצא פוסל את הניסוי.</li><li>ההסבר המדעי מגיע ממקור ב-Notebook.</li><li>מגישים בטופס עד סוף הטיימר.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש) · 30 נקודות</h3>
+    <table class="tb"><thead><tr><th>מה בודקים</th><th style="width:26mm">נקודות</th></tr></thead><tbody>
+      <tr><td>השערה ותחזית AI נשמרו לפני המדידה</td><td>2</td></tr>
+      <tr><td>3 תנאים × 5 ניסיונות לפחות, עם ממוצע</td><td>3</td></tr>
+      <tr><td>גרף ב-Sheets עם כותרת, צירים ויחידות</td><td>3</td></tr>
+      <tr><td>אחוז סטייה מחושב לתחזית ולהשערה</td><td>2</td></tr>
+      <tr><td>הסבר מדעי עם מקור מ-Notebook</td><td>2</td></tr>
+      <tr><td>בונוס: סימולציה ב-Canvas והשוואה שלה למציאות</td><td>+2</td></tr>
+      <tr><td>ציון השופטים ביריד לפי המחוון (4 קריטריונים × עד 4)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">שובר שוויון: הציון בקריטריון "מסקנה: מי צדק ולמה". פרסים: 🥇 זהב · 🧠 ניצחנו את המכונה · 📏 המדידה המדויקת · 🕵️ הבלש.</p></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">מטוטלת או מסוקים, משפטי הפתיחה בדף הניסוי, תבנית הגיליון עם נוסחאות מוכנות, שלד הפוסטר מהמצגת.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">כל ניסוי, תבנית הגיליון, השערה ומסקנה במילים שלכם.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">נוסחאות בגיליון בעצמכם, תנאי רביעי, ותחזית שנייה מ-Gemini אחרי 2 מדידות. +1 בונוס.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. EXPERIMENT CARDS A ===================== -->
+<section class="page" id="p-exp1" data-label="כרטיסי ניסוי 1">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיסי הוראות לניסוי</div><div class="r">✂ לחצאים · כרטיס לכל ארגז</div></div>
+  <div class="cutgrid expgrid">
+    <article class="xc x-heli">
+      <div class="xh"><b>🚁 מסוקי נייר</b><span>האם אורך הכנף משנה את זמן הנפילה?</span></div>
+      <div class="var3"><div><b>🔧 משנים</b>אורך כנף: 4 · 6 · 8 ס״מ</div><div><b>📏 מודדים</b>שניות עד הנחיתה, מגובה 2 מ׳</div><div><b>🔒 קבוע</b>נייר, אטב, גובה, אותו מודד/ת</div></div>
+      <div class="cols">
+        <div><h4>בונים</h4><ol><li>גוזרים 3 מסוקים מהתבנית וחותכים את קו האמצע.</li><li>מקפלים כנף אחת קדימה ואחת אחורה.</li><li>מקפלים את הצדדים פנימה, את התחתית למעלה, ומחברים אטב.</li><li>בודקים ששחרור אחד מסתובב יפה.</li></ol></div>
+        <div><h4>מודדים</h4><ul><li>מחזיקים את המסוק בגובה הסימון (2 מ׳) על הקיר, תמיד באותה צורה.</li><li>"3, 2, 1, שחרור": המודד/ת לוחץ/ת עם המילה "שחרור" ועוצר/ת בנגיעה ברצפה.</li><li>5 נפילות לכל מסוק. נגע בקיר? "חריג", ועוד נפילה.</li></ul></div>
+      </div>
+      <div class="pr">💬 אנחנו מפילים מסוק נייר מגובה 2 מטרים. הכנפיים באורך 4, 6 ו-8 ס״מ, נייר A4 רגיל, אטב אחד בתחתית. חזה כמה שניות ייקח לכל אחד לנחות. תן מספר אחד לכל אורך ונימוק קצר.</div>
+      <p class="src">📚 מקור ל-Notebook: ויקיפדיה "התנגדות אוויר" · <i>he.wikipedia.org/wiki/התנגדות_אוויר</i> · או <i>en.wikipedia.org/wiki/Drag_(physics)</i></p>
+      <div class="why">🧠 אין מכשירים? בקצרה, לפי המקור: התנגדות אוויר היא כוח שפועל נגד תנועת גוף באוויר. היא גדלה ככל ששטח הגוף שפוגש את האוויר גדול יותר, וככל שהמהירות גדולה יותר.</div>
+    </article>
+    <article class="xc x-ramp">
+      <div class="xh"><b>🚗 מכונית על מדרון</b><span>האם גובה המדרון משנה כמה רחוק המכונית תיסע?</span></div>
+      <div class="var3"><div><b>🔧 משנים</b>גובה המדרון: 5 · 10 · 15 ס״מ</div><div><b>📏 מודדים</b>ס״מ על הרצפה, מסוף המדרון עד שהמכונית עוצרת</div><div><b>🔒 קבוע</b>מכונית, מדרון 60 ס״מ, נקודת שחרור, רצפה</div></div>
+      <div class="cols">
+        <div><h4>בונים</h4><ol><li>מניחים את המדרון על ערמת ספרים ומודדים את הגובה בקצה העליון.</li><li>מסמנים בסרט הדבקה את סוף המדרון על הרצפה.</li><li>מסמנים על המדרון קו שחרור קבוע.</li><li>מפנים מסלול ישר של 3 מטרים.</li></ol></div>
+        <div><h4>מודדים</h4><ul><li>משחררים את המכונית מקו השחרור. לא דוחפים!</li><li>מודדים בסרט מדידה מסוף המדרון עד הגלגל האחורי.</li><li>5 נסיעות לכל גובה. סטתה ונתקעה בקיר? "חריג", ועוד נסיעה.</li></ul></div>
+      </div>
+      <div class="pr">💬 מכונית צעצוע יורדת ממדרון באורך 60 ס״מ בשלושה גבהים: 5, 10 ו-15 ס״מ. כמה סנטימטרים היא תיסע על הרצפה אחרי המדרון בכל גובה? תן מספר לכל גובה ונימוק קצר.</div>
+      <p class="src">📚 מקור ל-Notebook: ויקיפדיה "אנרגיה פוטנציאלית" · <i>he.wikipedia.org/wiki/אנרגיה_פוטנציאלית</i> · וגם "חיכוך" · <i>he.wikipedia.org/wiki/חיכוך</i></p>
+      <div class="why">🧠 אין מכשירים? בקצרה, לפי המקור: גוף במקום גבוה אוגר אנרגיית גובה. כשהוא יורד, היא הופכת לאנרגיית תנועה. כוח החיכוך פועל נגד התנועה ועוצר את הגוף בהדרגה.</div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 6. EXPERIMENT CARDS B ===================== -->
+<section class="page" id="p-exp2" data-label="כרטיסי ניסוי 2">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיסי הוראות לניסוי</div><div class="r">✂ לחצאים · כרטיס לכל ארגז</div></div>
+  <div class="cutgrid expgrid">
+    <article class="xc x-ice">
+      <div class="xh"><b>🧊 קרח: מלח או סוכר?</b><span>מה ממיס קרח מהר יותר?</span></div>
+      <div class="var3"><div><b>🔧 משנים</b>כלום · כפית מלח · כפית סוכר</div><div><b>📏 מודדים</b>מ״ל מים שנמסו אחרי 8 דקות</div><div><b>🔒 קבוע</b>גודל הקובייה, כוסות, כפית שטוחה, זמן</div></div>
+      <div class="cols">
+        <div><h4>בונים</h4><ol><li>15 כוסות על מגש: כלום 1–5, מלח 1–5, סוכר 1–5.</li><li>מוציאים 15 קוביות זהות מהצידנית רק אחרי שהתחזית נשמרה.</li><li>קובייה בכל כוס, ומיד כפית שטוחה של מלח או סוכר מעליה.</li><li>מפעילים טיימר אחד ל-8 דקות לכל הכוסות.</li></ol></div>
+        <div><h4>מודדים</h4><ul><li>אחרי 8 דקות בדיוק: מחזיקים את הקובייה בכפית ושופכים את המים למזרק או לכוסית מדידה.</li><li>רושמים מ״ל לכל כוס, אחת אחרי השנייה, באותו סדר.</li><li>לא טועמים, ומנגבים מיד.</li></ul></div>
+      </div>
+      <div class="pr">💬 שלוש קוביות קרח זהות בכוסות פלסטיק בטמפרטורת החדר: אחת בלי כלום, אחת עם כפית מלח, אחת עם כפית סוכר. כמה מ״ל מים יימסו מכל קובייה אחרי 8 דקות? תן מספר לכל כוס ונימוק קצר.</div>
+      <p class="src">📚 מקור ל-Notebook: ויקיפדיה "תכונות קוליגטיביות" · <i>he.wikipedia.org/wiki/תכונות_קוליגטיביות</i> · או <i>en.wikipedia.org/wiki/Freezing-point_depression</i></p>
+      <div class="why">🧠 אין מכשירים? בקצרה, לפי המקור: חומר שמומס במים מוריד את נקודת הקיפאון שלהם. ההשפעה תלויה במספר החלקיקים המומסים, ולא בסוג החומר.</div>
+    </article>
+    <article class="xc x-pend">
+      <div class="xh"><b>⏱️ מטוטלת</b><span>האם אורך החוט משנה את קצב המטוטלת?</span></div>
+      <div class="var3"><div><b>🔧 משנים</b>אורך החוט: 20 · 40 · 80 ס״מ</div><div><b>📏 מודדים</b>שניות ל-10 תנודות שלמות (הלוך וחזור)</div><div><b>🔒 קבוע</b>משקולת, זווית שחרור קטנה, אותו מודד/ת</div></div>
+      <div class="cols">
+        <div><h4>בונים</h4><ol><li>קושרים משקולת (צרור אטבים או מפתח) לקצה החוט.</li><li>מדביקים את החוט לקצה השולחן בסרט חזק.</li><li>מודדים את האורך <b>עד מרכז המשקולת</b>: 20 ס״מ.</li><li>אחרי 5 מדידות, מאריכים ל-40 ואז ל-80.</li></ol></div>
+        <div><h4>מודדים</h4><ul><li>מרחיקים את המשקולת כ-10 ס״מ הצידה ומשחררים. לא דוחפים.</li><li>המודד/ת מתחיל/ה בשחרור וסופר/ת 10 תנודות שלמות.</li><li>רושמים את זמן 10 התנודות. בגיליון מחלקים ב-10.</li></ul></div>
+      </div>
+      <div class="pr">💬 מטוטלת מחוט ואטבים, באורכים 20, 40 ו-80 ס״מ, משוחררת מזווית קטנה. כמה שניות יימשכו 10 תנודות שלמות בכל אורך? תן מספר לכל אורך ונימוק קצר.</div>
+      <p class="src">📚 מקור ל-Notebook: ויקיפדיה "מטוטלת מתמטית" · <i>he.wikipedia.org/wiki/מטוטלת_מתמטית</i> · וגם <i>he.wikipedia.org/wiki/מטוטלת</i></p>
+      <div class="why">🧠 אין מכשירים? בקצרה, לפי המקור: זמן המחזור של מטוטלת תלוי באורך החוט ובכוח המשיכה, ולא במסת המשקולת, כל עוד הזווית קטנה. אורך גדול פי 4 נותן זמן מחזור גדול פי 2.</div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 7. HELICOPTER TEMPLATE ===================== -->
+<section class="page" id="p-heli" data-label="תבנית מסוקים">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · תבנית מסוקי נייר</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🚁 ניסוי מסוקי הנייר</span><h2>שלושה מסוקים, <span>משתנה אחד</span></h2></div><p>כל המסוקים מאותו דף, באותו רוחב, עם אותו אטב. רק אורך הכנף משתנה.</p></div>
+  <div class="helis"><figure><figcaption>כנף 4 ס״מ</figcaption><svg width="50mm" height="95mm" viewBox="-1 -1 52 97" font-family="Heebo,Arial"><rect x="0" y="0" width="50" height="95" fill="#fff" stroke="#1f2a37" stroke-width=".4"/><line x1="25" y1="0" x2="25" y2="40" stroke="#1f2a37" stroke-width=".45"/><line x1="0" y1="40" x2="50" y2="40" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="0" y1="50" x2="15" y2="50" stroke="#1f2a37" stroke-width=".45"/><line x1="35" y1="50" x2="50" y2="50" stroke="#1f2a37" stroke-width=".45"/><line x1="15" y1="50" x2="15" y2="95" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="35" y1="50" x2="35" y2="95" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="15" y1="83" x2="35" y2="83" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><text x="25" y="-2.2" font-size="4" text-anchor="middle">✂</text><text x="37.5" y="20.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף א׳</text><text x="37.5" y="24.6" font-size="2.9" text-anchor="middle" fill="#5b6574">קדימה ↓</text><text x="12.5" y="20.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף ב׳</text><text x="12.5" y="24.6" font-size="2.9" text-anchor="middle" fill="#5b6574">אחורה ↑</text><text x="25" y="64" font-size="3.2" text-anchor="middle" font-weight="700" fill="#1f2a37">גוף</text><text x="7.5" y="68" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="42.5" y="68" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="25" y="90" font-size="3" text-anchor="middle" fill="#5b6574">📎 מקפלים למעלה</text></svg></figure><figure><figcaption>כנף 6 ס״מ</figcaption><svg width="50mm" height="115mm" viewBox="-1 -1 52 117" font-family="Heebo,Arial"><rect x="0" y="0" width="50" height="115" fill="#fff" stroke="#1f2a37" stroke-width=".4"/><line x1="25" y1="0" x2="25" y2="60" stroke="#1f2a37" stroke-width=".45"/><line x1="0" y1="60" x2="50" y2="60" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="0" y1="70" x2="15" y2="70" stroke="#1f2a37" stroke-width=".45"/><line x1="35" y1="70" x2="50" y2="70" stroke="#1f2a37" stroke-width=".45"/><line x1="15" y1="70" x2="15" y2="115" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="35" y1="70" x2="35" y2="115" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="15" y1="103" x2="35" y2="103" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><text x="25" y="-2.2" font-size="4" text-anchor="middle">✂</text><text x="37.5" y="30.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף א׳</text><text x="37.5" y="34.6" font-size="2.9" text-anchor="middle" fill="#5b6574">קדימה ↓</text><text x="12.5" y="30.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף ב׳</text><text x="12.5" y="34.6" font-size="2.9" text-anchor="middle" fill="#5b6574">אחורה ↑</text><text x="25" y="84" font-size="3.2" text-anchor="middle" font-weight="700" fill="#1f2a37">גוף</text><text x="7.5" y="88" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="42.5" y="88" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="25" y="110" font-size="3" text-anchor="middle" fill="#5b6574">📎 מקפלים למעלה</text></svg></figure><figure><figcaption>כנף 8 ס״מ</figcaption><svg width="50mm" height="135mm" viewBox="-1 -1 52 137" font-family="Heebo,Arial"><rect x="0" y="0" width="50" height="135" fill="#fff" stroke="#1f2a37" stroke-width=".4"/><line x1="25" y1="0" x2="25" y2="80" stroke="#1f2a37" stroke-width=".45"/><line x1="0" y1="80" x2="50" y2="80" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="0" y1="90" x2="15" y2="90" stroke="#1f2a37" stroke-width=".45"/><line x1="35" y1="90" x2="50" y2="90" stroke="#1f2a37" stroke-width=".45"/><line x1="15" y1="90" x2="15" y2="135" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="35" y1="90" x2="35" y2="135" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><line x1="15" y1="123" x2="35" y2="123" stroke="#0f766e" stroke-width=".4" stroke-dasharray="1.6 1.2"/><text x="25" y="-2.2" font-size="4" text-anchor="middle">✂</text><text x="37.5" y="40.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף א׳</text><text x="37.5" y="44.6" font-size="2.9" text-anchor="middle" fill="#5b6574">קדימה ↓</text><text x="12.5" y="40.0" font-size="3.4" text-anchor="middle" font-weight="700" fill="#1f2a37">כנף ב׳</text><text x="12.5" y="44.6" font-size="2.9" text-anchor="middle" fill="#5b6574">אחורה ↑</text><text x="25" y="104" font-size="3.2" text-anchor="middle" font-weight="700" fill="#1f2a37">גוף</text><text x="7.5" y="108" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="42.5" y="108" font-size="2.6" text-anchor="middle" fill="#5b6574">פנימה</text><text x="25" y="130" font-size="3" text-anchor="middle" fill="#5b6574">📎 מקפלים למעלה</text></svg></figure></div>
+  <div class="legend"><span><i></i> חותכים</span><span><i class="d"></i> מקפלים</span><span>📎 אטב בתחתית</span></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✂ איך בונים</h3><ol class="clean" style="font-size:9.4pt"><li>גוזרים את המסגרת החיצונית.</li><li>חותכים את קו האמצע בין הכנפיים, ואת שני החתכים הקצרים בצדדים.</li><li>מקפלים את שני הצדדים פנימה, על הגוף.</li><li>מקפלים את התחתית למעלה ומחברים אטב.</li><li>כנף א׳ קדימה, כנף ב׳ אחורה. מוכן!</li></ol></div>
+    <div class="box soft"><h3>💡 טיפים</h3><ul class="clean" style="font-size:9.4pt"><li>הכנפיים צריכות להיפתח בזווית שווה. אחרת המסוק לא מסתובב.</li><li>אותו אטב בדיוק לכל שלושת המסוקים.</li><li>מסוק שנקרע או התקמט: מחליפים, ורושמים בדף "החלפנו מסוק בניסיון ___".</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 8. WORKSHEET ===================== -->
+<section class="page" id="p-work" data-label="דף הניסוי">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · דף הניסוי</div><div class="r">מעבדה: <span class="fill"></span> · ניסוי: ☐🚁 ☐🚗 ☐🧊 ☐⏱️</div></div>
+  <div class="stack grow" style="gap:3mm">
+    <div class="box"><h3>1. שאלת המחקר</h3><p style="font-size:9.4pt">"האם <span class="fill l"></span> משנה את <span class="fill l"></span>?"</p></div>
+    <div class="grid2" style="gap:3mm">
+      <div class="box"><h3>2. ההשערה שלנו 🙋 <small style="font-weight:500;color:var(--muted)">שעה: <span class="fill s"></span></small></h3><p style="font-size:9pt;line-height:2.1">"אנחנו חושבים ש<span class="fill l"></span><br>כי <span class="fill xl" style="min-width:70mm"></span>"</p></div>
+      <div class="box"><h3>3. התחזית של Gemini 🤖 <small style="font-weight:500;color:var(--muted)">שעה: <span class="fill s"></span></small></h3><div class="lines h2"></div><p style="font-size:8.6pt;color:var(--muted)">☐ צילום מסך נשמר לפני המדידה הראשונה</p></div>
+    </div>
+    <div class="box"><h3>4. ניסוי הוגן</h3><div class="grid3" style="gap:3mm;font-size:9.2pt"><p>🔧 משנים: <span class="fill"></span></p><p>📏 מודדים: <span class="fill"></span></p><p>🔒 קבוע: <span class="fill"></span></p></div></div>
+    <div class="box"><h3>5. טבלת הנתונים <small style="font-weight:500;color:var(--muted)">יחידות: <span class="fill s"></span></small></h3>
+      <table class="dt"><colgroup><col style="width:17%"><col><col><col><col><col><col style="width:11%"><col style="width:11%"><col style="width:11%"></colgroup>
+        <thead><tr><th>תנאי</th><th>ניסיון 1</th><th>2</th><th>3</th><th>4</th><th>5</th><th class="hl">ממוצע</th><th>🤖 Gemini</th><th>🙋 אנחנו</th></tr></thead>
+        <tbody><tr><td class="l"></td><td></td><td></td><td></td><td></td><td></td><td class="hl"></td><td></td><td></td></tr><tr><td class="l"></td><td></td><td></td><td></td><td></td><td></td><td class="hl"></td><td></td><td></td></tr><tr><td class="l"></td><td></td><td></td><td></td><td></td><td></td><td class="hl"></td><td></td><td></td></tr><tr><td class="l" style="color:var(--dim);font-size:8pt">רביעי (בונוס)</td><td></td><td></td><td></td><td></td><td></td><td class="hl"></td><td></td><td></td></tr></tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted);margin-top:1mm">ניסיון חריג? מקיפים אותו בעיגול וכותבים למה: <span class="fill xl"></span></p></div>
+    <div class="grid2" style="gap:3mm">
+      <div class="box"><h3>6. אחוז סטייה</h3>
+        <p style="font-size:9pt">סטייה % = <span class="frac"><span>|תחזית − מדידה|</span><span>מדידה</span></span> × 100</p>
+        <table class="tb" style="margin-top:2mm;font-size:8.8pt"><thead><tr><th>תנאי</th><th>🤖 סטיית Gemini %</th><th>🙋 סטיית ההשערה %</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td></tr><tr><td><b>ממוצע</b></td><td></td><td></td></tr></tbody></table></div>
+      <div class="graph" data-label="7. הגרף (אם אין מחשב): ממוצע לכל תנאי · כותרת · צירים · יחידות" style="min-height:44mm"></div>
+    </div>
+    <div class="grid2" style="gap:3mm">
+      <div class="box"><h3>8. המסקנה: מי צדק ולמה?</h3><div class="lines h3"></div><p style="font-size:8.6pt;color:var(--muted)">מקור: <span class="fill l"></span></p></div>
+      <div class="box"><h3>✓ לפני הגשה</h3><ul class="check" style="font-size:9pt"><li>תחזית + השערה עם שעה, לפני המדידה</li><li>15 ניסיונות לפחות + ממוצעים</li><li>גרף עם כותרת, צירים ויחידות</li><li>סטייה לשני הצדדים</li><li>הסבר עם מקור מ-Notebook</li><li>🤖 מה ה-AI עשה · ✋ מה אנחנו עשינו</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9. JUDGE SHEETS ===================== -->
+<section class="page" id="p-judge" data-label="דף שיפוט">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · דף שיפוט</div><div class="r">✂ לחצאים · דף אחד לכל דוכן</div></div>
+  <div class="cutgrid judges">
+    <article class="js">
+      <div class="jh"><b>🧑‍⚖️ דף שיפוט · יריד המדע</b><span>סבב: ☐ א׳ ☐ ב׳</span></div>
+      <p>הדוכן: מעבדת <span class="fill"></span> · ניסוי: ☐🚁 ☐🚗 ☐🧊 ☐⏱️ · השופטים: מעבדת <span class="fill"></span></p>
+      <table><thead><tr><th style="width:30%">קריטריון</th><th>מה מחפשים ל-4</th><th style="width:30mm;text-align:center">רמה</th></tr></thead><tbody>
+        <tr><td><b>📝 שאלה, השערה ותחזית</b></td><td>השערה עם מספר ונימוק, ותחזית AI עם שעה לפני המדידה</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🧪 ניסוי ומדידה</b></td><td>3 × 5, משתנה אחד, מדידה עקבית, חריג מוסבר</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🏆 מסקנה: מי צדק ולמה</b></td><td>סטייה לשני הצדדים והסבר עם מקור</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🤝 צוות ושקיפות AI</b></td><td>כולם דיברו, וכתוב מה ה-AI עשה</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+      </tbody></table>
+      <p>🔁 ביקשנו הדגמה חיה של ניסיון אחד: ☐ יצא מספר דומה לטבלה &nbsp; ☐ יצא שונה, והם הסבירו למה</p>
+      <div class="tot">סה״כ (4–16): <span class="box16"></span></div>
+      <div class="grid2" style="gap:3mm;font-size:9pt"><div>⭐ מחמאה אחת ספציפית:<div class="lines h1"></div></div><div>❓ שאלה אחת שנשארה לנו:<div class="lines h1"></div></div></div>
+    </article>
+    <article class="js">
+      <div class="jh"><b>🧑‍⚖️ דף שיפוט · יריד המדע</b><span>סבב: ☐ א׳ ☐ ב׳</span></div>
+      <p>הדוכן: מעבדת <span class="fill"></span> · ניסוי: ☐🚁 ☐🚗 ☐🧊 ☐⏱️ · השופטים: מעבדת <span class="fill"></span></p>
+      <table><thead><tr><th style="width:30%">קריטריון</th><th>מה מחפשים ל-4</th><th style="width:30mm;text-align:center">רמה</th></tr></thead><tbody>
+        <tr><td><b>📝 שאלה, השערה ותחזית</b></td><td>השערה עם מספר ונימוק, ותחזית AI עם שעה לפני המדידה</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🧪 ניסוי ומדידה</b></td><td>3 × 5, משתנה אחד, מדידה עקבית, חריג מוסבר</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🏆 מסקנה: מי צדק ולמה</b></td><td>סטייה לשני הצדדים והסבר עם מקור</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+        <tr><td><b>🤝 צוות ושקיפות AI</b></td><td>כולם דיברו, וכתוב מה ה-AI עשה</td><td class="circ"><i>1</i><i>2</i><i>3</i><i>4</i></td></tr>
+      </tbody></table>
+      <p>🔁 ביקשנו הדגמה חיה של ניסיון אחד: ☐ יצא מספר דומה לטבלה &nbsp; ☐ יצא שונה, והם הסבירו למה</p>
+      <div class="tot">סה״כ (4–16): <span class="box16"></span></div>
+      <div class="grid2" style="gap:3mm;font-size:9pt"><div>⭐ מחמאה אחת ספציפית:<div class="lines h1"></div></div><div>❓ שאלה אחת שנשארה לנו:<div class="lines h1"></div></div></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 10. PEER REVIEW + AI LINE ===================== -->
+<section class="page" id="p-peer" data-label="ביקורת עמיתים ושורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · ביקורת עמיתים ושורת AI</div><div class="r">✂ לרבעים</div></div>
+  <p class="cutnote">✂ שני פתקי ביקורת (לנקודת הביקורת, דקה 49) ושתי שורות AI (מצורפות לפוסטר ולטופס).</p>
+  <div class="cutgrid strips">
+    <div class="pr4">
+      <div class="head"><b>🔎 ביקורת עמיתים</b><span>מעבדת <span class="fill"></span> בדקה את מעבדת <span class="fill"></span></span></div>
+      <div class="q3"><div>🕐 התחזית נשמרה לפני המדידה? ☐ כן ☐ לא</div><div>🔧 רק משתנה אחד משתנה? ☐ כן ☐ לא</div><div>📏 מודדים באותה צורה? ☐ כן ☐ לא</div></div>
+      <div class="two"><div style="background:#e7f6ec"><b>💚 אהבנו</b><div class="lines"></div></div><div style="background:#fdf3d7"><b>🔧 כדאי לתקן</b><div class="lines"></div></div></div>
+    </div>
+    <div class="pr4">
+      <div class="head"><b>🔎 ביקורת עמיתים</b><span>מעבדת <span class="fill"></span> בדקה את מעבדת <span class="fill"></span></span></div>
+      <div class="q3"><div>🕐 התחזית נשמרה לפני המדידה? ☐ כן ☐ לא</div><div>🔧 רק משתנה אחד משתנה? ☐ כן ☐ לא</div><div>📏 מודדים באותה צורה? ☐ כן ☐ לא</div></div>
+      <div class="two"><div style="background:#e7f6ec"><b>💚 אהבנו</b><div class="lines"></div></div><div style="background:#fdf3d7"><b>🔧 כדאי לתקן</b><div class="lines"></div></div></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>מעבדת <span class="fill"></span> · יריד המדע</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלים: ☐ Gemini ☐ Notebook ☐ Canvas</span><span>☐ בדקנו את ההסבר במקור</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>מעבדת <span class="fill"></span> · יריד המדע</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלים: ☐ Gemini ☐ Notebook ☐ Canvas</span><span>☐ בדקנו את ההסבר במקור</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11. SIDE QUESTS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיסי משימות צד</div><div class="r">✂ בקופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ מעבדה שסיימה שולפת כרטיס. אפשר לשלב בפוסטר (נחשב בדיון השופטים).</p>
+  <div class="cutgrid cards sq">
+    <div class="cc k-a"><span class="cat">משימת צד</span><span class="no">1</span><span class="em">➕</span><b>תנאי רביעי</b><small>הוסיפו אורך, גובה או חומר נוסף ומדדו 5 ניסיונות. האם הקו בגרף ממשיך באותו כיוון? כתבו משפט אחד בפוסטר.</small></div>
+    <div class="cc k-b"><span class="cat">משימת צד</span><span class="no">2</span><span class="em">🔁</span><b>תחזית שנייה</b><small>תנו ל-Gemini את הממוצעים של 2 התנאים הראשונים, ובקשו תחזית חדשה לשלישי. היא קרובה יותר? בכמה אחוזים?</small></div>
+    <div class="cc k-c"><span class="cat">משימת צד</span><span class="no">3</span><span class="em">👯</span><b>מעבדה תאומה</b><small>מצאו מעבדה עם אותו ניסוי. השוו ממוצעים. אם הם שונים: מה היה שונה אצלכם? (מכונית, נייר, מודד/ת?)</small></div>
+    <div class="cc k-d"><span class="cat">משימת צד</span><span class="no">4</span><span class="em">🔬</span><b>שאלת המשך</b><small>מה הייתם בודקים בניסוי הבא? כתבו שאלה, השערה עם מספר, ומשתנה אחד. (למשל: האם משקל האטב משנה?)</small></div>
+    <div class="cc k-e"><span class="cat">משימת צד</span><span class="no">5</span><span class="em">🕵️</span><b>ציד טעויות</b><small>בקשו מ-Gemini הסבר מדעי בלי מקור, והשוו למה שכתוב ב-Notebook. מצאו משפט אחד שלא מופיע במקור.</small></div>
+    <div class="cc k-f"><span class="cat">משימת צד</span><span class="no">6</span><span class="em">🧪</span><b>ניסוי חמישי</b><small>המציאו ניסוי מהיר עם חפצים מהכיתה: מה משנים, מה מודדים, מה קבוע. כתבו לו פרומפט תחזית.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 12. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · המחוון</div><div class="r">מעבדה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>כך יחליטו <span>השופטים</span></h2></div><p>בביקורת העמיתים מסמנים איפה אתם עכשיו. ביריד, כל שופט מסמן רמה בכל קריטריון. ציון השופטים = סכום 4 הרמות (4–16), ממוצע של כל דפי השיפוט.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:20%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">שאלה, השערה ותחזית<small>לפני שמודדים</small></td><td>אין שאלה ברורה</td><td>יש שאלה, ההשערה כללית ("ייפול מהר")</td><td>שאלה ברורה, השערה עם מספר, ותחזית AI שנשמרה לפני המדידה</td><td>כל אלה, ונימוק להשערה שמבוסס על ידע או ניסיון</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">ניסוי ומדידה<small>הוגן ועקבי</small></td><td>מדידה אחת או מספרים לא רשומים</td><td>כמה מדידות, יותר ממשתנה אחד משתנה</td><td>3 תנאים × 5 ניסיונות, משתנה אחד, ממוצע וגרף</td><td>מדידה עקבית, זיהוי ניסיון חריג והסבר שלו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מסקנה: מי צדק ולמה<small>מספרים ומקור</small></td><td>"זה הצליח"</td><td>כתוב מי צדק, בלי מספרים</td><td>אחוז סטייה לתחזית ולהשערה, ומסקנה לפיו</td><td>הסבר מדעי עם מקור למה התחזית צדקה או טעתה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">צוות ושקיפות AI<small>כולם, ובגלוי</small></td><td>אחד עשה הכול</td><td>כולם עשו משהו, בלי תיאום</td><td>כל תפקיד ביצע את חלקו, וכתוב מה ה-AI עשה</td><td>כל התפקידים עזרו זה לזה, וכולם דיברו בדוכן</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🧮 מהמחוון לנקודות</h3><p style="font-size:9.6pt">סכום 4 הרמות = ציון השופט (4–16). ציון השופטים של הדוכן = ממוצע כל דפי השיפוט. ועוד עד 14 נקודות מפרט = <b>30</b>.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד שנשפר לפני היריד</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "מעבדת הנשרים · מטוטלת" (בדיוני), קריטריון "מסקנה"</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> "סטיית Gemini 3%, סטיית ההשערה שלנו 12%. המכונה הייתה קרובה יותר."</p><p style="font-size:9.2pt"><b>🚀 רמה 4:</b> אותם מספרים, ועוד: "Gemini השתמש בנוסחה: הזמן תלוי בשורש של אורך החוט, לא במשקל (מקור: 'מטוטלת מתמטית'). אנחנו הנחנו שאורך כפול = זמן כפול."</p></div></div>
+</section>
+
+<!-- ===================== 13. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 86–88, לפני טקס המדליות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>יריד המדע</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מתי אסמוך על תחזית של מכונה, ומתי אבדוק בעצמי? דוגמה:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למעבדה:</p>
+      <div class="tags"><span>בנייה</span><span>מדידה</span><span>טבלה וגרף</span><span>Gemini / Notebook</span><span>הצגה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>יריד המדע</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מתי אסמוך על תחזית של מכונה, ומתי אבדוק בעצמי? דוגמה:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למעבדה:</p>
+      <div class="tags"><span>בנייה</span><span>מדידה</span><span>טבלה וגרף</span><span>Gemini / Notebook</span><span>הצגה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>יריד המדע</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מתי אסמוך על תחזית של מכונה, ומתי אבדוק בעצמי? דוגמה:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למעבדה:</p>
+      <div class="tags"><span>בנייה</span><span>מדידה</span><span>טבלה וגרף</span><span>Gemini / Notebook</span><span>הצגה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>יריד המדע</span></div><p>מעבדה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מתי אסמוך על תחזית של מכונה, ומתי אבדוק בעצמי? דוגמה:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי למעבדה:</p>
+      <div class="tags"><span>בנייה</span><span>מדידה</span><span>טבלה וגרף</span><span>Gemini / Notebook</span><span>הצגה</span><span>עזרתי למעבדה אחרת</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 14. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות לשקפים 38 ו-40</span><h2>דף <span>הניקוד</span></h2></div><p>מפרט (עד 14) + ממוצע שופטים (עד 16) = 30. חידון ופיזור הם לשוברי שוויון ולפרסים.</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:24mm">מעבדה</th><th>תחזית<br><small>2</small></th><th>3×5<br><small>3</small></th><th>גרף<br><small>3</small></th><th>סטייה<br><small>2</small></th><th>מקור<br><small>2</small></th><th>בונוס<br><small>+2</small></th><th style="background:#fdf3d7">מפרט<br><small>14</small></th><th>שופט 1</th><th>שופט 2</th><th>שופט 3</th><th style="background:#fdf3d7">ממוצע<br><small>16</small></th><th style="background:var(--teal-soft)">סה״כ<br><small>30</small></th><th>מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>⚖️ מי צדק? ופרסי קטגוריה</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:24mm">מעבדה</th><th>ניסוי</th><th>🙋 סטיית השערה %</th><th>🤖 סטיית Gemini %</th><th>מי צדק?</th><th>📏 פיזור %</th><th>🔢 חידון</th><th>ביקורת: רמה / תקוע?</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🎪 סבבי היריד: מי שופט את מי</h3>
+      <table class="tb" style="font-size:8.6pt"><thead><tr><th>מעבדה שופטת</th><th>6 מעבדות</th><th>7 מעבדות</th></tr></thead><tbody>
+        <tr><td colspan="3" style="background:var(--paper2)"><b>סבב א׳:</b> אי-זוגיות בדוכן</td></tr>
+        <tr><td>2</td><td>דוכנים 1, 3</td><td>דוכנים 1, 3</td></tr>
+        <tr><td>4</td><td>דוכנים 3, 5</td><td>דוכנים 5, 7</td></tr>
+        <tr><td>6</td><td>דוכנים 5, 1</td><td>דוכנים 3, 5</td></tr>
+        <tr><td colspan="3" style="background:var(--paper2)"><b>סבב ב׳:</b> זוגיות בדוכן</td></tr>
+        <tr><td>1</td><td>דוכנים 2, 4</td><td>דוכנים 2, 4</td></tr>
+        <tr><td>3</td><td>דוכנים 4, 6</td><td>דוכנים 4, 6</td></tr>
+        <tr><td>5</td><td>דוכנים 6, 2</td><td>דוכנים 6, 2</td></tr>
+        <tr><td>7</td><td>—</td><td>דוכנים 2, 4</td></tr>
+      </tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted);margin-top:1mm">7 מעבדות: המדריך שופט את דוכנים 1 ו-7 בסבב א׳.</p></div>
+    <div class="box"><h3>🏅 המדליות היום</h3><div class="stack" style="gap:2mm;font-size:9.6pt"><p>🥇 זהב: <span class="fill l"></span></p><p>🧠 ניצחנו את המכונה: <span class="fill"></span></p><p>📏 המדידה המדויקת: <span class="fill"></span></p><p>🕵️ הבלש: <span class="fill"></span></p><p>⚖️ מדענים <span class="fill s"></span> : <span class="fill s"></span> מכונה</p></div>
+      <h3 style="margin-top:2mm">📨 דוח למורה</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. CERTIFICATES ===================== -->
+<section class="page" id="p-cert" data-label="תעודות">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · תעודות מדליה</div><div class="r">✂ לחצאים</div></div>
+  <div class="cutgrid certs">
+    <div class="cert">
+      <span class="em">🏅</span>
+      <p class="t1">🔬 יריד המדע · ביתן "המדען מול המכונה"</p>
+      <h3>תעודת מדליה</h3>
+      <p class="to">מוענקת למעבדת <span class="nm"></span></p>
+      <div class="opts"><span>🥇 מדליית הזהב</span><span>🧠 ניצחנו את המכונה</span><span>📏 המדידה המדויקת</span><span>🕵️ הבלש</span></div>
+      <p style="font-size:10pt">על ניסוי אמיתי, מדידה ישרה, והוכחה במספרים מי צדק.</p>
+      <div class="sig"><span>תאריך</span><span>חתימת השופט/ת הראשי/ת</span></div>
+    </div>
+    <div class="cert">
+      <span class="em">🏅</span>
+      <p class="t1">🔬 יריד המדע · ביתן "המדען מול המכונה"</p>
+      <h3>תעודת מדליה</h3>
+      <p class="to">מוענקת למעבדת <span class="nm"></span></p>
+      <div class="opts"><span>🥇 מדליית הזהב</span><span>🧠 ניצחנו את המכונה</span><span>📏 המדידה המדויקת</span><span>🕵️ הבלש</span></div>
+      <p style="font-size:10pt">על ניסוי אמיתי, מדידה ישרה, והוכחה במספרים מי צדק.</p>
+      <div class="sig"><span>תאריך</span><span>חתימת השופט/ת הראשי/ת</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 16. BOOTH SIGN ===================== -->
+<section class="page" id="p-booth" data-label="שלט דוכן">
+  <div class="ph"><div class="l"><i>TIE</i>יריד המדע · שלט דוכן</div><div class="r">1 למעבדה · תולים או מעמידים על השולחן</div></div>
+  <div class="booth">
+    <p class="k">🔬 יריד המדע · ביתן "המדען מול המכונה"</p>
+    <h2>מעבדת <span class="fill"></span></h2>
+    <div class="ex4"><div><b>🚁</b>מסוקי נייר</div><div><b>🚗</b>מדרון</div><div><b>🧊</b>קרח</div><div><b>⏱️</b>מטוטלת</div></div>
+    <p style="text-align:center;font-size:9.5pt;color:var(--muted)">מקיפים את הניסוי שלנו</p>
+    <p class="qq"><b>השאלה שלנו:</b> האם <span class="fill l"></span> משנה את <span class="fill l"></span>?</p>
+    <div class="vs"><div class="h">🙋 ההשערה שלנו<br>סטייה<span class="bigf"></span>%</div><i>🆚</i><div class="m">🤖 Gemini<br>סטייה<span class="bigf"></span>%</div></div>
+    <p class="qq" style="text-align:center"><b>מי צדק?</b> ☐ 🧑‍🔬 המדענים &nbsp; ☐ 🤖 המכונה &nbsp; ☐ 🤝 תיקו</p>
+    <div class="grid3" style="margin-top:auto;font-size:10pt;text-align:center"><p>🧑‍🔬 ראש/ת המעבדה<br><span class="fill"></span></p><p>🧪 ⏱️ 📊<br><span class="fill"></span></p><p>🎤 דובר/ת<br><span class="fill"></span></p></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

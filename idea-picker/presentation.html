@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>משפט הרעיונות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== משפט הרעיונות · lesson additions (the kit styles above stay untouched) ===== */
+.slide.tight h2{font-size:clamp(30px,3.8vw,54px);margin:10px 0 8px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,22px);margin-bottom:4px}
+.slide.tight .cards{margin-top:14px;gap:12px}
+.slide.tight .card{padding:15px 15px 13px}
+.slide.tight .card strong{font-size:20px;margin:8px 0 4px}
+.slide.tight .card p{font-size:16.5px}
+.slide.tight .card .emoji{width:46px;height:46px;font-size:25px;border-radius:13px}
+.five{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+.four{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:14px;max-width:1200px}
+.row2.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.card .tagline{display:inline-block;margin-top:8px;font-size:14px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:999px;padding:1px 10px}
+.card .is5{margin-top:8px;font-size:15px;line-height:1.4;color:var(--ink);background:var(--paper2);border-radius:10px;padding:6px 9px}
+.card .is5 b{color:var(--good)}
+.note{margin-top:14px;max-width:1150px;padding:11px 16px;border-radius:16px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-sm);font-size:clamp(16px,1.6vw,21px);line-height:1.5;color:var(--ink)}
+.note.soft{background:var(--accent-soft);border-color:var(--accent-line)}
+.note b{color:var(--accent-ink)}
+.fm{font:700 .9em ui-monospace,Consolas,"Courier New",monospace;direction:ltr;unicode-bidi:isolate;background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:0 5px;color:var(--ink);white-space:nowrap}
+.fm.blk{display:block;text-align:left;margin:6px 0;padding:5px 8px;font-size:.8em;white-space:normal;word-break:break-all}
+.tf.compact{gap:7px;margin-top:12px}
+.tf.compact .tfRow{padding:7px 14px;font-size:clamp(16px,1.6vw,21px)}
+.tf.compact .tfRow button{padding:3px 10px;font-size:16px}
+.tf.compact .tfNote{font-size:16px;line-height:1.35}
+.tf.compact .tfRow.done{padding-bottom:6px}
+/* journey */
+.journey{display:flex;align-items:center;gap:6px;margin-top:24px;flex-wrap:wrap}
+.journey i{width:28px;height:8px;border-radius:99px;background:#e6e1d8}
+.journey i.done{background:var(--mint)}
+.journey i.now{background:var(--accent);width:54px}
+.journey span{margin-inline-start:10px;color:var(--muted);font-weight:700;font-size:16px}
+/* three acts */
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px;max-width:1150px}
+.actCard{position:relative;border:1px solid var(--line);border-radius:20px;padding:16px 18px 15px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+.actCard .n{position:absolute;left:14px;top:6px;font:800 54px/1 var(--display);color:#efeae1}
+.actCard .e{font-size:30px;line-height:1;position:relative}
+.actCard strong{display:block;font:700 22px var(--display);margin:8px 0 4px;position:relative}
+.actCard p{margin:0;color:var(--muted);font-size:17px;line-height:1.45;position:relative}
+.actCard.on{border-color:var(--accent-line);background:linear-gradient(180deg,var(--accent-soft),#fff 75%);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent),var(--shadow)}
+.actCard.on .n{color:color-mix(in srgb,var(--accent) 26%,#fff)}
+.actCard.past{opacity:.5}
+.actCard .min{display:inline-block;margin-top:8px;font-weight:700;font-size:14px;color:var(--accent-ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:1px 10px;position:relative}
+/* act divider */
+.slide.act{overflow:hidden}
+.slide.act .actBig{position:absolute;left:5%;top:4%;font:800 clamp(150px,19vw,280px)/.85 var(--display);color:color-mix(in srgb,var(--accent) 13%,#fff);pointer-events:none;user-select:none}
+.slide.act h2{font-size:clamp(44px,6vw,90px);position:relative}
+.slide.act h2 span{color:var(--accent-ink)}
+.slide.act .lead{position:relative}
+/* deliverable line */
+.deliv{margin-top:16px;max-width:1150px;border:1.5px dashed var(--accent-line);border-radius:18px;padding:12px 18px;background:#fff;font-size:clamp(17px,1.7vw,22px);line-height:1.5}
+.deliv b{color:var(--accent-ink)}
+/* small score table in the quiz */
+.mini{border-collapse:separate;border-spacing:0;margin-top:8px;font-size:clamp(15px,1.45vw,19px);background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.mini th,.mini td{padding:5px 14px;border-bottom:1px solid var(--line2);text-align:center}
+.mini th{background:var(--paper2);color:var(--muted);font:600 15px var(--display)}
+.mini td:first-child,.mini th:first-child{text-align:right}
+.mini tr:last-child td{border-bottom:0}
+.mini td.sum{font-weight:800;color:var(--muted)}
+/* weights bar */
+.wbar{display:flex;height:76px;border-radius:18px;overflow:hidden;margin-top:18px;max-width:1120px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.wbar div{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:17px;line-height:1.2;text-align:center;border-left:2px solid #fff}
+.wbar div:last-child{border-left:0}
+.wbar div b{font:800 26px var(--display)}
+.wb1{background:#0f766e}.wb2{background:#2f6db5}.wb3{background:#6a55c9}.wb4{background:#be3455}
+.wsum{display:flex;justify-content:space-between;max-width:1120px;margin-top:6px;color:var(--muted);font-weight:700;font-size:15px}
+/* google-sheets mock (RTL sheet, LTR formula bar) */
+.gs{border:1px solid #dadce0;border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);max-width:1120px;margin-top:12px}
+.gs .fx{direction:ltr;display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid #dadce0;background:#f8f9fa;font:600 clamp(16px,1.65vw,23px) ui-monospace,Consolas,"Courier New",monospace;color:#202124}
+.gs .fx em{font-style:italic;font-family:Georgia,serif;color:#5f6368;font-weight:700}
+.gs .fx .cell{font:600 14px var(--body);color:#5f6368;border:1px solid #dadce0;border-radius:6px;padding:1px 8px;background:#fff}
+.gs .fx .r{color:#2f6db5}.gs .fx .w{color:#c2630f}
+.gs table{border-collapse:collapse;width:100%}
+.gs th,.gs td{border:1px solid #e3e3e3;padding:5px 9px;font-size:clamp(14px,1.3vw,18px);text-align:center;white-space:nowrap}
+.gs thead th{background:#f1f3f4;color:#5f6368;font-weight:500;font-size:13px;padding:3px}
+.gs td.rn{background:#f1f3f4;color:#5f6368;width:30px;font-size:13px}
+.gs td.h{font-weight:700;background:#fafafa}
+.gs td.t{text-align:right}
+.gs td.wt{background:#fdf0e3;color:#8a4a0b;font-weight:700}
+.gs td.sel{outline:2px solid #1a73e8;outline-offset:-2px;font-weight:700}
+.gs td.c5{background:#57bb8a;color:#fff;font-weight:800}.gs td.c3{background:#e9f5ee;font-weight:700}.gs td.c1{background:#fbe9e4;font-weight:700}
+.gs td.ok{background:#e7f6ec;color:#15803d;font-weight:800}
+.gs td.ev{color:var(--muted);font-size:clamp(13px,1.15vw,16px);text-align:right;white-space:normal;max-width:220px}
+.gs tr.win td:not(.rn){font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;max-width:1150px}
+.chip2{padding:9px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,20px);line-height:1.4}
+.chip2 code{font:700 .95em ui-monospace,Consolas,monospace;direction:ltr;unicode-bidi:isolate}
+.chip2.r code{color:#2f6db5}.chip2.w code{color:#c2630f}.chip2.f code{color:var(--teal)}
+/* live decision lab */
+.lab{margin-top:10px;max-width:1150px}
+.lab table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.lab th,.lab td{padding:7px 9px;border-bottom:1px solid var(--line2);text-align:center;font-size:clamp(15px,1.5vw,20px)}
+.lab tr:last-child td{border-bottom:0}
+.lab th{background:var(--paper2);font:600 clamp(14px,1.3vw,17px) var(--display);color:var(--muted)}
+.lab td:first-child,.lab th:first-child{text-align:right;font-weight:700}
+.lab tr.wrow td{background:#fffaf2}
+.lab input{width:66px;padding:5px 4px;border:1px solid var(--line);border-radius:10px;text-align:center;font:700 clamp(16px,1.6vw,21px) var(--display);color:var(--ink);background:#fff;-moz-appearance:textfield}
+.lab input::-webkit-inner-spin-button{opacity:.4}
+.lab input:focus{outline:2px solid var(--teal);outline-offset:1px}
+.lab tr.wrow input{border-color:#f0cfa4;color:#8a4a0b}
+.lab .ws{font:800 clamp(19px,2vw,28px) var(--display)}
+.lab .ps{color:var(--dim);font-weight:700}
+.lab tr.win td{background:var(--good-bg)}
+.lab tr.win .ws{color:var(--good)}
+.lab tr.win td:first-child::after{content:" 🏆"}
+.labBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;max-width:1150px}
+.labBar .ghost{font-size:15px;padding:7px 12px}
+.labBar .ghost.on{border-color:var(--teal);color:var(--teal-deep);background:var(--teal-soft)}
+.sumPill{margin-inline-start:auto;padding:6px 14px;border-radius:999px;font-weight:800;border:1px solid var(--line);font-size:16px}
+.sumPill.ok{color:var(--good);background:var(--good-bg);border-color:#bfe3cb}.sumPill.bad{color:var(--bad);background:var(--bad-bg);border-color:#f2cdbb}
+/* scoring + rubric tables */
+table.t.pts td,table.t.pts th{padding:7px 14px;font-size:clamp(15px,1.45vw,19px)}
+table.t.pts td.n{font:800 1.08em var(--display);color:var(--accent-ink);white-space:nowrap;text-align:center}
+table.t.pts td.w{color:var(--muted);font-size:.9em;white-space:nowrap}
+table.t.pts tr.hl td{background:#fffaf0}
+table.t.rub td,table.t.rub th{padding:8px 10px;font-size:clamp(13px,1.2vw,16px);line-height:1.38;vertical-align:top}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;color:var(--ink);white-space:nowrap}
+table.t.rub th.l1{background:#fbf3ee}table.t.rub th.l2{background:#fdf8ea}table.t.rub th.l3{background:#eef7f2}table.t.rub th.l4{background:#e8f3f1}
+/* scoreboard */
+.board{margin-top:10px;max-width:1150px;display:grid;gap:6px}
+.bRow{display:grid;grid-template-columns:38px minmax(140px,1fr) minmax(0,1.6fr) 64px auto;align-items:center;gap:12px;padding:6px 12px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-sm);transition:border-color .25s,box-shadow .25s}
+.bRow .rk{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font:800 15px var(--display);background:var(--paper2);color:var(--muted)}
+.bRow.top{border-color:#e9cf8a;box-shadow:0 0 0 3px rgba(227,168,43,.14),var(--shadow-sm)}
+.bRow.top .rk{background:#e3a82b;color:#fff}
+.bRow .nm{font:700 clamp(17px,1.6vw,21px) var(--display);outline:none;border-radius:8px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bRow .nm:focus{background:#fffef4;box-shadow:0 0 0 2px var(--hl);text-overflow:clip}
+.bRow .bar{margin:0;height:12px}
+.bRow output{font:800 clamp(22px,2.1vw,30px) var(--display);text-align:center;font-variant-numeric:tabular-nums}
+.bRow .bt{display:flex;gap:5px}
+.bRow .bt button{min-width:40px;height:32px;padding:0 6px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font-weight:700;color:var(--ink);transition:.15s}
+.bRow .bt button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.bRow .bt button.minus{color:var(--muted)}
+.bFoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:2px}
+.bFoot .ghost{font-size:14px;padding:5px 11px;opacity:.85}
+.bFoot span{color:var(--dim);font-size:14px;font-weight:700;margin-inline-start:auto}
+/* court */
+.court{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:12px;max-width:1180px}
+.dock{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:14px 18px}
+.dock h3{font-size:18px;color:var(--muted);margin:0 0 6px}
+.who{display:flex;align-items:center;gap:10px}
+.who .nav2{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);font-weight:800;font-size:18px;color:var(--ink)}
+.who .names{flex:1;min-width:0;text-align:center}
+.who .names b{display:block;font:800 clamp(24px,2.5vw,34px) var(--display);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .names small{display:block;color:var(--muted);font-weight:700;font-size:16px}
+.who .names small i{font-style:normal;color:var(--rose-ink)}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.phases button{border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:9px 6px;font-weight:700;color:var(--ink);line-height:1.25;font-size:17px}
+.phases button small{display:block;color:var(--muted);font-weight:500;font-size:14px}
+.phases button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
+.clock{font:800 clamp(60px,7.4vw,112px)/1 var(--display);text-align:center;font-variant-numeric:tabular-nums;margin:12px 0 2px;color:var(--ink)}
+.clock.run{color:var(--accent-ink)}.clock.over{color:var(--bad)}
+.clockLbl{text-align:center;color:var(--muted);font-weight:700;font-size:16px}
+.jury{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.jury .j{border:1px solid var(--line);border-radius:14px;padding:7px;text-align:center;background:var(--paper)}
+.jury .j b{display:block;font-size:15px}
+.jury .j output{display:block;font:800 30px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.jury .j button{width:32px;height:30px;border-radius:9px;border:1px solid var(--line);background:#fff;font-weight:800;color:var(--ink)}
+.verdict{margin-top:10px;padding:9px 14px;border-radius:14px;font:800 clamp(18px,1.8vw,22px) var(--display);text-align:center;border:2px dashed var(--line);color:var(--muted)}
+.verdict.v5{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.verdict.v3{border-color:#efd9a0;color:var(--warn);background:var(--warn-bg)}
+.verdict.v0{border-color:#efb69b;color:var(--bad);background:var(--bad-bg)}
+.regRow{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.regRow .ghost{font-size:14px;padding:6px 11px}
+/* sprint layout */
+.tlight{display:grid;gap:8px;margin-top:12px}
+.tlight div{display:flex;gap:10px;align-items:center;padding:8px 14px;border-radius:14px;border:1px solid var(--line);font-size:clamp(15px,1.45vw,19px);line-height:1.35;background:#fff}
+.tlight .r{background:#fdf1ec;border-color:#f2cdbb}.tlight .y{background:#fdf8ea;border-color:#efd9a0}.tlight .g{background:#eef8f1;border-color:#bfe3cb}
+.miles{display:grid;gap:9px}
+.mile{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:11px 15px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow-sm)}
+.mile b.t{font:800 15px var(--display);color:#fff;background:var(--accent-ink);border-radius:10px;padding:5px 9px;white-space:nowrap}
+.mile p{margin:0;font-size:clamp(15px,1.5vw,20px);line-height:1.45}
+.timer.huge output{font-size:clamp(46px,5.4vw,78px)}
+/* statement formula */
+.stmt{font:700 clamp(22px,2.5vw,35px)/1.75 var(--display);max-width:1150px;margin-top:14px;color:var(--ink)}
+.stmt .slot{display:inline-block;padding:0 12px;border-radius:12px;margin:2px 1px;border:1.5px solid;line-height:1.5}
+.slot.s1{background:#e7f0fa;border-color:#bcd3ef;color:#2f6db5}.slot.s2{background:#fce9ed;border-color:#f3c3cf;color:#be3455}
+.slot.s3{background:#e3f1ee;border-color:#b5dbd3;color:#0b5c56}.slot.s4{background:#fdf0e3;border-color:#f0cfa4;color:#a65208}.slot.s5{background:#efecfb;border-color:#d3cbf4;color:#6a55c9}
+.slotLegend{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.slotLegend span{font-size:15px;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid}
+/* juicero timeline */
+.tline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px;max-width:1180px}
+.ev{border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:16px;background:#fff;padding:11px 12px;box-shadow:var(--shadow-sm)}
+.ev .y{font:800 21px var(--display);color:var(--accent-ink)}
+.ev p{margin:4px 0 0;font-size:clamp(14.5px,1.35vw,17px);line-height:1.4}
+.ev.bad{border-top-color:var(--bad);background:linear-gradient(180deg,#fff8f4,#fff)}
+.ev.bad .y{color:var(--bad)}
+/* four corners */
+.corners{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;max-width:1150px}
+.corner{border-radius:18px;padding:16px 10px;text-align:center;font:700 clamp(17px,1.7vw,22px) var(--display);border:1px solid var(--line);background:#fff;box-shadow:var(--shadow)}
+.corner .e{font-size:34px;display:block;margin-bottom:4px}
+.corner.k1{border-top:5px solid var(--good)}.corner.k2{border-top:5px solid var(--mint)}.corner.k3{border-top:5px solid var(--orange)}.corner.k4{border-top:5px solid var(--bad)}
+.quote{font:800 clamp(30px,4vw,56px)/1.25 var(--display);max-width:1100px;margin:14px 0 4px;color:var(--ink)}
+
+/* stamps */
+.stamps{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+.stamp{transform:rotate(-3deg);border:3px solid;border-radius:14px;padding:10px 18px;font:800 clamp(19px,2vw,28px) var(--display);background:#fff;box-shadow:var(--shadow-sm)}
+.stamp small{display:block;font:600 15px var(--body);opacity:.9}
+.stamp.s5{color:var(--good);border-color:var(--good)}.stamp.s3{color:var(--warn);border-color:#d9a63a;transform:rotate(2deg)}.stamp.s0{color:var(--bad);border-color:var(--bad);transform:rotate(-1deg)}
+/* editable link box */
+.linkBox{display:inline-flex;align-items:center;gap:12px;margin-top:12px;padding:9px 16px;border:1.5px dashed var(--accent-line);border-radius:14px;background:#fff;font:700 clamp(17px,1.8vw,24px) var(--display);max-width:100%}
+.linkBox [contenteditable]{outline:none;min-width:180px;color:var(--accent-ink);border-radius:8px;padding:0 6px}
+.linkBox [contenteditable]:focus{background:#fffef4;box-shadow:0 0 0 2px var(--hl)}
+/* prompt copy */
+.prompt{position:relative;padding-left:118px}
+.prompt.small{font-size:clamp(16px,1.65vw,22px);line-height:1.55}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.follow{display:grid;gap:8px;margin-top:10px;max-width:1150px}
+.follow div{position:relative;padding:9px 16px 9px 64px;border-radius:14px;border:1px solid var(--line);background:#fff;font-size:clamp(15px,1.5vw,19px);line-height:1.45;box-shadow:var(--shadow-sm)}
+.follow div b{color:var(--accent-ink)}
+.follow .copyBtn{top:6px;font-size:14px;padding:5px 10px}
+/* prizes */
+.prize .winner{display:block;margin-top:10px;padding:6px 10px;border-radius:12px;border:1.5px dashed var(--line);font:800 20px var(--display);color:var(--accent-ink);outline:none;min-height:40px;background:#fffefb}
+.prize .winner:focus{border-color:var(--hl);background:#fffef4}
+/* checklist */
+.ticks{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.ticks li{display:flex;gap:10px;align-items:flex-start;font-size:clamp(15px,1.5vw,19px);line-height:1.4}
+.ticks li::before{content:"☐";color:var(--accent-ink);font-weight:800}
+.panel{border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:14px 18px}
+.panel h3{font-size:clamp(19px,1.8vw,24px);margin:0 0 4px}
+.panel .sub{color:var(--muted);font-size:15px}
+.fname{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:10px;background:var(--paper2);font-weight:700;font-size:15px}
+@media (max-height:800px){
+ .slide.tight h2{font-size:clamp(28px,3.4vw,46px);margin:8px 0 6px}
+ .acts{margin-top:12px}.actCard{padding:12px 14px}.actCard strong{font-size:19px}.actCard p{font-size:15.5px}
+ .bRow{padding:4px 10px}.bRow .bt button{height:28px}
+ .clock{font-size:clamp(52px,6.4vw,90px)}
+ .mile{padding:8px 12px}.tlight div{padding:6px 12px}
+ .gs th,.gs td{padding:3px 8px}
+ .lab th,.lab td{padding:5px 8px}
+ .stmt{line-height:1.6}
+}
+@media (max-width:1100px){.five{grid-template-columns:repeat(3,minmax(0,1fr))!important}.tline{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.row2,.court,.acts,.corners,.four,.three{grid-template-columns:1fr!important}.five{grid-template-columns:1fr 1fr!important}.bRow{grid-template-columns:32px 1fr 56px;}.bRow .bar{display:none}.bRow .bt{grid-column:1/-1}.prompt{padding-left:22px;padding-top:56px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">TIE</div><div><b>משפט הרעיונות</b><small>שיעור 9 · בוחרים פתרון אחד, ומעמידים אותו למשפט</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ============ פתיחה ============ -->
+<section class="slide hero" data-topic="פתיחה" data-title="משפט הרעיונות" data-accent="#f4a259">
+  <span class="kicker">⚖️ שלב 3: בעיה ופתרון · שיעור 9</span>
+  <h2>משפט <span class="cyan">הרעיונות</span></h2>
+  <p class="lead">ועדת ההשקעות של החממה מתכנסת. לכל צוות יש כמה רעיונות, אבל <b>רק פתרון אחד ממשיך</b>. הוא יעבור חקירה, יעמוד מול פרקליט השטן, ויצטרך לשרוד משפט מול חבר המושבעים.</p>
+  <div class="tags"><span>🔎 חקירה</span><span>😈 תביעה</span><span>⚖️ משפט</span><span>🏛️ פסק דין</span></div>
+  <div class="journey" aria-label="שלב 3 מתוך 10"><i class="done"></i><i class="done"></i><i class="now"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>שלב 3 מתוך 10 במסע</span></div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="תיק מספר 32" data-accent="#f4a259">
+  <span class="kicker">🗂️ תיק מספר 32 · שתי עובדות אמיתיות, שתיים מומצאות</span>
+  <h2>מסחטת מיצים חכמה. מה נכון?</h2>
+  <div class="tf compact">
+    <div class="tfRow" data-true="0"><span>🍊 המסחטה עבדה עם כל פרי וירק שמכניסים לתוכה.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. היא עבדה רק עם שקיות מיוחדות של החברה, שקונים במנוי, והייתה מחוברת ל-Wi-Fi.</div></div>
+    <div class="tfRow" data-true="1"><span>🏷️ המחיר שלה בהשקה היה 699 דולר.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. במרץ 2016. בינואר 2017 המחיר ירד ל-399 דולר, כי מעטים קנו.</div></div>
+    <div class="tfRow" data-true="1"><span>✋ עיתונאים הראו שאפשר לסחוט את השקיות ביד, בלי המכונה, באותה יעילות.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. סוכנות החדשות Bloomberg הראתה את זה.</div></div>
+    <div class="tfRow" data-true="0"><span>🌍 החברה עדיין פועלת ומוכרת מסחטות בכל העולם.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. החברה הפסיקה לפעול ב-2017.</div></div>
+  </div>
+  <div class="note soft reveal">📁 שם התיק: <b>Juicero</b>, סטארט-אפ אמריקאי. גייס 120 מיליון דולר, בשביל בעיה שאפשר לפתור ביד.</div>
+</section>
+
+<section class="slide center" data-topic="פתיחה" data-title="השאלה של היום" data-accent="#f4a259">
+  <span class="kicker">🤔 השאלה של היום</span>
+  <p class="big" style="margin-top:18px">איך אפשר היה לגלות את זה <span class="mark-hl">לפני</span> שהוציאו 120 מיליון דולר?</p>
+  <div class="revealList" style="text-align:right;max-width:960px">
+    <div class="revealCard reveal">💬 דקה בזוגות: מה הייתם בודקים, ואת מי הייתם שואלים?</div>
+    <div class="revealCard reveal">⚖️ היום תעמידו את <b>הרעיון שלכם</b> לאותה בדיקה. עדיף לגלות חור עכשיו, ולא אחרי עוד 21 שיעורים של עבודה.</div>
+  </div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#f4a259">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>משפט בשלוש מערכות</h2>
+  <div class="acts">
+    <div class="actCard"><span class="n">1</span><div class="e">🔎</div><strong>החקירה</strong><p>טבלת החלטה משוקללת ב-Google Sheets: 3 רעיונות, 4 קריטריונים, והמנצח נצבע לבד.</p><span class="min">ספרינט 1 · 18 דק׳</span></div>
+    <div class="actCard"><span class="n">2</span><div class="e">😈</div><strong>התביעה</strong><p>Gemini בתפקיד פרקליט השטן נותן 5 טענות נגד הרעיון. אתם עונים עם ראיות.</p><span class="min">ספרינט 2 · 13 דק׳</span></div>
+    <div class="actCard"><span class="n">3</span><div class="e">⚖️</div><strong>המשפט</strong><p>הסנגור/ית מגן/ה, תובע/ת מצוות אחר תוקף/ת, וחבר המושבעים פוסק.</p><span class="min">בסוף השיעור · 11 דק׳</span></div>
+  </div>
+  <div class="deliv">📄 <b>בסוף השיעור לכל צוות יש:</b> טבלת החלטה, תשובות לפרקליט השטן, והצהרת פתרון: "עבור ___ ש___, נבנה ___ כי ___, בניגוד ל___".</div>
+</section>
+
+<!-- ============ צוותים ============ -->
+<section class="slide tight" data-topic="צוותים" data-title="התפקידים במשפט" data-accent="#4c8bd6">
+  <span class="kicker">👥 התפקידים במשפט</span>
+  <h2>התפקיד שלך היום</h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><span class="tagline">יו״ר הוועדה</span><p style="margin-top:6px">מנהל/ת את הדיון על המשקלות, שומר/ת על הזמן, ודואג/ת שכל אחד דיבר.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><span class="tagline">ראיות ותביעה</span><p style="margin-top:6px">מביא/ה ראיה לכל ציון. במשפט: התובע/ת נגד הצוות הבא בתור.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><span class="tagline">אדריכל/ית הטבלה</span><p style="margin-top:6px">בונה את הגיליון: משקלות, נוסחה, תא בדיקה וצבע.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה</strong><span class="tagline">הסנגור/ית</span><p style="margin-top:6px">כותב/ת את כתב ההגנה, מגן/ה על הרעיון במשפט ומגיש/ה בטופס.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><span class="tagline">מפעיל/ת פרקליט השטן</span><p style="margin-top:6px">מריץ/ה את Gemini, מסמן/ת מה ממנו ומה מאיתנו, וממלא/ת את שורת ה-AI.</p></div>
+  </div>
+  <div class="row2" style="align-items:center">
+    <p class="lead" style="margin:0">🔄 הכרטיסים עוברים לאדם שמשמאל. פותחים את יומן הסטארט-אפ.</p>
+    <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="צוותים" data-title="חומר הראיות" data-accent="#4c8bd6">
+  <span class="kicker">🗂️ חומר הראיות</span>
+  <h2>לפני החקירה: מה כבר יש בתיק?</h2>
+  <p class="lead">כל ציון היום צריך ראיה. הנה מאיפה לוקחים אותה:</p>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🌪️</div><strong>3 רעיונות בכוכב</strong><p>מפת הרעיונות · שיעור 3</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>ציטוטים מראיונות</strong><p>מבחן אמא · שיעור 4</p></div>
+    <div class="card"><div class="emoji">📊</div><strong>תוצאות הסקר</strong><p>הגרף והתובנות · שיעור 5</p></div>
+    <div class="card"><div class="emoji">🔎</div><strong>דף הראיות</strong><p>5 עובדות על השוק · שיעור 6</p></div>
+    <div class="card"><div class="emoji">🪪</div><strong>כרטיס הלקוח</strong><p>מטרה, תסכול וציטוט · שיעור 7</p></div>
+    <div class="card"><div class="emoji">📈</div><strong>גרף הטרנדים</strong><p>האם הבעיה גדולה? · שיעור 8</p></div>
+  </div>
+  <div class="note">🧰 חסר משהו? עובדים עם התיק של <b>"קופסת הפסקה"</b> שבכרטיס המשימה, או מסמנים ציון "בלי ראיה עדיין".</div>
+</section>
+
+<!-- ============ מערכה 1: החקירה ============ -->
+<section class="slide act" data-topic="החקירה" data-title="מערכה 1" data-accent="#0f766e">
+  <span class="actBig" aria-hidden="true">1</span>
+  <span class="kicker">🔎 מערכה 1 מתוך 3</span>
+  <h2>החקירה: <span>איזה רעיון הכי חזק?</span></h2>
+  <p class="lead">לא לפי מי שצועק הכי חזק. לפי קריטריונים, משקלות וראיות.</p>
+  <div class="acts">
+    <div class="actCard on"><span class="n">1</span><div class="e">🔎</div><strong>החקירה</strong><p>טבלת החלטה משוקללת</p></div>
+    <div class="actCard"><span class="n">2</span><div class="e">😈</div><strong>התביעה</strong><p>פרקליט השטן וכתב ההגנה</p></div>
+    <div class="actCard"><span class="n">3</span><div class="e">⚖️</div><strong>המשפט</strong><p>מול חבר המושבעים</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="איך החלטתם עד היום?" data-accent="#0f766e">
+  <span class="kicker">🗳️ הודאה באשמה</span>
+  <h2>איך הצוות שלכם בחר רעיונות עד היום?</h2>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">📢</div><strong>מי שצעק הכי חזק</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🙋</div><strong>הצבעת ידיים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">👑</div><strong>מה שהמנכ״ל/ית רצה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🪙</div><strong>הטלת מטבע</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="note soft reveal">💡 זה עובד כשבוחרים פיצה. אבל על הרעיון הזה תעבדו כל השנה, ולכן צריך שיטה <b>שאפשר להסביר, לבדוק ולחזור עליה</b>.</div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="4 קריטריונים" data-accent="#0f766e">
+  <span class="kicker">📏 ארבעה קריטריונים</span>
+  <h2>ככה בודקים כל רעיון</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">💥</div><strong>השפעה</strong><p>כמה זה עוזר, ולכמה אנשים?</p><div class="is5"><b>5 =</b> כאב גדול שחוזר כל שבוע אצל הרבה אנשים</div><span class="tagline">ראיה: ראיונות, סקר, טרנדים</span></div>
+    <div class="card"><div class="emoji">🔧</div><strong>היתכנות</strong><p>אפשר לבנות את זה בעצמנו, עם מה שיש לנו?</p><div class="is5"><b>5 =</b> גרסה ראשונה תוך חודש, בלי הרבה כסף</div><span class="tagline">ראיה: מה צריך כדי לבנות</span></div>
+    <div class="card"><div class="emoji">🦄</div><strong>ייחודיות</strong><p>במה אנחנו שונים ממה שכבר קיים?</p><div class="is5"><b>5 =</b> אין דבר כזה, או שלנו טוב ממנו בהרבה</div><span class="tagline">ראיה: חיפוש מתחרים</span></div>
+    <div class="card"><div class="emoji">❤️</div><strong>תשוקה</strong><p>בא לנו לעבוד על זה עד סוף השנה?</p><div class="is5"><b>5 =</b> כל הצוות מתלהב ורוצה להתחיל</div><span class="tagline">ראיה: סבב בצוות</span></div>
+  </div>
+  <div class="note">כל רעיון מקבל ציון <b>1–5</b> בכל קריטריון: 1 = בכלל לא · 3 = בערך · 5 = מאוד. ולכל ציון יש ראיה.</div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="משקלות" data-accent="#0f766e">
+  <span class="kicker">✖️ משקלות</span>
+  <h2>לא כל קריטריון שווה אותו דבר</h2>
+  <p class="lead">המשקל אומר כמה הקריטריון חשוב לכם. <b>ארבעת המשקלות יחד = 100%.</b> ככה החליט צוות "קופסת הפסקה":</p>
+  <div class="wbar">
+    <div class="wb1" style="flex:35"><b>35%</b>💥 השפעה</div>
+    <div class="wb2" style="flex:30"><b>30%</b>🔧 היתכנות</div>
+    <div class="wb3" style="flex:15"><b>15%</b>🦄 ייחודיות</div>
+    <div class="wb4" style="flex:20"><b>20%</b>❤️ תשוקה</div>
+  </div>
+  <div class="wsum"><span>35 + 30 + 15 + 20</span><span>= 100% ✓</span></div>
+  <div class="revealList">
+    <div class="revealCard reveal">🤔 למה ייחודיות קיבלה רק 15%? כי השאלת ציוד היא לא רעיון חדש, וזה בסדר. לצוות הכי חשוב שזה יעזור ושאפשר לבנות את זה.</div>
+    <div class="revealCard reveal">🔒 <b>כלל הזהב:</b> מסכימים על המשקלות לפני שנותנים ציונים. אחרת כל אחד "מסדר" משקלות כדי שהרעיון שלו ינצח.</div>
+  </div>
+</section>
+
+<section class="slide quiz tight" data-topic="החקירה" data-title="מי ינצח?" data-answer="1" data-accent="#0f766e">
+  <span class="kicker">🔮 נחשו לפני שמחשבים</span>
+  <h2>מי ינצח כשמוסיפים משקלות?</h2>
+  <table class="mini">
+    <tr><th>רעיון</th><th>💥 35%</th><th>🔧 30%</th><th>🦄 15%</th><th>❤️ 20%</th><th>סכום רגיל</th></tr>
+    <tr><td>📦 ארגז משחקים להשאלה</td><td>4</td><td>5</td><td>2</td><td>3</td><td class="sum">14</td></tr>
+    <tr><td>📱 אפליקציה לתיאום משחקים</td><td>3</td><td>1</td><td>5</td><td>5</td><td class="sum">14</td></tr>
+    <tr><td>🏆 טורניר הפסקות שבועי</td><td>3</td><td>4</td><td>3</td><td>4</td><td class="sum">14</td></tr>
+  </table>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>📦 ארגז המשחקים</span></button>
+    <button class="option"><span class="letter">ב</span><span>📱 האפליקציה</span></button>
+    <button class="option"><span class="letter">ג</span><span>🏆 הטורניר</span></button>
+    <button class="option"><span class="letter">ד</span><span>🤝 תיקו. המשקלות לא משנים כלום</span></button>
+  </div>
+  <div class="explain">✓ ארגז המשחקים: 4×35% + 5×30% + 2×15% + 3×20% = <b>3.8</b>. הטורניר: 3.5. האפליקציה: 3.1. האפליקציה הכי מגניבה וייחודית, אבל הכי קשה לבנות אותה.</div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="המעבדה: טבלה חיה" data-accent="#0f766e">
+  <span class="kicker">🧪 המעבדה</span>
+  <h2>שנו משקל, ותראו מי מנצח</h2>
+  <div class="lab" id="lab">
+    <table>
+      <thead><tr><th>רעיון</th><th>💥 השפעה</th><th>🔧 היתכנות</th><th>🦄 ייחודיות</th><th>❤️ תשוקה</th><th>סכום רגיל</th><th>ציון משוקלל</th></tr></thead>
+      <tbody>
+        <tr class="wrow"><td>⚖️ משקל (%)</td><td><input type="number" min="0" max="100" step="5" data-w="0" value="35" aria-label="משקל השפעה"></td><td><input type="number" min="0" max="100" step="5" data-w="1" value="30" aria-label="משקל היתכנות"></td><td><input type="number" min="0" max="100" step="5" data-w="2" value="15" aria-label="משקל ייחודיות"></td><td><input type="number" min="0" max="100" step="5" data-w="3" value="20" aria-label="משקל תשוקה"></td><td class="ps" id="labSum">100%</td><td></td></tr>
+        <tr data-row="0"><td>📦 ארגז משחקים</td><td><input type="number" min="1" max="5" value="4"></td><td><input type="number" min="1" max="5" value="5"></td><td><input type="number" min="1" max="5" value="2"></td><td><input type="number" min="1" max="5" value="3"></td><td class="ps">14</td><td class="ws">3.8</td></tr>
+        <tr data-row="1"><td>📱 אפליקציה</td><td><input type="number" min="1" max="5" value="3"></td><td><input type="number" min="1" max="5" value="1"></td><td><input type="number" min="1" max="5" value="5"></td><td><input type="number" min="1" max="5" value="5"></td><td class="ps">14</td><td class="ws">3.1</td></tr>
+        <tr data-row="2"><td>🏆 טורניר</td><td><input type="number" min="1" max="5" value="3"></td><td><input type="number" min="1" max="5" value="4"></td><td><input type="number" min="1" max="5" value="3"></td><td><input type="number" min="1" max="5" value="4"></td><td class="ps">14</td><td class="ws">3.5</td></tr>
+      </tbody>
+    </table>
+    <div class="labBar">
+      <button class="ghost on" data-preset="35,30,15,20">המשקלות של הצוות</button>
+      <button class="ghost" data-preset="25,25,25,25">בלי משקלות (25% לכל אחד)</button>
+      <button class="ghost" data-preset="20,15,15,50">❤️ "רק תשוקה חשובה"</button>
+      <button class="ghost" data-preset="20,50,10,20">🔧 "רק מה שקל לבנות"</button>
+      <span class="sumPill ok" id="labPill">סה״כ משקלות: 100% ✓</span>
+    </div>
+  </div>
+  <div class="note soft reveal">💡 <b>מי שקובע את המשקלות, קובע את המנצח.</b> לכן מסכימים עליהם לפני הציונים, ומנמקים כל משקל במשפט.</div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="הנוסחה" data-accent="#0f766e">
+  <span class="kicker">🧮 Google Sheets עושה את החשבון</span>
+  <h2>נוסחה אחת לכל השורות</h2>
+  <div class="gs">
+    <div class="fx"><span class="cell">F3</span><em>fx</em><span>=SUMPRODUCT(<span class="r">B3:E3</span>,<span class="w">$B$2:$E$2</span>)</span></div>
+    <table dir="rtl">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+      <tbody>
+        <tr><td class="rn">1</td><td class="h t">רעיון</td><td class="h">💥 השפעה</td><td class="h">🔧 היתכנות</td><td class="h">🦄 ייחודיות</td><td class="h">❤️ תשוקה</td><td class="h">ציון</td><td class="h t">הראיה החזקה</td></tr>
+        <tr><td class="rn">2</td><td class="h t">משקל</td><td class="wt">35%</td><td class="wt">30%</td><td class="wt">15%</td><td class="wt">20%</td><td class="ok">100%</td><td></td></tr>
+        <tr class="win"><td class="rn">3</td><td class="t">📦 ארגז משחקים</td><td>4</td><td>5</td><td>2</td><td>3</td><td class="sel c5">3.8</td><td class="ev">"אין כדור, אז יושבים עם הטלפון"</td></tr>
+        <tr><td class="rn">4</td><td class="t">📱 אפליקציה</td><td>3</td><td>1</td><td>5</td><td>5</td><td class="c1">3.1</td><td class="ev">אין לנו מתכנת בצוות</td></tr>
+        <tr><td class="rn">5</td><td class="t">🏆 טורניר</td><td>3</td><td>4</td><td>3</td><td>4</td><td class="c3">3.5</td><td class="ev">רק חלק מהכיתה אוהב תחרויות</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chips">
+    <div class="chip2 r reveal"><code>B3:E3</code> = 4 הציונים של הרעיון</div>
+    <div class="chip2 w reveal"><code>$B$2:$E$2</code> = 4 המשקלות, נעולים עם <code>$</code></div>
+    <div class="chip2 f reveal"><code>SUMPRODUCT</code> = כופל כל ציון במשקל שלו, ומחבר הכול</div>
+    <div class="chip2 reveal">🔒 בלי <code>$</code>, כשגוררים למטה, המשקלות "בורחים" לשורה של רעיון אחר. ⌨️ מסמנים כתובת בנוסחה ולוחצים <b>F4</b>.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="החקירה" data-title="בדיקה וצבע" data-accent="#0f766e">
+  <span class="kicker">🎨 הגיליון בודק את עצמו</span>
+  <h2>תא בדיקה, צבע ומנצח שמסומן לבד</h2>
+  <div class="steps">
+    <div class="step"><strong>✅ תא בדיקה</strong><p>בתא F2 כותבים <code class="fm" dir="ltr">=SUM(B2:E2)</code>. חייב לצאת 100%. יצא משהו אחר? מתקנים משקל.</p></div>
+    <div class="step"><strong>🎨 סולם צבעים</strong><p>מסמנים F3:F5 ← <b>עיצוב</b> ← <b>עיצוב מותנה</b> ← לשונית <b>סולם צבעים</b>. הציון הגבוה = הכי ירוק.</p></div>
+    <div class="step"><strong>🏆 שם המנצח <span class="yellow">(לאלופים)</span></strong><p>בתא B7:<code class="fm blk" dir="ltr">=INDEX(A3:A5,MATCH(MAX(F3:F5),F3:F5,0))</code>כשמשנים ציון, השם מתחלף לבד.</p></div>
+  </div>
+  <div class="gs" style="max-width:640px">
+    <table dir="rtl">
+      <tbody>
+        <tr><td class="rn">3</td><td class="t">📦 ארגז משחקים</td><td class="c5">3.8</td></tr>
+        <tr><td class="rn">4</td><td class="t">📱 אפליקציה</td><td class="c1">3.1</td></tr>
+        <tr><td class="rn">5</td><td class="t">🏆 טורניר</td><td class="c3">3.5</td></tr>
+        <tr><td class="rn">7</td><td class="t h">🏆 המנצח:</td><td class="sel">ארגז משחקים</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="slide quiz tight" data-topic="החקירה" data-title="מה לא בסדר?" data-answer="3" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · 30 שניות בצוות</span>
+  <h2>מה לא בסדר בטבלה של צוות "הינשופים"?</h2>
+  <p class="lead">משקלות: השפעה <b>40%</b> · היתכנות <b>30%</b> · ייחודיות <b>20%</b> · תשוקה <b>20%</b>. בתא F3: <code class="fm" dir="ltr">=SUMPRODUCT(B3:E3,B2:E2)</code></p>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>ציונים צריכים להיות מ-1 עד 10</span></button>
+    <button class="option"><span class="letter">ב</span><span>אסור לתת לייחודיות 20%</span></button>
+    <button class="option"><span class="letter">ג</span><span>המשקלות מסתכמים ל-110%, ובנוסחה חסר $</span></button>
+    <button class="option"><span class="letter">ד</span><span>הכול תקין</span></button>
+  </div>
+  <div class="explain">✓ 40 + 30 + 20 + 20 = 110%. ובלי $ לפני המשקלות, כשגוררים את הנוסחה למטה, היא מחפשת משקלות בשורה של רעיון אחר.</div>
+</section>
+
+<!-- ============ תדריך ============ -->
+<section class="slide tight" data-topic="תדריך" data-title="האתגר" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="החוקים המלאים">?</button>
+  <span class="kicker">⚖️ האתגר</span>
+  <h2>משפט הרעיונות: החוקים</h2>
+  <div class="task"><strong>מה עושים, ובאיזה סדר</strong><ol>
+    <li>🔎 <b>החקירה (18 דק׳):</b> 3 רעיונות, 4 קריטריונים, משקלות שמסתכמים ל-100% <b>לפני</b> הציונים, וראיה ליד כל ציון של המנצח.</li>
+    <li>😈 <b>התביעה (13 דק׳):</b> Gemini נותן 5 טענות נגד המנצח. עונים על 3 לפחות, עם ראיה. ואז מבחן הסחיטה ביד ותחקיר מראש.</li>
+    <li>📤 <b>עד דקה 72:</b> מגישים ביומן ובטופס את הטבלה ואת הצהרת הפתרון.</li>
+    <li>⚖️ <b>המשפט:</b> 40 שניות הגנה · 30 שניות תביעה מהצוות הקודם בתור · 20 שניות תשובה. חבר המושבעים מצביע בטופס.</li>
+    <li>🤝 תוקפים רעיונות, לא אנשים. לא מצביעים על הצוות שלכם.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight" data-topic="תדריך" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 הניקוד · ידוע מראש</span>
+  <h2>איך מרוויחים נקודות</h2>
+  <div class="tableWrap"><table class="t pts">
+    <thead><tr><th>מה</th><th>נקודות</th><th>מתי</th></tr></thead>
+    <tbody>
+      <tr><td>טבלה תקינה: 100%, נוסחה בכל השורות, המנצח צבוע</td><td class="n">3</td><td class="w">נקודת ביקורת</td></tr>
+      <tr><td>ראיה ליד כל ציון של הרעיון המנצח</td><td class="n">2</td><td class="w">נקודת ביקורת</td></tr>
+      <tr><td>כל טענה של פרקליט השטן שנענתה עם ראיה</td><td class="n">1 · עד 3</td><td class="w">הגשה</td></tr>
+      <tr><td>הצהרת פתרון מלאה, עם 5 החלקים</td><td class="n">2</td><td class="w">הגשה</td></tr>
+      <tr><td>הגשה בזמן, עם שורת AI</td><td class="n">2</td><td class="w">דקה 72</td></tr>
+      <tr><td>הרמה במחוון (ממוצע ארבע השורות)</td><td class="n">1–4</td><td class="w">אחרי ההגשה</td></tr>
+      <tr class="hl"><td>⚖️ המשפט: רוב המושבעים "שרד" ✅ · או רוב "שרד" ו"שרד בתיקון" יחד 🔧</td><td class="n">5 · 3</td><td class="w">פסק הדין</td></tr>
+      <tr class="hl"><td>🛡️ ההגנה המשכנעת · ⚔️ התובע/ת החד/ה</td><td class="n">3 · 2</td><td class="w">הצבעה</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="margin-top:10px">⚖️ שובר שוויון: יותר טענות שנענו עם ראיה. אם עדיין שוויון, הצהרת הפתרון הקצרה יותר.</p>
+</section>
+
+<section class="slide tight" data-topic="תדריך" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון · לפני שמתחילים</span>
+  <h2>איך נראית עבודה מצוינת</h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th class="l1">🌱 1</th><th class="l2">🌿 2</th><th class="l3">🌳 3</th><th class="l4">🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>⚖️ משקלות</td><td>אין משקלות, או שהם לא 100%</td><td>100%, אבל נקבעו אחרי הציונים</td><td>100%, נקבעו לפני הציונים, וחלקם מנומקים</td><td>כל משקל מנומק במשפט, והנוסחה נכונה בכל השורות</td></tr>
+      <tr class="reveal"><td>🧾 ראיות</td><td>ציונים בלי שום נימוק</td><td>נימוק של מילה, בלי מקור</td><td>ראיה מהמחקר ליד רוב הציונים של המנצח</td><td>כל ציון של המנצח נשען על ראיה עם מקור, וציון אחד שונה בגלל ראיה</td></tr>
+      <tr class="reveal"><td>😈 ביקורת</td><td>"זה לא נכון!" בלי הסבר</td><td>תשובות לחלק מהטענות, בלי ראיות</td><td>3 טענות נענו, 2 עם ראיה, ומבחן הסחיטה ביד בוצע</td><td>כל טענה נענתה עניינית, הודיתם בטענה נכונה ושיניתם משהו, וסימנתם מה בא מ-Gemini</td></tr>
+      <tr class="reveal"><td>📜 ההצהרה</td><td>חסרים רוב החלקים</td><td>כל החלקים, אבל כללית ("לכולם")</td><td>לקוח ספציפי, פתרון ברור וראיה אמיתית</td><td>ספציפית, הראיה עם מספר או ציטוט, וה"בניגוד ל" הוא מה שהלקוח עושה היום</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="slide tight" data-topic="תדריך" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 לוח הניקוד</span>
+  <h2>כולם מתחילים מאפס</h2>
+  <div class="board" data-board></div>
+</section>
+
+<!-- ============ ספרינט 1 ============ -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: החקירה" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sheet" aria-label="צעדים בגיליון">?</button>
+  <span class="kicker">⏱️ ספרינט 1 · מערכה 1: החקירה</span>
+  <h2>בונים את טבלת ההחלטה</h2>
+  <div class="row2 wide">
+    <div class="miles">
+      <div class="mile"><b class="t">דקה 0</b><p>🤫 כל אחד כותב בסוד על פתק: איזה רעיון הוא מעדיף, "מהבטן". הפתקים הפוכים על השולחן.</p></div>
+      <div class="mile"><b class="t">עד 6</b><p>📋 יוצרים עותק מהתבנית · 3 רעיונות בעמודה A · משקלות מוסכמים ששווים ל-100%.</p></div>
+      <div class="mile"><b class="t">עד 13</b><p>🔢 ציון 1–5 לכל משבצת, ובעמודה G הראיה החזקה לכל רעיון.</p></div>
+      <div class="mile"><b class="t">עד 18</b><p>🧮 נוסחה בכל השורות · תא בדיקה 100% · המנצח צבוע בירוק.</p></div>
+    </div>
+    <div>
+      <div class="timer huge" data-seconds="1080"><output>18:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="tlight">
+        <div class="r">🔴 <span><b>משקלות, ציונים וראיות:</b> בלי AI. זו ההחלטה שלכם.</span></div>
+        <div class="y">🟡 <span><b>נוסחה שלא עובדת:</b> מותר לשאול את Gemini.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="עזרה בגיליון" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sheet" aria-label="צעדים בגיליון">?</button>
+  <span class="kicker">🛟 נתקעתם?</span>
+  <h2>עזרה בגיליון</h2>
+  <div class="steps">
+    <div class="step"><strong>עותק</strong><p>פותחים את הקישור לתבנית ← <b>יצירת עותק</b> ← שם הצוות בשם הקובץ.</p></div>
+    <div class="step"><strong>שיתוף</strong><p>שיתוף ← מוסיפים את חברי הצוות כ<b>עורכים</b>.</p></div>
+    <div class="step"><strong>משקלות</strong><p>בשורה 2 מקלידים 35 ולא 0.35. התא כבר מוגדר כאחוזים.</p></div>
+    <div class="step"><strong>נוסחה</strong><p>F3 ← הנוסחה ← Enter ← גוררים את הריבוע הקטן בפינת התא למטה.</p></div>
+    <div class="step"><strong>צבע</strong><p>מסמנים F3:F5 ← עיצוב ← עיצוב מותנה ← סולם צבעים.</p></div>
+  </div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button>ב-Google Sheets יש לי משקלות באחוזים בתאים B2:E2 וציונים בשורה 3. הנוסחה שלי מחזירה שגיאה: [להדביק את הנוסחה]. מה הטעות? תסביר במילים פשוטות, בלי לשנות לנו את הציונים.</div>
+</section>
+
+<!-- ============ נקודת ביקורת ============ -->
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="ביקור החקירה" data-accent="#8c7ae6">
+  <span class="kicker">🔍 נקודת ביקורת · ביקור החקירה</span>
+  <h2>התובעים באים לבקר</h2>
+  <div class="steps">
+    <div class="step"><strong>יוצאים</strong><p>החוקר/ת ואחראי/ת ה-AI עוברים לצוות <b>הבא בתור</b>. זה הצוות שתתבעו במשפט.</p></div>
+    <div class="step"><strong>60 שניות</strong><p>המארחים מציגים את הטבלה, את המשקלות ואת המנצח.</p></div>
+    <div class="step"><strong>2 שאלות</strong><p>המבקרים שואלים 2 שאלות ורושמים בכרטיס התובע/ת.</p></div>
+    <div class="step"><strong>משוב</strong><p>💚 אני אוהב/ת… · 🌱 הלוואי… · ❓ אני תוהה…</p></div>
+  </div>
+  <div class="row2" style="align-items:center">
+    <div class="note">🧾 בזמן הביקור הטבלה שלכם נבדקת: 100%, נוסחה, צבע וראיות (עד 5 נקודות).</div>
+    <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="הבטן מול הטבלה" data-accent="#8c7ae6">
+  <span class="kicker">🤫 הופכים את הפתקים</span>
+  <h2>הטבלה הסכימה עם הבטן שלכם?</h2>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">✅</div><strong>כן, אותו רעיון</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">😮</div><strong>לא, הטבלה הפתיעה</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">🤷</div><strong>חצי מהצוות צדק</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="revealList">
+    <div class="revealCard reveal">😮 הטבלה הפתיעה? מצוין. בשביל זה עושים טבלה: היא שומעת גם את מי שלא צעק.</div>
+    <div class="revealCard reveal">🤔 לא מסכימים איתה? אולי שכחתם קריטריון, או שמשקל לא נכון. משנים רק בהחלטה של כל הצוות, ואומרים בקול למה.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="ארבע פינות" data-accent="#8c7ae6">
+  <span class="kicker">🚶 ארבע פינות · קמים וזזים</span>
+  <p class="quote">"תחושת בטן טובה יותר מטבלה."</p>
+  <div class="corners">
+    <div class="corner k1"><span class="e">💯</span>מסכים/ה מאוד</div>
+    <div class="corner k2"><span class="e">👍</span>מסכים/ה</div>
+    <div class="corner k3"><span class="e">👎</span>לא מסכים/ה</div>
+    <div class="corner k4"><span class="e">🙅</span>בכלל לא</div>
+  </div>
+  <div class="row2" style="align-items:center">
+    <p class="lead" style="margin:0">10 שניות חושבים בשקט ← הולכים לפינה ← נימוק אחד בכל פינה ← נציג אומר משפט.</p>
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="אחרי החקירה" data-accent="#8c7ae6">
+  <span class="kicker">🏆 לוח הניקוד</span>
+  <h2>אחרי החקירה</h2>
+  <div class="board" data-board></div>
+</section>
+
+<!-- ============ מערכה 2: התביעה ============ -->
+<section class="slide act" data-topic="התביעה" data-title="מערכה 2" data-accent="#e76f86">
+  <span class="actBig" aria-hidden="true">2</span>
+  <span class="kicker">😈 מערכה 2 מתוך 3</span>
+  <h2>התביעה: <span>מי ינסה להפיל אתכם?</span></h2>
+  <p class="lead">לפני שמישהו אחר תוקף את הרעיון שלכם, אתם תוקפים אותו בעצמכם.</p>
+  <div class="acts">
+    <div class="actCard past"><span class="n">1</span><div class="e">🔎</div><strong>החקירה</strong><p>✓ יש מנצח בטבלה</p></div>
+    <div class="actCard on"><span class="n">2</span><div class="e">😈</div><strong>התביעה</strong><p>פרקליט השטן וכתב ההגנה</p></div>
+    <div class="actCard"><span class="n">3</span><div class="e">⚖️</div><strong>המשפט</strong><p>מול חבר המושבעים</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="התביעה" data-title="מקרה בוחן: Juicero" data-accent="#e76f86">
+  <span class="kicker">📁 מקרה בוחן · Juicero</span>
+  <h2>המכונה שלא הייתה צריכה להיות</h2>
+  <div class="tline">
+    <div class="ev reveal"><div class="y">2013</div><p>דאג אוונס מקים חברה למסחטת מיצים חכמה.</p></div>
+    <div class="ev reveal"><div class="y">2014–2017</div><p>משקיעים נותנים לה 120 מיליון דולר.</p></div>
+    <div class="ev reveal"><div class="y">מרץ 2016</div><p>השקה: 699 דולר, Wi-Fi, ורק שקיות של החברה במנוי.</p></div>
+    <div class="ev reveal"><div class="y">ינואר 2017</div><p>מעטים קונים. המחיר יורד ל-399 דולר.</p></div>
+    <div class="ev bad reveal"><div class="y">ואז</div><p>Bloomberg מראה: סוחטים את השקית ביד, באותה יעילות. ב-2017 החברה נסגרת.</p></div>
+  </div>
+  <div class="note soft reveal">❓ <b>שאלה לצוות:</b> איזו שאלה אחת, אם היו שואלים אותה בהתחלה, הייתה חוסכת 120 מיליון דולר?</div>
+</section>
+
+<section class="slide tight" data-topic="התביעה" data-title="3 כלים של התביעה" data-accent="#e76f86">
+  <span class="kicker">🧰 שלושה כלים של התביעה</span>
+  <h2>ככה מנסים להפיל רעיון</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">😈</div><strong>פרקליט השטן</strong><p>מבקשים מ-Gemini 5 טענות חזקות נגד הרעיון. לא מתווכחים איתו, עונים לו עם ראיות.</p></div>
+    <div class="card"><div class="emoji">✋</div><strong>מבחן הסחיטה ביד</strong><p>איך הלקוח פותר את הבעיה היום, בלי המוצר שלכם? אם זה קל וזול, מה אתם מוסיפים?</p><span class="tagline">נולד מ-Juicero</span></div>
+    <div class="card"><div class="emoji">🪦</div><strong>תחקיר מראש</strong><p>עברו שנתיים והמיזם נכשל. למה? כותבים את הסיבה הכי מפחידה, ואיך בודקים אותה כבר השבוע.</p><span class="tagline">Better Place: כ-850 מיליון דולר, ופחות מ-1,000 רכבים בישראל</span></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="התביעה" data-title="הפרומפט" data-accent="#e76f86">
+  <span class="kicker">💬 פרומפט מוכן · gemini.google.com</span>
+  <h2>פרקליט השטן</h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button>אתה פרקליט השטן בוועדת השקעות קשוחה. הרעיון שלנו: [הרעיון במשפט אחד]. הלקוח: [מי הלקוח]. תן 5 טענות חזקות ושונות זו מזו למה הרעיון ייכשל: על הלקוח, על הכסף, על חלופה שכבר קיימת, על הביצוע, ועל בטיחות או הוגנות. כל טענה במשפט אחד, ובסופה שאלה שהיינו צריכים לבדוק. אל תציע פתרונות, ואל תהיה מנומס.</div>
+  <div class="follow">
+    <div class="reveal"><button class="ghost copyBtn">📋</button><b>↩️ הודעת המשך: מבחן הסחיטה ביד.</b> איך הלקוח הזה פותר את הבעיה היום, בלי שום מוצר חדש? מה הדרך הכי זולה והכי קלה?</div>
+    <div class="reveal"><button class="ghost copyBtn">📋</button><b>↩️ אחרי שכתבתם תשובות:</b> הנה התשובות שלנו: [להדביק]. איזו תשובה הכי חלשה, ולמה? אל תכתוב לנו תשובה חדשה.</div>
+  </div>
+  <p class="lead" style="margin-top:10px">🔒 כותבים על המיזם, לא על עצמנו: בלי שמות ובלי פרטים אישיים.</p>
+</section>
+
+<section class="slide tight" data-topic="התביעה" data-title="איך עונים" data-accent="#e76f86">
+  <span class="kicker">🛡️ איך עונים לפרקליט השטן</span>
+  <h2>טענה ← תשובה ← ראיה</h2>
+  <p class="lead">הטענה של Gemini: <b>"ציוד שמשאילים בהפסקה ייעלם או יישבר תוך שבועיים."</b></p>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ 0 נקודות</span>😤 "זה לא נכון! הרעיון שלנו מעולה, ותלמידים שומרים על דברים."</div>
+    <div class="box good reveal"><span class="label">✓ נקודה</span>🧾 "נכון שזה סיכון. לכן כל השאלה נרשמת בכרטיס, ושני תורנים בודקים בסוף ההפסקה. בראיונות, 3 מתוך 3 אמרו שיחזירו אם ירשמו אותם."</div>
+  </div>
+  <div class="note reveal">🤝 מותר להודות: <b>"צודקים. נוסיף ___."</b> גם זו תשובה מצוינת, והמחוון נותן עליה את הרמה הגבוהה. <span style="color:var(--dim)">(הנתונים בדוגמה בדיוניים)</span></div>
+</section>
+
+<!-- ============ ספרינט 2 ============ -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: כתב ההגנה" data-accent="#e76f86">
+  <button class="helpBtn" data-help="defense" aria-label="איך כותבים כתב הגנה">?</button>
+  <span class="kicker">⏱️ ספרינט 2 · מערכה 2: התביעה</span>
+  <h2>כותבים את כתב ההגנה</h2>
+  <div class="row2 wide">
+    <div class="miles">
+      <div class="mile"><b class="t">עד 4</b><p>🤖 אחראי/ת AI מריץ/ה את פרקליט השטן. 5 הטענות נכנסות ללשונית "כתב ההגנה".</p></div>
+      <div class="mile"><b class="t">עד 9</b><p>🛡️ בוחרים את 3 הטענות הכי חזקות, ועונים על כל אחת עם ראיה.</p></div>
+      <div class="mile"><b class="t">עד 11</b><p>✋ מבחן הסחיטה ביד · 🪦 תחקיר מראש: הסיבה הכי מפחידה ואיך בודקים אותה.</p></div>
+      <div class="mile"><b class="t">עד 13</b><p>📜 הצהרת הפתרון. 🔍 החוקר/ת מכין/ה את שאלת התביעה למשפט.</p></div>
+    </div>
+    <div>
+      <div class="timer huge" data-seconds="780"><output>13:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="tlight">
+        <div class="g">🟢 <span><b>Gemini כפרקליט השטן:</b> מותר, וזה חלק מהמשימה.</span></div>
+        <div class="r">🔴 <span><b>התשובות וההצהרה:</b> כותבים בעצמכם, בלי AI.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="הצהרת הפתרון" data-accent="#e76f86">
+  <span class="kicker">📜 הצהרת הפתרון</span>
+  <h2>משפט אחד, חמישה חלקים</h2>
+  <p class="stmt">עבור <span class="slot s1">הלקוח</span> ש<span class="slot s2">הבעיה</span>, נבנה <span class="slot s3">הפתרון</span> כי <span class="slot s4">הראיה</span>, בניגוד ל<span class="slot s5">מה שהלקוח עושה היום</span>.</p>
+  <div class="revealList">
+    <div class="revealCard reveal">🚀 <b>רמה 4:</b> "עבור תלמידי ז׳–ח׳ שמסתובבים בהפסקה הגדולה בלי מה לעשות, נבנה ארגז משחקים שתורנים משאילים בכרטיס, כי 18 מתוך 25 בסקר אמרו שהם משתעממים לפחות פעמיים בשבוע, בניגוד לכדור שמישהו מביא מהבית ונעלם אחרי שבוע." <span style="color:var(--dim)">(בדיוני)</span></div>
+    <div class="revealCard reveal">⚠️ ומתחת להצהרה: <b>הסיכון הכי גדול שלנו:</b> ___ · <b>נבדוק אותו כך:</b> ___ <b>עד:</b> ___</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#e76f86">
+  <span class="kicker">⚡ סיימתם? משימות צד</span>
+  <h2>עוד דרכים לחזק את התיק</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">✂️</div><strong>מחק 80%</strong><p>רשמו את כל הפיצ׳רים של הפתרון, ומחקו את כולם חוץ מאחד. למה דווקא הוא?</p><span class="tagline">Instagram התחילה כ-Burbn</span></div>
+    <div class="card"><div class="emoji">👀</div><strong>מפת בעלי עניין</strong><p>3 אנשים שהמוצר ישפיע עליהם בלי שבחרו בו. מה הם יגידו?</p><span class="tagline">Google Glass ופרטיות</span></div>
+    <div class="card"><div class="emoji">🧐</div><strong>הלקוח הספקן</strong><p>בקשו מ-Gemini לשחק את הלקוח מכרטיס הלקוח, שלא מאמין לכם. שכנעו אותו ב-3 הודעות.</p></div>
+    <div class="card"><div class="emoji">📰</div><strong>שתי כותרות</strong><p>כתבו כותרת עיתון מ-2028 על הצלחת המיזם, ואחת על הכישלון שלו. מה ההבדל ביניהן?</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="הגשה" data-accent="#e76f86">
+  <button class="helpBtn" data-help="submit" aria-label="איך מגישים">?</button>
+  <span class="kicker">📤 הגשה · עד דקה 72</span>
+  <h2>מגישים את התיק</h2>
+  <div class="row2">
+    <div class="panel"><h3>1. ביומן הסטארט-אפ</h3><span class="sub">שקף חדש: "שיעור 9 · משפט הרעיונות"</span>
+      <ul class="ticks"><li>צילום מסך של הטבלה, וקישור לגיליון</li><li>הרעיון המנצח והציון המשוקלל</li><li>3 טענות של פרקליט השטן, ותשובה עם ראיה לכל אחת</li><li>הצהרת הפתרון</li><li>הסיכון הגדול ואיך נבדוק אותו</li><li>🤖 שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li></ul></div>
+    <div class="panel"><h3>2. בטופס "הגשת תוצר"</h3><span class="sub">המציג/ה ממלא/ת, אחרי שכל הצוות ראה</span>
+      <ul class="ticks"><li>שם הצוות</li><li>קישור ליומן הסטארט-אפ</li><li>רמה במחוון לפי הערכה עצמית</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li></ul>
+      <div class="linkBox">🔗 <span contenteditable="true" data-save="link-submit" spellcheck="false">הקישור כתוב על הלוח</span></div>
+      <div><span class="fname">📄 שם הקובץ: צוות ___ · שיעור 9 · משפט הרעיונות</span></div>
+      <p class="sub" style="margin-top:8px">📝 בלי מחשב: דף העבודה נכנס למעטפת הצוות.</p></div>
+  </div>
+</section>
+
+<!-- ============ מערכה 3: המשפט ============ -->
+<section class="slide act" data-topic="המשפט" data-title="מערכה 3" data-accent="#8c7ae6">
+  <span class="actBig" aria-hidden="true">3</span>
+  <span class="kicker">⚖️ מערכה 3 מתוך 3</span>
+  <h2>המשפט: <span>האם הרעיון ישרוד?</span></h2>
+  <p class="lead">כל רעיון עומד לדין. כל הכיתה היא חבר המושבעים.</p>
+  <div class="acts">
+    <div class="actCard past"><span class="n">1</span><div class="e">🔎</div><strong>החקירה</strong><p>✓ יש מנצח בטבלה</p></div>
+    <div class="actCard past"><span class="n">2</span><div class="e">😈</div><strong>התביעה</strong><p>✓ כתב ההגנה מוכן</p></div>
+    <div class="actCard on"><span class="n">3</span><div class="e">⚖️</div><strong>המשפט</strong><p>מול חבר המושבעים</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="המשפט" data-title="חוקי בית המשפט" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="court" aria-label="חוקי בית המשפט">?</button>
+  <span class="kicker">🏛️ חוקי בית המשפט</span>
+  <h2>90 שניות לכל רעיון</h2>
+  <div class="steps">
+    <div class="step"><strong>🎤 הגנה · 40 שנ׳</strong><p>הסנגור/ית: הצהרת הפתרון והראיה הכי חזקה.</p></div>
+    <div class="step"><strong>⚔️ תביעה · 30 שנ׳</strong><p>התובע/ת מהצוות הקודם בתור: טענה אחת או שתיים, על הרעיון.</p></div>
+    <div class="step"><strong>🛡️ תשובה · 20 שנ׳</strong><p>הסנגור/ית עונה, עם ראיה.</p></div>
+    <div class="step"><strong>🗳️ פסק דין</strong><p>כל השאר מסמנים בטופס את השורה של הצוות.</p></div>
+  </div>
+  <div class="stamps">
+    <div class="stamp s5">✅ שרד<small>הרעיון חזק כמו שהוא</small></div>
+    <div class="stamp s3">🔧 שרד בתיקון<small>טוב, אבל צריך לשנות משהו</small></div>
+    <div class="stamp s0">❌ לא שרד<small>הטענה הפילה אותו</small></div>
+  </div>
+  <div class="linkBox">🗳️ טופס חבר המושבעים: <span contenteditable="true" data-save="link-jury" spellcheck="false">הקישור כתוב על הלוח</span></div>
+</section>
+
+<section class="slide tight" data-topic="המשפט" data-title="אולם המשפט" data-accent="#8c7ae6">
+  <span class="kicker">⚖️ אולם המשפט</span>
+  <h2>בית המשפט מתכנס</h2>
+  <div class="court" id="court">
+    <div class="dock">
+      <h3>על דוכן הנאשמים</h3>
+      <div class="who"><button class="nav2" data-c="prev" aria-label="הצוות הקודם">→</button><div class="names"><b id="cDef">צוות 1</b><small>⚔️ התובע/ת: <i id="cPro">צוות 7</i></small></div><button class="nav2" data-c="next" aria-label="הצוות הבא">←</button></div>
+      <div class="phases">
+        <button data-ph="40" data-l="🎤 הגנה">🎤 הגנה<small>40 שנ׳</small></button>
+        <button data-ph="30" data-l="⚔️ תביעה">⚔️ תביעה<small>30 שנ׳</small></button>
+        <button data-ph="20" data-l="🛡️ תשובה">🛡️ תשובה<small>20 שנ׳</small></button>
+      </div>
+      <div class="clock" id="cClock">0:40</div>
+      <div class="clockLbl" id="cLbl">לוחצים על השלב כדי להתחיל</div>
+    </div>
+    <div class="dock">
+      <h3>חבר המושבעים · הצבעה בידיים (כשאין טופס)</h3>
+      <div class="jury">
+        <div class="j"><b>✅ שרד</b><output data-j="0">0</output><button data-jd="0,-1">−</button> <button data-jd="0,1">+</button></div>
+        <div class="j"><b>🔧 בתיקון</b><output data-j="1">0</output><button data-jd="1,-1">−</button> <button data-jd="1,1">+</button></div>
+        <div class="j"><b>❌ לא שרד</b><output data-j="2">0</output><button data-jd="2,-1">−</button> <button data-jd="2,1">+</button></div>
+      </div>
+      <div class="verdict" id="cVerdict">ממתינים לפסק הדין</div>
+      <div class="regRow"><button class="ghost" id="cReg">📌 רישום בלוח הניקוד</button><button class="ghost" id="cClr">↺ איפוס הצבעה</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="המשפט" data-title="פסק הדין" data-accent="#8c7ae6">
+  <span class="kicker">🏛️ פסק הדין</span>
+  <h2>חבר המושבעים מחליט</h2>
+  <p class="lead">שולחים את הטופס עכשיו. בעוד רגע התוצאות על המסך.</p>
+  <div class="tableWrap"><table class="t pts">
+    <thead><tr><th>פסק הדין בטופס</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>✅ יותר ממחצית המושבעים סימנו "שרד"</td><td class="n">5</td></tr>
+      <tr><td>🔧 יותר ממחצית סימנו "שרד" או "שרד בתיקון"</td><td class="n">3</td></tr>
+      <tr><td>❌ רוב המושבעים סימנו "לא שרד"</td><td class="n">0</td></tr>
+      <tr class="hl"><td>🛡️ ההגנה המשכנעת ביותר (הכי הרבה קולות)</td><td class="n">3</td></tr>
+      <tr class="hl"><td>⚔️ התובע/ת החד/ה ביותר (הכי הרבה קולות)</td><td class="n">2</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note reveal">💡 "לא שרד" זה לא סוף העולם. זה בדיוק מה שבאתם לגלות היום, ולא אחרי 120 מיליון דולר.</div>
+</section>
+
+<!-- ============ תוצאות ============ -->
+<section class="slide tight" data-topic="תוצאות" data-title="התוצאות" data-accent="#e3a82b">
+  <span class="kicker">🏆 לוח הניקוד</span>
+  <h2>התוצאות הסופיות</h2>
+  <div class="board" data-board></div>
+</section>
+
+<section class="slide tight" data-topic="תוצאות" data-title="פרסי היום" data-accent="#e3a82b">
+  <span class="kicker">🎖️ פרסי היום</span>
+  <h2>יותר מדרך אחת לנצח</h2>
+  <div class="cards four">
+    <div class="card prize"><div class="emoji">🛡️</div><strong>ההגנה המשכנעת</strong><p>לפי הצבעת חבר המושבעים</p><span class="winner" contenteditable="true" data-save="prize-1" spellcheck="false"></span></div>
+    <div class="card prize"><div class="emoji">⚔️</div><strong>התובע/ת החד/ה</strong><p>השאלה שהכי הקשתה על ההגנה</p><span class="winner" contenteditable="true" data-save="prize-2" spellcheck="false"></span></div>
+    <div class="card prize"><div class="emoji">🔄</div><strong>הקאמבק</strong><p>שינו הכי הרבה בעקבות ביקורת, ועדיין שרדו</p><span class="winner" contenteditable="true" data-save="prize-3" spellcheck="false"></span></div>
+    <div class="card prize"><div class="emoji">🧾</div><strong>בלשי הראיות</strong><p>הכי הרבה ציונים שנשענים על ראיה</p><span class="winner" contenteditable="true" data-save="prize-4" spellcheck="false"></span></div>
+  </div>
+</section>
+
+<!-- ============ סיכום ============ -->
+<section class="slide tight" data-topic="סיכום" data-title="תחקיר" data-accent="#2f9e80">
+  <span class="kicker">🧠 תחקיר</span>
+  <h2>מה למדנו מהמשפט?</h2>
+  <div class="revealList">
+    <div class="revealCard">🔁 מי שינה ציון, משקל או רעיון בעקבות ביקורת? מה בדיוק שכנע אתכם?</div>
+    <div class="revealCard reveal">😈 איזו טענה של Gemini הייתה הכי חזקה? ואיזו הייתה סתם, ולמה?</div>
+    <div class="revealCard reveal">⚖️ מתי טבלת החלטה יכולה לטעות? מה עושים אז?</div>
+    <div class="revealCard reveal">🧭 בפעם הבאה שהצוות שלכם תקוע בוויכוח, מה תעשו אחרת?</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="סיכום" data-title="כרטיס יציאה" data-accent="#2f9e80">
+  <span class="kicker">🎟️ כרטיס יציאה · 3 דקות · כל אחד לבד</span>
+  <h2>לפני שיוצאים</h2>
+  <div class="task"><strong>🔴 כותבים לבד, בלי AI</strong><ol>
+    <li>דבר אחד שלמדתי היום.</li>
+    <li>שאלה אחת שנשארה לי.</li>
+    <li>כמה הבנתי, מ-0 עד 5?</li>
+    <li><b>שאלת השיעור:</b> מה הביקורת הכי חזקה שהרעיון שלנו קיבל היום, ומה עשינו איתה?</li>
+  </ol></div>
+  <div class="linkBox">🔗 <span contenteditable="true" data-save="link-exit" spellcheck="false">הקישור כתוב על הלוח</span></div>
+  <p class="lead" style="margin-top:8px">📝 בלי טלפון? כרטיס נייר, והמתעד/ת אוסף/ת.</p>
+</section>
+
+<section class="slide hero" data-topic="סיכום" data-title="בשיעור הבא" data-accent="#2f9e80">
+  <span class="kicker">💎 בשיעור הבא · שלב 4: הצעת ערך</span>
+  <h2>מבחן <span class="cyan">5 השניות</span></h2>
+  <p class="lead">יש לכם פתרון ששרד משפט. עכשיו צריך להסביר אותו במשפט אחד, כל כך ברור שמישהו יבין אותו ב-5 שניות.</p>
+  <div class="tags"><span>💾 שומרים את הגיליון</span><span>📜 שומרים את הצהרת הפתרון</span><span>🌍 מבחן התרגום</span></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-rules"><h3>⚖️ משפט הרעיונות: החוקים המלאים</h3><ol>
+<li><b>החקירה:</b> בוחרים 3 רעיונות מהמפה של שיעור 3 (או של "קופסת הפסקה"). קודם מסכימים על 4 משקלות ששווים ביחד ל-100%, ורק אז נותנים ציונים 1–5.</li>
+<li>ליד כל רעיון כותבים בעמודה G את הראיה החזקה ביותר: ציטוט, מספר מהסקר, גרף או עובדה. ליד הרעיון המנצח: ראיה לכל ציון.</li>
+<li><b>התביעה:</b> אחראי/ת ה-AI מריץ/ה את פרומפט פרקליט השטן. הצוות בוחר 3 טענות לפחות ועונה על כל אחת: טענה ← תשובה ← ראיה.</li>
+<li>מבחן הסחיטה ביד: איך הלקוח פותר את הבעיה היום בלי המוצר? תחקיר מראש: הסיבה הכי מפחידה לכישלון, ואיך בודקים אותה השבוע.</li>
+<li><b>הגשה עד דקה 72:</b> שקף ביומן הסטארט-אפ ושורה בטופס "הגשת תוצר".</li>
+<li><b>המשפט:</b> הגנה 40 שניות, תביעה 30 שניות, תשובה 20 שניות. התובע/ת מגיע/ה מהצוות הקודם בתור, זה שביקר אתכם בנקודת הביקורת.</li>
+<li>חבר המושבעים: כל מי שלא על הבמה מסמן בטופס את השורה של הצוות: ✅ שרד · 🔧 שרד בתיקון · ❌ לא שרד. לא מצביעים על הצוות שלכם.</li>
+<li>מותר לשנות את הרעיון בעקבות ביקורת. צוות שמשנה ומסביר למה, מקבל על זה את הרמה הגבוהה במחוון.</li>
+</ol></template>
+<template id="help-sheet"><h3>🧮 בונים את הגיליון, צעד אחרי צעד</h3><ol>
+<li>פותחים את הקישור לתבנית ולוחצים <b>יצירת עותק</b>. בשם הקובץ כותבים את שם הצוות.</li>
+<li><b>שיתוף</b> ← מוסיפים את המייל של כל חבר/ת צוות כעורך/ת.</li>
+<li>עמודה A, שורות 3–5: שלושת הרעיונות.</li>
+<li>שורה 2, תאים B2:E2: המשקלות. מקלידים 35 (לא 0.35). התא F2 מראה את הסכום, וחייב לצאת 100%.</li>
+<li>B3:E5: ציון 1–5 בכל משבצת. G3:G5: הראיה החזקה לכל רעיון.</li>
+<li>בתא F3: <b>=SUMPRODUCT(B3:E3,$B$2:$E$2)</b>, Enter, וגוררים את הריבוע הקטן בפינת התא עד F5.</li>
+<li>מסמנים F3:F5 ← <b>עיצוב</b> ← <b>עיצוב מותנה</b> ← לשונית <b>סולם צבעים</b> ← בוצע.</li>
+<li>לאלופים: בתא B7 <b>=INDEX(A3:A5,MATCH(MAX(F3:F5),F3:F5,0))</b>, ושם המנצח מופיע לבד.</li>
+<li>שגיאה? בודקים פסיקים (לא נקודה-פסיק), סוגריים, ושבתאים יש רק מספרים.</li>
+</ol></template>
+<template id="help-defense"><h3>🛡️ כתב ההגנה</h3><ol>
+<li>עוברים ללשונית <b>כתב ההגנה</b> בגיליון (או לדף העבודה המודפס).</li>
+<li>מדביקים את 5 הטענות של Gemini, טענה בכל שורה.</li>
+<li>לכל טענה מסמנים: האם היא נכונה? כן · חלקית · לא.</li>
+<li>בוחרים 3 טענות חזקות. לכל אחת: התשובה שלנו (במשפט אחד) והראיה (ציטוט, מספר, גרף).</li>
+<li>טענה נכונה? כותבים מה נשנה ברעיון. זו תשובה מצוינת.</li>
+<li>מבחן הסחיטה ביד: איך הלקוח מסתדר היום? מה אנחנו מוסיפים שאין לו?</li>
+<li>תחקיר מראש: "עברו שנתיים והמיזם נכשל, כי ___". מסמנים את הסיבה הכי מפחידה, וכותבים איך בודקים אותה השבוע.</li>
+<li>הצהרת הפתרון: עבור ___ ש___, נבנה ___ כי ___, בניגוד ל___.</li>
+</ol></template>
+<template id="help-submit"><h3>📤 איך מגישים</h3><ol>
+<li>ביומן הסטארט-אפ: <b>שקף חדש</b> עם הכותרת "שיעור 9 · משפט הרעיונות".</li>
+<li>צילום מסך של הטבלה: מקש PrtSc (או Win+Shift+S, ובמק ⌘+Shift+4), ומדביקים בשקף. ומתחת: קישור לגיליון.</li>
+<li>מעתיקים לשקף את 3 התשובות לפרקליט השטן, את הצהרת הפתרון ואת הסיכון הגדול.</li>
+<li>שורת AI: <b>מה ה-AI עשה · מה אנחנו עשינו</b> (ובאיזה כלי). למשל: "Gemini נתן 5 טענות · אנחנו בחרנו 3, ענינו עם ראיות והוספנו תורנות".</li>
+<li>המציג/ה פותח/ת את הטופס מהקישור, וממלא/ת: שם הצוות, קישור ליומן, רמה במחוון ושורת AI.</li>
+<li>בלי מחשב: דף העבודה ודף כתב ההגנה נכנסים למעטפת הצוות.</li>
+</ol></template>
+<template id="help-court"><h3>🏛️ חוקי בית המשפט</h3><ol>
+<li>הסנגור/ית עומד/ת מימין, התובע/ת משמאל.</li>
+<li><b>הגנה, 40 שניות:</b> הצהרת הפתרון, והראיה הכי חזקה.</li>
+<li><b>תביעה, 30 שניות:</b> טענה אחת או שתיים. אפשר להשתמש בשאלות מהביקור ומכרטיס התובע/ת.</li>
+<li><b>תשובה, 20 שניות:</b> עם ראיה. מותר להודות: "צודקים, ולכן נשנה ___".</li>
+<li>כשהזמן נגמר, מסיימים את המשפט ועוצרים.</li>
+<li>שואלים על הרעיון, לא על האנשים. אין צחוק על תשובה.</li>
+<li>אחרי כל משפט: 10 שניות לסמן בטופס את השורה של הצוות. שולחים את הטופס רק בסוף כל המשפטים.</li>
+</ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== משפט הרעיונות · lesson script (runs after the kit engine) ===== */
+(()=>{
+const store={get(k){try{return localStorage.getItem('tie-idea-picker:'+k)}catch(e){return null}},set(k,v){try{localStorage.setItem('tie-idea-picker:'+k,v)}catch(e){}}};
+
+/* ---- copy buttons ---- */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',e=>{
+  e.stopPropagation();const box=b.parentElement.cloneNode(true);box.querySelectorAll('.copyBtn,b').forEach(x=>x.remove());
+  const txt=box.textContent.replace(/\s+/g,' ').trim();
+  const done=()=>{const o=b.textContent;b.classList.add('done');b.textContent='✓ הועתק';setTimeout(()=>{b.classList.remove('done');b.textContent=o},1600)};
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(err){}ta.remove();done()};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,fallback);else fallback();
+}));
+
+/* ---- editable fields that remember their text (links, prize winners) ---- */
+document.querySelectorAll('[data-save]').forEach(el=>{const v=store.get('f:'+el.dataset.save);if(v!==null&&v.trim()!=='')el.textContent=v;
+  el.addEventListener('input',()=>store.set('f:'+el.dataset.save,el.textContent));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur()}})});
+
+/* ---- live decision lab ---- */
+const lab=document.getElementById('lab');
+if(lab){
+  const wIn=[...lab.querySelectorAll('input[data-w]')];const rows=[...lab.querySelectorAll('tr[data-row]')];
+  const pill=document.getElementById('labPill'),sumCell=document.getElementById('labSum');
+  const num=(i,min,max)=>{let v=Number(i.value);if(!isFinite(v))v=min;return Math.min(max,Math.max(min,v))};
+  const calc=()=>{const w=wIn.map(i=>num(i,0,100));const sum=w.reduce((a,b)=>a+b,0);
+    sumCell.textContent=sum+'%';const ok=sum===100;pill.textContent=ok?'סה״כ משקלות: 100% ✓':'סה״כ משקלות: '+sum+'% ✗ צריך 100%';
+    pill.classList.toggle('ok',ok);pill.classList.toggle('bad',!ok);
+    const res=rows.map(r=>{const s=[...r.querySelectorAll('input')].map(i=>num(i,1,5));const plain=s.reduce((a,b)=>a+b,0);
+      const ws=s.reduce((a,v,k)=>a+v*w[k],0)/100;r.querySelector('.ps').textContent=plain;r.querySelector('.ws').textContent=ws.toFixed(2).replace(/0$/,'').replace(/\.$/,'');return ws});
+    const top=Math.max(...res);const winners=res.filter(x=>Math.abs(x-top)<1e-9).length;
+    rows.forEach((r,k)=>r.classList.toggle('win',ok&&winners===1&&Math.abs(res[k]-top)<1e-9));
+    lab.querySelectorAll('[data-preset]').forEach(b=>b.classList.toggle('on',b.dataset.preset===w.join(',')))};
+  lab.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc));
+  lab.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{b.dataset.preset.split(',').forEach((v,k)=>wIn[k].value=v);calc()}));
+  calc();
+}
+
+/* ---- scoreboard (one state, shown on several slides) ---- */
+let B=null;try{B=JSON.parse(store.get('board'))}catch(e){}
+if(!B||!Array.isArray(B.teams)||!B.teams.length)B={teams:Array.from({length:7},(_,i)=>({name:'צוות '+(i+1),pts:0})),ver:{}};
+if(!B.ver)B.ver={};
+const saveB=()=>store.set('board',JSON.stringify(B));
+const boards=[...document.querySelectorAll('[data-board]')];
+function rank(){const sorted=[...B.teams.map(t=>t.pts)].sort((a,b)=>b-a);return B.teams.map(t=>sorted.indexOf(t.pts)+1)}
+function paint(){const max=Math.max(1,...B.teams.map(t=>t.pts)),top=Math.max(...B.teams.map(t=>t.pts)),rk=rank();
+  boards.forEach(bd=>bd.querySelectorAll('.bRow').forEach((row,i)=>{const t=B.teams[i];if(!t)return;
+    row.querySelector('output').textContent=t.pts;row.querySelector('.bar i').style.width=(Math.max(0,t.pts)/max*100)+'%';
+    row.querySelector('.rk').textContent=rk[i];row.classList.toggle('top',top>0&&t.pts===top);
+    const nm=row.querySelector('.nm');if(document.activeElement!==nm)nm.textContent=t.name}));
+  if(window.__court)window.__court()}
+function build(){boards.forEach(bd=>{bd.innerHTML='';B.teams.forEach((t,i)=>{const row=document.createElement('div');row.className='bRow';
+    row.innerHTML='<span class="rk"></span><span class="nm" contenteditable="true" spellcheck="false"></span><div class="bar"><i></i></div><output>0</output><div class="bt"><button class="minus" dir="ltr" data-p="-1">−1</button><button dir="ltr" data-p="1">+1</button><button dir="ltr" data-p="2">+2</button><button dir="ltr" data-p="3">+3</button><button dir="ltr" data-p="5">+5</button></div>';
+    const nm=row.querySelector('.nm');nm.textContent=t.name;
+    nm.addEventListener('input',()=>{B.teams[i].name=nm.textContent.trim()||('צוות '+(i+1));saveB()});
+    nm.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nm.blur()}});
+    nm.addEventListener('blur',()=>{nm.textContent=B.teams[i].name;paint()});
+    row.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{B.teams[i].pts+=Number(b.dataset.p);saveB();paint()}));
+    bd.appendChild(row)});
+    const f=document.createElement('div');f.className='bFoot';
+    f.innerHTML='<button class="ghost" data-a="add">+ צוות</button><button class="ghost" data-a="del">− צוות</button><button class="ghost" data-a="reset">↺ איפוס הניקוד</button><span>לחיצה על שם הצוות משנה אותו</span>';
+    f.querySelector('[data-a=add]').onclick=()=>{if(B.teams.length>=10)return;B.teams.push({name:'צוות '+(B.teams.length+1),pts:0});saveB();build()};
+    f.querySelector('[data-a=del]').onclick=()=>{if(B.teams.length<=2)return;B.teams.pop();saveB();build()};
+    f.querySelector('[data-a=reset]').onclick=()=>{if(!confirm('לאפס את כל הנקודות? שמות הצוותים נשארים.'))return;B.teams.forEach(t=>t.pts=0);B.ver={};saveB();paint()};
+    bd.appendChild(f)});paint()}
+build();
+
+/* ---- courtroom ---- */
+const court=document.getElementById('court');
+if(court){
+  let cur=0,iv=null,left=40,phaseBtn=null;const jury=[0,0,0];
+  const cDef=document.getElementById('cDef'),cPro=document.getElementById('cPro'),clock=document.getElementById('cClock'),lbl=document.getElementById('cLbl'),ver=document.getElementById('cVerdict');
+  const fmt=s=>Math.floor(Math.abs(s)/60)+':'+String(Math.abs(s)%60).padStart(2,'0');
+  const stop=()=>{clearInterval(iv);iv=null;clock.classList.remove('run')};
+  const names=()=>{const n=B.teams.length;cur=((cur%n)+n)%n;cDef.textContent=B.teams[cur].name;cPro.textContent=B.teams[(cur-1+n)%n].name};
+  window.__court=names;
+  const verdict=()=>{const tot=jury[0]+jury[1]+jury[2];ver.className='verdict';
+    if(!tot){ver.textContent='ממתינים לפסק הדין';return null}
+    if(jury[0]*2>tot){ver.classList.add('v5');ver.textContent='✅ שרד · 5 נקודות';return 5}
+    if((jury[0]+jury[1])*2>tot){ver.classList.add('v3');ver.textContent='🔧 שרד בתיקון · 3 נקודות';return 3}
+    ver.classList.add('v0');ver.textContent='❌ לא שרד · 0 נקודות';return 0};
+  const clearJury=()=>{jury.fill(0);court.querySelectorAll('[data-j]').forEach(o=>o.textContent=0);verdict()};
+  const resetPhase=()=>{stop();court.querySelectorAll('[data-ph]').forEach(b=>b.classList.remove('on'));phaseBtn=null;left=40;clock.classList.remove('over');clock.textContent=fmt(40);lbl.textContent='לוחצים על השלב כדי להתחיל'};
+  court.querySelectorAll('[data-c]').forEach(b=>b.addEventListener('click',()=>{cur+=b.dataset.c==='next'?1:-1;names();resetPhase();clearJury()}));
+  court.querySelectorAll('[data-ph]').forEach(b=>b.addEventListener('click',()=>{
+    if(phaseBtn===b&&iv){stop();lbl.textContent=b.dataset.l+' · בהשהיה. לחיצה נוספת ממשיכה';return}
+    if(phaseBtn!==b){left=Number(b.dataset.ph);court.querySelectorAll('[data-ph]').forEach(x=>x.classList.toggle('on',x===b));phaseBtn=b;clock.classList.remove('over')}
+    stop();clock.classList.add('run');lbl.textContent=b.dataset.l+' · הזמן רץ';clock.textContent=fmt(left);
+    iv=setInterval(()=>{left--;clock.textContent=(left<0?'-':'')+fmt(left);if(left<=0){clock.classList.add('over');lbl.textContent=b.dataset.l+' · ⏰ הזמן נגמר'}if(left<=-15)stop()},1000)}));
+  court.querySelectorAll('[data-jd]').forEach(b=>b.addEventListener('click',()=>{const [k,d]=b.dataset.jd.split(',').map(Number);jury[k]=Math.max(0,jury[k]+d);court.querySelector('[data-j="'+k+'"]').textContent=jury[k];verdict()}));
+  document.getElementById('cClr').onclick=clearJury;
+  document.getElementById('cReg').onclick=()=>{const v=verdict();if(v===null)return;const key=String(cur);const prev=B.ver[key]||0;
+    B.teams[cur].pts+=v-prev;B.ver[key]=v;saveB();paint();const r=document.getElementById('cReg');r.textContent='✓ נרשם: '+v;setTimeout(()=>r.textContent='📌 רישום בלוח הניקוד',1500)};
+  names();resetPhase();verdict();
+}
+})();
+</script>
+</body>
+</html>

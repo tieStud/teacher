@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · סקר שוק אמיתי | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== market-survey materials: lesson additions (same tokens) ===== */
+.ex.pn{gap:1.8mm}
+.ex.pn .q{font-size:9.6pt;line-height:1.7}
+.fold2{text-align:center;color:var(--dim);font-size:8pt;margin:1mm 0}
+.box.sq{padding:3mm 4mm;font-size:10.5pt}
+.box.sq b{font-family:var(--display)}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin-top:2.5mm}
+.opts.five{grid-template-columns:repeat(5,1fr)}
+.opts div{border:1px solid var(--line2);border-radius:2.5mm;padding:1.5mm 2mm;font-size:9pt;display:flex;flex-direction:column;gap:1.2mm;min-height:19mm}
+.opts div i{display:block;height:9mm;border-radius:1.5mm;background:repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 4mm);border:1px dashed var(--line2)}
+.opts .fill{min-width:0;width:100%}
+.side{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.st{padding:5mm 6mm;display:flex;flex-direction:column;gap:2mm;position:relative}
+.st .em{font-size:22pt;line-height:1}
+.st b{font-family:var(--display);font-weight:800;font-size:13pt}
+.st p{font-size:10pt;line-height:1.5}
+.st .pts{position:absolute;top:4mm;left:5mm;background:var(--teal-soft);color:var(--teal);font-family:var(--display);font-weight:800;font-size:9pt;border-radius:999px;padding:.5mm 3mm}
+.aw{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3mm;padding:7mm;background:linear-gradient(180deg,#fffaf0,#fff 60%);position:relative}
+.aw::before{content:"";position:absolute;inset:4mm;border:1.2px solid #ecd9a6;border-radius:3mm;pointer-events:none}
+.aw .em{font-size:30pt;line-height:1}
+.aw small{color:var(--muted);font-size:9pt}
+.aw b{font-family:var(--display);font-weight:800;font-size:17pt;color:#8a5300}
+.aw p{font-size:10pt}
+.aw .sig{font-size:8.6pt;color:var(--muted);margin-top:2mm}
+.cc b{font-size:11.5pt;line-height:1.3}
+.cc .cat{font-size:7.4pt}
+table.tb.tight{font-size:9pt}table.tb.tight th,table.tb.tight td{padding:1mm 2mm}
+#p-mission .pt{margin-bottom:3mm}#p-mission .box{padding:3mm 3.5mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · סקר שוק אמיתי<small>שיעור 5 מתוך 30 · שלב 2: מחקר · מכון הסקרים</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · שיעור 5</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-7 צוותים. לכיתה גדולה או קטנה יותר: לפי מספר הצוותים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה (3 רמות)</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דף התיקונים (חימום)</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>כרטיסי שאלות מוטות: סט א׳ + סט ב׳</td><td>4 עותקים</td><td>בריסטול</td><td>כן. מעטפה לצוות</td></tr>
+      <tr><td>5-6</td><td>דף תכנון הסקר + בדיקה ופרסום</td><td>1 לצוות + 2 (9)</td><td>רגיל, דו-צדדי</td><td>לא</td></tr>
+      <tr><td>7</td><td>פתקי תחזית</td><td>2 עמודים (8 פתקים)</td><td>צבעוני בהיר</td><td>כן, לרבעים</td></tr>
+      <tr><td>8</td><td>כרטיס התובנות</td><td>1 לצוות + 2 (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>סקר נייר (גיבוי בלי מכשירים)</td><td>1 לצוות (7) רק אם צריך</td><td>A4 או A3</td><td>לא</td></tr>
+      <tr><td>10</td><td>מחוון</td><td>1 לצוות + 1 (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>שורת AI</td><td>2 עמודים (8)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>13</td><td>כרטיסי משימות צד</td><td>1</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>14</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>תעודות פרס</td><td>1</td><td>צבעוני</td><td>כן, לרבעים</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 במעטפת כל צוות</h3>
+      <ul class="check"><li>כרטיס משימה, דף תכנון, כרטיס תובנות</li><li>פתק תחזית אחד (ועוד אחד רזרבה אצלכם)</li><li>מחוון ורצועת שורת AI</li><li>דף התיקונים</li><li>2 טושים ופתקים דביקים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>🗳️ קופסת התחזיות (קופסת נעליים עם חריץ)</li><li>7 מעטפות "מעבדת התיקונים": א׳ לצוותים 1, 3, 5, 7 · ב׳ ל-2, 4, 6</li><li>קופסת משימות צד</li><li>כרטיסי יציאה, דף ניקוד ועט</li><li>קוד QR של דף הקישורים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ הכנה מהירה</h3><p>כרטיסי השאלות: מדפיסים 4 עותקים של עמוד 4, גוזרים, ומפרידים לשתי ערמות לפי הפס: <b>א׳ = כחול</b> (קופסת הפסקה), <b>ב׳ = ורוד</b> (אפליקציית שיעורי בית). 6 כרטיסים בכל מעטפה. המפתח עם ניסוחים מתוקנים נמצא במערך, בסעיף "האתגר והניקוד".</p></div>
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · שיעור 5 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 שלב 2: מחקר · מכון הסקרים</span><h2>תחזית <span>מול מציאות</span></h2></div><p>מכון הסקרים של הכיתה נפתח. לפני שבונים, בודקים כמה אנשים באמת מרגישים את הבעיה.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>סקר הוגן על הבעיה שלכם, תחזית חתומה לפני שמישהו עונה, ובסוף לגלות כמה התחזית הייתה קרובה למציאות, עם 3 תובנות במספרים.</p>
+      <h3 style="margin-top:2mm">🔮 המדד</h3><p>כמה אחוז מכל מי שענו סימנו <b>4 או 5</b> בשאלה "עד כמה זה מפריע לך?" (1-5).</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>6 שאלות, לפחות 4 סוגים, וחובה סולם "עד כמה זה מפריע לך?" 1-5.</li><li>בלי שאלה מזהה, ובלי איסוף כתובות אימייל.</li><li><b>לפני הפרסום</b>: פתק תחזית סגור בקופסה.</li><li>כל אחד עונה לבד ובכנות על כל הסקרים של הצוותים האחרים.</li><li>מותר לשלוח לעד 5 אנשים שאתם מכירים, בהודעה אישית.</li><li>מספר מומצא שמוצג כאמיתי = מינוס 3.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:3mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <table class="tb tight"><thead><tr><th>מה</th><th style="width:30mm">נקודות</th></tr></thead><tbody>
+      <tr><td>שאלה מוטה שתוקנה ואושרה (חימום) · 6 מתוך 6 = בונוס</td><td>1 לשאלה · בונוס 1</td></tr>
+      <tr><td>טופס מפורסם, והשכנים הצליחו לענות · 4 סוגי שאלות כולל סולם</td><td>3 · 2</td></tr>
+      <tr><td>10 תשובות ומעלה</td><td>3</td></tr>
+      <tr><td>כל תובנה "גילינו ש..." עם מספר מהגרף (עד 3) · טעות של Gemini שתפסתם</td><td>2 לתובנה · 2</td></tr>
+      <tr><td>הגשה בזמן ולפי המפרט · רמה במחוון × 2</td><td>3 · 2-8</td></tr>
+      <tr><td><b>🔮 התחזית הכי קרובה למציאות</b> (מקום שני: 3) · <b>💡 התובנה המפתיעה</b> (הצבעה)</td><td>5 · 5</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.2mm;font-size:8.8pt;color:var(--muted)">🏆 הכי הרבה נקודות = מכון הסקרים של השנה. שובר שוויון: פער קטן יותר.</p></div>
+  <div class="box" style="margin-top:3mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb tight"><tbody>
+      <tr><td style="width:38mm"><b>🧭 ראש/ת המכון</b></td><td>שומר/ת על הזמן לפי אבני הדרך, ממלא/ת עם הצוות את פתק התחזית ומכניס/ה לקופסה.</td></tr>
+      <tr><td><b>🔍 עורך/ת השאלון</b></td><td>כותב/ת את 6 השאלות בדף התכנון, דואג/ת שאין מלכודת, ובודק/ת כל מספר בתובנות.</td></tr>
+      <tr><td><b>🛠️ בונה הטופס</b></td><td>בונה ב-Forms, בדיקת בטיחות, מפרסם/ת, קישור קצר. אחר כך גרף ב-Sheets.</td></tr>
+      <tr><td><b>🎤 דובר/ת התוצאות</b></td><td>ממלא/ת את השקף ביומן, מגיש/ה בטופס ומציג/ה 40 שניות בליל התוצאות.</td></tr>
+      <tr><td><b>🤖 בודק/ת הנתונים</b></td><td>מריץ/ה את Gemini, מסמן/ת כל טענה שלו ✔ / ✘ / ❓, ממלא/ת את שורת ה-AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:3mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">🌱 בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">משתמשים בתבנית 6 השאלות של "קופסת הפסקה" ומחליפים רק את הבעיה. מותר לבקש מ-Gemini הצעת שאלות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">🌿 רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">6 שאלות משלכם לפי התבנית, על הבעיה של הצוות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">🚀 אלופים · בונוס 1</span><p style="margin-top:1.5mm;font-size:9.2pt">שאלת מחיר הוגנת (כולל "0"), מעבר לקטע לפי תשובה, ואחוז ה-4-5 בנוסחה ב-Sheets.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. FIX SHEET ===================== -->
+<section class="page" id="p-fix" data-label="דף התיקונים">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · חימום: מעבדת התיקונים</div><div class="r">צוות: <span class="fill"></span> · סט: א׳ / ב׳</div></div>
+  <div class="pt"><div><span class="kick">🧪 7 דקות · 🔴 בלי AI</span><h2>מעבדת <span>התיקונים</span></h2></div><p>לכל כרטיס: מקיפים את המלכודת וכותבים ניסוח הוגן, עם תשובות שאפשר לספור. אחר כך הצוות השכן בודק ומסמן ✓.</p></div>
+  <div class="box soft" style="margin-bottom:4mm"><h3>🪤 חמש המלכודות</h3>
+    <div class="grid3" style="grid-template-columns:repeat(5,1fr);font-size:9pt;gap:2.5mm">
+      <p><b>🎯 מכוונת</b><br>רומזת מה התשובה ה"נכונה"</p><p><b>✌️ כפולה</b><br>שתי שאלות בשאלה אחת</p><p><b>🧱 מניחה הנחה</b><br>יוצאת מנקודה שלא בדקנו</p><p><b>❓ מעורפלת</b><br>כל אחד מבין אחרת</p><p><b>🔒 מזהה</b><br>שואלת פרטים אישיים</p>
+    </div></div>
+  <table class="tb" style="font-size:9.6pt">
+    <thead><tr><th style="width:12mm">כרטיס</th><th style="width:52mm">המלכודת (מקיפים)</th><th>הניסוח ההוגן שלנו</th><th style="width:15mm">✓ שכנים</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+      <tr><td><b>2</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+      <tr><td><b>3</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+      <tr><td><b>4</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+      <tr><td><b>5</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+      <tr><td><b>6</b></td><td style="font-size:8.6pt;line-height:1.7">מכוונת · כפולה · מניחה<br>מעורפלת · מזהה</td><td><div class="lines h2"></div></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✅ איך השכנים בודקים</h3><ul class="clean" style="font-size:9.4pt"><li>המלכודת שהוקפה נכונה (לפי המפתח על המקרן).</li><li>הניסוח החדש לא רומז לתשובה.</li><li>יש בו תשובות שאפשר לספור, או שהשאלה נמחקה (בשאלה מזהה).</li></ul></div>
+    <div class="box"><h3>🧮 סיכום</h3><p>תיקונים שאושרו: <span class="fill s"></span> מתוך 6</p><p style="margin-top:2mm">6 מתוך 6? ☐ נקודת בונוס</p><p style="margin-top:2mm">בדק/ה: צוות <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 4. BIASED QUESTION CARDS ===================== -->
+<section class="page" id="p-cards" data-label="כרטיסי שאלות מוטות">
+  <div class="ph"><div class="l"><i>TIE</i>מעבדת התיקונים · כרטיסי שאלות מוטות</div><div class="r">סט א׳ (כחול) · סט ב׳ (ורוד)</div></div>
+  <p class="cutnote">✂ לגזור. סט א׳ לצוותים במספר אי-זוגי, סט ב׳ לזוגיים. 6 כרטיסים במעטפה.</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(4,1fr)">
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א1</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״נכון שההפסקות בבית הספר שלנו משעממות?״</b></div>
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א2</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״כמה אתם אוהבים את הרעיון המדהים של קופסת משחקים בכיתה?״</b></div>
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א3</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״אתם משחקים בטלפון ובמחשב אחרי הלימודים?״</b></div>
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א4</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״כמה שקלים הייתם מוכנים לשלם על השאלת כדור?״</b></div>
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א5</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״אתם יוצאים להפסקה לעתים קרובות?״</b></div>
+    <div class="cc k-cust"><span class="cat">סט א׳ · קופסת הפסקה</span><span class="no">א6</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״מה השם המלא שלך ובאיזו כיתה את/ה?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב1</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״לא מעצבן אתכם לשכוח שיעורי בית?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב2</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״כל התלמידים החכמים משתמשים באפליקציית תזכורות. גם אתם?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב3</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״האפליקציה צריכה להיות חינמית ובלי פרסומות?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב4</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״איזה צבע אתם רוצים שיהיה לאפליקציה שלנו?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב5</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״אתם מכינים שיעורי בית בזמן בדרך כלל?״</b></div>
+    <div class="cc k-prob"><span class="cat">סט ב׳ · שיעורי בית</span><span class="no">ב6</span><span class="em">🛠️</span><small>תקנו אותי!</small><b>״מה מספר הטלפון שלך, כדי שנשלח לך את האפליקציה?״</b></div>
+  </div>
+</section>
+
+<!-- ===================== 5. SURVEY PLAN ===================== -->
+<section class="page" id="p-plan" data-label="דף תכנון הסקר">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · ספרינט 1 · דף תכנון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏃 ספרינט 1 · עד דקה 6 · 🔴 כותבים לבד</span><h2>תכנון <span>הסקר</span></h2></div><p>קודם על הדף, אחר כך במחשב. כל שאלה בודקת משהו אחר.</p></div>
+  <div class="box" style="margin-bottom:4mm"><h3>😖 הבעיה שאנחנו בודקים (משפט אחד)</h3><div class="lines h1"></div>
+    <p style="margin-top:2mm;font-size:9.4pt">את מי שואלים? ☐ תלמידים בכיתה ☐ תלמידים בשכבה ☐ הורים ☐ אחר: <span class="fill"></span></p></div>
+  <table class="tb" style="font-size:9.4pt">
+    <thead><tr><th style="width:30mm">מה בודקים</th><th style="width:26mm">סוג</th><th>השאלה (בניסוח הוגן)</th><th style="width:44mm">אפשרויות תשובה</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. 🚪 סינון</b><br><small>מי בכלל רלוונטי</small></td><td>אמריקאית</td><td><div class="lines h2"></div></td><td><div class="lines h2"></div></td></tr>
+      <tr><td><b>2. 📅 כמה פעמים</b><br><small>זה קורה</small></td><td>אמריקאית</td><td><div class="lines h2"></div></td><td><div class="lines h2"></div></td></tr>
+      <tr><td><b>3. 😣 עד כמה מפריע ⭐</b><br><small>שאלת התחזית</small></td><td>סולם 1-5</td><td><p style="font-size:9.4pt;line-height:2">עד כמה <span class="fill l"></span> מפריע לך?</p></td><td><p style="font-size:9pt">1 = <span class="fill s"></span><br>5 = <span class="fill s"></span></p></td></tr>
+      <tr><td><b>4. 🔎 מה עושים היום</b><br><small>בלי המוצר</small></td><td>תיבות סימון</td><td><div class="lines h2"></div></td><td><div class="lines h2"></div></td></tr>
+      <tr><td><b>5. 🧪 הייתם מנסים?</b></td><td>סולם 1-5</td><td><div class="lines h2"></div></td><td><p style="font-size:9pt">1 = לא סביר<br>5 = סביר מאוד</p></td></tr>
+      <tr><td><b>6. 💬 במילים שלכם</b></td><td>תשובה קצרה</td><td><div class="lines h2"></div></td><td><small>לא חובה</small></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✓ בדיקת מלכודות (עורך/ת השאלון)</h3><ul class="check"><li>אין "נכון ש..." או מילים כמו "מדהים"</li><li>אין שתי שאלות באחת ("ו...")</li><li>אין הנחה שלא בדקנו</li><li>כל אפשרות ברורה ואפשר לספור</li><li>יש "אחר" בשאלות האמריקאיות</li><li>אין שם, כיתה, טלפון, כתובת</li></ul></div>
+    <div class="box soft"><h3>📦 דוגמה: קופסת הפסקה</h3><p style="font-size:9pt;line-height:1.55">1. באיזו תדירות אתם יוצאים להפסקה הגדולה?<br>2. בכמה ימים בשבוע אין לכם מה לעשות בהפסקה?<br>3. כשאין לכם מה לעשות, עד כמה זה מפריע לכם?<br>4. מה אתם עושים בדרך כלל בהפסקה?<br>5. אם הייתה בכיתה קופסת משחקים להשאלה, כמה סביר שהייתם שואלים ממנה?<br>6. מה הכי היה משפר לכם את ההפסקה?</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. CHECK & PUBLISH ===================== -->
+<section class="page" id="p-plan2" data-label="בדיקה ופרסום">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · ספרינט 1 · בדיקה ופרסום</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏃 ספרינט 1 · דקות 6-18 · 🟡 AI לבדיקה בלבד</span><h2>בודקים, <span>חותמים, מפרסמים</span></h2></div></div>
+  <div class="box"><h3>🤖 Gemini בדק את השאלות (בודק/ת הנתונים)</h3>
+    <table class="tb" style="font-size:9.2pt"><thead><tr><th style="width:12mm">שאלה</th><th>מה Gemini אמר</th><th style="width:34mm">קיבלנו?</th><th>למה</th></tr></thead>
+      <tbody><tr><td class="e"></td><td></td><td>☐ כן ☐ חלקית ☐ לא</td><td></td></tr><tr><td class="e"></td><td></td><td>☐ כן ☐ חלקית ☐ לא</td><td></td></tr><tr><td class="e"></td><td></td><td>☐ כן ☐ חלקית ☐ לא</td><td></td></tr></tbody></table>
+    <p style="margin-top:2mm;font-size:9.2pt">Gemini "תיקן" לשאלה מוטה אחרת? איפה: <span class="fill l"></span></p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🛑 בדיקת בטיחות (הבונה)</h3><ul class="check"><li>הגדרות ← תגובות ← איסוף כתובות אימייל: כבוי</li><li>אין שאלה על שם, כיתה, טלפון או כתובת</li><li>הגבלה לתשובה אחת: כבויה</li><li>בסולם יש תוויות: 1 = ___, 5 = ___</li><li>"חובה" רק על שאלת התחזית</li><li>עברנו על הניסוח פעם אחרונה</li></ul></div>
+    <div class="box"><h3>📮 לפני הפרסום (ראש/ת המכון)</h3><ul class="check"><li>פתק התחזית מלא</li><li>מקופל, ושם הצוות כתוב מבחוץ</li><li>נכנס לקופסת התחזיות בשעה <span class="fill s"></span></li></ul>
+      <h3 style="margin-top:3mm">📤 פרסום</h3><ul class="check"><li>"פרסום" ← הכפתור מראה "פורסם"</li><li>קישור ← "קיצור כתובת URL"</li><li>הודבק בדף הקישורים</li><li>נבדק בחלון גלישה בסתר</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🔗 הקישור הקצר שלנו</h3><div class="lines h1"></div></div>
+  <div class="box soft" style="margin-top:4mm"><h3>✅ נקודת ביקורת: בדיקת שכנים</h3>
+    <p>צוות <span class="fill s"></span> ענה על הסקר שלנו: ☐ עבד עד הסוף</p>
+    <p style="margin-top:2.5mm">💚 "אני אוהב/ת את שאלה ___ כי <span class="fill xl"></span>"</p>
+    <p style="margin-top:2.5mm">💛 "הלוואי ששאלה ___ הייתה <span class="fill xl"></span>"</p>
+    <p style="margin-top:2.5mm">✏️ מה תיקנו בעקבות המשוב: <span class="fill xl"></span></p></div>
+</section>
+
+<!-- ===================== 7. PREDICTION NOTES ===================== -->
+<section class="page" id="p-predict" data-label="פתקי תחזית">
+  <div class="ph"><div class="l"><i>TIE</i>פתק תחזית · 4 בעמוד</div><div class="r">נכנס לקופסה לפני הפרסום</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים לפני שהטופס מתפרסם, מקפלים לאורך הקו ומכניסים לקופסת התחזיות. אחרי זה אין שינויים.</p>
+  <div class="cutgrid exits">
+    <div class="ex pn"><div class="eh"><b>🔮 פתק תחזית</b><span>🔒 סודי</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">אנחנו צופים ש- <span class="fill s"></span> % מכל מי שיענו יסמנו 4 או 5 בשאלה "עד כמה זה מפריע לך?"</p>
+      <p class="q">אנחנו חושבים כך כי:</p><div class="lines h2"></div>
+      <p class="q">כמה תשובות נקבל לדעתנו? <span class="fill s"></span></p>
+      <p style="font-size:8.6pt">נכתב בשעה <span class="fill s"></span> · חתימת ראש/ת המכון <span class="fill s"></span></p>
+      <p class="fold2">· · · · · · · · · · קיפול · · · · · · · · · ·</p>
+      <p class="lbl">ליל התוצאות: בפועל <span class="fill s"></span> מתוך <span class="fill s"></span> = <span class="fill s"></span>% · פער <span class="fill s"></span></p></div>
+    <div class="ex pn"><div class="eh"><b>🔮 פתק תחזית</b><span>🔒 סודי</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">אנחנו צופים ש- <span class="fill s"></span> % מכל מי שיענו יסמנו 4 או 5 בשאלה "עד כמה זה מפריע לך?"</p>
+      <p class="q">אנחנו חושבים כך כי:</p><div class="lines h2"></div>
+      <p class="q">כמה תשובות נקבל לדעתנו? <span class="fill s"></span></p>
+      <p style="font-size:8.6pt">נכתב בשעה <span class="fill s"></span> · חתימת ראש/ת המכון <span class="fill s"></span></p>
+      <p class="fold2">· · · · · · · · · · קיפול · · · · · · · · · ·</p>
+      <p class="lbl">ליל התוצאות: בפועל <span class="fill s"></span> מתוך <span class="fill s"></span> = <span class="fill s"></span>% · פער <span class="fill s"></span></p></div>
+    <div class="ex pn"><div class="eh"><b>🔮 פתק תחזית</b><span>🔒 סודי</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">אנחנו צופים ש- <span class="fill s"></span> % מכל מי שיענו יסמנו 4 או 5 בשאלה "עד כמה זה מפריע לך?"</p>
+      <p class="q">אנחנו חושבים כך כי:</p><div class="lines h2"></div>
+      <p class="q">כמה תשובות נקבל לדעתנו? <span class="fill s"></span></p>
+      <p style="font-size:8.6pt">נכתב בשעה <span class="fill s"></span> · חתימת ראש/ת המכון <span class="fill s"></span></p>
+      <p class="fold2">· · · · · · · · · · קיפול · · · · · · · · · ·</p>
+      <p class="lbl">ליל התוצאות: בפועל <span class="fill s"></span> מתוך <span class="fill s"></span> = <span class="fill s"></span>% · פער <span class="fill s"></span></p></div>
+    <div class="ex pn"><div class="eh"><b>🔮 פתק תחזית</b><span>🔒 סודי</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">אנחנו צופים ש- <span class="fill s"></span> % מכל מי שיענו יסמנו 4 או 5 בשאלה "עד כמה זה מפריע לך?"</p>
+      <p class="q">אנחנו חושבים כך כי:</p><div class="lines h2"></div>
+      <p class="q">כמה תשובות נקבל לדעתנו? <span class="fill s"></span></p>
+      <p style="font-size:8.6pt">נכתב בשעה <span class="fill s"></span> · חתימת ראש/ת המכון <span class="fill s"></span></p>
+      <p class="fold2">· · · · · · · · · · קיפול · · · · · · · · · ·</p>
+      <p class="lbl">ליל התוצאות: בפועל <span class="fill s"></span> מתוך <span class="fill s"></span> = <span class="fill s"></span>% · פער <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 8. INSIGHTS CARD ===================== -->
+<section class="page" id="p-insights" data-label="כרטיס התובנות">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · ספרינט 2 · כרטיס התובנות</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏃 ספרינט 2 · 12 דקות · 🟢 AI כשותף שבודקים</span><h2>מהתשובות <span>לתובנות</span></h2></div></div>
+  <div class="grid2">
+    <div class="box"><h3>🔮 התחזית מול המציאות (עד דקה 4)</h3>
+      <p style="line-height:2.1">ענו בסך הכול: <span class="fill s"></span><br>סימנו 4: <span class="fill s"></span> + סימנו 5: <span class="fill s"></span> = <span class="fill s"></span><br>המציאות: <span class="fill s"></span> מתוך <span class="fill s"></span> = <span class="fill s"></span>%<br>התחזית שלנו: <span class="fill s"></span>% · הפער: <span class="fill s"></span></p>
+      <p style="font-size:9pt;margin-top:1mm">למה לדעתנו יש פער?</p><div class="lines h1"></div></div>
+    <div class="sketch" data-label="📊 גרף שאלת התחזית (אם אין מחשב: מציירים כאן)" style="min-height:38mm"></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🔎 Gemini מנתח, אנחנו בודקים (עד דקה 8)</h3>
+    <table class="tb" style="font-size:9.2pt"><thead><tr><th>מה Gemini טען</th><th style="width:40mm">✔ נכון · ✘ טעות · ❓ לא נובע</th><th style="width:52mm">איך בדקנו (מספר מהגרף)</th></tr></thead>
+      <tbody><tr><td class="e"></td><td style="text-align:center">✔ &nbsp; ✘ &nbsp; ❓</td><td></td></tr><tr><td class="e"></td><td style="text-align:center">✔ &nbsp; ✘ &nbsp; ❓</td><td></td></tr><tr><td class="e"></td><td style="text-align:center">✔ &nbsp; ✘ &nbsp; ❓</td><td></td></tr></tbody></table></div>
+  <div class="box" style="margin-top:4mm"><h3>💡 3 תובנות (עד דקה 12)</h3>
+    <p style="font-size:9.4pt;line-height:2.15">1. גילינו ש- <span class="fill s"></span> מתוך <span class="fill s"></span> שענו <span class="fill l"></span>, ולכן <span class="fill l"></span>.<br>
+    2. גילינו ש- <span class="fill s"></span> מתוך <span class="fill s"></span> שענו <span class="fill l"></span>, ולכן <span class="fill l"></span>.<br>
+    3. גילינו ש- <span class="fill s"></span> מתוך <span class="fill s"></span> שענו <span class="fill l"></span>, ולכן <span class="fill l"></span>.</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⚠️ מגבלה אחת של הסקר</h3><div class="lines h1"></div><p style="font-size:9pt;margin-top:1mm">🚀 איך נתקן בסקר הבא:</p><div class="lines h1"></div></div>
+    <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check"><li>קישור לטופס + צילום גרף בשקף</li><li>תחזית, מציאות ופער</li><li>3 תובנות עם "X מתוך Y"</li><li>כל טענה של Gemini סומנה</li><li>מגבלה אחת</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 9. PAPER SURVEY ===================== -->
+<section class="page" id="p-paper" data-label="סקר נייר">
+  <div class="ph"><div class="l"><i>TIE</i>סקר נייר · גיבוי בלי מכשירים</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📝 עובר בין השולחנות · כל אחד מסמן קו (|)</span><h2>הסקר של <span class="fill l"></span></h2></div><p>הסקר אנונימי. לא כותבים שמות. בכל שאלה מסמנים קו אחד בתיבה של התשובה שלכם.</p></div>
+  <div class="stack grow">
+    <div class="box sq"><b>1.</b> <span class="fill xl"></span><div class="opts"><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i>אחר</div></div></div>
+    <div class="box sq"><b>2.</b> <span class="fill xl"></span><div class="opts"><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div></div></div>
+    <div class="box sq"><b>3. ⭐</b> עד כמה <span class="fill l"></span> מפריע לך?<div class="opts five"><div><i></i>1 · בכלל לא</div><div><i></i>2</div><div><i></i>3</div><div><i></i>4</div><div><i></i>5 · מאוד</div></div></div>
+    <div class="box sq"><b>4.</b> <span class="fill xl"></span> <small>(אפשר לסמן כמה)</small><div class="opts"><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i><span class="fill"></span></div><div><i></i>אחר</div></div></div>
+    <div class="box sq"><b>5.</b> <span class="fill xl"></span><div class="opts five"><div><i></i>1 · לא סביר</div><div><i></i>2</div><div><i></i>3</div><div><i></i>4</div><div><i></i>5 · סביר מאוד</div></div></div>
+    <div class="box sq"><b>6.</b> <span class="fill xl"></span> <small>(מילה או שתיים, בלי שמות)</small><div class="lines h2" style="margin-top:2mm"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 10. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נראה <span>סקר של 🚀</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">איכות השאלות<small>הוגנות ומגוונות</small></td><td>שאלה מזהה, או יותר משתי שאלות מוטות</td><td>שאלה מוטה אחת או שתיים, או פחות מ-4 סוגים</td><td>אין שאלה מוטה, 4 סוגים, יש סולם</td><td>אין שאלה מוטה, 4 סוגים, סולם "כמה זה מפריע" עם תוויות, וכל שאלה בודקת משהו אחר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">ניתוח ותובנות<small>מספרים ולא תחושות</small></td><td>"רוב האנשים אוהבים", בלי מספרים</td><td>מספר אחד בלי "מתוך כמה"</td><td>3 תובנות, בכל אחת "X מתוך Y"</td><td>3 תובנות עם "X מתוך Y" מהגרף, וכל אחת נגמרת ב"ולכן נשנה / נשאיר"</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">ביקורתיות ובדיקת AI<small>מה הסקר לא יודע</small></td><td>מעתיקים מה שה-AI כתב</td><td>כתוב "השתמשנו ב-AI", מגבלה כללית</td><td>כל טענה של ה-AI סומנה ✔ / ✘ / ❓ מול הגרף, ומגבלה אמיתית אחת</td><td>נתפסה טענה של AI שלא נובעת מהנתונים, ומגבלה אמיתית עם תיקון לסקר הבא</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">תחזית ופער<small>כמה הכרנו את הלקוחות</small></td><td>אין תחזית, או שנכתבה אחרי</td><td>תחזית בלי נימוק</td><td>תחזית מנומקת בפתק סגור, והפער חושב</td><td>תחזית מנומקת, הפער חושב, ומסבירים מה הפער מלמד על הלקוחות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🧮 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 2: <b>רמה 1 = 2 · רמה 2 = 4 · רמה 3 = 6 · רמה 4 = 8</b>.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> תחזית 60%, בפועל 11 מתוך 24 = 46%, פער 14. "גילינו ש-9 מתוך 24 בחרו בכדור." מגבלה: "שאלנו רק את הכיתה שלנו." כל טענות Gemini סומנו ✔.</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> "...ולכן נשים בקופסה שני כדורים." Gemini כתב "רוב התלמידים מרגישים את הבעיה חזק", והצוות סימן ✘: 11 מתוך 24 זה פחות מחצי. "ניחשנו גבוה כי לנו זה מפריע. אנחנו לא הלקוח הממוצע." תיקון: "בפעם הבאה נשאל גם שתי כיתות ח׳."</p></div></div>
+</section>
+
+<!-- ===================== 11. AI-USE LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לכל תוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה מצורפת לכרטיס התובנות, או שמעתיקים את שתי השורות לשקף ביומן ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 5</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 5</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 5</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 5</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 12. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 86-89, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 5</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">כתבו שאלה מוטה אחת, ואת הגרסה ההוגנת שלה:</p><p style="font-size:8.8pt">✗ <span class="fill xl" style="min-width:68mm"></span></p><p style="font-size:8.8pt">✓ <span class="fill xl" style="min-width:68mm"></span></p>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>שאלות</span><span>בנייה</span><span>תחזית</span><span>ניתוח</span><span>הצגה</span><span>AI</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 5</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">כתבו שאלה מוטה אחת, ואת הגרסה ההוגנת שלה:</p><p style="font-size:8.8pt">✗ <span class="fill xl" style="min-width:68mm"></span></p><p style="font-size:8.8pt">✓ <span class="fill xl" style="min-width:68mm"></span></p>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>שאלות</span><span>בנייה</span><span>תחזית</span><span>ניתוח</span><span>הצגה</span><span>AI</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 5</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">כתבו שאלה מוטה אחת, ואת הגרסה ההוגנת שלה:</p><p style="font-size:8.8pt">✗ <span class="fill xl" style="min-width:68mm"></span></p><p style="font-size:8.8pt">✓ <span class="fill xl" style="min-width:68mm"></span></p>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>שאלות</span><span>בנייה</span><span>תחזית</span><span>ניתוח</span><span>הצגה</span><span>AI</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 5</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">כתבו שאלה מוטה אחת, ואת הגרסה ההוגנת שלה:</p><p style="font-size:8.8pt">✗ <span class="fill xl" style="min-width:68mm"></span></p><p style="font-size:8.8pt">✓ <span class="fill xl" style="min-width:68mm"></span></p>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>שאלות</span><span>בנייה</span><span>תחזית</span><span>ניתוח</span><span>הצגה</span><span>AI</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 13. SIDE TASKS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>משימות צד · למי שסיים מוקדם</div><div class="r">קופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ לגזור. צוות שסיים שולף כרטיס, ומראה למדריך כשסיים.</p>
+  <div class="cutgrid side">
+    <div class="st"><span class="pts">2 נק׳</span><span class="em">🧭</span><b>בוחן: איזה מוצר מתאים לך?</b><p>ב-Forms: בוחן עם 3 קטעים. בשאלה הראשונה "מעבר לקטע לפי תשובה" (שלוש הנקודות ליד השאלה). חבר מצוות אחר עובר על כל המסלולים ומאשר שכולם עובדים.</p></div>
+    <div class="st"><span class="pts">1 נק׳</span><span class="em">🔴</span><b>צוות אדום לסקר</b><p>כתבו 3 סיבות שהתוצאות שלכם עלולות להטעות, ולכל אחת שינוי אחד בסקר הבא. אפשר להיעזר ב-Gemini, ואז מסמנים במה מסכימים.</p></div>
+    <div class="st"><span class="pts">1 נק׳</span><span class="em">📊</span><b>גרף מקצועי</b><p>ב-Sheets: כותרת לגרף, "ענו: __" בכותרת, צירים עם שמות, וצבע אחר לתשובה הכי חשובה.</p></div>
+    <div class="st"><span class="pts">1 נק׳</span><span class="em">🧮</span><b>נוסחה מול סיכום</b><p>חשבו בגיליון את הממוצע (AVERAGE) ואת אחוז ה-4-5 (COUNTIF) של שאלת התחזית. יצא אותו מספר כמו ב"סיכום" של Forms?</p></div>
+    <div class="st"><span class="pts">1 נק׳</span><span class="em">💸</span><b>שאלת המחיר</b><p>הוסיפו שאלה הוגנת: "כמה הייתם מוכנים לשלם?" עם טווחים, כולל "0 / לא הייתי משלם/ת". בלי "מחיר מיוחד רק היום".</p></div>
+    <div class="st"><span class="pts">1 נק׳</span><span class="em">🔎</span><b>בדיקה כפולה</b><p>בחרו טענה אחת של Gemini על הנתונים שלכם. בדקו אותה גם בגרף וגם בגיליון. כתבו: נכון / לא נכון / לא נובע, ולמה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 14. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>סקר שוק אמיתי · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מקור האמת לניקוד</span><h2>דף <span>הניקוד</span></h2></div><p>הלוח במצגת הוא התצוגה בכיתה. כאן רושמים הכול. מקסימום לצוות: 48.</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:17mm">צוות</th><th>ניחוש<br><small>1 לשאלה</small></th><th>תיקונים<br><small>עד 7</small></th><th>ביניים<br><small>3</small></th><th>סוגים<br><small>2</small></th><th>10 ומעלה<br><small>3</small></th><th>תובנות<br><small>2×3</small></th><th>AI<br><small>2</small></th><th>הגשה<br><small>3</small></th><th>מחוון<br><small>×2</small></th><th>תחזית<br><small>5/3</small></th><th>הפתעה<br><small>5</small></th><th>±</th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🔮 ליל התוצאות: תחזית מול מציאות</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:17mm">צוות</th><th>פתק בזמן ✓</th><th>תחזית %</th><th>סימנו 4-5</th><th>ענו</th><th>מציאות %</th><th>פער</th><th>מקום</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ נקודת ביקורת (דקה 52): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסים</h3><p>🔮 התחזית המדויקת: <span class="fill"></span></p><p style="margin-top:1.5mm">💡 התובנה המפתיעה: <span class="fill"></span></p><p style="margin-top:1.5mm">🔎 ציידי הטעויות: <span class="fill"></span></p><p style="margin-top:1.5mm">🏆 מכון השנה: <span class="fill"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 15. AWARDS ===================== -->
+<section class="page" id="p-awards" data-label="תעודות">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות ליל התוצאות · 4 בעמוד</div><div class="r">נמסרות בסוף השיעור</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כותבים את שם הצוות ואת המספר שזיכה בפרס.</p>
+  <div class="cutgrid exits">
+    <div class="aw"><span class="em">🔮</span><small>מכון הסקרים של הכיתה מעניק את פרס</small><b>התחזית המדויקת</b><p>לצוות <span class="fill"></span></p><p>שצפה <span class="fill s"></span>% והמציאות הייתה <span class="fill s"></span>%</p><p class="sig">תאריך <span class="fill s"></span> · המדריך/ה <span class="fill s"></span></p></div>
+    <div class="aw"><span class="em">💡</span><small>מכון הסקרים של הכיתה מעניק את פרס</small><b>התובנה המפתיעה</b><p>לצוות <span class="fill"></span></p><p>"גילינו ש <span class="fill l"></span>"</p><p class="sig">תאריך <span class="fill s"></span> · המדריך/ה <span class="fill s"></span></p></div>
+    <div class="aw"><span class="em">🔎</span><small>מכון הסקרים של הכיתה מעניק את פרס</small><b>ציידי הטעויות</b><p>לצוות <span class="fill"></span></p><p>שתפס את Gemini כותב <span class="fill l"></span></p><p class="sig">תאריך <span class="fill s"></span> · המדריך/ה <span class="fill s"></span></p></div>
+    <div class="aw"><span class="em">🏆</span><small>מכון הסקרים של הכיתה מעניק את התואר</small><b>מכון הסקרים של השנה</b><p>לצוות <span class="fill"></span></p><p>עם <span class="fill s"></span> נקודות</p><p class="sig">תאריך <span class="fill s"></span> · המדריך/ה <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

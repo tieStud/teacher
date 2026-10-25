@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · יום השוק: משחק המחיר | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+/* ===== יום השוק · lesson-specific additions ===== */
+.wal,.ac{padding:4.5mm 5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.wal .wh,.ac .wh{display:flex;justify-content:space-between;align-items:center}
+.wal .wh b,.ac .wh b{font-family:var(--display);font-weight:800;font-size:13pt}
+.wal .amt{font-family:var(--display);font-weight:800;font-size:15pt;color:var(--teal);border:1.4px solid var(--teal);border-radius:999px;padding:.4mm 3.5mm;background:var(--teal-soft)}
+.wal table.tb td.e{height:8.2mm}
+.wal .wn{margin-top:auto;font-size:8.4pt;color:var(--muted);font-weight:700}
+.auc{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.ac table.tb td.e{height:8mm}
+.k-mint{--c:#5bb5a2;--cs:#e4f4f0;--c-ink:#23826f}
+.k-news{--c:#e3a82b;--cs:#fdf3d7;--c-ink:#8a5300}
+.k-side{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.cc small{font-size:8.8pt;line-height:1.35}
+#p-tough .cc b{font-size:12pt}
+.tagdraft{display:grid;grid-template-columns:36mm 1fr;border:1.4px solid var(--line2);border-radius:3mm;overflow:hidden}
+.tagdraft .tp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5mm;background:var(--teal-soft);border-inline-end:1.4px dashed var(--teal);padding:3mm;text-align:center}
+.tagdraft .tp span{font-weight:700;color:var(--teal);font-size:9pt}
+.tagdraft .tp b{font-family:var(--display);font-weight:800;font-size:16pt}
+.tagdraft .tp small{font-size:8.6pt;color:var(--muted)}
+.tagdraft .tf2{padding:2.5mm 4mm;display:grid;gap:2.2mm;font-size:9.6pt}
+.tent .bigp{font-family:var(--display);font-weight:800;font-size:30pt}
+table.tb.tt th,table.tb.tt td{padding:1.15mm 2.2mm}
+table.tb.tt td.e{height:7.6mm}
+#p-score table.tb.tt td.e{height:7.2mm}
+#p-work2 .tagdraft .tf2{gap:1.5mm}
+.tent .cap{font-size:9pt;color:var(--dim);margin-top:-2mm}
+.bills{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.bill{--c:#0f766e;--cs:#e3f1ee;display:flex;align-items:center;gap:3.5mm;padding:2mm 4mm;background:linear-gradient(135deg,var(--cs),#fff 72%)}
+.bill .v{flex:none;width:15mm;height:15mm;border-radius:50%;border:1.4mm solid var(--c);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14pt;color:var(--c);background:#fff}
+.bill b{display:block;font-family:var(--display);font-weight:800;font-size:12pt}
+.bill small{display:block;font-size:8pt;color:var(--muted)}
+.bill.b10{--c:#0f766e;--cs:#e3f1ee}.bill.b5{--c:#c2630f;--cs:#fdf0e3}.bill.b2{--c:#2f6db5;--cs:#e7f0fa}.bill.b1{--c:#23826f;--cs:#e4f4f0}
+@media print{.bill{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · יום השוק: משחק המחיר<small>שיעור 13 מתוך 30 · שלב 5: מודל עסקי</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 0. PRINT SHEET (instructor) ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · שיעור 13</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-7 צוותים. לכיתה אחרת: לפי מספר הצוותים והתלמידים.</p></div>
+  <table class="tb">
+    <thead><tr><th style="width:12mm">עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+            <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דף עבודה 1: מעבדת המחיר</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>דף עבודה 2: משא ומתן ותווית</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>שלט דוכן (מתקפל)</td><td>1 לצוות (7)</td><td>בריסטול</td><td>קיפול</td></tr>
+      <tr><td>6</td><td>דף הדוכן: רישום הזמנות</td><td>1 לצוות + 1 רזרבה (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>ארנקי שוק (4 בעמוד)</td><td>8 עמודים (32 ארנקים)</td><td>רגיל או צבעוני בהיר</td><td>לרבעים</td></tr>
+      <tr><td>8</td><td>כרטיסי קונה סודיים (12 בעמוד)</td><td>3 עמודים (36 כרטיסים)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>9</td><td>כרטיסי לקוח קשוח (בלי מכשירים)</td><td>1 לכל 2 צוותים (4)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>10</td><td>חדשות השוק ומשימות צד</td><td>1</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>11</td><td>קופת מכרז (8 בעמוד)</td><td>1</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>12</td><td>כסף משחק (לא חובה)</td><td>0, או 7 עמודים</td><td>צבעוני בהיר</td><td>כן</td></tr>
+      <tr><td>13</td><td>מחוון</td><td>1 לצוות + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>14</td><td>שורת AI (4 בעמוד)</td><td>2 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>15</td><td>כרטיסי יציאה (4 בעמוד)</td><td>8 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>כרטיסי התפקיד ושלט הצוות (מהשיעורים הקודמים)</li><li>כרטיס משימה, 2 דפי עבודה ומחוון</li><li>שלט דוכן ודף דוכן</li><li>קופת מכרז (נכנסת בתחילת השיעור)</li><li>2 טושים, עט לכל אחד, פתקים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>ערמת ארנקים (30 ₪) לפי מספר התלמידים</li><li>כרטיסי קונה סודיים, מעורבבים, בקופסה</li><li>כרטיסי חדשות (גיבוי למצגת) ומשימות צד</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד ועט</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>ארנקים וכרטיסי יציאה: 4 דפים יחד בגיליוטינה, חיתוך אחד לאורך ואחד לרוחב. כרטיסי הקונה נכנסים לקופסה אחת מעורבבת. את כרטיסי החדשות לא חייבים לגזור: המצגת שולפת אותם, והכרטיסים הם גיבוי.</p></div>
+</section>
+
+<!-- ===================== 3. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · שיעור 13 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏷️ שלב 5: מודל עסקי · שיעור 13 מתוך 30</span><h2>יום השוק: <span>משחק המחיר</span></h2></div><p>בעוד שעה בערך נפתח השוק של הכיתה. לכל קונה יש 30 ₪ משחק, ולכל צוות דוכן אחד ומחיר אחד שצריך להגן עליו. הצוות שירוויח הכי הרבה, מנצח.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>לקבוע מחיר מנומק בשלוש שיטות, להגן עליו מול לקוח קשוח בלי להוריד מחיר, ולהרוויח הכי הרבה ביום השוק.</p>
+      <h3 style="margin-top:3mm">📦 מה מגישים</h3><p>מחשבון ב-Sheets · תווית מחיר ביומן (שקף 13) · שורה בטופס ההגשה · דף הדוכן.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.6pt">
+      <li>3 שיטות ב-Sheets, ומחיר אחד: מספר שלם בין 1 ל-30 ₪.</li>
+      <li>עלות ליחידה: לפחות 3 רכיבים, ולא פחות מ-1 ₪.</li>
+      <li>בשוק: מוכר/ת אחד/ת בדוכן, וכל השאר קונים בדוכנים אחרים. בין הסבבים מתחלפים.</li>
+      <li>רווח = (מחיר − עלות) × הזמנות, בכל סבב.</li>
+      <li>בין הסבבים מותר לשנות מחיר פעם אחת. הנחה במכירה: עד 10%.</li>
+      <li>הארנקים של הקונים חייבים להתאים לדף הדוכן.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb tt"><thead><tr><th>על מה</th><th style="width:34mm">נקודות</th></tr></thead><tbody>
+      <tr><td>נקודת ביקורת: כל שיטה שמחושבת ב-Sheets</td><td>1 לשיטה, עד 3</td></tr>
+      <tr><td>תווית מחיר שהוגשה לפי המפרט</td><td>2</td></tr>
+      <tr><td>ההתנגדות הכי קשה קיבלה תשובה, בלי הנחה מעל 10%</td><td>2</td></tr>
+      <tr><td>הרמה במחוון</td><td>1–4</td></tr>
+      <tr><td>הרווח ביום השוק: מקום 1 · 2 · 3 · כל רווח אחר</td><td>8 · 5 · 3 · 1</td></tr>
+      <tr><td>"הדוכן המשכנע" בהצבעת הכיתה</td><td>3</td></tr>
+      <tr><td>משימת צד</td><td>1 כל אחת, עד 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">מנצחים: הכי הרבה נקודות. בתיקו: הרווח הגבוה יותר בשוק. פרסים נוספים: 📈 הכי שיפר מסבב 1 לסבב 2 · 🧠 המחיר החכם.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb tt"><tbody>
+      <tr><td style="width:30mm"><b>🧭 מנכ״ל/ית</b></td><td>מציע/ה במכירה הפומבית, שומר/ת על הזמן, ומחליט/ה על המחיר אחרי שכולם דיברו.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>מביא/ה 3 מחירי מתחרים, ושואל/ת 3 קונים מצוותים אחרים את 2 שאלות הערך.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>בונה את המחשבון ב-Sheets עם 4 נוסחאות, ומכין/ה את שלט הדוכן.</td></tr>
+      <tr><td><b>🎤 מציג/ה</b></td><td>כותב/ת את התווית ביומן, מגיש/ה בטופס, ומוכר/ת בסבב 1.</td></tr>
+      <tr><td><b>🤖 AI</b></td><td>מריץ/ה את המשא ומתן מול Gemini, רושם/ת התנגדויות וממלא/ת את שורת ה-AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">לשונית "בסיס" במחשבון: הנוסחאות מוכנות. מספיקים 2 מתחרים. מתחילים מהדוגמה של קופסת הפסקה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">כותבים את 4 הנוסחאות בעצמכם, 3 מתחרים, 3 קונים בסקר.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">גם תא IF שמתריע על הפסד וגם "מבצע רווחי". בתווית: למה <b>לא</b> בחרתם בשתי השיטות האחרות.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 4. WORKSHEET 1 · PRICE LAB ===================== -->
+<section class="page" id="p-work1" data-label="דף עבודה 1">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · דף עבודה 1 · מעבדת המחיר</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟡 ספרינט 1 · 17 דקות · AI לבדיקה בלבד</span><h2>3 שיטות, <span>מחיר אחד</span></h2></div><p>הדף הזה הוא גם הגיבוי: אם אין מחשב, מחשבים כאן עם מחשבון. המוצר שלנו (משפט אחד): <span class="fill xl"></span></p></div>
+  <div class="stack grow">
+    <div class="box"><h3>🧮 שיטה 1 · לפי עלות: כמה זה עולה לנו?</h3>
+      <table class="tb tt"><thead><tr><th style="width:40%">רכיב עלות</th><th>כמה עולה (₪)</th><th>לכמה יחידות מספיק</th><th>עלות ליחידה = עולה ÷ יחידות</th></tr></thead>
+      <tbody><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr>
+      <tr><td colspan="3" style="text-align:left;font-weight:700">סה״כ עלות ליחידה (מעוגל לשקל, לפחות 1 ₪)</td><td class="e"></td></tr></tbody></table>
+      <p style="margin-top:2mm">רווח רצוי ליחידה: <span class="fill s"></span> ₪ &nbsp;←&nbsp; <b>מחיר לפי עלות:</b> <span class="fill s"></span> ₪</p></div>
+    <div class="grid2">
+      <div class="box"><h3>👀 שיטה 2 · לפי מתחרים</h3>
+        <table class="tb tt"><thead><tr><th>מתחרה או חלופה</th><th style="width:22mm">מחיר (₪)</th></tr></thead><tbody><tr><td class="e"></td><td></td></tr><tr><td class="e"></td><td></td></tr><tr><td class="e"></td><td></td></tr></tbody></table>
+        <p style="margin-top:2mm">ממוצע: <span class="fill s"></span> ₪ · נהיה ☐ מתחת ☐ מעל, כי <span class="fill"></span></p>
+        <p style="margin-top:1.5mm"><b>מחיר לפי מתחרים:</b> <span class="fill s"></span> ₪</p></div>
+      <div class="box"><h3>💎 שיטה 3 · לפי ערך (🔴 בלי AI)</h3>
+        <table class="tb tt"><thead><tr><th>קונה (צוות)</th><th>😃 מציאה</th><th>🤔 מתחיל להיות יקר</th></tr></thead><tbody><tr><td class="e"></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td></tr><tr><td style="font-weight:700">ממוצע</td><td></td><td></td></tr></tbody></table>
+        <p style="margin-top:2mm"><b>טווח הערך:</b> בין <span class="fill s"></span> ל-<span class="fill s"></span> ₪</p></div>
+    </div>
+    <div class="box soft"><h3>✅ ההחלטה</h3>
+      <p style="line-height:2.2">המחיר שבחרנו: <span class="fill s"></span> ₪ · רווח ליחידה = מחיר − עלות = <span class="fill s"></span> ₪ · השיטה העיקרית: ☐ עלות ☐ מתחרים ☐ ערך<br>למה דווקא המחיר הזה: <span class="fill xl"></span></p></div>
+    <div class="grid2">
+      <div class="box"><h3>✓ צ׳קליסט לנקודת הביקורת</h3><ul class="check"><li>3 רכיבי עלות לפחות, ועלות ליחידה</li><li>3 מחירי מתחרים וממוצע</li><li>3 קונים בסקר וטווח ערך</li><li>מחיר שלם בין 1 ל-30 ₪, מעל העלות</li></ul></div>
+      <div class="box"><h3>🧮 בגיליון: 4 נוסחאות</h3><p style="font-size:9.4pt;direction:ltr;text-align:left;font-family:ui-monospace,Menlo,monospace">=B4/C4 · =SUM(D4:D8)<br>=AVERAGE(B14:B16) · =B28-D9</p><p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">שם הקובץ: צוות ___ · שיעור 13 · מחשבון מחיר</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. WORKSHEET 2 · NEGOTIATION + TAG ===================== -->
+<section class="page" id="p-work2" data-label="דף עבודה 2">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · דף עבודה 2 · משא ומתן ותווית</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟢 ספרינט 2 · 11 דקות · AI כשותף</span><h2>חדר המשא ומתן <span>ותווית המחיר</span></h2></div><p>Gemini (או צוות אחר עם כרטיסי לקוח) משחק לקוח קשוח. רושמים כל התנגדות, את התשובה שלכם ואת ציון השכנוע.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>🤝 יומן ההתנגדויות</h3>
+      <table class="tb tt"><thead><tr><th style="width:20mm">לקוח</th><th>ההתנגדות (מה הוא אמר)</th><th>התשובה שלנו</th><th style="width:16mm">שכנוע 1–5</th></tr></thead>
+      <tbody><tr><td>🪙 חסכן</td><td class="e"></td><td></td><td></td></tr><tr><td>🤨 ספקן</td><td class="e"></td><td></td><td></td></tr><tr><td>🎁 הנחות</td><td class="e"></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td></tr></tbody></table>
+      <p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">דרכים לענות בלי להוריד מחיר: 💎 ערך · ⚖️ השוואה · 🛡️ הבטחה · ➕ מוסיפים, לא מורידים. הנחה: עד 10% בלבד.</p></div>
+    <div class="box"><h3>🛡️ ההתנגדות הכי קשה, והתשובה הכי טובה שלנו</h3><p style="font-size:9.4pt">ההתנגדות:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">התשובה (בלי הנחה מעל 10%):</p><div class="lines h2"></div>
+      <p style="font-size:9.4pt;margin-top:1mm">מה מתשובות Gemini <b>לא</b> מתאים ללקוח אמיתי, ולמה? <span class="fill l"></span></p></div>
+    <div class="box"><h3>🏷️ טיוטת תווית המחיר (עוברת לשקף 13 ביומן)</h3>
+      <div class="tagdraft">
+        <div class="tp"><span>המחיר</span><b><span class="fill s"></span> ₪</b><small>ל: <span class="fill s"></span></small></div>
+        <div class="tf2">
+          <p>השיטה: <span class="fill l"></span></p>
+          <p>נימוק 1: <span class="fill l"></span></p>
+          <p>נימוק 2: <span class="fill l"></span></p>
+          <p>ההתנגדות הכי קשה: <span class="fill l"></span></p>
+          <p>התשובה שלנו: <span class="fill l"></span></p>
+          <p>ביום השוק: <span class="fill s"></span> הזמנות · רווח <span class="fill s"></span> ₪ (אחרי השוק)</p>
+        </div>
+      </div></div>
+    <div class="grid2">
+      <div class="box"><h3>✓ צ׳קליסט התווית</h3><ul class="check"><li>מחיר, שיטה ו-2 נימוקים</li><li>ההתנגדות הכי קשה והתשובה</li><li>שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li><li>מקום למספר ההזמנות ולרווח</li></ul></div>
+      <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.4pt">🤖 מה ה-AI עשה: <span class="fill l"></span></p><p style="font-size:9.4pt;margin-top:2mm">✋ מה אנחנו עשינו: <span class="fill l"></span></p><p style="font-size:9pt;margin-top:2mm;color:var(--muted)">🧪 לקוח של Gemini הוא לקוח מדומה, לא לקוח אמיתי.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. STALL SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט דוכן">
+  <div class="ph"><div class="l"><i>TIE</i>שלט דוכן · מקפלים לאורך הקו האמצעי</div><div class="r">1 לצוות</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🏷️</span><div class="nm" style="width:150mm"></div><small class="cap">שם המוצר</small><p class="bigp"><span class="fill" style="min-width:34mm"></span> ₪</p><p style="font-size:12pt">משפט אחד שמוכר: <span class="fill xl"></span></p></div>
+    <div><span class="em">🏷️</span><div class="nm" style="width:150mm"></div><small class="cap">שם המוצר</small><p class="bigp"><span class="fill" style="min-width:34mm"></span> ₪</p><p style="font-size:12pt">משפט אחד שמוכר: <span class="fill xl"></span></p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב בטוש עבה: שם המוצר, המחיר ומשפט אחד · מחיר חדש בסבב 2? מוחקים בקו וכותבים לידו</p>
+</section>
+
+<!-- ===================== 7. STALL SHEET ===================== -->
+<section class="page" id="p-stall" data-label="דף הדוכן">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · דף הדוכן</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🛒 נשאר על הדוכן · המוכר/ת רושם/ת כל הזמנה</span><h2>דף <span>הדוכן</span></h2></div><p>המוצר: <span class="fill l"></span> · עלות ליחידה: <span class="fill s"></span> ₪ (מאושרת בנקודת הביקורת)</p></div>
+  <div class="grid2 grow">
+    <div class="box"><h3>סבב 1 · מחיר: <span class="fill s"></span> ₪ · מוכר/ת: <span class="fill s"></span></h3>
+      <table class="tb"><thead><tr><th style="width:8mm">#</th><th>שם הקונה</th><th style="width:16mm">סכום</th><th style="width:14mm">✓ ארנק</th></tr></thead>
+      <tbody><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td></td></tr><tr><td>5</td><td class="e"></td><td></td><td></td></tr><tr><td>6</td><td class="e"></td><td></td><td></td></tr><tr><td>7</td><td class="e"></td><td></td><td></td></tr><tr><td>8</td><td class="e"></td><td></td><td></td></tr><tr><td>9</td><td class="e"></td><td></td><td></td></tr><tr><td>10</td><td class="e"></td><td></td><td></td></tr><tr><td>11</td><td class="e"></td><td></td><td></td></tr><tr><td>12</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="box"><h3>סבב 2 · מחיר: <span class="fill s"></span> ₪ · מוכר/ת: <span class="fill s"></span></h3>
+      <table class="tb"><thead><tr><th style="width:8mm">#</th><th>שם הקונה</th><th style="width:16mm">סכום</th><th style="width:14mm">✓ ארנק</th></tr></thead>
+      <tbody><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td></td></tr><tr><td>4</td><td class="e"></td><td></td><td></td></tr><tr><td>5</td><td class="e"></td><td></td><td></td></tr><tr><td>6</td><td class="e"></td><td></td><td></td></tr><tr><td>7</td><td class="e"></td><td></td><td></td></tr><tr><td>8</td><td class="e"></td><td></td><td></td></tr><tr><td>9</td><td class="e"></td><td></td><td></td></tr><tr><td>10</td><td class="e"></td><td></td><td></td></tr><tr><td>11</td><td class="e"></td><td></td><td></td></tr><tr><td>12</td><td class="e"></td><td></td><td></td></tr></tbody></table>
+      <p style="font-size:9pt;margin-top:1.5mm">🗞️ החדשות: <span class="fill"></span> · עלות בסבב 2: <span class="fill s"></span> ₪</p></div>
+  </div>
+  <div class="box soft" style="margin-top:4mm"><h3>🧾 ספירת הקופה</h3>
+    <table class="tb"><thead><tr><th></th><th>הזמנות</th><th>מחיר</th><th>עלות ליחידה</th><th>רווח = (מחיר − עלות) × הזמנות</th></tr></thead>
+    <tbody><tr><td><b>סבב 1</b></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td><b>סבב 2</b></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td colspan="4" style="text-align:left;font-weight:700">סה״כ רווח</td><td class="e"></td></tr></tbody></table>
+    <p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">בדיקה: סכום הטור "סכום" בכל סבב צריך להיות שווה למחיר × מספר ההזמנות (או קצת פחות, אם נתתם הנחה של עד 10%).</p></div>
+</section>
+
+<!-- ===================== 8. WALLETS ===================== -->
+<section class="page" id="p-wallet" data-label="ארנקי שוק">
+  <div class="ph"><div class="l"><i>TIE</i>ארנקי שוק · 4 בעמוד</div><div class="r">אחד לכל קונה</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כל קונה מקבל/ת ארנק אחד לשני הסבבים יחד. בכל קנייה כותבים כאן, והמוכר/ת חותם/ת.</p>
+  <div class="cutgrid exits">
+    <div class="wal"><div class="wh"><b>👛 ארנק השוק</b><span class="amt">30 ₪</span></div><p>שם: <span class="fill"></span> · הצוות שלי: <span class="fill s"></span></p>
+      <table class="tb"><thead><tr><th style="width:10mm">סבב</th><th>דוכן</th><th style="width:13mm">סכום</th><th style="width:15mm">חתימה</th><th style="width:13mm">יתרה</th></tr></thead><tbody><tr><td colspan="4" style="text-align:left">יתרת פתיחה</td><td><b>30</b></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr></tbody></table>
+      <p class="wn">הזמנה אחת לכל דוכן בכל סבב · לא מהצוות שלי · קונים רק מה שבאמת רוצים</p></div>
+    <div class="wal"><div class="wh"><b>👛 ארנק השוק</b><span class="amt">30 ₪</span></div><p>שם: <span class="fill"></span> · הצוות שלי: <span class="fill s"></span></p>
+      <table class="tb"><thead><tr><th style="width:10mm">סבב</th><th>דוכן</th><th style="width:13mm">סכום</th><th style="width:15mm">חתימה</th><th style="width:13mm">יתרה</th></tr></thead><tbody><tr><td colspan="4" style="text-align:left">יתרת פתיחה</td><td><b>30</b></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr></tbody></table>
+      <p class="wn">הזמנה אחת לכל דוכן בכל סבב · לא מהצוות שלי · קונים רק מה שבאמת רוצים</p></div>
+    <div class="wal"><div class="wh"><b>👛 ארנק השוק</b><span class="amt">30 ₪</span></div><p>שם: <span class="fill"></span> · הצוות שלי: <span class="fill s"></span></p>
+      <table class="tb"><thead><tr><th style="width:10mm">סבב</th><th>דוכן</th><th style="width:13mm">סכום</th><th style="width:15mm">חתימה</th><th style="width:13mm">יתרה</th></tr></thead><tbody><tr><td colspan="4" style="text-align:left">יתרת פתיחה</td><td><b>30</b></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr></tbody></table>
+      <p class="wn">הזמנה אחת לכל דוכן בכל סבב · לא מהצוות שלי · קונים רק מה שבאמת רוצים</p></div>
+    <div class="wal"><div class="wh"><b>👛 ארנק השוק</b><span class="amt">30 ₪</span></div><p>שם: <span class="fill"></span> · הצוות שלי: <span class="fill s"></span></p>
+      <table class="tb"><thead><tr><th style="width:10mm">סבב</th><th>דוכן</th><th style="width:13mm">סכום</th><th style="width:15mm">חתימה</th><th style="width:13mm">יתרה</th></tr></thead><tbody><tr><td colspan="4" style="text-align:left">יתרת פתיחה</td><td><b>30</b></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr><tr><td></td><td class="e"></td><td></td><td></td><td></td></tr></tbody></table>
+      <p class="wn">הזמנה אחת לכל דוכן בכל סבב · לא מהצוות שלי · קונים רק מה שבאמת רוצים</p></div>
+  </div>
+</section>
+
+<!-- ===================== 9. SECRET BUYER CARDS ===================== -->
+<section class="page" id="p-buyers" data-label="כרטיסי קונה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי קונה סודיים · יום השוק</div><div class="r">12 בעמוד · להדפיס 3 עותקים</div></div>
+  <p class="cutnote">✂ לגזור ולערבב בקופסה. כל קונה שולף/ת כרטיס אחד לכל השוק, ולא מראה אותו לאף אחד. משחקים את הדמות, אבל קונים רק מה שבאמת הייתם רוצים.</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(4,1fr)">
+    <div class="cc k-cust"><span class="cat">🛒 קונה</span><span class="no">K1</span><span class="em">🪙</span><b>החסכן/ית</b><small>לפני כל קנייה שואל/ת: "למה זה שווה את הכסף?" קונה רק אם התשובה משכנעת.</small></div>
+    <div class="cc k-cust"><span class="cat">🛒 קונה</span><span class="no">K2</span><span class="em">🤨</span><b>הספקן/ית</b><small>שואל/ת: "ומה אם זה לא עובד?" קונה רק אם יש הוכחה או הבטחה.</small></div>
+    <div class="cc k-cust"><span class="cat">🛒 קונה</span><span class="no">K3</span><span class="em">🎁</span><b>צייד/ת ההנחות</b><small>מבקש/ת הנחה בכל דוכן. קונה גם בלי הנחה, אם ענו לך יפה.</small></div>
+    <div class="cc k-prob"><span class="cat">🛒 קונה</span><span class="no">K4</span><span class="em">🎯</span><b>מחפש/ת איכות</b><small>לא קונה בדוכן הכי זול בשוק. מחיר נמוך מדי מחשיד אותך.</small></div>
+    <div class="cc k-prob"><span class="cat">🛒 קונה</span><span class="no">K5</span><span class="em">📊</span><b>משווה מחירים</b><small>בכל סבב מבקר/ת ב-3 דוכנים לפני הקנייה הראשונה.</small></div>
+    <div class="cc k-prob"><span class="cat">🛒 קונה</span><span class="no">K6</span><span class="em">⏰</span><b>ממהר/ת</b><small>בכל סבב יש לך זמן לשני דוכנים בלבד. בוחרים מהר.</small></div>
+    <div class="cc k-tech"><span class="cat">🛒 קונה</span><span class="no">K7</span><span class="em">🌱</span><b>ירוק/ה</b><small>שואל/ת: "מה טוב במוצר לסביבה או לקהילה?" זה חשוב לך יותר מהמחיר.</small></div>
+    <div class="cc k-tech"><span class="cat">🛒 קונה</span><span class="no">K8</span><span class="em">👂</span><b>הסקרן/ית</b><small>שואל/ת: "איך הגעתם למחיר הזה?" קונה רק אם שמעת שיטה ונימוק.</small></div>
+    <div class="cc k-tech"><span class="cat">🛒 קונה</span><span class="no">K9</span><span class="em">🧒</span><b>קונה בשביל אח/ות קטן/ה</b><small>קונה רק מה שמתאים גם לילדים בני 8–10. שואל/ת על זה.</small></div>
+    <div class="cc k-mint"><span class="cat">🛒 קונה</span><span class="no">K10</span><span class="em">📅</span><b>לא אוהב/ת מנויים</b><small>לא קונה מנוי, רק תשלום חד-פעמי. שואל/ת: "יש אפשרות בלי מנוי?"</small></div>
+    <div class="cc k-mint"><span class="cat">🛒 קונה</span><span class="no">K11</span><span class="em">✨</span><b>אוהב/ת מציאות</b><small>קונה בכיף, אבל רוצה להרגיש שקיבל/ה "מציאה". מבקש/ת בונוס קטן.</small></div>
+    <div class="cc k-mint"><span class="cat">🛒 קונה</span><span class="no">K12</span><span class="em">🙂</span><b>קונה רגיל/ה</b><small>אין כלל מיוחד. קונה רק מה שבאמת היית רוצה.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 10. TOUGH CUSTOMER CARDS (no devices) ===================== -->
+<section class="page" id="p-tough" data-label="כרטיסי לקוח קשוח">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי לקוח קשוח · בלי מכשירים</div><div class="r">סט לכל 2 צוותים</div></div>
+  <p class="cutnote">✂ כשאין Gemini: צוות אחד מוכר, ושלושה תלמידים מצוות אחר משחקים את הלקוחות לפי הכרטיסים, התנגדות אחת בכל פעם. אחרי 5 דקות מתחלפים. הלקוח נותן ציון שכנוע 1–5.</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(3,1fr)">
+    <div class="cc k-cust"><span class="cat">🪙 החסכן</span><span class="no">1</span><span class="em">🍕</span><b>"בכסף הזה אני קונה פיצה!"</b><small>אל תוותר/י מהר. שאל/י: "אז מה אני מקבל/ת שאין בפיצה?"</small></div>
+    <div class="cc k-cust"><span class="cat">🪙 החסכן</span><span class="no">2</span><span class="em">🤝</span><b>"למה לשלם, אם אפשר לבקש מחבר?"</b><small>שאל/י: "מה יש אצלכם שאין לחבר שלי?"</small></div>
+    <div class="cc k-cust"><span class="cat">🪙 החסכן</span><span class="no">3</span><span class="em">😬</span><b>"זה יקר ממה שחשבתי."</b><small>שאל/י: "כמה זה יוצא לפעם אחת?"</small></div>
+    <div class="cc k-prob"><span class="cat">🤨 הספקן</span><span class="no">4</span><span class="em">❓</span><b>"ומה אם זה לא עובד?"</b><small>דרוש/י הבטחה: "מה קורה אם לא אהבתי?"</small></div>
+    <div class="cc k-prob"><span class="cat">🤨 הספקן</span><span class="no">5</span><span class="em">🔧</span><b>"מי אמר שזה יחזיק מעמד?"</b><small>שאל/י: "יש לכם ניסיון? מישהו כבר ניסה?"</small></div>
+    <div class="cc k-prob"><span class="cat">🤨 הספקן</span><span class="no">6</span><span class="em">🆓</span><b>"ראיתי משהו דומה בחינם."</b><small>שאל/י: "אז למה לשלם לכם?"</small></div>
+    <div class="cc k-tech"><span class="cat">🎁 צייד ההנחות</span><span class="no">7</span><span class="em">2️⃣</span><b>"ואם אקנה שניים, תוריד לי?"</b><small>נסה/י להגיע ל-30% הנחה. הם מותרים רק עד 10%.</small></div>
+    <div class="cc k-tech"><span class="cat">🎁 צייד ההנחות</span><span class="no">8</span><span class="em">🧪</span><b>"תן לי לנסות בחינם קודם."</b><small>שאל/י: "ואם אהבתי, מה המחיר?"</small></div>
+    <div class="cc k-tech"><span class="cat">🎁 צייד ההנחות</span><span class="no">9</span><span class="em">😏</span><b>"לחבר שלי הצעתם פחות!"</b><small>בדוק/י אם הם נשארים הוגנים ועקביים.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 11. NEWS + SIDE TASKS ===================== -->
+<section class="page" id="p-news" data-label="חדשות ומשימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>חדשות השוק ומשימות צד</div><div class="r">1 לכיתה</div></div>
+  <p class="cutnote">✂ חדשות: המצגת שולפת כרטיס בין הסבבים. הכרטיסים כאן הם גיבוי בלי מקרן: שולפים אחד מכובע. משימות צד: בקופסה על שולחן המדריך, נקודה לכל משימה (עד 2).</p>
+  <div class="cutgrid cards" style="grid-template-rows:repeat(4,1fr)">
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">📈</span><b>הספק העלה מחירים</b><small>בסבב 2 העלות ליחידה של כל הדוכנים עולה ב-1 ₪.</small></div>
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">🤖</span><b>רובוט במפעל</b><small>בסבב 2 העלות ליחידה של כל הדוכנים יורדת ב-1 ₪.</small></div>
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">🔥</span><b>טרנד ויראלי!</b><small>כל קונה מוסיף 5 ₪ לארנק. מה זה יעשה למחירים?</small></div>
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">🏪</span><b>מתחרה ענק נכנס</b><small>המדריך/ה פותח/ת דוכן "הכול ב-3 ₪" עם גרסה בסיסית. איך תשכנעו לקנות מכם?</small></div>
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">🌧️</span><b>הפסקה בגשם</b><small>בסבב 2 כל קונה קונה רק בשני דוכנים.</small></div>
+    <div class="cc k-news"><span class="cat">🗞️ חדשות</span><span class="em">🎟️</span><b>יום מבצעים</b><small>כל דוכן חייב להציע מבצע אחד. מבצע שמפסיד כסף, מפסיד באמת.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">📈</span><b>מחיר דינמי</b><small>אם בסבב 1 יהיו פחות מ-3 הזמנות, מה המחיר בסבב 2? כתבו כלל ונימוק.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">🔴</span><b>צוות אדום</b><small>Gemini משחק מתחרה שרוצה להוציא אתכם מהשוק. 3 מהלכים שלו, ותשובה לכל אחד.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">📝</span><b>טופס הזמנה</b><small>טופס "הזמנה מוקדמת" ב-Google Forms: שם פרטי, כמות, הערה. מפורסם וקישור מקוצר.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">🎁</span><b>מבצע רווחי</b><small>מבצע (חבילה או 1+1), ובדיקה ב-Sheets שהרווח ליחידה עדיין חיובי.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">📣</span><b>פרסומת 10 שניות</b><small>משפט אחד לדוכן: מה זה, למי, ולמה המחיר שווה. אומרים בקול מול צוות אחר.</small></div>
+    <div class="cc k-side"><span class="cat">⭐ משימת צד</span><span class="em">🔎</span><b>בודקי עובדות</b><small>מחיר מתחרה אחד, או מספר ש-Gemini נתן: בודקים במקור נוסף ורושמים מה מצאתם.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 12. AUCTION CARDS ===================== -->
+<section class="page" id="p-auction" data-label="קופת מכרז">
+  <div class="ph"><div class="l"><i>TIE</i>קופת המכרז · מכירה פומבית</div><div class="r">8 בעמוד · אחת לצוות</div></div>
+  <p class="cutnote">✂ לגזור. המנכ״ל/ית מחזיק/ה את הקופה ומוריד/ה כל סכום ששולם. אסור להציע יותר ממה שנשאר.</p>
+  <div class="cutgrid auc">
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+    <div class="ac"><div class="wh"><b>🔨 קופת המכרז</b><span>צוות: <span class="fill s"></span></span></div><table class="tb"><thead><tr><th></th><th>פרס שזכינו בו</th><th style="width:14mm">שילמנו</th><th style="width:14mm">נשאר</th></tr></thead><tbody><tr><td colspan="3" style="text-align:left">סבב 1: מקבלים</td><td><b>6</b></td></tr><tr><td>1</td><td class="e"></td><td></td><td></td></tr><tr><td colspan="3" style="text-align:left">סבב 2: מוסיפים 12</td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+  </div>
+</section>
+
+<!-- ===================== 13. PLAY MONEY (optional) ===================== -->
+<section class="page" id="p-money" data-label="כסף משחק">
+  <div class="ph"><div class="l"><i>TIE</i>כסף משחק · לא חובה</div><div class="r">24 שטרות בעמוד</div></div>
+  <p class="cutnote">✂ לא חובה: הארנקים מספיקים. מי שרוצה כסף ביד: בכל עמוד יש 30 ₪ לארבעה קונים (לכל קונה 10+10+5+2+2+1). 7 עמודים = 28 קונים. להדפיס על נייר צבעוני בהיר.</p>
+  <div class="cutgrid bills">
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b10"><span class="v">10</span><div><b>10 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b5"><span class="v">5</span><div><b>5 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b5"><span class="v">5</span><div><b>5 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b5"><span class="v">5</span><div><b>5 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b5"><span class="v">5</span><div><b>5 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b2"><span class="v">2</span><div><b>2 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b1"><span class="v">1</span><div><b>1 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b1"><span class="v">1</span><div><b>1 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b1"><span class="v">1</span><div><b>1 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+    <div class="bill b1"><span class="v">1</span><div><b>1 ₪ משחק</b><small>שוק הכיתה · Tech It Easy</small></div></div>
+  </div>
+</section>
+
+<!-- ===================== 14. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>תווית המחיר</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך/ה קובע/ת את הרמה הסופית, והיא שווה 1–4 נקודות.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">הנמקה<small>3 שיטות ובחירה</small></td><td>"כי זה נשמע טוב"</td><td>שיטה אחת</td><td>3 שיטות מחושבות</td><td>3 שיטות, והסבר למה נבחרה אחת ומה הסיכון בה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">חישוב<small>נוסחאות ודיוק</small></td><td>מספרים מוקלדים ביד, עם טעויות</td><td>חלק בנוסחאות, טעות אחת</td><td>עלות, ממוצע ורווח בנוסחאות, הכול נכון</td><td>הכול בנוסחאות ונכון, ותא שמתריע על הפסד</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">התנגדויות ו-AI<small>תשובה ובדיקה</small></td><td>אין תשובה, או "טוב, בחצי מחיר"</td><td>תשובה כללית: "זה שווה את זה"</td><td>תשובה בערך, עם דוגמה</td><td>תשובה משכנעת בלי הנחה, ומסומן מה מ-Gemini לא מתאים ללקוח אמיתי</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">התאמה ללקוח<small>הסקר והשוק</small></td><td>המחיר לא קשור ללקוח</td><td>"לדעתנו זה מתאים"</td><td>המחיר בתוך טווח הערך מהסקר</td><td>בתוך הטווח, ומוסבר איך הסקר והשוק שינו את ההחלטה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע 4 השורות, מעוגל) = 1–4 נקודות בלוח הניקוד של היום. פרס "המחיר החכם" הולך לצוות עם ההנמקה החזקה ביותר.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "6 ₪ לחודש. חישבנו 3 שיטות: עלות 6 ₪, מתחרים 5–10 ₪, ערך 4–9 ₪." ההתנגדות "יקר לי" קיבלה תשובה: "זה פחות מארטיק." הכול בנוסחאות. לא כתוב למה דווקא 6 ומה הסיכון.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> אותו דבר, ועוד: "בחרנו בעלות כי היא שומרת שלא נפסיד, ובדקנו שהיא בתוך טווח הערך. הסיכון: ילדים שמשחקים מעט. לכן הוספנו כרטיס של 1 ₪." Gemini הציע הנחה לחברים, וסימנו שזה לא מתאים כי זה מוריד את הרווח מתחת לעלות. אחרי השוק: 5 הזמנות בסבב 1, ו-7 בסבב 2 אחרי שהוספנו את הכרטיס.</p></div></div>
+</section>
+
+<!-- ===================== AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לכל תוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה מצורפת לדף העבודה, ואת שתי השורות מעתיקים לתווית ביומן ולטופס ההגשה. דוגמה: "🤖 Gemini שיחק 3 לקוחות קשוחים ובדק לנו נוסחה · ✋ אנחנו חישבנו את המחיר, כתבנו את התשובות והחלטנו."</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 13</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 13</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 13</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 13</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 16. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד, ב-3 דקות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 13 · יום השוק</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על מחיר:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">אם הייתם פותחים את הדוכן שוב מחר, הייתם משנים את המחיר? למה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>חישוב</span><span>סקר</span><span>משא ומתן</span><span>מכירה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 13 · יום השוק</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על מחיר:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">אם הייתם פותחים את הדוכן שוב מחר, הייתם משנים את המחיר? למה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>חישוב</span><span>סקר</span><span>משא ומתן</span><span>מכירה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 13 · יום השוק</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על מחיר:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">אם הייתם פותחים את הדוכן שוב מחר, הייתם משנים את המחיר? למה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>חישוב</span><span>סקר</span><span>משא ומתן</span><span>מכירה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 13 · יום השוק</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום על מחיר:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">אם הייתם פותחים את הדוכן שוב מחר, הייתם משנים את המחיר? למה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>חישוב</span><span>סקר</span><span>משא ומתן</span><span>מכירה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 17. INSTRUCTOR SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>יום השוק · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · הגיבוי של לוח הניקוד במצגת</span><h2>דף <span>הניקוד</span></h2></div><p>הלוח במצגת מחשב לבד. הדף הזה הוא גיבוי בלי מקרן, ומקום להערות. נקודות של שיעור אחד, בלי צבירה בין שיעורים.</p></div>
+  <table class="tb tt" style="font-size:9pt">
+    <thead><tr><th style="width:24mm">צוות</th><th>ביניים<br><small>עד 3</small></th><th>תווית<br><small>2</small></th><th>התנגדות<br><small>2</small></th><th>מחוון<br><small>1–4</small></th><th>רווח בשוק<br><small>₪</small></th><th>מקום בשוק<br><small>8/5/3/1</small></th><th>דוכן משכנע<br><small>3</small></th><th>צד<br><small>עד 2</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>✅ נקודת ביקורת: לוח המחירים</h3>
+    <table class="tb tt" style="font-size:9pt"><thead><tr><th style="width:24mm">צוות</th><th>עלות ליחידה (אושרה?)</th><th>ממוצע מתחרים</th><th>טווח ערך</th><th>מחיר</th><th>שיטות ✓</th><th>תקוע? במה</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🔨 המכירה הפומבית</h3><table class="tb tt" style="font-size:9pt"><thead><tr><th>פרס</th><th>סבב 1 (₪)</th><th>סבב 2 (₪)</th></tr></thead><tbody><tr><td>⏱️ +2 דקות</td><td></td><td></td></tr><tr><td>🃏 רמז זהב</td><td></td><td></td></tr><tr><td>📣 פרסומת</td><td></td><td></td></tr></tbody></table></div>
+    <div class="box"><h3>🏆 פרסים היום</h3><p>🥇 מנצחים: <span class="fill"></span></p><p style="margin-top:1.5mm">📈 הכי שיפר: <span class="fill"></span></p><p style="margin-top:1.5mm">🧠 המחיר החכם: <span class="fill"></span></p><p style="margin-top:1.5mm">🗞️ החדשות שנשלפו: <span class="fill"></span></p></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחת שיעור 14</h3><div class="lines h2"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

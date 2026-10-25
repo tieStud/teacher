@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · גלריית המותגים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== גלריית המותגים: page-specific additions (template styles above are untouched) ===== */
+.mini{font-size:9.2pt}
+.muted{color:var(--muted)}
+.tag{display:inline-block;border-radius:999px;padding:.2mm 2.2mm;font-size:8.2pt;font-weight:700;border:1px solid var(--line2);background:#fff}
+.tag.me{background:#fdebe3;border-color:#efc4b0;color:#9a3412}.tag.ai{background:#fdf3d7;border-color:#efd9a0;color:#7a4a00}
+table.tb.tight th,table.tb.tight td{padding:1.05mm 2.2mm;font-size:9pt}
+#p-score table.tb td.e{height:8mm}
+.tc{font-size:10.6pt!important}.tc .ex{font-size:10pt!important}.tc p.mini{font-size:10pt}
+/* Crazy-4 grid of the name factory */
+.c4{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1.2px solid var(--line2);border-radius:3mm;overflow:hidden}
+.c4>div{border-left:1px solid var(--line2);border-bottom:1px solid var(--line2);padding:1.6mm 2mm;min-height:12mm;font-size:8.6pt;color:var(--dim);font-weight:700}
+.c4>div:nth-child(5n+1){border-right:0}
+.c4 .h{background:var(--paper2);color:var(--ink);font-family:var(--display);min-height:0;text-align:center}
+table.names{width:100%;border-collapse:collapse;font-size:9.4pt}
+table.names th,table.names td{border:1px solid var(--line2);padding:1.2mm 2mm;text-align:right;height:7.6mm}
+table.names th{background:var(--paper2);font-family:var(--display);font-weight:600;font-size:8.8pt;height:auto}
+table.names td.n{width:7mm;text-align:center;color:var(--dim);font-weight:700}
+table.names td.dot{width:11mm}
+table.names td.src{width:13mm;text-align:center;font-size:8.6pt}
+/* checks table */
+table.chk{width:100%;border-collapse:collapse;font-size:9.2pt;table-layout:fixed}
+table.chk th,table.chk td{border:1px solid var(--line2);padding:1.6mm 2mm;text-align:right;vertical-align:top}
+table.chk th{background:var(--paper2);font-family:var(--display);font-weight:600;font-size:8.8pt}
+table.chk td{height:12mm}
+table.chk td.cand{font-family:var(--display);font-weight:700;color:var(--dim);font-size:8.6pt}
+table.chk .ok{display:block;margin-top:1mm;font-size:8.4pt;color:var(--dim)}
+/* brand poster */
+.poster{flex:1;display:flex;flex-direction:column;gap:4mm;border:2.2mm solid #f4f1ea;outline:1px solid var(--line2);border-radius:2mm;padding:6mm 7mm}
+.poster .pname{border-bottom:2px solid var(--ink);height:34mm;position:relative}
+.poster .pname::before{content:"השם";position:absolute;top:0;right:0;font-size:9pt;color:var(--dim);font-weight:700}
+.poster .pslog{border-bottom:1.6px solid var(--teal);height:20mm;position:relative}
+.poster .pslog::before{content:"הסלוגן (עד 6 מילים)";position:absolute;top:0;right:0;font-size:9pt;color:var(--teal);font-weight:700}
+.poster .why{display:grid;grid-template-columns:30mm 1fr;align-items:end;gap:3mm;font-weight:700;font-size:10pt}
+.poster .why .ln{border-bottom:1px solid #cfc8bc;height:9mm}
+.poster .why .ln.two{height:17mm;background-image:linear-gradient(to bottom,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm,transparent 8.5mm)}
+.poster .why.top{align-items:start}
+.checks4{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.checks4>div{border:1px solid var(--line2);border-radius:2.5mm;padding:2.4mm 3mm;font-size:9.6pt;min-height:19mm}
+.checks4 b{font-family:var(--display);display:block}
+.checks4 .yn{float:left;font-weight:700;color:var(--muted);font-size:9pt}
+.stickZone{border:1.6px dashed var(--orange);border-radius:3mm;min-height:30mm;position:relative;background:repeating-radial-gradient(circle at 10mm 10mm,#fff 0 3mm,#fff 3mm 10mm)}
+.stickZone::before{content:"🟠 מדבקות כאן · לא על הצוות שלכם";position:absolute;top:2mm;right:3mm;font-size:9pt;font-weight:700;color:var(--orange-ink)}
+.feedZone{border:1.2px dashed var(--line2);border-radius:3mm;min-height:24mm;position:relative}
+.feedZone::before{content:"📝 פתקים: אהבתי ש… / הלוואי ש…";position:absolute;top:2mm;right:3mm;font-size:9pt;font-weight:700;color:var(--dim)}
+/* technique cards / side tasks */
+.tcards{grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;flex:1}
+.tc{--c:var(--teal);--cs:var(--teal-soft);padding:4.5mm 5mm;display:flex;flex-direction:column;gap:1.6mm;position:relative;overflow:hidden;font-size:9.8pt}
+.tc::before{content:"";position:absolute;inset:0 0 auto 0;height:2mm;background:var(--c)}
+.tc .th{display:flex;align-items:center;gap:3mm;margin-top:1mm}
+.tc .ic{width:11mm;height:11mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:16pt;flex:none}
+.tc .th b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.1;display:block}
+.tc .th small{color:var(--muted);font-size:8.8pt;display:block}
+.tc .ex{background:var(--paper);border-radius:2mm;padding:1.6mm 2.4mm;font-size:9pt}
+.tc .try{margin-top:auto;font-weight:700;font-size:9pt;border-top:1px solid var(--line);padding-top:1.4mm}
+.tc .pts{position:absolute;left:4mm;top:4mm;font-size:8pt;font-weight:700;color:var(--c-ink,var(--teal));background:var(--cs);border-radius:999px;padding:.3mm 2.2mm}
+.words{display:flex;flex-wrap:wrap;gap:1.4mm;font-size:9.2pt}
+.words span{border:1px solid var(--line2);border-radius:999px;padding:.3mm 2.2mm;background:#fff}
+.t1{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}.t2{--c:#5bb5a2;--cs:#e4f4f0;--c-ink:#23826f}.t3{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.t4{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.t5{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.t6{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+/* guess sheet */
+.guess{padding:5mm 5mm;display:flex;flex-direction:column;gap:2.4mm}
+.guess .gh{display:flex;justify-content:space-between;align-items:center}
+.guess .gh b{font-family:var(--display);font-weight:800;font-size:13pt}
+/* certificates */
+.certs{grid-template-columns:1fr 1fr;grid-auto-rows:1fr;flex:1}
+.cert{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.8mm;padding:5mm;position:relative;background:radial-gradient(circle at 50% 0,var(--cs),#fff 62%)}
+.cert::after{content:"";position:absolute;inset:3mm;border:1.2px solid color-mix(in srgb,var(--c) 45%,#fff);border-radius:2mm;pointer-events:none}
+.cert .em{font-size:26pt;line-height:1}
+.cert .k{font-size:8.6pt;font-weight:700;color:var(--c-ink,var(--c));letter-spacing:.3px}
+.cert b{font-family:var(--display);font-weight:800;font-size:15pt;line-height:1.15}
+.cert small{color:var(--muted);font-size:8.6pt;max-width:70mm}
+.cert .who{width:66mm;border-bottom:1.4px solid var(--ink);height:9mm;margin-top:1mm}
+.cert .sig{font-size:8pt;color:var(--dim);margin-top:1mm}
+.c-gold{--c:#e3a82b;--cs:#fff5df;--c-ink:#8a5300}.c-silver{--c:#8a93a1;--cs:#f1f3f5;--c-ink:#5b6574}.c-bronze{--c:#c97b43;--cs:#fbeee4;--c-ink:#9a4f1c}
+.c-mem{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}.c-judge{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}.c-cut{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* gallery entrance sign */
+.sign{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6mm;border:2.6mm solid #f4f1ea;outline:1px solid var(--line2);border-radius:2mm;padding:12mm}
+.sign .em{font-size:60pt;line-height:1}
+.sign h1{font-family:var(--display);font-weight:800;font-size:60pt;line-height:1;margin:0}
+.sign h1 span{color:var(--teal)}
+.sign p{font-size:16pt;color:var(--muted);max-width:150mm}
+.sign ol{text-align:right;font-size:18pt;line-height:1.75;margin:0;padding-inline-start:9mm}
+.sign ol li::marker{color:var(--teal);font-weight:800}
+</style>
+</head>
+<body>
+
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · גלריית המותגים<small>שיעור 12 מתוך 30 · שלב 4: הצעת ערך · יום אירוע</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 0. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · שיעור 12</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>הכמויות לכיתה של 28 תלמידים ב-7 צוותים. לכיתה אחרת: לפי מספר הצוותים והתלמידים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דף מפעל השמות (ספרינט 1)</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>דף מעבדת הבדיקות (ספרינט 2)</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>כרזת כרטיס המותג (לתערוכה)</td><td>1 לצוות + 2 רזרבה (9). מומלץ להגדיל ל-A3</td><td>עבה, 160 גרם ומעלה</td><td>לא</td></tr>
+      <tr><td>6</td><td>כרטיסי טכניקה ובנק מילים</td><td>1 סט לצוות (7)</td><td>בריסטול</td><td>כן, ל-6</td></tr>
+      <tr><td>7</td><td>משימות צד</td><td>1 סט לכיתה (בקופסה)</td><td>בריסטול</td><td>כן, ל-6</td></tr>
+      <tr><td>8</td><td>דף ניחושים (נקודת ביקורת)</td><td>4 עמודים (8 דפים, 1 לצוות)</td><td>רגיל</td><td>כן, לחצי</td></tr>
+      <tr><td>9</td><td>מחוון</td><td>1 לצוות (7) + 1 למדריך</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>שקיפות AI</td><td>4 עמודים (8 כרטיסים)</td><td>רגיל</td><td>כן, לחצי</td></tr>
+      <tr><td>11</td><td>כרטיסי יציאה</td><td>8 עמודים (32 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>תעודות לטקס</td><td>1 עמוד (6 תעודות)</td><td>בריסטול או צבעוני בהיר</td><td>כן, ל-6</td></tr>
+      <tr><td>13</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>14</td><td>שלט הכניסה לתערוכה</td><td>1 (מומלץ A3)</td><td>עבה</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4.5mm">
+    <div class="box soft"><h3>📦 על השולחן של כל צוות</h3>
+      <ul class="check"><li>כרטיס משימה, 2 דפי עבודה ומחוון</li><li>כרזת כרטיס מותג (A4 או A3)</li><li>2 טושים עבים (שחור וצבעוני) ועט לכל אחד</li><li>4 דפי A4 ריקים לקיפול ל-4 משבצות</li><li>סט כרטיסי טכניקה ובנק מילים</li><li>מעטפת צוות (לדפים בסוף)</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>מדבקות עגולות: 3 לתלמיד (~90), צבע אחד</li><li>פתקים דביקים: 1–2 לתלמיד</li><li>מסקנטייפ או בלו־טאק לתליית 7 כרזות</li><li>קופסת משימות צד, כרטיסי יציאה ושקיפות AI</li><li>תעודות, דף ניקוד ועט</li><li>שלט הכניסה, תלוי ליד הקיר של התערוכה</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🖼️ הקיר של התערוכה</h3><p class="mini">מסמנים מראש קיר אחד (או לוח, או חלונות) עם 7 מקומות במרחק של כמטר זה מזה, וממספרים אותם 1–7 לפי סדר הצוותים. אין קיר? מניחים את הכרזות על שולחנות בשורה, והמבקרים עוברים ביניהם. אין מדבקות? כל מבקר מסמן נקודה בטוש בריבוע המדבקות.</p></div>
+</section>
+
+<!-- ===================== 1. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · שיעור 12 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">✨ שלב 4: הצעת ערך · יום אירוע</span><h2>תחרות השם <span>והסלוגן</span></h2></div><p>ועדת השמות של החממה פותחת היום תערוכה. כל צוות תולה כרטיס מותג, הקהל מצביע בשקט במדבקות, ושופט AI נותן ציון לפי מחוון גלוי.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>שם וסלוגן שכל מי שעובר ליד הכרטיס <b>מבין</b> מה אתם מוכרים, <b>זוכר</b> את השם, ו<b>משוכנע</b> שבדקתם אותו. הם מבוססים על הצעת הערך שלכם משיעור 10, ושונים מהמתחרים משיעור 11.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean mini">
+      <li>20 שמות לפני שבוחרים: 10 שלכם (בלי AI) ו-10 של Gemini, מסומנים ✍️ ו-🤖.</li>
+      <li>3 מועמדים עוברים 4 בדיקות: גוגל · Translate · טלפון שבור · @ ב-YouTube.</li>
+      <li>שם של עד 2 מילים, בלי שם של אדם אמיתי ובלי מותג קיים.</li>
+      <li>סלוגן של עד 6 מילים, עם מילה אחת לפחות ששיניתם בעצמכם.</li>
+      <li>בתערוכה לא מסבירים ולא מבקשים קולות. 3 מדבקות לכל אחד, לא לצוות שלכם.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <table class="tb tight"><thead><tr><th>מה</th><th style="width:30mm">נקודות</th></tr></thead><tbody>
+      <tr><td>רשימת 20 שמות עם 3 מועמדים מסומנים, בנקודת הביקורת</td><td>3</td></tr>
+      <tr><td>צוות אחר ניחש מה אתם מוכרים רק מהשם (נקודה גם לצוות המנחש)</td><td>1 לכל ניחוש</td></tr>
+      <tr><td>כל בדיקה מתועדת של השם הנבחר</td><td>עד 4</td></tr>
+      <tr><td>סלוגן עד 6 מילים עם מילה ששיניתם · 3 שמות שנפסלו ולמה</td><td>2 + 2</td></tr>
+      <tr><td>כרטיס מותג ביומן ושורה בטופס, בזמן</td><td>3</td></tr>
+      <tr><td>מדבקות בתערוכה: מקום ראשון / שני / שלישי</td><td>8 / 5 / 3</td></tr>
+      <tr><td>מבחן הזיכרון: יותר מחצי הכיתה זוכרת את השם · כל פרס קטגוריה</td><td>2 · 3</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.6mm;font-size:9pt;color:var(--muted)">מנצח: הכי הרבה נקודות. שובר שוויון: יותר מדבקות, ואחר כך הסלוגן הקצר יותר. פרסי קטגוריה: השם הכי זכיר · בחירת השופט · הפסילה הכי חכמה.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb tight"><tbody>
+      <tr><td style="width:32mm"><b>🧭 מנכ״ל/ית</b></td><td>שומר/ת על הזמן, מריץ/ה את הצבעת המועמדים בצוות (2 נקודות לכל אחד) ואת הטלפון השבור.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>בדיקות גוגל ו-YouTube לכל 3 המועמדים, ורישום מדויק של מה שנמצא.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>כרטיס המותג: שקף 12 ביומן, והכרזה לתערוכה בטושים עבים.</td></tr>
+      <tr><td><b>🎤 מציג/ה ומתעד/ת</b></td><td>רשימת 20 השמות, השם בנקודת הביקורת, 3 השמות שנפסלו, וההגשה בטופס.</td></tr>
+      <tr><td><b>🤖 אחראי/ת AI</b></td><td>הפרומפטים ב-Gemini, Translate והשוואה ביניהם, ושורת שקיפות ה-AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.4mm;font-size:9pt">כרטיסי הטכניקה ובנק המילים על השולחן, והדוגמה של "קופסת הפסקה" על המסך.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.4mm;font-size:9pt">כל הכללים כמו שהם.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.4mm;font-size:9pt">שם שעובד גם בעברית וגם באנגלית, וסלוגן של 4 מילים לכל היותר.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 2. NAME FACTORY WORKSHEET ===================== -->
+<section class="page" id="p-factory" data-label="מפעל השמות">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · דף עבודה 1</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🏭 ספרינט 1 · 16 דקות</span><h2>מפעל <span>השמות</span></h2></div><p>הדף הזה הוא תוצר הביניים: בנקודת הביקורת מראים 20 שמות, מסומנים ✍️ ו-🤖, ו-3 מועמדים בעיגול.</p></div>
+  <div class="box soft" style="margin-bottom:3mm"><h3>0. הצעת הערך שלנו (משיעור 10)</h3><p class="mini" style="line-height:2.1">עבור <span class="fill l"></span> ש<span class="fill l"></span>, <span class="fill"></span> שלנו <span class="fill l"></span>.</p></div>
+  <div class="stack grow">
+    <div class="grid2">
+    <div class="box"><h3>1. 🔴 בלי AI: 10 שלנו <span class="tag me">✍️</span></h3><p class="mini muted" style="margin-bottom:1.4mm">כל אחד מקפל דף ל-4 משבצות. כאן אוספים את 10 הטובים.</p>
+      <table class="names"><thead><tr><th style="width:7mm">#</th><th>השם</th><th style="width:20mm">טכניקה</th><th style="width:11mm">🔵</th></tr></thead><tbody><tr><td class="n">1</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">2</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">3</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">4</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">5</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">6</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">7</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">8</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">9</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">10</td><td></td><td></td><td class="dot"></td></tr></tbody></table></div>
+    <div class="box"><h3>2. 🟡 Gemini: עוד 10 <span class="tag ai">🤖</span></h3><p class="mini muted" style="margin-bottom:1.4mm">מהפרומפט בשקף. מעתיקים רק שמות שבאמת שקלתם.</p>
+      <table class="names"><thead><tr><th style="width:7mm">#</th><th>השם</th><th style="width:20mm">מה רומז</th><th style="width:11mm">🔵</th></tr></thead><tbody><tr><td class="n">11</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">12</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">13</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">14</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">15</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">16</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">17</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">18</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">19</td><td></td><td></td><td class="dot"></td></tr><tr><td class="n">20</td><td></td><td></td><td class="dot"></td></tr></tbody></table></div>
+    </div>
+    <div class="box soft"><h3>🔀 שמות מעורבבים (חצי שלנו, חצי של Gemini) · גרסאות של שם אהוב</h3><div class="lines h2"></div></div>
+    <div class="grid2">
+      <div class="box"><h3>3. ⭐ 3 המועמדים</h3><p class="mini muted">לכל אחד 2 נקודות 🔵. 3 השמות עם הכי הרבה נקודות מקבלים עיגול ונכתבים כאן.</p><p style="line-height:2.2">① <span class="fill l"></span><br>② <span class="fill l"></span><br>③ <span class="fill l"></span></p></div>
+      <div class="box"><h3>✓ צ׳קליסט לנקודת הביקורת</h3><ul class="check mini"><li>20 שמות ברשימה</li><li>כל שם מסומן ✍️ או 🤖</li><li>3 מועמדים בעיגול</li><li>המציג/ה יודע/ת איזה שם אומרים לכיתה</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. CHECK LAB WORKSHEET ===================== -->
+<section class="page" id="p-lab" data-label="מעבדת הבדיקות">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · דף עבודה 2</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧪 ספרינט 2 · 16 דקות · 🟢 AI שבודקים</span><h2>מעבדת <span>הבדיקות</span></h2></div><p>כל בדיקה נרשמת: ✓ או ✗, ומה בדיוק מצאתם. בדיקה שלא נרשמה לא נחשבת.</p></div>
+  <table class="chk">
+    <colgroup><col style="width:24mm"><col><col><col><col></colgroup>
+    <thead><tr><th>מועמד</th><th>🔎 גוגל במירכאות<br><small>"השם" + מילה מהתחום</small></th><th>🌍 Translate<br><small>זיהוי שפה, אותיות לטיניות</small></th><th>🗣️ טלפון שבור<br><small>כמה מתוך 4 כתבו נכון</small></th><th>@ YouTube<br><small>youtube.com/@name</small></th></tr></thead>
+    <tbody>
+      <tr><td class="cand">①</td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">__ / 4</span></td><td><span class="ok">☐ פנוי ☐ תפוס</span></td></tr>
+      <tr><td class="cand">②</td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">__ / 4</span></td><td><span class="ok">☐ פנוי ☐ תפוס</span></td></tr>
+      <tr><td class="cand">③</td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">☐ ✓ ☐ ✗</span></td><td><span class="ok">__ / 4</span></td><td><span class="ok">☐ פנוי ☐ תפוס</span></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:3.5mm"><h3>🤖 Gemini מול Translate</h3><p class="mini muted">מה Gemini אמר על המשמעות בשפות אחרות, ומה Translate הראה? יש הבדל? מי צדק?</p><div class="lines h2"></div></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>🗑️ 3 שמות שנפסלו, ולמה</h3><p class="mini" style="line-height:2.25">1. <span class="fill"></span> נפל ב: <span class="fill"></span><br>2. <span class="fill"></span> נפל ב: <span class="fill"></span><br>3. <span class="fill"></span> נפל ב: <span class="fill"></span></p></div>
+    <div class="box"><h3>🏷️ השם הסופי</h3><div class="lines h1"></div><p class="mini" style="margin-top:2mm"><b>למה השם הזה?</b> (טכניקה + מה הוא רומז על הערך)</p><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>📣 הסלוגן: קודם אתם, אחר כך Gemini</h3>
+    <div class="grid2"><div><p class="mini"><b>✍️ 3 טיוטות שלנו</b> (לפני Gemini)</p><div class="lines h3"></div></div>
+    <div><p class="mini"><b>🤖 הסלוגן הכי טוב של Gemini</b></p><div class="lines h1"></div><p class="mini" style="margin-top:2mm"><b>🏅 הסלוגן הסופי</b> · מקיפים את המילה ששינינו · <span class="tag">__ מילים</span></p><div class="lines h1"></div></div></div></div>
+  <div class="box soft" style="margin-top:3.5mm"><h3>✓ לפני שעוברים לכרזה</h3><ul class="check mini" style="grid-template-columns:1fr 1fr"><li>4 בדיקות לשם הסופי, רשומות</li><li>3 פסילות עם סיבה</li><li>סלוגן עד 6 מילים, מילה מסומנת</li><li>"למה השם הזה" במשפט אחד</li></ul></div>
+</section>
+
+<!-- ===================== 4. BRAND POSTER ===================== -->
+<section class="page" id="p-brand" data-label="כרזת כרטיס המותג">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · כרטיס מותג</div><div class="r">צוות מס׳ <span class="fill s"></span></div></div>
+  <div class="poster">
+    <div class="pname"></div>
+    <div class="pslog"></div>
+    <div class="why"><span>💡 למה השם הזה?</span><div class="ln"></div></div>
+    <div class="checks4">
+      <div><span class="yn">☐ ✓ ☐ ✗</span><b>🔎 גוגל</b><span class="mini muted">מה מצאנו:</span></div>
+      <div><span class="yn">☐ ✓ ☐ ✗</span><b>🌍 Translate</b><span class="mini muted">משמעות בשפות אחרות:</span></div>
+      <div><span class="yn">__ / 4</span><b>🗣️ טלפון שבור</b><span class="mini muted">כמה כתבו נכון:</span></div>
+      <div><span class="yn">☐ פנוי ☐ תפוס</span><b>@ YouTube</b><span class="mini muted">השם באנגלית:</span></div>
+    </div>
+    <div class="why top" style="grid-template-columns:30mm 1fr"><span>🗑️ 3 שנפסלו<br><small class="muted" style="font-weight:500">ולמה</small></span><div class="ln two"></div></div>
+    <div class="why top" style="grid-template-columns:30mm 1fr"><span>🤖 שקיפות AI<br><small class="muted" style="font-weight:500">הציע · שמרנו · שינינו</small></span><div class="ln two"></div></div>
+    <div class="stickZone grow"></div>
+    <div class="feedZone"></div>
+  </div>
+</section>
+
+<!-- ===================== 5. TECHNIQUE CARDS + WORD BANK ===================== -->
+<section class="page" id="p-tech" data-label="כרטיסי טכניקה">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · כרטיסי טכניקה ובנק מילים</div><div class="r">סט לצוות</div></div>
+  <p class="cutnote">✂ לגזור ל-6 כרטיסים. נשארים על השולחן לכל אורך מפעל השמות. מתאים במיוחד לכרטיס "בסיס" ולשיעור בלי מכשירים.</p>
+  <div class="cutgrid tcards">
+    <div class="tc t1"><div class="th"><span class="ic">🔗</span><div><b>חיבור</b><small>שתי מילים, מילה אחת</small></div></div><div class="ex">YouTube = You + Tube · אצלנו: הַפְסָקוּפְסָה</div><p class="mini">לוקחים מילה מהמוצר ומילה מהתחושה, ומדביקים. אפשר לחתוך את הסוף של אחת מהן.</p><p class="try">🧪 נסו: [מילה מהמוצר] + [מילה מהתחושה] = ?</p></div>
+    <div class="tc t2"><div class="th"><span class="ic">🌊</span><div><b>מטאפורה</b><small>דבר אחר שמזכיר את התחושה</small></div></div><div class="ex">Amazon: נהר ענק, לחנות ענקית · אצלנו: תיבת האוצר</div><p class="mini">שואלים: למה המוצר דומה? חיה, מקום, כלי, תופעה בטבע.</p><p class="try">🧪 נסו: "המוצר שלנו הוא כמו ___ כי ___"</p></div>
+    <div class="tc t3"><div class="th"><span class="ic">🪄</span><div><b>מילה מומצאת</b><small>מילה חדשה לגמרי</small></div></div><div class="ex">Kodak: מילה שהמייסד המציא · אצלנו: פַּסְקִי</div><p class="mini">קצרה, 2 הברות, קלה לבטא בכל שפה. אפשר להתחיל מהברה של מילה אמיתית.</p><p class="try">🧪 נסו: הברה מהמוצר + סיומת: ־י, ־וֹ, ־לָה, ־וֹן</p></div>
+    <div class="tc t4"><div class="th"><span class="ic">🏷️</span><div><b>תיאור</b><small>אומרים בפשטות מה זה</small></div></div><div class="ex">Booking: "הזמנה" · אצלנו: קופסת הפסקה</div><p class="mini">הכי ברור, אבל לפעמים כבר תפוס או רגיל מדי. כאן הבדיקה בגוגל חשובה במיוחד.</p><p class="try">🧪 נסו: [מה זה] + [מתי או למי]</p></div>
+    <div class="tc t5"><div class="th"><span class="ic">🎵</span><div><b>משחק צלילים</b><small>שם שנשמע כמו משהו</small></div></div><div class="ex">ICQ נשמע כמו I seek you · במבה נשמע כמו דיבור של תינוק</div><p class="mini">צליל שהמוצר עושה, חרוז פנימי, או מילה שנשמעת כמו מילה אחרת.</p><p class="try">🧪 נסו: איזה צליל המוצר עושה? דינג, שלוק, טיק־טק…</p></div>
+    <div class="tc t6"><div class="th"><span class="ic">🎲</span><div><b>בנק מילים</b><small>שולפים 2 ומחברים</small></div></div>
+      <div class="words"><span>קופסה</span><span>גל</span><span>זינוק</span><span>כוכב</span><span>שמש</span><span>צחוק</span><span>קפיצה</span><span>אוצר</span><span>רוח</span><span>ניצוץ</span><span>גשר</span><span>טיפה</span><span>כנף</span><span>מפתח</span><span>שביל</span><span>פלא</span><span>הד</span><span>ענן</span><span>גלגל</span><span>חבר</span><span>לב</span><span>מגנט</span><span>קסם</span><span>שורש</span><span>נמל</span><span>זרע</span><span>אש</span><span>סוד</span><span>כיס</span><span>תנופה</span></div>
+      <p class="try">🎯 עוצמים עיניים, מניחים אצבע פעמיים, ומחברים לשם.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. SIDE TASKS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · משימות צד</div><div class="r">קופסה על שולחן המדריך</div></div>
+  <p class="cutnote">✂ לגזור ל-6 כרטיסים. צוות שסיים שולף כרטיס, ומראה את התוצאה למדריך. בלי נקודות: זה הכנה לכרטיס טוב יותר.</p>
+  <div class="cutgrid tcards">
+    <div class="tc t5"><div class="th"><span class="ic">🇬🇧</span><div><b>הסלוגן באנגלית</b><small>האם הוא שורד תרגום?</small></div></div><p>תרגמו את הסלוגן לאנגלית בעצמכם, ואז בדקו ב-Translate. האם הוא עדיין עד 6 מילים? האם הוא עדיין נשמע טוב? מה הלך לאיבוד בתרגום?</p><p class="try">✍️ כתבו את שתי הגרסאות, וסמנו איזו טובה יותר.</p></div>
+    <div class="tc t4"><div class="th"><span class="ic">😈</span><div><b>הצוות האדום</b><small>איך יצחקו על השם?</small></div></div><p>מצאו 3 בדיחות או כינויים שילדים יכולים להמציא על השם שלכם. האם אחד מהם מביך? אם כן, איזה שינוי קטן מונע אותו?</p><p class="try">✍️ 3 בדיחות + שינוי אחד.</p></div>
+    <div class="tc t3"><div class="th"><span class="ic">🎶</span><div><b>לוגו קולי</b><small>3 שניות שנתקעות בראש</small></div></div><p>הפכו את השם לג׳ינגל קצר: מנגינה, קצב או תיפוף על השולחן. נסו אותו על צוות שכן: הם זוכרים אותו אחרי דקה?</p><p class="try">🎤 מבצעים למדריך.</p></div>
+    <div class="tc t2"><div class="th"><span class="ic">👵</span><div><b>גרסת סבתא</b><small>אותו מוצר, לקוח אחר</small></div></div><p>אם הלקוחות היו בני 70, איזה שם הייתם בוחרים? מה משתנה: האורך, השפה, הטון? למה?</p><p class="try">✍️ שם + משפט אחד על ההבדל.</p></div>
+    <div class="tc t1"><div class="th"><span class="ic">⏱️</span><div><b>פיץ׳ של 10 שניות</b><small>שם + סלוגן + מה זה</small></div></div><p>כתבו משפט אחד שמציג את המיזם בעשר שניות: השם, הסלוגן ומה הלקוח מקבל. תרגלו עד שזה יוצא בלי להסתכל בדף.</p><p class="try">🎤 אומרים למדריך עם שעון עצר.</p></div>
+    <div class="tc t6"><div class="th"><span class="ic">🕵️</span><div><b>מתחרה נסתר</b><small>האם מישהו כבר עושה את זה?</small></div></div><p>חפשו בגוגל את המוצר שלכם (לא את השם) ומצאו מתחרה אחד. איך קוראים לו? מה השם שלו רומז? במה השם שלכם שונה?</p><p class="try">✍️ שם המתחרה + מה שונה אצלנו.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 7. GUESS SHEET ===================== -->
+<section class="page" id="p-guess" data-label="דף ניחושים">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · דף ניחושים</div><div class="r">2 בעמוד · 1 לצוות</div></div>
+  <p class="cutnote">✂ לגזור לחצי. בנקודת הביקורת: כל צוות שומע שם אחד מכל צוות אחר וכותב תוך 10 שניות מה לדעתו הם מוכרים.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="guess"><div class="gh"><b>🕵️ מה מוכרים כאן?</b><span>הצוות שלנו: <span class="fill"></span></span></div>
+      <table class="tb"><thead><tr><th style="width:20mm">צוות מס׳</th><th style="width:44mm">השם ששמענו</th><th>מה לדעתנו הם מוכרים</th><th style="width:16mm">צדקנו?</th></tr></thead>
+      <tbody><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr></tbody></table>
+      <p class="mini muted">כל ניחוש נכון = נקודה לנו וגם לצוות של השם. סה״כ ניחושים נכונים: <span class="fill s"></span></p></div>
+    <div class="guess"><div class="gh"><b>🕵️ מה מוכרים כאן?</b><span>הצוות שלנו: <span class="fill"></span></span></div>
+      <table class="tb"><thead><tr><th style="width:20mm">צוות מס׳</th><th style="width:44mm">השם ששמענו</th><th>מה לדעתנו הם מוכרים</th><th style="width:16mm">צדקנו?</th></tr></thead>
+      <tbody><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr><tr><td class="e"></td><td></td><td></td><td>☐</td></tr></tbody></table>
+      <p class="mini muted">כל ניחוש נכון = נקודה לנו וגם לצוות של השם. סה״כ ניחושים נכונים: <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 8. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>כרטיס המותג</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. שופט ה-AI מקבל את שלוש השורות הראשונות.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:21%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">התאמה לערך<small>השם והסלוגן אומרים מה הלקוח מקבל</small></td><td>השם לא קשור למוצר</td><td>קשור למוצר, אבל לא למה שהלקוח מקבל</td><td>השם או הסלוגן רומזים מה הלקוח מקבל</td><td>השם והסלוגן יחד אומרים את הערך, וצוותים אחרים ניחשו מה המוצר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">זכיר ושונה<small>קצר, קל, לא דומה לאחרים</small></td><td>ארוך, קשה להגייה או דומה למותג קיים</td><td>קל להגייה, אבל רגיל (כמו הרבה שמות)</td><td>קצר וקל, ונכתב נכון בטלפון שבור (3/4 ומעלה)</td><td>קצר, מפתיע ושונה מהמתחרים, ורוב הכיתה זכרה אותו במבחן הזיכרון</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">בדיקה ונימוק<small>תהליך</small></td><td>לא בדקנו</td><td>1–2 בדיקות, בלי תיעוד</td><td>4 בדיקות מתועדות לשם הסופי, ו"למה השם הזה"</td><td>4 בדיקות לכל 3 המועמדים, ו-3 פסילות עם סיבה ברורה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">שקיפות ובדיקת AI<small>מה ה-AI עשה ומה אנחנו</small></td><td>לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI"</td><td>כתוב באיזה כלי, למה ומה בדקנו</td><td>מה ה-AI הציע, מה שמרנו, מה שינינו ולמה, וטעות של AI שתפסנו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>⚖️ מה שופט ה-AI מקבל</h3><p class="mini">שלוש השורות הראשונות, ועוד שורה: "סלוגן עד 6 מילים שמתאים לשם". הוא שופט רק לפי מה שכתוב בכרטיס, ולכן כרטיס ברור מנצח כרטיס עם רעיון טוב שלא נכתב.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> "קופסת הפסקה" · "משחקים בהפסקה". 4 בדיקות לשם הסופי עם ✓. "למה השם": "כי זה מה שהמוצר". בשקיפות: "Gemini עזר לנו עם רעיונות". מבינים מה זה, אבל הסלוגן לא מבטיח כלום, ואין פסילות.</p>
+    <p style="font-size:9.2pt"><b>🚀 רמה 4:</b> "קופסת הפסקה" · "קופסה פתוחה, הפסקה שמחה". "שם מתאר: מבינים מיד מה יש בקופסה ומתי משתמשים בה, ואצלנו משאילים ומחזירים". 3 פסילות: הפסקופסה (2/4 בטלפון שבור), תיבת האוצר (חנויות בגוגל), פסקי (לא רומז). בשקיפות: Gemini אמר ש"תיבת האוצר" פנוי, והחיפוש הראה שלא.</p></div></div>
+</section>
+
+<!-- ===================== 9. AI TRANSPARENCY ===================== -->
+<section class="page" id="p-ai" data-label="שקיפות AI">
+  <div class="ph"><div class="l"><i>TIE</i>שקיפות AI · נכנס לכל תוצר</div><div class="r">2 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לחצי. ממלאים במהלך ספרינט 2, ומעתיקים לשקף ביומן ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="ai">
+      <div class="head"><b>🤖 שקיפות AI</b><span>צוות: <span class="fill"></span> · שיעור: 12</span></div>
+      <div class="row"><span>הרמזור בספרינט</span><div>☐ 🔴 בלי AI &nbsp; ☐ 🟡 רעיונות וטיוטות &nbsp; ☐ 🟢 שותף שבודקים</div></div>
+      <div class="row"><span>באיזה כלי</span><div class="ln"></div></div>
+      <div class="row"><span>למה השתמשנו בו</span><div class="ln"></div></div>
+      <div class="row two"><span>הפרומפט העיקרי</span><div class="ln"></div></div>
+      <div class="row"><span>מה שמרנו</span><div class="ln"></div></div>
+      <div class="row two"><span>מה שינינו, ולמה</span><div class="ln"></div></div>
+      <div class="row"><span>מה בדקנו, ואיך</span><div class="ln"></div></div>
+      <div class="row"><span>טעות של AI שתפסנו</span><div class="ln"></div></div>
+      <p style="font-size:8.6pt;color:var(--muted)">☐ לא השתמשנו ב-AI בתוצר הזה.</p>
+    </div>
+    <div class="ai">
+      <div class="head"><b>🤖 שקיפות AI</b><span>צוות: <span class="fill"></span> · שיעור: 12</span></div>
+      <div class="row"><span>הרמזור בספרינט</span><div>☐ 🔴 בלי AI &nbsp; ☐ 🟡 רעיונות וטיוטות &nbsp; ☐ 🟢 שותף שבודקים</div></div>
+      <div class="row"><span>באיזה כלי</span><div class="ln"></div></div>
+      <div class="row"><span>למה השתמשנו בו</span><div class="ln"></div></div>
+      <div class="row two"><span>הפרומפט העיקרי</span><div class="ln"></div></div>
+      <div class="row"><span>מה שמרנו</span><div class="ln"></div></div>
+      <div class="row two"><span>מה שינינו, ולמה</span><div class="ln"></div></div>
+      <div class="row"><span>מה בדקנו, ואיך</span><div class="ln"></div></div>
+      <div class="row"><span>טעות של AI שתפסנו</span><div class="ln"></div></div>
+      <p style="font-size:8.6pt;color:var(--muted)">☐ לא השתמשנו ב-AI בתוצר הזה.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 12</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">שאלת השיעור: איזו בדיקה הכי שינתה את ההחלטה שלנו על השם, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 12</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">שאלת השיעור: איזו בדיקה הכי שינתה את ההחלטה שלנו על השם, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 12</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">שאלת השיעור: איזו בדיקה הכי שינתה את ההחלטה שלנו על השם, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 12</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">שאלת השיעור: איזו בדיקה הכי שינתה את ההחלטה שלנו על השם, ולמה?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 11. CERTIFICATES ===================== -->
+<section class="page" id="p-certs" data-label="תעודות">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · תעודות לטקס</div><div class="r">6 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור ל-6. ממלאים את שם הצוות בזמן הטקס, ומצלמים את הצוות עם התעודה (רק את התעודה, בלי פנים, אם מעלים לתיקייה).</p>
+  <div class="cutgrid certs">
+    <div class="cert c-gold"><span class="em">🥇</span><span class="k">גלריית המותגים · שיעור 12</span><b>מקום ראשון</b><small>הכי הרבה נקודות בתחרות השם והסלוגן</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+    <div class="cert c-silver"><span class="em">🥈</span><span class="k">גלריית המותגים · שיעור 12</span><b>מקום שני</b><small>שם וסלוגן שהקהל לא שכח</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+    <div class="cert c-bronze"><span class="em">🥉</span><span class="k">גלריית המותגים · שיעור 12</span><b>מקום שלישי</b><small>כרטיס מותג שמדבר לבד</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+    <div class="cert c-mem"><span class="em">🧠</span><span class="k">פרס קטגוריה</span><b>השם הכי זכיר</b><small>הכי הרבה ידיים במבחן הזיכרון</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+    <div class="cert c-judge"><span class="em">⚖️</span><span class="k">פרס קטגוריה</span><b>בחירת השופט</b><small>שופט ה-AI בחר, והכיתה הסכימה</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+    <div class="cert c-cut"><span class="em">🗑️</span><span class="k">פרס קטגוריה</span><b>הפסילה הכי חכמה</b><small>שם שנפסל בזכות בדיקה, עם הסיבה הכי טובה</small><div class="who"></div><span class="sig">ועדת השמות של החממה</span></div>
+  </div>
+</section>
+
+<!-- ===================== 12. INSTRUCTOR SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · אותן עמודות כמו בלוח הניקוד שבמצגת</span><h2>דף <span>הניקוד</span></h2></div><p>מגבה את הלוח החי במצגת. ממלאים בעיפרון תוך כדי, ובסוף מעתיקים לגיליון המעקב של הקורס.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:26mm">צוות</th><th>ביניים<br><small>3</small></th><th>ניחושים<br><small>1 לכל</small></th><th>בדיקות<br><small>עד 4</small></th><th>סלוגן<br><small>2</small></th><th>פסילות<br><small>2</small></th><th>הגשה<br><small>3</small></th><th>מדבקות<br><small>8/5/3</small></th><th>זיכרון<br><small>2</small></th><th>פרסים<br><small>3 לכל</small></th><th style="background:var(--teal-soft)">סה״כ</th><th>רמה במחוון<br><small>1–4</small></th></tr></thead>
+    <tbody>
+      <tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🗳️ ספירת התערוכה ושופט ה-AI</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:26mm">צוות</th><th>מדבקות (סימון בקווים)</th><th style="width:18mm">סה״כ</th><th style="width:18mm">מקום</th><th style="width:32mm">ציון שופט ה-AI</th><th style="width:22mm">זיכרון: רוב?</th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td>☐</td></tr><tr><td class="e">🐙</td><td></td><td></td><td></td><td></td><td>☐</td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ נקודת ביקורת: מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסי קטגוריה</h3><p class="mini">השם הכי זכיר: <span class="fill"></span></p><p class="mini" style="margin-top:1.4mm">בחירת השופט: <span class="fill"></span> · הכיתה הסכימה? ☐ כן ☐ לא</p><p class="mini" style="margin-top:1.4mm">הפסילה הכי חכמה: <span class="fill"></span></p></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחה של שיעור 13</h3><div class="lines h2"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה המלווה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 13. GALLERY SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט התערוכה">
+  <div class="ph"><div class="l"><i>TIE</i>גלריית המותגים · שלט הכניסה</div><div class="r">לתלות ליד הקיר</div></div>
+  <div class="sign">
+    <span class="em">🖼️</span>
+    <h1>גלריית <span>המותגים</span></h1>
+    <p>תערוכת השמות והסלוגנים של מחזור החממה. כל כרטיס מדבר בעד עצמו.</p>
+    <ol>
+      <li>מסתובבים בשקט, עם כיוון השעון.</li>
+      <li>3 מדבקות לכל מבקר. לא על הכרטיס של הצוות שלכם.</li>
+      <li>פתק אחד לפחות: "אהבתי ש…" או "הלוואי ש…".</li>
+      <li>תזכרו את השמות: בטקס יש מבחן זיכרון.</li>
+    </ol>
+    <p style="font-size:11pt">ועדת השמות של החממה · Tech It Easy</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

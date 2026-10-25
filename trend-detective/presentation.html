@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>בלשי טרנדים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== בלשי טרנדים · lesson add-ons (the kit engine styles above are untouched) — light theme tokens only ===== */
+.journey{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;max-width:1180px}
+.journey .jl{flex-basis:100%;font-family:var(--display);font-weight:600;color:var(--muted);font-size:16px}
+.journey .j{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:16px;font-weight:500;box-shadow:var(--shadow-sm)}
+.journey .j b{font-family:var(--display);font-size:13px;color:var(--dim)}
+.journey .j.now{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-ink);font-weight:700;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
+.journey .j.now b{color:var(--accent-ink)}
+.caseFile{display:flex;gap:14px;align-items:center;margin-top:14px;max-width:1150px;width:fit-content;padding:11px 18px;border:1.5px dashed #dccfb5;border-radius:16px;background:#fffdf8;font-size:clamp(16px,1.6vw,21px);color:var(--ink)}
+.caseFile .ce{font-size:30px;line-height:1}.caseFile b{font-family:var(--display)}
+.prompt{position:relative;padding-left:124px}
+.prompt.small{font-size:clamp(16px,1.6vw,21px);margin-top:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.note{margin-top:14px;max-width:1150px;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft);border-radius:16px;padding:11px 18px;font-size:clamp(17px,1.7vw,22px);line-height:1.5;color:var(--ink)}
+.note b{color:var(--accent-ink)}
+.checks{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;max-width:1200px}
+.checks span{padding:8px 13px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,20px);font-weight:500}
+.slide>*{flex-shrink:0}
+.slide.tight h2{font-size:clamp(28px,3.5vw,50px);margin:10px 0 8px}
+.bottomRow{align-items:stretch;flex-wrap:nowrap;max-width:1200px}.bottomRow .timer{flex:none;margin-top:14px}.bottomRow .liveBtn{flex:none;margin-top:14px}.bottomRow .quick{flex:1;min-width:0}
+.tfRow button[data-v]{white-space:nowrap}
+/* charts (SVG, drawn inline) */
+.chart{margin-top:12px;max-width:820px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:12px 14px 6px;position:relative}
+.chart .chHead{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink);padding:0 4px}
+.chart .chHead .legend{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:16px;color:var(--muted)}
+.chart .chHead .legend i{display:inline-block;width:14px;height:4px;border-radius:2px;background:#0f766e}
+.fake{font-family:var(--body);font-weight:700;font-size:13px;color:var(--warn);background:var(--warn-bg);border:1px solid #efd9a0;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.chartSvg{display:block;width:100%;height:auto;font-family:var(--body)}
+.quizChart{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:center;max-width:1250px}
+.quizChart .options{grid-template-columns:1fr!important;margin-top:10px!important}
+.quizChart .option{padding:11px 16px}
+/* agenda: the 4 stages of today */
+.agenda{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px;max-width:1220px;counter-reset:ag}
+.agenda .st{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:18px 18px 16px;counter-increment:ag}
+.agenda .st::after{content:"←";position:absolute;left:-13px;top:50%;transform:translateY(-50%);color:var(--dim);font-weight:800;font-size:18px}
+.agenda .st:last-child::after{display:none}
+.agenda .st .em{font-size:32px;line-height:1}
+.agenda .st b{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:8px 0 4px}
+.agenda .st p{margin:0;color:var(--muted);font-size:17px;line-height:1.45}
+.agenda .st small{display:inline-block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:14px;background:var(--accent-soft);border-radius:999px;padding:2px 10px}
+.deliver{display:flex;align-items:center;gap:14px;margin-top:16px;max-width:1220px;padding:13px 18px;border-radius:18px;border:1px solid #bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff);font-size:clamp(17px,1.7vw,22px)}
+.deliver .em{font-size:30px}
+/* role cards today */
+.roleGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
+.roleGrid .card{padding:16px 15px}
+.roleGrid .card strong{font-size:20px;margin:8px 0 4px}
+.roleGrid .card p{font-size:16px}
+.rowFlex{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+/* live Trends links */
+.liveBtn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:9px 16px;border-radius:12px;border:1px solid #bcd3ee;background:#f1f6fd;color:var(--sky-ink);font-weight:700;font-size:17px;text-decoration:none;box-shadow:var(--shadow-sm)}
+.liveBtn:hover{background:#e7f0fa;border-color:var(--sky)}
+.liveBtn small{font-weight:500;color:var(--muted)}
+/* forecast duel */
+.duelQ{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;max-width:1150px}
+.term{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:20px;text-align:center;position:relative}
+.term .tl{position:absolute;top:12px;right:14px;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:22px;color:#fff;background:var(--accent-ink)}
+.term b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,52px);line-height:1.15;margin:6px 0}
+.term p{margin:0;color:var(--muted);font-size:17px}
+.term.en b{direction:ltr}
+.guess{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;max-width:1150px}
+.guess .card{padding:18px 22px}
+.guess .card .emoji{width:46px;height:46px;font-size:26px}.guess .card strong{margin:6px 0 2px}
+.guess .card .ans{margin-top:10px;padding:10px 14px;border-radius:14px;background:var(--accent-soft);border:1px solid var(--accent-line);font-size:clamp(17px,1.6vw,21px);line-height:1.45;color:var(--ink)}
+.guess .card .ans b{color:var(--accent-ink)}
+.cardsRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.fc{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font-family:var(--display);font-weight:700;font-size:19px;box-shadow:var(--shadow-sm)}
+.fc i{font-style:normal;font-size:22px}
+/* quick points strip (who was right) */
+.quick{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;padding:10px 12px;border:1px dashed #d9d3c7;border-radius:16px;background:#fffefb;max-width:1200px}
+.quick .qLabel{font-family:var(--display);font-weight:700;font-size:15px;color:var(--muted);margin-inline-end:4px}
+.quick .qChip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:700;font-size:15px;color:var(--ink);transition:.15s}
+.quick .qChip:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.quick .qChip.on{border-color:#86cfa0;background:var(--good-bg);color:var(--good)}
+.quick .qChip b{font-family:var(--display);margin-inline-start:4px;color:var(--accent-ink)}
+.quick .qUndo{margin-inline-start:auto;font-size:14px;padding:5px 10px}
+/* scoreboard */
+.board{margin-top:16px;max-width:1180px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+.bRow{display:grid;grid-template-columns:44px minmax(150px,240px) minmax(0,1fr) 74px auto;gap:12px;align-items:center;padding:5px 14px;border-bottom:1px solid var(--line2);transition:background .3s}
+.bRow:last-of-type{border-bottom:0}
+.bRank{font-family:var(--display);font-weight:800;font-size:20px;color:var(--dim);text-align:center}
+.bName{font-family:var(--display);font-weight:700;font-size:clamp(17px,1.7vw,22px);padding:3px 8px;border-radius:10px;outline:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bName:focus{background:#fffef4;box-shadow:0 0 0 2px var(--accent-line)}
+.bBar{height:16px;border-radius:99px;background:var(--paper2);overflow:hidden}
+.bBar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.bPts{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.4vw,32px);font-variant-numeric:tabular-nums;text-align:center;color:var(--ink)}
+.bBtns{display:flex;gap:5px}
+.bBtns button{border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:4px 9px;font-weight:700;font-size:15px;color:var(--ink);direction:ltr}
+.bBtns button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.bRow.lead{background:#fffaf0}.bRow.lead .bBar i{background:linear-gradient(90deg,#f4c46b,#e3a82b)}
+.bRow.lead .bRank{color:#b7791f}
+.bTools{display:flex;flex-wrap:wrap;gap:8px;padding:9px 14px;border-top:1px solid var(--line);background:var(--paper)}
+.bTools button{font-size:14px;padding:6px 11px}
+.board.final .m1 .bRank::before{content:"🥇"}.board.final .m2 .bRank::before{content:"🥈"}.board.final .m3 .bRank::before{content:"🥉"}
+.board.final :is(.m1,.m2,.m3) .bRank{font-size:0}.board.final :is(.m1,.m2,.m3) .bRank::before{font-size:26px}
+.board.final .bRow{padding-top:3px;padding-bottom:3px}
+.board.compact .bRow{padding:6px 14px}.board.compact .bBtns{display:none}.board.compact .bRow{grid-template-columns:44px minmax(150px,240px) minmax(0,1fr) 74px}
+/* jury vote (team names come from the scoreboard) */
+.jury{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:10px;margin-top:16px;max-width:1200px}
+.jItem{border:1px solid var(--line);border-radius:18px;padding:12px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.jItem b{display:block;font-family:var(--display);font-weight:700;font-size:18px;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jItem .jc{display:flex;align-items:center;justify-content:center;gap:8px}
+.jItem .jc button{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:var(--paper);font-size:20px;font-weight:700;line-height:1;color:var(--ink)}
+.jItem .jc output{min-width:36px;font-family:var(--display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
+.jItem .bar{margin-top:10px}
+.jItem.top{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+.juryTools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.juryTools .done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+/* score tables side by side */
+.twoTables{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1240px;align-items:start}
+.twoTables .tableWrap{margin-top:12px}
+.twoTables table.t{font-size:clamp(14px,1.35vw,18px)}
+.twoTables table.t th,.twoTables table.t td{padding:7px 12px}
+.twoTables table.t td:last-child{white-space:nowrap;font-family:var(--display);font-weight:700;color:var(--accent-ink);text-align:center}
+.twoTables table.t tr.neg td:last-child{color:var(--bad)}
+.winLine{margin-top:10px;font-size:clamp(15px,1.45vw,19px);color:var(--muted);max-width:1240px}
+.winLine b{color:var(--ink)}
+/* rubric on the projector */
+table.t.rub{font-size:clamp(13px,1.25vw,17px);table-layout:fixed}
+table.t.rub th,table.t.rub td{padding:8px 10px;vertical-align:top;line-height:1.35}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;color:var(--ink);width:15%}
+table.t.rub th:nth-child(2),table.t.rub td:nth-child(2){background:#fdf6f1}
+table.t.rub th:nth-child(3),table.t.rub td:nth-child(3){background:#fefaee}
+table.t.rub th:nth-child(4),table.t.rub td:nth-child(4){background:#f2f9f4}
+table.t.rub th:nth-child(5),table.t.rub td:nth-child(5){background:#ecf6f4}
+table.t.rub tr.reveal{transition:opacity .4s,transform .4s,filter .4s}
+/* levels */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;max-width:1200px}
+.lv{border:1px solid var(--line);border-radius:20px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow)}
+.lv .pill{display:inline-block;border-radius:999px;padding:3px 12px;font-family:var(--display);font-weight:700;font-size:15px}
+.lv.b .pill{background:var(--good-bg);color:var(--good)}.lv.r .pill{background:var(--warn-bg);color:var(--warn)}.lv.c .pill{background:var(--bad-bg);color:var(--bad)}
+.lv ul{margin:10px 0 0;padding-inline-start:20px;font-size:clamp(15px,1.5vw,19px);line-height:1.5;color:var(--ink)}
+.prizes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;max-width:1200px}
+.prize{display:flex;gap:12px;align-items:center;border:1px dashed #e3c77a;border-radius:18px;background:#fffbf0;padding:12px 16px;font-size:clamp(15px,1.5vw,19px)}
+.prize .em{font-size:30px}
+.prize b{font-family:var(--display)}
+/* sprint header line */
+.sprintTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.light{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:16px;border:1px solid var(--line);background:var(--card)}
+.light.y{background:#fdf3d7;border-color:#efd9a0;color:#7a4d00}.light.g{background:#e7f6ec;border-color:#bfe3cb;color:#14532d}.light.r{background:#fdebe3;border-color:#f2cdbb;color:#9a3412}
+.milestones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;max-width:1200px}
+.ms{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:11px 16px;font-size:clamp(15px,1.5vw,19px);box-shadow:var(--shadow-sm)}
+.ms b{font-family:var(--display);color:var(--accent-ink)}
+.sprintGrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start;max-width:1240px}
+.sprintGrid .task{margin-top:12px}
+.sprintGrid .task li{font-size:clamp(16px,1.55vw,19px)}
+.sideTimer{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+.sideTimer .timer{width:auto;justify-content:center}
+/* shapes of graphs */
+.shapes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.shape{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:10px 12px 12px}
+.shape .sh{font-family:var(--display);font-weight:700;font-size:16px;color:var(--muted)}
+.shape svg{display:block;width:100%;height:auto;margin:6px 0}
+.shape .lab{padding:8px 10px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent-line);font-size:clamp(14px,1.35vw,17px);line-height:1.4}
+.shape .lab b{font-family:var(--display);color:var(--accent-ink)}
+/* Better Place facts */
+.facts2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;max-width:1240px;align-items:start}
+.timeline{display:grid;gap:8px;margin-top:12px}
+.tlRow{display:grid;grid-template-columns:86px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:14px;background:var(--card);padding:9px 14px;box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,19px)}
+.tlRow b{font-family:var(--display);font-weight:800;color:var(--accent-ink);font-size:20px}
+.sideCase{margin-top:12px;border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:14px 16px;font-size:clamp(15px,1.4vw,18px);line-height:1.5}
+.sideCase b{font-family:var(--display)}
+.bigQ{margin-top:12px;border-radius:18px;padding:14px 18px;background:#fff8ea;border:1px solid #f0dcaa;font-family:var(--display);font-weight:700;font-size:clamp(18px,1.9vw,25px);line-height:1.35;color:#5c3b00}
+/* traps */
+.traps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.trap{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:13px 15px}
+.trap .em{font-size:26px}.trap b{display:block;font-family:var(--display);font-weight:700;font-size:19px;margin:4px 0 3px}
+.trap p{margin:0;color:var(--muted);font-size:clamp(14px,1.35vw,17px);line-height:1.45}
+.trap .ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.trap .ex span{padding:3px 10px;border-radius:999px;background:var(--paper2);border:1px solid var(--line);font-weight:700;font-size:15px}
+/* steps tighter */
+.steps.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+.steps.tight .step{padding:14px 14px}.steps.tight .step strong{font-size:18px}.steps.tight .step p{font-size:15.5px}
+.formula{display:grid;gap:8px;margin-top:12px;max-width:1200px}
+.formula div{display:grid;grid-template-columns:200px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:9px 14px;font-size:clamp(15px,1.45vw,18px)}
+.formula code{direction:ltr;unicode-bidi:isolate;text-align:left;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(15px,1.5vw,19px);background:#f8f6f1;border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--ink)}
+.formula span{font-weight:700}
+/* evidence score */
+.evGrid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:16px;align-items:start;max-width:1240px}
+table.t.ev{font-size:clamp(13px,1.25vw,16.5px)}
+table.t.ev th,table.t.ev td{padding:7px 10px;vertical-align:top;line-height:1.35}
+table.t.ev td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+.meter{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;margin-top:12px}
+.meter .mBar{display:grid;grid-template-columns:4fr 3fr 3fr;border-radius:999px;overflow:hidden;margin:8px 0;height:18px}
+.meter .mBar i:nth-child(1){background:#f6d3c3}.meter .mBar i:nth-child(2){background:#f8e3a6}.meter .mBar i:nth-child(3){background:#bfe3cb}
+.meter .mLab{display:grid;grid-template-columns:4fr 3fr 3fr;font-size:14.5px;font-weight:700;color:var(--muted)}
+.meter p{margin:6px 0 0;font-size:clamp(14px,1.35vw,17px);line-height:1.45}
+/* submission */
+.linkSlot{display:inline-block;min-width:280px;padding:6px 14px;border-radius:12px;border:1.5px dashed var(--accent-line);background:var(--accent-soft);font-family:var(--display);font-weight:800;font-size:clamp(24px,2.6vw,36px);color:var(--accent-ink);direction:ltr;outline:none}
+.subGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1240px;margin-top:12px}
+.subGrid .box{font-size:clamp(15px,1.45vw,19px)}
+.subGrid ul{margin:4px 0 0;padding-inline-start:20px;line-height:1.55}
+.fname{direction:rtl;font-family:var(--display);font-weight:700;background:#f8f6f1;border:1px solid var(--line);border-radius:10px;padding:5px 10px;display:inline-block}
+/* court */
+.courtRules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1240px}
+.verdicts{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.verdicts span{padding:9px 16px;border-radius:14px;font-family:var(--display);font-weight:700;font-size:clamp(16px,1.6vw,21px);border:1px solid var(--line);background:var(--card)}
+.verdicts .v1{border-color:#bfe3cb;background:var(--good-bg);color:#14532d}.verdicts .v2{border-color:#f2cdbb;background:var(--bad-bg);color:#9a3412}.verdicts .v3{border-color:#efd9a0;background:var(--warn-bg);color:#7a4d00}
+.qCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;max-width:1240px}
+.qCard{border:1px solid #f2cdbb;border-radius:16px;background:linear-gradient(180deg,#fff8f4,#fff);padding:12px 14px;font-size:clamp(14px,1.35vw,17.5px);line-height:1.4;box-shadow:var(--shadow-sm)}
+.qCard b{display:block;font-family:var(--display);color:var(--bad);font-size:14px;margin-bottom:3px}
+.standGrid{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;max-width:1240px}
+.standGrid .timer output{font-size:clamp(54px,7vw,96px)}
+.frame{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:14px 18px;font-size:clamp(17px,1.8vw,24px);line-height:1.6}
+.frame b{font-family:var(--display);color:var(--accent-ink)}
+.move{font-size:clamp(70px,10vw,140px);line-height:1}
+@media (max-height:800px){
+ .note{padding:8px 14px;margin-top:9px}.checks{margin-top:9px}.caseFile{margin-top:9px;padding:8px 14px}.journey{margin-top:10px}
+ .chart{padding:8px 10px 2px}.agenda{margin-top:12px}.agenda .st{padding:13px 14px}.agenda .st b{font-size:19px}.agenda .st p{font-size:15.5px}
+ .roleGrid .card{padding:12px}.roleGrid .card p{font-size:14.5px}.roleGrid .card strong{font-size:18px}
+ .bRow{padding:2px 12px}.bPts{font-size:21px}.bName{font-size:17px;padding:1px 6px}.bBtns button{padding:2px 8px;font-size:14px}.bTools{padding:5px 12px}.bTools button{padding:4px 9px}.board{margin-top:10px}.board.final .bRank::before{font-size:20px!important}
+ .cp .checks{margin-top:4px}.cp .checks span{padding:5px 11px}.cp h2{margin:6px 0 4px}.cp .card{padding:10px 12px}
+ .cp .card .emoji{display:none}.cp .card p{font-size:14.5px}.cp .cards{margin-top:10px}.bottomRow .timer{margin-top:10px}.prizes{margin-top:9px}.prize{padding:8px 14px}.quick{margin-top:9px;padding:7px 10px}
+ .term{padding:14px}.duelQ,.guess{margin-top:10px}.levels{margin-top:10px}.lv{padding:12px 14px}
+ .shape{padding:8px 10px}.traps{margin-top:10px}.trap{padding:10px 12px}
+ .tlRow{padding:6px 12px}.timeline{gap:6px}.bigQ{padding:10px 14px}
+ .courtRules .card{padding:12px}.qCards{margin-top:10px}
+ table.t.rub th,table.t.rub td{padding:6px 9px}
+}
+@media (max-width:1100px){.roleGrid{grid-template-columns:repeat(3,1fr)}.agenda,.shapes,.courtRules,.qCards{grid-template-columns:1fr 1fr}.agenda .st::after{display:none}}
+@media (max-width:900px){.quizChart,.guess,.duelQ,.twoTables,.facts2,.evGrid,.sprintGrid,.subGrid,.prizes,.levels,.milestones{grid-template-columns:1fr}.traps{grid-template-columns:1fr 1fr}.bRow{grid-template-columns:34px 1fr 60px;row-gap:4px}.bBar{grid-column:1/-1;order:5}.bBtns{grid-column:1/-1}}
+@media (max-width:760px){.prompt{padding-left:22px;padding-top:56px}.roleGrid,.traps,.agenda,.shapes,.courtRules,.qCards{grid-template-columns:1fr}.caseFile{width:auto}.formula div{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">📈</div><div><b>בלשי טרנדים</b><small>היחידה לבילוש דיגיטלי · האם הבעיה גדולה?</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- ===================== פתיחה (0–5) ===================== -->
+<section class="slide hero" data-topic="פתיחה" data-title="היחידה לבילוש דיגיטלי">
+  <span class="kicker">🕵️ Tech It Easy · יזמות · שיעור 8 מתוך 30</span>
+  <h2>בלשי <span class="cyan">טרנדים</span></h2>
+  <p class="lead">היחידה לבילוש דיגיטלי פותחת היום <b>תיק לכל צוות</b>. בכל תיק יש שאלה אחת: <b>האם הבעיה שלכם גדולה מספיק?</b> גוגל יודע מה אנשים מחפשים. אנחנו נבדוק אם מישהו מחפש את הבעיה שלכם.</p>
+  <div class="journey">
+    <span class="jl">🧭 שלב 3 מתוך 10: בעיה ופתרון</span>
+    <span class="j"><b>7</b>כרטיס לקוח</span>
+    <span class="j now"><b>8</b>בלשי טרנדים 🕵️</span>
+    <span class="j"><b>9</b>משפט הרעיונות</span>
+  </div>
+  <div class="caseFile"><span class="ce">🗂️</span><span><b>התיק לדוגמה: קופסת הפסקה.</b> ארגז משחקים וציוד ספורט שמשאילים בהפסקות, והתלמידים מנהלים אותו בעצמם.</span></div>
+</section>
+
+<section class="slide quiz" data-topic="פתיחה" data-title="חימום: מתי מחפשים מזגן?" data-answer="3" data-accent="#f4a259">
+  <span class="kicker">🔮 חימום · ניחוש לפני הגרף</span>
+  <h2>באיזו עונה ישראלים מחפשים בגוגל הכי הרבה <span class="yellow">"מזגן"</span>?</h2>
+  <p class="lead">כל אחד בוחר בלב, ואז מצביעים בידיים. אחר כך בודקים בגרף אמיתי.</p>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>❄️ חורף</span></button>
+    <button class="option"><span class="letter">ב</span><span>🌸 אביב</span></button>
+    <button class="option"><span class="letter">ג</span><span>☀️ קיץ</span></button>
+    <button class="option"><span class="letter">ד</span><span>🍂 סתיו</span></button>
+  </div>
+  <div class="explain">✓ קיץ! חם, והמזגן מתקלקל בדיוק כשהכי צריך אותו. עכשיו בגרף: האם זה חוזר כל קיץ? ויש גם קפיצה קטנה לפני החורף? למה?</div>
+  <a class="liveBtn" href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=IL&amp;q=%D7%9E%D7%96%D7%92%D7%9F&amp;hl=iw" target="_blank" rel="noopener">📈 פותחים את הגרף האמיתי <small>ישראל · 5 שנים</small></a>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל צוות יהיה <span class="cyan">תיק ראיות</span></h2>
+  <div class="agenda">
+    <div class="st"><div class="em">🔮</div><b>דו-קרב התחזיות</b><p>מנחשים מה אנשים מחפשים, ובודקים על המסך.</p><small>נקודה לכל תחזית נכונה</small></div>
+    <div class="st"><div class="em">🔤</div><b>ציד המילים</b><p>5 ניסוחים של הבעיה שלכם ב-Google Trends.</p><small>ספרינט 1 · 18 דק׳</small></div>
+    <div class="st"><div class="em">📊</div><b>מעבדת הנתונים</b><p>מורידים את הנתונים ל-Sheets ומוצאים את חודש השיא.</p><small>ספרינט 2 · 15 דק׳</small></div>
+    <div class="st"><div class="em">⚖️</div><b>בית המשפט לביקוש</b><p>60 שניות לכל תיק, והכיתה היא חבר המושבעים.</p><small>8 / 5 / 3 נקודות</small></div>
+  </div>
+  <div class="deliver"><span class="em">📄</span><span><b>התוצר:</b> שקף "ראיות לביקוש" ביומן הסטארט-אפ: גרף מ-Trends, ממוצע לפי חודש מ-Sheets, מסקנה אחת, מגבלה אחת וטבלת ציון ראיות.</span></div>
+</section>
+
+<!-- ===================== צוותים ותפקידים (5–9) ===================== -->
+<section class="slide tight" data-topic="צוותים ותפקידים" data-title="התפקיד שלך היום">
+  <span class="kicker">👥 הכרטיסים עוברים שמאלה</span>
+  <h2>התפקיד שלך <span class="cyan">בתיק הזה</span></h2>
+  <div class="roleGrid">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>מרים/ה את כרטיס התחזית בדו-קרב, שומר/ת על הזמן ומחליט/ה על הניסוח המנצח.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>"נהג/ת" ב-Trends: מקליד/ה ניסוחים, בודק/ת ישראל ו-5 שנים, ומחפש/ת מלכודות בשאילתות הקשורות.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>מעבדת הנתונים: מוריד/ה את הקובץ, מייבא/ת ל-Sheets, נוסחה וגרף, ומדביק/ה בשקף.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><p>ממלא/ת את יומן הציד, כותב/ת מסקנה ומגבלה, מגיש/ה ומציג/ה בבית המשפט.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><p>מריץ/ה את הפרומפטים ב-Gemini, בודק/ת כל השערה וממלא/ת את שורת שקיפות ה-AI.</p></div>
+  </div>
+  <div class="rowFlex">
+    <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="checks"><span>🔄 כרטיסים עברו</span><span>📒 יומן הסטארט-אפ פתוח</span><span>📈 trends.google.com פתוח</span><span>🃏 כרטיסי התחזית על השולחן</span></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="צוותים ותפקידים" data-title="הצוותים בזירה">
+  <span class="kicker">🏁 לוח הניקוד של היום</span>
+  <h2>הצוותים <span class="cyan">בזירה</span></h2>
+  <p class="lead">כל הצוותים מתחילים מאפס. הנקודות נצברות בכל שלב, והלוח חוזר אחרי כל סבב.</p>
+  <div class="board" data-board></div>
+</section>
+
+<!-- ===================== דו-קרב התחזיות (9–17) ===================== -->
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="איך משחקים" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="duel" aria-label="הוראות">?</button>
+  <span class="kicker">🔮 דו-קרב התחזיות</span>
+  <h2>קודם מנחשים. <span class="violet">אחר כך הגרף מחליט.</span></h2>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>שואלים שאלה על מה ישראלים מחפשים בגוגל.</li>
+    <li>לצוות יש <b>20 שניות</b> להחליט, בשקט ובלי טלפונים.</li>
+    <li>המנכ״ל/ית מרים/ה <b>כרטיס תחזית אחד</b>. אחרי ספירה לשלוש אין שינויים.</li>
+    <li>פותחים את הגרף האמיתי. <b>תחזית נכונה = נקודה.</b></li>
+  </ol></div>
+  <div class="cardsRow"><span class="fc"><i>🅰️</i>א</span><span class="fc"><i>🅱️</i>ב</span><span class="fc"><i>❄️</i>חורף</span><span class="fc"><i>🌸</i>אביב</span><span class="fc"><i>☀️</i>קיץ</span><span class="fc"><i>🍂</i>סתיו</span><span class="fc"><i>📈</i>מגמה</span><span class="fc"><i>🔁</i>עונה</span><span class="fc"><i>➖</i>שטוח</span></div>
+  <div class="timer" data-seconds="20"><output>00:20</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="סבב 1: סופגניות ותחפושת" data-accent="#8c7ae6">
+  <span class="kicker">🔮 סבב 1 מתוך 4 · כרטיסי עונה</span>
+  <h2>מתי בשנה החיפוש של אלה <span class="violet">קופץ</span>?</h2>
+  <div class="guess">
+    <div class="card"><div class="emoji">🍩</div><strong>"סופגניות"</strong><p>הרימו כרטיס עונה.</p>
+      <div class="ans reveal">לפני <b>חנוכה</b>: סוף הסתיו ותחילת החורף (נובמבר–דצמבר). השיא זז קצת בכל שנה, כי חנוכה נקבע לפי הלוח העברי.</div></div>
+    <div class="card"><div class="emoji">🎭</div><strong>"תחפושת"</strong><p>הרימו כרטיס עונה.</p>
+      <div class="ans reveal">לפני <b>פורים</b>: סוף החורף (פברואר–מרץ). גם פורים זז בכל שנה לפי הלוח העברי.</div></div>
+  </div>
+  <div class="note reveal">🔁 קפיצה שחוזרת <b>באותה עונה כל שנה</b> נקראת <b>עונתיות</b>. היא אומרת לנו <b>מתי</b> אנשים צריכים משהו.</div>
+  <div class="rowFlex bottomRow"><a class="liveBtn" href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=IL&amp;q=%D7%A1%D7%95%D7%A4%D7%92%D7%A0%D7%99%D7%95%D7%AA,%D7%AA%D7%97%D7%A4%D7%95%D7%A9%D7%AA&amp;hl=iw" target="_blank" rel="noopener">📈 הגרף האמיתי <small>ישראל · 5 שנים</small></a><div class="quick" data-round="r1" data-val="1" data-label="✓ מי צדק בשתיהן? +1"></div></div>
+</section>
+
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="סבב 2: מטריה או מטרייה" data-accent="#8c7ae6">
+  <span class="kicker">🔮 סבב 2 מתוך 4 · כרטיס א או ב</span>
+  <h2>איזה כתיב ישראלים מחפשים <span class="violet">יותר</span>?</h2>
+  <div class="duelQ">
+    <div class="term"><span class="tl">א</span><b>מטריה</b><p>עם י׳ אחת</p></div>
+    <div class="term"><span class="tl">ב</span><b>מטרייה</b><p>עם שתי יו״דים</p></div>
+  </div>
+  <div class="note reveal">✏️ <b>אותה מילה, שני גרפים.</b> מונח חיפוש סופר רק את מה שהוקלד בדיוק. אם בודקים רק כתיב אחד, מפספסים חלק מהאנשים. לכן בודקים כמה כתיבים.</div>
+  <div class="rowFlex bottomRow"><a class="liveBtn" href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=IL&amp;q=%D7%9E%D7%98%D7%A8%D7%99%D7%94,%D7%9E%D7%98%D7%A8%D7%99%D7%99%D7%94&amp;hl=iw" target="_blank" rel="noopener">📈 בודקים בגרף <small>ישראל · 5 שנים</small></a><div class="quick" data-round="r2" data-val="1" data-label="✓ מי צדק? +1"></div></div>
+</section>
+
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="סבב 3: עברית או אנגלית" data-accent="#8c7ae6">
+  <span class="kicker">🔮 סבב 3 מתוך 4 · כרטיס א או ב</span>
+  <h2>בישראל, מה מחפשים <span class="violet">יותר</span>?</h2>
+  <div class="duelQ">
+    <div class="term"><span class="tl">א</span><b>שיעורי בית</b><p>בעברית</p></div>
+    <div class="term en"><span class="tl">ב</span><b>homework</b><p>באנגלית</p></div>
+  </div>
+  <div class="note reveal">🌍 <b>חלק מהישראלים מחפשים באנגלית,</b> בעיקר מילים של טכנולוגיה, משחקים ומותגים. בציד המילים שלכם בודקים גם ניסוח אחד באנגלית.</div>
+  <div class="rowFlex bottomRow"><a class="liveBtn" href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=IL&amp;q=%D7%A9%D7%99%D7%A2%D7%95%D7%A8%D7%99%20%D7%91%D7%99%D7%AA,homework&amp;hl=iw" target="_blank" rel="noopener">📈 בודקים בגרף <small>ישראל · 5 שנים</small></a><div class="quick" data-round="r3" data-val="1" data-label="✓ מי צדק? +1"></div></div>
+</section>
+
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="סבב 4: מגמה, עונה או שטוח" data-accent="#8c7ae6">
+  <span class="kicker">🔮 סבב 4 מתוך 4 · כרטיס צורה</span>
+  <h2>"בינה מלאכותית" ב-5 השנים האחרונות: <span class="violet">איזו צורה?</span></h2>
+  <div class="cardsRow" style="margin-top:18px"><span class="fc"><i>📈</i>מגמה: עולה או יורדת לאורך שנים</span><span class="fc"><i>🔁</i>עונה: חוזרת כל שנה</span><span class="fc"><i>➖</i>שטוח: בערך אותו דבר</span></div>
+  <div class="note reveal">📈 <b>מגמה.</b> קפיצה חדה מסוף 2022, כשכלים כמו ChatGPT נפתחו לכולם. בגרף בודקים: האם היא עדיין עולה, או שהתייצבה?</div>
+  <div class="note reveal">💡 <b>למה זה חשוב לכם?</b> עונה אומרת <b>מתי</b> למכור. מגמה עולה אומרת שהבעיה <b>גדלה</b>. שטוח עם הרבה אפסים אומר שאולי צריך ניסוח אחר.</div>
+  <div class="rowFlex bottomRow"><a class="liveBtn" href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=IL&amp;q=%D7%91%D7%99%D7%A0%D7%94%20%D7%9E%D7%9C%D7%90%D7%9B%D7%95%D7%AA%D7%99%D7%AA&amp;hl=iw" target="_blank" rel="noopener">📈 בודקים בגרף <small>ישראל · 5 שנים</small></a><div class="quick" data-round="r4" data-val="1" data-label="✓ מי צדק? +1"></div></div>
+</section>
+
+<section class="slide tight" data-topic="דו-קרב התחזיות" data-title="הלוח אחרי הדו-קרב" data-accent="#8c7ae6">
+  <span class="kicker">🏁 אחרי הדו-קרב</span>
+  <h2>מי <span class="violet">הבלש החד</span> ביותר?</h2>
+  <div class="board" data-board></div>
+  <div class="note reveal">🤔 ראיתם? <b>הניחוש שלנו טעה לא פעם.</b> בדיוק בגלל זה בודקים בנתונים, ולא סומכים על תחושה.</div>
+</section>
+
+<!-- ===================== איך קוראים גרף (17–28) ===================== -->
+<section class="slide tight" data-topic="איך קוראים גרף" data-title="מה זה Google Trends" data-accent="#4c8bd6">
+  <span class="kicker">🔎 הכלי של הבלשים</span>
+  <h2>מה זה <span class="cyan">Google Trends</span>?</h2>
+  <p class="lead">אתר חינמי של גוגל: <b>trends.google.com</b>. לא צריך להתחבר כדי לראות גרפים.</p>
+  <div class="cards">
+    <div class="card reveal"><div class="emoji">📊</div><strong>עניין יחסי</strong><p>כמה חיפשו מילה, ביחס לכל החיפושים באותו מקום ובאותו זמן.</p></div>
+    <div class="card reveal"><div class="emoji">🕶️</div><strong>מדגם, בלי שמות</strong><p>גוגל משתמש במדגם של חיפושים. אף אחד לא רואה מי חיפש מה.</p></div>
+    <div class="card reveal"><div class="emoji">🚫</div><strong>לא כמות ולא קניות</strong><p>הגרף לא אומר כמה חיפושים היו, וגם לא כמה אנשים קנו משהו.</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף</div>
+</section>
+
+<section class="slide tight" data-topic="איך קוראים גרף" data-title="100 זה לא 100 אנשים" data-accent="#4c8bd6">
+  <span class="kicker">🔢 הסוד של הגרף</span>
+  <h2>100 זה <span class="cyan">לא</span> 100 אנשים</h2>
+  <div class="rowFlex" style="align-items:center;gap:30px;flex-wrap:nowrap">
+    <div class="codeBig" style="flex:none">100</div>
+    <div class="revealList" style="margin-top:0;flex:1">
+      <div class="revealCard reveal">⛰️ <b>100</b> = הנקודה הכי גבוהה בגרף, בזמן ובמקום שבחרתם. השיא.</div>
+      <div class="revealCard reveal">🌓 <b>50</b> = חצי מהעניין שהיה בשיא.</div>
+      <div class="revealCard reveal">🫥 <b>0</b> = אין מספיק נתונים. <b>זה לא אומר שאף אחד לא חיפש.</b></div>
+      <div class="revealCard reveal">🔁 משנים מדינה, טווח זמן או מוסיפים מילה? <b>השיא משתנה</b>, וכל הגרף מחושב מחדש.</div>
+    </div>
+  </div>
+  <p class="lead reveal" style="margin-top:14px">🎓 כמו מבחן שבו הציון הכי גבוה בכיתה הופך ל-100, וכל השאר נמדדים ביחס אליו.</p>
+</section>
+
+<section class="slide quiz tight" data-topic="איך קוראים גרף" data-title="תרגול: מה אפשר להגיד?" data-answer="2" data-accent="#4c8bd6">
+  <span class="kicker">🧪 תרגול קריאת גרף</span>
+  <h2>מה <span class="cyan">אפשר</span> להגיד מהגרף הזה?</h2>
+  <div class="quizChart">
+    <div class="chart">
+      <div class="chHead"><span class="legend"><i></i>"קורקינט" · ישראל · 5 שנים</span><span class="fake">גרף לתרגול · נתונים מומצאים</span></div>
+      <svg class="chartSvg" viewBox="0 0 600 230" role="img" aria-label="גרף לתרגול" direction="ltr"><defs><linearGradient id="gP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f766e" stop-opacity=".18"/><stop offset="1" stop-color="#0f766e" stop-opacity="0"/></linearGradient></defs><line x1="44" y1="196.0" x2="588" y2="196.0" stroke="#e7e3dc" stroke-width="1"/><text x="36" y="201.0" text-anchor="end" font-size="13" fill="#5b6574">0</text><line x1="44" y1="106.0" x2="588" y2="106.0" stroke="#e7e3dc" stroke-width="1"/><text x="36" y="111.0" text-anchor="end" font-size="13" fill="#5b6574">50</text><line x1="44" y1="16.0" x2="588" y2="16.0" stroke="#e7e3dc" stroke-width="1"/><text x="36" y="21.0" text-anchor="end" font-size="13" fill="#5b6574">100</text><text x="98.4" y="220" text-anchor="middle" font-size="13" fill="#5b6574">2021</text><text x="207.2" y="220" text-anchor="middle" font-size="13" fill="#5b6574">2022</text><text x="316.0" y="220" text-anchor="middle" font-size="13" fill="#5b6574">2023</text><text x="424.8" y="220" text-anchor="middle" font-size="13" fill="#5b6574">2024</text><text x="533.6" y="220" text-anchor="middle" font-size="13" fill="#5b6574">2025</text><path d="M44.0,140.0 L53.2,141.3 L62.4,137.2 L71.7,141.8 L80.9,136.0 L90.1,129.5 L99.3,126.5 L108.5,127.6 L117.8,138.6 L127.0,136.3 L136.2,138.2 L145.4,136.5 L154.6,131.9 L163.9,126.1 L173.1,128.8 L182.3,124.2 L191.5,114.6 L200.7,98.9 L210.0,90.7 L219.2,90.6 L228.4,86.1 L237.6,87.7 L246.8,72.8 L256.1,69.2 L265.3,62.3 L274.5,55.0 L283.7,46.7 L292.9,37.0 L302.2,36.1 L311.4,22.5 L320.6,16.0 L329.8,23.9 L339.1,31.8 L348.3,40.2 L357.5,43.7 L366.7,46.7 L375.9,47.7 L385.2,55.2 L394.4,61.9 L403.6,65.6 L412.8,70.8 L422.0,70.1 L431.3,66.5 L440.5,77.7 L449.7,94.1 L458.9,97.7 L468.1,102.1 L477.4,102.8 L486.6,107.0 L495.8,113.2 L505.0,109.8 L514.2,118.7 L523.5,115.8 L532.7,106.5 L541.9,107.3 L551.1,110.4 L560.3,122.4 L569.6,119.6 L578.8,119.1 L588.0,120.9 L588,196 L44,196 Z" fill="url(#gP)"/><path d="M44.0,140.0 L53.2,141.3 L62.4,137.2 L71.7,141.8 L80.9,136.0 L90.1,129.5 L99.3,126.5 L108.5,127.6 L117.8,138.6 L127.0,136.3 L136.2,138.2 L145.4,136.5 L154.6,131.9 L163.9,126.1 L173.1,128.8 L182.3,124.2 L191.5,114.6 L200.7,98.9 L210.0,90.7 L219.2,90.6 L228.4,86.1 L237.6,87.7 L246.8,72.8 L256.1,69.2 L265.3,62.3 L274.5,55.0 L283.7,46.7 L292.9,37.0 L302.2,36.1 L311.4,22.5 L320.6,16.0 L329.8,23.9 L339.1,31.8 L348.3,40.2 L357.5,43.7 L366.7,46.7 L375.9,47.7 L385.2,55.2 L394.4,61.9 L403.6,65.6 L412.8,70.8 L422.0,70.1 L431.3,66.5 L440.5,77.7 L449.7,94.1 L458.9,97.7 L468.1,102.1 L477.4,102.8 L486.6,107.0 L495.8,113.2 L505.0,109.8 L514.2,118.7 L523.5,115.8 L532.7,106.5 L541.9,107.3 L551.1,110.4 L560.3,122.4 L569.6,119.6 L578.8,119.1 L588.0,120.9" fill="none" stroke="#0f766e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    </div>
+    <div class="options">
+      <button class="option"><span class="letter">א</span><span>ב-2023 חיפשו "קורקינט" בדיוק 100 פעמים.</span></button>
+      <button class="option"><span class="letter">ב</span><span>העניין היה הכי גבוה ב-2023, ומאז הוא יורד לאט.</span></button>
+      <button class="option"><span class="letter">ג</span><span>אנשים הפסיקו לקנות קורקינטים.</span></button>
+      <button class="option"><span class="letter">ד</span><span>100 ילדים קנו קורקינט ב-2023.</span></button>
+    </div>
+  </div>
+  <div class="explain">✓ נכון! 100 הוא השיא, לא מספר אנשים. והגרף מראה חיפושים, לא קניות: אולי פשוט כבר יש לכולם קורקינט.</div>
+</section>
+
+<section class="slide tight" data-topic="איך קוראים גרף" data-title="4 צורות של גרף" data-accent="#4c8bd6">
+  <span class="kicker">🔍 ארבע צורות שכל בלש מזהה</span>
+  <h2>מה הגרף <span class="cyan">מספר</span>?</h2>
+  <p class="lead">לפני כל חשיפה: מה לדעתכם קרה כאן?</p>
+  <div class="shapes">
+    <div class="shape"><span class="sh">גרף א</span><svg viewBox="0 0 300 126" role="img" aria-label="גרף מדומה" direction="ltr"><defs><linearGradient id="gseason" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c2630f" stop-opacity=".2"/><stop offset="1" stop-color="#c2630f" stop-opacity="0"/></linearGradient></defs><line x1="6" y1="108" x2="294" y2="108" stroke="#e7e3dc"/><line x1="6" y1="8" x2="294" y2="8" stroke="#efebe4" stroke-dasharray="3 4"/><path d="M6.0,91.1 L10.9,89.2 L15.8,90.3 L20.6,88.9 L25.5,88.7 L30.4,57.2 L35.3,12.3 L40.2,52.5 L45.1,91.0 L49.9,91.1 L54.8,86.4 L59.7,89.7 L64.6,87.4 L69.5,89.6 L74.3,88.6 L79.2,91.7 L84.1,88.7 L89.0,52.3 L93.9,9.2 L98.7,53.1 L103.6,88.4 L108.5,92.2 L113.4,87.9 L118.3,88.9 L123.2,90.7 L128.0,92.4 L132.9,87.2 L137.8,89.7 L142.7,88.1 L147.6,52.2 L152.4,8.0 L157.3,52.0 L162.2,90.1 L167.1,87.6 L172.0,89.8 L176.8,86.8 L181.7,87.2 L186.6,92.0 L191.5,91.7 L196.4,91.2 L201.3,86.6 L206.1,54.9 L211.0,8.5 L215.9,55.8 L220.8,89.5 L225.7,90.2 L230.5,90.4 L235.4,89.0 L240.3,89.0 L245.2,87.0 L250.1,88.4 L254.9,86.9 L259.8,87.3 L264.7,51.5 L269.6,8.3 L274.5,56.6 L279.4,87.3 L284.2,86.6 L289.1,87.0 L294.0,89.1 L294,108 L6,108 Z" fill="url(#gseason)"/><path d="M6.0,91.1 L10.9,89.2 L15.8,90.3 L20.6,88.9 L25.5,88.7 L30.4,57.2 L35.3,12.3 L40.2,52.5 L45.1,91.0 L49.9,91.1 L54.8,86.4 L59.7,89.7 L64.6,87.4 L69.5,89.6 L74.3,88.6 L79.2,91.7 L84.1,88.7 L89.0,52.3 L93.9,9.2 L98.7,53.1 L103.6,88.4 L108.5,92.2 L113.4,87.9 L118.3,88.9 L123.2,90.7 L128.0,92.4 L132.9,87.2 L137.8,89.7 L142.7,88.1 L147.6,52.2 L152.4,8.0 L157.3,52.0 L162.2,90.1 L167.1,87.6 L172.0,89.8 L176.8,86.8 L181.7,87.2 L186.6,92.0 L191.5,91.7 L196.4,91.2 L201.3,86.6 L206.1,54.9 L211.0,8.5 L215.9,55.8 L220.8,89.5 L225.7,90.2 L230.5,90.4 L235.4,89.0 L240.3,89.0 L245.2,87.0 L250.1,88.4 L254.9,86.9 L259.8,87.3 L264.7,51.5 L269.6,8.3 L274.5,56.6 L279.4,87.3 L284.2,86.6 L289.1,87.0 L294.0,89.1" fill="none" stroke="#c2630f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="lab reveal">🔁 <b>עונה:</b> קופץ באותו זמן כל שנה. למשל "בגד ים" בקיץ.</div></div>
+    <div class="shape"><span class="sh">גרף ב</span><svg viewBox="0 0 300 126" role="img" aria-label="גרף מדומה" direction="ltr"><defs><linearGradient id="gtrend" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a55c9" stop-opacity=".2"/><stop offset="1" stop-color="#6a55c9" stop-opacity="0"/></linearGradient></defs><line x1="6" y1="108" x2="294" y2="108" stroke="#e7e3dc"/><line x1="6" y1="8" x2="294" y2="8" stroke="#efebe4" stroke-dasharray="3 4"/><path d="M6.0,95.9 L10.9,93.2 L15.8,91.2 L20.6,88.1 L25.5,88.9 L30.4,85.5 L35.3,93.6 L40.2,87.5 L45.1,80.9 L49.9,82.6 L54.8,78.4 L59.7,85.5 L64.6,80.2 L69.5,81.1 L74.3,76.5 L79.2,74.7 L84.1,79.3 L89.0,75.6 L93.9,73.5 L98.7,65.2 L103.6,65.4 L108.5,70.4 L113.4,62.1 L118.3,67.8 L123.2,61.2 L128.0,65.0 L132.9,64.9 L137.8,54.1 L142.7,59.8 L147.6,58.2 L152.4,48.5 L157.3,48.3 L162.2,53.1 L167.1,44.4 L172.0,47.5 L176.8,44.6 L181.7,48.2 L186.6,38.8 L191.5,40.1 L196.4,35.7 L201.3,35.0 L206.1,39.9 L211.0,37.8 L215.9,38.5 L220.8,37.2 L225.7,36.6 L230.5,32.7 L235.4,28.0 L240.3,33.0 L245.2,24.3 L250.1,26.5 L254.9,25.3 L259.8,18.4 L264.7,20.6 L269.6,20.9 L274.5,17.7 L279.4,13.8 L284.2,19.3 L289.1,8.0 L294.0,16.8 L294,108 L6,108 Z" fill="url(#gtrend)"/><path d="M6.0,95.9 L10.9,93.2 L15.8,91.2 L20.6,88.1 L25.5,88.9 L30.4,85.5 L35.3,93.6 L40.2,87.5 L45.1,80.9 L49.9,82.6 L54.8,78.4 L59.7,85.5 L64.6,80.2 L69.5,81.1 L74.3,76.5 L79.2,74.7 L84.1,79.3 L89.0,75.6 L93.9,73.5 L98.7,65.2 L103.6,65.4 L108.5,70.4 L113.4,62.1 L118.3,67.8 L123.2,61.2 L128.0,65.0 L132.9,64.9 L137.8,54.1 L142.7,59.8 L147.6,58.2 L152.4,48.5 L157.3,48.3 L162.2,53.1 L167.1,44.4 L172.0,47.5 L176.8,44.6 L181.7,48.2 L186.6,38.8 L191.5,40.1 L196.4,35.7 L201.3,35.0 L206.1,39.9 L211.0,37.8 L215.9,38.5 L220.8,37.2 L225.7,36.6 L230.5,32.7 L235.4,28.0 L240.3,33.0 L245.2,24.3 L250.1,26.5 L254.9,25.3 L259.8,18.4 L264.7,20.6 L269.6,20.9 L274.5,17.7 L279.4,13.8 L284.2,19.3 L289.1,8.0 L294.0,16.8" fill="none" stroke="#6a55c9" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="lab reveal">📈 <b>מגמה:</b> עולה לאורך כמה שנים. הבעיה או התחום גדלים.</div></div>
+    <div class="shape"><span class="sh">גרף ג</span><svg viewBox="0 0 300 126" role="img" aria-label="גרף מדומה" direction="ltr"><defs><linearGradient id="gspike" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#be3455" stop-opacity=".2"/><stop offset="1" stop-color="#be3455" stop-opacity="0"/></linearGradient></defs><line x1="6" y1="108" x2="294" y2="108" stroke="#e7e3dc"/><line x1="6" y1="8" x2="294" y2="8" stroke="#efebe4" stroke-dasharray="3 4"/><path d="M6.0,94.7 L10.9,96.1 L15.8,91.9 L20.6,96.8 L25.5,92.9 L30.4,94.3 L35.3,96.9 L40.2,93.1 L45.1,97.1 L49.9,93.7 L54.8,96.8 L59.7,96.7 L64.6,93.8 L69.5,90.4 L74.3,96.4 L79.2,95.5 L84.1,92.1 L89.0,89.4 L93.9,92.5 L98.7,94.1 L103.6,89.2 L108.5,97.0 L113.4,90.2 L118.3,95.0 L123.2,96.2 L128.0,96.4 L132.9,94.8 L137.8,90.5 L142.7,95.9 L147.6,92.5 L152.4,92.0 L157.3,94.3 L162.2,61.0 L167.1,8.0 L172.0,65.2 L176.8,95.7 L181.7,91.7 L186.6,93.8 L191.5,94.8 L196.4,92.5 L201.3,93.6 L206.1,94.9 L211.0,90.7 L215.9,91.5 L220.8,95.4 L225.7,92.6 L230.5,93.0 L235.4,90.0 L240.3,91.2 L245.2,95.0 L250.1,89.1 L254.9,96.4 L259.8,93.9 L264.7,91.0 L269.6,96.1 L274.5,93.3 L279.4,97.1 L284.2,91.8 L289.1,90.9 L294.0,92.6 L294,108 L6,108 Z" fill="url(#gspike)"/><path d="M6.0,94.7 L10.9,96.1 L15.8,91.9 L20.6,96.8 L25.5,92.9 L30.4,94.3 L35.3,96.9 L40.2,93.1 L45.1,97.1 L49.9,93.7 L54.8,96.8 L59.7,96.7 L64.6,93.8 L69.5,90.4 L74.3,96.4 L79.2,95.5 L84.1,92.1 L89.0,89.4 L93.9,92.5 L98.7,94.1 L103.6,89.2 L108.5,97.0 L113.4,90.2 L118.3,95.0 L123.2,96.2 L128.0,96.4 L132.9,94.8 L137.8,90.5 L142.7,95.9 L147.6,92.5 L152.4,92.0 L157.3,94.3 L162.2,61.0 L167.1,8.0 L172.0,65.2 L176.8,95.7 L181.7,91.7 L186.6,93.8 L191.5,94.8 L196.4,92.5 L201.3,93.6 L206.1,94.9 L211.0,90.7 L215.9,91.5 L220.8,95.4 L225.7,92.6 L230.5,93.0 L235.4,90.0 L240.3,91.2 L245.2,95.0 L250.1,89.1 L254.9,96.4 L259.8,93.9 L264.7,91.0 L269.6,96.1 L274.5,93.3 L279.4,97.1 L284.2,91.8 L289.1,90.9 L294.0,92.6" fill="none" stroke="#be3455" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="lab reveal">⚡ <b>קפיצה חד-פעמית:</b> חדשות או אירוע. לא בהכרח ביקוש שנשאר.</div></div>
+    <div class="shape"><span class="sh">גרף ד</span><svg viewBox="0 0 300 126" role="img" aria-label="גרף מדומה" direction="ltr"><defs><linearGradient id="gsparse" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b6574" stop-opacity=".2"/><stop offset="1" stop-color="#5b6574" stop-opacity="0"/></linearGradient></defs><line x1="6" y1="108" x2="294" y2="108" stroke="#e7e3dc"/><line x1="6" y1="8" x2="294" y2="8" stroke="#efebe4" stroke-dasharray="3 4"/><path d="M6.0,46.2 L10.9,54.5 L15.8,43.8 L20.6,108.0 L25.5,40.1 L30.4,87.1 L35.3,108.0 L40.2,108.0 L45.1,34.5 L49.9,108.0 L54.8,10.7 L59.7,41.3 L64.6,108.0 L69.5,108.0 L74.3,90.1 L79.2,108.0 L84.1,108.0 L89.0,108.0 L93.9,56.7 L98.7,49.8 L103.6,51.5 L108.5,55.2 L113.4,108.0 L118.3,8.0 L123.2,33.2 L128.0,108.0 L132.9,108.0 L137.8,108.0 L142.7,108.0 L147.6,60.2 L152.4,61.4 L157.3,21.0 L162.2,108.0 L167.1,108.0 L172.0,54.1 L176.8,60.5 L181.7,108.0 L186.6,27.0 L191.5,108.0 L196.4,108.0 L201.3,108.0 L206.1,28.8 L211.0,108.0 L215.9,108.0 L220.8,108.0 L225.7,108.0 L230.5,79.7 L235.4,56.1 L240.3,108.0 L245.2,83.8 L250.1,85.1 L254.9,108.0 L259.8,108.0 L264.7,108.0 L269.6,24.9 L274.5,108.0 L279.4,76.8 L284.2,108.0 L289.1,39.0 L294.0,108.0 L294,108 L6,108 Z" fill="url(#gsparse)"/><path d="M6.0,46.2 L10.9,54.5 L15.8,43.8 L20.6,108.0 L25.5,40.1 L30.4,87.1 L35.3,108.0 L40.2,108.0 L45.1,34.5 L49.9,108.0 L54.8,10.7 L59.7,41.3 L64.6,108.0 L69.5,108.0 L74.3,90.1 L79.2,108.0 L84.1,108.0 L89.0,108.0 L93.9,56.7 L98.7,49.8 L103.6,51.5 L108.5,55.2 L113.4,108.0 L118.3,8.0 L123.2,33.2 L128.0,108.0 L132.9,108.0 L137.8,108.0 L142.7,108.0 L147.6,60.2 L152.4,61.4 L157.3,21.0 L162.2,108.0 L167.1,108.0 L172.0,54.1 L176.8,60.5 L181.7,108.0 L186.6,27.0 L191.5,108.0 L196.4,108.0 L201.3,108.0 L206.1,28.8 L211.0,108.0 L215.9,108.0 L220.8,108.0 L225.7,108.0 L230.5,79.7 L235.4,56.1 L240.3,108.0 L245.2,83.8 L250.1,85.1 L254.9,108.0 L259.8,108.0 L264.7,108.0 L269.6,24.9 L274.5,108.0 L279.4,76.8 L284.2,108.0 L289.1,39.0 L294.0,108.0" fill="none" stroke="#5b6574" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="lab reveal">🫥 <b>אפסים וקפיצות:</b> מעט נתונים. מחליפים לניסוח נפוץ יותר.</div></div>
+  </div>
+  <p style="margin-top:8px;color:var(--dim);font-size:14px">ארבעת הגרפים בשקף הזה מדומים, רק כדי להראות את הצורה.</p>
+</section>
+
+<section class="slide tight" data-topic="איך קוראים גרף" data-title="מלכודות העברית" data-accent="#e76f86">
+  <span class="kicker">🪤 מלכודות שבלשים טובים לא נופלים בהן</span>
+  <h2>בעברית, <span class="red">ניסוח אחד לא מספיק</span></h2>
+  <div class="traps">
+    <div class="trap reveal"><div class="em">🔤</div><b>יחיד או רבים</b><p>מונח חיפוש סופר רק את מה שהוקלד בדיוק.</p><div class="ex"><span>קופסה</span><span>קופסאות</span></div></div>
+    <div class="trap reveal"><div class="em">✏️</div><b>כתיב</b><p>אותה מילה, שני גרפים שונים.</p><div class="ex"><span>מטריה</span><span>מטרייה</span></div></div>
+    <div class="trap reveal"><div class="em">🏷️</div><b>מותג או כללי</b><p>שם של מותג מראה עניין במותג, לא בבעיה.</p><div class="ex"><span>UNO</span><span>משחק קלפים</span></div></div>
+    <div class="trap reveal"><div class="em">🌍</div><b>עברית או אנגלית</b><p>חלק מהישראלים מחפשים באנגלית.</p><div class="ex"><span>משחקי חצר</span><span>outdoor games</span></div></div>
+    <div class="trap reveal"><div class="em">🎭</div><b>דו-משמעות</b><p>מילה עם שתי משמעויות מנפחת את הגרף. בודקים ב"שאילתות קשורות".</p><div class="ex"><span>עכבר: חיה או מחשב?</span><span>כדור: משחק או תרופה?</span></div></div>
+    <div class="trap reveal"><div class="em">🫥</div><b>אפס</b><p>0 אומר שאין מספיק נתונים, לא שאין ביקוש. מנסים ניסוח קצר וכללי יותר.</p><div class="ex"><span>0 ≠ אין ביקוש</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== מקרה בוחן (28–32) ===================== -->
+<section class="slide tight" data-topic="מקרה בוחן" data-title="Better Place" data-accent="#f4a259">
+  <span class="kicker">🗂️ תיק סגור · מקרה בוחן מישראל</span>
+  <h2><bdi>Better Place</bdi>: חזון של <span class="yellow">850 מיליון דולר</span></h2>
+  <div class="facts2">
+    <div class="timeline">
+      <div class="tlRow reveal"><b>2007</b><span>שי אגסי משיק את Better Place. החזון: רשת טעינה ו<b>תחנות להחלפת סוללות</b> לרכב חשמלי.</span></div>
+      <div class="tlRow reveal"><b>2012</b><span>בשיא פועלות בישראל <b>21 תחנות החלפה</b>. בחברה הושקעו בערך 850 מיליון דולר.</span></div>
+      <div class="tlRow reveal"><b>בפועל</b><span>בישראל נמכרו <b>פחות מ-1,000</b> מכוניות של החברה, ובדנמרק כ-400.</span></div>
+      <div class="tlRow reveal"><b>2013</b><span>החברה פושטת רגל. הנכסים נמכרים ב-450 אלף דולר בלבד.</span></div>
+    </div>
+    <div>
+      <div class="bigQ reveal">❓ מספר הלקוחות היה נמוך בהרבה ממה שהמייסד חזה. איזו ראיה הייתם רוצים לראות לפני שבונים 21 תחנות?</div>
+      <div class="sideCase reveal">🌎 <b>ועוד תיק מהעולם: Quibi.</b> גייסה כ-1.75 מיליארד דולר לסדרות של 10 דקות לטלפון. הושקה באפריל 2020, ונסגרה בדצמבר 2020 כי לא הגיעה ליעדי המנויים.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="מקרה בוחן" data-title="רעיון או תזמון?" data-accent="#f4a259">
+  <span class="kicker">📈 בודקים בגרף · מ-2004 ועד היום</span>
+  <h2>מה יראה הגרף של <span class="yellow">"רכב חשמלי"</span> בישראל?</h2>
+  <div class="vote">
+    <div class="voteItem"><div class="emoji">🚀</div><strong>עלה כבר בשנים של <bdi>Better Place</bdi></strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">⏳</div><strong>עלה רק בשנים האחרונות</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><div class="emoji">➖</div><strong>שטוח כל הזמן</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <a class="liveBtn" href="https://trends.google.com/trends/explore?date=all&amp;geo=IL&amp;q=%D7%A8%D7%9B%D7%91%20%D7%97%D7%A9%D7%9E%D7%9C%D7%99&amp;hl=iw" target="_blank" rel="noopener">📈 פותחים את הגרף <small>ישראל · 2004 עד היום</small></a>
+  <div class="bigQ reveal">⚖️ היום יש מיליוני מכוניות חשמליות בעולם. אז Better Place טעתה <b>ברעיון</b>, או רק <b>בתזמון ובביצוע</b>?</div>
+</section>
+
+<section class="slide tight" data-topic="מקרה בוחן" data-title="ראשים ממוספרים" data-accent="#e76f86">
+  <span class="kicker">⚖️ ראשים ממוספרים · לכל אחד בצוות יש מספר, והמספר שנקרא עונה בשם הצוות</span>
+  <h2>המסקנה <span class="green">זהירה</span> או <span class="red">מגזימה</span>?</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>"הגרף של 'משחקי חצר' הגיע ל-100, אז 100 ילדים ישאילו מאיתנו."</span><div class="tfBtns"><button data-v="1">⚖️ זהירה</button><button data-v="0">🚨 מגזימה</button></div><div class="tfNote">מגזימה. 100 הוא השיא של הגרף, לא מספר אנשים.</div></div>
+    <div class="tfRow" data-true="1"><span>"החיפוש של 'משחקי חצר' קופץ כל שנה באותה עונה."</span><div class="tfBtns"><button data-v="1">⚖️ זהירה</button><button data-v="0">🚨 מגזימה</button></div><div class="tfNote">זהירה. היא מתארת בדיוק את מה שרואים בגרף, ולא יותר.</div></div>
+    <div class="tfRow" data-true="0"><span>"אף אחד לא מחפש 'קופסת הפסקה', אז הרעיון גרוע."</span><div class="tfBtns"><button data-v="1">⚖️ זהירה</button><button data-v="0">🚨 מגזימה</button></div><div class="tfNote">מגזימה. זה השם שלנו, ואף אחד עוד לא מכיר אותו. בודקים את המילים של הבעיה.</div></div>
+    <div class="tfRow" data-true="1"><span>"יש עניין במשחקים להפסקה, אבל עוד לא יודעים אם ילדים ישאילו ציוד מארגז."</span><div class="tfBtns"><button data-v="1">⚖️ זהירה</button><button data-v="0">🚨 מגזימה</button></div><div class="tfNote">זהירה. יש בה גם מסקנה וגם מגבלה. בדיוק מה שצריך!</div></div>
+  </div>
+  <div class="quick" data-round="heads" data-val="1" data-mode="count" data-label="✓ תשובה נכונה: +1 לצוות"></div>
+</section>
+
+<!-- ===================== תדריך האתגר (32–36) ===================== -->
+<section class="slide tight" data-topic="תדריך האתגר" data-title="האתגר: תיק ראיות" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🗂️ האתגר של היום</span>
+  <h2>תיק ראיות <span class="yellow">לביקוש</span></h2>
+  <p class="lead"><b>המטרה:</b> להוכיח לבית המשפט, עם ראיות ולא עם תחושות, אם הבעיה שלכם גדולה מספיק.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>בודקים לפחות <b>5 ניסוחים</b> של הבעיה: יחיד ורבים, כתיב, מילה נרדפת, עם מותג ובלי, ואנגלית. כל ניסוח נרשם ביומן הציד.</li>
+    <li>כל גרף: <b>ישראל · חמש השנים האחרונות.</b> בלי זה הוא לא נחשב ראיה.</li>
+    <li>מחפשים את <b>הבעיה</b>, במילים של מי שיש לו אותה. לא את שם המוצר שלכם.</li>
+    <li>Gemini מציע מילים והשערות. <b>את הגרף קוראים ובודקים אתם.</b></li>
+    <li>כל מספר מגיע עם מקור. מספר מומצא שמוצג כנתון = <b>מינוס 3</b>.</li>
+    <li>בבית המשפט מותר להגיד גם "אין ביקוש" או "עוד לא ברור". <b>כנות עם ראיות יכולה לנצח.</b></li>
+  </ol></div>
+</section>
+
+<section class="slide tight" data-topic="תדריך האתגר" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🔢 הניקוד ידוע מראש</span>
+  <h2>על מה מקבלים <span class="yellow">נקודות</span>?</h2>
+  <div class="twoTables">
+    <div class="tableWrap"><table class="t">
+      <thead><tr><th>בדרך</th><th>נקודות</th></tr></thead>
+      <tbody>
+        <tr><td>🔮 תחזית או תשובה נכונה</td><td>1 כל אחת</td></tr>
+        <tr><td>🔤 ניסוח מתועד ביומן (עד 5)</td><td>1 לכל אחד</td></tr>
+        <tr><td>🫥 הסבר נכון: 0 ≠ "אין ביקוש"</td><td>2</td></tr>
+        <tr><td>🪤 מלכודת דו-משמעות שתועדה</td><td>2</td></tr>
+        <tr><td>⏱️ ביקורת בזמן: 5 ניסוחים + גרף</td><td>3</td></tr>
+        <tr><td>📊 ממוצע לפי חודש, גרף וחודש השיא</td><td>3</td></tr>
+        <tr><td>🤖 השערת Gemini שנבדקה (עד 2)</td><td>1 לכל אחת</td></tr>
+      </tbody></table></div>
+    <div class="tableWrap"><table class="t">
+      <thead><tr><th>בסוף</th><th>נקודות</th></tr></thead>
+      <tbody>
+        <tr><td>📨 הגשה בזמן ולפי המפרט</td><td>5</td></tr>
+        <tr><td>📏 הרמה במחוון × 3</td><td>3–12</td></tr>
+        <tr><td>🏆 רמת אלופים שהושלמה</td><td>2</td></tr>
+        <tr><td>⚖️ בית המשפט: מקומות 1–3</td><td>8 / 5 / 3</td></tr>
+        <tr><td>🔎 עין הבלש · ⚖️ המסקנה הכי זהירה</td><td>3 כל פרס</td></tr>
+        <tr class="neg"><td>🚫 מספר מומצא שהוצג כנתון</td><td>−3</td></tr>
+      </tbody></table></div>
+  </div>
+  <p class="winLine"><b>מנצח:</b> הצוות עם הכי הרבה נקודות בסוף השיעור. <b>שובר שוויון:</b> רמה גבוהה יותר בשורת "פרשנות" במחוון, ואחר כך יותר ניסוחים מתועדים.</p>
+</section>
+
+<section class="slide tight" data-topic="תדריך האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📏 המחוון · נמצא גם מודפס על השולחן</span>
+  <h2>איך נמדד <span class="yellow">תיק הראיות</span>?</h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th>🌱 מתחיל · 1</th><th>🌿 מתפתח · 2</th><th>🌳 מיומן · 3</th><th>🚀 מצטיין · 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🔤 בחירת ניסוחים</td><td>רק שם המוצר, או ניסוח אחד</td><td>2–3 ניסוחים דומים</td><td>5 ניסוחים מסוגים שונים, מתועדים ביומן</td><td>5+ ניסוחים, נבחר זה עם הכי הרבה נתונים, ונתפסה מלכודת דו-משמעות</td></tr>
+      <tr class="reveal"><td>📈 פרשנות הגרף</td><td>"100 אנשים חיפשו", או אין פרשנות</td><td>מתארים "עולה" או "יורד", בלי להבין את הסולם</td><td>מסבירים שהציון יחסי לשיא, ומזהים עונה או מגמה</td><td>כל זה, ועוד חודש השיא מהממוצע ב-Sheets והסבר למה 0 ≠ אין ביקוש</td></tr>
+      <tr class="reveal"><td>⚖️ מסקנה וראיות</td><td>"כולם רוצים את זה"</td><td>מסקנה בלי מגבלה, או ראיה אחת בלבד</td><td>מסקנה זהירה, מגבלה אחת וטבלת ציון ראיות מלאה</td><td>טרנדים, ראיונות וסקר מספרים סיפור אחד, כולל ראיה שסותרת</td></tr>
+      <tr class="reveal"><td>🤖 שקיפות ובדיקת AI</td><td>לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-Gemini"</td><td>כתוב מה ביקשנו, מה שמרנו ומה בדקנו</td><td>השערות של Gemini נבדקו, לפחות אחת נפסלה או תוקנה, וזה כתוב</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="slide tight" data-topic="תדריך האתגר" data-title="בוחרים רמה" data-accent="#e3a82b">
+  <span class="kicker">🎚️ כל צוות בוחר רמה</span>
+  <h2>באיזו רמה <span class="yellow">אתם יוצאים לשטח</span>?</h2>
+  <div class="levels">
+    <div class="lv b"><span class="pill">🟢 בסיס</span><ul><li>5 ניסוחים מוכנים מ"מחסן המילים" של Gemini.</li><li>תבנית Sheets שמחשבת לבד את הממוצע לפי חודש.</li><li>משפטי פתיחה למסקנה ולמגבלה.</li></ul></div>
+    <div class="lv r"><span class="pill">🟡 רגיל</span><ul><li>5 ניסוחים שאתם בוחרים ומנמקים.</li><li>כותבים בעצמכם את נוסחת הממוצע (AVERAGEIF).</li><li>מסקנה ומגבלה במילים שלכם.</li></ul></div>
+    <div class="lv c"><span class="pill">🔴 אלופים · +2</span><ul><li>הכול ברגיל, ועוד <b>"מונח עוגן"</b>: מילה מוכרת שמשווים אליה את הגודל.</li><li>השוואה בין 2 אזורים בארץ.</li><li>גרף ב-Sheets לשני ניסוחים יחד.</li></ul></div>
+  </div>
+  <div class="prizes">
+    <div class="prize"><span class="em">🔎</span><span><b>עין הבלש (3):</b> הצוות שתפס הכי הרבה מלכודות וטעויות של AI, ותיעד אותן.</span></div>
+    <div class="prize"><span class="em">⚖️</span><span><b>המסקנה הכי זהירה (3):</b> המסקנה שאומרת בדיוק מה הראיות מראות, ולא יותר.</span></div>
+  </div>
+</section>
+
+<!-- ===================== ספרינט 1: ציד המילים (36–54) ===================== -->
+<section class="slide tight" data-topic="ספרינט 1: ציד המילים" data-title="ספרינט 1: ציד המילים" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="stuck" aria-label="הוראות">?</button>
+  <div class="sprintTop"><span class="kicker">🔤 ספרינט 1 · ציד המילים</span><span class="light y">🟡 AI לרעיונות: Gemini מציע, אתם בוחרים</span></div>
+  <h2>5 ניסוחים. <span class="green">ניסוח אחד מנצח.</span></h2>
+  <div class="sprintGrid">
+    <div class="task"><strong>מה עושים</strong><ol>
+      <li>🔴 <b>בלי AI, 2 דק׳:</b> כל אחד כותב ביומן הציד 2 ניסוחים של הבעיה.</li>
+      <li>🤖 <b>Gemini, 3 דק׳:</b> פרומפט "מחסן המילים" (בשקף הבא). בוחרים מה שמתאים.</li>
+      <li>📈 <b>Trends, 8 דק׳:</b> ישראל · 5 שנים · עד 5 ניסוחים בגרף אחד. כל ניסוח = שורה ביומן.</li>
+      <li>🪤 <b>2 דק׳:</b> גוללים ל"שאילתות קשורות". יש שם משמעות אחרת? זו מלכודת. רושמים.</li>
+      <li>📸 <b>3 דק׳:</b> בוחרים ניסוח מנצח ומדביקים צילום של גרף ההשוואה ביומן הסטארט-אפ.</li>
+    </ol></div>
+    <div class="sideTimer">
+      <div class="timer" data-seconds="1080"><output>18:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="ms"><b>עד דקה 9:</b> 5 ניסוחים בטבלה של יומן הציד.</div>
+      <div class="ms"><b>עד הסוף:</b> גרף השוואה בשקף, והניסוח המנצח מסומן.</div>
+      <div class="ms">🔒 בפרומפט כותבים על המיזם, לא על עצמנו.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1: ציד המילים" data-title="Gemini: מחסן המילים" data-accent="#2f9e80">
+  <span class="kicker">🤖 Gemini כמחסן מילים · gemini.google.com</span>
+  <h2>Gemini מציע מילים. <span class="green">את הגרף קוראים אנחנו.</span></h2>
+  <div class="prompt small"><span class="ptext">המיזם שלנו פותר את הבעיה הזאת: [הבעיה]. תן לי 10 מילים או ביטויים קצרים שאדם בישראל היה מקליד בגוגל אם הייתה לו הבעיה הזאת. כלול: צורת יחיד וצורת רבים, שני כתיבים אם יש, מילה נרדפת, ביטוי אחד עם שם של מותג וביטוי אחד באנגלית. אל תכלול את שם המיזם שלנו.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="prompt small reveal"><span class="ptext">אילו מהמילים ברשימה יכולות להיות דו-משמעיות, כלומר לתאר גם משהו אחר לגמרי? הסבר בקצרה לכל אחת: [הרשימה]</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="checks reveal"><span>✍️ בוחרים 5 ניסוחים מסוגים שונים</span><span>🚫 בלי שם המיזם</span><span>🙅 לא מבקשים מ-Gemini "לפרש את הגרף"</span><span>📝 מסמנים ביומן מה הגיע מ-Gemini</span></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1: ציד המילים" data-title="Trends צעד אחר צעד" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="trends" aria-label="הוראות">?</button>
+  <span class="kicker">🎛️ Google Trends · trends.google.com</span>
+  <h2>ככה <span class="green">משווים</span> ניסוחים</h2>
+  <div class="steps tight six">
+    <div class="step"><strong>🔎 מונח ראשון</strong><p>מקלידים בשדה החיפוש ולוחצים Enter.</p></div>
+    <div class="step"><strong>🌍 ישראל</strong><p>בתפריט המיקום בוחרים <b>ישראל</b>.</p></div>
+    <div class="step"><strong>📅 חמש שנים</strong><p>בתפריט הזמן: <b>חמש השנים האחרונות</b>.</p></div>
+    <div class="step"><strong>➕ השוואה</strong><p><b>"הוסף מונח להשוואה"</b>, עד 5 ניסוחים בגרף אחד.</p></div>
+    <div class="step"><strong>🔗 שאילתות קשורות</strong><p>גוללים למטה. כאן מוצאים מלכודות ורעיונות.</p></div>
+    <div class="step"><strong>⬇️ הורדה</strong><p>בכרטיס של הגרף, סמל ההורדה שומר קובץ CSV. נצטרך אותו בספרינט 2.</p></div>
+  </div>
+  <div class="note reveal">🏷️ אם מופיעה הצעה של <b>"נושא"</b> (למשל "מטרייה · נושא"), הוא כולל כמה צורות של המילה ביחד. בודקים גם אותו, ורושמים ביומן שזה נושא.</div>
+</section>
+
+<!-- ===================== נקודת ביקורת (54–60) ===================== -->
+<section class="slide tight cp" data-topic="נקודת ביקורת" data-title="נקודת ביקורת" data-accent="#4c8bd6">
+  <span class="kicker">⏱️ נקודת ביקורת · 6 דקות</span>
+  <h2>מה <span class="cyan">מראים</span> עכשיו?</h2>
+  <div class="checks"><span>📒 יומן ציד עם 5 ניסוחים</span><span>📈 גרף השוואה אחד בשקף</span><span>🏅 הניסוח המנצח מסומן</span><span>🪤 מלכודת שנתפסה (אם יש)</span></div>
+  <div class="cards">
+    <div class="card"><div class="emoji">🤝</div><strong>צוות פוגש צוות</strong><p>שני צוותים שכנים מראים זה לזה את יומן הציד, 2 דקות לכל צוות.</p></div>
+    <div class="card"><div class="emoji">💚</div><strong>אני אוהב/ת…</strong><p>ניסוח חכם או ממצא מפתיע שראיתם אצל השכנים.</p></div>
+    <div class="card"><div class="emoji">🌱</div><strong>הלוואי ש…</strong><p>ניסוח שכדאי להוסיף, או בדיקה שחסרה.</p></div>
+    <div class="card"><div class="emoji">🤔</div><strong>אני תוהה…</strong><p>שאלה שהגרף שלהם עוד לא עונה עליה.</p></div>
+  </div>
+  <div class="rowFlex bottomRow"><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><div class="quick" data-round="cp" data-val="3" data-label="⏱️ הראו בזמן: +3"></div></div>
+</section>
+
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="הלוח באמצע" data-accent="#4c8bd6">
+  <span class="kicker">🏁 חצי הדרך · עוד בדרך: מעבדה, הגשה, מחוון ובית משפט</span>
+  <h2>הלוח <span class="cyan">באמצע החקירה</span></h2>
+  <div class="board" data-board></div>
+</section>
+
+<section class="slide center" data-topic="נקודת ביקורת" data-title="דקה של תנועה" data-accent="#5bb5a2">
+  <span class="kicker">🧍 דקה של תנועה</span>
+  <div class="move">🕺</div>
+  <h2>קמים אם…</h2>
+  <div class="revealList" style="text-align:right;max-width:900px">
+    <div class="revealCard reveal">🙋 …הניסוח המנצח שלכם הוא ברבים.</div>
+    <div class="revealCard reveal">🙋 …מצאתם ניסוח שהגיע ל-0 בגרף.</div>
+    <div class="revealCard reveal">🙋 …בדקתם גם באנגלית, וזה הפתיע אתכם.</div>
+    <div class="revealCard reveal">🙋 …מצאתם מלכודת דו-משמעות.</div>
+  </div>
+</section>
+
+<!-- ===================== ספרינט 2: מעבדת הנתונים (60–75) ===================== -->
+<section class="slide tight" data-topic="ספרינט 2: מעבדת הנתונים" data-title="ספרינט 2: מעבדת הנתונים" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="sheets" aria-label="הוראות">?</button>
+  <div class="sprintTop"><span class="kicker">📊 ספרינט 2 · מעבדת הנתונים</span><span class="light g">🟢 AI כשותף: Gemini מציע השערות, אתם בודקים</span></div>
+  <h2>מהגרף <span class="cyan">לתיק ראיות</span></h2>
+  <div class="sprintGrid">
+    <div class="task"><strong>מה עושים</strong><ol>
+      <li>⬇️ <b>2 דק׳:</b> מורידים CSV של הניסוח המנצח (אפשר עם ניסוח שני בגרף).</li>
+      <li>📥 <b>3 דק׳:</b> מייבאים לתבנית "מעבדת הביקוש" ב-Sheets, ללשונית <b>data</b>.</li>
+      <li>📈 <b>3 דק׳:</b> בלשונית <b>months</b>: ממוצע לכל חודש, גרף, וחודש השיא.</li>
+      <li>🤖 <b>3 דק׳:</b> Gemini מציע 3 השערות למה יש שיא. בודקים כל אחת.</li>
+      <li>⚖️ <b>4 דק׳:</b> טבלת ציון הראיות, ואז השקף: גרפים, מסקנה, מגבלה ושקיפות AI.</li>
+    </ol></div>
+    <div class="sideTimer">
+      <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="ms"><b>עד דקה 8:</b> גרף ממוצע לפי חודש וחודש השיא.</div>
+      <div class="ms"><b>עד הסוף:</b> שקף "ראיות לביקוש" מלא ביומן.</div>
+      <div class="ms">🚫 מספר בלי מקור לא נכנס לשקף.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: מעבדת הנתונים" data-title="Sheets: ייבוא ונוסחה" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="sheets" aria-label="הוראות">?</button>
+  <span class="kicker">📥 Google Sheets · התבנית "מעבדת הביקוש"</span>
+  <h2>מקובץ CSV <span class="cyan">לממוצע לפי חודש</span></h2>
+  <div class="steps tight">
+    <div class="step"><strong>1. ללשונית data</strong><p>בתבנית של הצוות לוחצים על הלשונית <b>data</b> למטה.</p></div>
+    <div class="step"><strong>2. ייבוא</strong><p><b>קובץ ← ייבוא ← העלאה</b>, וגוררים את הקובץ שהורדתם.</p></div>
+    <div class="step"><strong>3. החלפה</strong><p>בוחרים <b>"החלפת הגיליון הנוכחי"</b> ולוחצים <b>"ייבוא נתונים"</b>.</p></div>
+    <div class="step"><strong>4. ללשונית months</strong><p>הממוצעים והגרף מתעדכנים. מסמנים את חודש השיא.</p></div>
+  </div>
+  <div class="formula reveal">
+    <div><span>🟡 רגיל: חודש (בתא H4)</span><code>=MONTH(A4)</code></div>
+    <div><span>🟡 רגיל: ממוצע ינואר</span><code>=AVERAGEIF(data!H:H, A2, data!B:B)</code></div>
+    <div><span>🔴 אלופים: חודש השיא</span><code>=INDEX(B2:B13, MATCH(MAX(C2:C13), C2:C13, 0))</code></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: מעבדת הנתונים" data-title="Gemini: למה יש שיא?" data-accent="#4c8bd6">
+  <span class="kicker">🤖 Gemini כשותף שבודקים</span>
+  <h2>Gemini מציע השערות. <span class="cyan">אתם השופטים.</span></h2>
+  <div class="prompt small"><span class="ptext">ב-Google Trends, בישראל, החיפוש של "[הניסוח]" מגיע לשיא בחודש [החודש] כמעט בכל שנה. תן 3 השערות קצרות למה זה קורה. לכל השערה כתוב איך אפשר לבדוק אותה בעצמנו: בלוח השנה, בשנה אחרת בגרף או בשאילתות הקשורות. אל תמציא מספרים.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="compare reveal">
+    <div class="box good"><span class="label">✓ השערה שנבדקה</span>"השיא בספטמבר הוא תחילת שנת הלימודים." בדקנו: השיא חוזר בספטמבר בכל 5 השנים. <b>נתמכה.</b></div>
+    <div class="box bad"><span class="label">✗ השערה שנפסלה</span>"השיא הוא בגלל פרסומת בטלוויזיה." אין לנו שום ראיה לזה, והשיא חוזר כל שנה. <b>נפסלה.</b></div>
+  </div>
+  <div class="note reveal">📝 כל השערה נכנסת לדף המעבדה: <b>מה Gemini הציע · איך בדקנו · נתמכה או נפסלה.</b> השערה שנפסלה שווה בדיוק כמו השערה שנתמכה.</div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: מעבדת הנתונים" data-title="ציון הראיות" data-accent="#4c8bd6">
+  <span class="kicker">⚖️ טבלת ציון הראיות</span>
+  <h2>ראיה אחת לא סוגרת <span class="cyan">תיק</span></h2>
+  <div class="evGrid">
+    <div class="tableWrap" style="margin-top:12px"><table class="t ev">
+      <thead><tr><th>ראיה</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+      <tbody>
+        <tr><td>🎤 ראיונות</td><td>אין</td><td>ראיון אחד, או שהבעיה לא עלתה לבד</td><td>2–3 ראיונות שבהם הבעיה עלתה</td><td>3+ ראיונות עם סיפור אמיתי ("בפעם האחרונה ש…")</td></tr>
+        <tr><td>📊 סקר</td><td>אין</td><td>פחות מ-10 תשובות</td><td>10+ תשובות, פחות מחצי מרגישים את הבעיה</td><td>10+ תשובות, יותר מחצי מרגישים את הבעיה</td></tr>
+        <tr><td>📈 טרנדים</td><td>אין נתונים לאף ניסוח</td><td>רק מילה כללית מאוד, או אפסים וקפיצות</td><td>נתונים יציבים, או עונה שמתאימה לבעיה</td><td>יציב + עונה או מגמה מתאימה + שאילתות שמאשרות</td></tr>
+      </tbody></table></div>
+    <div>
+      <div class="meter"><b>📟 מד הביקוש (מתוך 9)</b>
+        <div class="mBar"><i></i><i></i><i></i></div>
+        <div class="mLab"><span>0–3 עוד אין תיק</span><span>4–6 יש רמזים</span><span>7–9 תיק חזק</span></div>
+        <p>💎 ראיה שסותרת את מה שקיוויתם היא <b>זהב</b>. כותבים אותה במגבלה.</p></div>
+      <div class="note">🗂️ חסרים לכם ראיונות או סקר? עובדים עם <b>תיק קופסת הפסקה</b> המודפס.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: מעבדת הנתונים" data-title="משימות צד" data-accent="#4c8bd6">
+  <span class="kicker">⚡ סיימתם? משימות צד</span>
+  <h2>עוד נקודות <span class="cyan">לבלשים מהירים</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🗺️</div><strong>שני אזורים · 2</strong><p>השוו את הניסוח המנצח בין שני אזורים בארץ. מה ההבדל, ולמה?</p></div>
+    <div class="card"><div class="emoji">⚓</div><strong>מונח עוגן · 2</strong><p>הוסיפו לגרף מילה מוכרת, למשל "שיעורי בית". הבעיה שלכם גדולה או קטנה ממנה?</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>Gemini טעה? · 2</strong><p>שאלו את Gemini "כמה אנשים חיפשו [ניסוח] בישראל בחודש שעבר?". הוא ממציא מספר? כתבו מה לא בסדר.</p></div>
+    <div class="card"><div class="emoji">🕰️</div><strong>מ-2004 ועד היום · 1</strong><p>שנו את טווח הזמן. הבעיה שלכם ישנה או חדשה?</p></div>
+  </div>
+</section>
+
+<!-- ===================== הגשה (75–77) ===================== -->
+<section class="slide tight" data-topic="הגשה" data-title="מגישים את התיק" data-accent="#2f9e80">
+  <span class="kicker">📨 הגשה · 2 דקות · המתעד/ת מגיש/ה</span>
+  <h2>טופס <span class="green">הגשת תוצר</span>: <span class="linkSlot" contenteditable="true" spellcheck="false">forms.gle/……</span></h2>
+  <div class="subGrid">
+    <div class="box good"><span class="label">✓ צ׳קליסט השקף</span><ul>
+      <li>📈 גרף מ-Trends: ישראל · 5 שנים · 2–5 ניסוחים</li>
+      <li>📊 גרף ממוצע לפי חודש מ-Sheets, וחודש השיא</li>
+      <li>⚖️ מסקנה אחת ומגבלה אחת</li>
+      <li>📟 טבלת ציון ראיות ומד הביקוש</li>
+      <li>🤖 שורת שקיפות AI</li>
+    </ul></div>
+    <div class="box"><span class="label">📝 בטופס</span><ul>
+      <li>שם הצוות ושיעור 8</li>
+      <li>קישור לשקף (שיתוף: "כל מי שיש לו את הקישור")</li>
+      <li>הרמה שלנו במחוון (הערכה עצמית)</li>
+      <li>שקיפות AI: כלי · מה ביקשנו · מה שמרנו · מה בדקנו</li>
+    </ul>
+    <p style="margin:10px 0 0">שם השקף: <span class="fname">צוות [שם] · שיעור 08 · ראיות לביקוש</span></p></div>
+  </div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ===================== בית המשפט לביקוש (77–87) ===================== -->
+<section class="slide tight" data-topic="בית המשפט לביקוש" data-title="בית המשפט: החוקים" data-accent="#e76f86">
+  <button class="helpBtn" data-help="court" aria-label="הוראות">?</button>
+  <span class="kicker">⚖️ בית המשפט לביקוש</span>
+  <h2>60 שניות. <span class="red">פסק דין אחד.</span></h2>
+  <div class="verdicts"><span class="v1">✓ "יש ביקוש כי…"</span><span class="v2">✗ "אין ביקוש כי…"</span><span class="v3">? "עוד לא ברור כי…"</span></div>
+  <div class="courtRules cards">
+    <div class="card"><div class="emoji">⏱️</div><strong>60 שניות</strong><p>פסק הדין, 2 ראיות והמגבלה. המציג/ה מדבר/ת, והצוות עומד לצידו/ה.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>שאלת התובע</strong><p>אחרי כל תיק נשלפת שאלה אחת. 20 שניות לתשובה.</p></div>
+    <div class="card"><div class="emoji">🗳️</div><strong>חבר המושבעים</strong><p>כל אחד מצביע פעם אחת, על התיק המשכנע ביותר. לא לצוות של עצמו.</p></div>
+    <div class="card"><div class="emoji">💎</div><strong>משכנע ≠ הכי הרבה ביקוש</strong><p>מצביעים על הראיות והכנות. גם "אין ביקוש" עם ראיות טובות יכול לנצח.</p></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="בית המשפט לביקוש" data-title="על הדוכן" data-accent="#e76f86">
+  <span class="kicker">🎤 על הדוכן</span>
+  <h2>התיק <span class="red">מוצג</span></h2>
+  <div class="standGrid">
+    <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="frame">🗣️ "בדקנו <b>[מספר]</b> ניסוחים. הניסוח המנצח: <b>[ניסוח]</b>. ראינו ש<b>[עונה / מגמה / שטוח]</b>, עם שיא ב<b>[חודש]</b>. מד הביקוש שלנו: <b>[X מתוך 9]</b>. לכן <b>[פסק הדין]</b>. אבל עוד לא יודעים <b>[מגבלה]</b>."</div>
+  </div>
+  <div class="qCards">
+    <div class="qCard reveal"><b>שאלת התובע 1</b>מה ה-100 בגרף שלכם אומר, ומה הוא לא אומר?</div>
+    <div class="qCard reveal"><b>שאלת התובע 2</b>מי חיפש את זה? אולי הורים או מורים, ולא הלקוחות שלכם?</div>
+    <div class="qCard reveal"><b>שאלת התובע 3</b>איזו ראיה סותרת את המסקנה שלכם?</div>
+    <div class="qCard reveal"><b>שאלת התובע 4</b>מה Gemini הציע שלא הסכמתם איתו, ולמה?</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="בית המשפט לביקוש" data-title="הצבעת המושבעים" data-accent="#e76f86">
+  <span class="kicker">🗳️ חבר המושבעים</span>
+  <h2>איזה תיק <span class="red">הכי משכנע</span>?</h2>
+  <p class="lead">יד אחת לכל אחד, לא לצוות של עצמו. סופרים ידיים לכל צוות.</p>
+  <div class="jury" data-jury></div>
+  <div class="juryTools"><button class="ghost" data-award>🏅 מעבירים ללוח: 8 / 5 / 3</button><button class="ghost" data-jreset>↺ איפוס ההצבעה</button></div>
+</section>
+
+<section class="slide tight" data-topic="בית המשפט לביקוש" data-title="התוצאות" data-accent="#e3a82b">
+  <span class="kicker">🏆 פסק הדין הסופי</span>
+  <h2>מי פיצח את <span class="yellow">התיק</span>?</h2>
+  <div class="board final" data-board data-sorted></div>
+  <div class="prizes">
+    <div class="prize reveal"><span class="em">🔎</span><span><b>עין הבלש:</b> <span contenteditable="true" spellcheck="false">________</span></span></div>
+    <div class="prize reveal"><span class="em">⚖️</span><span><b>המסקנה הכי זהירה:</b> <span contenteditable="true" spellcheck="false">________</span></span></div>
+  </div>
+</section>
+
+<!-- ===================== סיום (87–90) ===================== -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד</span>
+  <div class="sprintTop"><h2 style="margin-bottom:6px">לפני שיוצאים <span class="red">מהיחידה</span></h2><span class="light r">🔴 בלי AI</span></div>
+  <div class="revealList">
+    <div class="revealCard">💡 דבר אחד שלמדתי היום.</div>
+    <div class="revealCard">❓ שאלה אחת שנשארה לי.</div>
+    <div class="revealCard">🔢 כמה הבנתי, מ-0 עד 5? ומה תרמתי היום לצוות?</div>
+    <div class="revealCard">🕵️ <b>שאלת השיעור:</b> גרף בטרנדים הגיע ל-100. מה זה אומר, ומה זה <b>לא</b> אומר?</div>
+  </div>
+  <div class="rowFlex"><span class="linkSlot" contenteditable="true" spellcheck="false" style="font-size:24px">forms.gle/……</span><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<section class="slide tight" data-topic="סיום" data-title="מה הבלשים למדו" data-accent="#0f766e">
+  <span class="kicker">🏁 סוגרים את התיק</span>
+  <h2>מה הבלשים <span class="cyan">למדו היום</span>?</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">📊 <b>Trends מראה עניין יחסי בחיפוש.</b> 100 הוא השיא, ו-0 הוא "אין מספיק נתונים".</div>
+    <div class="revealCard reveal">🔤 <b>בעברית בודקים כמה ניסוחים:</b> יחיד ורבים, כתיב, מותג, אנגלית, ומלכודות דו-משמעות.</div>
+    <div class="revealCard reveal">🔁 <b>עונה</b> אומרת מתי. <b>מגמה</b> אומרת לאן. <b>קפיצה</b> אחת היא אולי רק חדשות.</div>
+    <div class="revealCard reveal">⚖️ <b>תיק טוב משלב ראיות:</b> ראיונות, סקר וטרנדים. ומה שסותר נכתב בגלוי.</div>
+    <div class="revealCard reveal">🔋 <b>Better Place:</b> לפני שבונים 21 תחנות, בודקים כמה אנשים באמת רוצים לנסוע.</div>
+  </div>
+</section>
+
+<section class="slide" data-topic="סיום" data-title="בשיעור הבא" data-accent="#0f766e">
+  <span class="kicker">⏭️ בשיעור הבא · שיעור 9</span>
+  <h2>⚖️ משפט <span class="cyan">הרעיונות</span></h2>
+  <p class="lead">ועדת ההשקעות מתכנסת. רק <b>פתרון אחד</b> ממשיך, והוא יצטרך לשרוד משפט: טבלת החלטה ב-Sheets, ו-Gemini בתפקיד פרקליט השטן.</p>
+  <div class="task"><strong>🗂️ תיק הראיות של היום הוא העד הראשי שלכם.</strong><p>שמרו את השקף ביומן הסטארט-אפ. בשיעור הבא, כל פתרון יצטרך להראות שהוא פותר בעיה שיש לה ביקוש.</p></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-duel"><h3>איך משחקים בדו-קרב?</h3><ol>
+<li>על כל שולחן יש סט של 9 כרטיסי תחזית: א · ב · חורף · אביב · קיץ · סתיו · מגמה · עונה · שטוח.</li>
+<li>שומעים את השאלה, ויש לצוות 20 שניות להתייעץ בשקט.</li>
+<li>המנכ״ל/ית מרים/ה כרטיס אחד גבוה. אחרי "שלוש" כבר אין שינויים.</li>
+<li>פותחים את הגרף האמיתי. כל צוות שצדק מקבל נקודה.</li>
+<li>אסור לבדוק בטלפון או במחשב לפני החשיפה. מי שבודק מפסיד את הסבב.</li>
+</ol></template>
+<template id="help-rules"><h3>מה נחשב "ניסוח מתועד"?</h3><ol>
+<li>שורה מלאה ביומן הציד: <b>הניסוח · הסוג</b> (יחיד, רבים, כתיב, מילה נרדפת, מותג, אנגלית, נושא) <b>· יש נתונים? · מתי השיא · מה מצאנו בשאילתות הקשורות</b>.</li>
+<li>הגרף נבדק בישראל ובחמש השנים האחרונות.</li>
+<li>ניסוח שהגיע ל-0 נחשב גם הוא, אם כתוב שהוא הגיע ל-0. גם זה ממצא!</li>
+<li>מלכודת דו-משמעות נחשבת כשכתוב מה המשמעות האחרת, ומאיפה ראיתם אותה (שאילתות קשורות).</li>
+</ol></template>
+<template id="help-stuck"><h3>נתקעתם בציד?</h3><ol>
+<li><b>כתוב "אין מספיק נתונים" או שהקו ב-0?</b> נסו מילה קצרה וכללית יותר. למשל במקום "משחקים להפסקה בבית ספר" כתבו "משחקי חצר".</li>
+<li><b>הקו קופץ למעלה ולמטה בלי סדר?</b> יש מעט נתונים. בחרו ניסוח נפוץ יותר.</li>
+<li><b>ניסוח אחד ענק והשאר שטוחים?</b> זה בסדר, וזה ממצא. רשמו אותו, ובדקו את השטוחים לבד בגרף נפרד.</li>
+<li><b>לא מוצאים 5 סוגים?</b> יחיד ↔ רבים · עם ה׳ הידיעה ובלי · כתיב מלא ↔ חסר · מילה נרדפת · אנגלית.</li>
+<li><b>לא בטוחים מה המסקנה?</b> התחילו ב"ראינו ש…", ואז "זה לא אומר ש…".</li>
+</ol></template>
+<template id="help-trends"><h3>Google Trends צעד אחר צעד</h3><ol>
+<li>נכנסים ל-<b>trends.google.com</b>, מקלידים את הניסוח הראשון בשדה החיפוש ולוחצים Enter.</li>
+<li>למעלה, בתפריט המיקום, בוחרים <b>ישראל</b>. בתפריט הזמן בוחרים <b>חמש השנים האחרונות</b>.</li>
+<li>לוחצים <b>"הוסף מונח להשוואה"</b> ומוסיפים ניסוח. אפשר עד 5 בגרף אחד, כל אחד בצבע אחר.</li>
+<li>בכרטיס <b>"מידת ההתעניינות לאורך זמן"</b> יש סמל הורדה (חץ למטה). הוא שומר קובץ CSV למחשב.</li>
+<li>גוללים למטה: <b>"שאילתות קשורות"</b> מראה מה עוד אנשים חיפשו. כאן מוצאים מלכודות.</li>
+<li>מופיע באנר של גרסה חדשה של הכלי? אפשר לעבוד גם בה. הכפתורים נמצאים בערך באותם מקומות.</li>
+</ol></template>
+<template id="help-sheets"><h3>מעבדת הביקוש ב-Sheets</h3><ol>
+<li>הבונה פותח/ת את העותק של הצוות מהתבנית "מעבדת הביקוש" (הקישור על הלוח או בקבוצת הכיתה) ומשתף/ת עם הצוות.</li>
+<li>לוחצים על הלשונית <b>data</b> למטה. ואז: <b>קובץ ← ייבוא ← העלאה</b>, וגוררים את קובץ ה-CSV מתיקיית ההורדות.</li>
+<li>במיקום הייבוא בוחרים <b>"החלפת הגיליון הנוכחי"</b>, ולוחצים <b>"ייבוא נתונים"</b>.</li>
+<li>עוברים ללשונית <b>months</b>. רואים ממוצע לכל חודש וגרף. חודש השיא מופיע בתא F2.</li>
+<li><b>רמה רגילה:</b> בלשונית data כותבים בתא H4 <code>=MONTH(A4)</code> וגוררים למטה (לחיצה כפולה על הריבוע הקטן בפינת התא). ב-months מוחקים את הממוצעים בעמודה C וכותבים בתא C2 <code>=AVERAGEIF(data!H:H, A2, data!B:B)</code>, ואז גוררים עד דצמבר.</li>
+<li>מסמנים את הגרף ← שלוש הנקודות ← <b>העתקה</b>, ומדביקים בשקף. או מצלמים מסך.</li>
+</ol></template>
+<template id="help-shot"><h3>איך מצלמים מסך ומדביקים?</h3><ol>
+<li><b>Windows:</b> לוחצים יחד Windows + Shift + S ומסמנים את הגרף.</li>
+<li><b>Mac:</b> לוחצים יחד Cmd + Shift + 4 ומסמנים את הגרף.</li>
+<li><b>Chromebook:</b> לוחצים יחד Ctrl + Shift + מקש החלונות, ובוחרים אזור.</li>
+<li>עוברים לשקף "ראיות לביקוש" ב-Google Slides ולוחצים Ctrl + V (במק: Cmd + V).</li>
+<li>בודקים שבצילום רואים את <b>הניסוחים</b>, את <b>ישראל</b> ואת <b>טווח הזמן</b>.</li>
+</ol></template>
+<template id="help-court"><h3>איך מתנהל בית המשפט?</h3><ol>
+<li>הצוותים עולים לפי סדר השולחנות. הצוות הבא כבר עומד מוכן.</li>
+<li>טיימר של 60 שניות. כשהוא נגמר, מסיימים את המשפט ועוצרים.</li>
+<li>שאלת התובע: נחשפת שאלה אחת, ויש 20 שניות לענות. כל אחד מהצוות יכול לענות.</li>
+<li>בסוף כל התיקים: הצבעה. יד אחת לכל אחד, ולא לצוות של עצמו.</li>
+<li>שלושת הצוותים עם הכי הרבה קולות מקבלים 8, 5 ו-3 נקודות.</li>
+</ol></template>
+
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== בלשי טרנדים · lesson add-ons (run after the engine; the engine is untouched) =====
+   1) copy buttons on prompt boxes  2) live scoreboard (points per team, shared by every [data-board])
+   3) quick "who was right" strips  4) jury vote fed by the scoreboard team names.
+   State is kept in this browser only (localStorage, wrapped in try/catch); it is a classroom display. */
+(()=>{
+document.querySelectorAll('.copyBtn').forEach(b=>b.onclick=async e=>{e.stopPropagation();
+ const txt=b.closest('.prompt').querySelector('.ptext').innerText.trim();
+ try{await navigator.clipboard.writeText(txt)}catch(err){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e2){}ta.remove()}
+ const old=b.textContent;b.textContent='✓ הועתק';b.classList.add('done');setTimeout(()=>{b.textContent=old;b.classList.remove('done')},1600)});
+
+const KEY='tie-trend-detective:'+location.pathname;
+const DEFAULT=['🦊 שועלים','🦉 ינשופים','🐬 דולפינים','🦁 אריות','🐝 דבורים','🐢 צבים','🐙 תמנונים'];
+let st=null;try{st=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+if(!st||!Array.isArray(st.teams))st={teams:DEFAULT.map(n=>({n,p:0}))};
+st.rounds=st.rounds||{};st.jury=st.jury||{};st.hist=st.hist||[];
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function add(i,d){if(!st.teams[i])return;st.teams[i].p+=d}
+
+function drawBoard(box){
+ const order=st.teams.map((t,i)=>i);
+ if(box.hasAttribute('data-sorted'))order.sort((a,b)=>st.teams[b].p-st.teams[a].p);
+ const max=Math.max(1,...st.teams.map(t=>t.p)),top=Math.max(...st.teams.map(t=>t.p));
+ const sortedP=[...st.teams.map(t=>t.p)].sort((a,b)=>b-a);
+ box.innerHTML=order.map(i=>{const t=st.teams[i];const rank=sortedP.indexOf(t.p)+1;
+  return '<div class="bRow'+(top>0&&t.p===top?' lead':'')+(t.p>0&&rank<=3?' m'+rank:'')+'"><span class="bRank">'+rank+'</span>'+
+  '<span class="bName" contenteditable="true" spellcheck="false" data-i="'+i+'">'+esc(t.n)+'</span>'+
+  '<div class="bBar"><i style="width:'+Math.max(0,t.p)/max*100+'%"></i></div>'+
+  '<output class="bPts">'+t.p+'</output>'+
+  '<div class="bBtns">'+[-1,1,2,3,5].map(d=>'<button dir="ltr" data-i="'+i+'" data-d="'+d+'">'+(d>0?'+':'−')+Math.abs(d)+'</button>').join('')+'</div></div>'}).join('')+
+ '<div class="bTools"><button class="ghost" data-a="addTeam">＋ צוות</button><button class="ghost" data-a="delTeam">− צוות</button><button class="ghost" data-a="reset">↺ איפוס הניקוד</button></div>'}
+
+function drawQuick(q){
+ const r=q.dataset.round,val=Number(q.dataset.val||1),mode=q.dataset.mode||'toggle';const on=st.rounds[r]||{};
+ q.innerHTML='<span class="qLabel">'+esc(q.dataset.label||'+'+val)+'</span>'+st.teams.map((t,i)=>
+  '<button class="qChip'+(mode==='toggle'&&on[i]?' on':'')+'" data-i="'+i+'">'+esc(t.n)+(mode==='count'&&on[i]?'<b>+'+on[i]*val+'</b>':'')+'</button>').join('')+
+  (mode==='count'?'<button class="ghost qUndo" data-undo="1">↶ ביטול</button>':'')}
+
+function drawJury(j){
+ const n=st.teams.map((t,i)=>Number(st.jury[i]||0));const max=Math.max(1,...n),top=Math.max(...n);
+ j.innerHTML=st.teams.map((t,i)=>'<div class="jItem'+(top>0&&n[i]===top?' top':'')+'"><b>'+esc(t.n)+'</b><div class="jc"><button data-i="'+i+'" data-j="-1">−</button><output>'+n[i]+'</output><button data-i="'+i+'" data-j="1">+</button></div><div class="bar"><i style="width:'+n[i]/max*100+'%"></i></div></div>').join('');
+ const aw=document.querySelector('[data-award]');if(aw){aw.disabled=!!st.awarded;aw.classList.toggle('done',!!st.awarded);aw.textContent=st.awarded?'✓ הנקודות עברו ללוח':'🏅 מעבירים ללוח: 8 / 5 / 3'}}
+
+function drawAll(){document.querySelectorAll('[data-board]').forEach(drawBoard);document.querySelectorAll('.quick').forEach(drawQuick);document.querySelectorAll('[data-jury]').forEach(drawJury)}
+
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.closest('[data-board]')){
+  if(b.dataset.d){add(Number(b.dataset.i),Number(b.dataset.d))}
+  else if(b.dataset.a==='addTeam'){st.teams.push({n:'צוות '+(st.teams.length+1),p:0})}
+  else if(b.dataset.a==='delTeam'){if(st.teams.length>2&&confirm('להסיר את הצוות האחרון ברשימה?'))st.teams.pop();else return}
+  else if(b.dataset.a==='reset'){if(!confirm('לאפס את כל הנקודות של השיעור?'))return;st.teams.forEach(t=>t.p=0);st.rounds={};st.jury={};st.hist=[];st.awarded=false}
+  else return;save();drawAll();return}
+ const q=b.closest('.quick');
+ if(q){const r=q.dataset.round,val=Number(q.dataset.val||1),mode=q.dataset.mode||'toggle';st.rounds[r]=st.rounds[r]||{};const on=st.rounds[r];
+  if(b.dataset.undo){const h=st.hist.filter(x=>x.r===r).pop();if(!h)return;st.hist.splice(st.hist.lastIndexOf(h),1);on[h.i]=Math.max(0,(on[h.i]||0)-1);add(h.i,-val)}
+  else{const i=Number(b.dataset.i);
+   if(mode==='count'){on[i]=(on[i]||0)+1;add(i,val);st.hist.push({r,i})}
+   else{if(on[i]){delete on[i];add(i,-val)}else{on[i]=1;add(i,val)}}}
+  save();drawAll();return}
+ if(b.closest('[data-jury]')&&b.dataset.j){const i=Number(b.dataset.i);st.jury[i]=Math.max(0,Number(st.jury[i]||0)+Number(b.dataset.j));save();drawAll();return}
+ if(b.hasAttribute('data-award')){if(st.awarded)return;
+  const n=st.teams.map((t,i)=>Number(st.jury[i]||0));const levels=[...new Set(n.filter(x=>x>0))].sort((a,c)=>c-a).slice(0,3);const pts=[8,5,3];
+  if(!levels.length){alert('עוד אין קולות בהצבעה.');return}
+  n.forEach((v,i)=>{const k=levels.indexOf(v);if(k>-1)add(i,pts[k])});st.awarded=true;save();drawAll();return}
+ if(b.hasAttribute('data-jreset')){if(!confirm('לאפס את ההצבעה? נקודות שכבר עברו ללוח נשארות בו.'))return;st.jury={};st.awarded=false;save();drawAll();return}
+});
+document.addEventListener('keydown',e=>{if(e.target.classList&&e.target.classList.contains('bName')&&e.key==='Enter'){e.preventDefault();e.target.blur()}});
+document.addEventListener('focusout',e=>{const c=e.target;if(!c.classList||!c.classList.contains('bName'))return;const t=st.teams[Number(c.dataset.i)];if(!t)return;
+ const v=c.textContent.trim();if(v&&v!==t.n){t.n=v;save();drawAll()}});
+drawAll();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1156 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>יום השוק: משחק המחיר | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<style>
+/* ===== יום השוק — lesson additions (kit styles above are untouched) · light theme ===== */
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;max-width:1200px}
+.row2>*{min-width:0}
+/* journey strip on the opening slide */
+.journey{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px;max-width:1150px}
+.journey span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--dim);font-weight:600;font-size:15px}
+.journey span.done{color:var(--muted)}
+.journey span.now{color:#fff;background:var(--accent-ink);border-color:var(--accent-ink);box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 30%,transparent)}
+/* price cards (ice cream) */
+.prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1100px}
+.pcard{border:1px solid var(--line);border-radius:20px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow);text-align:center}
+.pcard .em{font-size:40px;line-height:1}
+.pcard b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,25px);margin:6px 0 2px}
+.pcard .tag{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.2vw,44px);color:var(--accent-ink);letter-spacing:.06em}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.compact{margin-top:14px;gap:12px}.cards.compact .card{padding:14px 16px}.cards.compact .card p{font-size:17px}
+.card .q{display:block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:17px}
+.card .warnline{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--bad);font-size:15.5px}
+/* agenda chips */
+.agenda{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;max-width:1200px}
+.agenda span{padding:7px 13px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
+.agenda i{font-style:normal;color:var(--dim);font-weight:700}
+/* traffic light pill */
+.light{display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line)}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+/* milestones */
+.miles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:1150px}
+.mile{border:1px solid var(--line);border-radius:18px;padding:13px 18px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile small{display:block;font-family:var(--display);font-weight:700;color:var(--accent-ink);font-size:15px;margin-bottom:3px}
+.mile p{margin:0;font-size:clamp(16px,1.6vw,21px);line-height:1.45}
+.timerRow{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.timerRow .timer{margin-top:12px}
+.bigTimer .timer{padding:12px 18px 12px 24px}.bigTimer .timer output{font-size:clamp(56px,8vw,112px)}
+/* match (which method) */
+.match{display:grid;gap:9px;margin-top:14px;max-width:1180px}
+.mRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.7vw,22px);transition:.2s}
+.mRow .mBtns{display:flex;gap:6px}
+.mRow button{border:1px solid var(--line);border-radius:10px;padding:7px 12px;background:var(--paper);color:var(--ink);font-weight:700;font-size:16px}
+.mRow button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.mRow .mNote{grid-column:1/-1;display:none;color:var(--muted);font-size:16px}
+.mRow.done .mNote{display:block}
+.mRow.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.mRow.ok button.pick{background:var(--good);border-color:var(--good);color:#fff}
+.mRow.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}.mRow.no button.pick{background:var(--bad);border-color:var(--bad);color:#fff}
+/* case facts */
+.facts{display:grid;gap:10px;margin-top:14px;max-width:1150px}
+.fact{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:12px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.75vw,23px);line-height:1.45}
+.fact .em{flex:none;font-size:28px;line-height:1.2}
+.askBox{margin-top:14px;max-width:1150px;border-radius:18px;padding:13px 20px;font-size:clamp(18px,1.85vw,24px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.askBox b{color:var(--accent-ink)}
+.src{margin-top:10px;color:var(--dim);font-size:14px}
+/* price sensitivity bar */
+.range{display:grid;grid-template-columns:1fr 2fr 1fr;margin-top:16px;max-width:1150px;border-radius:14px;overflow:hidden;border:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:17px;text-align:center}
+.range span{padding:9px 6px}.range .lo{background:var(--bad-bg);color:var(--bad)}.range .mid{background:var(--good-bg);color:var(--good)}.range .hi{background:var(--bad-bg);color:var(--bad)}
+/* scoring table */
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--accent-ink);white-space:nowrap;text-align:center}
+table.t.rub{font-size:clamp(14px,1.35vw,18px)}
+table.t.rub th,table.t.rub td{padding:9px 12px;vertical-align:top}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+table.t.rub tr.reveal td{transition:inherit}
+.winline{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;max-width:1200px}
+.winline span{padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,19px);font-weight:500}
+.winline b{font-family:var(--display)}
+/* sheet mock */
+.sheet{margin-top:14px;max-width:1180px;border:1px solid #cfd8d4;border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);font-size:clamp(14px,1.35vw,18px)}
+.sheet table{border-collapse:collapse;width:100%}
+.sheet th{background:#f1f3f2;color:#5b6574;font-weight:600;font-size:13px;padding:3px 6px;border:1px solid #e1e5e3;text-align:center}
+.sheet td{border:1px solid #e1e5e3;padding:6px 10px;text-align:right;white-space:nowrap}
+.sheet td.rn{background:#f1f3f2;color:#5b6574;font-size:13px;text-align:center;width:34px;padding:3px}
+.sheet td.y{background:#fff8d6}
+.sheet td.f{background:#e3f1ee;color:#0b5c56;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;text-align:left;font-size:.92em}
+.sheet td.h{font-family:var(--display);font-weight:700;background:#fbfaf7}
+.sheet td.f bdi{font-family:var(--body);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:15px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-inline-end:5px;border:1px solid #d9d3c8}
+/* prompt with copy + fill-ins */
+.prompt{position:relative;padding-left:128px}
+.prompt.small{font-size:clamp(16px,1.6vw,21px);margin-top:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.fillin{background:var(--hl);border-radius:6px;padding:0 5px;outline:none;box-shadow:inset 0 -2px 0 #e3b341}
+.fillin:focus{box-shadow:0 0 0 2px var(--teal)}
+.editHint{color:var(--dim);font-size:15px;margin-top:8px}
+/* price tag mock */
+.ptag{position:relative;display:grid;grid-template-columns:200px 1fr;gap:0;max-width:1100px;margin-top:14px;border:2px solid var(--accent-line);border-radius:22px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.ptag .pp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--accent-soft);border-inline-end:2px dashed var(--accent-line);padding:14px}
+.ptag .pp .hole{width:18px;height:18px;border-radius:50%;border:2px solid var(--accent-line);background:#fff;margin-bottom:6px}
+.ptag .pp b{font-family:var(--display);font-weight:800;font-size:clamp(46px,5vw,70px);color:var(--accent-ink);line-height:1}
+.ptag .pp small{color:var(--muted);font-weight:700;font-size:15px}
+.ptag dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;padding:14px 20px;font-size:clamp(15px,1.5vw,19px);line-height:1.4}
+.ptag dt{font-family:var(--display);font-weight:700;color:var(--accent-ink);white-space:nowrap}
+.ptag dd{margin:0;color:var(--ink)}
+.ptag .stamp{grid-column:1/-1;padding:8px 20px;border-top:1px dashed var(--line);background:var(--paper);font-size:15px;color:var(--muted)}
+/* live tables */
+.liveBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.liveBar .ghost{padding:6px 12px;font-size:15px}
+.liveBar label{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);padding:5px 12px;border-radius:12px;background:var(--warn-bg);border:1px solid #efd9a0}
+table.t.live{font-size:clamp(14px,1.35vw,18px)}
+table.t.live th{font-size:clamp(13px,1.2vw,16px);padding:8px 8px;line-height:1.25;text-align:center}
+table.t.live td{padding:5px 7px;text-align:center;vertical-align:middle}
+table.t.live td:first-child{text-align:right}
+table.t.live input{width:100%;min-width:52px;max-width:96px;font:inherit;font-weight:700;padding:5px 6px;border:1px solid var(--line);border-radius:9px;background:#fffef9;color:var(--ink);text-align:center}
+table.t.live input.nm{max-width:170px;min-width:110px;text-align:right;font-family:var(--display)}
+table.t.live input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:0;background:#fff}
+table.t.live .calc{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+table.t.live .calc.neg{color:var(--bad)}table.t.live .calc.pos{color:var(--good)}
+table.t.live .tot{font-family:var(--display);font-weight:800;font-size:1.25em;color:var(--accent-ink)}
+table.t.live tr.r1 td{background:#fff8e1}table.t.live tr.r2 td{background:#f6f7f8}table.t.live tr.r3 td{background:#fdf3ec}
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button,.tg{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-weight:800;min-width:28px;height:30px;padding:0 6px;font-size:16px;line-height:1}
+.stp button:hover,.tg:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.stp output{min-width:22px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.tg.on{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.medal{font-size:1.1em}
+/* team vote */
+.tvote{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:16px;max-width:1200px}
+.tvote .voteItem strong{font-size:19px;min-height:2.4em;display:grid;place-items:center}
+/* news card */
+.newsWrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;margin-top:14px;max-width:1200px;align-items:start}
+.news{min-height:210px;border:2px dashed #e3b341;border-radius:22px;padding:20px 24px;background:#fffaf0;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.news .em{font-size:48px;line-height:1}
+.news b{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.6vw,36px);line-height:1.15}
+.news p{margin:0;font-size:clamp(17px,1.7vw,22px);color:var(--ink);line-height:1.45}
+.news .fx{font-weight:700;color:#8a5300}
+.news.empty{align-items:center;text-align:center;color:var(--muted)}
+.drawBtn{font-size:19px;padding:12px 20px}
+/* exit + misc */
+.qList{display:grid;gap:9px;margin-top:14px;max-width:1150px;counter-reset:q}
+.qList div{counter-increment:q;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px)}
+.qList div::before{content:counter(q);flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800}
+.linkBox{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:10px 18px;border-radius:16px;border:1.5px dashed var(--accent-line);background:var(--accent-soft);font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,30px)}
+.linkBox .fillin{background:#fff;box-shadow:inset 0 -2px 0 var(--accent);direction:ltr;unicode-bidi:isolate;padding:0 8px}
+.fname{font-family:var(--display);font-weight:700;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:2px 10px}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;max-width:1200px}
+.checks span{padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,19px);font-weight:500}
+.checks span::before{content:"☐ ";color:var(--accent-ink);font-weight:700}
+.teaser{margin-top:18px;max-width:900px;text-align:right;border:1px solid var(--line);border-top:4px solid var(--sky);border-radius:20px;padding:16px 22px;background:var(--card);box-shadow:var(--shadow)}
+.teaser small{display:block;font-family:var(--display);font-weight:700;color:var(--sky-ink);margin-bottom:4px}
+.teaser b{font-family:var(--display);font-size:clamp(20px,2vw,27px)}
+.teaser p{margin:4px 0 0;color:var(--muted);font-size:clamp(16px,1.6vw,20px)}
+.note{color:var(--dim);font-size:15px;margin-top:8px}
+.nw1 table.t td:first-child{white-space:nowrap}
+.slide .tableWrap{flex:none}
+.compactT table.t th,.compactT table.t td{padding:6px 14px}.compactT .winline span{padding:6px 12px;font-size:16px}.compactT .winline{margin-top:10px;gap:8px}
+@media (max-height:800px){.compactT table.t th,.compactT table.t td{padding:5px 12px}.compactT .winline{margin-top:8px}.compactT .winline span{padding:5px 10px}}
+.slide.liveS h2{font-size:clamp(26px,3vw,42px);margin:6px 0 4px}
+.slide.liveS .lead{margin-bottom:0}
+.slide.liveS .kicker{font-size:15px;padding:5px 12px}
+.slide.liveS .tableWrap{margin-top:8px;flex:none}
+.slide.liveS table.t.live td{padding:3px 6px}
+.slide.liveS table.t.live input{padding:3px 5px;font-size:clamp(14px,1.3vw,17px)}
+.slide.liveS .timer{padding:4px 8px 4px 12px}.slide.liveS .timer output{font-size:30px}
+.slide.liveS .stp button,.slide.liveS .tg{height:27px;min-width:26px}
+.tvote{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.tvote .voteItem{padding:10px 10px 12px}.tvote .voteItem .emoji{font-size:24px}.tvote .voteItem strong{font-size:18px;min-height:2.3em;margin:2px 0 6px}
+@media (max-height:800px){
+ .slide.tight h2{font-size:clamp(28px,3.4vw,46px);margin:8px 0 8px}
+ .journey{margin-top:14px}.journey span{font-size:14px;padding:5px 10px}
+ .prices{margin-top:10px}.pcard{padding:10px 12px}.pcard .em{font-size:30px}
+ .fact{padding:8px 14px}.facts{gap:7px}.askBox{padding:9px 16px;margin-top:10px}
+ .mRow{padding:7px 12px}.match{gap:6px}
+ table.t.live td{padding:3px 6px}table.t.live input{padding:3px 5px}
+ .sheet td{padding:4px 8px}
+ .ptag dl{padding:10px 16px;gap:4px 12px}
+ .qList div{padding:8px 12px}.qList{gap:6px}
+ .bigTimer .timer output{font-size:clamp(48px,7vw,90px)}
+}
+@media (max-width:900px){.row2,.miles,.newsWrap,.prices{grid-template-columns:1fr}.cards.four,.cards.five{grid-template-columns:1fr 1fr}.ptag{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">₪</div><div><b>יום השוק: משחק המחיר</b><small>שיעור 13 · מודל עסקי</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ============ 1–3 · פתיחה ============ -->
+<section class="slide hero" data-topic="פתיחה" data-title="יום השוק" data-accent="#e3a82b">
+  <span class="kicker">🏷️ שלב 5 מתוך 10 · מודל עסקי · שיעור 13</span>
+  <h2>יום <span class="yellow">השוק</span></h2>
+  <p class="lead">בעוד שעה בערך נפתח השוק של הכיתה. לכל קונה יש <b>30 ₪ משחק</b>, ולכל צוות יש <b>דוכן אחד ומחיר אחד</b> שצריך להגן עליו. יקר מדי? אף אחד לא יקנה. זול מדי? תמכרו הרבה ותפסידו. <b>הצוות שירוויח הכי הרבה, מנצח.</b></p>
+  <div class="journey" aria-label="המסע">
+    <span class="done">🔍 רעיונאות</span><span class="done">🧪 מחקר</span><span class="done">🎯 בעיה ופתרון</span><span class="done">💎 הצעת ערך</span><span class="now">🏷️ מודל עסקי</span><span>🧩 אב-טיפוס</span><span>📣 מיתוג</span><span>🎤 פיץ׳</span><span>🔁 שיפור</span><span>🏆 הצגה</span>
+  </div>
+  <div class="tags"><span>🔨 מכירה פומבית</span><span>🧮 3 שיטות תמחור</span><span>🤝 משא ומתן</span><span>🛒 יום שוק</span></div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="אותו ארטיק, 3 מחירים" data-accent="#e3a82b">
+  <span class="kicker">🍦 חידת פתיחה</span>
+  <h2>אותו ארטיק בדיוק. <span class="yellow">למה 3 מחירים?</span></h2>
+  <div class="prices">
+    <div class="pcard"><div class="em">🛒</div><b>בסופר, בחבילה</b><div class="tag">₪</div></div>
+    <div class="pcard"><div class="em">🏪</div><b>בקיוסק ליד בית הספר</b><div class="tag">₪₪</div></div>
+    <div class="pcard"><div class="em">🏖️</div><b>בחוף, ביום חם</b><div class="tag">₪₪₪</div></div>
+  </div>
+  <div class="cards four compact">
+    <div class="card reveal"><div class="emoji">📍</div><strong>מקום</strong><p>בחוף אין חנות אחרת. אין עם מי להשוות.</p></div>
+    <div class="card reveal"><div class="emoji">☀️</div><strong>זמן</strong><p>חם, צמאים, ורוצים <b>עכשיו</b>.</p></div>
+    <div class="card reveal"><div class="emoji">🧾</div><strong>עלויות</strong><p>מקרר, שכירות, מוכר. למישהו צריך לשלם.</p></div>
+    <div class="card reveal"><div class="emoji">💎</div><strong>ערך</strong><p>כמה הארטיק שווה <b>לי</b>, ברגע הזה.</p></div>
+  </div>
+  <div class="clickHint">קודם מנחשים בקול, ואז לוחצים "הבא"</div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום" data-accent="#e3a82b">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל צוות יהיו:</h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🧮</div><strong>מחשבון מחיר</strong><p>ב-Google Sheets: 3 שיטות, עם נוסחאות.</p></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>תווית מחיר</strong><p>ביומן הסטארט-אפ: מחיר, שיטה ו-2 נימוקים.</p></div>
+    <div class="card"><div class="emoji">🛡️</div><strong>תשובה להתנגדות</strong><p>להתנגדות הכי קשה של לקוח, בלי להוריד מחיר.</p></div>
+    <div class="card"><div class="emoji">💰</div><strong>רווח מיום השוק</strong><p>הזמנות אמיתיות מהכיתה, וחשבון רווח.</p></div>
+  </div>
+  <div class="agenda"><span>🔨 מכירה פומבית</span><i>←</i><span>🧮 3 שיטות</span><i>←</i><span>🧪 מעבדת המחיר</span><i>←</i><span>🤝 משא ומתן</span><i>←</i><span>🛒 יום השוק</span><i>←</i><span>🏆 תוצאות</span></div>
+</section>
+
+<!-- ============ 4 · צוותים ============ -->
+<section class="slide tight" data-topic="צוותים ותפקידים" data-title="התפקיד שלך היום">
+  <span class="kicker">👥 הצוותים בשולחנות · כרטיסי התפקיד עוברים שמאלה</span>
+  <h2>התפקיד שלך <span class="cyan">היום</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>מנהל/ת את הזמן ואת קופת המכרז, ומחליט/ה על המחיר הסופי אחרי שכולם דיברו.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>מביא/ה מחירי מתחרים ומריץ/ה את הסקר הקטן: 3 קונים, 2 שאלות.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>בונה את מחשבון 3 השיטות ב-Sheets, ואת שלט הדוכן.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><p>כותב/ת את התווית ביומן, מגיש/ה בטופס, ומוכר/ת ראשון/ה בשוק.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><p>מנהל/ת את המשא ומתן מול Gemini, רושם/ת התנגדויות ואת שורת ה-AI.</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="lead" style="margin:12px 0 0">המנכ״ל/ית מקריא/ה את כרטיס המשימה. הבונה פותח/ת את יומן הסטארט-אפ.</p></div>
+</section>
+
+<!-- ============ 5–8 · מכירה פומבית ============ -->
+<section class="slide tight" data-topic="מכירה פומבית" data-title="3 פרסים למכירה" data-accent="#e76f86">
+  <button class="helpBtn" data-help="auction" aria-label="הוראות">?</button>
+  <span class="kicker">🔨 חימום · מכירה פומבית</span>
+  <h2>3 פרסים. <span class="red">מי מציע יותר?</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">⏱️</div><strong>+2 דקות</strong><p>זמן נוסף לצוות שלכם בספרינט 2.</p></div>
+    <div class="card"><div class="emoji">🃏</div><strong>רמז זהב</strong><p>דקה שלמה עם המדריך/ה, רק איתכם, בספרינט 1.</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>פרסומת</strong><p>20 שניות להכריז על הדוכן שלכם לכל הכיתה לפני השוק.</p></div>
+  </div>
+  <div class="task"><strong>החוקים</strong><ol><li>לכל צוות יש <b>6 ₪ מכרז</b>. המנכ״ל/ית מציע/ה בשם הצוות.</li><li>מתחילים ב-1 ₪ ועולים כל פעם בשקל. ההצעה הגבוהה זוכה ומשלמת.</li><li>אסור לאחד כסף עם צוות אחר. מה שלא הוצאתם, נשאר אצלכם.</li></ol></div>
+</section>
+
+<section class="slide tight" data-topic="מכירה פומבית" data-title="סבב 1" data-accent="#e76f86">
+  <span class="kicker">🔨 סבב 1 · לכל צוות 6 ₪</span>
+  <h2>סבב 1: <span class="red">כמה שילמו?</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>פרס</th><th>הצוות הזוכה</th><th>המחיר ששולם (₪)</th></tr></thead>
+    <tbody>
+      <tr><td>⏱️ +2 דקות</td><td contenteditable data-k="a1w1"></td><td contenteditable data-k="a1p1"></td></tr>
+      <tr><td>🃏 רמז זהב</td><td contenteditable data-k="a1w2"></td><td contenteditable data-k="a1p2"></td></tr>
+      <tr><td>📣 פרסומת</td><td contenteditable data-k="a1w3"></td><td contenteditable data-k="a1p3"></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">לוחצים על תא וכותבים. הטבלה נשמרת במצגת.</p>
+</section>
+
+<section class="slide tight" data-topic="מכירה פומבית" data-title="סבב 2" data-accent="#e76f86">
+  <span class="kicker">📰 חדשות! כל צוות מקבל עוד 12 ₪</span>
+  <h2>סבב 2: <span class="red">אותם פרסים בדיוק</span></h2>
+  <p class="lead">מה שנשאר לכם מסבב 1 עדיין שלכם. מתחילים שוב מ-1 ₪.</p>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>פרס</th><th>מחיר בסבב 1</th><th>הצוות הזוכה בסבב 2</th><th>מחיר בסבב 2 (₪)</th></tr></thead>
+    <tbody>
+      <tr><td>⏱️ +2 דקות</td><td data-mirror="a1p1">—</td><td contenteditable data-k="a2w1"></td><td contenteditable data-k="a2p1"></td></tr>
+      <tr><td>🃏 רמז זהב</td><td data-mirror="a1p2">—</td><td contenteditable data-k="a2w2"></td><td contenteditable data-k="a2p2"></td></tr>
+      <tr><td>📣 פרסומת</td><td data-mirror="a1p3">—</td><td contenteditable data-k="a2w3"></td><td contenteditable data-k="a2p3"></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="slide" data-topic="מכירה פומבית" data-title="מה קרה למחירים?" data-accent="#e76f86">
+  <span class="kicker">🤔 רגע של חשיבה</span>
+  <h2>המחירים קפצו. <span class="red">מה השתנה?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🎁 הפרסים? <b>לא.</b> אותם פרסים בדיוק, ואותה כמות.</div>
+    <div class="revealCard reveal">💸 מה שהשתנה: <b>כמה כסף היה לקונים.</b> יותר כסף רדף אחרי אותם 3 פרסים.</div>
+    <div class="revealCard reveal">💎 מחיר נקבע לפי <b>כמה הקונים מוכנים, ויכולים, לשלם</b>. לא לפי כמה הפרס "עלה".</div>
+    <div class="revealCard reveal">🛒 ביום השוק לכל קונה יש <b>30 ₪ בלבד</b>. כל שקל שהוא נותן לכם, הוא לא נותן לדוכן אחר.</div>
+  </div>
+</section>
+
+<!-- ============ 9–16 · איך קובעים מחיר ============ -->
+<section class="slide" data-topic="איך קובעים מחיר" data-title="3 שיטות תמחור">
+  <span class="kicker">🧮 מיני-שיעור</span>
+  <h2>3 שיטות לקבוע <span class="cyan">מחיר</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🧮</div><strong>1 · לפי עלות</strong><p>עלות ליחידה + רווח = מחיר.</p><span class="q">"כמה זה עולה לנו?"</span><span class="warnline">⚠️ לא שואלת את הלקוח בכלל.</span></div>
+    <div class="card"><div class="emoji">👀</div><strong>2 · לפי מתחרים</strong><p>ממוצע המתחרים, ואז קצת מתחת או מעל, ולמה.</p><span class="q">"כמה גובים אחרים?"</span><span class="warnline">⚠️ אולי גם המתחרים טועים.</span></div>
+    <div class="card"><div class="emoji">💎</div><strong>3 · לפי ערך</strong><p>שואלים לקוחות: מתי זה מציאה, ומתי מתחיל להיות יקר.</p><span class="q">"כמה זה שווה ללקוח?"</span><span class="warnline">⚠️ צריך לשאול אנשים אמיתיים.</span></div>
+  </div>
+  <p class="lead" style="margin-top:16px">הכי חכם: <b>לחשב את שלושתן</b>, ואז להחליט.</p>
+</section>
+
+<section class="slide tight nw1" data-topic="איך קובעים מחיר" data-title="קופסת הפסקה ב-3 שיטות">
+  <span class="kicker">📦 הדוגמה שלנו · קופסת הפסקה · מנוי חודשי</span>
+  <h2>קופסת הפסקה <span class="cyan">ב-3 שיטות</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>שיטה</th><th>החישוב</th><th>מחיר</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🧮 עלות</td><td>ציוד ב-400 ₪ שמחזיק 10 חודשים, ל-10 ילדים: 4 ₪ לילד בחודש. ועוד 2 ₪ רווח.</td><td class="pts">6 ₪</td></tr>
+      <tr class="reveal"><td>👀 מתחרים</td><td>לקנות כדור לבד: בערך 30 ₪. ספריית משחקים בעירייה: חינם, אבל רחוקה ולא בהפסקה.</td><td class="pts">5–10 ₪</td></tr>
+      <tr class="reveal"><td>💎 ערך</td><td>שאלנו 3 ילדים. "מציאה": בממוצע 4 ₪. "מתחיל להיות יקר": בממוצע 9 ₪.</td><td class="pts">4–9 ₪</td></tr>
+    </tbody>
+  </table></div>
+  <div class="askBox reveal">✅ <b>ההחלטה: 6 ₪ לחודש.</b> מכסה את העלות, נמצא בתוך טווח הערך, וזול מלקנות כדור לבד.</div>
+  <p class="note">המספרים בדוגמה בדיוניים, לצורך התרגול.</p>
+</section>
+
+<section class="slide tight" data-topic="איך קובעים מחיר" data-title="איזו שיטה זו?">
+  <button class="helpBtn" data-help="match" aria-label="הוראות">?</button>
+  <span class="kicker">⚡ באצבעות: 1, 2 או 3</span>
+  <h2>איזו שיטה <span class="cyan">זו?</span></h2>
+  <div class="match">
+    <div class="mRow" data-ans="1"><span>״הכדור עולה לנו 20 ₪. נוסיף 10 ₪ ונמכור ב-30 ₪.״</span><div class="mBtns"><button data-v="1">1 · עלות</button><button data-v="2">2 · מתחרים</button><button data-v="3">3 · ערך</button></div><div class="mNote">לפי עלות: עלות ועוד רווח.</div></div>
+    <div class="mRow" data-ans="2"><span>״הקיוסק ממול מוכר שתייה ב-6 ₪, אז אנחנו נמכור ב-5 ₪.״</span><div class="mBtns"><button data-v="1">1 · עלות</button><button data-v="2">2 · מתחרים</button><button data-v="3">3 · ערך</button></div><div class="mNote">לפי מתחרים: מסתכלים כמה אחרים גובים.</div></div>
+    <div class="mRow" data-ans="3"><span>״שיעור עזר בלילה שלפני המבחן עולה יותר, כי הוא שווה יותר לתלמיד.״</span><div class="mBtns"><button data-v="1">1 · עלות</button><button data-v="2">2 · מתחרים</button><button data-v="3">3 · ערך</button></div><div class="mNote">לפי ערך: ברגע הזה זה חשוב ללקוח הרבה יותר.</div></div>
+    <div class="mRow" data-ans="3"><span>״המטריות בתחנה עולות יותר ביום של גשם פתאומי.״</span><div class="mBtns"><button data-v="1">1 · עלות</button><button data-v="2">2 · מתחרים</button><button data-v="3">3 · ערך</button></div><div class="mNote">לפי ערך: לייצר מטרייה עולה אותו דבר. מה שהשתנה הוא כמה היא שווה לנו.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך קובעים מחיר" data-title="מקרה בוחן: Fiverr" data-accent="#4c8bd6">
+  <span class="kicker">🇮🇱 מקרה בוחן · Fiverr</span>
+  <h2>מחיר שהפך <span class="cyan">לשם</span></h2>
+  <div class="facts">
+    <div class="fact"><span class="em">👥</span><span>מיכה קאופמן ושי וינינגר הקימו שוק ברשת שבו אנשים מוכרים שירותים דיגיטליים: עיצוב, תרגום, וידאו ותכנות.</span></div>
+    <div class="fact reveal"><span class="em">5️⃣</span><span>בהתחלה <b>כל משימה עלתה 5 דולר</b>. מכאן השם: Five, כלומר Fiverr. המחיר עצמו היה הפרסומת.</span></div>
+    <div class="fact reveal"><span class="em">🌍</span><span>היום החברה פעילה בערך ב-160 מדינות, ונסחרת בבורסה של ניו יורק מ-2019. ורבים כבר גובים בה הרבה יותר מ-5 דולר.</span></div>
+  </div>
+  <div class="askBox reveal">🤔 <b>שאלה לצוות:</b> מה המחיר שלכם אומר על המוצר, עוד לפני שמישהו ניסה אותו?</div>
+</section>
+
+<section class="slide tight quiz" data-topic="איך קובעים מחיר" data-title="מקרה בוחן: Juicero" data-answer="3" data-accent="#e76f86">
+  <span class="kicker">💥 מקרה בוחן · כישלון</span>
+  <h2>מסחטה ב-<span class="red">699 דולר</span></h2>
+  <p class="lead">Juicero מכרה מסחטה חכמה שמחוברת לאינטרנט ועובדת רק עם שקיות מיץ של החברה. <b>מרץ 2016: 699 דולר.</b> מעט קנו, ו<b>בינואר 2017 המחיר ירד ל-399.</b> ב-2017 החברה נסגרה. למה גם המחיר החדש לא הציל אותה?</p>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>399 דולר זה עדיין יקר מאוד.</span></button>
+    <button class="option"><span class="letter">ב</span><span>לא היה לה מספיק פרסום.</span></button>
+    <button class="option"><span class="letter">ג</span><span>התברר שאפשר לסחוט את השקיות ביד, בלי המסחטה.</span></button>
+    <button class="option"><span class="letter">ד</span><span>המתחרים הורידו מחירים.</span></button>
+  </div>
+  <div class="explain">✓ נכון. עיתונאים של Bloomberg הראו שסחיטה ביד עובדת באותה יעילות. כשהערך ללקוח נעלם, שום הנחה לא עוזרת. מחיר לא מציל מוצר שלא שווה את זה.</div>
+</section>
+
+<section class="slide tight" data-topic="איך קובעים מחיר" data-title="מי משלם, ואיך?">
+  <span class="kicker">💳 מודל הכנסה</span>
+  <h2>מי משלם, <span class="cyan">ואיך?</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🎟️</div><strong>על כל פעם</strong><p>משלמים רק כשמשתמשים. "כרטיס להשאלה אחת ב-1 ₪."</p></div>
+    <div class="card"><div class="emoji">📅</div><strong>מנוי</strong><p>תשלום קבוע כל חודש. הכנסה יציבה, אבל מי שמשתמש מעט משלם כמו כולם.</p></div>
+    <div class="card"><div class="emoji">🎁</div><strong>חינם, ותוספות בתשלום</strong><p>הבסיס חינם, ומשלמים על שדרוג. מעטים משלמים בשביל כולם.</p></div>
+  </div>
+  <div class="facts">
+    <div class="fact reveal"><span class="em">💬</span><span><b>Viber</b> הייתה חינם, ובשנתיים הראשונות לא הרוויחה כלום. מ-2013 נכנס כסף משיחות בתשלום ומ<b>חנות מדבקות</b>.</span></div>
+    <div class="fact reveal"><span class="em">🦉</span><span><b>Duolingo</b>: במאי 2022 רק <b>6.8%</b> מהמשתמשים שילמו. ובכל זאת, ב-2023 ההכנסות שלה היו יותר מחצי מיליארד דולר.</span></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="איך קובעים מחיר" data-title="יקר מדי? זול מדי?" data-accent="#4c8bd6">
+  <span class="kicker">⚖️ שיטה 3 בפועל</span>
+  <h2>4 שאלות שמגלות <span class="cyan">טווח מחיר</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🤨</div><strong>זול מדי</strong><p>באיזה מחיר זה כל כך זול, שתחשדו שמשהו לא בסדר?</p></div>
+    <div class="card"><div class="emoji">😃</div><strong>מציאה</strong><p>באיזה מחיר זה זול, אבל עדיין נראה בסדר?</p></div>
+    <div class="card"><div class="emoji">🤔</div><strong>מתחיל להיות יקר</strong><p>באיזה מחיר זה יקר, אבל עוד הייתם שוקלים?</p></div>
+    <div class="card"><div class="emoji">🙅</div><strong>יקר מדי</strong><p>באיזה מחיר כבר לא הייתם קונים בכלל?</p></div>
+  </div>
+  <div class="range"><span class="lo">חשוד</span><span class="mid">🎯 הטווח הטוב: בין "מציאה" ל"מתחיל להיות יקר"</span><span class="hi">יקר מדי</span></div>
+  <p class="lead" style="margin-top:12px">בספרינט תשאלו <b>3 קונים מצוותים אחרים</b> את שאלות 2 ו-3.</p>
+</section>
+
+<section class="slide tight quiz" data-topic="איך קובעים מחיר" data-title="בדיקת הבנה" data-answer="3">
+  <span class="kicker">🔢 ראשים ממוספרים · כל הצוות בודק, אחד עונה</span>
+  <h2>עלות ליחידה 4 ₪. מחיר 3 ₪. <span class="cyan">מכרתם 10.</span> מה קרה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>הרווחנו 30 ₪.</span></button>
+    <button class="option"><span class="letter">ב</span><span>הרווחנו 10 ₪.</span></button>
+    <button class="option"><span class="letter">ג</span><span>הפסדנו 10 ₪.</span></button>
+    <button class="option"><span class="letter">ד</span><span>יצאנו באפס.</span></button>
+  </div>
+  <div class="explain">✓ (3 − 4) × 10 = הפסד של 10 ₪. מכרתם הרבה, וכל מכירה הפסידה שקל. <b>רווח = (מחיר − עלות) × מספר המכירות.</b></div>
+</section>
+
+<!-- ============ 17–19 · האתגר ============ -->
+<section class="slide tight" data-topic="האתגר" data-title="האתגר: יום השוק" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר של היום</span>
+  <h2>יום <span class="yellow">השוק</span></h2>
+  <p class="lead"><b>המטרה:</b> לקבוע מחיר מנומק, להגן עליו מול לקוח קשוח, ולהרוויח הכי הרבה ביום השוק.</p>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>מחשבים מחיר ב-3 שיטות ב-Sheets ובוחרים מחיר אחד: <b>מספר שלם בין 1 ל-30 ₪</b>.</li>
+    <li>עלות ליחידה: לפחות 3 רכיבי עלות, ולא פחות מ-1 ₪. בנקודת הביקורת היא מאושרת.</li>
+    <li>בשוק: מוכר/ת אחד/ת בדוכן, וכל השאר קונים בדוכנים אחרים. בין הסבבים מתחלפים.</li>
+    <li>הזמנה מוקדמת: מייצרים רק מה שהוזמן. <b>רווח = (מחיר − עלות) × הזמנות.</b></li>
+    <li>בין הסבבים מותר לשנות מחיר פעם אחת. בזמן מכירה: הנחה של עד 10% בלבד.</li>
+    <li>הארנקים של הקונים חייבים להתאים לדף הדוכן. מה שלא מתאים, לא נספר.</li>
+  </ol></div>
+</section>
+
+<section class="slide tight compactT" data-topic="האתגר" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">📋 הניקוד ידוע מראש</span>
+  <h2>איך <span class="yellow">מנצחים?</span></h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>על מה</th><th style="text-align:center">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>✅ נקודת ביקורת: כל שיטה שמחושבת ב-Sheets</td><td class="pts">1 לשיטה · עד 3</td></tr>
+      <tr><td>🏷️ תווית מחיר שהוגשה לפי המפרט</td><td class="pts">2</td></tr>
+      <tr><td>🛡️ ההתנגדות הכי קשה קיבלה תשובה, בלי הנחה מעל 10%</td><td class="pts">2</td></tr>
+      <tr><td>📊 הרמה במחוון</td><td class="pts">1–4</td></tr>
+      <tr><td>💰 הרווח ביום השוק: מקום 1 · 2 · 3 · כל רווח אחר</td><td class="pts">8 · 5 · 3 · 1</td></tr>
+      <tr><td>🗣️ "הדוכן המשכנע" בהצבעת הכיתה</td><td class="pts">3</td></tr>
+      <tr><td>⭐ משימת צד</td><td class="pts">1 · עד 2</td></tr>
+    </tbody>
+  </table></div>
+  <div class="winline"><span>🥇 <b>מנצחים:</b> הכי הרבה נקודות. בתיקו: הרווח הגבוה יותר בשוק.</span><span>📈 <b>הכי שיפר:</b> הקפיצה הגדולה ברווח מסבב 1 לסבב 2</span><span>🧠 <b>המחיר החכם:</b> ההנמקה הכי טובה</span></div>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון · נמצא גם על השולחן</span>
+  <h2>איך נמדדת <span class="yellow">תווית המחיר</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>🧮 הנמקה</td><td>"כי זה נשמע טוב"</td><td>שיטה אחת</td><td>3 שיטות מחושבות</td><td>3 שיטות, והסבר למה נבחרה אחת ומה הסיכון</td></tr>
+      <tr class="reveal"><td>➗ חישוב</td><td>מספרים מוקלדים ביד, עם טעויות</td><td>חלק בנוסחאות, טעות אחת</td><td>עלות, ממוצע ורווח בנוסחאות, הכול נכון</td><td>הכול בנוסחאות ונכון, ותא שמתריע על הפסד</td></tr>
+      <tr class="reveal"><td>🛡️ התנגדויות ו-AI</td><td>אין תשובה, או "טוב, בחצי מחיר"</td><td>תשובה כללית: "זה שווה את זה"</td><td>תשובה בערך, עם דוגמה</td><td>תשובה משכנעת בלי הנחה, ומסמנים מה מ-Gemini לא מתאים ללקוח אמיתי</td></tr>
+      <tr class="reveal"><td>🎯 התאמה ללקוח</td><td>המחיר לא קשור ללקוח</td><td>"לדעתנו זה מתאים"</td><td>המחיר בתוך טווח הערך מהסקר</td><td>בתוך הטווח, ומוסבר איך הסקר והשוק שינו את ההחלטה</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 20–22 · ספרינט 1 ============ -->
+<section class="slide tight" data-topic="ספרינט 1: מעבדת המחיר" data-title="ספרינט 1" data-accent="#2f9e80">
+  <span class="kicker">⏱️ ספרינט 1</span>
+  <h2>מעבדת <span class="green">המחיר</span></h2>
+  <span class="light y">🟡 AI לבדיקה בלבד: Gemini יכול לבדוק נוסחה. המספרים שלכם.</span>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 8</small><p>עלות ליחידה (3 רכיבים לפחות) + 3 מחירי מתחרים בגיליון.</p></div>
+    <div class="mile"><small>עד הסוף</small><p>3 שיטות מחושבות, סקר של 3 קונים, ומחיר אחד שבחרתם.</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="1020"><output>17:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="lead" style="margin:12px 0 0">🛠️ בונה בגיליון · 🔍 חוקר/ת בסקר · 🧭 מנכ״ל/ית מחליט/ה</p></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1: מעבדת המחיר" data-title="המחשבון ב-Sheets" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="sheets" aria-label="הוראות">?</button>
+  <span class="kicker">🧮 Google Sheets · מחשבון 3 השיטות</span>
+  <h2>4 נוסחאות, <span class="green">מחיר אחד</span></h2>
+  <div class="sheet"><table>
+    <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+    <tbody>
+      <tr><td class="rn">3</td><td class="h">רכיב עלות</td><td class="h">כמה עולה (₪)</td><td class="h">לכמה יחידות מספיק</td><td class="h">עלות ליחידה</td></tr>
+      <tr><td class="rn">4</td><td class="y">כדורים</td><td class="y">120</td><td class="y">30</td><td class="f">=B4/C4</td></tr>
+      <tr><td class="rn">9</td><td class="h">סה״כ עלות ליחידה</td><td></td><td></td><td class="f">=SUM(D4:D8)</td></tr>
+      <tr><td class="rn">17</td><td class="h">👀 ממוצע מתחרים</td><td class="f">=AVERAGE(B14:B16)</td><td></td><td></td></tr>
+      <tr><td class="rn">24</td><td class="h">💎 טווח הערך מהסקר</td><td class="f">=AVERAGE(C21:C23)</td><td>עד</td><td class="f">=AVERAGE(D21:D23)</td></tr>
+      <tr><td class="rn">29</td><td class="h">💰 רווח ליחידה</td><td class="f">=B28-D9</td><td colspan="2" class="f">=IF(B29&lt;=0,"<bdi>הפסד!</bdi>","<bdi>רווח</bdi>")</td></tr>
+    </tbody>
+  </table></div>
+  <div class="legend"><span><i style="background:#fff8d6"></i>ממלאים בעצמכם</span><span><i style="background:#e3f1ee"></i>נוסחה (מתחילה ב-=)</span><span>💡 שם הקובץ: <span class="fname">צוות ___ · שיעור 13 · מחשבון מחיר</span></span></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1: מעבדת המחיר" data-title="סקר של 3 קונים" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="survey" aria-label="הוראות">?</button>
+  <span class="kicker">🔍 החוקר/ת יוצא/ת לשטח · 🔴 בלי AI</span>
+  <h2>שיטה 3: <span class="green">שואלים 3 קונים</span></h2>
+  <div class="prompt" style="padding-left:22px">"היי, אנחנו צוות <b>___</b>. המוצר שלנו: <b>___</b> (משפט אחד).<br>😃 באיזה מחיר זה <b>מציאה</b>, זול אבל עדיין נראה בסדר?<br>🤔 באיזה מחיר זה <b>מתחיל להיות יקר</b>, אבל עוד הייתם שוקלים?"</div>
+  <div class="checks"><span>3 אנשים מ-3 צוותים שונים</span><span>30 שניות לכל אחד</span><span>רושמים את המספר בדיוק כמו שנאמר</span><span>מי שנשאל עונה בכנות, גם אם זה צוות מתחרה</span></div>
+</section>
+
+<!-- ============ 23–24 · נקודת ביקורת ============ -->
+<section class="slide tight liveS" data-topic="נקודת ביקורת" data-title="לוח המחירים" data-accent="#4c8bd6">
+  <span class="kicker">✅ נקודת ביקורת · המנכ״ל/ית מקריא/ה</span>
+  <h2>המחירים <span class="cyan">על הלוח</span></h2>
+  <div class="tableWrap"><table class="t live" id="boardTable"></table></div>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ צוות</button><button class="ghost" data-act="delTeam">－ צוות</button><div class="timer" data-seconds="300" style="margin-top:0"><output>05:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<section class="slide center" data-topic="נקודת ביקורת" data-title="קומו אם..." data-accent="#4c8bd6">
+  <span class="kicker">🧍 דקה של תנועה</span>
+  <h2>קומו <span class="cyan">אם...</span></h2>
+  <div class="revealList" style="text-align:right">
+    <div class="revealCard reveal">🧍 המחיר שלכם גבוה מ-10 ₪</div>
+    <div class="revealCard reveal">🧍 בחרתם מחיר נמוך מהממוצע של המתחרים</div>
+    <div class="revealCard reveal">🧍 המחיר שלכם בתוך טווח הערך מהסקר</div>
+    <div class="revealCard reveal">🧍 תשובה בסקר הפתיעה מישהו בצוות</div>
+  </div>
+</section>
+
+<!-- ============ 25–30 · ספרינט 2 ============ -->
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="חדר המשא ומתן" data-accent="#8c7ae6">
+  <span class="kicker">🤝 חדר המשא ומתן</span>
+  <h2>Gemini משחק 3 לקוחות. <span class="violet">אתם המוכרים.</span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🪙</div><strong>החסכן</strong><p>"12 ₪? בכסף הזה אני קונה פיצה!" שומר על כל שקל, ורוצה לדעת למה לשלם.</p></div>
+    <div class="card"><div class="emoji">🤨</div><strong>הספקן</strong><p>"ומה אם זה לא עובד?" לא בטוח שהמוצר בכלל עושה מה שאתם מבטיחים.</p></div>
+    <div class="card"><div class="emoji">🎁</div><strong>צייד ההנחות</strong><p>"ואם אקנה שניים, תוריד לי?" אוהב את הרעיון, ומנסה לקבל אותו בזול.</p></div>
+  </div>
+  <p class="lead" style="margin-top:14px">המטרה: לשמוע את <b>ההתנגדות הכי קשה</b>, ולמצוא לה תשובה <b>בלי להוריד מחיר</b>.</p>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="הפרומפט" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="nego" aria-label="הוראות">?</button>
+  <span class="kicker">💬 מעתיקים ל-Gemini · gemini.google.com</span>
+  <h2>ככה <span class="violet">מתחילים</span></h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">בוא נשחק משחק תפקידים לתרגול מכירה. אני מוכר/ת <span class="fillin" contenteditable spellcheck="false" data-k="pProd">מנוי לקופסת הפסקה: ארגז משחקים וציוד ספורט להשאלה בהפסקות</span> במחיר <span class="fillin" contenteditable spellcheck="false" data-k="pPrice">6 ₪ לחודש</span>. אתה 3 לקוחות בני 13: חסכן, ספקן וצייד הנחות. דבר כל פעם רק כלקוח אחד, תן התנגדות אחת קשה ואמיתית על המחיר, ותחכה לתשובה שלי. אחרי כל תשובה שלי תגיד אם השתכנעת, בציון 1–5, ולמה. אל תסכים מהר. תתחיל מהחסכן.</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">עכשיו צא מהתפקיד. סכם בטבלה: כל התנגדות שהעלית, התשובה שלי, ציון השכנוע, והצעה איך לענות טוב יותר בלי להוריד מחיר. בסוף כתוב מה ההתנגדות הכי קשה. זכור שאתה לקוח מדומה, לא לקוח אמיתי.</span></div>
+  <p class="editHint">✏️ החלקים הצהובים: לוחצים ומחליפים במוצר ובמחיר שלכם. בסוף מדביקים את פרומפט הסיכום.</p>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="עונים בלי להוריד מחיר" data-accent="#8c7ae6">
+  <span class="kicker">🛡️ איך עונים להתנגדות</span>
+  <h2>לא ממהרים <span class="violet">להוריד מחיר</span></h2>
+  <div class="cards four compact">
+    <div class="card"><div class="emoji">💎</div><strong>ערך</strong><p>מה מקבלים בשביל המחיר הזה.</p></div>
+    <div class="card"><div class="emoji">⚖️</div><strong>השוואה</strong><p>"פחות מארטיק אחד, לחודש שלם."</p></div>
+    <div class="card"><div class="emoji">🛡️</div><strong>הבטחה</strong><p>"הפעם הראשונה עלינו. אהבת? מצטרפים."</p></div>
+    <div class="card"><div class="emoji">➕</div><strong>מוסיפים, לא מורידים</strong><p>במקום הנחה: עוד משהו קטן שזול לכם.</p></div>
+  </div>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ הנחה מיד</span>"טוב, נו... אז 3 ₪."</div>
+    <div class="box good"><span class="label">✓ תשובה בערך</span>"ב-6 ₪ יש לך כדור, חבל וקלפים בכל הפסקה, חודש שלם. זה פחות מארטיק אחד."</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="תווית המחיר" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="tag" aria-label="הוראות">?</button>
+  <span class="kicker">🏷️ התוצר של היום · שקף 13 ביומן הסטארט-אפ</span>
+  <h2>תווית <span class="violet">המחיר</span></h2>
+  <div class="ptag">
+    <div class="pp"><span class="hole"></span><b>6 ₪</b><small>לחודש · קופסת הפסקה</small></div>
+    <dl>
+      <dt>השיטה</dt><dd>לפי עלות (4 ₪ + 2 ₪), ובדקנו שזה בתוך טווח הערך (4–9 ₪)</dd>
+      <dt>נימוק 1</dt><dd>מכסה כדורים שנקרעים וציוד שנעלם</dd>
+      <dt>נימוק 2</dt><dd>פחות מארטיק אחד, לחודש שלם של משחקים</dd>
+      <dt>ההתנגדות הכי קשה</dt><dd>"ואם אני לא משחק כל יום?"</dd>
+      <dt>התשובה שלנו</dt><dd>"יש גם כרטיס של 1 ₪ להשאלה אחת. תבחר מה שמתאים לך."</dd>
+      <dt>ביום השוק</dt><dd>___ הזמנות · רווח ___ ₪ (ממלאים אחרי השוק)</dd>
+    </dl>
+    <div class="stamp">🤖 <b>מה ה-AI עשה:</b> Gemini שיחק 3 לקוחות מדומים · ✋ <b>מה אנחנו עשינו:</b> חישבנו את המחיר, כתבנו את התשובות והחלטנו.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="ספרינט 2" data-accent="#8c7ae6">
+  <span class="kicker">⏱️ ספרינט 2</span>
+  <h2>משא ומתן <span class="violet">ותווית</span></h2>
+  <span class="light g">🟢 AI כשותף: Gemini משחק לקוח. אתם כותבים את התשובות ובודקים.</span>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 6</small><p>3 התנגדויות רשומות על הדף, ותשובה לכל אחת.</p></div>
+    <div class="mile"><small>עד הסוף</small><p>תווית המחיר ביומן + שלט דוכן על דף: שם, מחיר ומשפט אחד שמוכר.</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="660"><output>11:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <p class="lead" style="margin:12px 0 0">🤖 AI מקליד/ה · כולם מחליטים מה עונים · 🎤 מתעד/ת כותב/ת תווית · 🛠️ בונה מכין/ה שלט</p></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2: משא ומתן" data-title="משימות צד" data-accent="#8c7ae6">
+  <span class="kicker">⭐ סיימתם? משימת צד = נקודה (עד 2)</span>
+  <h2>משימות <span class="violet">צד</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">📈</div><strong>מחיר דינמי</strong><p>תכננו מראש: אם בסבב 1 יהיו פחות מ-3 הזמנות, מה המחיר בסבב 2? ולמה?</p></div>
+    <div class="card"><div class="emoji">🔴</div><strong>צוות אדום</strong><p>Gemini משחק מתחרה שרוצה להוציא אתכם מהשוק. 3 מהלכים שלו, ותשובה לכל אחד.</p></div>
+    <div class="card"><div class="emoji">📝</div><strong>טופס הזמנה</strong><p>טופס "הזמנה מוקדמת" ב-Google Forms עם 3 שאלות. בשוק הקונים ממלאים אותו.</p></div>
+    <div class="card"><div class="emoji">🎁</div><strong>מבצע רווחי</strong><p>מבצע (חבילה או 1+1), ובדיקה ב-Sheets שהוא עדיין מרוויח.</p></div>
+  </div>
+</section>
+
+<!-- ============ 31 · הגשה ============ -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשה" data-accent="#2f9e80">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📤 הגשה · המתעד/ת מגיש/ה</span>
+  <h2>מגישים <span class="green">לפני שהשוק נפתח</span></h2>
+  <div class="linkBox">🔗 טופס הגשת תוצר: <span class="fillin" contenteditable spellcheck="false" data-k="formLink">הקישור על הלוח</span></div>
+  <div class="checks"><span>שם הצוות</span><span>מספר השיעור: 13</span><span>קישור לשקף התווית ביומן (ובו קישור למחשבון)</span><span>רמה במחוון לפי הערכה עצמית</span><span>שורת AI: מה ה-AI עשה · מה אנחנו עשינו</span></div>
+  <p class="lead" style="margin-top:12px">שם הקובץ: <span class="fname">צוות ___ · שיעור 13 · תווית מחיר</span></p>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ============ 32–38 · יום השוק ============ -->
+<section class="slide tight" data-topic="יום השוק" data-title="איך עובד יום השוק" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="market" aria-label="הוראות">?</button>
+  <span class="kicker">🛒 יום השוק · 2 סבבים של 4 דקות</span>
+  <h2>איך עובד <span class="yellow">השוק</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🏪 דוכן</strong><p>שלט ודף דוכן על השולחן. המוכר/ת של סבב 1 נשאר/ת.</p></div>
+    <div class="step"><strong>🃏 קונים</strong><p>כל קונה שולף/ת כרטיס קונה סודי, ומקבל/ת ארנק של 30 ₪.</p></div>
+    <div class="step"><strong>🛒 קונים באמת</strong><p>רק מה שבאמת הייתם רוצים. הזמנה אחת לכל דוכן בכל סבב. לא מהצוות שלכם.</p></div>
+    <div class="step"><strong>✍️ רושמים פעמיים</strong><p>בארנק של הקונה ובדף הדוכן. המוכר/ת חותם/ת בארנק.</p></div>
+    <div class="step"><strong>🔄 בין הסבבים</strong><p>מבזק חדשות, החלטה על מחיר, ומוכר/ת חדש/ה.</p></div>
+  </div>
+</section>
+
+<section class="slide center bigTimer" data-topic="יום השוק" data-title="סבב 1" data-accent="#e3a82b">
+  <span class="kicker">🛒 סבב 1</span>
+  <h2>השוק <span class="yellow">פתוח!</span></h2>
+  <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <div class="checks" style="justify-content:center"><span>הזמנה אחת לכל דוכן</span><span>לא מהצוות שלכם</span><span>הכרטיס הסודי: משחקים אותו</span><span>הנחה: עד 10% בלבד</span></div>
+</section>
+
+<section class="slide tight" data-topic="יום השוק" data-title="מבזק חדשות" data-accent="#e3a82b">
+  <span class="kicker">🗞️ מבזק חדשות מהשוק</span>
+  <h2>משהו <span class="yellow">השתנה...</span></h2>
+  <div class="newsWrap">
+    <div class="news empty" id="newsCard"><span class="em">🗞️</span><b>עוד לא נשלפו חדשות</b><p>לוחצים על "שולפים כרטיס".</p></div>
+    <div>
+      <button class="btn drawBtn" data-act="drawNews">🎲 שולפים כרטיס</button>
+      <p class="lead" style="margin-top:14px">דקה להחליט: <b>משנים מחיר לסבב 2?</b> כותבים את המחיר החדש על השלט ובדף הדוכן.</p>
+      <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <p class="note"><button class="ghost" data-act="resetNews" style="padding:4px 10px;font-size:14px">↺ איפוס החדשות</button></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide center bigTimer" data-topic="יום השוק" data-title="סבב 2" data-accent="#e3a82b">
+  <span class="kicker">🛒 סבב 2 · מוכר/ת חדש/ה בכל דוכן</span>
+  <h2>סבב <span class="yellow">אחרון!</span></h2>
+  <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  <div class="checks" style="justify-content:center"><span>מה שנשאר בארנק: עכשיו או לעולם לא</span><span>המחיר החדש כתוב על השלט</span><span>החדשות בתוקף</span></div>
+</section>
+
+<section class="slide tight liveS" data-topic="יום השוק" data-title="ספירת הקופה" data-accent="#e3a82b">
+  <span class="kicker">🧾 ספירת הקופה · כל צוות מקריא את דף הדוכן</span>
+  <h2>מי <span class="yellow">הרוויח?</span></h2>
+  <div class="tableWrap"><table class="t live" id="marketTable"></table></div>
+  <div class="liveBar"><label>🗞️ שינוי בעלות ליחידה בסבב 2: <input type="number" step="1" data-g="shock" style="width:70px;font:inherit;font-weight:800;text-align:center;border:1px solid var(--line);border-radius:9px;padding:3px 6px"> ₪</label><span class="note" style="margin:0">רווח = (מחיר − עלות) × הזמנות, בכל סבב</span></div>
+</section>
+
+<section class="slide tight liveS" data-topic="יום השוק" data-title="הדוכן המשכנע" data-accent="#e3a82b">
+  <span class="kicker">🗣️ הצבעה · כל אחד פעם אחת, לא לצוות שלו</span>
+  <h2>הדוכן <span class="yellow">המשכנע</span></h2>
+  <p class="lead">איזה מוכר/ת שכנע/ה אתכם הכי טוב, גם אם לא קניתם?</p>
+  <div class="tvote" id="teamVote"></div>
+</section>
+
+<section class="slide tight liveS" data-topic="יום השוק" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 לוח הניקוד</span>
+  <h2>מי ניצח <span class="yellow">ביום השוק?</span></h2>
+  <div class="tableWrap"><table class="t live" id="scoreTable"></table></div>
+  <div class="liveBar"><span class="note" style="margin:0" id="scoreLine"></span><button class="ghost" data-act="resetAll" style="margin-inline-start:auto">↺ איפוס השיעור</button></div>
+</section>
+
+<!-- ============ 39–42 · סיכום ============ -->
+<section class="slide" data-topic="סיכום" data-title="מה קרה בשוק?">
+  <span class="kicker">🔍 תחקיר</span>
+  <h2>מה קרה <span class="cyan">בשוק?</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">📉 מי שינה מחיר בין הסבבים? מה קרה להזמנות, ומה קרה לרווח?</div>
+    <div class="revealCard reveal">🏷️ הדוכן הכי זול הרוויח הכי הרבה? למה כן, או למה לא?</div>
+    <div class="revealCard reveal">🗞️ איך החדשות שינו את ההחלטות שלכם?</div>
+    <div class="revealCard reveal">🛡️ איזו התנגדות שמעתם גם מ-Gemini וגם מקונה אמיתי בשוק?</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="סיכום" data-title="Gemini מול השוק">
+  <span class="kicker">🎭 לקוח מדומה מול לקוח אמיתי</span>
+  <h2>נכון, או <span class="cyan">לא נכון?</span></h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>Gemini הסכים לשלם 12 ₪, אז כולם ישלמו 12 ₪.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. Gemini הוא לא לקוח. הוא רק מנחש איך לקוח היה מגיב.</div></div>
+    <div class="tfRow" data-true="1"><span>התרגול מול Gemini עזר לנו להתכונן לשאלות קשות.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">נכון. זה אימון, כמו משחק אימון לפני משחק אמיתי.</div></div>
+    <div class="tfRow" data-true="1"><span>ההזמנות ביום השוק הן ראיה חזקה יותר מתשובה של Gemini.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">נכון. אנשים אמיתיים בחרו והוציאו כסף, גם אם כסף משחק.</div></div>
+    <div class="tfRow" data-true="0"><span>יום השוק הוכיח מה המחיר הנכון בעולם האמיתי.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ לא נכון</button></div><div class="tfNote">לא נכון. קונים מהכיתה וכסף משחק. את המחיר בודקים גם עם לקוחות אמיתיים מבחוץ.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="סיכום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד</span>
+  <h2>3 דקות, <span class="red">ויוצאים</span></h2>
+  <span class="light r">🔴 בלי AI. כותבים לבד.</span>
+  <div class="qList">
+    <div>דבר אחד שלמדתי היום על מחיר.</div>
+    <div>שאלה אחת שנשארה לי.</div>
+    <div>אם הייתם פותחים את הדוכן שוב מחר, הייתם משנים את המחיר? למה?</div>
+    <div>כמה הבנתי, מ-0 עד 5? ומה תרמתי היום לצוות?</div>
+  </div>
+  <div class="timerRow"><div class="linkBox" style="font-size:clamp(18px,1.8vw,24px)">🔗 <span class="fillin" contenteditable spellcheck="false" data-k="exitLink">הקישור על הלוח, או כרטיס נייר</span></div><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<section class="slide center" data-topic="סיכום" data-title="השוק נסגר" data-accent="#e3a82b">
+  <span class="kicker">🏁 השוק נסגר</span>
+  <h2>יש לכם מחיר <span class="yellow">שנבדק 3 פעמים</span></h2>
+  <p class="lead">בחישוב, מול לקוח קשוח, ובשוק עם קונים אמיתיים. התווית נשמרת ביומן, והמחיר ממשיך איתנו.</p>
+  <div class="teaser"><small>💰 השיעור הבא · שיעור 14</small><b>תקציב ונקודת איזון: מי שורד את השוק?</b><p>הבנק ייתן הלוואה רק לצוות שהתקציב שלו שורד 3 זעזועים. המחיר של היום נכנס לתקציב, ונגלה כמה צריך למכור כדי להרוויח.</p></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-auction"><h3>🔨 איך עובדת המכירה הפומבית?</h3><ol><li>כל צוות מקבל כרטיס "קופת מכרז": 6 ₪ בסבב 1.</li><li>מכריזים על פרס. המנכ״ל/ית מרים/ה יד ואומר/ת מחיר. מתחילים ב-1 ₪, ועולים בשקל.</li><li>"3… 2… 1… נמכר!" הצוות הזוכה מוריד את הסכום בכרטיס הקופה.</li><li>אסור להציע יותר ממה שנשאר בקופה, ואסור לאחד כסף עם צוות אחר.</li><li>בסבב 2 כל צוות מקבל עוד 12 ₪, ומוכרים שוב את אותם 3 פרסים.</li></ol></template>
+<template id="help-match"><h3>⚡ איזו שיטה זו?</h3><ol><li>קוראים את המשפט בקול.</li><li>כל אחד מרים אצבעות: 1 = עלות · 2 = מתחרים · 3 = ערך.</li><li>לוחצים על התשובה של הרוב. ירוק = נכון, אדום = לא נכון.</li></ol></template>
+<template id="help-rules"><h3>🛒 יום השוק: כל הפרטים</h3><ul><li><b>המחיר:</b> מספר שלם בין 1 ל-30 ₪. מוצר יקר יותר? מוכרים "חבילת היכרות" או מנוי לחודש, משהו קטן שהמחיר שלו עד 30.</li><li><b>העלות ליחידה:</b> מהמחשבון שלכם, מעוגלת לשקל שלם. לפחות 1 ₪.</li><li><b>הקונים:</b> לכל קונה ארנק של 30 ₪ לשני הסבבים יחד, וכרטיס קונה סודי.</li><li><b>הזמנה מוקדמת:</b> קונים "הזמנה" למוצר. מייצרים רק מה שהוזמן, כך שאין מלאי שנשאר.</li><li><b>רווח:</b> (מחיר − עלות) × הזמנות, בכל סבב בנפרד, ואז מחברים.</li><li><b>הנחה:</b> עד 10% בלבד. במחיר 10 ₪ זה שקל אחד.</li><li><b>יושרה:</b> הארנקים של הקונים צריכים להתאים לדף הדוכן.</li></ul></template>
+<template id="help-sheets"><h3>🧮 המחשבון ב-Google Sheets</h3><ol><li>פותחים את הקישור של התבנית ולוחצים "יצירת עותק". אין קישור? <b>sheets.new</b> ובונים לפי השקף.</li><li>שם הקובץ: "צוות ___ · שיעור 13 · מחשבון מחיר".</li><li>"שיתוף" ← מוסיפים את חברי הצוות כעורכים.</li><li>ממלאים את התאים הצהובים: רכיבי עלות, מחירי מתחרים, תשובות הסקר.</li><li>כל נוסחה מתחילה ב-<b>=</b>. בוחרים תא ומקלידים, למשל <b>=SUM(D4:D8)</b>.</li><li>פורמט שקלים: "עיצוב ← מספר ← מטבע".</li><li>הפסד באדום: "עיצוב ← עיצוב מותנה", "קטן מ-" 0, צבע אדום, "בוצע".</li></ol></template>
+<template id="help-survey"><h3>🔍 הסקר הקטן</h3><ol><li>החוקר/ת ניגש/ת ל-3 אנשים, כל אחד מצוות אחר.</li><li>אומר/ת משפט אחד על המוצר, בלי המחיר שלכם.</li><li>שואל/ת את 2 השאלות, ורושם/ת את המספרים בדיוק.</li><li>חוזר/ת לצוות ומקליד/ה בגיליון, בתאים C21:D23.</li></ol><p>מי שנשאל עונה בכנות, ולא "עוזר" לצוות שלו.</p></template>
+<template id="help-nego"><h3>🤝 חדר המשא ומתן</h3><ol><li>פותחים צ׳אט חדש ב-gemini.google.com.</li><li>מחליפים את החלקים הצהובים במוצר ובמחיר שלכם, לוחצים "העתקה" ומדביקים.</li><li>אחד מקליד, וכל הצוות מחליט יחד מה עונים.</li><li>רושמים על הדף כל התנגדות ואת ציון השכנוע.</li><li>Gemini עונה בשם כולם בבת אחת? כותבים: "רק לקוח אחד, ותחכה לי."</li><li>Gemini מסכים מהר מדי? "תהיה לקוח יותר קשוח."</li><li>בסוף מדביקים את פרומפט הסיכום.</li></ol><p>בפרומפט כותבים על המוצר, לא על עצמנו: בלי שמות, בית ספר או פרטים על הכסף של המשפחה.</p></template>
+<template id="help-tag"><h3>🏷️ תווית המחיר</h3><ol><li>פותחים את יומן הסטארט-אפ של הצוות ומוסיפים שקף: "שיעור 13 · תווית מחיר".</li><li>ממלאים: המחיר, השיטה, 2 נימוקים, ההתנגדות הכי קשה והתשובה שלכם.</li><li>משאירים מקום ל"ביום השוק: ___ הזמנות · רווח ___ ₪".</li><li>מוסיפים בתחתית את שורת ה-AI: מה ה-AI עשה · מה אנחנו עשינו.</li><li>הבונה מכין/ה על דף את שלט הדוכן: שם המוצר, המחיר ומשפט אחד שמוכר.</li></ol></template>
+<template id="help-submit"><h3>📤 הגשה</h3><ol><li>המתעד/ת פותח/ת את הטופס מהקישור.</li><li>בוחר/ת את שם הצוות מהרשימה, ומדביק/ה קישור לשקף ולמחשבון.</li><li>הצוות מחליט יחד על הרמה במחוון, ושורת ה-AI (מה ה-AI עשה · מה אנחנו עשינו) נכתבת בטופס.</li><li>"שליחה". אחרי השוק מוסיפים ביומן את מספר ההזמנות והרווח.</li></ol></template>
+<template id="help-market"><h3>🛒 יום השוק, צעד אחר צעד</h3><ol><li>המוכר/ת יושב/ת בדוכן עם השלט, דף הדוכן ועט.</li><li>הקונים מקבלים ארנק (30 ₪) ושולפים כרטיס קונה סודי. את הכרטיס לא מראים לאף אחד.</li><li>קונה שרוצה לקנות: אומר/ת "אני מזמין/ה", כותב/ת בארנק את שם הדוכן והסכום, והמוכר/ת חותם/ת.</li><li>המוכר/ת כותב/ת בדף הדוכן: שם הקונה והסכום.</li><li>אחרי סבב 1: מבזק חדשות, דקה להחליט על מחיר, ומוכר/ת חדש/ה מהצוות.</li><li>בסוף: סופרים הזמנות בכל סבב ומחשבים רווח.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+
+<script>
+/* ===== יום השוק — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) one shared state for the teams (names, prices, market, votes, points), saved in this browser,
+   2) live tables: price board (slide 23), market count (36), team vote (37), scoreboard (38),
+   3) news-card draw, "which method" rows, copy buttons, saved editable cells. */
+(()=>{
+const LS='tie-pricetag-v1:'+location.pathname;
+const blank=n=>({name:n,cost:'',comp:'',vlo:'',vhi:'',price:'',m:0,tag:0,obj:0,rub:0,p1:'',o1:'',p2:'',o2:'',votes:0,side:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(i=>blank('צוות '+i)),shock:0,news:[],cells:{}});
+let S=null;try{S=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();
+S.cells=S.cells||{};S.news=S.news||[];
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}};
+const num=v=>{if(v===''||v===null||v===undefined)return null;const x=parseFloat(String(v).replace(',','.'));return isFinite(x)?x:null};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=x=>x===null?'—':(Math.round(x*10)/10).toLocaleString('he-IL');
+
+/* ---------- calculations ---------- */
+function market(t){
+ const cost=num(t.cost);const p1=num(t.p1)??num(t.price);const p2=num(t.p2)??p1;const o1=num(t.o1)||0,o2=num(t.o2)||0;
+ if(cost===null||p1===null||(!o1&&!o2))return {rev:null,profit:null,r1:null,r2:null};
+ const c2=Math.max(0,cost+(num(S.shock)||0));
+ const r1=(p1-cost)*o1,r2=((p2??p1)-c2)*o2;
+ return {rev:p1*o1+(p2??p1)*o2,profit:r1+r2,r1,r2};
+}
+function marketPoints(){
+ const pr=S.teams.map(t=>market(t).profit);
+ const pos=[...new Set(pr.filter(x=>x!==null&&x>0))].sort((a,b)=>b-a);
+ return pr.map(x=>{if(x===null||x<=0)return {pts:0,place:null};const k=pos.indexOf(x);return {pts:[8,5,3][k]??1,place:k<3?k+1:null}});
+}
+function votePoints(){const v=S.teams.map(t=>num(t.votes)||0);const top=Math.max(0,...v);return v.map(x=>top>0&&x===top?3:0)}
+function totals(){const mp=marketPoints(),vp=votePoints();
+ return S.teams.map((t,i)=>({mp:mp[i],vp:vp[i],tot:(num(t.m)||0)+(num(t.tag)||0)+(num(t.obj)||0)+(num(t.rub)||0)+mp[i].pts+vp[i]+(num(t.side)||0)}))}
+
+/* ---------- builders ---------- */
+const inp=(i,f,cls='',type='number')=>`<input ${type==='number'?'type="number" inputmode="numeric"':'type="text"'} class="${cls}" data-i="${i}" data-f="${f}" value="${esc(S.teams[i][f]??'')}">`;
+const stp=(i,f,max)=>`<span class="stp"><button data-step="${f}" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output data-c="${f}" data-i="${i}">${S.teams[i][f]||0}</output><button data-step="${f}" data-i="${i}" data-d="1" data-max="${max}" aria-label="יותר">+</button></span>`;
+const tg=(i,f)=>`<button class="tg${S.teams[i][f]?' on':''}" data-tog="${f}" data-i="${i}">${S.teams[i][f]?'✓ 2':'0'}</button>`;
+const nameCell=i=>`<td>${inp(i,'name','nm','text')}</td>`;
+const nameText=i=>`<span data-c="name" data-i="${i}">${esc(S.teams[i].name)}</span>`;
+
+function renderBoard(){const el=document.getElementById('boardTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>צוות</th><th>עלות ליחידה ₪</th><th>ממוצע מתחרים ₪</th><th>ערך: מציאה ₪</th><th>ערך: מתחיל להיות יקר ₪</th><th>המחיר שבחרנו ₪</th><th>רווח ליחידה</th><th>שיטות ✓</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr>${nameCell(i)}<td>${inp(i,'cost')}</td><td>${inp(i,'comp')}</td><td>${inp(i,'vlo')}</td><td>${inp(i,'vhi')}</td><td>${inp(i,'price')}</td><td class="calc" data-c="margin" data-i="${i}"></td><td>${stp(i,'m',3)}</td></tr>`).join('')+'</tbody>'}
+function renderMarket(){const el=document.getElementById('marketTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>צוות</th><th>עלות ליחידה ₪</th><th>מחיר סבב 1</th><th>הזמנות סבב 1</th><th>מחיר סבב 2</th><th>הזמנות סבב 2</th><th>הכנסות ₪</th><th>רווח ₪</th><th>מקום</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-row="${i}"><td>${nameText(i)}</td><td>${inp(i,'cost')}</td><td>${inp(i,'p1').replace('<input','<input data-ph="price" placeholder="'+esc(t.price||'')+'"')}</td><td>${inp(i,'o1')}</td><td>${inp(i,'p2')}</td><td>${inp(i,'o2')}</td><td class="calc" data-c="rev" data-i="${i}"></td><td class="calc" data-c="profit" data-i="${i}"></td><td class="calc" data-c="place" data-i="${i}"></td></tr>`).join('')+'</tbody>';
+ const g=document.querySelector('[data-g="shock"]');if(g&&document.activeElement!==g)g.value=S.shock||0}
+function renderVote(){const el=document.getElementById('teamVote');if(!el)return;
+ el.innerHTML=S.teams.map((t,i)=>`<div class="voteItem" data-vi="${i}"><div class="emoji">🏪</div><strong>${nameText(i)}</strong><div class="voteCtl"><button data-step="votes" data-i="${i}" data-d="-1">−</button><output data-c="votes" data-i="${i}">${t.votes||0}</output><button data-step="votes" data-i="${i}" data-d="1" data-max="99">+</button></div><div class="bar"><i data-c="vbar" data-i="${i}"></i></div></div>`).join('')}
+function renderScore(){const el=document.getElementById('scoreTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>צוות</th><th>ביניים<br>עד 3</th><th>תווית<br>2</th><th>התנגדות<br>2</th><th>מחוון<br>1–4</th><th>רווח בשוק<br>8·5·3·1</th><th>דוכן משכנע<br>3</th><th>משימות צד<br>עד 2</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-srow="${i}"><td><span class="medal" data-c="medal" data-i="${i}"></span> ${nameText(i)}</td><td>${stp(i,'m',3)}</td><td>${tg(i,'tag')}</td><td>${tg(i,'obj')}</td><td>${stp(i,'rub',4)}</td><td class="calc" data-c="mpts" data-i="${i}"></td><td class="calc" data-c="vpts" data-i="${i}"></td><td>${stp(i,'side',2)}</td><td class="tot" data-c="tot" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+
+function update(){
+ const T=totals();const maxV=Math.max(1,...S.teams.map(t=>num(t.votes)||0));
+ const order=[...T.keys()].sort((a,b)=>T[b].tot-T[a].tot||((market(S.teams[b]).profit??-1e9)-(market(S.teams[a]).profit??-1e9)));
+ const anyPts=T.some(x=>x.tot>0);const rank={};order.forEach((i,k)=>rank[i]=k);
+ document.querySelectorAll('[data-c]').forEach(el=>{const i=Number(el.dataset.i),t=S.teams[i];if(!t)return;const c=el.dataset.c;
+  if(c==='name')el.textContent=t.name;
+  else if(c==='margin'){const p=num(t.price),k=num(t.cost);const v=(p!==null&&k!==null)?p-k:null;el.textContent=v===null?'—':(v>0?'+':'')+fmt(v)+' ₪';el.className='calc '+(v===null?'':v>0?'pos':'neg')}
+  else if(c==='rev'){el.textContent=fmt(market(t).rev)}
+  else if(c==='profit'){const v=market(t).profit;el.textContent=v===null?'—':fmt(v);el.className='calc '+(v===null?'':v>0?'pos':'neg')}
+  else if(c==='place'){const p=T[i].mp.place;el.textContent=p?['🥇','🥈','🥉'][p-1]:(market(t).profit>0?'✓':'—')}
+  else if(c==='mpts')el.textContent=T[i].mp.pts||'—';
+  else if(c==='vpts')el.textContent=T[i].vp||'—';
+  else if(c==='tot')el.textContent=T[i].tot;
+  else if(c==='medal')el.textContent=anyPts&&rank[i]<3&&T[i].tot>0?['🥇','🥈','🥉'][rank[i]]:'';
+  else if(c==='vbar')el.style.width=((num(t.votes)||0)/maxV*100)+'%';
+  else if(['m','rub','side','votes'].includes(c))el.textContent=t[c]||0;});
+ document.querySelectorAll('input[data-ph]').forEach(el=>{el.placeholder=S.teams[Number(el.dataset.i)]?.price||''});
+ document.querySelectorAll('input[data-f]').forEach(el=>{if(el!==document.activeElement){const v=S.teams[Number(el.dataset.i)]?.[el.dataset.f];el.value=v??''}});
+ document.querySelectorAll('.tg[data-tog]').forEach(b=>{const v=S.teams[Number(b.dataset.i)][b.dataset.tog];b.classList.toggle('on',!!v);b.textContent=v?'✓ 2':'0'});
+ const topV=Math.max(0,...S.teams.map(t=>num(t.votes)||0));
+ document.querySelectorAll('#teamVote .voteItem').forEach(v=>{const n=num(S.teams[Number(v.dataset.vi)].votes)||0;v.classList.toggle('lead1',topV>0&&n===topV)});
+ document.querySelectorAll('#scoreTable tr[data-srow]').forEach(r=>{const i=Number(r.dataset.srow);r.className=anyPts&&T[i].tot>0&&rank[i]<3?'r'+(rank[i]+1):''});
+ const line=document.getElementById('scoreLine');
+ if(line){const mk=S.teams.map((t,i)=>({i,d:(market(t).r2??null)!==null&&(num(t.o1)||num(t.o2))?market(t).r2-market(t).r1:null})).filter(x=>x.d!==null&&x.d>0).sort((a,b)=>b.d-a.d);
+  line.textContent=anyPts?('🥇 מובילים: '+S.teams[order[0]].name+(mk.length?' · 📈 הכי שיפר מסבב 1 לסבב 2: '+S.teams[mk[0].i].name:'')):'הנקודות מתעדכנות מכל הלוחות. בתיקו מנצח הרווח הגבוה יותר.'}
+}
+function renderAll(){renderBoard();renderMarket();renderVote();renderScore();update()}
+
+/* ---------- events ---------- */
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.matches('input[data-f]')){const t=S.teams[Number(el.dataset.i)];if(!t)return;t[el.dataset.f]=el.value;save();update();return}
+ if(el.matches('[data-g="shock"]')){S.shock=num(el.value)||0;save();update();return}
+ if(el.matches('[contenteditable][data-k]')){S.cells[el.dataset.k]=el.innerText;save();mirror()}});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.step){const t=S.teams[Number(b.dataset.i)];const f=b.dataset.step;const max=Number(b.dataset.max||b.parentElement.querySelector('[data-max]')?.dataset.max||99);
+  t[f]=Math.max(0,Math.min(max,(num(t[f])||0)+Number(b.dataset.d)));save();update();return}
+ if(b.dataset.tog){const t=S.teams[Number(b.dataset.i)];t[b.dataset.tog]=t[b.dataset.tog]?0:2;save();update();return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==='addTeam'&&S.teams.length<10){S.teams.push(blank('צוות '+(S.teams.length+1)));save();renderAll()}
+ if(a==='delTeam'&&S.teams.length>2){const last=S.teams[S.teams.length-1];const used=['cost','price','p1','o1','o2'].some(f=>last[f]!=='')||last.m||last.votes;if(!used||confirm('למחוק את "'+last.name+'" עם הנתונים שלו?')){S.teams.pop();save();renderAll()}}
+ if(a==='resetAll'&&confirm('לאפס את כל הניקוד, המחירים וההצבעות של השיעור? (לכיתה חדשה)')){const names=S.teams.map(t=>t.name);S=fresh();S.teams=names.map(n=>blank(n));save();renderAll();renderNews();loadCells()}
+ if(a==='drawNews')drawNews();
+ if(a==='resetNews'){S.news.forEach(k=>{S.shock=(num(S.shock)||0)-(NEWS[k].shock||0)});S.news=[];save();renderNews();update();renderMarket()}
+});
+
+/* ---------- news cards ---------- */
+const NEWS=[
+ {em:'📈',t:'הספק העלה מחירים',p:'חומרי הגלם התייקרו.',fx:'בסבב 2 העלות ליחידה של כל הדוכנים עולה ב-1 ₪.',shock:1},
+ {em:'🤖',t:'רובוט במפעל',p:'הייצור נהיה זול יותר.',fx:'בסבב 2 העלות ליחידה של כל הדוכנים יורדת ב-1 ₪.',shock:-1},
+ {em:'🔥',t:'טרנד ויראלי!',p:'כולם מדברים על השוק שלנו.',fx:'כל קונה מקבל עוד 5 ₪ לארנק. מה זה יעשה למחירים?'},
+ {em:'🏪',t:'מתחרה ענק נכנס',p:'נפתח דוכן "הכול ב-3 ₪" של המדריך/ה, עם גרסה בסיסית של הכול.',fx:'איך תשכנעו לקנות דווקא מכם?'},
+ {em:'🌧️',t:'הפסקה בגשם',p:'אין זמן להסתובב בכל השוק.',fx:'בסבב 2 כל קונה יכול לקנות רק בשני דוכנים.'},
+ {em:'🎟️',t:'יום מבצעים',p:'כל השוק במבצעים.',fx:'כל דוכן חייב להציע מבצע אחד. מבצע שמפסיד כסף, מפסיד באמת.'}
+];
+function renderNews(){const el=document.getElementById('newsCard');if(!el)return;const k=S.news[S.news.length-1];
+ if(k===undefined){el.className='news empty';el.innerHTML='<span class="em">🗞️</span><b>עוד לא נשלפו חדשות</b><p>לוחצים על "שולפים כרטיס".</p>';return}
+ const n=NEWS[k];el.className='news';el.innerHTML=`<span class="em">${n.em}</span><b>${n.t}</b><p>${n.p}</p><p class="fx">👉 ${n.fx}</p>`+(S.news.length>1?`<p class="note">כבר נשלפו: ${S.news.slice(0,-1).map(j=>NEWS[j].em+' '+NEWS[j].t).join(' · ')}</p>`:'')}
+function drawNews(){const left=NEWS.map((n,i)=>i).filter(i=>!S.news.includes(i));if(!left.length)return;
+ const k=left[Math.floor(Math.random()*left.length)];S.news.push(k);if(NEWS[k].shock)S.shock=(num(S.shock)||0)+NEWS[k].shock;save();renderNews();renderMarket();update()}
+
+/* ---------- saved editable cells + mirrors ---------- */
+function mirror(){document.querySelectorAll('[data-mirror]').forEach(el=>{const v=(S.cells[el.dataset.mirror]||'').trim();el.textContent=v||'—'})}
+function loadCells(){document.querySelectorAll('[contenteditable][data-k]').forEach(el=>{const v=S.cells[el.dataset.k];if(typeof v==='string'&&v.trim()!=='')el.innerText=v});mirror()}
+
+/* ---------- which method ---------- */
+document.querySelectorAll('.mRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{
+ r.querySelectorAll('button').forEach(x=>x.classList.remove('pick'));b.classList.add('pick');r.classList.add('done');
+ r.classList.toggle('ok',b.dataset.v===r.dataset.ans);r.classList.toggle('no',b.dataset.v!==r.dataset.ans)}));
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',async()=>{const txt=b.parentElement.querySelector('.ptext').innerText.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)}));
+
+renderAll();renderNews();loadCells();
+})();
+</script>
+
+</body>
+</html>

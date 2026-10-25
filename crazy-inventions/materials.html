@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- מפעל ההמצאות · חומרים להדפסה (נבנה מ-_kit/materials-template.html). כל עמוד = section.page בגודל A4. -->
+<title>חומרים להדפסה · מפעל ההמצאות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+
+/* ===== lesson additions: מפעל ההמצאות ===== */
+bdi.num{unicode-bidi:isolate}
+.cards.c18{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(6,1fr)}
+.cards.c18 .cc .em{font-size:21pt}.cards.c18 .cc b{font-size:12.5pt}
+.cc .no{font-size:11pt;color:var(--ink);font-family:var(--display);font-weight:800;top:2.5mm}
+.board3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;flex:1}
+.bcol{--c:var(--sky);border:1px solid var(--line2);border-top:2.2mm solid var(--c);border-radius:3mm;padding:3mm 3.5mm}
+.bcol.k-prob{--c:var(--rose)}.bcol.k-tech{--c:var(--orange)}
+.bcol h3{font-family:var(--display);font-weight:800;font-size:13pt;margin-bottom:2mm}
+.blist{list-style:none;margin:0;padding:0;display:grid;gap:1.1mm}
+.blist li{font-size:10.4pt;line-height:1.25;display:flex;gap:1.6mm;align-items:center}
+.blist li b{flex:none;display:inline-grid;place-items:center;width:6.4mm;height:5.6mm;border-radius:1.5mm;background:var(--paper2);border:1px solid var(--line2);font-family:var(--display);font-size:9pt}
+table.guess td.e{height:12mm}
+table.guess td{font-size:10pt}
+table.guess th{text-align:center}
+table.guess td.c{text-align:center;color:var(--dim);font-size:9pt;vertical-align:middle}
+.stick{display:flex;flex-direction:column;gap:3mm;padding:7mm}
+.stick .head{display:flex;justify-content:space-between;align-items:center}
+.stick .head b{font-family:var(--display);font-weight:800;font-size:17pt}
+.stick .area{flex:1;border:1.4px dashed var(--line2);border-radius:4mm;background:radial-gradient(circle,#e7e3dc 1.1px,transparent 1.5px) 0 0/8mm 8mm;display:grid;place-items:center;color:var(--dim);font-size:10pt}
+.stick .rules{font-size:9.4pt;color:var(--muted)}
+.side6{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr)}
+.sideCard{padding:4.5mm;display:flex;flex-direction:column;gap:1.6mm;position:relative}
+.sideCard::before{content:"";position:absolute;inset:0 0 auto 0;height:1.6mm;background:var(--mint)}
+.sideCard .em{font-size:20pt;line-height:1;margin-top:1mm}
+.sideCard b{font-family:var(--display);font-weight:800;font-size:12pt}
+.sideCard p{font-size:9.4pt}
+.sideCard small{margin-top:auto;font-size:8.4pt;color:var(--muted)}
+.pcards{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.pcard{padding:4.5mm;display:flex;flex-direction:column;gap:1.8mm;font-size:9.4pt}
+.pcard .head{display:flex;justify-content:space-between;align-items:center}
+.pcard .head b{font-family:var(--display);font-weight:800;font-size:12pt}
+.pcard .parts{font-size:8.6pt;color:var(--muted)}
+.pcard .lines{flex:1}
+.cert{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3.2mm;padding:9mm 14mm;position:relative}
+.cert::before{content:"";position:absolute;inset:5mm;border:1.6px solid var(--teal);border-radius:4mm;outline:0.6mm solid var(--teal-soft);outline-offset:-2.4mm}
+.cert>*{position:relative}
+.cert .em{font-size:30pt;line-height:1}
+.cert h3{font-family:var(--display);font-weight:800;font-size:22pt;color:var(--teal-deep)}
+.cert p{font-size:11.5pt;line-height:2}
+.cert .sig{display:flex;gap:16mm;font-size:9.5pt;color:var(--muted);margin-top:2mm}
+.stamp{display:grid;place-items:center;width:30mm;height:30mm;border:1.6px dashed var(--teal);border-radius:50%;color:var(--teal);font-family:var(--display);font-weight:700;font-size:8.6pt;text-align:center;line-height:1.3;flex:none}
+.rubsc td{text-align:center}
+
+.page.tight .pt{margin-bottom:3mm}.page.tight .pt h2{font-size:19pt}
+.page.tight table.tb th,.page.tight table.tb td{padding:1.3mm 2mm;font-size:9pt}
+.page.tight .box{padding:2.8mm 3.5mm}
+.page.tight .grid2,.page.tight .grid3{gap:3mm}
+.page.tight .stack{gap:3mm}
+.page.tight table.tb td.e{height:7.4mm}
+#p-work .box p[style*="line-height:2.35"]{line-height:2.15!important}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · מפעל ההמצאות<small>שיעור 1 מתוך 30 · שלב 1: רעיונאות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- 1. PRINT SHEET -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · שיעור 1</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב־7 צוותים. לכיתה אחרת: לפי מספר הצוותים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td><bdi class="num" dir="ltr">2–3</bdi></td><td>כרטיסי תפקיד, סבב, נורמות ורמזור</td><td>1 לצוות (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>חוזה צוות</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6</td><td>דף עבודה</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td><bdi class="num" dir="ltr">7–9</bdi></td><td>כרטיסי סוד: לקוח, בעיה, טכנולוגיה (18 מכל סוג)</td><td>סט אחד לכיתה</td><td>בריסטול, עדיף צבעוני</td><td>כן</td></tr>
+      <tr><td>10</td><td>לוח הכרטיסים</td><td>1 לצוות (7)</td><td>רגיל / למינציה</td><td>לא</td></tr>
+      <tr><td>11</td><td>דף הניחושים</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>מחוון</td><td>1 לצוות + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>דפי מדבקות</td><td>4 עמודים (8 דפים)</td><td>רגיל</td><td>לחצי</td></tr>
+      <tr><td>14</td><td>משימות צד וכרטיסי פרומפט</td><td><bdi class="num" dir="ltr">1–2</bdi> עמודים</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>15</td><td>שורת AI: מה ה־AI עשה · מה אנחנו עשינו</td><td>2 עמודים (8)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>17</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>18</td><td>שלט שולחן</td><td>1 לצוות (7)</td><td>בריסטול</td><td>קיפול</td></tr>
+      <tr><td>19</td><td>כתב קבלה לחממה (רשות)</td><td>4 עמודים (8)</td><td>נייר עבה</td><td>לחצי</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד, כרטיס סבב, נורמות ורמזור</li><li>שלט שולחן (לא ממולא), חוזה צוות</li><li>כרטיס משימה, דף עבודה, מחוון</li><li>לוח הכרטיסים ודף הניחושים</li><li>מעטפת צוות, 2 טושים, פתקים דביקים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>קופסת כרטיסי הסוד: 3 ערמות לפי צבע</li><li>חותמת או טוש לחותמת הוועדה</li><li>כרטיסי משימות צד וכרטיסי פרומפט</li><li>דפי מדבקות ומדבקות עגולות (3 לתלמיד)</li><li>כרטיסי יציאה, רצועות שורת AI, דף הניקוד ועט</li><li>כתבי קבלה לחממה (אם הודפסו)</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>מניחים <bdi class="num" dir="ltr">3–4</bdi> דפים זה על זה, מיישרים וגוזרים יחד. כרטיסי הסוד נכנסים לשלוש ערמות לפי פס הצבע: <b>כחול = לקוח · ורוד = בעיה · כתום = טכנולוגיה</b>. המספר בפינת הכרטיס הוא המספר בלוח הכרטיסים.</p></div>
+</section>
+
+<!-- 2. ROLE CARDS -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · חממת Tech It Easy</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. בכל שיעור הכרטיסים עוברים לאדם שיושב משמאל.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🧭</span><div><b>מנכ״ל/ית</b><small>מחזיק/ה את המצפן</small></div></div>
+      <p class="mis">המשימה שלי: שהצוות מתחיל מהר, שכולם יודעים מה הם עושים ושעומדים בזמן. אני מתאם/ת, לא בוס.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מקריא/ה בקול את כרטיס המשימה, ובודק/ת שכל אחד יודע מה התפקיד שלו.</li><li>שומר/ת על הטיימר: "נשארו 5 דקות".</li><li>דואג/ת שכל אחד ידבר בכל שלב.</li><li>בוויכוח: "כל אחד 30 שניות, ואז מחליטים."</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכל הצוות ניסה.</li></ul>
+      <div class="say">💬 "מה המטרה שלנו עכשיו?" · "עוד לא שמענו את ___." · "בואו נחליט ונתקדם."</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא עושה את העבודה במקום אחרים.</p>
+      <p class="bonus">✓ הצלחתי כש: כל חברי הצוות דיברו בהצגה, והגשנו בזמן</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">🔍</span><div><b>חוקר/ת</b><small>הקול של הלקוח והעובדות</small></div></div>
+      <p class="mis">המשימה שלי: שאנחנו פותרים בעיה אמיתית, ושכל מה שאנחנו אומרים נכון.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מוביל/ה ראיונות, סקרים וחיפוש מידע.</li><li>רושם/ת ציטוטים מדויקים, לא סיכומים.</li><li>בודק/ת כל עובדה ומספר, גם מה שה־AI כתב, במקור נוסף.</li><li>כשהצוות מתלהב: "איך אנחנו יודעים שהלקוח רוצה את זה?"</li></ul>
+      <div class="say">💬 "זה נתון או ניחוש?" · "מה הוא אמר בדיוק?" · "מאיפה המספר הזה?"</div>
+      <p class="no">✗ לא ממציא/ה תשובה של לקוח או מספר.</p>
+      <p class="bonus">✓ הצלחתי כש: תפסנו טעות (גם של ה־AI) והראינו מקור</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">🛠️</span><div><b>בונה</b><small>מרעיון למשהו שאפשר לנסות</small></div></div>
+      <p class="mis">המשימה שלי: להפוך רעיונות לסקיצה, לאב־טיפוס, לשקף או לאפליקציה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>"נהג/ת" של המכשיר בבנייה, ומעביר/ה את המקלדת לפי הסבב.</li><li><b>רק אני</b> לוקח/ת חומרים, ומחזיר/ה אותם לארגז בסוף.</li><li>שואל/ת: "מה הדבר הכי קטן שאפשר לבנות כדי לבדוק?"</li><li>בונה מהר ומחוספס: "מספיק טוב כדי לבדוק."</li></ul>
+      <div class="say">💬 "בואו נשרטט במקום להתווכח." · "מה נבדוק קודם?" · "זה עובד? בואו ננסה."</div>
+      <p class="no">✗ לא בונה לבד בלי לשאול את הצוות.</p>
+      <p class="bonus">✓ הצלחתי כש: מישהו מצוות אחר השתמש בתוצר בלי הסבר</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">🎤</span><div><b>מציג/ה ומתעד/ת</b><small>הזיכרון והקול של הצוות</small></div></div>
+      <p class="mis">המשימה שלי: לשמור את מה שהצוות החליט ועשה, ולהגיש אותו.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>כותב/ת את התוצר בשקף של השיעור ביומן הסטארט־אפ.</li><li>בנקודת הביקורת: "סיימנו ___, תקועים ב___."</li><li><b>מגיש/ה</b> בטופס, עם שם הקובץ הנכון.</li><li>מארגן/ת את הפיץ׳: מי אומר מה ומתי.</li><li>מחזיק/ה את מעטפת הצוות.</li></ul>
+      <div class="say">💬 "כולם רשמו?" · "מה ההחלטה הסופית? אני כותב/ת." · "אני פותח/ת, ואז ___."</div>
+      <p class="no">✗ לא מגיש/ה בלי שהצוות ראה את התוצר הסופי.</p>
+      <p class="bonus">✓ הצלחתי כש: ההגשה נכנסה בזמן, וההצגה עמדה בזמן</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. ROLE CARDS 2 -->
+<section class="page" id="p-roles2" data-label="תפקיד AI וסבב">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, כרטיס הסבב, הנורמות והרמזור. כולם נשארים בארגז הצוות.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🤖</span><div><b>אחראי/ת AI</b><small>שותף חכם, לא מכונת תשובות</small></div></div>
+      <p class="mis">המשימה שלי: שהצוות משתמש ב־AI בחוכמה, בודק אותו, ואומר בגלוי מה ה־AI עשה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מזכיר/ה את הרמזור: 🔴 בלי AI · 🟡 רעיונות וטיוטות · 🟢 שותף שבודקים.</li><li>מנסח/ת את הפרומפט ומשפר/ת בהודעות המשך.</li><li>ממלא/ת בהגשה את שורת ה־AI: <b>מה ה־AI עשה · מה אנחנו עשינו</b>.</li><li>בפרומפט כותבים על המיזם, לא על עצמנו.</li></ul>
+      <div class="say">💬 "מה אנחנו לא מסכימים איתו?" · "בדקנו במקום נוסף?" · "איזה פרומפט נתן את זה?"</div>
+      <p class="no">✗ לא מעתיק/ה את התשובה הראשונה כמו שהיא.</p>
+      <p class="bonus">✓ הצלחתי כש: שינינו ושיפרנו את מה שה־AI הציע, ויודעים להסביר מה</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">🔄</span><div><b>כרטיס הסבב</b><small>כל אחד עובר בכל התפקידים</small></div></div>
+      <table class="tb" style="font-size:8.6pt">
+        <thead><tr><th>שיעור</th><th>🧭</th><th>🔍</th><th>🛠️</th><th>🎤</th><th>🤖</th></tr></thead>
+        <tbody><tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <p style="font-size:8.8pt;color:var(--muted)">כותבים שם פרטי בכל משבצת. בצוות של 4: הבונה לוקח/ת גם את ה־AI. בצוות של 3: המנכ״ל/ית לוקח/ת גם את התיעוד.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות הצוות</b><small>חלות על כולם, בכל שיעור</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל הצוות סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את הצוות לפני שקוראים למדריך, ורק המנכ״ל/ית קורא/ת.</li>
+      </ol>
+      <p class="bonus">🤝 צוות ששומר על הנורמות מועמד לתואר "רוח צוות"</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה־AI</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>חושבים לבד: סיעור ראשון, חוזה, רפלקציה, כרטיס יציאה.</div>
+        <div class="y"><b>🟡 AI לרעיונות ולטיוטות</b>ה־AI מציע, ואנחנו מחליטים ועורכים.</div>
+        <div class="g"><b>🟢 AI כשותף</b>בונים איתו, ותמיד בודקים מה הוא עשה.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט לא כותבים פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 4. TEAM CONTRACT -->
+<section class="page" id="p-contract" data-label="חוזה צוות">
+  <div class="ph"><div class="l"><i>TIE</i>חוזה צוות · שיעור 1</div><div class="r">תאריך: <span class="fill s"></span></div></div>
+  <div class="pt"><div><span class="kick">📜 🔴 בלי AI · חתום ונשמר במעטפת הצוות</span><h2>חוזה הצוות של <span class="fill l"></span></h2></div><p>ממלאים יחד ב־7 דקות. בבדיקת הייסוד: חוזה חתום על ידי כולם = 2 נקודות, שם הצוות על השלט = נקודה.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>1. מי אנחנו</h3>
+      <table class="tb"><thead><tr><th style="width:22%">שם פרטי</th><th>החוזקה שאני מביא/ה לצוות</th><th>משהו שאני רוצה להשתפר בו</th><th>מה מלחיץ אותי בעבודת צוות</th></tr></thead>
+      <tbody><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr></tbody></table></div>
+    <div class="grid2">
+      <div class="box"><h3>2. איך אנחנו עובדים (סמנו ✓)</h3>
+        <ul class="check"><li>כל אחד מדבר לפחות פעם אחת בכל שלב.</li><li>מקשיבים עד הסוף, בלי להפריע.</li><li>רעיון "מוזר" מקבל 30 שניות של "כן, ו..." לפני ביקורת.</li><li>צוחקים עם אנשים, לא על אנשים.</li><li>כל מה שה־AI כותב נבדק לפני שמשתמשים בו.</li><li>כלל משלנו: <span class="fill"></span></li></ul></div>
+      <div class="box"><h3>3. כשיש מחלוקת</h3>
+        <ul class="check"><li>כל אחד מסביר ב־30 שניות.</li><li>מחפשים פתרון שכולם יכולים לחיות איתו.</li><li>אחרי 3 דקות בלי הסכמה: ☐ הצבעה ☐ המנכ״ל/ית מחליט/ה</li></ul>
+        <h3 style="margin-top:3mm">4. כשמישהו לא משתתף</h3>
+        <p style="font-size:9.4pt">שואלים בעדינות "איך תרצה/י לעזור?" ← מציעים משימה מהכרטיס ← מדברים עם המדריך.</p></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>5. המטרה שלנו לקורס</h3><p style="font-size:9.4pt">"ביום ההדגמה אנחנו רוצים ש___________, ונדע שהצלחנו אם ___________."</p><div class="lines h2"></div></div>
+      <div class="box"><h3>6. שם הצוות וקריאת הצוות</h3><p style="font-size:9.4pt">הצעות לשם (כל אחד 2, ואז מצביעים):</p><div class="lines h1"></div><p style="margin-top:2mm">השם שבחרנו: <span class="fill l"></span></p><p style="margin-top:1.5mm">קריאת צוות: <span class="fill l"></span></p></div>
+    </div>
+    <div class="box soft"><h3>7. במשפט אחד</h3><p>"אנחנו מסכימים <span class="fill xl"></span> כדי ש<span class="fill l"></span>."</p>
+      <div class="grid3" style="margin-top:4mm;grid-template-columns:repeat(5,1fr)"><div>✍ <span class="fill s"></span></div><div>✍ <span class="fill s"></span></div><div>✍ <span class="fill s"></span></div><div>✍ <span class="fill s"></span></div><div>✍ <span class="fill s"></span></div></div></div>
+  </div>
+</section>
+
+<!-- 5. MISSION CARD -->
+<section class="page tight" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · שיעור 1 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🤪 שלב 1: רעיונאות · האתגר של ועדת הקבלה</span><h2>המכירה הפומבית <span>של ההמצאות</span></h2></div><p>נכנס לחממה רק צוות שממציא מוצר, בונה לו כרזה ומשכנע את "ועדת הקבלה" בדקה אחת.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>להמציא מוצר שפותר בעיה של לקוח מסוים, ולבנות כרזה <b>כל כך ברורה</b> שהצוותים האחרים ינחשו את שלושת הכרטיסים הסודיים שלכם בלי הסבר.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>שולפים בסוד 3 כרטיסים: לקוח, בעיה, טכנולוגיה. לא מראים לאף צוות.</li><li>ספרינט 1 (7 דק׳): ממציאים. ספרינט 2 (14 דק׳): כרזה.</li><li>בכרזה אסור לכתוב אף מילה מהכרטיסים, גם לא בשם.</li><li>תמונה מ־Gemini, בלי אנשים אמיתיים ובלי לוגו.</li><li>פיץ׳ של 60 שניות, וכל חברי הצוות מדברים.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🔢 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:30mm">נקודות</th></tr></thead><tbody>
+      <tr><td>🎨 חימום Quick, Draw!: <bdi class="num" dir="ltr">5–6</bdi> זוהו = 3 · <bdi class="num" dir="ltr">3–4</bdi> = 2 · <bdi class="num" dir="ltr">1–2</bdi> = 1</td><td>עד 3</td></tr>
+      <tr><td>🏛️ בדיקת ייסוד: חוזה חתום (2), שם על השלט (1), יומן משותף ושער מלא (2)</td><td>עד 5</td></tr>
+      <tr><td>✅ חותמת הוועדה: משפט ממציא מלא בסוף ספרינט 1</td><td>2</td></tr>
+      <tr><td>📤 הגשה בזמן ולפי המפרט</td><td>3</td></tr>
+      <tr><td>🕵️ כל כרטיס שניחשתם נכון מכרזה של צוות אחר · 🖼️ כל כרטיס שלכם שצוות אחר ניחש</td><td>1 לכל אחד</td></tr>
+      <tr><td>🗳️ הצבעת מדבקות (3 לכל תלמיד, לא לצוות של עצמך): מקום ראשון · שני · שלישי</td><td>6 · 4 · 2</td></tr>
+      <tr><td>📊 המחוון: הרמה הממוצעת × 2 · 🏆 פרס "הכרזה הכי ברורה"</td><td><bdi class="num" dir="ltr">2–8</bdi> · 3</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">שובר שוויון: פחות מילים בכרזה. ניחוש נכון מזכה את שני הצוותים, אז משתלם להיות ברורים.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:32mm"><b>🧭 מנכ״ל/ית</b></td><td>שולף/ת את הכרטיסים, שומר/ת על הזמן ומביא/ה את המשפט לחותמת.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>שואל/ת "מתי זה קרה ללקוח הזה בפעם האחרונה?", בודק/ת שאין מילים מהכרטיסים, מחזיק/ה את דף הניחושים.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>יוצר/ת את היומן, בונה את שקף 2 (שם ותמונה), פותח/ת אותו במסך מלא לסיור.</td></tr>
+      <tr><td><b>🎤 מציג/ה</b></td><td>כותב/ת את משפט הממציא ואת שקף 3, מארגן/ת את הפיץ׳ ומגיש/ה בטופס.</td></tr>
+      <tr><td><b>🤖 AI</b></td><td>כותב/ת את הפרומפט לתמונה, משפר/ת בהודעות המשך וממלא/ת את שורת ה־AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">תבנית המשפט ודוגמת "קופסת הפסקה". מותר פרומפט רעיונות כבר מדקה 2. כרזה עם שם, תמונה וסלוגן.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">משפט ממציא משלכם, ותמונה אחת שמסבירה את הכול.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">בלי שום מילה מלבד שם ההמצאה, ותמונה שמראה "לפני" ו"אחרי" באותה תמונה.</p></div>
+  </div>
+</section>
+
+<!-- 6. WORKSHEET -->
+<section class="page tight" id="p-work" data-label="דף עבודה">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · דף עבודה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">ספרינט 1 · 7 דק׳ · 🔴 ואז 🟡 &nbsp;|&nbsp; ספרינט 2 · 14 דק׳ · 🟢</span><h2>מהכרטיסים <span>לכרזה</span></h2></div><p>הדף הזה הוא גם הגיבוי: אם אין מחשב, הכרזה נבנית כאן, באזור הסקיצה.</p></div>
+  <div class="stack grow">
+    <div class="grid2" style="grid-template-columns:1fr 34mm;align-items:center">
+      <div class="box"><h3>1. הכרטיסים שלנו (בסוד!) · כותבים מספר ומילה</h3>
+        <div class="grid3"><p>👤 לקוח: <span class="fill s"></span></p><p>😖 בעיה: <span class="fill s"></span></p><p>⚙️ טכנולוגיה: <span class="fill s"></span></p></div></div>
+      <div class="stamp">✅<br>חותמת<br>הוועדה</div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>2. רעיונות (🔴 כל אחד לבד, 3 דקות)</h3><div class="lines h2"></div>
+        <h3 style="margin-top:2mm">3. שם ההמצאה (עד 3 מילים, בלי מילים מהכרטיסים)</h3><div class="lines h1"></div></div>
+      <div class="box"><h3>4. משפט הממציא</h3><p style="font-size:9.8pt;line-height:2.35">"עבור <span class="fill l"></span><br>ש<span class="fill xl" style="min-width:70mm"></span>,<br>המצאנו <span class="fill l"></span><br>ש<span class="fill xl" style="min-width:70mm"></span>."</p></div>
+    </div>
+    <div class="grid2">
+      <div class="sketch" data-label="5. איך זה עובד? שרטוט עם 2–3 חצים" style="min-height:40mm"></div>
+      <div class="box"><h3>6. הפרומפט לתמונה</h3><p style="font-size:8.8pt;color:var(--muted)">🎯 נושא · 🏃 פעולה · 🖌️ סגנון · 🏞️ רקע · 🚫 בלי אנשים אמיתיים ובלי טקסט</p><div class="lines h3"></div></div>
+    </div>
+    <div class="sketch grow" data-label="7. סקיצה של הכרזה: שם + תמונה (אם אין מחשב, זו הכרזה)" style="min-height:50mm"></div>
+    <div class="grid2">
+      <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check"><li>שקף 2: שם עד 3 מילים + תמונה</li><li>אין אף מילה מהכרטיסים, אין אנשים אמיתיים</li><li>שקף 3: משפט, איך זה עובד, פרומפט</li><li>שורת AI מלאה · היומן משותף עם המדריך</li></ul></div>
+      <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.4pt">מה ה־AI עשה:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">מה אנחנו עשינו:</p><div class="lines h1"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7-9. SECRET CARDS -->
+<section class="page" id="p-cards-who" data-label="כרטיסי לקוח">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי סוד · 👤 לקוח</div><div class="r">18 כרטיסים · פס כחול</div></div>
+  <p class="cutnote">✂ לגזור ולהניח בערמה הכחולה. המספר בפינה = המספר בלוח הכרטיסים.</p>
+  <div class="cutgrid cards c18">
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">1</span><span class="em">👵</span><b>סבתא שגרה לבד</b><small>אוהבת לבשל, הנכדים רחוקים</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">2</span><span class="em">🏀</span><b>שחקנית כדורסל בת 13</b><small>מתאמנת כל יום אחרי הלימודים</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">3</span><span class="em">🐱</span><b>חתול בית</b><small>הבעלים עובדים עד מאוחר</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">4</span><span class="em">🧆</span><b>בעל פלאפלייה קטנה</b><small>בצהריים יש תור ארוך</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">5</span><span class="em">👶</span><b>תינוק בן שנה</b><small>והוריו העייפים</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">6</span><span class="em">🧑‍🏫</span><b>מורה למתמטיקה</b><small>35 תלמידים בכיתה</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">7</span><span class="em">🐶</span><b>כלב שנשאר לבד בבית</b><small>מחכה כל היום ליד הדלת</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">8</span><span class="em">🚌</span><b>נהג אוטובוס</b><small>נוהג 8 שעות ביום</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">9</span><span class="em">🎒</span><b>תלמיד/ה בכיתה א׳</b><small>הולך/ת לבית הספר לבד בפעם הראשונה</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">10</span><span class="em">🌾</span><b>חקלאית בנגב</b><small>שדה גדול ומעט מים</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">11</span><span class="em">🥁</span><b>מתופף בלהקה</b><small>מתאמן בבית, בדירה</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">12</span><span class="em">🧑‍🚒</span><b>כבאית</b><small>יוצאת לשריפות גם בלילה</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">13</span><span class="em">🐠</span><b>דג זהב</b><small>באקווריום בסלון</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">14</span><span class="em">🧑‍🦽</span><b>נער בכיסא גלגלים</b><small>אוהב לטייל בעיר</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">15</span><span class="em">🏕️</span><b>משפחה בקמפינג</b><small>שלושה ימים בלי חשמל</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">16</span><span class="em">🧑‍🍳</span><b>שף במסעדה עמוסה</b><small>עשרות הזמנות בבת אחת</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">17</span><span class="em">🎮</span><b>גיימרית</b><small>משחקת עם חברים ברשת</small></div>
+    <div class="cc k-cust"><span class="cat">👤 לקוח</span><span class="no">18</span><span class="em">🧓</span><b>סבא שמגדל עגבניות</b><small>גינה קטנה במרפסת</small></div>
+  </div>
+</section>
+<section class="page" id="p-cards-prob" data-label="כרטיסי בעיה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי סוד · 😖 בעיה</div><div class="r">18 כרטיסים · פס ורוד</div></div>
+  <p class="cutnote">✂ לגזור ולהניח בערמה הוורודה. המספר בפינה = המספר בלוח הכרטיסים.</p>
+  <div class="cutgrid cards c18">
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">1</span><span class="em">🔑</span><b>שוכח/ת דברים</b><small>מפתחות, תרופות, בקבוק מים</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">2</span><span class="em">🥱</span><b>משתעמם/ת</b><small>אותו דבר כל יום</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">3</span><span class="em">🥶</span><b>קר לו/לה</b><small>בבוקר, בחורף, בחוץ</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">4</span><span class="em">⏳</span><b>מחכה הרבה זמן</b><small>בתור, בטעינה, בתחנה</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">5</span><span class="em">😴</span><b>לא מצליח/ה להירדם</b><small>מתהפך/ת שעות במיטה</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">6</span><span class="em">🌀</span><b>בלגן בכל מקום</b><small>אי אפשר למצוא כלום</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">7</span><span class="em">🔍</span><b>דברים הולכים לאיבוד</b><small>ואף אחד לא יודע איפה</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">8</span><span class="em">📢</span><b>רעש מפריע</b><small>לשכנים, לחברים, לעצמו</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">9</span><span class="em">🥵</span><b>חם מדי</b><small>בקיץ, בשמש, בלי מזגן</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">10</span><span class="em">💧</span><b>שוכח/ת לשתות</b><small>ובסוף כואב הראש</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">11</span><span class="em">🌙</span><b>פוחד/ת מהחושך</b><small>בלילה, במסדרון</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">12</span><span class="em">🏃</span><b>מאחר/ת כל הזמן</b><small>לבית הספר, לאימון, לאוטובוס</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">13</span><span class="em">💔</span><b>מרגיש/ה בודד/ה</b><small>אין עם מי לדבר</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">14</span><span class="em">🍟</span><b>אוכל לא בריא</b><small>חטיפים במקום ארוחה</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">15</span><span class="em">🏋️</span><b>סוחב/ת משהו כבד</b><small>תיק, קניות, ציוד</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">16</span><span class="em">🧹</span><b>הניקיון לוקח שעות</b><small>ותמיד מתלכלך שוב</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">17</span><span class="em">🐜</span><b>חרקים מציקים</b><small>נמלים, יתושים, זבובים</small></div>
+    <div class="cc k-prob"><span class="cat">😖 בעיה</span><span class="no">18</span><span class="em">🪫</span><b>הסוללה נגמרת</b><small>בדיוק כשהכי צריך</small></div>
+  </div>
+</section>
+<section class="page" id="p-cards-tech" data-label="כרטיסי טכנולוגיה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי סוד · ⚙️ טכנולוגיה</div><div class="r">18 כרטיסים · פס כתום</div></div>
+  <p class="cutnote">✂ לגזור ולהניח בערמה הכתומה. המספר בפינה = המספר בלוח הכרטיסים.</p>
+  <div class="cutgrid cards c18">
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">1</span><span class="em">📡</span><b>חיישן</b><small>מרגיש תנועה, חום או אור</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">2</span><span class="em">📱</span><b>אפליקציה</b><small>בטלפון, עם התראות</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">3</span><span class="em">🤖</span><b>רובוט קטן</b><small>זז, מרים, מביא</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">4</span><span class="em">📷</span><b>מצלמה עם AI</b><small>מבינה מה היא רואה</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">5</span><span class="em">🔊</span><b>רמקול מדבר</b><small>אומר משפטים בקול</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">6</span><span class="em">💡</span><b>אורות LED</b><small>נדלקים בצבעים</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">7</span><span class="em">🛰️</span><b>GPS</b><small>יודע בדיוק איפה משהו נמצא</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">8</span><span class="em">🧲</span><b>מגנטים</b><small>מחזיקים ומושכים</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">9</span><span class="em">🚁</span><b>רחפן</b><small>עף ומצלם מלמעלה</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">10</span><span class="em">⚙️</span><b>מנוע וגלגלים</b><small>נוסע ומסתובב</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">11</span><span class="em">⌚</span><b>שעון חכם</b><small>על היד, רוטט ומודד</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">12</span><span class="em">🖨️</span><b>מדפסת תלת-ממד</b><small>מדפיסה חפצים מפלסטיק</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">13</span><span class="em">☀️</span><b>פאנל סולארי</b><small>חשמל מהשמש</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">14</span><span class="em">🎙️</span><b>זיהוי קול</b><small>מבין פקודות בדיבור</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">15</span><span class="em">🧵</span><b>בד חכם</b><small>משנה צבע לפי החום</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">16</span><span class="em">🌡️</span><b>מדחום דיגיטלי</b><small>מודד טמפרטורה</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">17</span><span class="em">🔋</span><b>סוללה שנטענת מתנועה</b><small>כל צעד מוסיף חשמל</small></div>
+    <div class="cc k-tech"><span class="cat">⚙️ טכנולוגיה</span><span class="no">18</span><span class="em">🎈</span><b>בלון הליום</b><small>מרחף באוויר</small></div>
+  </div>
+</section>
+
+<!-- 10. CARD BOARD -->
+<section class="page" id="p-board" data-label="לוח הכרטיסים">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · לוח הכרטיסים</div><div class="r">1 לצוות · לשימוש חוזר</div></div>
+  <div class="pt"><div><span class="kick">🕵️ לסיור הניחושים</span><h2>כל 54 הכרטיסים <span>שבקופסה</span></h2></div><p>בסיור הניחושים כותבים בדף הניחושים את <b>המספרים</b> מהלוח הזה. אותו לוח מוקרן גם על המסך.</p></div>
+  <div class="board3">
+    <div class="bcol k-cust"><h3>👤 לקוח</h3><ol class="blist"><li><b>1</b> 👵 סבתא שגרה לבד</li><li><b>2</b> 🏀 שחקנית כדורסל בת 13</li><li><b>3</b> 🐱 חתול בית</li><li><b>4</b> 🧆 בעל פלאפלייה קטנה</li><li><b>5</b> 👶 תינוק בן שנה</li><li><b>6</b> 🧑‍🏫 מורה למתמטיקה</li><li><b>7</b> 🐶 כלב שנשאר לבד בבית</li><li><b>8</b> 🚌 נהג אוטובוס</li><li><b>9</b> 🎒 תלמיד/ה בכיתה א׳</li><li><b>10</b> 🌾 חקלאית בנגב</li><li><b>11</b> 🥁 מתופף בלהקה</li><li><b>12</b> 🧑‍🚒 כבאית</li><li><b>13</b> 🐠 דג זהב</li><li><b>14</b> 🧑‍🦽 נער בכיסא גלגלים</li><li><b>15</b> 🏕️ משפחה בקמפינג</li><li><b>16</b> 🧑‍🍳 שף במסעדה עמוסה</li><li><b>17</b> 🎮 גיימרית</li><li><b>18</b> 🧓 סבא שמגדל עגבניות</li></ol></div><div class="bcol k-prob"><h3>😖 בעיה</h3><ol class="blist"><li><b>1</b> 🔑 שוכח/ת דברים</li><li><b>2</b> 🥱 משתעמם/ת</li><li><b>3</b> 🥶 קר לו/לה</li><li><b>4</b> ⏳ מחכה הרבה זמן</li><li><b>5</b> 😴 לא מצליח/ה להירדם</li><li><b>6</b> 🌀 בלגן בכל מקום</li><li><b>7</b> 🔍 דברים הולכים לאיבוד</li><li><b>8</b> 📢 רעש מפריע</li><li><b>9</b> 🥵 חם מדי</li><li><b>10</b> 💧 שוכח/ת לשתות</li><li><b>11</b> 🌙 פוחד/ת מהחושך</li><li><b>12</b> 🏃 מאחר/ת כל הזמן</li><li><b>13</b> 💔 מרגיש/ה בודד/ה</li><li><b>14</b> 🍟 אוכל לא בריא</li><li><b>15</b> 🏋️ סוחב/ת משהו כבד</li><li><b>16</b> 🧹 הניקיון לוקח שעות</li><li><b>17</b> 🐜 חרקים מציקים</li><li><b>18</b> 🪫 הסוללה נגמרת</li></ol></div><div class="bcol k-tech"><h3>⚙️ טכנולוגיה</h3><ol class="blist"><li><b>1</b> 📡 חיישן</li><li><b>2</b> 📱 אפליקציה</li><li><b>3</b> 🤖 רובוט קטן</li><li><b>4</b> 📷 מצלמה עם AI</li><li><b>5</b> 🔊 רמקול מדבר</li><li><b>6</b> 💡 אורות LED</li><li><b>7</b> 🛰️ GPS</li><li><b>8</b> 🧲 מגנטים</li><li><b>9</b> 🚁 רחפן</li><li><b>10</b> ⚙️ מנוע וגלגלים</li><li><b>11</b> ⌚ שעון חכם</li><li><b>12</b> 🖨️ מדפסת תלת-ממד</li><li><b>13</b> ☀️ פאנל סולארי</li><li><b>14</b> 🎙️ זיהוי קול</li><li><b>15</b> 🧵 בד חכם</li><li><b>16</b> 🌡️ מדחום דיגיטלי</li><li><b>17</b> 🔋 סוללה שנטענת מתנועה</li><li><b>18</b> 🎈 בלון הליום</li></ol></div>
+  </div>
+</section>
+
+<!-- 11. GUESS SHEET -->
+<section class="page" id="p-guess" data-label="דף הניחושים">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · דף הניחושים</div><div class="r">הצוות שלנו: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 בלי AI ובלי לדבר · 40 שניות בכל שולחן</span><h2>מה כתוב <span>על הכרטיסים שלהם?</span></h2></div><p>בכל שולחן כותבים את שם הצוות ושלושה מספרים מלוח הכרטיסים. בזמן הפיצ׳ים הצוותים חושפים את הכרטיסים, ומסמנים ✓ על כל ניחוש נכון. החוקר/ת סופר/ת.</p></div>
+  <table class="tb guess">
+    <thead><tr><th style="width:42mm">הכרזה של צוות</th><th>👤 לקוח (מספר)</th><th>😖 בעיה (מספר)</th><th>⚙️ טכנולוגיה (מספר)</th><th style="width:26mm">✓ כמה נכונים</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td class="c">0 · 1 · 2 · 3</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🧮 סיכום</h3><p style="font-size:11pt;line-height:2.2">סה״כ ניחושים נכונים של הצוות שלנו: <span class="fill s"></span><br><span style="font-size:9pt;color:var(--muted)">(נקודה לכל ניחוש נכון · החוקר/ת מוסר/ת למדריך)</span></p></div>
+    <div class="box soft"><h3>💡 טיפים לבלשים</h3><ul class="clean" style="font-size:9.6pt"><li>מי בתמונה? זה בדרך כלל הלקוח.</li><li>מה מפריע לו? חפשו את ה"לפני".</li><li>מה ההמצאה עושה? זו הטכנולוגיה.</li><li>לא בטוחים? כתבו את הניחוש הכי קרוב.</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🗒️ איזו כרזה הייתה הכי ברורה, ולמה?</h3><div class="lines h2"></div></div>
+</section>
+
+<!-- 12. RUBRIC -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>הכרזה</span></h2></div><p>בהגשה מסמנים הערכה עצמית בטופס. המדריך קובע את הרמה הסופית בזמן הפיץ׳. הרמה הממוצעת × 2 = נקודות (<bdi class="num" dir="ltr">2–8</bdi>).</p></div>
+  <table class="rub">
+    <colgroup><col style="width:21%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">הבעיה והלקוח<small>למי ולמה</small></td><td>"לכולם", הבעיה לא ברורה</td><td>לקוח כללי, הבעיה מוסברת רק בעל פה</td><td>לקוח מסוים, והבעיה ברורה מהכרזה</td><td>לקוח מסוים, הבעיה ברורה בלי הסבר, והכיתה ניחשה את שניהם</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מקוריות<small>מה חדש כאן</small></td><td>העתק של מוצר קיים</td><td>שיפור קטן למשהו קיים</td><td>שילוב חדש של הלקוח, הבעיה והטכנולוגיה</td><td>שילוב מפתיע שאף צוות אחר לא חשב עליו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">תמונה ופרומפט<small>הכרזה מסבירה לבד</small></td><td>אין תמונה, או שהיא לא קשורה</td><td>תמונה קשורה, אבל לא מבינים ממנה מה המוצר עושה</td><td>מבינים מהתמונה מה המוצר עושה. בפרומפט יש נושא, סגנון ורקע</td><td>הכיתה ניחשה את כל 3 הכרטיסים, ויש גרסה משופרת בהודעת המשך</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עבודה בתפקידים<small>תפקידים והצגה</small></td><td>אחד עשה הכול, או שלא כולם השתתפו</td><td>כל אחד עשה משהו, בלי תיאום</td><td>כל תפקיד ביצע את החלק שלו</td><td>כל תפקיד ביצע ועזר לאחרים, וכולם דיברו בפיץ׳</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🔢 מהמחוון לנקודות</h3><p>ממוצע ארבעת הקריטריונים, מעוגל, × 2: <b>רמה 1 = 2 · רמה 2 = 4 · רמה 3 = 6 · רמה 4 = 8</b>.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> "עבור תלמידי ז׳ שמשתעממים בהפסקה, המצאנו ארגז משחקים להשאלה." בתמונה ארגז עם כדורים. מבינים מה זה, אבל לא למה דווקא בהפסקה.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> בתמונה חצר: מצד אחד ספסל עם ילדים משועממים, מצד שני ילדים משחקים מהארגז, ועל הארגז מסך קטן עם תור הזמנות. הכיתה ניחשה "תלמיד/ה", "משתעמם/ת" ו"אפליקציה".</p></div></div>
+</section>
+
+<!-- 13. STICKER SHEETS -->
+<section class="page" id="p-stickers" data-label="דפי מדבקות">
+  <div class="ph"><div class="l"><i>TIE</i>הצבעת מדבקות · 2 בעמוד</div><div class="r">דף לכל צוות</div></div>
+  <p class="cutnote">✂ לגזור לחצי. כל צוות מניח את הדף שלו ליד הכרזה לפני ההצבעה.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="stick"><div class="head"><b>🗳️ ההמצאה של צוות <span class="fill"></span></b><span>שם ההמצאה: <span class="fill"></span></span></div>
+      <p class="rules">לכל אחד 3 מדבקות · מותר כמה על אותה כרזה · לא לצוות שלך · בשקט · השאלה: איזו המצאה הכי הייתי רוצה שתיכנס לחממה?</p>
+      <div class="area">מדביקים כאן</div><p class="rules">סה״כ מדבקות (המורה סופר/ת): <span class="fill s"></span></p></div>
+    <div class="stick"><div class="head"><b>🗳️ ההמצאה של צוות <span class="fill"></span></b><span>שם ההמצאה: <span class="fill"></span></span></div>
+      <p class="rules">לכל אחד 3 מדבקות · מותר כמה על אותה כרזה · לא לצוות שלך · בשקט · השאלה: איזו המצאה הכי הייתי רוצה שתיכנס לחממה?</p>
+      <div class="area">מדביקים כאן</div><p class="rules">סה״כ מדבקות (המורה סופר/ת): <span class="fill s"></span></p></div>
+  </div>
+</section>
+
+<!-- 14. SIDE TASKS + PROMPT CARDS -->
+<section class="page" id="p-side" data-label="משימות צד ופרומפטים">
+  <div class="ph"><div class="l"><i>TIE</i>משימות צד · כרטיסי פרומפט לעמדת ה־AI</div><div class="r">על שולחן המדריך</div></div>
+  <p class="cutnote">✂ למעלה: 6 משימות צד לצוות שסיים לפני הזמן. למטה: כרטיסי פרומפט לעמדת ה־AI (כשאין מכשיר לצוות).</p>
+  <div class="cutgrid side6" style="height:112mm">
+    <div class="sideCard"><span class="em">🎨</span><b>שתי גרסאות נוספות</b><p>צרו את אותה המצאה בשני סגנונות אחרים (תלת־ממד, שרטוט עיפרון, צבעי מים). כל הצוות מצביע: איזו נכנסת לכרזה?</p><small>משפר: "תמונה ופרומפט"</small></div>
+    <div class="sideCard"><span class="em">🍊</span><b>מבחן הסחיטה ביד</b><p>מסחטה של 699 דולר נכשלה, כי הראו שאפשר לסחוט את השקיות שלה ביד. אפשר לפתור את הבעיה שלכם בקלות בלי ההמצאה? אם כן, מה הערך האמיתי?</p><small>מכין לפיץ׳</small></div>
+    <div class="sideCard"><span class="em">🟥</span><b>צוות אדום</b><p>כתבו 3 סיבות שההמצאה תיכשל, ותשובה קצרה לכל אחת. אפשר לבקש מ־Gemini לשחק משקיע ספקן.</p><small>מכין לשאלות של הוועדה</small></div>
+    <div class="sideCard"><span class="em">👶</span><b>פיץ׳ לכיתה א׳</b><p>הסבירו את ההמצאה ב־10 שניות לילד/ה בן/בת 6. בלי מילים קשות. נסו על צוות שכן.</p><small>משפר: "הבעיה והלקוח"</small></div>
+    <div class="sideCard"><span class="em">✏️</span><b>לוגו לצוות</b><p>ב־autodraw.com: שני אייקונים ושם הצוות. מורידים (☰ ← Download) ומוסיפים לשקף השער ביומן.</p><small>לשקף השער</small></div>
+    <div class="sideCard"><span class="em">🏷️</span><b>סלוגן</b><p>עד 5 מילים, בלי אף מילה מהכרטיסים. כתבו 3 גרסאות ובחרו אחת לכרזה.</p><small>משפר: "מקוריות"</small></div>
+  </div>
+  <div class="cutgrid pcards" style="margin-top:6mm;flex:1">
+    <div class="pcard"><div class="head"><b>💬 כרטיס פרומפט</b><span>צוות: <span class="fill s"></span> · תור ☐1 ☐2</span></div><p class="parts">🎯 נושא · 🏃 פעולה · 🖌️ סגנון · 🏞️ רקע · 🚫 בלי אנשים ובלי טקסט</p><div class="lines"></div></div>
+    <div class="pcard"><div class="head"><b>💬 כרטיס פרומפט</b><span>צוות: <span class="fill s"></span> · תור ☐1 ☐2</span></div><p class="parts">🎯 נושא · 🏃 פעולה · 🖌️ סגנון · 🏞️ רקע · 🚫 בלי אנשים ובלי טקסט</p><div class="lines"></div></div>
+    <div class="pcard"><div class="head"><b>💬 כרטיס פרומפט</b><span>צוות: <span class="fill s"></span> · תור ☐1 ☐2</span></div><p class="parts">🎯 נושא · 🏃 פעולה · 🖌️ סגנון · 🏞️ רקע · 🚫 בלי אנשים ובלי טקסט</p><div class="lines"></div></div>
+    <div class="pcard"><div class="head"><b>💬 כרטיס פרומפט</b><span>צוות: <span class="fill s"></span> · תור ☐1 ☐2</span></div><p class="parts">🎯 נושא · 🏃 פעולה · 🖌️ סגנון · 🏞️ רקע · 🚫 בלי אנשים ובלי טקסט</p><div class="lines"></div></div>
+  </div>
+</section>
+
+<!-- 15. AI TRANSPARENCY -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לכל תוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. הרצועה מצורפת לתוצר, או שמעתיקים את שתי השורות לשקף 3 ביומן ולטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: <span class="fill s"></span></span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: <span class="fill s"></span></span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: <span class="fill s"></span></span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: <span class="fill s"></span></span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16. EXIT TICKETS -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד (או בטופס, מהקישור במצגת).</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 1</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה הופך המצאה לרעיון טוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 1</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה הופך המצאה לרעיון טוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 1</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה הופך המצאה לרעיון טוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div><div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 1</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">מה הופך המצאה לרעיון טוב?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>רעיונות</span><span>בנייה</span><span>מחקר</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- 17. INSTRUCTOR SCORING SHEET -->
+<section class="page tight" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>מפעל ההמצאות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · גיבוי ללוח הניקוד שבמצגת</span><h2>דף <span>הניקוד</span></h2></div><p>בזמן הפיצ׳ים מסמנים כאן את המחוון. בזמן כרטיס היציאה מעבירים הכול ללוח במצגת (שקף 43).</p></div>
+  <table class="tb rubsc" style="font-size:8.8pt">
+    <thead><tr><th style="width:24mm">צוות</th><th>חימום<br><small>עד 3</small></th><th>ייסוד<br><small>עד 5</small></th><th>חותמת<br><small>2</small></th><th>הגשה<br><small>3</small></th><th>ניחשנו<br><small>1 לכל</small></th><th>ניחשו אותנו<br><small>1 לכל</small></th><th>מדבקות<br><small>מקום</small></th><th>מחוון<br><small>ב · מ · ת · צ</small></th><th>×2<br><small><bdi class="num" dir="ltr">2–8</bdi></small></th><th>פרס<br><small>3</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>__ __ __ __</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:1.5mm">מחוון: ב = הבעיה והלקוח · מ = מקוריות · ת = תמונה ופרומפט · צ = עבודה בתפקידים. מדבקות: מקום ראשון 6, שני 4, שלישי 2.</p>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ בדיקת ייסוד (דקה 21): מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 הפרסים היום</h3><p>🏛️ ועדת הקבלה: <span class="fill"></span></p><p style="margin-top:1.5mm">🖼️ הכרזה הכי ברורה: <span class="fill"></span></p><p style="margin-top:1.5mm">🕵️ בלשי הכיתה: <span class="fill"></span></p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🎲 הכרטיסים שכל צוות שלף (למקרה של ויכוח)</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:24mm">צוות</th><th>👤 לקוח #</th><th>😖 בעיה #</th><th>⚙️ טכנולוגיה #</th><th>הוחלף כרטיס?</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחת שיעור 2</h3><div class="lines h1"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- 18. TABLE SIGN -->
+<section class="page" id="p-sign" data-label="שלט שולחן">
+  <div class="ph"><div class="l"><i>TIE</i>שלט שולחן · מקפלים לאורך הקו האמצעי</div><div class="r">1 לצוות</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🚀</span><b>צוות</b><div class="nm"></div><p style="color:var(--muted)">חממת Tech It Easy · מחזור חדש</p></div>
+    <div><span class="em">🚀</span><b>צוות</b><div class="nm"></div><p style="color:var(--muted)">חממת Tech It Easy · מחזור חדש</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם הצוות משני הצדדים</p>
+</section>
+
+<!-- 19. CERTIFICATE -->
+<section class="page" id="p-cert" data-label="כתב קבלה">
+  <div class="ph"><div class="l"><i>TIE</i>כתב קבלה לחממה · 2 בעמוד</div><div class="r">רשות · לכל צוות</div></div>
+  <p class="cutnote">✂ לגזור לחצי. ממלאים בזמן כרטיס היציאה ומחלקים למנכ״לים בסוף השיעור.</p>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="cert"><span class="em">🏛️</span><h3>כתב קבלה לחממה</h3><p>ועדת הקבלה של חממת Tech It Easy מאשרת כי<br>צוות <span class="fill l"></span><br>התקבל לחממה עם ההמצאה <span class="fill l"></span><br>תואר מיוחד: <span class="fill l"></span></p><div class="sig"><span>יו״ר הוועדה: <span class="fill"></span></span><span>תאריך: <span class="fill s"></span></span></div></div>
+    <div class="cert"><span class="em">🏛️</span><h3>כתב קבלה לחממה</h3><p>ועדת הקבלה של חממת Tech It Easy מאשרת כי<br>צוות <span class="fill l"></span><br>התקבל לחממה עם ההמצאה <span class="fill l"></span><br>תואר מיוחד: <span class="fill l"></span></p><div class="sig"><span>יו״ר הוועדה: <span class="fill"></span></span><span>תאריך: <span class="fill s"></span></span></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

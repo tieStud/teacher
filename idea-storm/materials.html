@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · סערת רעיונות: המרוץ ל-52 | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ---------- lesson additions: סערת רעיונות (template styles above untouched) ---------- */
+.c8p{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1;border:1.4px solid var(--ink);border-radius:3mm;overflow:hidden}
+.c8p>div{border-left:1.2px dashed var(--line2);border-bottom:1.2px dashed var(--line2);position:relative;padding:2.5mm 3mm}
+.c8p>div:nth-child(2n){border-left:0}.c8p>div:nth-last-child(-n+2){border-bottom:0}
+.c8p>div b{position:absolute;top:2mm;right:2.5mm;width:7mm;height:7mm;border-radius:2mm;background:var(--paper2);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:10pt;color:var(--muted)}
+.c8p>div small{position:absolute;bottom:2mm;left:3mm;color:var(--dim);font-size:7.5pt}
+table.race{width:100%;border-collapse:collapse;font-size:8.6pt;table-layout:fixed}
+table.race th{font-family:var(--display);font-weight:600;background:var(--paper2);border:1px solid var(--line2);padding:1.2mm 1.4mm;font-size:8pt}
+table.race td{border:1px solid var(--line2);height:6.3mm;padding:0 1.4mm;vertical-align:middle}
+table.race td.n{width:7mm;text-align:center;color:var(--dim);font-weight:700;font-size:7.8pt}
+table.race td.src{width:19mm;text-align:center;white-space:nowrap;font-size:7.6pt;color:var(--muted);padding:0}
+table.race td.st{width:8mm}
+table.race tr.mile td{border-top:1.6px solid var(--teal)}
+.raceCols{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.counters{display:grid;grid-template-columns:repeat(6,1fr);gap:2mm;margin-bottom:3mm}
+.counters div{border:1px solid var(--line2);border-radius:2.5mm;padding:1.4mm 2mm;font-size:8.4pt;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:1mm}
+.counters div span{display:inline-block;min-width:9mm;border-bottom:1px solid var(--ink);height:5mm}
+.map{flex:1;position:relative;border:1.2px dashed var(--line2);border-radius:3mm;overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map .ctr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:66mm;min-height:34mm;border:1.6px solid var(--teal);border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm 7mm;font-size:8.6pt;color:var(--muted)}
+.map .ctr b{font-family:var(--display);font-size:10.5pt;color:var(--teal);display:block;margin-bottom:1mm}
+.map .br{position:absolute;width:44mm;border:1.2px solid var(--line2);border-radius:2.5mm;background:#fff;padding:1.4mm 2.4mm;font-size:8.6pt;font-weight:700}
+.legend{display:flex;gap:4mm;flex-wrap:wrap;font-size:9pt;margin-bottom:3mm}
+.legend span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm}
+.top3{display:grid;gap:3.5mm;flex:1;grid-template-rows:repeat(3,1fr)}
+.t3{border:1.4px solid var(--ink);border-radius:3.5mm;display:grid;grid-template-columns:1fr 46mm;overflow:hidden}
+.t3 .l{padding:3mm 4mm;display:flex;flex-direction:column;gap:2mm}
+.t3 .l .h{display:flex;align-items:center;gap:3mm;font-family:var(--display);font-weight:800;font-size:13pt}
+.t3 .l .h i{font-style:normal;width:9mm;height:9mm;border-radius:2.5mm;background:var(--warn-bg);display:grid;place-items:center}
+.t3 .src{font-size:9pt;display:flex;gap:3mm;flex-wrap:wrap}
+.t3 .r{border-right:1.2px dashed var(--line2);display:grid;grid-template-rows:1fr auto}
+.t3 .r .sk{position:relative}
+.t3 .r .sk::before{content:"סקיצה";position:absolute;top:1.5mm;right:2mm;font-size:7.5pt;color:var(--dim);font-weight:700}
+.t3 .r .dots{border-top:1.2px dashed var(--line2);padding:2mm;font-size:8pt;color:var(--muted);text-align:center;min-height:22mm;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 4mm,#f3efe8 4mm 4.4mm)}
+.scamp{display:grid;grid-template-columns:1fr;gap:1.6mm}
+.scamp div{display:grid;grid-template-columns:9mm 24mm 1fr;gap:2mm;align-items:center;border:1px solid var(--line2);border-radius:2.5mm;padding:1.4mm 2mm;font-size:8.8pt}
+.scamp i{font-style:normal;display:grid;place-items:center;width:8mm;height:8mm;border-radius:2mm;background:var(--teal);color:#fff;font-family:var(--display);font-weight:800;direction:ltr}
+.scamp b{font-family:var(--display)}
+.scamp small{color:var(--muted);display:block;font-size:7.8pt}
+.side{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.sq{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;gap:1.5mm;position:relative}
+.sq .em{font-size:20pt;line-height:1}
+.sq b{font-family:var(--display);font-weight:800;font-size:11.5pt}
+.sq p{font-size:8.8pt;color:var(--ink)}
+.sq .pts{position:absolute;top:2.5mm;left:3mm;font-size:8pt;font-weight:800;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:.3mm 2.2mm}
+.sq .tag{position:absolute;top:2.5mm;right:3mm;font-size:7.5pt;color:var(--dim);font-weight:700}
+table.flipT td{height:15mm}
+table.flipT td.exr{height:auto;color:var(--muted);font-style:italic;background:var(--paper)}
+.ex2{font-size:9pt;color:var(--muted)}
+.dense .pt{margin-bottom:3mm}.dense .pt p{font-size:9.4pt}
+.dense .box{padding:2.6mm 3.4mm}.dense .box h3{font-size:10.6pt;margin-bottom:1mm}
+.dense table.tb{font-size:8.8pt}.dense table.tb th,.dense table.tb td{padding:1.1mm 2mm}
+.dense ol.clean li{margin-bottom:.2mm;font-size:9.6pt}
+#p-score table.tb td.e{height:7.2mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · סערת רעיונות: המרוץ ל-52<small>שיעור 3 מתוך 30 · שלב 1: רעיונאות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס. את מפת הרעיונות (עמוד 7) כדאי להדפיס ב-A3.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · שיעור 3</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-7 צוותים. לכיתה אחרת: לפי מספר הצוותים והתלמידים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דף "איך נוכל"</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>דף Crazy 8</td><td>1 לתלמיד + 4 רזרבה (32)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>טבלת היפוך: הרעיון הגרוע ביותר</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6</td><td>דף המרוץ ל-52 (גיבוי ליומן הדיגיטלי)</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>7</td><td>מפת רעיונות</td><td>1 לצוות (7)</td><td>A3 (הגדלה 141%) או A4</td><td>לא</td></tr>
+      <tr><td>8</td><td>כרטיס 3 המובילים (לקיר ולמדבקות)</td><td>1 לצוות (7)</td><td>רגיל או בריסטול</td><td>לא</td></tr>
+      <tr><td>9</td><td>כרטיס SCAMPER ומשימות צד</td><td>2 עמודים: SCAMPER לכל צוות, משימות צד לקופסה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>10</td><td>מחוון</td><td>1 לצוות + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>כרטיסי יציאה</td><td>8 עמודים (32 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>13</td><td>דף הניקוד של המדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>כרטיס משימה, דף "איך נוכל", מחוון</li><li>5 דפי Crazy 8 וטבלת היפוך</li><li>דף המרוץ ל-52 ומפת רעיונות</li><li>כרטיס 3 המובילים ושורת AI</li><li>כרטיס SCAMPER</li><li>טושים: שחור 🧑 · כחול 🤖 · ירוק 🤝</li><li>פתקים דביקים ומעטפת צוות</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>קופסת משימות צד (6 כרטיסים)</li><li>מדבקות עגולות: 3 לתלמיד (כ-90). אין? טוש לסימון נקודה</li><li>אטב לכל תלמיד לחימום (רשות, אפשר גם בלי)</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד ועט</li><li>סלוטייפ לקיר של כרטיסי 3 המובילים</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🔗 על הלוח לפני שמתחילים</h3><p>הקישור הקצר לתבנית יומן הרעיונות (<b>/copy</b>) · הקישור הקצר לטופס "הגשת תוצר" · בנק מילים: איך נוכל · רעיון · כיוון · הנחה · חפיפה · בלעדי. <b>גזירה:</b> 3–4 דפים יחד בגיליוטינה. כרטיס SCAMPER (חצי עליון של עמוד 9) נשאר שלם.</p></div>
+  
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page dense" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · שיעור 3 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🌪️ שלב 1: רעיונאות</span><h2>המרוץ <span>ל-52 רעיונות</span></h2></div><p>Angry Birds היה המשחק ה-52 של החברה שפיתחה אותו. היום אתם רצים ל-52 רעיונות לבעיה שמצאתם: קודם לבד, אחר כך בצוות, אחר כך מול המכונה, ובסוף בוחרים 3.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>לפחות <b>30 רעיונות שונים</b> ביומן, כל אחד מסומן 🧑 / 🤖 / 🤝, ו-<b>3 רעיונות מובילים</b>, לכל אחד ההנחה שלו. קו הסיום של המרוץ: 52.</p>
+      <h3 style="margin-top:3mm">🏁 ארבע ההקפות</h3>
+      <ol class="clean"><li>✏️ Crazy 8: לבד, 8 רעיונות ב-8 דקות · 🔴 בלי AI</li><li>🙃 הרעיון הגרוע ביותר, והיפוך · 🔴 בלי AI</li><li>🤖 אדם מול מכונה: 25 רעיונות של Gemini, חפיפה ושילובים · 🟢</li><li>⭐ פיט-סטופ: כוכבים, 3 מובילים, הנחות, מפה · 🟡</li></ol></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean"><li>כל רעיון: שורה אחת, עד 12 מילים.</li><li>רעיון שחוזר בניסוח אחר נספר פעם אחת.</li><li>כל שורה מסומנת: 🧑 אנושי · 🤖 AI · 🤝 שילוב.</li><li>בהקפות 1 ו-2 אין AI בכלל.</li><li>אסור לשפוט עד הפיט-סטופ. צוחקים על רעיונות, לא על אנשים.</li><li>בנקודת הביקורת צוות שכן סופר לכם, והספירה שלו קובעת.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:30mm">נקודות</th></tr></thead><tbody>
+      <tr><td>כל 5 רעיונות שונים ביומן · חציתם את קו ה-52</td><td>1 · +3</td></tr>
+      <tr><td>נקודת ביקורת: 20 רעיונות מסומנים</td><td>3</td></tr>
+      <tr><td>הרעיון הגרוע המצחיק ביותר (הצבעת הכיתה)</td><td>3</td></tr>
+      <tr><td>רעיון בלעדי בשלושת המובילים: 🧑 או 🤝, ש-Gemini לא הציע משהו דומה</td><td>3 לכל אחד</td></tr>
+      <tr><td>הגשה בזמן ובמפרט · הרמה במחוון × 3</td><td>5 · 3–12</td></tr>
+      <tr><td>הגמר "ואולי אפשר גם…": מקומות 1–3 בהצבעת המדבקות</td><td>8 / 5 / 3</td></tr>
+      <tr><td>משימת צד · פרס קטגוריה</td><td>1–2 · 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">שובר שוויון: יותר כיוונים שונים ביומן. פרסים: 🙃 הגרוע המצחיק · 🦘 הקפיצה הגדולה · 🧑 הבלעדי האנושי.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:32mm"><b>🧭 מנכ״ל/ית</b></td><td>מקריא/ה את שאלת ה"איך נוכל", שומר/ת על זמני ההקפות ועל "אסור לשפוט", מדווח/ת את ספירת השכנים.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>בודק/ת כפילויות ביומן, סופר/ת חפיפה עם Gemini, ובפיט-סטופ מנסח/ת את ההנחות.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>יוצר/ת עותק של היומן ומשתף/ת, ובסוף בונה את המפה ב-Napkin (או על A3).</td></tr>
+      <tr><td><b>🎤 מציג/ה ומתעד/ת</b></td><td>בונה את שקף השיעור ביומן הסטארט-אפ, מגיש/ה בטופס ומציג/ה בגמר.</td></tr>
+      <tr><td><b>🤖 אחראי/ת AI</b></td><td>מריץ/ה את פרומפט 1 ו-2, מסמן/ת 🤖 ו-🤝, מסקיצה ב-AutoDraw וממלא/ת את שורת ה-AI: מה ה-AI עשה · מה אנחנו עשינו.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">יעד 20 רעיונות, תבנית "איך נוכל" מוכנה ודף הדוגמה של "קופסת הפסקה". Crazy 8 עם 6 משבצות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">30 רעיונות, 3 מובילים עם הנחות, מפה וסקיצה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">40 רעיונות לפחות, 5 מהם "בלי מסך", וסקיצה לכל אחד מ-3 המובילים. +1 נקודה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. HMW ===================== -->
+<section class="page" id="p-hmw" data-label="דף איך נוכל">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · דף "איך נוכל…?"</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">✍️ 3 דקות · 🔴 בלי AI</span><h2>השאלה <span>של הצוות שלנו</span></h2></div><p>שאלה טובה פותחת הרבה דלתות: אפשר לענות עליה בעשרות דרכים, והפתרון לא כתוב בתוכה.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>1. הבעיה שלנו (מכרטיס הבעיה של השיעור הקודם)</h3><p style="line-height:2.4">קשה ל<span class="fill l"></span> כי <span class="fill xl"></span></p></div>
+    <div class="box"><h3>2. שלוש שאלות "איך נוכל…?"</h3><p style="font-size:9.4pt;color:var(--muted)">תבנית: איך נוכל לעזור ל<b>[מי]</b> ל<b>[מה]</b> כדי ש<b>[למה]</b>?</p>
+      <p style="line-height:2.6">א. איך נוכל <span class="fill xl"></span><span class="fill l"></span>?<br>ב. איך נוכל <span class="fill xl"></span><span class="fill l"></span>?<br>ג. איך נוכל <span class="fill xl"></span><span class="fill l"></span>?</p></div>
+    <div class="box"><h3>3. בודקים כל שאלה</h3>
+      <table class="tb"><thead><tr><th style="width:16mm">שאלה</th><th>רחבה מדי · צרה מדי · בדיוק</th><th>יש בה כבר פתרון? (כן / לא)</th><th style="width:40mm">מבחן 10 התשובות: כמה תשובות בדקה?</th></tr></thead>
+      <tbody><tr><td class="e">א</td><td>☐ רחבה &nbsp; ☐ צרה &nbsp; ☐ בדיוק</td><td></td><td></td></tr><tr><td class="e">ב</td><td>☐ רחבה &nbsp; ☐ צרה &nbsp; ☐ בדיוק</td><td></td><td></td></tr><tr><td class="e">ג</td><td>☐ רחבה &nbsp; ☐ צרה &nbsp; ☐ בדיוק</td><td></td><td></td></tr></tbody></table></div>
+    <div class="box" style="border-color:var(--teal);border-width:1.6px"><h3>⭐ השאלה שבחרנו (נכתבת בשורה הראשונה ביומן)</h3><p style="line-height:2.4">איך נוכל <span class="fill xl"></span><span class="fill l"></span><br><span class="fill xl"></span><span class="fill l"></span>?</p></div>
+    <div class="grid3">
+      <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">רחבה מדי</span><p class="ex2" style="margin-top:1.5mm">"איך נוכל לשפר את בית הספר?" לא יודעים מאיפה להתחיל.</p></div>
+      <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">צרה מדי</span><p class="ex2" style="margin-top:1.5mm">"איך נוכל לקנות עוד כדורים?" הפתרון כבר בשאלה.</p></div>
+      <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בדיוק</span><p class="ex2" style="margin-top:1.5mm">"איך נוכל לדאוג שבכל הפסקה יהיה לכל אחד עם מה ועם מי לשחק?"</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. CRAZY 8 ===================== -->
+<section class="page" id="p-c8" data-label="דף Crazy 8">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · הקפה 1 · Crazy 8</div><div class="r">שם: <span class="fill"></span> · צוות: <span class="fill s"></span></div></div>
+  <div class="pt"><div><span class="kick">✏️ 8 משבצות · 8 דקות · לבד · 🔴 בלי AI</span><h2>Crazy <span>8</span></h2></div><p>דקה לכל משבצת: ציור מהיר ו-2–3 מילים. נגמרה הדקה? עוברים הלאה, גם באמצע. 8 רעיונות <b>שונים</b>, לא 8 גרסאות של אותו רעיון.</p></div>
+  <div class="box" style="margin-bottom:3mm"><p>🎯 השאלה שלנו: איך נוכל <span class="fill xl"></span><span class="fill l"></span>?</p></div>
+  <div class="c8p">
+    <div><b>1</b><small>דקה 1</small></div><div><b>2</b><small>דקה 2</small></div>
+    <div><b>3</b><small>דקה 3</small></div><div><b>4</b><small>דקה 4</small></div>
+    <div><b>5</b><small>דקה 5</small></div><div><b>6</b><small>דקה 6</small></div>
+    <div><b>7</b><small>דקה 7</small></div><div><b>8</b><small>דקה 8</small></div>
+  </div>
+  <div class="grid2" style="margin-top:3mm">
+    <div class="box soft"><p>⭐ הרעיון הכי מוזר שלי (לסבב "כן, ו…"): משבצת # <span class="fill s"></span></p></div>
+    <div class="box soft"><p>🤔 רעיונות 5–8 דומים ל-1–4? ☐ כן, שיחקתי בטוח &nbsp; ☐ לא, הם שונים</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. WORST IDEA FLIP ===================== -->
+<section class="page" id="p-flip" data-label="טבלת היפוך">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · הקפה 2 · הרעיון הגרוע ביותר</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🙃 5 דקות · צוות · 🔴 בלי AI</span><h2>מגרוע <span>לטוב</span></h2></div><p>שואלים: "איך נהפוך את זה לגרוע ככל האפשר?" כותבים 6 רעיונות גרועים (מצחיקים, לא פוגעים), ואז הופכים כל אחד. הדבר הנורא ברעיון הוא רמז: ההיפוך שלו הוא בדרך כלל רעיון טוב.</p></div>
+  <table class="tb flipT">
+    <thead><tr><th style="width:8mm">#</th><th>🙃 הרעיון הגרוע</th><th>😬 מה בדיוק נורא בו?</th><th>✨ ההיפוך הטוב</th><th style="width:15mm">ביומן ✓</th></tr></thead>
+    <tbody>
+      <tr><td class="exr">דוגמה</td><td class="exr">ארגז משחקים נעול, והמפתח אצל המנהל</td><td class="exr">אי אפשר להגיע אליו</td><td class="exr">ארגז פתוח שהתלמידים אחראים עליו, בתורנות</td><td class="exr">✓</td></tr>
+      <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>4</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>5</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>6</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box" style="border-color:#e3a82b;border-width:1.6px"><h3>🏆 הגרוע המצחיק שלנו, לתחרות של הכיתה</h3><p style="font-size:9.4pt;color:var(--muted)">מקריאים את הגרוע ואת ההיפוך שלו ב-15 שניות.</p><div class="lines h3"></div></div>
+    <div class="box soft"><h3>💡 עוד דוגמאות</h3><ul class="clean ex2"><li>"כל משחק עולה 50 ₪" ← מי שמביא משחק מהבית מקבל כרטיס השאלה.</li><li>"ההפסקה נמשכת 30 שניות" ← משחקים של 3 דקות בדיוק, שמספיקים לסבב.</li><li>"אסור לדבר בהפסקה" ← הפסקה עם משחקי ניחוש בלי מילים.</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✓ לפני שעוברים הלאה</h3><ul class="check"><li>6 רעיונות גרועים</li><li>3 היפוכים לפחות, ביומן עם 🧑 והקפה "הגרוע"</li><li>בחרנו את הגרוע המצחיק לתחרות</li></ul></div>
+</section>
+
+<!-- ===================== 6. RACE TO 52 ===================== -->
+<section class="page" id="p-race" data-label="דף המרוץ ל-52">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · דף המרוץ ל-52 (יומן על נייר)</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🗂️ גיבוי ליומן הדיגיטלי</span><h2>המרוץ <span>ל-52</span></h2></div><p>רעיון בשורה, עד 12 מילים. בעמודת המקור מקיפים: 🧑 אנושי · 🤖 AI · 🤝 שילוב. כוכבים ⭐ בפיט-סטופ. הקו הירוק: 26 רעיונות.</p></div>
+  <div class="box" style="margin-bottom:3mm;padding:2.5mm 4mm"><p>🎯 איך נוכל <span class="fill xl"></span><span class="fill l"></span>?</p></div>
+  <div class="counters"><div>💡 סה״כ <span></span></div><div>🧑 <span></span></div><div>🤖 <span></span></div><div>🤝 <span></span></div><div>🧭 כיוונים <span></span></div><div>🔁 חפיפה <span></span>/25</div></div>
+  <div class="raceCols">
+    <table class="race"><thead><tr><th style="width:7mm">#</th><th>הרעיון</th><th style="width:19mm">מקור</th><th style="width:8mm">⭐</th></tr></thead><tbody id="raceA"></tbody></table>
+    <table class="race"><thead><tr><th style="width:7mm">#</th><th>הרעיון</th><th style="width:19mm">מקור</th><th style="width:8mm">⭐</th></tr></thead><tbody id="raceB"></tbody></table>
+  </div>
+</section>
+
+<!-- ===================== 7. IDEA MAP ===================== -->
+<section class="page" id="p-map" data-label="מפת רעיונות">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · מפת רעיונות (מומלץ להדפיס ב-A3)</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🗺️ פיט-סטופ · בלי Napkin? המפה כאן</span><h2>מפת <span>הרעיונות</span></h2></div><p>השאלה באמצע. ענף לכל כיוון (חפץ, אפליקציה, חוק, אירוע, אנשים, מקום…). כל רעיון בצבע של המקור שלו, וכוכב ⭐ לכל כוכב שקיבל.</p></div>
+  <div class="legend"><span>⚫ שחור = 🧑 אנושי</span><span style="color:#2f6db5">🔵 כחול = 🤖 AI</span><span style="color:#15803d">🟢 ירוק = 🤝 שילוב</span><span>⭐ כוכב = הצבעה בפיט-סטופ</span></div>
+  <div class="map">
+    <svg viewBox="0 0 186 230" preserveAspectRatio="none" aria-hidden="true">
+      <g stroke="#d9d3c8" stroke-width=".5" stroke-dasharray="2 1.5" fill="none">
+        <line x1="93" y1="115" x2="30" y2="22"/><line x1="93" y1="115" x2="156" y2="22"/>
+        <line x1="93" y1="115" x2="12" y2="115"/><line x1="93" y1="115" x2="174" y2="115"/>
+        <line x1="93" y1="115" x2="30" y2="208"/><line x1="93" y1="115" x2="156" y2="208"/>
+      </g>
+    </svg>
+    <div class="br" style="top:6mm;right:6mm">כיוון: </div>
+    <div class="br" style="top:6mm;left:6mm">כיוון: </div>
+    <div class="br" style="top:calc(50% - 4mm);right:3mm">כיוון: </div>
+    <div class="br" style="top:calc(50% - 4mm);left:3mm">כיוון: </div>
+    <div class="br" style="bottom:6mm;right:6mm">כיוון: </div>
+    <div class="br" style="bottom:6mm;left:6mm">כיוון: </div>
+    <div class="ctr"><b>🎯 השאלה שלנו</b>איך נוכל ______________<br>______________________?</div>
+  </div>
+</section>
+
+<!-- ===================== 8. TOP 3 CARD ===================== -->
+<section class="page" id="p-top3" data-label="כרטיס 3 המובילים">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · כרטיס 3 המובילים · נתלה על הקיר בגמר</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">⭐ פיט-סטופ · כותבים בטוש עבה, שיראו מרחוק</span><h2>3 המובילים של <span class="fill l"></span></h2></div><p>הכיתה מצביעה במדבקות בעיגולים שמימין. מדבקה אחת לכל רעיון, לא לצוות שלכם.</p></div>
+  <div class="top3">
+    <div class="t3"><div class="l"><div class="h"><i>⭐</i>מוביל 1 · מספר ביומן: <span class="fill s"></span></div><div class="lines h2"></div>
+      <div class="src">☐ 🧑 אנושי &nbsp; ☐ 🤖 AI &nbsp; ☐ 🤝 שילוב &nbsp;·&nbsp; Gemini הציע משהו דומה? ☐ כן ☐ לא (בלעדי!)</div>
+      <p style="font-size:9.6pt"><b>🧪 הרעיון יעבוד רק אם</b> <span class="fill xl"></span></p><div class="lines h1"></div></div>
+      <div class="r"><div class="sk"></div><div class="dots">🗳️ מדבקות</div></div></div>
+    <div class="t3"><div class="l"><div class="h"><i>⭐</i>מוביל 2 · מספר ביומן: <span class="fill s"></span></div><div class="lines h2"></div>
+      <div class="src">☐ 🧑 אנושי &nbsp; ☐ 🤖 AI &nbsp; ☐ 🤝 שילוב &nbsp;·&nbsp; Gemini הציע משהו דומה? ☐ כן ☐ לא (בלעדי!)</div>
+      <p style="font-size:9.6pt"><b>🧪 הרעיון יעבוד רק אם</b> <span class="fill xl"></span></p><div class="lines h1"></div></div>
+      <div class="r"><div class="sk"></div><div class="dots">🗳️ מדבקות</div></div></div>
+    <div class="t3"><div class="l"><div class="h"><i>⭐</i>מוביל 3 · מספר ביומן: <span class="fill s"></span></div><div class="lines h2"></div>
+      <div class="src">☐ 🧑 אנושי &nbsp; ☐ 🤖 AI &nbsp; ☐ 🤝 שילוב &nbsp;·&nbsp; Gemini הציע משהו דומה? ☐ כן ☐ לא (בלעדי!)</div>
+      <p style="font-size:9.6pt"><b>🧪 הרעיון יעבוד רק אם</b> <span class="fill xl"></span></p><div class="lines h1"></div></div>
+      <div class="r"><div class="sk"></div><div class="dots">🗳️ מדבקות</div></div></div>
+  </div>
+</section>
+
+<!-- ===================== 9. SCAMPER + SIDE QUESTS ===================== -->
+<section class="page" id="p-cards" data-label="SCAMPER ומשימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · כרטיס SCAMPER · משימות צד</div><div class="r">חצי עליון לצוות · חצי תחתון לקופסה</div></div>
+  <div class="box" style="margin-bottom:4mm">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2mm"><h3 style="margin:0">🔄 כרטיס SCAMPER: נתקעתם? שאלה אחת על רעיון קיים</h3><span style="font-size:8.5pt;color:var(--muted)">דוגמה: "קופסת הפסקה"</span></div>
+    <div class="scamp">
+      <div><i>S</i><b>להחליף</b><span>מה אפשר להחליף במשהו אחר? <small>במקום מורה: תורנות של תלמידי ו׳.</small></span></div>
+      <div><i>C</i><b>לשלב</b><span>עם מה אפשר לחבר את זה? <small>עם שעון חול: כל משחק לרבע שעה.</small></span></div>
+      <div><i>A</i><b>להתאים</b><span>מה אפשר להעתיק מתחום אחר? <small>מהספרייה: כרטיס השאלה עם תאריך.</small></span></div>
+      <div><i>M</i><b>לשנות</b><span>מה אם זה גדול יותר, קטן יותר, מהיר יותר? <small>קופסה קטנה בכל כיתה במקום ארגז אחד.</small></span></div>
+      <div><i>P</i><b>שימוש אחר</b><span>למה עוד זה יכול לשמש? <small>ביום גשם: פינת משחקי קופסה.</small></span></div>
+      <div><i>E</i><b>להוריד</b><span>מה קורה אם מוותרים על חלק? <small>בלי רישום: לוקחים, מחזירים, ובודקים שבוע.</small></span></div>
+      <div><i>R</i><b>להפוך</b><span>מה אם עושים את זה הפוך? <small>התלמידים מביאים משחקים מהבית ומשאילים לאחרים.</small></span></div>
+    </div>
+  </div>
+  <p class="cutnote">✂ משימות צד: לגזור ולהכניס לקופסה על שולחן המדריך. צוות שסיים שולף כרטיס אחד.</p>
+  <div class="cutgrid side grow">
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">2 נק׳</span><span class="em">🔄</span><b>SCAMPER על המוביל</b><p>7 גרסאות של הרעיון המוביל, אחת לכל אות. כולן נכנסות ליומן.</p></div>
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">1 נק׳</span><span class="em">🟥</span><b>צוות אדום</b><p>3 סיבות שהמוביל ייכשל, ותשובה לכל אחת.</p></div>
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">1 נק׳</span><span class="em">🐣</span><b>פיץ׳ לכיתה א׳</b><p>מסבירים את המוביל ב-10 שניות, במילים שילד בן 6 מבין. מציגים למדריך.</p></div>
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">1 נק׳</span><span class="em">🚑</span><b>מצילים את הגרוע</b><p>הופכים עוד 3 רעיונות גרועים מהטבלה לרעיונות טובים.</p></div>
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">1 נק׳</span><span class="em">🔎</span><b>בודקים את המכונה</b><p>מוצאים ברשימה של Gemini רעיון שכבר קיים בשוק, ובודקים בחיפוש.</p></div>
+    <div class="sq"><span class="tag">משימת צד</span><span class="pts">+3 נק׳</span><span class="em">🏁</span><b>קו ה-52</b><p>ממשיכים בכל שיטה עד 52 רעיונות שונים ביומן.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 10. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>מפת הרעיונות</span></h2></div><p>בנקודת הביקורת מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">כמות ומגוון<small>כמה, ומכמה כיוונים</small></td><td>פחות מ-15 רעיונות, כמעט כולם מאותו כיוון</td><td>15–24 רעיונות, מ-2–3 כיוונים</td><td>25 רעיונות ומעלה, מ-3–4 כיוונים</td><td>30 רעיונות ומעלה, מ-5 כיוונים שונים לפחות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">חיבור לבעיה<small>השאלה וההנחות</small></td><td>אין שאלת "איך נוכל", או שהרעיונות לא קשורים</td><td>יש שאלה, אבל חלק מהמובילים לא עונים עליה</td><td>כל 3 המובילים עונים על השאלה</td><td>כל 3 המובילים עונים על השאלה, ולכל אחד הנחה שאפשר לבדוק</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">מקוריות<small>מה חדש כאן</small></td><td>המובילים הם הרעיונות הראשונים, או מוצר שכבר קיים</td><td>מוביל אחד שונה מהמובן מאליו</td><td>מוביל אחד לפחות נולד בהקפות 2–4</td><td>מוביל ששונה מהרעיון הראשון של כל חברי הצוות, ו-Gemini לא הציע</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">אדם ומכונה<small>שקיפות AI</small></td><td>לא ברור מה ה-AI עשה</td><td>חלק מהרעיונות מסומנים</td><td>כל רעיון מסומן 🧑/🤖/🤝, ומספר החפיפה כתוב</td><td>מסבירים במשפט מה ה-AI הוסיף ומה רק אנחנו הבאנו, ורעיון AI שפסלנו ולמה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🧮 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 3: <b>רמה 1 = 3 · רמה 2 = 6 · רמה 3 = 9 · רמה 4 = 12</b> נקודות בלוח.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> 27 רעיונות מ-4 כיוונים, חפיפה 7/25. המובילים: "קופסה בכל כיתה עם שעון חול" 🤝, "תורנות של תלמידי ו׳" 🧑, "אפליקציה להזמנת משחק" 🤖. הנחות רק לשניים. שורת AI: "השתמשנו ב-Gemini לרעיונות."</p>
+    <p style="font-size:9.2pt"><b>🚀 רמה 4:</b> 41 רעיונות מ-6 כיוונים, חפיפה 11/25. מוביל #6 "לוח בחצר: מחפש/ת שותף" 🧑 בלעדי, עם ההנחה "מי שמסתובב לבד יסכים לכתוב את השם שלו". שורת AI: "Gemini הוסיף רעיונות של חוקים וטכנולוגיה, רק אנחנו חשבנו על הילדים שמסתובבים לבד. פסלנו 'רובוט שמחלק משחקים' כי אי אפשר לבנות אותו."</p></div></div>
+</section>
+
+<!-- ===================== 11. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בפיט-סטופ, ומעתיקים את שתי השורות לשקף השיעור ולטופס ההגשה. דוגמה: "🤖 Gemini נתן 25 רעיונות, 11 כבר היו אצלנו · ✋ אנחנו בחרנו 3 מובילים, בנינו 7 שילובים, וחשבנו לבד על הלוח בחצר."</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 3</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>🔁 חפיפה: <span class="fill s"></span> מתוך 25</span><span>❌ רעיון AI שפסלנו: <span class="fill"></span></span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 3</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>🔁 חפיפה: <span class="fill s"></span> מתוך 25</span><span>❌ רעיון AI שפסלנו: <span class="fill"></span></span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 3</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>🔁 חפיפה: <span class="fill s"></span> מתוך 25</span><span>❌ רעיון AI שפסלנו: <span class="fill"></span></span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 3</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: <span class="fill"></span></span><span>🔁 חפיפה: <span class="fill s"></span> מתוך 25</span><span>❌ רעיון AI שפסלנו: <span class="fill"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 12. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד.</p>
+  <div class="cutgrid exits" id="exits"></div>
+</section>
+
+<!-- ===================== 13. SCORE SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>סערת רעיונות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span> · תאריך: <span class="fill s"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · אותן עמודות כמו הלוח במצגת</span><h2>דף <span>הניקוד</span></h2></div><p>נק׳ מרוץ = 1 לכל 5 רעיונות שונים, ועוד 3 אם הגיעו ל-52. הבלעדי: 3 לכל מוביל ש-Gemini לא הציע (עד 9).</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:24mm">צוות</th><th>רעיונות<br><small>שונים</small></th><th>נק׳ מרוץ</th><th>ביניים<br><small>3</small></th><th>הגרוע<br><small>3</small></th><th>בלעדי<br><small>עד 9</small></th><th>הגשה<br><small>5</small></th><th>מחוון ×3<br><small>3–12</small></th><th>גמר<br><small>8/5/3</small></th><th>פרסים<br>וצד</th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody id="scoreRows"></tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box"><h3>⏱ נקודת ביקורת (דקה 47–51)</h3><p style="font-size:9.2pt">רמה זמנית במחוון, ומי תקוע:</p><div class="lines h2"></div></div>
+    <div class="box"><h3>🏅 פרסים היום</h3><p>🙃 הגרוע המצחיק: <span class="fill"></span></p><p style="margin-top:2mm">🦘 הקפיצה הגדולה: <span class="fill"></span> (רעיון # <span class="fill s"></span>)</p><p style="margin-top:2mm">🧑 הבלעדי האנושי: <span class="fill"></span></p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🗳️ ספירת הגמר ו"אדם מול מכונה"</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:24mm">צוות</th><th>מדבקות (סימון בקווים)</th><th style="width:16mm">סה״כ</th><th style="width:16mm">מקום</th><th style="width:22mm">חפיפה /25</th><th>3 ההנחות (לשיעור הבא)</th></tr></thead>
+    <tbody id="finalRows"></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 תשובה מכרטיס יציאה לפתיחת השיעור הבא</h3><div class="lines h2"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* repeated rows/cards are built here so the text stays identical */
+(()=>{
+ const rows=(from)=>{let h='';for(let i=from;i<from+26;i++)h+=`<tr${i===27?' class="mile"':''}><td class="n">${i}</td><td></td><td class="src">🧑 🤖 🤝</td><td class="st"></td></tr>`;return h};
+ const a=document.getElementById('raceA'),b=document.getElementById('raceB');if(a)a.innerHTML=rows(1);if(b)b.innerHTML=rows(27);
+ const ex=document.getElementById('exits');
+ if(ex){const one=`<div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 3</span></div><p>צוות: <span class="fill"></span></p>
+  <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div>
+  <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+  <p class="q">שאלת השיעור: תנו דוגמה לרעיון שרק בני אדם הביאו היום. למה, לדעתכם, המכונה לא חשבה עליו?</p><div class="lines h2"></div>
+  <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  <p class="lbl">היום תרמתי לצוות:</p>
+  <div class="tags"><span>רעיונות</span><span>הקלדה ביומן</span><span>ספירה וכפילויות</span><span>AI</span><span>מפה וסקיצה</span><span>הצגה</span></div>
+  <p class="red">🔴 כותבים לבד, בלי AI</p></div>`;ex.innerHTML=one.repeat(4)}
+ const teams=['🦊','🦉','🐬','🦁','🐝','🐢','🐙'];
+ const sr=document.getElementById('scoreRows');if(sr)sr.innerHTML=teams.map(t=>`<tr><td class="e">${t}</td>${'<td></td>'.repeat(10)}</tr>`).join('');
+ const fr=document.getElementById('finalRows');if(fr)fr.innerHTML=teams.map(t=>`<tr><td class="e">${t}</td>${'<td></td>'.repeat(5)}</tr>`).join('');
+})();
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

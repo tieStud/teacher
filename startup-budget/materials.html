@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · חדר הכספים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+/* ===== חדר הכספים: lesson-specific print components ===== */
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;font-weight:700}
+.ltr bdi{font-family:var(--body)}
+table.tb.bud td{height:8.6mm;vertical-align:middle}
+table.tb.bud td:nth-child(2){font-size:8.6pt;color:var(--muted);white-space:nowrap}
+table.tb.calc td{height:8.4mm;vertical-align:middle}
+table.tb.calc td.e{width:30mm}
+.fracbox{display:flex;flex-direction:column;align-items:center;text-align:center;font-family:var(--display);font-weight:700;font-size:10.5pt;margin-top:1mm}
+.fracbox .n{padding:0 4mm 1.5mm;border-bottom:1.6px solid var(--ink)}
+.fracbox .d{padding:1.5mm 4mm 0}
+table.tb.scen td{height:8.2mm;vertical-align:middle}
+table.tb.scen tr.pr td{background:#fdf6f2;font-size:8.6pt;line-height:1.5}
+table.tb.scen th:not(:first-child),table.tb.scen td:not(:first-child){text-align:center;width:18.5%}
+p.dec{font-size:9.6pt;line-height:2.15;margin-top:1mm}
+/* shock cards 3×3 */
+.shocks{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.sh{--c:#e76f86;--cs:#fce9ed;--ci:#be3455;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6mm;padding:7mm 4mm 6mm}
+.sh::before{content:"";position:absolute;inset:0 0 auto 0;height:3mm;background:var(--c)}
+.sh .cat{position:absolute;top:4.5mm;right:3mm;font-family:var(--display);font-weight:700;font-size:7.6pt;color:var(--ci);background:var(--cs);border-radius:999px;padding:.3mm 2.2mm}
+.sh .em{font-size:28pt;line-height:1;margin-top:3mm}
+.sh b{font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.15}
+.sh p{font-size:10pt;line-height:1.35}
+.sh small{font-size:8pt;color:var(--muted);border-top:1px dashed var(--line2);padding-top:1.4mm;margin-top:1mm}
+.s-blue{--c:#4c8bd6;--cs:#e7f0fa;--ci:#2f6db5}.s-purple{--c:#8c7ae6;--cs:#efecfb;--ci:#6a55c9}
+/* ready files 2×2 */
+.files{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.fl{--c:#0f766e;--cs:#e3f1ee;position:relative;padding:6mm 5mm 4mm;display:flex;flex-direction:column;gap:2.2mm;font-size:9.4pt}
+.fl::before{content:"";position:absolute;inset:0 0 auto 0;height:2.4mm;background:var(--c)}
+.fh{display:flex;align-items:center;gap:3mm}
+.fh>span{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:18pt;flex:none}
+.fh b{display:block;font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.1}
+.fh small{color:var(--muted);font-size:8.6pt}
+.kv{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:1mm 2.5mm;align-items:baseline;background:var(--cs);border-radius:2.5mm;padding:2mm 3mm}
+.kv span{color:var(--muted);font-size:8.6pt}.kv b{font-family:var(--display);font-size:11pt}
+.fl table.tb{font-size:8.8pt}.fl table.tb th,.fl table.tb td{padding:1.2mm 2mm}
+/* prediction cards 4×2 */
+.pred{grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;flex:1}
+.pc{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3mm;text-align:center;padding:6mm}
+.pc .t{font-family:var(--display);font-weight:700;font-size:11pt;color:var(--muted)}
+.pc .a{font-size:52pt;line-height:1}
+.pc b{font-family:var(--display);font-weight:800;font-size:22pt}
+.pc small{font-size:8pt;color:var(--muted)}
+.pc-p{background:linear-gradient(180deg,#f3fbf6,#fff 60%)}.pc-b{background:linear-gradient(180deg,#fdf1f4,#fff 60%)}
+/* side tasks 2×3 */
+.sides{grid-template-columns:1fr 1fr;grid-auto-rows:1fr;flex:1}
+.sd{display:flex;flex-direction:column;gap:2mm;padding:6mm 6mm 5mm;font-size:10pt;position:relative}
+.sd .em{font-size:22pt;line-height:1}
+.sd b{font-family:var(--display);font-weight:800;font-size:13.5pt}
+.sd p.big{font-size:10.5pt;background:#f1f3f4;border:1px solid #e2e5e8;border-radius:2mm;padding:1.2mm 3mm;width:max-content}
+.sd small{margin-top:auto;color:var(--muted);font-size:8.6pt}
+table.tb.compact td,table.tb.compact th{padding:1.2mm 2mm;font-size:9pt}
+table.tb.compact td.e{height:7mm}
+table.tb.bud td{height:8.2mm}
+table.tb.calc td{height:7.8mm}
+.hsub{font-family:var(--body);font-weight:500;font-size:8.6pt;color:var(--muted);margin-inline-start:2mm}
+table.tb.calc td.e{width:24mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · חדר הכספים: מי שורד את השוק?<small>שיעור 14 · שלב 5: מודל עסקי</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET (instructor) ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · שיעור 14</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6–7 צוותים. לכיתה גדולה או קטנה יותר: לפי מספר הצוותים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>דף תכנון התקציב (גם גרסת הנייר)</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>טבלת תרחישים וניחושים</td><td>1 לצוות + 2 רזרבה (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף הנוסחאות</td><td>1 לצוות (7)</td><td>רגיל, עדיף מנוילן</td><td>לא</td></tr>
+      <tr><td>6</td><td>כרטיסי זעזוע (9)</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן, 3 ערמות לפי צבע</td></tr>
+      <tr><td>7</td><td>תיקי סטארט-אפ מוכנים</td><td>1 סט</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>8</td><td>כרטיסי ניחוש</td><td>1 לצוות (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>9</td><td>מחוון</td><td>1 לצוות + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>10</td><td>שורת AI (4 בעמוד)</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>11</td><td>כרטיסי יציאה</td><td>8 עמודים (32 כרטיסים)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>כרטיסי משימות צד</td><td>1 סט</td><td>רגיל</td><td>כן, לקופסה</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בארגז של כל צוות</h3>
+      <ul class="check"><li>כרטיס משימה, דף תקציב וטבלת תרחישים</li><li>דף נוסחאות ומחוון</li><li>כרטיסי ניחוש (6, גזורים)</li><li>רצועת שורת AI</li><li>מחשבון (או טלפון במצב מחשבון) ועט</li><li>כרטיסי התפקיד ושלט השולחן של הצוות</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>3 ערמות זעזוע: 🔴 עלויות · 🔵 ביקוש · 🟣 מחיר וטכנולוגיה</li><li>תיקי סטארט-אפ מוכנים</li><li>קופסת משימות צד</li><li>כרטיסי יציאה</li><li>דף הניקוד ועט</li><li>קישור קצר לתבנית ולטפסים, על הלוח</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>📊 התבנית הדיגיטלית</h3><p>הקובץ <b>budget-template.xlsx</b> נמצא בתיקיית השיעור. מעלים ל-Drive, פותחים ב-Google Sheets ← <b>קובץ ← שמירה כ-Google Sheets</b> ← שיתוף (צפייה) ← מחליפים <span class="ltr">/edit</span> ב-<span class="ltr">/copy</span>. הלשונית "דוגמה · קופסת הפסקה" היא דוגמה פתורה: רווח 20 ₪, נקודת איזון 35.</p></div>
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · שיעור 14 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">💰 שלב 5: מודל עסקי</span><h2>מי שורד <span>את השוק</span></h2></div><p>בנק החממה נותן הלוואת השקה של 400 ₪ (החזר: 40 ₪ בחודש), רק לצוות שהתקציב שלו שורד שלושה זעזועים.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>תקציב חודשי ב-Google Sheets שמחזיק <b>רווח</b> אחרי שלושה זעזועים, ו<b>נקודת איזון</b> שאתם יודעים להסביר במשפט.</p>
+      <h3 style="margin-top:2.5mm">🏆 איך מנצחים</h3><p>שולי הרווח הגבוהים ביותר (רווח ÷ הכנסות) אחרי הזעזוע השלישי, מבין השורדים. תיקו: נקודת איזון נמוכה יותר ביחס לכמות.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean">
+      <li>הסטארט-אפ שלכם, או תיק מוכן. המחיר מיום השוק.</li>
+      <li>לפחות 5 הוצאות, לכל אחת סוג ומקור. שורת חובה: <b>החזר הלוואה 40 ₪</b>, קבועה.</li>
+      <li>כמות צפויה: עד 60 בחודש.</li>
+      <li>כל חישוב הוא נוסחה, לא מספר מוקלד.</li>
+      <li>בכל זעזוע: ניחוש לפני החישוב, ותגובה אחת: מחיר עד 20% · ויתור על הוצאה · הכנסה נוספת.</li>
+      <li>Gemini בודק ומסביר. את המספרים מביאים אתם.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🧮 הניקוד (ידוע מראש)</h3>
+    <div class="grid3" style="gap:3mm;align-items:start">
+      <table class="tb"><thead><tr><th>🏦 בדיקת הבנק</th><th style="width:11mm">נק׳</th></tr></thead><tbody><tr><td>כל חישוב הוא נוסחה</td><td>3</td></tr><tr><td>נקודת איזון נכונה (2 ערכים)</td><td>3</td></tr><tr><td>IF + אדום בהפסד</td><td>2</td></tr><tr><td>גרף עם כותרת</td><td>1</td></tr><tr><td>5+ הוצאות, סוג ומקור</td><td>1</td></tr><tr><td>באג אצל צוות שכן</td><td>1 (עד 2)</td></tr></tbody></table>
+      <table class="tb"><thead><tr><th>⚡ בכל זעזוע (×3)</th><th style="width:11mm">נק׳</th></tr></thead><tbody><tr><td>ניחוש נכון: רווח</td><td>1</td></tr><tr><td>ניחוש נכון: נקודת איזון</td><td>1</td></tr><tr><td>תגובה מנומקת "כי…"</td><td>1</td></tr></tbody></table>
+      <table class="tb"><thead><tr><th>🏛️ ועדת האשראי</th><th style="width:11mm">נק׳</th></tr></thead><tbody><tr><td>שורדים (רווח &gt; 0)</td><td>3</td></tr><tr><td>שולי רווח: מקום 1/2/3</td><td>8/5/3</td></tr><tr><td>Canvas שנבדק ב-3 ערכים</td><td>2</td></tr><tr><td>הגשה במפרט בזמן</td><td>2</td></tr><tr><td>כל פרס קטגוריה</td><td>2</td></tr></tbody></table>
+    </div></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb compact"><tbody>
+      <tr><td style="width:52mm"><b>🧭 מנכ״ל/ית</b> · מנהל/ת הסיכונים</td><td>שומר/ת על הזמן. בכל זעזוע מחליט/ה על התגובה, אחרי שכולם אמרו מילה.</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b> · בודק/ת המחירים</td><td>מקור לכל מחיר (חנות, אתר, קבלה, הערכה). מוודא/ת שהכמות מציאותית.</td></tr>
+      <tr><td><b>🛠️ בונה</b> · בונה הגיליון</td><td>יוצר/ת עותק, מקליד/ה נוסחאות, בונה גרף. בסימולציה המקלדת עוברת.</td></tr>
+      <tr><td><b>🎤 מציג/ה ומתעד/ת</b> · מול הבנק</td><td>רושם/ת ניחושים, מרים/ה כרטיס, מגיש/ה בטופס ומציג/ה 45 שניות.</td></tr>
+      <tr><td><b>🤖 אחראי/ת AI</b> · פקיד/ת הבקרה</td><td>Gemini כבודק חשדן, מחשבון ב-Canvas, שורת ה-AI.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:3mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">תיק סטארט-אפ מוכן + לשונית הדוגמה של קופסת הפסקה כמודל לנוסחאות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">הסטארט-אפ שלכם, התבנית הריקה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">גיליון מדף ריק, בלי תבנית, ותא "כמה לקוחות צריך כדי להרוויח 100 ₪".</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. BUDGET WORKSHEET ===================== -->
+<section class="page" id="p-budget" data-label="דף תכנון התקציב">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · דף תכנון התקציב</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟡 ספרינט 1 · AI לבדיקה ולהסבר</span><h2>התקציב החודשי של <span class="fill l"></span></h2></div><p>זה גם הגיבוי: בלי מחשב, התקציב נבנה כאן עם מחשבון. ליד כל תוצאה כותבים את החישוב המלא.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>1. הנחות</h3><p>מחיר מכירה ליחידה: <span class="fill s"></span> ₪ · מקור: <span class="fill s"></span></p><p style="margin-top:2.5mm">כמות צפויה בחודש: <span class="fill s"></span> (עד 60)</p></div>
+    <div class="box soft"><h3>🔑 שאלת המבחן</h3><p>"אם מחר לא יגיע אף לקוח, עדיין נשלם על זה?"<br><b>כן = קבועה</b> (עלות לחודש) · <b>לא = משתנה</b> (עלות לכל יחידה)</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>2. ההוצאות <small class="hsub">סה״כ בחודש: קבועה = העלות כמו שהיא · משתנה = העלות × הכמות</small></h3>
+    <table class="tb bud"><thead><tr><th style="width:37%">פריט</th><th style="width:16%">סוג</th><th style="width:13%">עלות (₪)</th><th style="width:16%">סה״כ בחודש</th><th>מקור המחיר</th></tr></thead>
+    <tbody>
+      <tr><td>🏦 החזר הלוואת ההשקה</td><td>☑ קבועה ☐ משתנה</td><td>40</td><td>40</td><td>תנאי הבנק</td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td>☐ קבועה ☐ משתנה</td><td></td><td></td><td></td></tr>
+    </tbody></table>
+    </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>3. החשבון</h3>
+      <table class="tb calc"><tbody>
+        <tr><td>א. סה״כ הוצאות קבועות</td><td class="e"></td></tr>
+        <tr><td>ב. עלות משתנה ליחידה</td><td class="e"></td></tr>
+        <tr><td>ג. סה״כ הוצאות בחודש</td><td class="e"></td></tr>
+        <tr><td>ד. הכנסות = מחיר × כמות</td><td class="e"></td></tr>
+        <tr><td>ה. רווח / הפסד = ד − ג</td><td class="e"></td></tr>
+        <tr><td>ו. שולי רווח = ה ÷ ד</td><td class="e"></td></tr>
+      </tbody></table></div>
+    <div class="box"><h3>4. נקודת האיזון</h3>
+      <div class="fracbox"><span class="n">הוצאות קבועות (א)</span><span class="d">מחיר − עלות משתנה ליחידה (ב)</span></div>
+      <p style="margin-top:2mm">= <span class="fill s"></span> ÷ <span class="fill s"></span> = <span class="fill s"></span></p><p style="margin-top:1.5mm">מעוגל למעלה: <b><span class="fill s"></span></b></p>
+      <p style="margin-top:2mm;font-size:9.6pt;line-height:2">"צריך <span class="fill s"></span> לקוחות בחודש<br>כדי לא להפסיד, ואנחנו מצפים ל-<span class="fill s"></span>."</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✓ לפני בדיקת הבנק</h3><ul class="check" style="grid-template-columns:1fr 1fr">
+    <li>5+ הוצאות, כולל החזר ההלוואה</li><li>לכל הוצאה סוג ומקור</li><li>כל תא מחושב הוא נוסחה (או חישוב כתוב)</li><li>רווח עם IF וצבע אדום בהפסד</li><li>נקודת איזון מעוגלת למעלה</li><li>גרף עם כותרת</li></ul></div>
+</section>
+
+<!-- ===================== 4. SCENARIOS + PREDICTIONS ===================== -->
+<section class="page" id="p-scen" data-label="טבלת תרחישים">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · טבלת תרחישים וניחושים</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⚡ מערכה 2 · הזעזועים מצטברים</span><h2>מה אם <span>השוק זז?</span></h2></div><p>כמו עמודות G–K בגיליון. בכל סבב משנים רק את השורה שהכרטיס מזיז, ומתחילים מהמספרים של הסבב הקודם.</p></div>
+  <table class="tb scen">
+    <thead><tr><th style="width:26%"></th><th>בסיס</th><th>זעזוע 1 🔴</th><th>זעזוע 2 🔵</th><th>זעזוע 3 🟣</th></tr></thead>
+    <tbody>
+      <tr><td><b>שם הכרטיס</b></td><td>—</td><td></td><td></td><td></td></tr>
+      <tr class="pr"><td><b>🔴 הניחוש שלנו</b> (30 שנ׳, בלי AI)</td><td>—</td><td>רווח ⬆️ ⬇️ ↔️<br>איזון ⬆️ ⬇️ ↔️</td><td>רווח ⬆️ ⬇️ ↔️<br>איזון ⬆️ ⬇️ ↔️</td><td>רווח ⬆️ ⬇️ ↔️<br>איזון ⬆️ ⬇️ ↔️</td></tr>
+      <tr><td>מחיר ליחידה</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>כמות בחודש</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>הוצאות קבועות</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>עלות משתנה ליחידה</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>הכנסות = מחיר × כמות</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>הוצאות = קבועות + משתנה × כמות</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td><b>רווח / הפסד</b></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td><b>נקודת איזון</b> (מעוגל למעלה)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>שולי רווח (רווח ÷ הכנסות)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>צדקנו? (רווח / איזון)</td><td>—</td><td>☐ ☐</td><td>☐ ☐</td><td>☐ ☐</td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🛡️ התגובה שלנו (אחת בכל סבב): מחיר עד 20% · ויתור על הוצאה אחת · הכנסה נוספת</h3>
+    <p class="dec">סבב 1: החלטנו <span class="fill xl"></span><br>כי <span class="fill xl"></span></p>
+    <p class="dec">סבב 2: החלטנו <span class="fill xl"></span><br>כי <span class="fill xl"></span></p>
+    <p class="dec">סבב 3: החלטנו <span class="fill xl"></span><br>כי <span class="fill xl"></span></p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🏛️ ההכנה לוועדה (45 שניות)</h3><p style="font-size:9.4pt;line-height:2">1. "אחרי שלושה זעזועים הרווח שלנו <span class="fill s"></span> ₪."<br>2. "צריך <span class="fill s"></span> לקוחות, אנחנו מצפים ל-<span class="fill s"></span>."<br>3. "הזעזוע הכי קשה: <span class="fill"></span>"<br>4. ההדגמה: משנים את <span class="fill"></span></p></div>
+    <div class="box"><h3>🧮 מחשבון נייר (במקום Canvas)</h3><p style="font-size:9pt;color:var(--muted)">3 בדיקות ידניות: בסיס, זעזוע 1, זעזוע 3. רווח ונקודת איזון.</p><div class="lines h3"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 5. FORMULA SHEET ===================== -->
+<section class="page" id="p-formulas" data-label="דף נוסחאות">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · דף הנוסחאות</div><div class="r">נשאר על השולחן</div></div>
+  <div class="pt"><div><span class="kick">🧮 Google Sheets</span><h2>חמש נוסחאות <span>ושלושה טריקים</span></h2></div><p>כל נוסחה מתחילה בסימן <span class="ltr">=</span>. לפני שמקלידים: מקלדת באנגלית.</p></div>
+  <table class="tb fx">
+    <thead><tr><th style="width:26%">מה</th><th style="width:40%">הנוסחה (בתבנית)</th><th>מה היא עושה</th></tr></thead>
+    <tbody>
+      <tr><td><b>סה״כ לשורה</b> (D8)</td><td><span class="ltr">=IF(B8="<bdi>משתנה</bdi>",C8*$B$5,C8)</span></td><td>משתנה? כפול הכמות. קבועה? כמו שהיא. הדולר <span class="ltr">$</span> נועל את B5 כשגוררים למטה.</td></tr>
+      <tr><td><b>כל ההוצאות</b> (B19)</td><td><span class="ltr">=SUM(D8:D15)</span></td><td>מחבר את עמודת הסה״כ. שורות ריקות לא מפריעות.</td></tr>
+      <tr><td><b>הכנסות</b> (B20)</td><td><span class="ltr">=B4*B5</span></td><td>מחיר × כמות.</td></tr>
+      <tr><td><b>רווח / הפסד</b> (B21)</td><td><span class="ltr">=B20-B19</span></td><td>הכנסות פחות הוצאות. מספר שלילי = הפסד.</td></tr>
+      <tr><td><b>מצב</b> (B22)</td><td><span class="ltr">=IF(B21&gt;=0,"<bdi>רווח</bdi>","<bdi>הפסד</bdi>")</span></td><td>קודם התנאי, אחר כך "אם כן", ובסוף "אם לא".</td></tr>
+      <tr><td><b>נקודת איזון</b> (B23)</td><td><span class="ltr">=ROUNDUP(B17/(B4-B18))</span></td><td>קבועות ÷ (מחיר − עלות משתנה), מעוגל למעלה.</td></tr>
+      <tr><td><b>שולי רווח</b> (B24)</td><td><span class="ltr">=B21/B20</span></td><td>כמה מכל שקל של הכנסה נשאר כרווח. פורמט אחוזים.</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🛠️ בגיליון</h3><ol class="clean" style="font-size:9.6pt">
+      <li><b>צבע אדום בהפסד:</b> מסמנים את B21 ← עיצוב ← עיצוב מותנה ← "פחות מ-" ← 0 ← רקע אדום ← בוצע.</li>
+      <li><b>גרף:</b> מסמנים A19:B21 ← הוספה ← תרשים ← סוג: עמודות ← "התאמה אישית" ← כותרת.</li>
+      <li><b>תפריט נפתח:</b> הוספה ← תפריט נפתח ← "קבועה", "משתנה". (בתבנית כבר מוכן.)</li>
+      <li><b>גרירה:</b> תופסים את הריבוע הקטן בפינת התא וגוררים למטה.</li></ol></div>
+    <div class="box"><h3>⚡ זעזוע בטבלת התרחישים</h3><p style="font-size:9.6pt">בעמודה של הסבב משנים רק את השורה שהכרטיס מזיז:</p>
+      <table class="tb" style="margin-top:1.5mm"><tbody>
+        <tr><td>ספק +25% (סבב 1)</td><td><span class="ltr">I9: =H9*1.25</span></td></tr>
+        <tr><td>טרנד בטיקטוק (סבב 2)</td><td><span class="ltr">J7: =I7*1.5</span></td></tr>
+        <tr><td>מתחרה −20% (סבב 3)</td><td><span class="ltr">K6: =J6*0.8</span></td></tr>
+        <tr><td>תגובה: מחיר +10%</td><td><span class="ltr">I6: =H6*1.1</span></td></tr>
+      </tbody></table></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🐞 שגיאות נפוצות</h3><table class="tb"><tbody>
+      <tr><td><span class="ltr">#DIV/0!</span></td><td>המחיר שווה לעלות המשתנה, או שתא המחיר ריק</td></tr>
+      <tr><td><span class="ltr">#VALUE!</span></td><td>טקסט בתא של מספר: "20 ₪", "0,5"</td></tr>
+      <tr><td><span class="ltr">#NAME?</span></td><td>מקלדת בעברית, או שגיאת כתיב בשם הנוסחה</td></tr>
+      <tr><td><span class="ltr">#ERROR!</span></td><td>חסרות סוגריים או מרכאות</td></tr></tbody></table></div>
+    <div class="box soft"><h3>✨ שלושה טריקים</h3><ul class="clean" style="font-size:9.8pt">
+      <li>⌨️ <b>מקלדת באנגלית</b> לפני כל נוסחה.</li>
+      <li>🔢 מספרים <b>בלי ₪</b> ועם <b>נקודה</b>: 0.5 ולא 0,5.</li>
+      <li>🔎 <b>מבחן שני הערכים:</b> משנים את המחיר ב-1 ₪. אם נקודת האיזון לא זזה, משהו מוקלד.</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 6. SHOCK CARDS ===================== -->
+<section class="page" id="p-shocks" data-label="כרטיסי זעזוע">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · כרטיסי זעזוע</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. ממיינים לשלוש ערמות לפי פס הצבע: 🔴 סבב 1 · 🔵 סבב 2 · 🟣 סבב 3. התשובות במערך.</p>
+  <div class="cutgrid shocks">
+    <div class="sh s-red"><span class="cat">🔴 עלויות · סבב 1</span><span class="em">🚚</span><b>הספק העלה מחירים</b><p>כל העלויות המשתנות עולות ב-25%.</p><small>בטבלה: <span class="ltr">I9: =H9*1.25</span></small></div>
+    <div class="sh s-red"><span class="cat">🔴 עלויות · סבב 1</span><span class="em">🏫</span><b>דמי שימוש במקום</b><p>בית הספר מבקש 50 ₪ בחודש על המקום והחשמל.</p><small>בטבלה: <span class="ltr">I8: =H8+50</span></small></div>
+    <div class="sh s-red"><span class="cat">🔴 עלויות · סבב 1</span><span class="em">💳</span><b>עמלת תשלום</b><p>עוברים לתשלום באפליקציה: 10% מהמחיר הולכים לעמלה בכל מכירה.</p><small>בטבלה: <span class="ltr">I9: =H9+H6*0.1</span></small></div>
+    <div class="sh s-blue"><span class="cat">🔵 ביקוש · סבב 2</span><span class="em">📱</span><b>טרנד בטיקטוק</b><p>המוצר הפך לוויראלי: הכמות בחודש עולה ב-50%.</p><small>בטבלה: <span class="ltr">J7: =I7*1.5</span></small></div>
+    <div class="sh s-blue"><span class="cat">🔵 ביקוש · סבב 2</span><span class="em">🌧️</span><b>חודש של חגים וגשם</b><p>פחות ימי לימודים: הכמות בחודש יורדת ב-40%.</p><small>בטבלה: <span class="ltr">J7: =I7*0.6</span></small></div>
+    <div class="sh s-blue"><span class="cat">🔵 ביקוש · סבב 2</span><span class="em">⭐</span><b>הזמנה גדולה</b><p>שכבה שלמה מזמינה: עוד 20 יחידות החודש, במחיר הרגיל.</p><small>בטבלה: <span class="ltr">J7: =I7+20</span></small></div>
+    <div class="sh s-purple"><span class="cat">🟣 מחיר וטכנולוגיה · סבב 3</span><span class="em">🤖</span><b>רובוט במפעל</b><p>העלות המשתנה יורדת ב-30%, אבל משלמים על המכונה 40 ₪ בחודש.</p><small>בטבלה: <span class="ltr">K9: =J9*0.7</span> · <span class="ltr">K8: =J8+40</span></small></div>
+    <div class="sh s-purple"><span class="cat">🟣 מחיר וטכנולוגיה · סבב 3</span><span class="em">🏪</span><b>מתחרה חדש</b><p>כדי לא לאבד לקוחות, מורידים את המחיר ב-20%.</p><small>בטבלה: <span class="ltr">K6: =J6*0.8</span></small></div>
+    <div class="sh s-purple"><span class="cat">🟣 מחיר וטכנולוגיה · סבב 3</span><span class="em">🤝</span><b>חסות מהשכונה</b><p>חנות בשכונה משלמת בשבילכם 50 ₪ בחודש מההוצאות הקבועות.</p><small>בטבלה: <span class="ltr">K8: =MAX(0,J8-50)</span></small></div>
+  </div>
+</section>
+
+<!-- ===================== 7. READY STARTUP FILES ===================== -->
+<section class="page" id="p-files" data-label="תיקי סטארט-אפ">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · תיקי סטארט-אפ מוכנים</div><div class="r">לצוותים בלי מספרים משלהם</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. המחירים משוערים לצורך המשחק: החוקר/ת יכול/ה לבדוק ולעדכן, עם מקור. קופסת הפסקה היא דוגמה פתורה, לא תיק לתחרות.</p>
+  <div class="cutgrid files">
+    <div class="fl" style="--c:#f4a259;--cs:#fdf0e3"><div class="fh"><span>🍋</span><div><b>לימונדת ההפסקה</b><small>דוכן בהפסקה הגדולה, פעמיים בשבוע</small></div></div>
+      <p class="kv"><span>מחיר לכוס</span><b>5 ₪</b><span>כמות בחודש</span><b>50 כוסות</b></p>
+      <table class="tb"><thead><tr><th>הוצאה</th><th>סוג</th><th>עלות</th></tr></thead><tbody>
+        <tr><td>קנקן ומסננת (חודש ראשון)</td><td>קבועה</td><td>30 ₪</td></tr><tr><td>שלט ומפה</td><td>קבועה</td><td>15 ₪</td></tr><tr><td>החזר הלוואה</td><td>קבועה</td><td>40 ₪</td></tr>
+        <tr><td>לימונים לכוס</td><td>משתנה</td><td>1.2 ₪</td></tr><tr><td>סוכר ונענע לכוס</td><td>משתנה</td><td>0.3 ₪</td></tr><tr><td>כוס חד-פעמית</td><td>משתנה</td><td>0.5 ₪</td></tr></tbody></table></div>
+    <div class="fl" style="--c:#8c7ae6;--cs:#efecfb"><div class="fh"><span>🎨</span><div><b>מדבקות בהזמנה</b><small>דף מדבקות עם עיצוב לבחירה</small></div></div>
+      <p class="kv"><span>מחיר לדף</span><b>6 ₪</b><span>כמות בחודש</span><b>50 דפים</b></p>
+      <table class="tb"><thead><tr><th>הוצאה</th><th>סוג</th><th>עלות</th></tr></thead><tbody>
+        <tr><td>מספריים וחותך (חודש ראשון)</td><td>קבועה</td><td>25 ₪</td></tr><tr><td>דוגמאות לתצוגה</td><td>קבועה</td><td>15 ₪</td></tr><tr><td>החזר הלוואה</td><td>קבועה</td><td>40 ₪</td></tr>
+        <tr><td>נייר מדבקות לדף</td><td>משתנה</td><td>1.5 ₪</td></tr><tr><td>דיו לדף</td><td>משתנה</td><td>1 ₪</td></tr><tr><td>שקית לכל הזמנה</td><td>משתנה</td><td>0.2 ₪</td></tr></tbody></table></div>
+    <div class="fl" style="--c:#5bb5a2;--cs:#e4f4f0"><div class="fh"><span>🌱</span><div><b>שומרי העציצים</b><small>השקיית עציצים לשכנים בזמן חופשה</small></div></div>
+      <p class="kv"><span>מחיר לביקור</span><b>5 ₪</b><span>כמות בחודש</span><b>30 ביקורים</b></p>
+      <table class="tb"><thead><tr><th>הוצאה</th><th>סוג</th><th>עלות</th></tr></thead><tbody>
+        <tr><td>משפך ומרסס (חודש ראשון)</td><td>קבועה</td><td>25 ₪</td></tr><tr><td>מודעות לשכנים</td><td>קבועה</td><td>15 ₪</td></tr><tr><td>החזר הלוואה</td><td>קבועה</td><td>40 ₪</td></tr>
+        <tr><td>דשן לביקור</td><td>משתנה</td><td>0.8 ₪</td></tr><tr><td>כפפות ושקית לביקור</td><td>משתנה</td><td>0.2 ₪</td></tr></tbody></table></div>
+    <div class="fl" style="--c:#0f766e;--cs:#e3f1ee"><div class="fh"><span>📦</span><div><b>קופסת הפסקה · דוגמה פתורה</b><small>ארגז משחקים להשאלה, מנוי חודשי</small></div></div>
+      <p class="kv"><span>מנוי בחודש</span><b>5 ₪</b><span>כמות</span><b>40 מנויים</b></p>
+      <table class="tb"><tbody>
+        <tr><td>קבועות: כדורים 60 · חבלים 20 · מודעות 20 · החזר 40</td><td>140 ₪</td></tr>
+        <tr><td>משתנות: כרטיס 0.5 + מדבקה 0.5</td><td>1 ₪ ליחידה</td></tr>
+        <tr><td>הכנסות · הוצאות · רווח</td><td>200 · 180 · 20</td></tr>
+        <tr><td>נקודת איזון: 140 ÷ (5 − 1)</td><td>35</td></tr>
+        <tr><td>שולי רווח</td><td>10%</td></tr></tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted);margin-top:1.5mm">בגיליון: לשונית "דוגמה · קופסת הפסקה".</p></div>
+  </div>
+</section>
+
+<!-- ===================== 8. PREDICTION CARDS ===================== -->
+<section class="page" id="p-predict" data-label="כרטיסי ניחוש">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · כרטיסי ניחוש</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ לגזור. בכל סבב, כשהמדריך אומר "כרטיסים למעלה!", הצוות מרים כרטיס רווח אחד וכרטיס איזון אחד באותו רגע.</p>
+  <div class="cutgrid pred">
+    <div class="pc pc-p"><span class="t">💵 הרווח</span><span class="a">⬆️</span><b>עולה</b></div>
+    <div class="pc pc-p"><span class="t">💵 הרווח</span><span class="a">⬇️</span><b>יורד</b></div>
+    <div class="pc pc-p"><span class="t">💵 הרווח</span><span class="a">↔️</span><b>לא זז</b></div>
+    <div class="pc pc-p"><span class="t">💵 הרווח</span><span class="a">🤔</span><b>תלוי</b><small>רק אם יודעים להסביר ממה</small></div>
+    <div class="pc pc-b"><span class="t">⚖️ נקודת האיזון</span><span class="a">⬆️</span><b>עולה</b></div>
+    <div class="pc pc-b"><span class="t">⚖️ נקודת האיזון</span><span class="a">⬇️</span><b>יורדת</b></div>
+    <div class="pc pc-b"><span class="t">⚖️ נקודת האיזון</span><span class="a">↔️</span><b>לא זזה</b></div>
+    <div class="pc pc-b"><span class="t">⚖️ נקודת האיזון</span><span class="a">🤔</span><b>תלוי</b><small>רק אם יודעים להסביר ממה</small></div>
+  </div>
+</section>
+
+<!-- ===================== 9. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>גיליון התקציב</span></h2></div><p>בבדיקת הבנק מסמנים איפה אתם עכשיו. בהגשה, הערכה עצמית בטופס. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">נוסחאות ודיוק<small>הגיליון מחשב לבד</small></td><td>רוב המספרים הוקלדו ביד</td><td>חלק בנוסחאות, סכומים מוקלדים</td><td>כל תא מחושב הוא נוסחה. באג אחד תוקן בבדיקת הבנק</td><td>הכול נוסחאות, אפס באגים, IF וצבע אדום בהפסד עובדים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">נקודת איזון ומסקנה<small>מה המספר אומר</small></td><td>חסרה או שגויה</td><td>מחושבת עם טעות: לא עוגלה, או חילקו בכל ההוצאות</td><td>נכונה ומעוגלת למעלה</td><td>נכונה, מוסברת במשפט, וההחלטה הסופית נובעת מהמספרים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">תרחישים ותגובות<small>מה אם השוק זז</small></td><td>פחות משני תרחישים</td><td>3 תרחישים, מספרים מוקלדים</td><td>3 תרחישים בנוסחאות, תגובה לפחות לאחד</td><td>3 תרחישים בנוסחאות ותגובה מנומקת לכל זעזוע</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">שקיפות ובדיקת AI<small>מה Gemini עשה</small></td><td>לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI"</td><td>כתוב באיזה כלי, למה ומה בדקנו</td><td>מה ה-AI הציע, מה שינינו, וטעות שלו שתפסנו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🔎 מבחן שני הערכים</h3><p>משנים את המחיר ב-1 ₪: נקודת האיזון והרווח זזו? משנים את הכמות: ההוצאות המשתנות וההכנסות זזו? אם משהו לא זז, יש בו מספר מוקלד.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌳 רמה 3:</b> 6 הוצאות בנוסחאות, רווח 20 ₪, נקודת איזון 35. שלושה זעזועים, תגובה רק לראשון. "צריך 35 מנויים כדי לא להפסיד." שורת AI: "Gemini בדק ואמר שהכול נכון."</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> תגובה מנומקת לכל זעזוע. אחרי 3 זעזועים: רווח 45 ₪, 19%, איזון 44 מתוך 60. "נשמור על 4 ₪ מול המתחרה, כי מנוי זול שומר את הלקוחות." שורת AI: "Gemini חילק ב-5 במקום ב-4 ויצא לו 28. תפסנו ותיקנו."</p></div></div>
+</section>
+
+<!-- ===================== 10. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לשקף ביומן ולטופס ההגשה. "טעות של AI שתפסנו" = מועמדות לפרס צייד הבאגים.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 14 · תקציב</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: ☐ Gemini (פקיד בקרה) ☐ Gemini Canvas · 🐞 טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 14 · תקציב</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: ☐ Gemini (פקיד בקרה) ☐ Gemini Canvas · 🐞 טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 14 · תקציב</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: ☐ Gemini (פקיד בקרה) ☐ Gemini Canvas · 🐞 טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div>
+    </div>
+    <div class="aiw">
+      <div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור: 14 · תקציב</span></div>
+      <div class="cols">
+        <div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div>
+        <div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div>
+      </div>
+      <div class="foot"><span>כלי: ☐ Gemini (פקיד בקרה) ☐ Gemini Canvas · 🐞 טעות של AI שתפסנו: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 85–89, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 14</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">למה "טרנד בטיקטוק" שינה את הרווח, אבל לא את נקודת האיזון?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>נוסחאות</span><span>מחירים ומקורות</span><span>ניחושים</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 14</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">למה "טרנד בטיקטוק" שינה את הרווח, אבל לא את נקודת האיזון?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>נוסחאות</span><span>מחירים ומקורות</span><span>ניחושים</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 14</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">למה "טרנד בטיקטוק" שינה את הרווח, אבל לא את נקודת האיזון?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>נוסחאות</span><span>מחירים ומקורות</span><span>ניחושים</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 14</span></div><p>צוות: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">למה "טרנד בטיקטוק" שינה את הרווח, אבל לא את נקודת האיזון?</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי לצוות:</p>
+      <div class="tags"><span>נוסחאות</span><span>מחירים ומקורות</span><span>ניחושים</span><span>הצגה</span><span>AI</span><span>עזרתי לצוות אחר</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 12. INSTRUCTOR SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מקור האמת לניקוד</span><h2>דף <span>הניקוד</span></h2></div><p>הלוח במצגת הוא התצוגה לכיתה. מה שכתוב כאן נכנס לגיליון הקורס אחרי השיעור.</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:20mm">צוות</th><th>בדיקת הבנק<br><small>0–10</small></th><th>באגים<br><small>0–2</small></th><th>סבב 1<br><small>0–3</small></th><th>סבב 2<br><small>0–3</small></th><th>סבב 3<br><small>0–3</small></th><th>שורדים<br><small>3</small></th><th>שולי רווח<br><small>8/5/3</small></th><th>Canvas<br><small>2</small></th><th>הגשה<br><small>2</small></th><th>פרסים<br><small>2 לכל</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🏦 בדיקת הבנק: פירוט (סמנו ✓)</h3>
+    <table class="tb compact" style="font-size:8.6pt"><thead><tr><th style="width:20mm">צוות</th><th>נוסחאות (3)</th><th>איזון ב-2 ערכים (3)</th><th>IF + אדום (2)</th><th>גרף (1)</th><th>5+ הוצאות (1)</th><th>רמה במחוון</th><th>תקוע ב…</th></tr></thead>
+    <tbody><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⚡ הכרטיסים שנשלפו</h3><p>סבב 1 🔴: <span class="fill l"></span></p><p style="margin-top:2mm">סבב 2 🔵: <span class="fill l"></span></p><p style="margin-top:2mm">סבב 3 🟣: <span class="fill l"></span></p></div>
+    <div class="box"><h3>🏆 פרסי קטגוריה</h3><p>🧾 הקופה מאוזנת: <span class="fill"></span></p><p style="margin-top:1.5mm">🔮 המנחשים: <span class="fill"></span></p><p style="margin-top:1.5mm">🛡️ התגובה החכמה: <span class="fill"></span></p><p style="margin-top:1.5mm">🐞 צייד הבאגים: <span class="fill"></span></p></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחת השיעור הבא</h3><div class="lines h2"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 13. SIDE TASK CARDS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>חדר הכספים · משימות צד</div><div class="r">למי שסיים מוקדם</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה על שולחן המדריך. צוות שסיים שולף כרטיס. אחרי שני כרטיסים, הצוות הופך ל"בודק בנק" שעוזר לצוות אחר.</p>
+  <div class="cutgrid sides">
+    <div class="sd"><span class="em">🎯</span><b>כמה לקוחות צריך?</b><p>כמה לקוחות בחודש צריך כדי להרוויח <b>100 ₪</b>? הוסיפו תא:</p><p class="ltr big">=ROUNDUP((B17+100)/(B4-B18))</p><small>קופסת הפסקה: (140 + 100) ÷ 4 = 60</small></div>
+    <div class="sd"><span class="em">🛫</span><b>מסלול ההמראה</b><p>אם לא מוכרים כלום, לכמה חודשים מספיקה הלוואה של 400 ₪?</p><p class="ltr big">=400/B17</p><small>כמו Viber: כמה זמן אפשר לחכות להכנסות?</small></div>
+    <div class="sd"><span class="em">🎲</span><b>הזעזוע הרביעי</b><p>בקשו מ-Gemini 3 זעזועים שמתאימים לסטארט-אפ שלכם. בחרו אחד, נחשו, וחשבו בעמודה L.</p><small>Gemini מציע. אתם מחשבים.</small></div>
+    <div class="sd"><span class="em">📈</span><b>גרף התרחישים</b><p>תרשים קו של שורה 12 (H12:K12) עם הכותרת "הרווח שלנו בארבעה תרחישים".</p><small>איזה זעזוע הכי כאב? רואים מיד.</small></div>
+    <div class="sd"><span class="em">🔮</span><b>מחיר הקסם</b><p>בניסוי וטעייה ב-B4: מה המחיר הנמוך ביותר שבו נקודת האיזון עדיין קטנה מהכמות הצפויה?</p><small>רמז: התחילו מהמחיר שלכם ורדו ב-0.5 ₪.</small></div>
+    <div class="sd"><span class="em">🟥</span><b>צוות אדום</b><p>שאלו את Gemini: "3 סיבות שהתקציב שלנו ייכשל בחודש הבא, ולכל סיבה שאלה שנוכל לבדוק השבוע".</p><small>סמנו את הסיבה שהכי מפחידה אתכם.</small></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

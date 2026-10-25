@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>כרטיס לקוח ומפת אמפתיה | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== lesson additions (engine styles above are untouched) — light theme tokens only ===== */
+
+.slide.tight h2{font-size:clamp(32px,4.2vw,60px);margin:12px 0 10px}
+.slide.tight .lead{margin-bottom:0}
+/* journey strip on the opening slide */
+.journeyWrap{margin-top:22px}
+.journeyWrap small{display:block;color:var(--muted);font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:8px}
+.journey{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.journey span{padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-family:var(--display);font-weight:600;font-size:17px;color:var(--muted);box-shadow:var(--shadow-sm)}
+.journey span.done{color:var(--good);background:var(--good-bg);border-color:#bfe3cb}
+.journey span.done::after{content:" ✓"}
+.journey span.now{color:#fff;background:var(--teal);border-color:var(--teal-deep);font-weight:700;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.journey i{font-style:normal;color:var(--dim);font-weight:700}
+.exLine{margin-top:16px;padding:10px 16px;border-radius:14px;background:#fffaf0;border:1px solid #f0dcaa;color:var(--ink);font-size:clamp(16px,1.6vw,20px);width:max-content;max-width:100%}
+.exLine b{color:#8a5300}
+/* prompt with copy button */
+.prompt{position:relative;padding-left:120px}
+.prompt.small{font-size:clamp(16px,1.6vw,21px);margin-top:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.prompt:has(.pLabel)::before{content:none}
+.slide.tight .prompt{font-size:clamp(17px,1.7vw,23px)}
+.slide.tight .prompt.small{font-size:clamp(16px,1.45vw,20px)}
+.pLabel{display:block;font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent-ink);margin-bottom:2px}
+/* sorter: one statement, several category buttons */
+.sorter{display:grid;gap:8px;margin-top:16px;max-width:1180px}
+.sRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px);transition:.2s}
+.sBtns{display:flex;gap:6px}
+.sBtns button{border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:var(--paper);color:var(--ink);font-weight:700;font-size:16px;white-space:nowrap;transition:.15s}
+.sBtns button b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:7px;margin-inline-end:4px;background:var(--accent-soft);color:var(--accent-ink);font-size:14px}
+.sBtns button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.sBtns button.right{background:var(--good);border-color:var(--good);color:#fff}.sBtns button.right b{background:rgba(255,255,255,.25);color:#fff}
+.sBtns button.picked{background:var(--bad);border-color:var(--bad);color:#fff}.sBtns button.picked b{background:rgba(255,255,255,.25);color:#fff}
+.sRow .sNote{grid-column:1/-1;display:none;color:var(--muted);font-size:16px}
+.sRow.done .sNote{display:block}
+.sRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}
+.sRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* small notes */
+.note{margin-top:14px;max-width:1150px;padding:11px 18px;border-radius:16px;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft);font-size:clamp(17px,1.7vw,22px);line-height:1.45;color:var(--ink)}
+.note b{color:var(--accent-ink)}
+.note.lock{border-color:#f2cdbb;border-inline-start-color:var(--bad);background:#fff8f4}.note.lock b{color:var(--bad)}
+/* editable text (class fills in live) */
+.ed{outline:none;border-bottom:2px dashed var(--line);border-radius:4px;padding:0 4px;cursor:text;transition:border-color .15s,background .15s}
+.ed:hover{background:#fffef4}.ed:focus{border-bottom-color:var(--teal);background:#fff}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--dim);font-weight:500}
+.voteItem strong.ed{display:block;min-height:1.5em;font-size:19px;line-height:1.35}
+table.t td[contenteditable]{cursor:text}
+/* next-lesson teaser */
+.teaser{display:flex;gap:16px;align-items:center;margin-top:16px;max-width:1150px;padding:14px 20px;border-radius:20px;border:1.5px dashed var(--accent-line);background:linear-gradient(180deg,var(--accent-soft),#fff)}
+.teaser .ico{flex:none;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:32px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.teaser b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,25px);color:var(--ink)}
+.teaser span{color:var(--muted);font-size:clamp(16px,1.6vw,20px);line-height:1.45}
+.timer.huge output{font-size:clamp(46px,5.6vw,80px)}
+@media (max-height:800px){.sRow{padding:7px 14px}.sBtns button{padding:4px 10px}.note{margin-top:10px;padding:8px 14px}.teaser{margin-top:10px;padding:10px 16px}.journeyWrap{margin-top:14px}.exLine{margin-top:10px}}
+@media (max-width:900px){.sRow{grid-template-columns:1fr}.prompt{padding-left:22px;padding-top:56px}}
+
+/* ===== כרטיס לקוח ומפת אמפתיה — slide-specific ===== */
+
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.box.plain .label{color:var(--accent-ink);background:var(--accent-soft)}
+.box .big2{display:block;font-family:var(--display);font-weight:700;font-size:clamp(21px,2.3vw,32px);line-height:1.35;color:var(--ink)}
+.slide.tight .box .big2{font-size:clamp(20px,2vw,28px)}
+.slide.tight .vote{margin-top:12px}.slide.tight .voteItem{padding:10px 12px}
+.vote.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px}
+/* persona card */
+.pcard{display:grid;grid-template-columns:230px minmax(0,1fr);margin-top:14px;max-width:1080px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+.pcard .who{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px 14px;background:linear-gradient(180deg,var(--accent-soft),#fff);border-inline-end:1px solid var(--line);text-align:center}
+.pcard .who svg{width:130px;height:130px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+.pcard .who b{font-family:var(--display);font-size:30px;color:var(--ink);line-height:1.1}
+.pcard .who small{color:var(--muted);font-size:16px}
+.pcard .tag{font-size:12.5px;font-weight:700;color:var(--muted);background:var(--paper2);border-radius:999px;padding:2px 10px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px}
+.field{border:1px solid var(--line2);border-radius:14px;padding:9px 14px;background:#fdfcfa;font-size:clamp(16px,1.6vw,20px);line-height:1.4}
+.field span{display:block;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent-ink)}
+.field.sus{transition:.3s}
+.slide .field.sus.hit{border-color:#efb69b;background:var(--bad-bg);box-shadow:0 0 0 3px rgba(194,65,12,.12)}
+/* rule slide */
+.codeBig.rule{font-size:clamp(54px,8.2vw,118px);letter-spacing:0;margin:8px 0 6px}
+.codeBig.rule s{text-decoration:none;color:var(--muted)}
+.codeBig.ask{font-size:clamp(40px,5.6vw,80px);letter-spacing:0;line-height:1.2;margin:10px 0 8px;max-width:1100px;text-wrap:balance}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
+.chips span{padding:10px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);font-weight:600}
+/* empathy map */
+.emap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:1120px}
+.quad{--q:var(--teal);border:1px solid color-mix(in srgb,var(--q) 30%,#fff);border-radius:20px;padding:14px 20px;background:linear-gradient(180deg,color-mix(in srgb,var(--q) 9%,#fff),#fff);box-shadow:var(--shadow-sm);min-height:128px}
+.quad:nth-child(odd){padding-inline-end:76px}.quad:nth-child(even){padding-inline-start:76px}
+.quad h3{margin:0 0 4px;font-size:clamp(22px,2.3vw,30px);color:color-mix(in oklab,var(--q) 62%,#1f2a37)}
+.quad .ex{font-size:clamp(17px,1.75vw,23px);line-height:1.4;color:var(--ink);font-weight:500}
+.quad p{margin:4px 0 0;color:var(--muted);font-size:clamp(15px,1.4vw,18px)}
+.q1{--q:var(--sky)}.q2{--q:var(--violet)}.q3{--q:var(--orange)}.q4{--q:var(--rose)}
+.emap .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:104px;height:104px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;text-align:center;font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink);z-index:1}
+.emap .core i{display:block;font-style:normal;font-size:38px;line-height:1}
+/* work milestones */
+.miles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px;max-width:1150px}
+.mile{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile b{display:block;font-family:var(--display);font-size:15px;color:var(--accent-ink)}
+.mile span{font-size:clamp(16px,1.6vw,20px);font-weight:600;color:var(--ink)}
+.mile.ping{border-color:#bfdcd7;background:var(--teal-soft)}
+.fill{margin-top:16px;max-width:1100px;padding:16px 22px;border-radius:18px;border:1.5px dashed var(--accent-line);background:#fff;font-size:clamp(20px,2.2vw,30px);line-height:1.6;font-weight:500}
+.fill u{text-decoration:none;display:inline-block;min-width:90px;border-bottom:2px solid var(--accent-line)}
+@media (max-height:800px){.pcard .who svg{width:104px;height:104px}.fields{padding:12px;gap:8px}.field{padding:6px 12px}.quad{min-height:104px;padding:10px 16px}.emap .core{width:90px;height:90px}.emap .core i{font-size:32px}.mile{padding:9px 12px}.fill{padding:12px 18px}}
+@media (max-width:1100px){.cards.three,.cards.four{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.miles{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.pcard{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.emap{grid-template-columns:1fr}.emap .core{display:none}.quad:nth-child(n){padding-inline:18px}}
+
+/* ===== 90-minute additions: evidence lab ===== */
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 15px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* AI traffic light */
+.light{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:clamp(16px,1.55vw,20px);border:1px solid;width:max-content;max-width:100%}
+.light.red{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.light.yellow{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}
+.light.green{background:var(--good-bg);border-color:#bfe3cb;color:#166534}
+.row2{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:14px}
+.row2 .timer{margin-top:0}
+/* source tags ר / ס / ת */
+.src{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border-radius:9px;font-family:var(--display);font-weight:800;font-size:16px;line-height:1;color:#fff;vertical-align:middle;margin-inline-start:6px}
+.src.r{background:#2f6db5}.src.s{background:#23826f}.src.t{background:#c2630f}.src.q{background:#8a93a1}
+.card .src{margin:0 0 0 6px;width:auto}
+/* sticky notes with points */
+.stickies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 18px;margin-top:16px;max-width:1150px}
+.sticky{--bg:#fff6c9;--bd:#efe0a0;position:relative;padding:14px 18px 20px;border-radius:6px 6px 20px 6px;background:var(--bg);border:1px solid var(--bd);box-shadow:0 10px 18px -12px rgba(31,42,55,.4);font-size:clamp(16px,1.6vw,21px);line-height:1.4;font-weight:500;min-height:96px;transform:rotate(var(--rot,0deg))}
+.sticky:nth-child(2){--rot:.7deg;--bg:#e8f2fb;--bd:#c9ddf1}.sticky:nth-child(3){--rot:-.6deg;--bg:#e6f5ef;--bd:#c2e3d4}
+.sticky:nth-child(4){--rot:.5deg;--bg:#fdeee4;--bd:#f3d3bd}.sticky:nth-child(5){--rot:-.8deg;--bg:#f1edfb;--bd:#d9d1f3}.sticky:nth-child(6){--rot:.4deg;--bg:#fff6c9;--bd:#efe0a0}
+.sticky .src{position:absolute;top:-10px;left:12px;margin:0;box-shadow:0 3px 8px rgba(31,42,55,.2)}
+.sticky .pts{position:absolute;left:12px;bottom:-14px;padding:3px 12px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:16px;background:#fff;border:1.5px solid var(--good);color:var(--good);box-shadow:var(--shadow-sm)}
+.sticky .pts.zero{border-color:var(--bad);color:var(--bad)}.sticky .pts.three{border-color:#b7791f;color:#8a5300;background:#fffaf0}
+/* six-block empathy map: pains & gains row */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;max-width:1120px}
+.pg .quad{min-height:0;padding:10px 18px}.pg .quad:nth-child(n){padding-inline:18px}
+.q5{--q:#c2410c}.q6{--q:var(--mint)}
+.quad .src{width:auto;height:24px;min-width:24px;font-size:13px;border-radius:7px;padding:0 6px}
+/* compact table / rubric on slides */
+.tableWrap.compact table.t{font-size:clamp(15px,1.45vw,19px)}
+.tableWrap.compact table.t th,.tableWrap.compact table.t td{padding:8px 14px}
+.tableWrap.compact table.t td.pts{font-family:var(--display);font-weight:800;color:var(--teal);white-space:nowrap;text-align:center}
+.tableWrap.rubric table.t{font-size:clamp(13.5px,1.2vw,16.5px);line-height:1.35;table-layout:fixed}
+.tableWrap.rubric table.t th,.tableWrap.rubric table.t td{padding:8px 10px;vertical-align:top}
+.tableWrap.rubric table.t td:first-child{font-family:var(--display);font-weight:700;color:var(--ink);background:#fdfcfa}
+.tableWrap.rubric table.t td:last-child{background:#eef7f4}
+.winLine{margin-top:12px;max-width:1150px;padding:10px 18px;border-radius:16px;background:#fffaf0;border:1px solid #f0dcaa;font-size:clamp(16px,1.6vw,21px)}
+.winLine b{color:#8a5300}
+/* challenge rules */
+.task.rules ol{gap:4px}.task.rules li{font-size:clamp(17px,1.7vw,21px)}
+.task.rules{padding:16px 22px}
+/* live scoreboard */
+.board{margin-top:14px;max-width:1180px;display:grid;gap:7px}
+.bRow{display:grid;grid-template-columns:52px minmax(140px,1fr) minmax(0,1.6fr) 74px auto;align-items:center;gap:12px;padding:6px 12px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);transition:border-color .25s,box-shadow .25s}
+.bRow .rk{font-family:var(--display);font-weight:800;font-size:18px;color:var(--muted);text-align:center;white-space:nowrap}
+.bRow .nm{font-family:var(--display);font-weight:700;font-size:clamp(17px,1.6vw,21px);outline:none;border-bottom:2px dashed transparent;padding:2px 4px;border-radius:4px;cursor:text;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bRow .nm:hover{border-bottom-color:var(--line)}.bRow .nm:focus{border-bottom-color:var(--teal);background:#fff}
+.bRow .meter{height:12px;border-radius:99px;background:var(--paper2);overflow:hidden}
+.bRow .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--teal));border-radius:99px;transition:width .45s}
+.bRow output{font-family:var(--display);font-size:clamp(24px,2.4vw,32px);font-weight:800;text-align:center;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bBtns{display:flex;gap:5px}
+.bBtns button{min-width:46px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font-weight:800;font-size:16px;color:var(--ink);transition:.15s}
+.bBtns button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.bBtns button.neg{color:var(--bad)}
+.bRow.top{border-color:#e3b341;box-shadow:0 0 0 3px rgba(227,168,43,.16),var(--shadow)}
+.bRow.top .meter i{background:linear-gradient(90deg,#f4c95d,#e3a82b)}
+.bTools{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.bTools .ghost{font-size:14px;padding:5px 11px}
+/* AI-invention hunt */
+.hunt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:16px;margin-top:12px;max-width:1220px}
+.evid{border:1px solid var(--line);border-radius:18px;background:#fdfcfa;padding:12px 16px;box-shadow:var(--shadow-sm)}
+.evid h3{font-size:clamp(18px,1.7vw,22px);margin-bottom:6px}
+.evid ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.evid li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start;font-size:clamp(15px,1.35vw,18px);line-height:1.35}
+.evid li .src{margin:0;width:auto;height:26px;min-width:26px;font-size:14px}
+.draft{border:1px solid var(--line);border-inline-start:4px solid var(--sky);border-radius:18px;background:#fff;padding:14px 20px;font-size:clamp(17px,1.7vw,23px);line-height:1.85;box-shadow:var(--shadow)}
+.draft .dl{display:block;font-family:var(--display);font-weight:700;font-size:15px;color:var(--sky-ink);line-height:1.4;margin-bottom:4px}
+.claim{cursor:pointer;border-radius:6px;padding:1px 3px;border-bottom:2px dotted #b9b2a6;transition:background .15s,outline-color .15s}
+.claim:hover{background:#fffbe6}
+.claim.picked{background:var(--hl);border-bottom-color:#b7791f}
+.hunt.judged .claim[data-inv="1"]{outline:2px solid var(--bad);outline-offset:1px;background:var(--bad-bg)}
+.hunt.judged .claim[data-inv="1"].picked{background:#ffd8c4}
+.hunt.judged .claim[data-inv="0"]{background:var(--good-bg);border-bottom-color:var(--good)}
+.huntCount{display:inline-block;margin-top:8px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--muted)}
+.huntCount b{color:var(--ink)}
+/* single counter (vote with one item) */
+.vote.one{grid-template-columns:minmax(0,340px);margin-top:0}
+.vote.one .voteItem{padding:12px 16px}
+.vote.one output{font-size:40px}
+/* competition round */
+.roundTop{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;max-width:1180px}
+.roundTop>div{flex:1 1 300px;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:10px 16px;box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px)}
+.roundTop b.ed,.roundTop span.ed{font-family:var(--display);font-weight:700}
+.guessLine{flex:1 1 320px;border:1.5px dashed var(--accent-line);border-radius:16px;padding:12px 16px;background:#fff;font-size:clamp(17px,1.7vw,22px);line-height:1.5}
+.nextRound{margin-top:12px}
+/* prizes / titles */
+.prize .who{display:block;margin-top:8px;min-height:1.6em;font-family:var(--display);font-weight:700;font-size:18px;color:var(--teal-deep);border-bottom:2px dashed var(--line);outline:none}
+.prize .who:focus{border-bottom-color:var(--teal)}
+/* case study */
+.case{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;margin-top:14px;max-width:1200px}
+.case .facts{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:16px 20px;box-shadow:var(--shadow)}
+.case .facts h3{font-size:clamp(19px,1.8vw,24px);margin-bottom:8px}
+.case .facts ul{margin:0;padding-inline-start:22px;display:grid;gap:7px;font-size:clamp(16px,1.55vw,20px);line-height:1.45}
+.case .facts li::marker{color:var(--accent-ink)}
+.case .revealList{margin-top:0}
+.case .revealCard{font-size:clamp(16px,1.55vw,20px)}
+.case .src-line{margin-top:10px;font-size:13px;color:var(--dim)}
+/* kit chips */
+.kits{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.kits span{padding:9px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-family:var(--display);font-weight:700;font-size:clamp(16px,1.55vw,20px)}
+.mile.green{border-color:#bfe3cb;background:var(--good-bg)}
+.miles.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.timer.mid output{font-size:clamp(38px,4.4vw,62px)}
+@media (max-height:800px){
+ .stickies{gap:14px 16px;margin-top:12px}.sticky{min-height:80px;padding:12px 16px 18px}
+ .bRow{padding:4px 10px}.bBtns button{height:32px}
+ .draft{padding:10px 16px}.evid{padding:10px 14px}
+ .case .facts{padding:12px 16px}
+}
+@media (max-width:1100px){.cards.five{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.stickies{grid-template-columns:1fr 1fr}.hunt,.case{grid-template-columns:1fr}.bRow{grid-template-columns:44px minmax(120px,1fr) 64px auto}.bRow .meter{display:none}}
+.tagsRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.tagsRow span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+.tf.dense{gap:7px;margin-top:12px}.tf.dense .tfRow{padding:8px 16px;font-size:clamp(16px,1.6vw,20px)}.tf.dense .tfRow button{padding:5px 11px}.tf.dense .tfNote{font-size:15px}
+.slide>.tableWrap,.slide>.board,.slide>.stickies,.slide>.hunt{flex:none}
+.stickies{row-gap:30px}
+.claim{-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.tableWrap.compact table.t th,.tableWrap.compact table.t td{padding:7px 14px}
+.tableWrap.compact table.t th,.tableWrap.compact table.t td{padding:6px 14px}
+.slide.tight .winLine{margin-top:8px;padding:8px 16px}
+.nextRound{align-self:flex-start;width:max-content}
+.guessLine{flex:1 1 240px}
+.row2 .vote.one{grid-template-columns:minmax(0,250px)}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🪪</div><div><b>כרטיס לקוח ומפת אמפתיה</b><small>סוכנות הבילוש ללקוחות · רק ראיות</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- Every slide: data-topic + data-title. All text here is shown to students. 39 slides. -->
+
+<!-- 1 -->
+<section class="slide hero" data-topic="פתיחה" data-title="סוכנות הבילוש ללקוחות">
+  <span class="kicker">🪪 Tech It Easy · יזמות · שיעור 7 מתוך 30</span>
+  <h2>סוכנות הבילוש <span class="cyan">ללקוחות</span></h2>
+  <p class="lead">היום נכיר את הלקוח שלנו יותר טוב מאמא שלו. <b>אבל רק ממה שבאמת שמענו וראינו,</b> לא ממה שנדמה לנו.</p>
+  <div class="journeyWrap"><small>שלב 3 מתוך 10: בעיה ופתרון</small>
+    <div class="journey"><span class="done">🎤 ראיון</span><i>←</i><span class="done">📋 סקר</span><i>←</i><span class="done">📚 מרוץ המקורות</span><i>←</i><span class="now">🪪 כרטיס לקוח</span><i>←</i><span>📈 בלשי טרנדים</span></div>
+  </div>
+  <p class="exLine">📦 הסטארט־אפ לדוגמה: <b>קופסת הפסקה</b>, ארגז משחקים וציוד ספורט שמשאילים בהפסקות.</p>
+</section>
+
+<!-- 2 -->
+<section class="slide tight" data-topic="פתיחה" data-title="״ילדים״ או נועם?">
+  <span class="kicker">🤔 מי הלקוח?</span>
+  <h2>״ילדים״ <span class="cyan">או נועם?</span></h2>
+  <p class="lead">שני תיאורים של אותם לקוחות. איזה מהם עוזר יותר לבנות מוצר?</p>
+  <div class="compare">
+    <div class="box plain"><span class="label">תיאור א׳</span><span class="big2">״הלקוחות שלנו: ילדים.״</span></div>
+    <div class="box plain"><span class="label">תיאור ב׳</span><span class="big2">״נועם, בן 11. מגיע ראשון להפסקה, ותמיד מוצא שהכדור כבר תפוס.״</span></div>
+  </div>
+  <div class="vote two">
+    <div class="voteItem"><strong>🅰️ תיאור א׳</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><strong>🅱️ תיאור ב׳</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="note reveal">💡 על ״ילדים״ קשה להחליט משהו. <b>על נועם אפשר לשאול:</b> מה הוא צריך? מתי? ולמה?</div>
+</section>
+
+<!-- 3 -->
+<section class="slide tight" data-topic="פתיחה" data-title="ראיה או ניחוש?">
+  <span class="kicker">🔎 חימום של בלשים · על מה אפשר לסמוך?</span>
+  <h2>ראיה <span class="cyan">או ניחוש?</span></h2>
+  <div class="tf dense">
+    <div class="tfRow" data-true="1"><span>3 מתוך 4 מרואיינים סיפרו שהכדור כבר תפוס כשהם מגיעים לחצר.</span><div class="tfBtns"><button data-v="1">🔎 ראיה</button><button data-v="0">💭 ניחוש</button></div><div class="tfNote">ראיה: זה מה שאנשים אמרו בראיונות.</div></div>
+    <div class="tfRow" data-true="0"><span>ילדים בגיל הזה אוהבים כדורגל יותר מכל דבר אחר.</span><div class="tfBtns"><button data-v="1">🔎 ראיה</button><button data-v="0">💭 ניחוש</button></div><div class="tfNote">ניחוש: הכללה. אף אחד לא בדק את זה אצל הלקוחות שלנו.</div></div>
+    <div class="tfRow" data-true="1"><span>בתצפית: 40 שניות אחרי הצלצול, הכדור כבר יצא מהארגז.</span><div class="tfBtns"><button data-v="1">🔎 ראיה</button><button data-v="0">💭 ניחוש</button></div><div class="tfNote">ראיה: ראינו ומדדנו בעיניים.</div></div>
+    <div class="tfRow" data-true="0"><span>נועם בטח היה משלם 5 ש״ח בשביל כדור משלו.</span><div class="tfBtns"><button data-v="1">🔎 ראיה</button><button data-v="0">💭 ניחוש</button></div><div class="tfNote">ניחוש: אף אחד לא שאל אותו. ״בטח״ היא מילה של ניחוש.</div></div>
+    <div class="tfRow" data-true="1"><span>בסקר, 18 מתוך 26 ענו ״לפעמים״ או ״תמיד״ ל״אין לי עם מה לשחק בהפסקה״.</span><div class="tfBtns"><button data-v="1">🔎 ראיה</button><button data-v="0">💭 ניחוש</button></div><div class="tfNote">ראיה: מספר מסקר. (הנתונים של קופסת הפסקה בדיוניים, לתרגול.)</div></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור, <span class="cyan">לכל צוות יהיה:</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🗺️</div><strong>מפת אמפתיה</strong><p>לפחות 8 פתקים, ועל כל פתק כתוב מאיפה הוא הגיע.</p></div>
+    <div class="card"><div class="emoji">🪪</div><strong>שקף פרסונה</strong><p>כינוי, מטרה, תסכול, ציטוט אמיתי ואיור. בלי אף פרט מומצא.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>3 שאלות ״איך נוכל״</strong><p>ואחת נבחרת, שתוביל אותנו לרעיונות בהמשך הקורס.</p></div>
+  </div>
+  <div class="tagsRow"><span>🕵️ חקירה נגדית</span><span>🤖 ציד המצאות של AI</span><span>🏆 תחרות: מי הלקוח?</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide tight" data-topic="צוותים" data-title="התפקיד שלך היום" data-accent="#43e6a6">
+  <span class="kicker">👥 הצוות שלכם</span>
+  <h2>התפקיד שלך <span class="green">היום</span></h2>
+  <p class="lead">כרטיסי התפקיד עוברים לאדם שיושב משמאל. כל אחד קורא את הכרטיס שלו בקול.</p>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>מחלק/ת את הראיות בין כולם, שומר/ת על הזמן ובוחר/ת את שאלת ״איך נוכל״.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>שומר/ת הראיות. כל פתק עובר דרכך: ״מאיפה זה?״ ומסמן/ת ר, ס או ת.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>בונה את המפה ואת שקף הפרסונה, ומאייר/ת ב-AutoDraw.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><p>מציג/ה בתחרות ״מי הלקוח?״ ומגיש/ה בטופס.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><p>מריץ/ה את Gemini, מוביל/ה את ציד ההמצאות וממלא/ת שקיפות AI.</p></div>
+  </div>
+  <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 6 -->
+<section class="slide tight" data-topic="צוותים" data-title="ערכת החקירה" data-accent="#43e6a6">
+  <span class="kicker">🧰 ערכת החקירה</span>
+  <h2>שלושה סוגי <span class="green">ראיות</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🎤</div><strong>ראיון <span class="src r">ר</span></strong><p>ציטוט מדויק, מילה במילה, ממה שלקוח אמר לכם.</p></div>
+    <div class="card"><div class="emoji">📋</div><strong>סקר <span class="src s">ס</span></strong><p>מספר מהסקר שלכם: ״18 מתוך 26 ענו…״.</p></div>
+    <div class="card"><div class="emoji">👀</div><strong>תצפית <span class="src t">ת</span></strong><p>משהו שראיתם בעיניים: מה הלקוח עושה, מתי ואיפה.</p></div>
+  </div>
+  <div class="note">💭 <b>ואם אין מקור?</b> זה ניחוש. מותר לרשום אותו בצד, כשאלה לבדוק בראיון הבא. במפה הוא לא נכנס.</div>
+  <p class="lead" style="margin-top:12px">אין לכם ראיות משלכם? המנכ״ל/ית שולף/ת ערכת ראיות:</p>
+  <div class="kits"><span>🚰 A · בקבוק המים</span><span>📚 B · ללמוד לבד</span><span>⏰ C · הבוקר המאחר</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-topic="מה זו פרסונה" data-title="מה זו פרסונה" data-accent="#9b7cff">
+  <span class="kicker">🎭 פרסונה</span>
+  <h2>פרסונה = דמות בדויה <span class="violet">שמבוססת על מידע אמיתי</span></h2>
+  <div class="cards four">
+    <div class="card reveal"><div class="emoji">🎭</div><strong>בדויה</strong><p>כינוי ופרטים שאנחנו בוחרים. היא לא ילד אמיתי מהכיתה.</p></div>
+    <div class="card reveal"><div class="emoji">👂</div><strong>מבוססת על ראיות</strong><p>כל מה שכתוב בה הגיע מראיונות, מהסקר או מתצפיות.</p></div>
+    <div class="card reveal"><div class="emoji">👥</div><strong>מייצגת הרבה לקוחות</strong><p>שלושה מרואיינים סיפרו על הכדור התפוס? זה נכנס לפרסונה.</p></div>
+    <div class="card reveal"><div class="emoji">🧭</div><strong>עוזרת להחליט</strong><p>״האם נועם היה משתמש בזה?״ על השאלה הזאת אפשר לענות.</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף</div>
+</section>
+
+<!-- 8 -->
+<section class="slide tight" data-topic="מה זו פרסונה" data-title="פרסונה לדוגמה" data-accent="#9b7cff">
+  <span class="kicker">🔎 פרסונה לדוגמה</span>
+  <h2>נועם מ<span class="violet">״קופסת הפסקה״</span></h2>
+  <p class="lead">שדה אחד כאן לא מגיע מאף ראיה. מי מוצא אותו?</p>
+  <figure class="pcard" style="margin-inline:0">
+    <div class="who">
+      <svg viewBox="0 0 160 160" aria-hidden="true"><g fill="none" stroke="#1f2a37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="70" cy="56" r="30" fill="#fdf0e3"/>
+        <path d="M42 48c6-20 44-26 56-4" fill="#1f2a37"/>
+        <circle cx="60" cy="60" r="2.5" fill="#1f2a37"/><circle cx="80" cy="60" r="2.5" fill="#1f2a37"/>
+        <path d="M60 72c6 6 14 6 20 0"/>
+        <path d="M70 86v34M70 98l-22 14M70 98l26 8M70 120l-14 26M70 120l16 26"/>
+        <circle cx="118" cy="122" r="16" fill="#fff"/><path d="M118 112l7 5-3 8h-8l-3-8z" fill="#1f2a37"/>
+      </g></svg>
+      <b>נועם</b><small>בן 11 · כיתה ו׳</small><span class="tag">איור, לא תמונה</span>
+    </div>
+    <div class="fields">
+      <div class="field"><span>🎯 מטרה</span>לשחק כדורגל בכל הפסקה גדולה.</div>
+      <div class="field"><span>😤 תסכול</span>הכדור תמיד תפוס, או שהוא נעלם מאתמול.</div>
+      <div class="field"><span>💬 ציטוט</span>״עד שאני מוצא כדור, ההפסקה כבר נגמרת.״</div>
+      <div class="field"><span>🔁 הרגל</span>רץ לחצר ברגע שהצלצול מתחיל.</div>
+      <div class="field sus" id="susField"><span>🎨 צבע אהוב</span>כחול.</div>
+      <div class="field"><span>🧑‍🤝‍🧑 עם מי</span>משחק עם 4–5 חברים קבועים מהכיתה.</div>
+    </div>
+  </figure>
+  <div class="note reveal" data-hit="#susField">🕵️ <b>״צבע אהוב: כחול״.</b> אף מרואיין לא סיפר את זה, וזה גם לא עוזר להחליט שום דבר על הקופסה. שדה כזה מוחקים.</div>
+</section>
+
+<!-- 9 -->
+<section class="slide center" data-topic="מה זו פרסונה" data-title="בדויה, לא מומצאת" data-accent="#9b7cff">
+  <span class="kicker">⚖️ הכלל של הסוכנות</span>
+  <div class="codeBig rule">בדויה <s>≠</s> מומצאת</div>
+  <p class="lead">הכינוי בדוי, כדי לשמור על הפרטיות של מי שראיינו. <b>הצרכים אמיתיים.</b> כל שדה בכרטיס מגיע מראיה.</p>
+  <div class="chips">
+    <span class="reveal">🎤 ראיון <span class="src r">ר</span></span>
+    <span class="reveal">📋 סקר <span class="src s">ס</span></span>
+    <span class="reveal">👀 תצפית <span class="src t">ת</span></span>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide tight" data-topic="מה זו פרסונה" data-title="מקרה בוחן: Duolingo" data-accent="#43e6a6">
+  <span class="kicker">🦉 מקרה בוחן</span>
+  <h2>Duolingo: <span class="green">הבעיה התחילה בבית</span></h2>
+  <div class="case">
+    <div class="facts">
+      <h3>מה קרה</h3>
+      <ul>
+        <li>ב-2009 פרופ׳ לואיס פון אהן מאוניברסיטת Carnegie Mellon והסטודנט שלו סברין הקר התחילו לעבוד על הרעיון.</li>
+        <li>פון אהן ראה <b>כמה יקר ללמוד אנגלית</b> בקהילה שלו בגואטמלה.</li>
+        <li>הקר האמין ש״חינוך חינמי ישנה את העולם״.</li>
+        <li>בסוף נובמבר 2011 נפתחה גרסת ניסיון סגורה. תוך שבועיים נרשמו לרשימת ההמתנה <b>יותר מ-100,000 איש</b>.</li>
+      </ul>
+      <p class="src-line">מקור: הערך Duolingo בוויקיפדיה האנגלית</p>
+    </div>
+    <div class="revealList">
+      <div class="revealCard">❓ <b>מה פון אהן ידע על הלקוחות שלו, שאף משרד פרסום לא היה יודע?</b></div>
+      <div class="revealCard reveal">👀 הוא ראה את הבעיה בעיניים, אצל אנשים שהוא מכיר: מי רוצה ללמוד אנגלית, ולמה זה יקר להם.</div>
+      <div class="revealCard reveal">📈 רשימת המתנה של יותר מ-100,000 איש: ראיה שהבעיה אמיתית אצל הרבה אנשים, לא רק אצלו.</div>
+      <div class="revealCard reveal">🪪 ואצלכם: מה ראיתם ושמעתם בעצמכם? זה הבסיס של הפרסונה.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide tight" data-topic="מפת אמפתיה" data-title="מפת אמפתיה" data-accent="#ff9f6e">
+  <span class="kicker">🗺️ מפת אמפתיה</span>
+  <h2>מה נועם <span class="orange">אומר, חושב, עושה ומרגיש?</span></h2>
+  <div class="emap">
+    <div class="quad q1 reveal"><h3>💬 אומר</h3><div class="ex">״הגדולים תמיד לוקחים לנו את המגרש.״ <span class="src r">ר</span></div><p>ציטוט מדויק מהראיון.</p></div>
+    <div class="quad q2 reveal"><h3>💭 חושב</h3><div class="ex">״אם לא ארוץ ראשון, לא יהיה לי עם מה לשחק.״</div><p>מה שהוא לא אומר בקול, מתוך רמזים בראיון.</p></div>
+    <div class="quad q3 reveal"><h3>🏃 עושה</h3><div class="ex">רץ לחצר בצלצול. משאיר את הכדור בשיחים. <span class="src t">ת</span></div><p>מה שראינו בעיניים.</p></div>
+    <div class="quad q4 reveal"><h3>❤️ מרגיש</h3><div class="ex">מתוסכל ומאוכזב, לפעמים כועס.</div><p>הרגשות שמאחורי המילים.</p></div>
+    <div class="core"><div><i>🧒</i>נועם</div></div>
+  </div>
+  <div class="pg">
+    <div class="quad q5 reveal"><h3>😖 כאבים</h3><div class="ex">מבזבז חצי הפסקה על חיפוש. <span class="src r">ר</span></div></div>
+    <div class="quad q6 reveal"><h3>🎁 רווחים</h3><div class="ex">לשחק כבר בדקה הראשונה, עם החברים.</div></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide tight" data-topic="מפת אמפתיה" data-title="לאיזה רביע?" data-accent="#ff9f6e">
+  <span class="kicker">🗣️ עונים בקול</span>
+  <h2>לאיזה רביע <span class="orange">זה שייך?</span></h2>
+  <p class="lead">קודם כל הכיתה עונה בקול, ורק אז בודקים.</p>
+  <div class="sorter" data-labels="אומר|חושב|עושה|מרגיש">
+    <div class="sRow" data-a="1"><span>״אני תמיד מחזיר ציוד בזמן.״</span><div class="sBtns"></div><div class="sNote">אומר: משפט שנאמר בקול, בראיון.</div></div>
+    <div class="sRow" data-a="3"><span>רץ לחצר ברגע שהצלצול מתחיל.</span><div class="sBtns"></div><div class="sNote">עושה: ראינו את זה בתצפית.</div></div>
+    <div class="sRow" data-a="4"><span>מאוכזב כשהוא רואה שהכדור כבר תפוס.</span><div class="sBtns"></div><div class="sNote">מרגיש: זה רגש.</div></div>
+    <div class="sRow" data-a="2"><span>״אולי אם אחביא את הכדור, הוא יחכה לי מחר.״</span><div class="sBtns"></div><div class="sNote">חושב: מחשבה שלא תמיד אומרים בקול.</div></div>
+    <div class="sRow" data-a="3"><span>משאיר את הכדור בשיחים בסוף ההפסקה.</span><div class="sBtns"></div><div class="sNote">עושה: מה שקרה בפועל.</div></div>
+    <div class="sRow" data-a="1"><span>״עד שאני מוצא כדור, ההפסקה כבר נגמרת.״</span><div class="sBtns"></div><div class="sNote">אומר: ציטוט מהראיון.</div></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-topic="מפת אמפתיה" data-title="אומר מול עושה" data-accent="#ff9f6e">
+  <span class="kicker">👀 אומר ≠ עושה</span>
+  <h2>מה הוא <span class="orange">אומר</span>, ומה הוא <span class="orange">עושה</span>?</h2>
+  <div class="compare">
+    <div class="box plain"><span class="label">💬 אומר <span class="src r">ר</span></span><span class="big2">״אני תמיד מחזיר ציוד.״</span></div>
+    <div class="box plain"><span class="label">🏃 עושה <span class="src t">ת</span></span><span class="big2">אחרי ההפסקה, הכדור נמצא בשיחים.</span></div>
+  </div>
+  <div class="revealList">
+    <div class="revealCard reveal">🤔 <b>מי משקר?</b> אף אחד. אנשים זוכרים את עצמם קצת יותר טוב ממה שהם באמת.</div>
+    <div class="revealCard reveal">💡 <b>מה זה מלמד על המוצר?</b> צריך דרך קלה מאוד להחזיר ציוד, כי ״לבקש יפה״ לא יעבוד.</div>
+    <div class="revealCard reveal">🏅 <b>כשיש סתירה, מאמינים למה שרואים.</b> וסתירה כזאת היא הממצא הכי שווה במפה.</div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide tight" data-topic="מפת אמפתיה" data-title="כמה שווה כל פתק?" data-accent="#ff9f6e">
+  <span class="kicker">🧮 כמה שווה כל פתק?</span>
+  <h2>פתק עם ראיה <span class="orange">מול פתק ניחוש</span></h2>
+  <p class="lead">חשבו לבד: כמה נקודות כל פתק מקבל? ״הבא״ חושף.</p>
+  <div class="stickies">
+    <div class="sticky"><span class="src r">ר</span>״עד שאני מוצא כדור, ההפסקה כבר נגמרת.״<span class="pts reveal">2 נק׳</span></div>
+    <div class="sticky"><span class="src q">?</span>נועם שונא לחכות.<span class="pts zero reveal">0 · ניחוש</span></div>
+    <div class="sticky"><span class="src s">ס</span>18 מתוך 26 ענו ״לפעמים״ או ״תמיד״: אין לי עם מה לשחק.<span class="pts reveal">2 נק׳</span></div>
+    <div class="sticky"><span class="src t">ת</span>רץ לחצר ברגע שהצלצול מתחיל.<span class="pts reveal">2 נק׳</span></div>
+    <div class="sticky"><span class="src q">?</span>הוא בטח רוצה כדור משלו.<span class="pts zero reveal">0 · ניחוש</span></div>
+    <div class="sticky"><span class="src r">ר+ת</span>אומר ״אני תמיד מחזיר״, אבל הכדור בשיחים.<span class="pts three reveal">+3 · סתירה!</span></div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide quiz" data-topic="מפת אמפתיה" data-title="בדיקת הבנה 1" data-answer="2" data-accent="#ff9f6e">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1</span>
+  <h2>איזה פתק שווה <span class="orange">2 נקודות?</span></h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>נועם אוהב כדורגל, כי כל הבנים בגיל הזה אוהבים.</span></button>
+    <button class="option"><span class="letter">ב</span><span>״הגדולים תמיד לוקחים לנו את המגרש.״ <span class="src r">ר</span></span></button>
+    <button class="option"><span class="letter">ג</span><span>נועם כנראה קצת ביישן.</span></button>
+    <button class="option"><span class="letter">ד</span><span>נועם צריך אפליקציה שתזמין לו כדור.</span></button>
+  </div>
+  <div class="explain">✓ נכון! ציטוט מדויק עם מקור. א׳ הוא הכללה, ג׳ הוא ניחוש, ו-ד׳ הוא כבר פתרון, לא ראיה.</div>
+</section>
+
+<!-- 16 -->
+<section class="slide quiz" data-topic="מפת אמפתיה" data-title="בדיקת הבנה 2" data-answer="3" data-accent="#ff9f6e">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2</span>
+  <h2>הלקוח אומר דבר אחד <span class="orange">ועושה דבר אחר.</span> מה עושים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>מוחקים את אחד מהם, כדי שהמפה תהיה מסודרת.</span></button>
+    <button class="option"><span class="letter">ב</span><span>מאמינים למה שהוא אמר. הוא הכי מכיר את עצמו.</span></button>
+    <button class="option"><span class="letter">ג</span><span>רושמים את שניהם כסתירה, ומאמינים למה שראינו.</span></button>
+    <button class="option"><span class="letter">ד</span><span>שואלים את Gemini מי צודק.</span></button>
+  </div>
+  <div class="explain">✓ נכון! הסתירה היא הזדמנות: היא מראה איפה המוצר צריך לעזור. Gemini לא היה שם, אז הוא לא יכול להכריע.</div>
+</section>
+
+<!-- 17 -->
+<section class="slide tight" data-topic="האתגר" data-title="מפת האמפתיה: רק ראיות" data-accent="#ffd166">
+  <button class="helpBtn" data-help="challenge" aria-label="הוראות">?</button>
+  <span class="kicker">🕵️ האתגר של היום</span>
+  <h2>מפת האמפתיה: <span class="yellow">רק ראיות</span></h2>
+  <p class="lead">הסוכנות מקבלת רק תיקים שכל פרט בהם מוכח. <b>המטרה:</b> פרסונה שכל מילה בה מגיעה מראיה.</p>
+  <div class="task rules"><strong>📏 החוקים</strong><ol>
+    <li>על כל פתק במפה מסמנים מקור: <span class="src r">ר</span> <span class="src s">ס</span> <span class="src t">ת</span>. פתק בלי מקור הוא ניחוש, ושווה 0.</li>
+    <li>ציטוט נכתב מילה במילה, במירכאות.</li>
+    <li>לפחות פתק אחד בכל רביע: אומר, חושב, עושה, מרגיש.</li>
+    <li>בנקודת הביקורת צוות שכן בודק אתכם. פתק שלא הוכח נמחק.</li>
+    <li>Gemini כותב טיוטה, ואתם מסמנים כל פרט שהוא המציא.</li>
+    <li>בתחרות מציגים את הפרסונה בלי לגלות את המוצר ואת הבעיה.</li>
+  </ol></div>
+</section>
+
+<!-- 18 -->
+<section class="slide tight" data-topic="האתגר" data-title="הניקוד" data-accent="#ffd166">
+  <span class="kicker">🧮 הניקוד, ידוע מראש</span>
+  <h2>איך <span class="yellow">צוברים נקודות</span></h2>
+  <div class="tableWrap compact"><table class="t">
+    <thead><tr><th>מה</th><th style="width:190px;text-align:center">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>פתק עם מקור שעבר את הביקורת (עד 12 פתקים). פתק ניחוש = 0</td><td class="pts">2 לכל פתק</td></tr>
+      <tr><td>סתירה בין ״אומר״ ל״עושה״, עם ראיה לכל צד</td><td class="pts">3 לכל סתירה</td></tr>
+      <tr><td>בביקורת: פתק לא מוכח שמצאתם אצל הצוות השכן (עד 3)</td><td class="pts">1</td></tr>
+      <tr><td>המצאה של AI שתפסתם ותיקנתם (עד 4)</td><td class="pts">2</td></tr>
+      <tr><td>שאלת ״איך נוכל״ נבחרת שעוברת את מבחן 10 התשובות</td><td class="pts">3</td></tr>
+      <tr><td>״מי הלקוח?״: כל צוות שניחש נכון את הבעיה שלכם</td><td class="pts">1 לכם + 1 לו</td></tr>
+      <tr><td>הגשה בזמן, לפי המפרט · ועוד הרמה במחוון × 3</td><td class="pts">5 + (3–12)</td></tr>
+      <tr><td>משימת צד שהושלמה (עד 2)</td><td class="pts">1</td></tr>
+    </tbody>
+  </table></div>
+  <p class="winLine">🏆 <b>מנצח:</b> הצוות עם הכי הרבה נקודות בלוח. <b>שובר שוויון:</b> יותר סתירות מתועדות.</p>
+</section>
+
+<!-- 19 -->
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#ffd166">
+  <span class="kicker">📊 המחוון</span>
+  <h2>איך נמדד <span class="yellow">התיק שלכם</span></h2>
+  <div class="tableWrap rubric"><table class="t">
+    <colgroup><col style="width:15%"><col><col><col><col></colgroup>
+    <thead><tr><th>קריטריון</th><th>🌱 מתחיל · 1</th><th>🌿 מתפתח · 2</th><th>🌳 מיומן · 3</th><th>🚀 מצטיין · 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>מבוסס ראיות</td><td>רוב הפתקים ניחושים, בלי מקור</td><td>חלק מהפתקים מסומנים, ורובם סיכום במילים שלנו</td><td>8 פתקים ומעלה עם ר/ס/ת, וציטוטים מדויקים</td><td>כל פרט בפרסונה מגיע מראיה, ואף פתק לא נפל בביקורת</td></tr>
+      <tr class="reveal"><td>עומק ותובנה</td><td>רק מה שהיה ברור מראש</td><td>4 רביעים מלאים, בלי קשר ביניהם</td><td>סתירה אחת בין ״אומר״ ל״עושה״, או תובנה אחת</td><td>סתירה מתועדת ותובנה לא צפויה: ״הלקוח צריך ___ כי ___, אבל ___״</td></tr>
+      <tr class="reveal"><td>״איך נוכל״</td><td>אין שאלה, או שהיא פתרון מוכן</td><td>שאלה רחבה מדי או צרה מדי</td><td>3 שאלות, והנבחרת יוצאת מכאב שבמפה</td><td>הנבחרת עברה את מבחן 10 התשובות</td></tr>
+      <tr class="reveal"><td>ביקורת על AI</td><td>לא ברור מה ה-AI כתב</td><td>כתוב ״השתמשנו ב-AI״</td><td>סימנו מה ה-AI כתב, ומחקו פרט אחד שהוא המציא</td><td>תפסו ותיקנו כמה המצאות, כולל טענה שה-AI הפך לעובדה, ושורת שקיפות מלאה</td></tr>
+    </tbody>
+  </table></div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף שורה אחרי שורה</div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-topic="האתגר" data-title="כמה דרכים לנצח" data-accent="#ffd166">
+  <span class="kicker">🏅 כמה דרכים לנצח</span>
+  <h2>ארבעה תארים <span class="yellow">בסוף השיעור</span></h2>
+  <div class="cards four">
+    <div class="card"><div class="emoji">🏆</div><strong>אלופי התיק</strong><p>הכי הרבה נקודות בלוח הניקוד.</p></div>
+    <div class="card"><div class="emoji">🔎</div><strong>בלשי הראיות</strong><p>אף פתק לא נפל בחקירה הנגדית, והכי הרבה פתקים מוכחים.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>ציידי ההמצאות</strong><p>הכי הרבה המצאות של AI שנתפסו ותוקנו.</p></div>
+    <div class="card"><div class="emoji">🎯</div><strong>הלקוח הכי ברור</strong><p>הכי הרבה צוותים ניחשו את הבעיה בתחרות.</p></div>
+  </div>
+  <div class="note">💡 גם צוות שלא מוביל בלוח יכול לזכות בתואר. <b>כל ממצא אמיתי שווה.</b></div>
+</section>
+
+<!-- 21 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: המפה" data-accent="#6fa8ff">
+  <button class="helpBtn" data-help="template" aria-label="הוראות">?</button>
+  <span class="kicker">⏱️ ספרינט 1</span>
+  <h2>בונים את <span style="color:var(--sky-ink)">מפת האמפתיה</span></h2>
+  <div class="row2">
+    <div class="timer huge" data-seconds="1080"><output>18:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="light red">🔴 בלי AI · המפה נבנית רק מהראיות שלכם</div>
+  </div>
+  <div class="miles three">
+    <div class="mile"><b>עד דקה 6</b><span>📖 כל הראיות נקראו בקול, ו-4 פתקים ראשונים</span></div>
+    <div class="mile"><b>עד דקה 13</b><span>🗺️ 8 פתקים ומעלה, לפחות אחד בכל רביע</span></div>
+    <div class="mile ping"><b>עד הסוף</b><span>⚡ סתירה אחת מסומנת, כאבים ורווחים</span></div>
+  </div>
+  <div class="note">🔍 <b>החוקר/ת שואל/ת על כל פתק:</b> ״מאיפה זה?״ אין תשובה? הפתק עובר לצד, כשאלה לבדוק.</div>
+</section>
+
+<!-- 22 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="איך עובדים בתבנית" data-accent="#6fa8ff">
+  <span class="kicker">🧩 התבנית ב-Google Slides</span>
+  <h2>פותחים, <span style="color:var(--sky-ink)">משכפלים, ממלאים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>פותחים</strong><p>הקישור שעל הלוח ← ״יצירת עותק״.</p></div>
+    <div class="step"><strong>שם קבוע</strong><p>צוות ___ · שיעור 07 · פרסונה</p></div>
+    <div class="step"><strong>משתפים</strong><p>״שיתוף״ ← כל חברי הצוות ← ״עורך״.</p></div>
+    <div class="step"><strong>פתק חדש</strong><p>בוחרים פתק קיים ← Ctrl+D משכפל ← גוררים לרביע.</p></div>
+    <div class="step"><strong>מקור</strong><p>בסוף כל פתק: ר, ס או ת.</p></div>
+  </div>
+  <div class="note">📄 <b>בלי מחשב?</b> מפת A3 ופתקים דביקים. המקור נכתב בפינה של כל פתק.</div>
+</section>
+
+<!-- 23 -->
+<section class="slide tight" data-topic="חקירה נגדית" data-title="חקירה נגדית" data-accent="#ff6d83">
+  <button class="helpBtn" data-help="audit" aria-label="הוראות">?</button>
+  <span class="kicker">⚖️ נקודת ביקורת</span>
+  <h2>חקירה נגדית: <span class="red">הראו לי את הראיה!</span></h2>
+  <p class="lead">מחליפים מפות עם הצוות השכן, עם כיוון השעון. אתם הבודקים של המפה שלו.</p>
+  <div class="steps">
+    <div class="step"><strong>סופרים</strong><p>כמה פתקים יש עם ר, ס או ת?</p></div>
+    <div class="step"><strong>בוחרים 3</strong><p>שלושה פתקים שנראים לכם חשודים.</p></div>
+    <div class="step"><strong>״הראו לי!״</strong><p>הצוות מראה את הציטוט, המספר או התצפית.</p></div>
+    <div class="step"><strong>מכריעים</strong><p>לא הוכח? מסמנים ✘ בדף הביקורת.</p></div>
+  </div>
+  <div class="row2">
+    <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="note" style="margin-top:0;flex:1">💬 לסיום, משפט אחד לצוות: <b>אני אוהב/ת · הלוואי · אני תוהה</b>.</div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide tight" data-topic="חקירה נגדית" data-title="לוח הניקוד" data-accent="#ff6d83">
+  <span class="kicker">📊 לוח הניקוד</span>
+  <h2>אחרי <span class="red">החקירה הנגדית</span></h2>
+  <div class="board" data-board></div>
+</section>
+
+<!-- 25 -->
+<section class="slide center" data-topic="חקירה נגדית" data-title="דקה של תנועה" data-accent="#43e6a6">
+  <span class="kicker">🧍 דקה של תנועה</span>
+  <h2>קומו אם…</h2>
+  <div class="revealList" style="text-align:right">
+    <div class="revealCard">🙋 …במפה שלכם יש סתירה בין ״אומר״ ל״עושה״.</div>
+    <div class="revealCard reveal">🙋 …מצאתם ציטוט שהפתיע אתכם.</div>
+    <div class="revealCard reveal">🔄 ועכשיו: מוצאים מישהו מצוות אחר, ומספרים לו את הציטוט הכי חזק שלכם.</div>
+  </div>
+  <div class="timer" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 26 -->
+<section class="slide tight" data-topic="AI ו״איך נוכל״" data-title="Gemini כותב טיוטה" data-accent="#6fa8ff">
+  <span class="kicker">🤖 Gemini כותב טיוטה</span>
+  <h2>Gemini כותב. <span style="color:var(--sky-ink)">אתם הבלשים.</span></h2>
+  <div class="prompt"><span class="pLabel">✍️ טיוטת פרסונה מתוך הראיות</span><span class="ptext">אנחנו צוות בשיעור יזמות. אלה הראיות שאספנו על הלקוחות שלנו, בלי שמות אמיתיים: [להדביק את הפתקים מהמפה]. כתוב פרסונה קצרה: כינוי בדוי, גיל, מטרה, תסכול, ציטוט אחד ו-3 הרגלים. השתמש רק במה שכתוב בראיות. אחרי כל משפט כתוב בסוגריים מאיזו ראיה הוא הגיע. אם אין ראיה, כתוב (ניחוש).</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="note">🕵️ <b>גם כשמבקשים ממנו לא להמציא, AI ממציא לפעמים.</b> כל פרט בטיוטה נבדק מול המפה שלכם.</div>
+  <div class="note lock">🔒 <b>מדביקים בלי שמות אמיתיים</b>, ובלי פרטים שמזהים את מי שראיינתם.</div>
+</section>
+
+<!-- 27 -->
+<section class="slide tight" data-topic="AI ו״איך נוכל״" data-title="ציידי ההמצאות" data-accent="#6fa8ff">
+  <span class="kicker">🔦 ציידי ההמצאות</span>
+  <h2>מה ה-AI <span style="color:var(--sky-ink)">המציא?</span></h2>
+  <p class="lead">לחצו על כל פרט בטיוטה שאין לו ראיה בתיק של נועם.</p>
+  <div class="hunt" id="hunt1">
+    <div class="evid"><h3>📁 התיק של נועם</h3><ul>
+      <li><span class="src r">ר</span><span>״עד שאני מוצא כדור, ההפסקה כבר נגמרת.״</span></li>
+      <li><span class="src r">ר</span><span>״הגדולים תמיד לוקחים לנו את המגרש.״</span></li>
+      <li><span class="src r">ר</span><span>״אני תמיד מחזיר ציוד.״</span></li>
+      <li><span class="src t">ת</span><span>רץ לחצר ברגע שהצלצול מתחיל. בסוף ההפסקה הכדור בשיחים.</span></li>
+      <li><span class="src s">ס</span><span>18 מתוך 26: ״אין לי עם מה לשחק בהפסקה״.</span></li>
+    </ul></div>
+    <div class="draft"><span class="dl">🤖 דוגמה לטיוטה ש-AI כותב מתוך התיק</span>
+      נועם, בן 11, <span class="claim" data-inv="1">חולם לשחק בנבחרת ישראל</span>. הוא <span class="claim" data-inv="0">רץ לחצר ברגע שהצלצול מתחיל</span>, <span class="claim" data-inv="1">גר עם ההורים ושתי אחיות קטנות</span>, ותמיד אומר: <span class="claim" data-inv="0">״עד שאני מוצא כדור, ההפסקה כבר נגמרת.״</span> <span class="claim" data-inv="0">הגדולים לוקחים לו את המגרש</span>, ולכן <span class="claim" data-inv="1">הוא מוכן לשלם 10 ש״ח בחודש על מנוי לציוד</span>. בערב <span class="claim" data-inv="1">הוא משחק בפלייסטיישן</span>, ו<span class="claim" data-inv="1">הוא תמיד מחזיר את הציוד בזמן</span>.
+      <span class="huntCount">סימנתם: <b class="hc">0</b></span>
+    </div>
+  </div>
+  <div class="note reveal" data-judge="#hunt1">✅ <b>5 המצאות:</b> הנבחרת, האחיות, 10 ש״ח, הפלייסטיישן, ו״תמיד מחזיר״. את זה הוא אמר, אבל ראינו אחרת: <b>ה-AI הפך טענה לעובדה.</b></div>
+</section>
+
+<!-- 28 -->
+<section class="slide tight" data-topic="AI ו״איך נוכל״" data-title="איך נוכל…?" data-accent="#9b7cff">
+  <span class="kicker">❓ איך נוכל…?</span>
+  <h2>מכאב <span class="violet">לשאלה שפותחת רעיונות</span></h2>
+  <p class="lead">התבנית: <b>איך נוכל לעזור ל[מי] ל[מה], כדי ש[למה]?</b> רחבה מדי, צרה מדי, או בדיוק?</p>
+  <div class="sorter" data-labels="רחבה מדי|צרה מדי|בדיוק">
+    <div class="sRow" data-a="1"><span>איך נוכל לשפר את ההפסקות בעולם?</span><div class="sBtns"></div><div class="sNote">רחבה מדי: לא יודעים מאיפה להתחיל.</div></div>
+    <div class="sRow" data-a="2"><span>איך נוכל לקנות כדור כחול לכיתה ו׳2?</span><div class="sBtns"></div><div class="sNote">צרה מדי: יש בה כבר פתרון אחד.</div></div>
+    <div class="sRow" data-a="3"><span>איך נוכל לעזור לנועם לשחק כבר בדקה הראשונה של ההפסקה?</span><div class="sBtns"></div><div class="sNote">בדיוק: יוצאת מכאב שבמפה, ופותחת הרבה כיוונים.</div></div>
+    <div class="sRow" data-a="2"><span>איך נוכל לתלות שלט ״להחזיר את הכדור״?</span><div class="sBtns"></div><div class="sNote">צרה מדי: זה פתרון, ולפי הסתירה הוא גם לא יעבוד.</div></div>
+    <div class="sRow" data-a="3"><span>איך נוכל לגרום לכדור ״לחזור הביתה״ לבד בסוף ההפסקה?</span><div class="sBtns"></div><div class="sNote">בדיוק: יוצאת מהסתירה, ושאלה הפוכה ומפתיעה.</div></div>
+  </div>
+</section>
+
+<!-- 29 -->
+<section class="slide tight" data-topic="AI ו״איך נוכל״" data-title="מבחן 10 התשובות" data-accent="#9b7cff">
+  <span class="kicker">🧪 מבחן 10 התשובות</span>
+  <h2>שאלה טובה = <span class="violet">10 תשובות שונות בדקה</span></h2>
+  <div class="prompt" style="padding-left:22px">איך נוכל לעזור לנועם לשחק כבר בדקה הראשונה של ההפסקה?</div>
+  <div class="row2">
+    <div class="timer mid" data-seconds="60"><output>01:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="vote one"><div class="voteItem"><strong>💡 רעיונות שונים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div></div>
+  </div>
+  <div class="note">🎯 <b>10 ומעלה:</b> השאלה עוברת. <b>רק 1–2 תשובות:</b> צרה מדי. <b>לא יודעים מאיפה להתחיל:</b> רחבה מדי.</div>
+</section>
+
+<!-- 30 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: הפרסונה" data-accent="#43e6a6">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">⏱️ ספרינט 2</span>
+  <h2>מטיוטה <span class="green">לשקף פרסונה</span></h2>
+  <div class="row2">
+    <div class="timer huge" data-seconds="780"><output>13:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="light green">🟢 AI כשותף, ותמיד בודקים</div>
+  </div>
+  <div class="miles">
+    <div class="mile"><b>1 · טיוטה</b><span>🤖 Gemini כותב מהפתקים שלכם</span></div>
+    <div class="mile"><b>2 · ציד</b><span>🔦 מסמנים ומתקנים כל המצאה</span></div>
+    <div class="mile"><b>3 · שקף</b><span>🪪 כרטיס, 4 רביעים ואיור</span></div>
+    <div class="mile ping"><b>4 · איך נוכל</b><span>❓ 3 שאלות, ומבחן 10 התשובות מול השכנים</span></div>
+  </div>
+  <div class="prompt small"><span class="pLabel">✍️ הפרומפט (להדביק את הפתקים)</span><span class="ptext">אנחנו צוות בשיעור יזמות. אלה הראיות שאספנו על הלקוחות שלנו, בלי שמות אמיתיים: [להדביק את הפתקים מהמפה]. כתוב פרסונה קצרה: כינוי בדוי, גיל, מטרה, תסכול, ציטוט אחד ו-3 הרגלים. השתמש רק במה שכתוב בראיות. אחרי כל משפט כתוב בסוגריים מאיזו ראיה הוא הגיע. אם אין ראיה, כתוב (ניחוש).</span><button class="copyBtn ghost">📋 העתקה</button></div>
+</section>
+
+<!-- 31 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="איור ב-AutoDraw" data-accent="#43e6a6">
+  <span class="kicker">✏️ AutoDraw</span>
+  <h2>איור, <span class="green">בלי תמונות של אנשים</span></h2>
+  <div class="steps">
+    <div class="step"><strong>נכנסים</strong><p>autodraw.com ← Start Drawing. לא צריך חשבון.</p></div>
+    <div class="step"><strong>משרבטים</strong><p>קו פשוט: ראש, כדור, תיק…</p></div>
+    <div class="step"><strong>בוחרים</strong><p>בשורה ״Do you mean״ למעלה, לוחצים על ציור מוכן.</p></div>
+    <div class="step"><strong>מורידים</strong><p>בתפריט ☰ בוחרים Download. נשמר קובץ PNG.</p></div>
+    <div class="step"><strong>מוסיפים לשקף</strong><p>הוספה ← תמונה ← העלאה מהמחשב.</p></div>
+  </div>
+  <div class="note lock">🔒 <b>לא מעלים תמונה של אדם אמיתי,</b> וגם לא של תלמיד מהכיתה. רק איור.</div>
+  <div class="note">📱 <b>בטלפון?</b> AutoDraw עובד גם שם. ההורדה לא מצליחה? צילום מסך וחיתוך.</div>
+</section>
+
+<!-- 32 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#43e6a6">
+  <span class="kicker">⚡ סיימתם? משימות צד</span>
+  <h2>עוד נקודה <span class="green">לכל משימה</span></h2>
+  <p class="lead">המנכ״ל/ית שולף/ת כרטיס מהקופסה. עד 2 משימות צד לצוות.</p>
+  <div class="cards four">
+    <div class="card"><div class="emoji">💳</div><strong>הלקוח שמשלם</strong><p>פרסונה שנייה, קצרה: מי משלם, כשהוא לא המשתמש? למשל הורה.</p></div>
+    <div class="card"><div class="emoji">🕳️</div><strong>הראיה החסרה</strong><p>3 שאלות ראיון שימלאו את הרביע הכי חלש במפה.</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>הופכים את השאלה</strong><p>שאלת ״איך נוכל״ הפוכה: ״איך נוכל לגרום לכדור לזכור את נועם?״</p></div>
+    <div class="card"><div class="emoji">🎭</div><strong>הקול של הלקוח</strong><p>15 שניות בגוף ראשון, כאילו אתם הפרסונה. בלי מילה מומצאת.</p></div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide tight" data-topic="הגשה" data-title="מגישים" data-accent="#31e8ff">
+  <span class="kicker">📤 הגשה</span>
+  <h2>מגישים את <span class="cyan">שקף הפרסונה</span></h2>
+  <div class="compare">
+    <div class="task" style="margin-top:0"><strong>3 צעדים</strong><ol>
+      <li>מעתיקים את שקף הפרסונה ליומן הסטארט-אפ, בשם: <b>צוות ___ · שיעור 07 · פרסונה</b></li>
+      <li>טופס ״הגשת תוצר״ (הקישור על הלוח): שם הצוות, קישור, רמה במחוון ושקיפות AI.</li>
+      <li>דף העבודה נכנס למעטפת הצוות.</li>
+    </ol></div>
+    <div class="box"><span class="label">✓ צ׳קליסט המפרט</span>
+      <ul style="margin:0;padding-inline-start:22px;line-height:1.5;font-size:clamp(15px,1.45vw,19px)">
+        <li>כינוי, גיל, מטרה ותסכול</li><li>ציטוט אמיתי, עם מקור</li><li>איור (לא תמונה של אדם)</li><li>4 רביעים עם ר / ס / ת</li><li>3 שאלות ״איך נוכל״, ⭐ על הנבחרת</li><li>🤖 שקיפות AI, ורשימת ההמצאות שתפסתם</li>
+      </ul></div>
+  </div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 34 -->
+<section class="slide tight" data-topic="תחרות" data-title="חוקי ״מי הלקוח?״" data-accent="#ff9f6e">
+  <button class="helpBtn" data-help="compete" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 התחרות</span>
+  <h2>מי הלקוח? <span class="orange">מה כואב לו?</span></h2>
+  <div class="task rules"><strong>📏 החוקים</strong><ol>
+    <li><b>40 שניות:</b> המציג/ה מציג/ה את הפרסונה: מי היא, מה היא עושה, מה היא אומרת.</li>
+    <li>🚫 אסור להזכיר את המוצר, ואת המילה המרכזית של הבעיה.</li>
+    <li>כל צוות כותב בכרטיס ניחוש: <b>״הבעיה של הלקוח היא ___״</b>.</li>
+    <li>״3, 2, 1, הרימו!״ ואז הצוות המציג חושף.</li>
+    <li>כל ניחוש נכון: <b>נקודה לצוות המנחש, ונקודה לצוות המציג.</b></li>
+  </ol></div>
+  <div class="note">💡 משתלם להיות ברורים: ככל שיותר צוותים מנחשים, אתם מרוויחים יותר.</div>
+</section>
+
+<!-- 35 -->
+<section class="slide tight" data-topic="תחרות" data-title="סבב הצגה" data-accent="#ff9f6e">
+  <span class="kicker">🎯 סבב הצגה</span>
+  <h2>מי הלקוח? <span class="orange">מה הבעיה שלו?</span></h2>
+  <div class="roundTop">
+    <div>🎤 מציגים: <b class="ed" contenteditable="true" data-ph="שם הצוות"></b></div>
+    <div>🚫 אסור להגיד: <span class="ed" contenteditable="true" data-ph="המוצר · מילת הבעיה"></span></div>
+  </div>
+  <div class="row2">
+    <div class="timer mid" data-seconds="40"><output>00:40</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="guessLine">✍️ בכרטיס הניחוש: <b>״הבעיה של הלקוח היא ___״</b><br>ואז: <b>3, 2, 1, הרימו!</b></div>
+    <div class="vote one"><div class="voteItem"><strong>✅ ניחושים נכונים</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div></div>
+  </div>
+  <div class="note reveal">🔓 <b>הבעיה האמיתית:</b> <span class="ed" contenteditable="true" data-ph="הצוות המציג כותב כאן"></span></div>
+  <button class="ghost nextRound" type="button">↺ סבב הבא</button>
+</section>
+
+<!-- 36 -->
+<section class="slide tight" data-topic="תחרות" data-title="התוצאות" data-accent="#ffd166">
+  <span class="kicker">🏁 התוצאות</span>
+  <h2>לוח הניקוד <span class="yellow">הסופי</span></h2>
+  <div class="board" data-board></div>
+</section>
+
+<!-- 37 -->
+<section class="slide" data-topic="תחרות" data-title="ארבעת התארים" data-accent="#ffd166">
+  <span class="kicker">🏅 טקס התארים</span>
+  <h2>התארים <span class="yellow">של היום</span></h2>
+  <div class="cards four">
+    <div class="card prize"><div class="emoji">🏆</div><strong>אלופי התיק</strong><p>הכי הרבה נקודות בלוח</p><span class="who" contenteditable="true"></span></div>
+    <div class="card prize"><div class="emoji">🔎</div><strong>בלשי הראיות</strong><p>אף פתק לא נפל בחקירה</p><span class="who" contenteditable="true"></span></div>
+    <div class="card prize"><div class="emoji">🤖</div><strong>ציידי ההמצאות</strong><p>הכי הרבה המצאות של AI שתוקנו</p><span class="who" contenteditable="true"></span></div>
+    <div class="card prize"><div class="emoji">🎯</div><strong>הלקוח הכי ברור</strong><p>הכי הרבה ניחושים נכונים</p><span class="who" contenteditable="true"></span></div>
+  </div>
+  <div class="note">👏 <b>מחיאות כפיים לכל צוות שזכה,</b> ולכל צוות שתפס המצאה של AI.</div>
+</section>
+
+<!-- 38 -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#9b7cff">
+  <span class="kicker">🎟️ כרטיס יציאה</span>
+  <h2>כל אחד לבד, <span class="violet">בשלוש דקות</span></h2>
+  <div class="light red">🔴 בלי AI · כותבים לבד</div>
+  <div class="task"><strong>בכרטיס (או בטופס שעל הלוח):</strong><ol>
+    <li>דבר אחד שלמדתי היום.</li>
+    <li>שאלה אחת שנשארה לי.</li>
+    <li>כמה הבנתי, מ-0 עד 5?</li>
+    <li><b>שאלת השיעור:</b> מה ההבדל בין פרסונה <b>בדויה</b> לפרסונה <b>מומצאת</b>? תנו דוגמה מהמפה שלכם.</li>
+  </ol></div>
+  <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="סיום" data-title="התיק נסגר" data-accent="#43e6a6">
+  <span class="kicker">📁 התיק נסגר</span>
+  <h2>הסוכנות קיבלה <span class="green">את התיקים שלכם</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🎭 <b>פרסונה היא דמות בדויה,</b> אבל כל מה שכתוב בה מגיע מראיון, מסקר או מתצפית.</div>
+    <div class="revealCard reveal">👀 <b>כשאומרים דבר אחד ועושים דבר אחר,</b> מאמינים למעשים. שם מתחבאות ההזדמנויות.</div>
+    <div class="revealCard reveal">🤖 <b>AI כותב טיוטה מהר,</b> וממציא בדרך. הבלשים זה אתם.</div>
+    <div class="revealCard reveal">🧭 <b>מעכשיו, בכל החלטה:</b> ״האם הפרסונה שלנו הייתה משתמשת בזה?״</div>
+  </div>
+  <div class="teaser reveal"><div class="ico">📈</div><div><b>בשיעור הבא: בלשי טרנדים, האם הבעיה גדולה?</b><span>נבדוק ב-Google Trends אם עוד הרבה אנשים מחפשים את הבעיה של הפרסונה שלכם.</span></div></div>
+</section>
+</main>
+
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-challenge"><h3>🕵️ מפת האמפתיה: רק ראיות</h3><ol>
+  <li>עובדים מתוך הראיות שלכם: הראיונות (שיעור 4), הסקר (שיעור 5) ומה שראיתם. אין ראיות? ערכת ראיות A, B או C.</li>
+  <li>כל פתק = משפט אחד. בסוף הפתק: <b>ר</b> (ראיון), <b>ס</b> (סקר) או <b>ת</b> (תצפית).</li>
+  <li>ציטוט נכתב בדיוק כמו שנאמר, במירכאות. לא מסכמים במילים שלנו.</li>
+  <li>״חושב״ ו״מרגיש״ ממלאים מתוך רמזים בראיות. כותבים ליד הפתק מאיזה רמז הוא הגיע.</li>
+  <li>מצאתם שהלקוח אומר דבר אחד ועושה דבר אחר? מחברים את שני הפתקים בחץ ⚡. זו סתירה, והיא שווה 3 נקודות.</li>
+  <li>בסוף: כאבים (מה מתסכל) ורווחים (מה היה משמח).</li>
+</ol></template>
+<template id="help-template"><h3>🧩 איך עובדים בתבנית</h3><ol>
+  <li>נכנסים לקישור שעל הלוח ולוחצים ״יצירת עותק״.</li>
+  <li>משנים את שם הקובץ: <b>צוות ___ · שיעור 07 · פרסונה</b>.</li>
+  <li>״שיתוף״ ← מוסיפים את חברי הצוות ← ״עורך״. כולם עובדים על אותו קובץ.</li>
+  <li>שקף 1 הוא מפת האמפתיה. כל פתק הוא תיבת טקסט צבעונית: בוחרים פתק, Ctrl+D משכפל, וגוררים לרביע.</li>
+  <li>שקף 2 הוא כרטיס הפרסונה. ממלאים אותו בספרינט 2.</li>
+  <li>🔒 רק כינוי בדוי ורק איור. בלי שם ובלי תמונה של מישהו אמיתי.</li>
+</ol></template>
+<template id="help-audit"><h3>⚖️ חקירה נגדית: איך בודקים</h3><ol>
+  <li>מעבירים את המפה (או את המסך) לצוות שיושב משמאל, ומקבלים את המפה של הצוות מימין.</li>
+  <li>החוקר/ת סופר/ת כמה פתקים יש עם ר, ס או ת, וכותב/ת בדף הביקורת.</li>
+  <li>בוחרים 3 פתקים. לכל אחד שואלים: ״הראו לי את הראיה.״ הצוות מראה ציטוט בראיון, מספר בסקר או תצפית כתובה.</li>
+  <li>הוכח = ✔. לא הוכח = ✘, והפתק לא נספר. כל ✘ שמצאתם = נקודה לכם (עד 3).</li>
+  <li>כותבים משפט אחד לצוות: ״אני אוהב/ת… · הלוואי… · אני תוהה…״</li>
+  <li>המנכ״ל/ית מביא/ה את דף הביקורת למדריך. ויכוח? המדריך מכריע.</li>
+</ol></template>
+<template id="help-sprint2"><h3>🪪 ספרינט 2: מה עושים</h3><ol>
+  <li><b>האחראי/ת על AI:</b> מעתיק/ה את הפתקים מהמפה ל-Gemini עם הפרומפט מהשקף.</li>
+  <li>מדביקים את הטיוטה בצד השקף, ומסמנים בצהוב כל פרט שאין לו ראיה במפה. מוחקים אותו, מתקנים לפי הראיה, או הופכים לשאלה לבדיקה.</li>
+  <li>רושמים כל המצאה שתפסתם בדף ״ציד ההמצאות״. כל אחת שתוקנה = 2 נקודות (עד 4).</li>
+  <li><b>הבונה:</b> ממלא/ת את כרטיס הפרסונה ומוסיף/ה איור מ-AutoDraw.</li>
+  <li>כותבים 3 שאלות ״איך נוכל״, ובוחרים אחת ⭐.</li>
+  <li>מבחן 10 התשובות: הצוות השכן מנסה לתת 10 רעיונות שונים לשאלה הנבחרת בדקה. 10 ומעלה = 3 נקודות.</li>
+</ol></template>
+<template id="help-compete"><h3>🏆 ״מי הלקוח?״ שלב אחרי שלב</h3><ol>
+  <li>המדריך קורא לצוות. המציג/ה עומד/ת, והשקף של הצוות מוקרן (או הדף מוחזק).</li>
+  <li>40 שניות: הכינוי, הגיל, מה הפרסונה עושה, מה היא אומרת ומה היא מרגישה. בלי המוצר ובלי מילת הבעיה.</li>
+  <li>כל צוות אחר כותב בכרטיס הניחוש: ״הבעיה של הלקוח היא ___״.</li>
+  <li>״3, 2, 1, הרימו!״ כל הצוותים מרימים כרטיסים יחד.</li>
+  <li>הצוות המציג חושף את הבעיה. סופרים ניחושים נכונים: נקודה לכל צוות שצדק, ואותו מספר נקודות לצוות המציג.</li>
+</ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== lesson additions: sorter game + copy buttons (runs after the engine) ===== */
+(()=>{
+document.querySelectorAll('.sorter').forEach(s=>{const labels=(s.dataset.labels||'').split('|');
+ s.querySelectorAll('.sRow').forEach(r=>{const box=r.querySelector('.sBtns');const a=Number(r.dataset.a);
+  labels.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.innerHTML='<b>'+(i+1)+'</b>'+l;
+   b.onclick=()=>{box.querySelectorAll('button').forEach(x=>x.classList.remove('right','picked'));const ok=i+1===a;
+    r.classList.add('done');r.classList.toggle('ok',ok);r.classList.toggle('no',!ok);box.children[a-1].classList.add('right');if(!ok)b.classList.add('picked')};
+   box.appendChild(b)})})});
+document.querySelectorAll('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+// a revealed element with data-hit="selector" highlights that element too
+document.querySelectorAll('.reveal[data-hit]').forEach(r=>{const tg=document.querySelector(r.dataset.hit);if(!tg)return;
+ new MutationObserver(()=>tg.classList.toggle('hit',r.classList.contains('show'))).observe(r,{attributes:true,attributeFilter:['class']})});
+})();
+
+</script>
+<script>
+/* ===== 90-minute additions: live scoreboard · AI-invention hunt · competition rounds (runs after the engine) ===== */
+(()=>{
+/* --- live scoreboard: every [data-board] shows the same state; saved in this browser only --- */
+const BKEY='tie-persona-board:'+location.pathname;
+const DEF=()=>({teams:[1,2,3,4,5,6,7].map(n=>({name:'צוות '+n,pts:0}))});
+let st;try{st=JSON.parse(localStorage.getItem(BKEY))}catch(e){}
+if(!st||!Array.isArray(st.teams)||!st.teams.length)st=DEF();
+const save=()=>{try{localStorage.setItem(BKEY,JSON.stringify(st))}catch(e){}};
+const boards=[...document.querySelectorAll('[data-board]')];
+function render(){
+ const max=Math.max(1,...st.teams.map(t=>t.pts)),top=Math.max(...st.teams.map(t=>t.pts));
+ const order=[...st.teams.map(t=>t.pts)].sort((a,b)=>b-a);
+ boards.forEach(bd=>{
+  if(document.activeElement&&bd.contains(document.activeElement)&&document.activeElement.classList.contains('nm'))return;
+  bd.innerHTML='';
+  st.teams.forEach((t,i)=>{
+   const row=document.createElement('div');row.className='bRow'+(top>0&&t.pts===top?' top':'');
+   const rank=order.indexOf(t.pts)+1;
+   row.innerHTML='<span class="rk">'+(top>0&&t.pts===top?'👑 ':'')+rank+'</span><span class="nm" contenteditable="true" spellcheck="false"></span><span class="meter"><i></i></span><output>'+t.pts+'</output><span class="bBtns"><button type="button" class="neg" data-p="-1">−1</button><button type="button" data-p="1">+1</button><button type="button" data-p="2">+2</button><button type="button" data-p="3">+3</button><button type="button" data-p="5">+5</button></span>';
+   const nm=row.querySelector('.nm');nm.textContent=t.name;
+   nm.addEventListener('input',()=>{t.name=nm.textContent.trim()||('צוות '+(i+1));save()});
+   nm.addEventListener('blur',()=>render());
+   nm.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();nm.blur()}});
+   row.querySelector('.meter i').style.width=(t.pts/max*100)+'%';
+   const out=row.querySelector('output');out.title='לחיצה: הקלדת ניקוד';out.style.cursor='pointer';out.onclick=()=>{const v=prompt('ניקוד עבור '+t.name+':',t.pts);if(v!==null&&v.trim()!==''&&!isNaN(Number(v))){t.pts=Math.max(0,Math.round(Number(v)));save();render()}};
+   row.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{t.pts=Math.max(0,t.pts+Number(b.dataset.p));save();render()});
+   bd.appendChild(row)});
+  const tools=document.createElement('div');tools.className='bTools';
+  tools.innerHTML='<button type="button" class="ghost" data-a="add">＋ צוות</button><button type="button" class="ghost" data-a="del">− צוות</button><button type="button" class="ghost" data-a="reset">↺ איפוס הלוח</button>';
+  tools.querySelector('[data-a=add]').onclick=()=>{if(st.teams.length<10){st.teams.push({name:'צוות '+(st.teams.length+1),pts:0});save();render()}};
+  tools.querySelector('[data-a=del]').onclick=()=>{if(st.teams.length>2){st.teams.pop();save();render()}};
+  tools.querySelector('[data-a=reset]').onclick=()=>{if(confirm('לאפס את כל הנקודות ואת שמות הצוותים?')){st=DEF();save();render()}};
+  bd.appendChild(tools)})}
+render();
+
+/* --- AI-invention hunt: click claims; a revealed .reveal[data-judge] marks the right answers --- */
+document.querySelectorAll('.hunt').forEach(h=>{const out=h.querySelector('.hc');
+ h.querySelectorAll('.claim').forEach(c=>c.onclick=()=>{c.classList.toggle('picked');if(out)out.textContent=h.querySelectorAll('.claim.picked').length})});
+document.querySelectorAll('.reveal[data-judge]').forEach(r=>{const tg=document.querySelector(r.dataset.judge);if(!tg)return;
+ new MutationObserver(()=>tg.classList.toggle('judged',r.classList.contains('show'))).observe(r,{attributes:true,attributeFilter:['class']})});
+
+/* --- competition round: "next round" clears the slide --- */
+document.querySelectorAll('.nextRound').forEach(b=>b.onclick=()=>{const s=b.closest('.slide');
+ s.querySelectorAll('.ed').forEach(e=>e.textContent='');
+ s.querySelectorAll('.voteItem').forEach(v=>{const o=v.querySelector('output');o.textContent='1';v.querySelector('button[data-d="-1"]').click()});
+ s.querySelectorAll('.timer [data-t=reset]').forEach(x=>x.click());
+ s.querySelectorAll('.reveal.show').forEach(x=>x.classList.remove('show'));
+ const nb=document.getElementById('nextBtn');if(nb)nb.disabled=false});
+})();
+</script>
+</body>
+</html>

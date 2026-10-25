@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>שעשועון הנתונים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== שעשועון הנתונים — lesson additions (kit styles above are untouched) · light theme ===== */
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px;max-width:1220px;align-items:start}
+.row2>*{min-width:0}
+.row2.wideR{grid-template-columns:1.15fr .85fr}
+.row2.wideL{grid-template-columns:.85fr 1.15fr}
+.note{color:var(--dim);font-size:15px;margin-top:8px}
+.src{margin-top:8px;color:var(--dim);font-size:14px}
+/* ---------- marquee bulbs (game-show frame) ---------- */
+.bulbs{position:absolute;inset:12px;border-radius:22px;pointer-events:none;z-index:0}
+.bulbs::before,.bulbs::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:9px;
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.bulbs::before{background:radial-gradient(circle,#f4a259 0 3.6px,transparent 4.4px) 0 0/30px 30px;animation:bulbA 1.1s steps(1) infinite}
+.bulbs::after{background:radial-gradient(circle,#e3a82b 0 3.6px,transparent 4.4px) 15px 15px/30px 30px;animation:bulbB 1.1s steps(1) infinite}
+@keyframes bulbA{0%{opacity:1}50%{opacity:.25}}
+@keyframes bulbB{0%{opacity:.25}50%{opacity:1}}
+.slide.show>*:not(.bulbs):not(.helpBtn):not(.eq){position:relative;z-index:1}
+/* ---------- hero ---------- */
+.heroShow h2{margin-top:14px}
+.heroShow .onair{display:inline-flex;align-items:center;gap:8px;margin-inline-start:10px;padding:6px 14px;border-radius:999px;background:var(--bad-bg);color:var(--bad);border:1px solid #f2cdbb;font-family:var(--display);font-weight:700;font-size:16px}
+.heroShow .onair i{width:10px;height:10px;border-radius:50%;background:var(--bad);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.2}}
+.eq{position:absolute;left:44px;bottom:40px;display:flex;align-items:flex-end;gap:9px;height:150px;z-index:1;pointer-events:none}
+.eq i{width:22px;border-radius:7px 7px 3px 3px;background:var(--c,#0f766e);animation:eq 1.6s ease-in-out infinite alternate;opacity:.9}
+.eq i:nth-child(1){--c:#5bb5a2;height:40%;animation-delay:-.2s}.eq i:nth-child(2){--c:#f4a259;height:75%;animation-delay:-.7s}
+.eq i:nth-child(3){--c:#8c7ae6;height:55%;animation-delay:-1.1s}.eq i:nth-child(4){--c:#e76f86;height:95%;animation-delay:-.4s}
+.eq i:nth-child(5){--c:#4c8bd6;height:60%;animation-delay:-.9s}.eq i:nth-child(6){--c:#0f766e;height:82%;animation-delay:-1.4s}
+@keyframes eq{from{transform:scaleY(.45);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
+.soundRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.soundRow .ghost{font-size:17px}
+/* ---------- svg charts ---------- */
+.chartBox{border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);padding:14px 16px 10px}
+.chartBox h4{margin:0 0 4px;font-family:var(--display);font-weight:700;font-size:clamp(17px,1.7vw,22px);color:var(--ink)}
+.chartBox .cap{font-size:14px;color:var(--muted)}
+svg.chart{display:block;width:100%;height:auto;max-height:46vh;direction:ltr}
+.roseBox svg{direction:ltr}
+svg.chart text{font-family:var(--body);font-size:14px;fill:#5b6574}
+svg.chart text.v{font-family:var(--display);font-weight:800;font-size:16px;fill:#1f2a37}
+svg.chart text.ax{font-weight:700;fill:#1f2a37}
+svg.chart .gl{stroke:#ece8e1;stroke-width:1}
+svg.chart .axis{stroke:#8a93a1;stroke-width:1.6}
+.cutMark{fill:none;stroke:#c2410c;stroke-width:2.2}
+.box svg.chart{max-height:30vh;margin:0 auto}
+.slim table.t th,.slim table.t td{padding:8px 16px}
+.truth{margin-top:14px;max-width:1220px;border-radius:18px;padding:13px 20px;font-size:clamp(18px,1.85vw,24px);line-height:1.45;border:1px solid #bfe3cb;border-inline-start:5px solid var(--good);background:var(--good-bg)}
+.truth b{color:#14532d}
+/* ---------- vote (compact) ---------- */
+.vote.v1{grid-template-columns:1fr;gap:10px;margin-top:0}
+.vote.v1 .voteItem{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;text-align:right;padding:12px 16px}
+.vote.v1 .voteItem .emoji{font-size:30px}.vote.v1 .voteItem strong{margin:0;font-size:clamp(18px,1.8vw,23px)}
+.vote.v1 .voteItem .bar{grid-column:1/-1;margin-top:2px}
+/* ---------- cards variants ---------- */
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.compact{margin-top:14px;gap:12px}.cards.compact .card{padding:14px 16px}.cards.compact .card p{font-size:17px}
+.card .q{display:block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:16px}
+.card svg.mini{display:block;width:100%;height:78px;margin:6px 0 2px}
+/* ---------- topic tiles ---------- */
+.topics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;max-width:1220px}
+.topic{display:flex;align-items:center;gap:10px;text-align:right;border:1px solid var(--line);border-radius:16px;padding:10px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.45vw,19px);font-weight:600;color:var(--ink);transition:.2s}
+.topic .em{font-size:26px;line-height:1;flex:none}
+.topic small{display:block;font-weight:400;color:var(--muted);font-size:.82em;line-height:1.3}
+.topic:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover)}
+.topic.spin{border-color:#e3b341;background:#fffaf0;box-shadow:0 0 0 3px rgba(227,168,43,.25)}
+.topic.taken{opacity:.45;background:var(--paper2);text-decoration:line-through;text-decoration-color:var(--dim)}
+.topic.pick{opacity:1;text-decoration:none;border-color:var(--good);background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.14)}
+.drawRow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.drawRow .btn{font-size:18px;padding:10px 18px}
+.drawOut{font-family:var(--display);font-weight:700;font-size:clamp(17px,1.7vw,22px);color:var(--accent-ink)}
+/* ---------- match rows (which chart) ---------- */
+.match{display:grid;gap:9px;margin-top:14px;max-width:1220px}
+.mRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.7vw,22px);transition:.2s}
+.mRow .mBtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.mRow button{border:1px solid var(--line);border-radius:10px;padding:7px 12px;background:var(--paper);color:var(--ink);font-weight:700;font-size:16px}
+.mRow button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.mRow .mNote{grid-column:1/-1;display:none;color:var(--muted);font-size:16px}
+.mRow.done .mNote{display:block}
+.mRow.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.mRow.ok button.pick{background:var(--good);border-color:var(--good);color:#fff}
+.mRow.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}.mRow.no button.pick{background:var(--bad);border-color:var(--bad);color:#fff}
+.mRow .qn{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800;font-size:16px;margin-inline-end:8px;vertical-align:2px}
+.nh .mRow{padding:9px 14px}
+/* ---------- five signs ---------- */
+.signs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.sign{border:1px solid var(--line);border-radius:20px;padding:16px 14px;background:var(--card);box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
+.sign::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+.sign .n{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;font-size:28px;background:color-mix(in srgb,var(--c) 14%,#fff);border:1px solid color-mix(in srgb,var(--c) 26%,#fff)}
+.sign b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,25px);margin:8px 0 4px}
+.sign p{margin:0;color:var(--muted);font-size:clamp(14px,1.35vw,17px);line-height:1.4}
+.sign:nth-child(1){--c:var(--orange)}.sign:nth-child(2){--c:var(--mint)}.sign:nth-child(3){--c:var(--violet)}.sign:nth-child(4){--c:var(--rose)}.sign:nth-child(5){--c:var(--sky)}
+/* ---------- case (Nightingale) ---------- */
+.caseWrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:20px;margin-top:12px;max-width:1220px;align-items:center}
+.facts{display:grid;gap:9px}
+.fact{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:10px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.6vw,21px);line-height:1.45}
+.fact .em{flex:none;font-size:26px;line-height:1.2}
+.roseBox{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:10px 12px 8px;text-align:center}
+.roseBox svg{display:block;width:100%;max-height:44vh}
+.legendR{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:14.5px;color:var(--muted)}
+.legendR i{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:-2px;margin-inline-end:5px}
+.askBox{margin-top:12px;max-width:1220px;border-radius:18px;padding:12px 20px;font-size:clamp(18px,1.8vw,23px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.askBox b{color:var(--accent-ink)}
+/* ---------- sheet mock ---------- */
+.sheet{border:1px solid #cfd8d4;border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);font-size:clamp(14px,1.35vw,18px)}
+.sheet table{border-collapse:collapse;width:100%}
+.sheet th{background:#f1f3f2;color:#5b6574;font-weight:600;font-size:13px;padding:3px 6px;border:1px solid #e1e5e3;text-align:center}
+.sheet td{border:1px solid #e1e5e3;padding:6px 10px;text-align:right;white-space:nowrap}
+.sheet td.rn{background:#f1f3f2;color:#5b6574;font-size:13px;text-align:center;width:34px;padding:3px}
+.sheet td.sel{background:#e7f0fa}
+.sheet td.f{background:#e3f1ee;color:#0b5c56;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;text-align:left;font-size:.9em}
+.sheet td.h{font-family:var(--display);font-weight:700;background:#fbfaf7}
+.steps.tightS{margin-top:12px;gap:10px}
+.steps.tightS .step{padding:13px 14px}.steps.tightS .step strong{font-size:19px}.steps.tightS .step p{font-size:16px}
+.steps.tightS .step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}
+.steps.col{grid-template-columns:1fr}
+.steps.col .step{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:start;padding:11px 14px}
+.steps.col .step::before{grid-row:1/span 2;margin:0}
+.ui{display:inline-block;font-family:var(--display);font-weight:600;font-size:.92em;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:0 7px;color:var(--ink);white-space:nowrap}
+/* ---------- prompt with copy + fill-ins ---------- */
+.prompt{position:relative;padding-left:128px}
+.prompt.small{font-size:clamp(16px,1.55vw,20px);margin-top:10px;padding-top:12px;padding-bottom:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.fillin{background:var(--hl);border-radius:6px;padding:0 5px;outline:none;box-shadow:inset 0 -2px 0 #e3b341}
+.fillin:focus{box-shadow:0 0 0 2px var(--teal)}
+.editHint{color:var(--dim);font-size:15px;margin-top:8px}
+/* ---------- traffic light + milestones ---------- */
+.light{width:max-content;max-width:100%;display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line)}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+.miles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.mile{border:1px solid var(--line);border-radius:18px;padding:12px 16px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile small{display:block;font-family:var(--display);font-weight:700;color:var(--accent-ink);font-size:15px;margin-bottom:3px}
+.mile p{margin:0;font-size:clamp(15px,1.5vw,20px);line-height:1.45}
+.timerRow{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.timerRow .timer{margin-top:12px}
+.bigTimer .timer{padding:12px 18px 12px 24px}.bigTimer .timer output{font-size:clamp(56px,7.5vw,104px)}
+.roleChips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;max-width:1220px}
+.roleChips span{padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(14px,1.4vw,18px)}
+.roleChips b{font-family:var(--display)}
+/* ---------- tables (scoring, rubric, live) ---------- */
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--accent-ink);white-space:nowrap;text-align:center}
+table.t.rub{font-size:clamp(14px,1.3vw,17.5px)}
+table.t.rub th,table.t.rub td{padding:9px 12px;vertical-align:top}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+.winline{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;max-width:1220px}
+.winline span{padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.45vw,19px);font-weight:500}
+.winline b{font-family:var(--display)}
+.slide .tableWrap{flex:none}
+.liveBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.liveBar .ghost{padding:6px 12px;font-size:15px}
+table.t.live{font-size:clamp(14px,1.35vw,18px)}
+table.t.live th{font-size:clamp(13px,1.2vw,16px);padding:8px 8px;line-height:1.25;text-align:center}
+table.t.live td{padding:5px 7px;text-align:center;vertical-align:middle}
+table.t.live td:first-child,table.t.live th:first-child{text-align:right}
+table.t.live input{width:100%;min-width:60px;font:inherit;font-weight:600;padding:5px 8px;border:1px solid var(--line);border-radius:9px;background:#fffef9;color:var(--ink)}
+table.t.live input.nm{min-width:130px;font-family:var(--display);font-weight:700}
+table.t.live input::placeholder{color:var(--dim);font-weight:400}
+table.t.live input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:0;background:#fff}
+table.t.live .calc{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+table.t.live .tot{font-family:var(--display);font-weight:800;font-size:1.3em;color:var(--accent-ink)}
+table.t.live tr.r1 td{background:#fff8e1}table.t.live tr.r2 td{background:#f6f7f8}table.t.live tr.r3 td{background:#fdf3ec}
+table.t.live td.diag{background:repeating-linear-gradient(135deg,#f4f1ea 0 6px,#fbfaf7 6px 12px);color:var(--dim)}
+table.t.live tr.sum td{background:var(--paper2);font-weight:700}
+table.t.live tr.sum td.calc{color:var(--accent-ink)}
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button,.tg{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-weight:800;min-width:28px;height:30px;padding:0 6px;font-size:16px;line-height:1}
+.stp button:hover,.tg:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.stp output{min-width:22px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.tg.on{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.medal{font-size:1.1em}
+.respBar{display:flex;align-items:center;gap:8px}
+.respBar .bar{flex:1;margin:0;min-width:90px}
+.scoreLine{margin-top:10px;font-weight:700;color:var(--ink);font-size:clamp(15px,1.5vw,19px)}
+.slide.liveS h2{font-size:clamp(26px,3vw,42px);margin:6px 0 4px}
+.slide.liveS .lead{margin-bottom:0}
+.slide.liveS .tableWrap{margin-top:8px}
+.slide.liveS table.t.live td{padding:3px 6px}
+.slide.liveS table.t.live input{padding:3px 6px}
+.slide.liveS .stp button,.slide.liveS .tg{height:27px;min-width:26px}
+.tvote{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;max-width:1220px}
+.tvote .voteItem{padding:10px 10px 12px}.tvote .voteItem .emoji{font-size:26px}.tvote .voteItem strong{font-size:18px;min-height:2.3em;margin:2px 0 6px;display:grid;place-items:center}
+/* ---------- link box, checks ---------- */
+.linkBox{width:max-content;max-width:100%;display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:10px 18px;border-radius:16px;border:1.5px dashed var(--accent-line);background:var(--accent-soft);font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,30px)}
+.linkBox .fillin{background:#fff;box-shadow:inset 0 -2px 0 var(--accent);direction:ltr;unicode-bidi:isolate;padding:0 8px}
+.fname{font-family:var(--display);font-weight:700;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:2px 10px}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;max-width:1220px}
+.checks span{padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.45vw,19px);font-weight:500}
+.checks span::before{content:"☐ ";color:var(--accent-ink);font-weight:700}
+.qList{display:grid;gap:9px;margin-top:14px;max-width:1150px;counter-reset:q}
+.qList div{counter-increment:q;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px)}
+.qList div::before{content:counter(q);flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800}
+/* ---------- human chart ---------- */
+.human{display:grid;grid-template-columns:repeat(4,96px);justify-content:center;column-gap:clamp(20px,3vw,48px);align-items:end;margin:14px auto 0;padding:10px 20px 0;border-bottom:3px solid var(--ink);width:max-content;max-width:100%}
+.human .colH{display:flex;flex-direction:column;align-items:center;gap:0;font-size:clamp(20px,2.2vw,28px);line-height:1.02}
+.human .colH span{display:block}
+.humanLabels{display:grid;grid-template-columns:repeat(4,96px);justify-content:center;column-gap:clamp(20px,3vw,48px);margin:6px auto 0;font-family:var(--display);font-weight:700;font-size:clamp(15px,1.5vw,19px);color:var(--ink);text-align:center}
+/* ---------- infographic mock ---------- */
+.info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;border:2px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:18px 20px;position:relative}
+.info .hd{grid-column:1/-1;font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:var(--ink)}
+.info .hd span{color:var(--teal)}
+.info .icons{display:grid;gap:8px;align-content:start}
+.info .icons div{display:flex;gap:10px;align-items:center;border-radius:14px;background:var(--paper);padding:8px 12px;font-size:clamp(15px,1.45vw,19px)}
+.info .icons i{font-style:normal;font-size:26px}
+.info .ft{grid-column:1/-1;border-top:1px dashed var(--line);padding-top:8px;font-size:14px;color:var(--muted)}
+.pin{position:absolute;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800;font-size:15px;box-shadow:0 4px 10px rgba(31,42,55,.18)}
+.pinList{display:grid;gap:8px;margin-top:0}
+.pinList div{display:flex;gap:10px;align-items:flex-start;font-size:clamp(15px,1.5vw,20px);line-height:1.4;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:9px 14px;box-shadow:var(--shadow-sm)}
+.pinList div i{font-style:normal;flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800;font-size:14px}
+/* ---------- show stage ---------- */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center;margin-top:8px;max-width:1220px}
+.hosts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.hostChip{border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--card);font-family:var(--display);font-weight:700;font-size:16px;color:var(--ink);box-shadow:var(--shadow-sm)}
+.hostChip.on{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
+.hostChip.done::after{content:" ✓";color:var(--good)}
+.hostChip.on.done::after{color:#d9f99d}
+.hostName{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,52px);line-height:1.1;margin:12px 0 4px;color:var(--ink)}
+.hostName small{display:block;font-size:.42em;font-weight:600;color:var(--muted);margin-bottom:4px}
+.phases{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.phases span{padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-family:var(--display);font-weight:700;font-size:clamp(15px,1.4vw,18px);color:var(--muted)}
+.phases span.now{background:#fffaf0;border-color:#e3b341;color:#8a5300;box-shadow:0 0 0 3px rgba(227,168,43,.2)}
+.phases span.past{color:var(--good);border-color:#bfe3cb;background:var(--good-bg)}
+.stageMsg{margin-top:14px;font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink);max-width:720px;min-height:2.9em}
+.stageBtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.stageBtns .btn{font-size:18px;padding:10px 18px}
+.ring{position:relative;width:clamp(200px,22vw,300px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .trk{fill:none;stroke:#ece8e1;stroke-width:14}
+.ring .val{fill:none;stroke:var(--accent);stroke-width:14;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s}
+.ring.hot .val{stroke:#e76f86}.ring.over .val{stroke:var(--bad)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .num b{font-family:var(--display);font-weight:800;font-size:clamp(64px,7vw,104px);line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.ring.hot .num b{color:var(--rose-ink)}.ring.over .num b{color:var(--bad)}
+.ring .num small{display:block;font-weight:700;color:var(--muted);font-size:16px;margin-top:4px}
+.ring.pulse{animation:pulse .5s ease}
+@keyframes pulse{50%{transform:scale(1.04)}}
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px;max-width:1220px}
+.award{border:1px solid var(--line);border-radius:22px;padding:18px 14px;background:var(--card);box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
+.award::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c,var(--orange))}
+.award .em{font-size:46px;line-height:1}
+.award small{display:block;font-family:var(--display);font-weight:700;color:var(--muted);font-size:15px;margin-top:8px}
+.award b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(19px,1.9vw,26px);margin-top:4px;color:var(--ink);min-height:1.3em}
+.award p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.award.cup{--c:#e3a82b;border-color:#efd9a0;background:linear-gradient(180deg,#fffaf0,#fff)}
+.award.cup .em{font-size:56px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:10px;height:16px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+.teaser{margin-top:18px;max-width:900px;text-align:right;border:1px solid var(--line);border-top:4px solid var(--sky);border-radius:20px;padding:16px 22px;background:var(--card);box-shadow:var(--shadow)}
+.teaser small{display:block;font-family:var(--display);font-weight:700;color:var(--sky-ink);margin-bottom:4px}
+.teaser b{font-family:var(--display);font-size:clamp(20px,2vw,27px)}
+.teaser p{margin:4px 0 0;color:var(--muted);font-size:clamp(16px,1.6vw,20px)}
+/* ---------- short projectors ---------- */
+@media (max-height:800px){
+ .slide.tight h2{font-size:clamp(28px,3.4vw,46px);margin:8px 0 8px}
+ .bulbs{inset:8px}
+ svg.chart{max-height:40vh}
+ .box svg.chart{max-height:30vh}
+ .topic{padding:7px 12px}.topics{gap:8px;margin-top:10px}
+ .mRow{padding:7px 12px}.match{gap:6px}
+ .sign{padding:12px 10px}.sign .n{width:44px;height:44px;font-size:24px}
+ .fact{padding:7px 12px}.facts{gap:6px}.askBox{padding:9px 16px;margin-top:8px}
+ .roseBox svg{max-height:40vh}
+ .sheet td{padding:4px 8px}
+ .mile{padding:9px 13px}.miles{margin-top:10px}
+ .bigTimer .timer output{font-size:clamp(48px,6.5vw,84px)}
+ .qList div{padding:8px 12px}.qList{gap:6px}
+ .ring{width:clamp(180px,19vw,250px)}
+ .award{padding:14px 12px}.award .em{font-size:38px}
+ .eq{height:110px;bottom:30px}
+ .slim table.t th,.slim table.t td{padding:6px 14px}
+ .winline{margin-top:8px;gap:8px}.winline span{padding:5px 10px;font-size:15px}
+}
+@media (max-width:900px){.row2,.row2.wideR,.row2.wideL,.caseWrap,.stage{grid-template-columns:1fr}.cards.four,.cards.five,.cards.three,.topics,.signs,.awards,.miles{grid-template-columns:1fr 1fr}.info{grid-template-columns:1fr}.eq{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">TV</div><div><b>שעשועון הנתונים</b><small>מה המספרים אומרים?</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ===================== פתיחה ===================== -->
+<section class="slide hero show heroShow" data-topic="פתיחה" data-title="מה המספרים אומרים?" data-accent="#e3a82b">
+  <div class="bulbs" aria-hidden="true"></div>
+  <div><span class="kicker">📺 ערוץ הילדים מציג</span><span class="onair"><i></i> בשידור חי</span></div>
+  <h2>מה המספרים <span class="yellow">אומרים?</span></h2>
+  <p class="lead">ערוץ הילדים משיק שעשועון חדש, וכל הפקה מביאה סבב שאלות על <b>תרשים אמיתי שאספה בעצמה</b>. המפיקים מזהירים: <b>תרשים שמטעה את המתחרים נפסל מהשידור.</b></p>
+  <div class="tags"><span>📋 סוקרים את הכיתה</span><span>📊 בונים תרשים ישר</span><span>❓ כותבים סבב</span><span>🏆 מתחרים על הגביע</span></div>
+  <div class="soundRow"><button class="ghost" data-snd="jingle">🎵 מוזיקת פתיחה</button><button class="ghost" data-snd="mute">🔊 צליל: פועל</button></div>
+  <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="בכמה זה גדל?" data-accent="#e76f86">
+  <span class="kicker">🗳️ שאלת פתיחה · הצבעה</span>
+  <h2>ערוץ בית הספר: בכמה גדלו הצפיות?</h2>
+  <div class="row2 wideR">
+    <div class="chartBox">
+      <h4>צפיות בסרטונים של ערוץ בית הספר</h4>
+      <svg class="chart" viewBox="0 0 440 300" role="img" aria-label="תרשים עמודות: ינואר מול פברואר">
+        <line class="gl" x1="72" y1="30" x2="425" y2="30"/><line class="gl" x1="72" y1="74" x2="425" y2="74"/><line class="gl" x1="72" y1="118" x2="425" y2="118"/><line class="gl" x1="72" y1="162" x2="425" y2="162"/><line class="gl" x1="72" y1="206" x2="425" y2="206"/>
+        <text x="64" y="35" text-anchor="end">1,100</text><text x="64" y="79" text-anchor="end">1,080</text><text x="64" y="123" text-anchor="end">1,060</text><text x="64" y="167" text-anchor="end">1,040</text><text x="64" y="211" text-anchor="end">1,020</text><text x="64" y="255" text-anchor="end">1,000</text>
+        <rect x="125" y="162" width="100" height="88" rx="6" fill="#9ccfc6"/>
+        <rect x="275" y="30" width="100" height="220" rx="6" fill="#0f766e"/>
+        <line class="axis" x1="72" y1="250" x2="425" y2="250"/><line class="axis" x1="72" y1="26" x2="72" y2="250"/>
+        <text class="ax" x="175" y="276" text-anchor="middle">ינואר</text><text class="ax" x="325" y="276" text-anchor="middle">פברואר</text>
+      </svg>
+      <div class="cap">נתונים בדיוניים לדוגמה</div>
+    </div>
+    <div>
+      <p class="lead" style="margin:0 0 10px">לפי התרשים, פי כמה גדלו הצפיות מינואר לפברואר? כל אחד מצביע פעם אחת.</p>
+      <div class="vote v1">
+        <div class="voteItem"><div class="emoji">🚀</div><strong>פי 2 ויותר</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+        <div class="voteItem"><div class="emoji">📈</div><strong>בערך פי 1.5</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+        <div class="voteItem"><div class="emoji">🐢</div><strong>קצת, פחות מ-10%</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="התרשים השקרן" data-accent="#e76f86">
+  <span class="kicker">🕵️ חשיפה</span>
+  <h2>אותם מספרים, <span class="red">תרשים אחר</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ הציר מתחיל ב-1,000 · נראה כמו פי 2.5</span>
+      <svg class="chart" viewBox="0 0 440 300" role="img" aria-label="ציר חתוך">
+        <line class="gl" x1="72" y1="30" x2="425" y2="30"/><line class="gl" x1="72" y1="140" x2="425" y2="140"/>
+        <text x="64" y="35" text-anchor="end">1,100</text><text x="64" y="145" text-anchor="end">1,050</text><text x="64" y="255" text-anchor="end">1,000</text>
+        <rect x="125" y="162" width="100" height="88" rx="6" fill="#9ccfc6"/><rect x="275" y="30" width="100" height="220" rx="6" fill="#0f766e"/>
+        <text class="v" x="175" y="154" text-anchor="middle">1,040</text><text class="v" x="325" y="24" text-anchor="middle" dy="0">1,100</text>
+        <line class="axis" x1="72" y1="250" x2="425" y2="250"/><line class="axis" x1="72" y1="26" x2="72" y2="250"/>
+        <path class="cutMark" d="M62 236 l20 -8 M62 244 l20 -8"/>
+        <text class="ax" x="175" y="276" text-anchor="middle">ינואר</text><text class="ax" x="325" y="276" text-anchor="middle">פברואר</text>
+      </svg>
+    </div>
+    <div class="box good"><span class="label">✓ הציר מתחיל ב-0 · נראה כמו שזה באמת</span>
+      <svg class="chart" viewBox="0 0 440 300" role="img" aria-label="ציר מאפס">
+        <line class="gl" x1="72" y1="30" x2="425" y2="30"/><line class="gl" x1="72" y1="85" x2="425" y2="85"/><line class="gl" x1="72" y1="140" x2="425" y2="140"/><line class="gl" x1="72" y1="195" x2="425" y2="195"/>
+        <text x="64" y="35" text-anchor="end">1,200</text><text x="64" y="90" text-anchor="end">900</text><text x="64" y="145" text-anchor="end">600</text><text x="64" y="200" text-anchor="end">300</text><text x="64" y="255" text-anchor="end">0</text>
+        <rect x="125" y="59.3" width="100" height="190.7" rx="6" fill="#9ccfc6"/><rect x="275" y="48.3" width="100" height="201.7" rx="6" fill="#0f766e"/>
+        <text class="v" x="175" y="51" text-anchor="middle">1,040</text><text class="v" x="325" y="40" text-anchor="middle">1,100</text>
+        <line class="axis" x1="72" y1="250" x2="425" y2="250"/><line class="axis" x1="72" y1="26" x2="72" y2="250"/>
+        <text class="ax" x="175" y="276" text-anchor="middle">ינואר</text><text class="ax" x="325" y="276" text-anchor="middle">פברואר</text>
+      </svg>
+    </div>
+  </div>
+  <div class="truth reveal">🔎 <b>האמת:</b> הצפיות גדלו מ-1,040 ל-1,100, כלומר ב-60 צפיות. זה <b>בערך 6%</b>. הציר החתוך גרם לעלייה קטנה להיראות ענקית.</div>
+</section>
+
+<!-- ===================== ההפקות ===================== -->
+<section class="slide tight" data-topic="ההפקות" data-title="המשימה של היום" data-accent="#e3a82b">
+  <span class="kicker">🎬 המשימה של היום</span>
+  <h2>בסוף השיעור, לכל הפקה יהיו <span class="yellow">שלושה דברים</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">📊</div><strong>תרשים ישר</strong><p>מנתונים שאספתם בעצמכם בסקר בכיתה, ב-Google Sheets (או ב-Flourish), עם כותרת, צירים, יחידות ומקור.</p></div>
+    <div class="card"><div class="emoji">🖼️</div><strong>אינפוגרפיקה</strong><p>שקף אחד ב-Google Slides: התרשים, המסקנה העיקרית במשפט אחד, אייקונים ושורת מקור.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>סבב של 3 שאלות</strong><p>בוחן ב-Google Forms. את התשובות אפשר למצוא רק בתרשים שלכם.</p></div>
+  </div>
+  <div class="askBox" style="margin-top:16px">🎤 <b>ובסוף, השעשועון:</b> כל הפקה מארחת את הסבב שלה, וכל השאר עונים. מרוויחים נקודות על תשובות נכונות, <b>וגם על תרשים כל כך ברור שהמתחרים עונים עליו נכון.</b></div>
+</section>
+
+<section class="slide tight" data-topic="ההפקות" data-title="התפקידים בהפקה" data-accent="#8c7ae6">
+  <span class="kicker">👥 ההפקה שלכם</span>
+  <h2>חמישה תפקידים, הפקה אחת</h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎬</div><strong>מפיק/ה</strong><p>מחזיק/ה את הזמן ואת שאלת הסקר, מוביל/ה החלטות, ורק הוא/היא קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">📋</div><strong>סוקר/ת</strong><p>בונה את הסקר ב-Forms, מפיץ/ה לכיתה ובודק/ת שאין תשובות כפולות.</p></div>
+    <div class="card"><div class="emoji">📊</div><strong>גרפיקאי/ת נתונים</strong><p>מסדר/ת את הטבלה ב-Sheets, בוחר/ת סוג תרשים ובונה אותו.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>כותב/ת השאלות</strong><p>כותב/ת 3 שאלות לבוחן, שהתשובה הנכונה שלהן נמצאת בתרשים.</p></div>
+    <div class="card"><div class="emoji">🎤</div><strong>מגיש/ה</strong><p>מעצב/ת את האינפוגרפיקה, מגיש/ה בטופס ומנחה את הסבב על הבמה.</p></div>
+  </div>
+  <div class="timerRow"><p class="lead" style="margin:12px 0 0">⏱ 3 דקות: מחלקים תפקידים ובוחרים <b>שם להפקה</b>.</p><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+  <p class="note">בהפקה של 4: המפיק/ה הוא גם הסוקר/ת. בהפקה של 6: שני גרפיקאים, אחד ב-Sheets ואחד ב-Flourish.</p>
+</section>
+
+<section class="slide tight" data-topic="ההפקות" data-title="בחרו נושא" data-accent="#4c8bd6">
+  <span class="kicker">🎰 נושא הסקר</span>
+  <h2>על מה תשאלו את הכיתה?</h2>
+  <div class="topics" id="topicGrid">
+    <button class="topic" data-tp="0"><span class="em">🐶</span><span>חיית מחמד חלומית<small>כלב, חתול, דג, ארנב...</small></span></button>
+    <button class="topic" data-tp="1"><span class="em">😴</span><span>כמה ישנתי אתמול<small>בטווחים של שעות</small></span></button>
+    <button class="topic" data-tp="2"><span class="em">⚽</span><span>הספורט האהוב<small>לשחק או לצפות</small></span></button>
+    <button class="topic" data-tp="3"><span class="em">🥣</span><span>ארוחת הבוקר של היום<small>כולל "לא אכלתי"</small></span></button>
+    <button class="topic" data-tp="4"><span class="em">🚌</span><span>איך הגעתי היום<small>ברגל, אוטובוס, רכב...</small></span></button>
+    <button class="topic" data-tp="5"><span class="em">🍕</span><span>התוספת האהובה על פיצה<small>זיתים, תירס, פטריות...</small></span></button>
+    <button class="topic" data-tp="6"><span class="em">📚</span><span>כמה ספרים קראתי החודש<small>0, 1, 2, 3 ויותר</small></span></button>
+    <button class="topic" data-tp="7"><span class="em">🌦️</span><span>העונה האהובה<small>וגם למה</small></span></button>
+    <button class="topic" data-tp="8"><span class="em">🎵</span><span>סגנון המוזיקה האהוב<small>פופ, ראפ, רוק, מזרחית...</small></span></button>
+    <button class="topic" data-tp="9"><span class="em">🎮</span><span>סוג המשחק האהוב<small>ספורט, הרפתקה, פאזל...</small></span></button>
+    <button class="topic" data-tp="10"><span class="em">🦸</span><span>כוח-על שהייתי בוחר/ת<small>תעופה, היעלמות...</small></span></button>
+    <button class="topic" data-tp="11"><span class="em">🌍</span><span>מאגר נתונים פתוח<small>מהדף המודפס</small></span></button>
+  </div>
+  <div class="drawRow"><button class="btn" data-act="drawTopic">🎰 הגרלת נושא</button><button class="ghost" data-act="resetTopics">↺ ניקוי</button><span class="drawOut" id="drawOut"></span></div>
+  <p class="note">לחיצה על נושא מסמנת אותו כתפוס. לכל הפקה נושא אחר. בסקר לא שואלים על פרטים אישיים או על אנשים בשמם.</p>
+</section>
+
+<section class="slide tight liveS" data-topic="ההפקות" data-title="לוח ההפקות" data-accent="#4c8bd6">
+  <span class="kicker">📺 לוח ההפקות</span>
+  <h2>מי משתתף בשעשועון?</h2>
+  <p class="lead">כל מפיק/ה מכתיב/ה את שם ההפקה ואת נושא הסקר. השמות יופיעו בבמה ובלוח הניקוד.</p>
+  <div class="tableWrap"><table class="t live" id="teamsTable"></table></div>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ הפקה</button><button class="ghost" data-act="delTeam">− הפקה</button></div>
+</section>
+
+<!-- ===================== תרשים ישר ===================== -->
+<section class="slide tight" data-topic="תרשים ישר" data-title="איזה תרשים מתי?" data-accent="#5bb5a2">
+  <span class="kicker">📐 סוגי תרשימים</span>
+  <h2>איזה תרשים מתי?</h2>
+  <div class="cards four">
+    <div class="card"><svg class="mini" viewBox="0 0 160 80" aria-hidden="true"><rect x="18" y="38" width="22" height="38" rx="3" fill="#f4a259"/><rect x="52" y="14" width="22" height="62" rx="3" fill="#f4a259"/><rect x="86" y="48" width="22" height="28" rx="3" fill="#f4a259"/><rect x="120" y="28" width="22" height="48" rx="3" fill="#f4a259"/><line x1="10" y1="76" x2="152" y2="76" stroke="#8a93a1" stroke-width="2"/></svg><strong>עמודות</strong><p>משווים בין קבוצות: מה בחרו הכי הרבה?</p><span class="q">"איזה ספורט הכי אהוב?"</span></div>
+    <div class="card"><svg class="mini" viewBox="0 0 160 80" aria-hidden="true"><polyline points="12,62 40,50 68,56 96,30 124,34 150,12" fill="none" stroke="#5bb5a2" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><g fill="#5bb5a2"><circle cx="12" cy="62" r="4"/><circle cx="40" cy="50" r="4"/><circle cx="68" cy="56" r="4"/><circle cx="96" cy="30" r="4"/><circle cx="124" cy="34" r="4"/><circle cx="150" cy="12" r="4"/></g><line x1="6" y1="76" x2="156" y2="76" stroke="#8a93a1" stroke-width="2"/></svg><strong>קו</strong><p>שינוי לאורך זמן: ימים, חודשים, שנים.</p><span class="q">"כמה מעלות היו כל יום?"</span></div>
+    <div class="card"><svg class="mini" viewBox="0 0 160 80" aria-hidden="true"><g transform="translate(80 40) rotate(-90)"><circle r="31.83" fill="none" stroke="#8c7ae6" stroke-width="18" stroke-dasharray="100 200" pathLength="200"/><circle r="31.83" fill="none" stroke="#e76f86" stroke-width="18" stroke-dasharray="60 200" stroke-dashoffset="-100" pathLength="200"/><circle r="31.83" fill="none" stroke="#4c8bd6" stroke-width="18" stroke-dasharray="40 200" stroke-dashoffset="-160" pathLength="200"/></g></svg><strong>עוגה</strong><p>חלקים מתוך שלם שמסתכם ל-100%. עד 5 חלקים.</p><span class="q">"איזה חלק מהכיתה בא ברגל?"</span></div>
+    <div class="card"><svg class="mini" viewBox="0 0 160 80" aria-hidden="true"><rect x="20" y="8" width="120" height="64" rx="6" fill="#fff" stroke="#8a93a1" stroke-width="2"/><rect x="20" y="8" width="120" height="16" rx="6" fill="#e3f1ee"/><line x1="20" y1="40" x2="140" y2="40" stroke="#d9d3c8"/><line x1="20" y1="56" x2="140" y2="56" stroke="#d9d3c8"/><line x1="80" y1="8" x2="80" y2="72" stroke="#d9d3c8"/></svg><strong>טבלה</strong><p>כשצריך את המספר המדויק, לא את התמונה הכללית.</p><span class="q">"מה הציון של כל אחד?"</span></div>
+  </div>
+  <p class="note">תיבות סימון (אפשר לבחור כמה תשובות)? אז החלקים לא מסתכמים ל-100%, ועוגה לא מתאימה. בוחרים עמודות.</p>
+</section>
+
+<section class="slide tight" data-topic="תרשים ישר" data-title="התאימו תרשים לשאלה" data-accent="#5bb5a2">
+  <span class="kicker">⚡ תרגול בזק</span>
+  <h2>איזה תרשים מתאים לשאלה?</h2>
+  <div class="match">
+    <div class="mRow" data-ans="line"><span><span class="qn">1</span>איך השתנה מספר התלמידים בבית הספר מ-2018 עד 2025?</span><div class="mBtns"><button data-v="bar">📊 עמודות</button><button data-v="line">📈 קו</button><button data-v="pie">🥧 עוגה</button></div><div class="mNote">קו: שינוי לאורך זמן. כל נקודה היא שנה.</div></div>
+    <div class="mRow" data-ans="bar"><span><span class="qn">2</span>איזה מקצוע הכי אהוב בכיתה: מתמטיקה, אנגלית, ספורט או אמנות?</span><div class="mBtns"><button data-v="bar">📊 עמודות</button><button data-v="line">📈 קו</button><button data-v="pie">🥧 עוגה</button></div><div class="mNote">עמודות: משווים בין קבוצות. רואים מיד איזו עמודה הכי גבוהה.</div></div>
+    <div class="mRow" data-ans="pie"><span><span class="qn">3</span>איזה חלק מהכיתה מגיע ברגל, באוטובוס או ברכב? (כל אחד בחר תשובה אחת)</span><div class="mBtns"><button data-v="bar">📊 עמודות</button><button data-v="line">📈 קו</button><button data-v="pie">🥧 עוגה</button></div><div class="mNote">עוגה: חלקים משלם, וכל אחד בחר רק תשובה אחת, אז זה מסתכם ל-100%. גם עמודות יעבדו.</div></div>
+    <div class="mRow" data-ans="line"><span><span class="qn">4</span>כמה מעלות היו בכל יום בשבוע שעבר?</span><div class="mBtns"><button data-v="bar">📊 עמודות</button><button data-v="line">📈 קו</button><button data-v="pie">🥧 עוגה</button></div><div class="mNote">קו: הימים הם ציר זמן, ורואים אם התחמם או התקרר.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="תרשים ישר" data-title="חמשת סימני היושר" data-accent="#0f766e">
+  <span class="kicker">✅ בדיקת תרשים</span>
+  <h2>חמשת סימני היושר</h2>
+  <p class="lead">תרשים שעובר את כל החמישה יכול להשתתף בשעשועון. תרשים שנכשל באחד מהם נפסל עד שמתקנים.</p>
+  <div class="signs">
+    <div class="sign reveal"><span class="n">🏷️</span><b>כותרת</b><p>אומרת על מה התרשים, ואפילו מה המסקנה, בלי להגזים.</p></div>
+    <div class="sign reveal"><span class="n">↔️</span><b>צירים</b><p>לכל ציר יש שם: מה בשורה התחתונה ומה בצד.</p></div>
+    <div class="sign reveal"><span class="n">📏</span><b>יחידות</b><p>תלמידים? שעות? אחוזים? כתוב ליד המספרים.</p></div>
+    <div class="sign reveal"><span class="n">0️⃣</span><b>אפס</b><p>בעמודות, הציר האנכי מתחיל ב-0. אחרת העמודות משקרות.</p></div>
+    <div class="sign reveal"><span class="n">🔗</span><b>מקור</b><p>מי ענה, כמה ענו ומתי: "סקר בכיתה ז׳3, 26 עונים".</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף סימן אחרי סימן</div>
+</section>
+
+<section class="slide tight" data-topic="תרשים ישר" data-title="אמת או המצאה" data-accent="#e76f86">
+  <span class="kicker">🕵️ אמת או המצאה?</span>
+  <h2>מה נכון, ומה המצאה?</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>תרשים עוגה שהחלקים שלו מסתכמים ל-120% יכול להיות נכון.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. עוגה היא שלם אחד, 100%. אם אפשר היה לבחור כמה תשובות, משתמשים בעמודות.</div></div>
+    <div class="tfRow" data-true="0"><span>בתרשים עמודות, ציר שמתחיל ב-50 ולא ב-0 זה בסדר.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. בעמודות, האורך של העמודה הוא המספר. ציר חתוך מנפח את ההבדלים, כמו בשאלת הפתיחה.</div></div>
+    <div class="tfRow" data-true="1"><span>בתרשים קו, אפשר שהציר לא יתחיל ב-0, אם המספרים על הציר כתובים בבירור.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">נכון. תרשים קו מראה שינוי, ולפעמים מתקרבים כדי לראות אותו. אבל חייבים לראות את המספרים על הציר.</div></div>
+    <div class="tfRow" data-true="0"><span>6 תלמידים ענו על סקר, אז אפשר לכתוב בכותרת: "כל בני הנוער אוהבים פיצה".</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. 6 עונים מספרים רק על 6 אנשים. כותבים "4 מתוך 6 עונים בכיתה בחרו פיצה".</div></div>
+    <div class="tfRow" data-true="0"><span>Gemini תמיד מחשב אחוזים נכון, אז אין צורך לבדוק.</span><div class="tfBtns"><button data-v="1">✓ נכון</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. צ׳אטבוטים טועים לפעמים בחישובים. מחשבים בעצמנו (או ב-Sheets), ובודקים.</div></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="תרשים ישר" data-title="פלורנס נייטינגייל" data-accent="#4c8bd6">
+  <span class="kicker">📜 סיפור אמיתי · 1858</span>
+  <h2>התרשים שהציל חיים</h2>
+  <div class="caseWrap">
+    <div class="facts">
+      <div class="fact"><span class="em">👩‍⚕️</span><span><b>פלורנס נייטינגייל</b> הייתה אחות בריטית, שעבדה עם חיילים פצועים בבית החולים הצבאי בסקוטרי, בזמן מלחמת קרים.</span></div>
+      <div class="fact"><span class="em">🦠</span><span>בחורף הראשון שלה שם, <b>מחלות הרגו בערך פי עשרה חיילים</b> מאשר פצעים מהקרב.</span></div>
+      <div class="fact"><span class="em">🌹</span><span>ב-1858 היא פרסמה תרשים קוטבי שנקרא "הוורד" בגלל הצורה שלו. כל פרוסה היא חודש, והשטח הכחול הוא מוות ממחלות.</span></div>
+      <div class="fact"><span class="em">🏛️</span><span>היא השתמשה בתרשימים כאלה כדי לשכנע חברי פרלמנט ופקידים <b>שלא היו קוראים דוחות סטטיסטיים.</b></span></div>
+    </div>
+    <div class="roseBox">
+      <svg id="roseSvg" viewBox="0 0 320 320" role="img" aria-label="המחשה של תרשים הוורד"></svg>
+      <div class="legendR"><span><i style="background:#7fa7c9"></i>מחלות</span><span><i style="background:#e76f86"></i>פצעים</span><span><i style="background:#3d4654"></i>סיבות אחרות</span></div>
+      <div class="note" style="margin-top:4px">המחשה לפי הנתונים של אפריל 1854 עד מרץ 1855 · מקור: Wikipedia</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="תרשים ישר" data-title="למה תרשים ולא טבלה?" data-accent="#4c8bd6">
+  <span class="kicker">💬 דיון בצוות · דקה</span>
+  <h2>למה תרשים שכנע אנשים שטבלה של מספרים לא שכנעה?</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">👀 רואים את הפער בשנייה: השטח הכחול ענק לעומת האדום.</div>
+    <div class="revealCard reveal">⏱️ לא צריך לקרוא מאות מספרים כדי להבין את המסקנה.</div>
+    <div class="revealCard reveal">📖 התרשים מספר סיפור: מה הורג את החיילים, ומה אפשר לתקן (ניקיון, מים, אוורור).</div>
+    <div class="revealCard reveal">⚠️ וגם: בדיוק בגלל שתרשים משכנע כל כך, תרשים מטעה מסוכן. לכן בודקים אותו.</div>
+  </div>
+  <div class="clickHint">קודם עונים בצוות, ואז לוחצים "הבא"</div>
+</section>
+
+<section class="slide tight nh" data-topic="תרשים ישר" data-title="ראשים ממוספרים" data-accent="#8c7ae6">
+  <span class="kicker">🔢 ראשים ממוספרים</span>
+  <h2>קוראים תרשים כמו מקצוענים</h2>
+  <div class="row2 wideL">
+    <div class="chartBox">
+      <h4>איך הגענו היום לבית הספר?</h4>
+      <svg class="chart" viewBox="0 0 440 300" role="img" aria-label="תרשים עמודות: איך הגענו לבית הספר">
+        <line class="gl" x1="62" y1="30" x2="425" y2="30"/><line class="gl" x1="62" y1="74" x2="425" y2="74"/><line class="gl" x1="62" y1="118" x2="425" y2="118"/><line class="gl" x1="62" y1="162" x2="425" y2="162"/><line class="gl" x1="62" y1="206" x2="425" y2="206"/>
+        <text x="54" y="35" text-anchor="end">10</text><text x="54" y="79" text-anchor="end">8</text><text x="54" y="123" text-anchor="end">6</text><text x="54" y="167" text-anchor="end">4</text><text x="54" y="211" text-anchor="end">2</text><text x="54" y="255" text-anchor="end">0</text>
+        <rect x="85" y="52" width="62" height="198" rx="6" fill="#0f766e"/><rect x="170" y="96" width="62" height="154" rx="6" fill="#f4a259"/><rect x="255" y="140" width="62" height="110" rx="6" fill="#8c7ae6"/><rect x="340" y="184" width="62" height="66" rx="6" fill="#4c8bd6"/>
+        <text class="v" x="116" y="45" text-anchor="middle">9</text><text class="v" x="201" y="89" text-anchor="middle">7</text><text class="v" x="286" y="133" text-anchor="middle">5</text><text class="v" x="371" y="177" text-anchor="middle">3</text>
+        <line class="axis" x1="62" y1="250" x2="425" y2="250"/><line class="axis" x1="62" y1="26" x2="62" y2="250"/>
+        <text class="ax" x="116" y="274" text-anchor="middle">ברגל</text><text class="ax" x="201" y="274" text-anchor="middle">אוטובוס</text><text class="ax" x="286" y="274" text-anchor="middle">רכב</text><text class="ax" x="371" y="274" text-anchor="middle">אופניים</text>
+        <text x="18" y="140" text-anchor="middle" transform="rotate(-90 18 140)">מספר תלמידים</text>
+      </svg>
+      <div class="cap">מקור: סקר בכיתה, 24 עונים (נתונים בדיוניים לדוגמה)</div>
+    </div>
+    <div class="match" style="margin-top:0">
+      <div class="mRow" data-ans="b"><span><span class="qn">1</span>כמה תלמידים הגיעו באוטובוס?</span><div class="mBtns"><button data-v="a">5</button><button data-v="b">7</button><button data-v="c">9</button></div><div class="mNote">7. קוראים את גובה העמודה הכתומה.</div></div>
+      <div class="mRow" data-ans="b"><span><span class="qn">2</span>בכמה יותר תלמידים הגיעו ברגל מאשר ברכב?</span><div class="mBtns"><button data-v="a">2</button><button data-v="b">4</button><button data-v="c">14</button></div><div class="mNote">9 פחות 5 = 4. שאלת השוואה בין שתי עמודות.</div></div>
+      <div class="mRow" data-ans="b"><span><span class="qn">3</span>איזה חלק מהכיתה הגיע ברגל?</span><div class="mBtns"><button data-v="a">בערך רבע</button><button data-v="b">קצת יותר משליש</button><button data-v="c">יותר מחצי</button></div><div class="mNote">9 מתוך 24 = 37.5%. שליש הוא 8 מתוך 24, אז זה קצת יותר משליש.</div></div>
+    </div>
+  </div>
+  <p class="note">בכל צוות כל אחד מקבל מספר 1–5. מתייעצים 20 שניות, ואז המדריך/ה קורא/ת מספר, ומי שקיבל אותו עונה בשם הצוות.</p>
+</section>
+
+<!-- ===================== הדגמה ===================== -->
+<section class="slide tight" data-topic="הדגמה" data-title="סקר ב-Forms" data-accent="#8c7ae6">
+  <span class="kicker">🛠️ הדגמה · Google Forms</span>
+  <h2>סקר של שאלה אחת, ב-4 צעדים</h2>
+  <div class="steps tightS">
+    <div class="step"><strong>טופס ריק</strong><p><span class="ui">forms.google.com</span> ← טופס ריק. שם: "סקר · הפקת ___".</p></div>
+    <div class="step"><strong>שאלה אמריקאית</strong><p>שאלה אחת ברורה, 3–6 תשובות, ו"אחר" רק אם צריך. מתג <span class="ui">חובה</span>.</p></div>
+    <div class="step"><strong>בלי פרטים אישיים</strong><p><span class="ui">הגדרות</span> ← <span class="ui">תגובות</span>: איסוף כתובות אימייל כבוי. לא שואלים שמות.</p></div>
+    <div class="step"><strong>פרסום וקישור</strong><p><span class="ui">פרסום</span> ← <span class="ui">העתקת הקישור של המשיב</span> ← <span class="ui">קיצור כתובת URL</span>.</p></div>
+  </div>
+  <div class="compare" style="margin-top:14px">
+    <div class="box bad"><span class="label">✗ שאלה עמומה</span>"מה דעתך על ספורט?"</div>
+    <div class="box good"><span class="label">✓ שאלה שאפשר לספור</span>"איזה ספורט את/ה הכי אוהב/ת? כדורגל · כדורסל · שחייה · ריקוד · אחר"</div>
+  </div>
+  <p class="note">טופס שלא פורסם לא מקבל תשובות. אחרי שליחת הקישור, בודקים שהכפתור מראה "פורסם".</p>
+</section>
+
+<section class="slide tight" data-topic="הדגמה" data-title="מטבלה לתרשים" data-accent="#0f766e">
+  <span class="kicker">🛠️ הדגמה · Google Sheets</span>
+  <h2>מהתשובות לטבלה, ומהטבלה לתרשים</h2>
+  <div class="row2 wideL">
+    <div class="sheet">
+      <table>
+        <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+        <tr><td class="rn">1</td><td class="h sel">תשובה</td><td class="h sel">מספר תלמידים</td><td class="h">אחוז</td></tr>
+        <tr><td class="rn">2</td><td class="sel">כדורגל</td><td class="sel">9</td><td class="f">=B2/B$7</td></tr>
+        <tr><td class="rn">3</td><td class="sel">כדורסל</td><td class="sel">7</td><td>27%</td></tr>
+        <tr><td class="rn">4</td><td class="sel">שחייה</td><td class="sel">4</td><td>15%</td></tr>
+        <tr><td class="rn">5</td><td class="sel">ריקוד</td><td class="sel">4</td><td>15%</td></tr>
+        <tr><td class="rn">6</td><td class="sel">אחר</td><td class="sel">2</td><td>8%</td></tr>
+        <tr><td class="rn">7</td><td class="h">סה״כ</td><td class="f">=SUM(B2:B6)</td><td>100%</td></tr>
+      </table>
+    </div>
+    <div class="steps col tightS" style="margin-top:0">
+      <div class="step"><strong>סופרים</strong><p>ב-Forms: <span class="ui">תשובות</span> ← <span class="ui">סיכום</span>, ומעתיקים את המספרים. או: <span class="ui">קישור אל Sheets</span>.</p></div>
+      <div class="step"><strong>מסמנים</strong><p>את A1:B6 (התשובות והמספרים, בלי שורת הסה״כ).</p></div>
+      <div class="step"><strong>יוצרים תרשים</strong><p><span class="ui">הוספה</span> ← <span class="ui">תרשים</span> ← בעורך: <span class="ui">הגדרה</span> ← סוג התרשים.</p></div>
+      <div class="step"><strong>מתקנים</strong><p><span class="ui">התאמה אישית</span>: כותרת, שמות צירים, ובציר האנכי מינימום 0.</p></div>
+    </div>
+  </div>
+  <p class="note">אלופים: סופרים בנוסחה <span class="ui" dir="ltr">=COUNTIF(B:B,"כדורגל")</span> על לשונית התשובות. האחוזים צריכים להסתכם ל-100%.</p>
+</section>
+
+<section class="slide tight" data-topic="הדגמה" data-title="בוחן ב-Forms" data-accent="#8c7ae6">
+  <span class="kicker">🛠️ הדגמה · בוחן ב-Google Forms</span>
+  <h2>הסבב שלכם: בוחן של 3 שאלות</h2>
+  <div class="steps tightS">
+    <div class="step"><strong>הופכים לבוחן</strong><p>טופס חדש ← <span class="ui">הגדרות</span> ← מפעילים <span class="ui">הפיכה לבוחן</span>. שחרור הציון: מיד אחרי השליחה.</p></div>
+    <div class="step"><strong>שאלת "מי אתם?"</strong><p>שאלה ראשונה: "איזו הפקה אתם?", רשימה נפתחת עם כל השמות. 0 נקודות.</p></div>
+    <div class="step"><strong>3 שאלות</strong><p>שאלות אמריקאיות, 3–4 תשובות לכל אחת. כל התשובות נמצאות בתרשים.</p></div>
+    <div class="step"><strong>מפתח תשובות</strong><p>בכל שאלה: <span class="ui">מפתח תשובות</span> ← מסמנים את הנכונה ← נקודה אחת.</p></div>
+    <div class="step"><strong>פרסום ובדיקה</strong><p><span class="ui">פרסום</span> ← קישור מקוצר. ניסיון אחד, ואז מוחקים את תשובת הניסיון.</p></div>
+  </div>
+  <div class="askBox">🎯 <b>הטריק:</b> תשובות שגויות שנראות הגיוניות, למשל המספר של העמודה השכנה. כך רק מי שקורא את התרשים טוב עונה נכון.</div>
+</section>
+
+<section class="slide tight" data-topic="הדגמה" data-title="Gemini כבודק" data-accent="#4c8bd6">
+  <span class="kicker">🤖 Gemini כבודק, לא כמחשבון</span>
+  <h2>ה-AI בודק אתכם. את החישוב אתם עושים.</h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">הנה תיאור התרשים שלנו: כותרת "<span class="fillin" contenteditable="true">איזה ספורט הכי אהוב בכיתה?</span>", ציר אנכי: <span class="fillin" contenteditable="true">מספר תלמידים, מ-0 עד 10</span>, ערכים: <span class="fillin" contenteditable="true">כדורגל 9, כדורסל 7, שחייה 4, ריקוד 4, אחר 2</span>. האם התרשים עלול להטעות? בדוק את הציר, האחוזים, היחידות והכותרת. אל תחשב בשבילנו.</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">כתבנו 3 שאלות לשעשועון על התרשים: <span class="fillin" contenteditable="true">[השאלות]</span>. האם אפשר לענות על כל אחת רק מהתרשים? איזו שאלה אפשר לנחש בלי להסתכל?</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">חישבנו ש-<span class="fillin" contenteditable="true">9</span> מתוך <span class="fillin" contenteditable="true">26</span> הם <span class="fillin" contenteditable="true">35%</span>. האם החישוב נכון? הראה את הדרך.</span></div>
+  <p class="editHint">✏️ אפשר לערוך את החלקים הצהובים לפני ההעתקה · 🔒 לא מקלידים שמות של תלמידים או פרטים אישיים</p>
+</section>
+
+<!-- ===================== האתגר ===================== -->
+<section class="slide tight" data-topic="האתגר" data-title="גביע השעשועון" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏆 האתגר</span>
+  <h2>גביע "מה המספרים אומרים?"</h2>
+  <div class="task"><strong>החוקים</strong><ol>
+    <li>הנתונים נאספים בשיעור (סקר בכיתה) או מהמאגר המודפס. <b>לא ממציאים מספרים.</b></li>
+    <li>לתרשים יש כותרת, צירים עם יחידות, ובעמודות הציר האנכי מתחיל ב-0.</li>
+    <li>על כל אחת משלוש השאלות אפשר לענות רק מתוך התרשים.</li>
+    <li>תרשים מטעה (ציר חתוך, אחוזים שלא מסתכמים) נפסל עד שמתקנים.</li>
+    <li>בשעשועון כל הפקה עונה בטופס של ההפקה המארחת: 30 שניות לשאלה.</li>
+    <li>בסקר לא שואלים על פרטים אישיים או על אנשים בשמם.</li>
+  </ol></div>
+  <div class="askBox">🎯 <b>איך מנצחים:</b> הכי הרבה נקודות בסוף השעשועון. <b>בתיקו:</b> מנצחת ההפקה עם יותר נקודות בהירות.</div>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🔢 הניקוד ידוע מראש</span>
+  <h2>ככה צוברים נקודות</h2>
+  <div class="tableWrap slim"><table class="t">
+    <thead><tr><th>על מה</th><th style="text-align:center">נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>🧠 תשובה נכונה בסבב של הפקה אחרת</td><td class="pts">2 לכל תשובה</td></tr>
+      <tr><td>🔍 בהירות: כל תשובה נכונה של הפקה אחרת בסבב <b>שלכם</b></td><td class="pts">1 (עד 6 לסבב)</td></tr>
+      <tr><td>📊 תרשים עם כותרת, צירים, יחידות ומקור</td><td class="pts">4</td></tr>
+      <tr><td>🕵️ תרשים שעבר את "מבחן ההטעיה" בלי תיקון</td><td class="pts">2</td></tr>
+      <tr><td>🖼️ אינפוגרפיקה עם מסקנה אחת במשפט</td><td class="pts">2</td></tr>
+      <tr><td>🎬 ציון המפיקים לפי המחוון (4 קריטריונים × 1–4)</td><td class="pts">עד 16</td></tr>
+    </tbody></table></div>
+  <div class="winline"><span>🏆 <b>גביע השעשועון</b> · הכי הרבה נקודות</span><span>🔍 <b>הכי ברור</b> · הכי הרבה תשובות נכונות בסבב שלכם</span><span>🧠 <b>אלופי המספרים</b> · הכי הרבה תשובות נכונות בסבבים של אחרים</span><span>😲 <b>הנתון המפתיע</b> · בהצבעת ההפקות</span></div>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📋 המחוון של המפיקים</span>
+  <h2>ככה קובעים את ציון המפיקים</h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th>🌱 מתחיל · 1</th><th>🌿 מתפתח · 2</th><th>🌳 מיומן · 3</th><th>🚀 מצטיין · 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>נתונים</td><td>מספרים בלי מקור, או ממוצאים</td><td>נתונים אמיתיים, אבל לא מסודרים</td><td>טבלה מסודרת עם מקור וכמה ענו</td><td>וגם בדיקה של טעויות או של תשובות כפולות</td></tr>
+      <tr class="reveal"><td>תרשים ישר וברור</td><td>בלי כותרת או בלי צירים</td><td>יש כותרת, חסרות יחידות או אפס</td><td>כותרת, צירים, יחידות, אפס וסוג תרשים מתאים</td><td>וגם כותרת שאומרת את המסקנה בלי להגזים</td></tr>
+      <tr class="reveal"><td>שאלות הסבב</td><td>שאלות שלא קשורות לתרשים</td><td>שאלות שאפשר לנחש בלי התרשים</td><td>3 שאלות שהתשובה עליהן בתרשים</td><td>3 שאלות בקושי עולה, כולל השוואה בין שני נתונים</td></tr>
+      <tr class="reveal"><td>צוות ושקיפות AI</td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כתוב רק "השתמשנו ב-AI&rlm;"</td><td>כתוב מה ה-AI הציע ומה בדקנו בעצמנו</td><td>וגם איזו טעות של ה-AI תפסנו ומה שינינו</td></tr>
+    </tbody></table></div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף שורה אחרי שורה</div>
+</section>
+
+<!-- ===================== ספרינט 1 ===================== -->
+<section class="slide tight bigTimer" data-topic="ספרינט 1" data-title="ספרינט 1: סקר ותרשים" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <span class="kicker">🏃 ספרינט 1 · 20 דקות</span>
+  <h2>סקר, תשובות, תרשים</h2>
+  <span class="light y">🟡 AI לבדיקה ולרעיונות בלבד · את הספירה והחישוב עושים בעצמנו</span>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 8</small><p>📋 הסקר באוויר, והקישור בלוח השידור.</p></div>
+    <div class="mile"><small>דקות 8–13</small><p>🙋 כולם עונים לכולם: על כל הסקרים בכיתה.</p></div>
+    <div class="mile"><small>דקות 13–20</small><p>📊 טבלה מסודרת ותרשים ראשון עם 5 סימני היושר.</p></div>
+  </div>
+  <div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight liveS" data-topic="ספרינט 1" data-title="כולם עונים לכולם" data-accent="#0f766e">
+  <span class="kicker">🙋 איסוף נתונים</span>
+  <h2>כולם עונים לכולם</h2>
+  <div class="linkBox">📺 לוח השידור: <span class="fillin" contenteditable="true" data-k="boardLink">bit.ly/_____</span></div>
+  <p class="lead" style="margin-top:8px">כל סוקר/ת מדביק/ה את קישור הסקר בלוח השידור. כל אחד בכיתה עונה על <b>כל</b> הסקרים, גם על של ההפקה שלו. המטרה: <b>20 תשובות ויותר לכל סקר.</b></p>
+  <div class="tableWrap"><table class="t live" id="liveBoard"></table></div>
+</section>
+
+<!-- ===================== מבחן ההטעיה ===================== -->
+<section class="slide tight" data-topic="מבחן ההטעיה" data-title="מבחן ההטעיה" data-accent="#e76f86">
+  <span class="kicker">🕵️ נקודת ביקורת · 6 דקות</span>
+  <h2>מבחן ההטעיה</h2>
+  <span class="light r">🔴 בלי AI · רק עיניים ועיפרון</span>
+  <div class="cards four compact">
+    <div class="card"><div class="emoji">🤐</div><strong>1. מראים בלי מילים</strong><p>מציגים את התרשים להפקה השכנה. אסור להסביר.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>2. משפט אחד</strong><p>השכנים כותבים בדף: "מהתרשים הבנו ש...".</p></div>
+    <div class="card"><div class="emoji">✅</div><strong>3. חמשת הסימנים</strong><p>כותרת · צירים · יחידות · אפס · מקור. מסמנים ✓ או ✗.</p></div>
+    <div class="card"><div class="emoji">🔁</div><strong>4. משווים</strong><p>אותו משפט שהתכוונתם? מעולה. משפט אחר? מתקנים.</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><p class="lead" style="margin:12px 0 0">עבר בלי תיקון = <b>2 נקודות</b>.</p></div>
+</section>
+
+<section class="slide tight center" data-topic="מבחן ההטעיה" data-title="תרשים אנושי" data-accent="#f4a259">
+  <span class="kicker">🧍 קום, תזוז · דקה</span>
+  <h2>הכיתה היא תרשים עמודות!</h2>
+  <p class="lead">עומדים בטורים לפי <b>העונה שבה נולדתם</b>. כל טור הוא עמודה.</p>
+  <div class="human" aria-hidden="true">
+    <div class="colH"><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span></div><div class="colH"><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span></div><div class="colH"><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span></div><div class="colH"><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span><span>🧍</span></div>
+  </div>
+  <div class="humanLabels"><span>❄️ חורף</span><span>🌸 אביב</span><span>☀️ קיץ</span><span>🍂 סתיו</span></div>
+  <div class="revealList" style="text-align:right;max-width:900px">
+    <div class="revealCard reveal">❓ מה הציר האנכי? ומה היחידות? (תלמידים)</div>
+    <div class="revealCard reveal">🪑 ומה אם טור אחד עולה על כיסאות? זה בדיוק "ציר חתוך"!</div>
+  </div>
+</section>
+
+<!-- ===================== ספרינט 2 ===================== -->
+<section class="slide tight bigTimer" data-topic="ספרינט 2" data-title="ספרינט 2: סבב ואינפוגרפיקה" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">🏃 ספרינט 2 · 15 דקות</span>
+  <h2>סבב השאלות והאינפוגרפיקה</h2>
+  <span class="light g">🟢 AI כשותף: לבדוק שאלות ולהציע כותרות · ותמיד בודקים אותו</span>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 6</small><p>❓ 3 שאלות בבוחן, עם מפתח תשובות.</p></div>
+    <div class="mile"><small>עד דקה 11</small><p>🖼️ אינפוגרפיקה: מסקנה במשפט, תרשים, מקור.</p></div>
+    <div class="mile"><small>עד דקה 15</small><p>🧪 ניסיון בבוחן, מחיקת הניסיון, קישורים בלוח השידור.</p></div>
+  </div>
+  <div class="timer" data-seconds="900"><output>15:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="שאלה טובה לשעשועון" data-accent="#e3a82b">
+  <span class="kicker">❓ שאלה טובה לשעשועון</span>
+  <h2>אפשר לענות בלי התרשים? <span class="yellow">אז זו לא שאלה לסבב.</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ עונים בלי להסתכל</span>"מה הצבע האהוב עליך?"<br><small style="color:var(--muted)">כל אחד עונה מהלב. אין תשובה נכונה בתרשים.</small></div>
+    <div class="box good"><span class="label">✓ חייבים את התרשים</span>"בכמה יותר תלמידים בחרו כחול מאשר ירוק?"<br><small style="color:var(--muted)">רק מי שקורא את שתי העמודות ומחסר יודע.</small></div>
+    <div class="box bad"><span class="label">✗ ניחוש</span>"האם פיצה טעימה?"</div>
+    <div class="box good"><span class="label">✓ קריאה של התרשים</span>"כמה תלמידים ענו על הסקר?"</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="סולם השאלות" data-accent="#e3a82b">
+  <span class="kicker">🪜 סולם השאלות</span>
+  <h2>3 שאלות, מהקלה לקשה</h2>
+  <div class="steps">
+    <div class="step"><strong>🥉 קריאה</strong><p>"איזו תשובה קיבלה הכי הרבה קולות?" · "כמה בחרו בכדורסל?"</p></div>
+    <div class="step"><strong>🥈 השוואה</strong><p>"בכמה יותר בחרו כדורגל מאשר שחייה?" · "אילו שתי תשובות קיבלו אותו מספר?"</p></div>
+    <div class="step"><strong>🥇 חלק מהשלם</strong><p>"איזה חלק מהעונים בחר כדורגל?" · "בערך כמה אחוז בחרו ריקוד?"</p></div>
+  </div>
+  <div class="askBox">🎯 <b>מסיחים חכמים:</b> בתשובות השגויות שמים מספרים שנראים נכונים: העמודה השכנה, סכום במקום הפרש, אחוז במקום מספר.</div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="אינפוגרפיקה במשפט" data-accent="#5bb5a2">
+  <span class="kicker">🖼️ האינפוגרפיקה · Google Slides</span>
+  <h2>שקף אחד, מסקנה אחת</h2>
+  <div class="row2 wideR">
+    <div class="info">
+      <span class="pin" style="top:-12px;right:-12px">1</span>
+      <div class="hd">כדורגל מוביל: <span>9 מתוך 26</span> בכיתה בחרו בו</div>
+      <svg class="chart" viewBox="0 0 300 170" aria-hidden="true"><rect x="20" y="20" width="40" height="130" rx="5" fill="#0f766e"/><rect x="75" y="49" width="40" height="101" rx="5" fill="#9ccfc6"/><rect x="130" y="92" width="40" height="58" rx="5" fill="#9ccfc6"/><rect x="185" y="92" width="40" height="58" rx="5" fill="#9ccfc6"/><rect x="240" y="121" width="40" height="29" rx="5" fill="#9ccfc6"/><line x1="10" y1="150" x2="292" y2="150" stroke="#8a93a1" stroke-width="2"/></svg>
+      <span class="pin" style="top:92px;left:48%">2</span>
+      <div class="icons"><div><i>⚽</i>כדורגל · 9</div><div><i>🏀</i>כדורסל · 7</div><div><i>🏊</i>שחייה · 4</div></div>
+      <span class="pin" style="bottom:28px;left:-12px">3</span>
+      <div class="ft">מקור: סקר בכיתה, 26 עונים, אוקטובר · נתונים לדוגמה</div>
+    </div>
+    <div class="pinList">
+      <div><i>1</i><span><b>כותרת = מסקנה.</b> משפט אחד שאומר מה גילינו, עם מספר. בלי "כולם" ובלי "תמיד".</span></div>
+      <div><i>2</i><span><b>התרשים מ-Sheets:</b> ב-Slides <span class="ui">הוספה</span> ← <span class="ui">תרשים</span> ← <span class="ui">מ-Sheets</span>. העמודה החשובה בצבע בולט.</span></div>
+      <div><i>3</i><span><b>אייקונים ושורת מקור:</b> מי ענה, כמה ענו ומתי.</span></div>
+      <div><i>🔗</i><span><b>שיתוף:</b> <span class="ui">שיתוף</span> ← כל מי שיש לו את הקישור ← צפייה.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#8c7ae6">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>יש עוד זמן? בחרו משימה</h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🔄</div><strong>תרשים שני</strong><p>אותם נתונים בסוג תרשים אחר. איזה מהשניים ברור יותר, ולמה?</p></div>
+    <div class="card"><div class="emoji">✨</div><strong>גרסת Flourish</strong><p>תרשים אינטראקטיבי עם תוויות בריחוף, וקישור לפרסום.</p></div>
+    <div class="card"><div class="emoji">😲</div><strong>הנתון המפתיע</strong><p>משפט אחד: מה הפתיע אתכם בתוצאות, ולמה ציפיתם לאחרת?</p></div>
+    <div class="card"><div class="emoji">🃏</div><strong>הגרסה השקרנית</strong><p>בנו בכוונה גרסה מטעה של התרשים שלכם, וכתבו מה הטריק. לא מגישים אותה!</p></div>
+    <div class="card"><div class="emoji">🔥</div><strong>שאלת שובר שוויון</strong><p>שאלה רביעית וקשה במיוחד על התרשים, למקרה של תיקו.</p></div>
+  </div>
+</section>
+
+<!-- ===================== הגשה ===================== -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשת הסבב" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="submit" aria-label="הוראות">?</button>
+  <span class="kicker">📤 הגשה · 2 דקות</span>
+  <h2>המגיש/ה מגיש/ה בטופס "הגשת סבב"</h2>
+  <div class="linkBox">🔗 <span class="fillin" contenteditable="true" data-k="submitLink">forms.gle/_____</span></div>
+  <div class="checks">
+    <span>שם ההפקה</span><span>שאלת הסקר</span><span>קישור לגיליון או ל-Flourish</span><span>קישור לאינפוגרפיקה</span><span>קישור לבוחן של הסבב</span><span>🤖 מה ה-AI עשה · מה אנחנו עשינו</span><span>הערכה עצמית במחוון</span>
+  </div>
+  <p class="lead" style="margin-top:14px">שם לכל קובץ: <span class="fname">הפקת [שם] · שעשועון · [נושא הסקר]</span></p>
+  <p class="note">הקישורים בהרשאת צפייה בלבד. הבוחן חייב להיות "פורסם".</p>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- ===================== השעשועון ===================== -->
+<section class="slide tight" data-topic="השעשועון" data-title="החוקים של השעשועון" data-accent="#e3a82b">
+  <span class="kicker">🎤 השעשועון מתחיל</span>
+  <h2>איך משחקים?</h2>
+  <div class="steps">
+    <div class="step"><strong>📊 התרשים</strong><p>ההפקה המארחת מקרינה את התרשים. 15 שניות, בלי הסברים.</p></div>
+    <div class="step"><strong>❓ 3 שאלות</strong><p>המגיש/ה קורא/ת כל שאלה. 30 שניות לשאלה.</p></div>
+    <div class="step"><strong>📱 עונים בטופס</strong><p>כל הפקה עונה בבוחן של המארחת, ממכשיר אחד, ובוחרת את שמה ברשימה.</p></div>
+    <div class="step"><strong>✅ שליחה וציון</strong><p>שולחים, והציון מופיע מיד. מדווחים בקול: "קיבלנו 2 מתוך 3".</p></div>
+    <div class="step"><strong>🔍 בהירות</strong><p>המארחת מקבלת נקודה על כל תשובה נכונה של אחרים, עד 6.</p></div>
+  </div>
+  <div class="askBox">📺 כל קישורי הבוחנים נמצאים בלוח השידור. פותחים עכשיו את כולם בלשוניות, כדי שלא נבזבז זמן בשידור.</div>
+</section>
+
+<section class="slide tight show" data-topic="השעשועון" data-title="הבמה" data-accent="#e3a82b">
+  <div class="bulbs" aria-hidden="true"></div>
+  <button class="helpBtn" data-help="stage" aria-label="הוראות">?</button>
+  <span class="kicker">📺 מה המספרים אומרים? · בשידור חי</span>
+  <div class="stage">
+    <div>
+      <div class="hosts" id="hostChips"></div>
+      <div class="hostName" id="hostName"><small>ההפקה המארחת</small>בוחרים מארחת</div>
+      <div class="phases" id="phases"><span data-ph="0">📊 התרשים</span><span data-ph="1">❓ שאלה 1</span><span data-ph="2">❓ שאלה 2</span><span data-ph="3">❓ שאלה 3</span><span data-ph="4">✅ שליחה</span></div>
+      <div class="stageMsg" id="stageMsg">לוחצים על שם ההפקה המארחת, או מגרילים.</div>
+      <div class="stageBtns"><button class="btn" data-act="stageNext">▶ מתחילים</button><button class="ghost" data-act="stagePause">⏸ עצירה</button><button class="ghost" data-act="drawHost">🎲 הגרלת מארחת</button><button class="ghost" data-snd="jingle">🎵</button><button class="ghost" data-snd="buzz">🔔</button></div>
+    </div>
+    <div class="ring" id="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"/><circle class="val" cx="60" cy="60" r="52" id="ringVal"/></svg><div class="num"><div><b id="ringNum">30</b><small id="ringLbl">שניות</small></div></div></div>
+  </div>
+</section>
+
+<section class="slide tight liveS" data-topic="השעשועון" data-title="כמה ענו נכון?" data-accent="#e3a82b">
+  <span class="kicker">✅ אחרי כל סבב</span>
+  <h2>כמה תשובות נכונות קיבלה כל הפקה?</h2>
+  <p class="lead">שורה = ההפקה שענתה · עמודה = ההפקה המארחת. מכניסים 0–3 לפי הציון שהופיע בטופס.</p>
+  <div class="tableWrap"><table class="t live" id="matrix"></table></div>
+  <div class="scoreLine" id="matrixLine"></div>
+</section>
+
+<section class="slide tight" data-topic="השעשועון" data-title="הנתון המפתיע" data-accent="#e76f86">
+  <span class="kicker">😲 הצבעה</span>
+  <h2>איזו הפקה גילתה את הנתון הכי מפתיע?</h2>
+  <p class="lead">כל הפקה מצביעה פעם אחת, לא לעצמה. המפיק/ה מכריז/ה.</p>
+  <div class="tvote" id="surpriseVote"></div>
+</section>
+
+<section class="slide tight liveS" data-topic="השעשועון" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🏆 לוח הניקוד</span>
+  <h2>מי לוקח את הגביע?</h2>
+  <div class="tableWrap"><table class="t live" id="scoreTable"></table></div>
+  <div class="scoreLine" id="scoreLine"></div>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ הפקה</button><button class="ghost" data-act="delTeam">− הפקה</button><button class="ghost" data-act="resetAll">↺ איפוס לכיתה חדשה</button></div>
+</section>
+
+<!-- ===================== טקס ===================== -->
+<section class="slide tight" data-topic="טקס" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה · כל אחד לבד</span>
+  <h2>בזמן שסופרים את הנקודות...</h2>
+  <span class="light r">🔴 בלי AI · כותבים לבד</span>
+  <div class="qList">
+    <div>דבר אחד שלמדתי היום.</div>
+    <div>שאלה אחת שנשארה לי.</div>
+    <div>איך תזהו תרשים מטעה בחדשות או בפרסומת? כתבו 2 סימנים.</div>
+    <div>כמה הבנתי, מ-0 עד 5? ומה תרמתי היום להפקה?</div>
+  </div>
+  <div class="linkBox">🔗 <span class="fillin" contenteditable="true" data-k="exitLink">forms.gle/_____</span> <small style="font-size:16px;color:var(--muted)">או כרטיס נייר</small></div>
+</section>
+
+<section class="slide tight center" data-topic="טקס" data-title="והגביע הולך ל..." data-accent="#e3a82b">
+  <span class="kicker">🏆 טקס הגביע</span>
+  <h2>והגביע הולך ל...</h2>
+  <div class="awards">
+    <div class="award reveal" style="--c:var(--sky)"><div class="em">🔍</div><small>הכי ברור</small><b data-award="clarity">—</b><p>הכי הרבה תשובות נכונות בסבב שלכם</p></div>
+    <div class="award reveal" style="--c:var(--violet)"><div class="em">🧠</div><small>אלופי המספרים</small><b data-award="numbers">—</b><p>הכי הרבה תשובות נכונות אצל אחרים</p></div>
+    <div class="award reveal" style="--c:var(--rose)"><div class="em">😲</div><small>הנתון המפתיע</small><b data-award="surprise">—</b><p>בהצבעת ההפקות</p></div>
+    <div class="award cup reveal" id="cupCard"><div class="em">🏆</div><small>גביע השעשועון</small><b data-award="cup">—</b><p data-award="cupPts">הכי הרבה נקודות</p></div>
+  </div>
+  <div class="clickHint">לחצו "הבא" כדי לחשוף פרס אחרי פרס</div>
+</section>
+
+<section class="slide tight" data-topic="טקס" data-title="מה המספרים לימדו אותנו" data-accent="#0f766e">
+  <span class="kicker">💬 תחקיר · 2 דקות</span>
+  <h2>מה המספרים לימדו אותנו?</h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🔍 על איזה תרשים ענו הכי מהר? מה היה בו שעזר?</div>
+    <div class="revealCard reveal">🪤 איזו שאלה הפילה הכי הרבה הפקות? בגלל השאלה, או בגלל התרשים?</div>
+    <div class="revealCard reveal">🤖 מתי ה-AI עזר לכם, ומתי הוא טעה או הגזים?</div>
+    <div class="revealCard reveal">📰 איפה תפגשו השבוע תרשים שמנסה לשכנע אתכם?</div>
+  </div>
+</section>
+
+<section class="slide hero show center" data-topic="טקס" data-title="השידור הסתיים" data-accent="#e3a82b">
+  <div class="bulbs" aria-hidden="true"></div>
+  <span class="kicker">📺 מה המספרים אומרים? · סוף השידור</span>
+  <h2>השידור <span class="yellow">הסתיים!</span></h2>
+  <p class="lead" style="margin-inline:auto">ערוץ הילדים מודה לכל ההפקות. התרשימים היו ישרים, השאלות היו קשות, והמספרים אמרו את שלהם.</p>
+  <div class="teaser" style="margin-inline:auto"><small>🕵️ אתגר לבית: צייד התרשימים</small><b>מצאו תרשים בפרסומת, באתר חדשות או ברשת</b><p>בדקו את 5 סימני היושר. מצאתם הטעיה? שרטטו גרסה מתוקנת והביאו אותה לשיעור הבא.</p></div>
+</section>
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-rules"><h3>🏆 חוקי הגביע, בפירוט</h3><ol>
+<li><b>נתונים אמיתיים בלבד:</b> מהסקר שלכם בכיתה, או מהמאגר המודפס. מספר מומצא פוסל את התרשים.</li>
+<li><b>חמשת סימני היושר:</b> כותרת · צירים · יחידות · אפס (בעמודות) · מקור.</li>
+<li><b>תרשים מטעה נפסל עד שמתקנים:</b> ציר חתוך בעמודות, עוגה שלא מסתכמת ל-100%, כותרת שמגזימה ("כולם", "אף אחד").</li>
+<li><b>3 שאלות לסבב:</b> כל תשובה נכונה נמצאת בתרשים. שאלה שאפשר לענות עליה בלי התרשים לא נכנסת.</li>
+<li><b>בשעשועון:</b> מכשיר אחד לכל הפקה, 30 שניות לשאלה, ואסור לעזור להפקות אחרות.</li>
+<li><b>בסקר:</b> בלי שמות, בלי פרטים אישיים ובלי איסוף כתובות אימייל.</li></ol></template>
+<template id="help-sprint1"><h3>🏃 ספרינט 1: מי עושה מה</h3><ul>
+<li>🎬 <b>מפיק/ה:</b> מנסח/ת עם כולם את שאלת הסקר (שאלה אחת, 3–6 תשובות), ושומר/ת על אבני הדרך.</li>
+<li>📋 <b>סוקר/ת:</b> בונה את הטופס, מפרסם/ת, ומדביק/ה את הקישור המקוצר בלוח השידור.</li>
+<li>📊 <b>גרפיקאי/ת נתונים:</b> פותח/ת גיליון, מכין/ה טבלה, ובונה תרשים כשהתשובות נכנסות.</li>
+<li>❓ <b>כותב/ת השאלות:</b> בינתיים עונה על כל הסקרים של ההפקות האחרות, ורושם/ת רעיונות לשאלות.</li>
+<li>🎤 <b>מגיש/ה:</b> בודק/ת את התרשים מול 5 הסימנים, ומתחיל/ה שקף אינפוגרפיקה.</li></ul>
+<p>אין מחשב? דף ההפקה המודפס: ספירה בהרמת ידיים ותרשים על נייר משבצות.</p></template>
+<template id="help-sprint2"><h3>🏃 ספרינט 2: הסבב והאינפוגרפיקה</h3><ol>
+<li>❓ כותב/ת השאלות בונה בוחן ב-Forms: שאלת "איזו הפקה אתם?", ואחריה 3 שאלות אמריקאיות עם מפתח תשובות.</li>
+<li>🎤 המגיש/ה בונה שקף אינפוגרפיקה: כותרת שהיא מסקנה, התרשים, 2–3 אייקונים ושורת מקור.</li>
+<li>📊 הגרפיקאי/ת מתקן/ת את התרשים לפי מבחן ההטעיה (ואם יש זמן, גרסת Flourish).</li>
+<li>🎬 המפיק/ה עושה ניסיון אחד בבוחן, ואז מוחק/ת את תשובת הניסיון: <b>תשובות ← ⋮ ← מחיקת כל התשובות</b>.</li>
+<li>📋 הסוקר/ת מדביק/ה בלוח השידור את קישור הבוחן ואת קישור התרשים.</li></ol></template>
+<template id="help-submit"><h3>📤 איך מגישים</h3><ol>
+<li>המגיש/ה פותח/ת את טופס "הגשת סבב" ובוחר/ת את שם ההפקה ברשימה.</li>
+<li>מדביקים 3 קישורים: גיליון או Flourish · אינפוגרפיקה · בוחן הסבב. בכל קובץ: <b>שיתוף ← כל מי שיש לו את הקישור ← צפייה</b>.</li>
+<li>כותבים את שורת ה-AI: מה ה-AI עשה, ומה אנחנו עשינו. לא השתמשתם? כותבים "לא השתמשנו".</li>
+<li>מסמנים הערכה עצמית במחוון, ושולחים.</li></ol></template>
+<template id="help-stage"><h3>📺 איך עובדת הבמה</h3><ol>
+<li>לוחצים על שם ההפקה המארחת, או על "הגרלת מארחת".</li>
+<li>"מתחילים": 15 שניות לתרשים. אחר כך כל לחיצה פותחת שאלה עם 30 שניות. בחמש השניות האחרונות שומעים תקתוק, ובסוף באזר.</li>
+<li>בשלב "שליחה" כל הפקה שולחת את הבוחן ומדווחת כמה נכונות קיבלה.</li>
+<li>מכניסים את המספרים בשקף הבא, "כמה ענו נכון?". הנקודות עוברות לבד ללוח הניקוד.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== שעשועון הנתונים — lesson add-on (runs after the engine; the engine is untouched) =====
+   one shared state for the productions (names, topics, survey meter, answer matrix, votes, points), saved in this
+   browser · live tables (slides 7, 23, 34, 35, 36) · topic draw · game-show stage with timer + WebAudio sounds ·
+   awards + confetti · Nightingale rose · match rows · copy buttons · saved editable cells. */
+(()=>{
+const LS='tie-dataquiz-v1:'+location.pathname;
+const blank=nm=>({name:nm,topic:'',live:0,resp:0,chart:0,trap:0,info:0,rub:0,votes:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(i=>blank('הפקה '+i)),ans:{},hosted:[],topics:[],pick:null,cells:{}});
+let S=null;try{S=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();
+S.ans=S.ans||{};S.hosted=S.hosted||[];S.topics=S.topics||[];S.cells=S.cells||{};
+S.teams=S.teams.map(t=>Object.assign(blank(t.name||'הפקה'),t));
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}};
+const n=v=>{const x=Number(v);return isFinite(x)?x:0};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N=()=>S.teams.length;
+const A=(i,h)=>n(S.ans[i+'-'+h]);
+const correct=i=>{let s=0;for(let h=0;h<N();h++)if(h!==i)s+=A(i,h);return s};
+const clarRaw=h=>{let s=0;for(let i=0;i<N();i++)if(i!==h)s+=A(i,h);return s};
+const clar=h=>Math.min(6,clarRaw(h));
+const total=i=>{const t=S.teams[i];return 2*correct(i)+clar(i)+n(t.chart)+n(t.trap)+n(t.info)+n(t.rub)};
+const nm=i=>esc(S.teams[i].name||('הפקה '+(i+1)));
+
+/* ---------- builders ---------- */
+const stp=(f,i,max,big)=>`<span class="stp"><button data-step="${f}" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output>${n(S.teams[i][f])}</output><button data-step="${f}" data-i="${i}" data-d="1" data-max="${max}" aria-label="יותר">+</button>${big?`<button data-step="${f}" data-i="${i}" data-d="5" data-max="${max}">+5</button>`:''}</span>`;
+const tg=(f,i,pts)=>`<button class="tg${n(S.teams[i][f])?' on':''}" data-tog="${f}" data-pts="${pts}" data-i="${i}">${n(S.teams[i][f])?'✓ '+pts:'0'}</button>`;
+function renderTeams(){const el=document.getElementById('teamsTable');if(!el)return;
+ el.innerHTML='<thead><tr><th style="width:60px">#</th><th>שם ההפקה</th><th>נושא הסקר</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td class="calc">${i+1}</td><td><input class="nm" type="text" data-f="name" data-i="${i}" value="${esc(t.name)}"></td><td><input type="text" data-f="topic" data-i="${i}" value="${esc(t.topic)}" placeholder="למשל: הספורט האהוב"></td></tr>`).join('')+'</tbody>'}
+function renderLive(){const el=document.getElementById('liveBoard');if(!el)return;const mx=Math.max(20,...S.teams.map(t=>n(t.resp)));
+ el.innerHTML='<thead><tr><th>הפקה</th><th>נושא</th><th>הסקר באוויר</th><th>תשובות</th><th style="width:34%">מד התשובות (מטרה: 20)</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td><b>${nm(i)}</b></td><td>${esc(t.topic)||'—'}</td><td><button class="tg${t.live?' on':''}" data-tog="live" data-pts="1" data-i="${i}">${t.live?'✓ באוויר':'עוד לא'}</button></td><td>${stp('resp',i,99,true)}</td><td><div class="respBar"><div class="bar"><i style="width:${Math.min(100,n(t.resp)/mx*100)}%"></i></div>${n(t.resp)>=20?'🎯':''}</div></td></tr>`).join('')+'</tbody>'}
+function renderMatrix(){const el=document.getElementById('matrix');if(!el)return;
+ let h='<thead><tr><th>עונה ↓ · מארחת ←</th>'+S.teams.map((t,j)=>`<th>${nm(j)}</th>`).join('')+'<th>נכונות</th><th>נק׳ ×2</th></tr></thead><tbody>';
+ S.teams.forEach((t,i)=>{h+=`<tr><td><b>${nm(i)}</b></td>`+S.teams.map((u,j)=>i===j?'<td class="diag">—</td>':`<td><span class="stp"><button data-ans="${i}-${j}" data-d="-1" aria-label="פחות">−</button><output>${A(i,j)}</output><button data-ans="${i}-${j}" data-d="1" aria-label="יותר">+</button></span></td>`).join('')+`<td class="calc">${correct(i)}</td><td class="tot">${2*correct(i)}</td></tr>`});
+ h+='<tr class="sum"><td>🔍 בהירות (עד 6)</td>'+S.teams.map((t,j)=>`<td class="calc">${clar(j)}${clarRaw(j)>6?` <small>(${clarRaw(j)})</small>`:''}</td>`).join('')+'<td></td><td></td></tr></tbody>';
+ el.innerHTML=h;
+ const line=document.getElementById('matrixLine');if(line){const cr=S.teams.map((t,i)=>correct(i)),cl=S.teams.map((t,i)=>clarRaw(i));
+  line.textContent=Math.max(...cr)>0?('🧠 מובילים בתשובות: '+leaders(cr)+' · 🔍 התרשים הכי ברור עד עכשיו: '+leaders(cl)):'הנקודות נכנסות אוטומטית ללוח הניקוד.'}}
+function renderVote(){const el=document.getElementById('surpriseVote');if(!el)return;const mx=Math.max(1,...S.teams.map(t=>n(t.votes))),top=Math.max(0,...S.teams.map(t=>n(t.votes)));
+ el.innerHTML=S.teams.map((t,i)=>`<div class="voteItem${top>0&&n(t.votes)===top?' lead1':''}"><div class="emoji">😲</div><strong>${nm(i)}</strong><div class="voteCtl"><button data-step="votes" data-i="${i}" data-d="-1">−</button><output>${n(t.votes)}</output><button data-step="votes" data-i="${i}" data-d="1" data-max="20">+</button></div><div class="bar"><i style="width:${n(t.votes)/mx*100}%"></i></div></div>`).join('')}
+function renderScore(){const el=document.getElementById('scoreTable');if(!el)return;
+ const T=S.teams.map((t,i)=>total(i));const order=[...T.keys()].sort((a,b)=>T[b]-T[a]||clarRaw(b)-clarRaw(a));const rank={};order.forEach((i,k)=>rank[i]=k);const any=T.some(x=>x>0);
+ el.innerHTML='<thead><tr><th>הפקה</th><th>תשובות נכונות<br>×2</th><th>בהירות<br>עד 6</th><th>תרשים<br>4</th><th>מבחן ההטעיה<br>2</th><th>אינפוגרפיקה<br>2</th><th>מחוון<br>עד 16</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr class="${any&&T[i]>0&&rank[i]<3?'r'+(rank[i]+1):''}"><td><span class="medal">${any&&T[i]>0&&rank[i]<3?['🥇','🥈','🥉'][rank[i]]:''}</span> <b>${nm(i)}</b></td><td class="calc">${2*correct(i)}</td><td class="calc">${clar(i)}</td><td>${tg('chart',i,4)}</td><td>${tg('trap',i,2)}</td><td>${tg('info',i,2)}</td><td>${stp('rub',i,16)}</td><td class="tot">${T[i]}</td></tr>`).join('')+'</tbody>';
+ const line=document.getElementById('scoreLine');if(line)line.textContent=any?('🏆 מובילה: '+nm(order[0])+' · בתיקו מנצחת ההפקה עם יותר נקודות בהירות'):'תשובות נכונות ובהירות נכנסות לבד מהטבלה "כמה ענו נכון?". את השאר מסמנים כאן.'}
+function leaders(arr){const top=Math.max(...arr);if(top<=0)return '—';return arr.map((v,i)=>v===top?S.teams[i].name:null).filter(Boolean).join(' · ')}
+function renderAwards(){
+ const set=(k,v)=>document.querySelectorAll(`[data-award="${k}"]`).forEach(el=>el.textContent=v);
+ set('clarity',leaders(S.teams.map((t,i)=>clarRaw(i))));
+ set('numbers',leaders(S.teams.map((t,i)=>correct(i))));
+ set('surprise',leaders(S.teams.map(t=>n(t.votes))));
+ const T=S.teams.map((t,i)=>total(i));const top=Math.max(...T);
+ if(top<=0){set('cup','—');set('cupPts','הכי הרבה נקודות');return}
+ let best=T.map((v,i)=>v===top?i:-1).filter(i=>i>=0);
+ if(best.length>1){const c=Math.max(...best.map(clarRaw));best=best.filter(i=>clarRaw(i)===c)}
+ set('cup',best.map(i=>S.teams[i].name).join(' · '));set('cupPts',top+' נקודות')}
+function renderOthers(){renderLive();renderMatrix();renderVote();renderScore();renderAwards();renderHosts()}
+function renderAll(){renderTeams();renderOthers()}
+
+/* ---------- events ---------- */
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.matches('input[data-f]')){const t=S.teams[Number(el.dataset.i)];if(!t)return;t[el.dataset.f]=el.value;save();renderOthers();return}
+ if(el.matches('[contenteditable][data-k]')){S.cells[el.dataset.k]=el.innerText;save()}});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.step){const t=S.teams[Number(b.dataset.i)];const f=b.dataset.step;const max=Number(b.dataset.max||b.parentElement.querySelector('[data-max]')?.dataset.max||99);
+  t[f]=Math.max(0,Math.min(max,n(t[f])+Number(b.dataset.d)));save();renderOthers();return}
+ if(b.dataset.ans){const k=b.dataset.ans;S.ans[k]=Math.max(0,Math.min(3,n(S.ans[k])+Number(b.dataset.d)));save();renderOthers();return}
+ if(b.dataset.tog){const t=S.teams[Number(b.dataset.i)];const f=b.dataset.tog;t[f]=n(t[f])?0:Number(b.dataset.pts||1);save();renderOthers();return}
+ if(b.dataset.tp!==undefined){const k=Number(b.dataset.tp);const at=S.topics.indexOf(k);if(at>=0){S.topics.splice(at,1);if(S.pick===k)S.pick=null}else S.topics.push(k);save();renderTopics();return}
+ if(b.dataset.snd){const s=b.dataset.snd;if(s==='mute'){muted=!muted;document.querySelectorAll('[data-snd="mute"]').forEach(x=>x.textContent=muted?'🔇 צליל: כבוי':'🔊 צליל: פועל');return}
+  if(s==='jingle')jingle();if(s==='buzz')buzz();return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==='addTeam'&&N()<8){S.teams.push(blank('הפקה '+(N()+1)));save();renderAll()}
+ if(a==='delTeam'&&N()>2){const last=N()-1;const used=Object.keys(S.ans).some(k=>k.split('-').map(Number).includes(last)&&n(S.ans[k]))||total(last)>0;
+  if(!used||confirm('למחוק את "'+S.teams[last].name+'" עם הנקודות שלה?')){S.teams.pop();Object.keys(S.ans).forEach(k=>{if(k.split('-').map(Number).includes(last))delete S.ans[k]});S.hosted=S.hosted.filter(x=>x!==last);if(host===last)host=-1;save();renderAll()}}
+ if(a==='resetAll'&&confirm('לאפס את כל הנקודות, ההצבעות והנושאים? (לכיתה חדשה. שמות ההפקות נשמרים)')){const names=S.teams.map(t=>t.name);S=fresh();S.teams=names.map(x=>blank(x));host=-1;ph=-1;stopT();save();renderAll();renderTopics();loadCells();renderStage()}
+ if(a==='drawTopic')drawTopic();
+ if(a==='resetTopics'){S.topics=[];S.pick=null;save();renderTopics();document.getElementById('drawOut').textContent=''}
+ if(a==='stageNext')stageNext();
+ if(a==='stagePause')stagePause();
+ if(a==='drawHost')drawHost();
+});
+
+/* ---------- topics ---------- */
+const tiles=[...document.querySelectorAll('#topicGrid .topic')];
+function renderTopics(){tiles.forEach(t=>{const k=Number(t.dataset.tp);t.classList.toggle('taken',S.topics.includes(k));t.classList.toggle('pick',S.pick===k);t.classList.remove('spin')})}
+let spinning=false;
+function drawTopic(){if(spinning)return;const left=tiles.filter(t=>!S.topics.includes(Number(t.dataset.tp)));const out=document.getElementById('drawOut');
+ if(!left.length){out.textContent='כל הנושאים נתפסו. לוחצים "ניקוי" או בוחרים מהמאגר.';return}
+ spinning=true;let k=0,steps=14+Math.floor(Math.random()*left.length);const go=()=>{tiles.forEach(t=>t.classList.remove('spin'));const t=left[k%left.length];t.classList.add('spin');tick();
+  if(k>=steps){const id=Number(t.dataset.tp);S.topics.push(id);S.pick=id;save();setTimeout(()=>{renderTopics();ding();out.textContent='🎉 '+t.querySelector('span:not(.em)').firstChild.textContent.trim();spinning=false},260);return}
+  k++;setTimeout(go,70+k*9)};go()}
+
+/* ---------- sounds (WebAudio, no files) ---------- */
+let AC=null,muted=false;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}}if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f,t0,d,type,g){const a=ac();if(!a||muted)return;const o=a.createOscillator(),v=a.createGain(),t=a.currentTime+t0;o.type=type||'triangle';o.frequency.setValueAtTime(f,t);
+ v.gain.setValueAtTime(0.0001,t);v.gain.exponentialRampToValueAtTime(g||.15,t+.02);v.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(v);v.connect(a.destination);o.start(t);o.stop(t+d+.05)}
+function jingle(){[[392,0,.18],[523,.16,.18],[659,.32,.18],[784,.48,.32],[659,.8,.16],[784,.96,.5],[1047,1.16,.7]].forEach(([f,t,d])=>{tone(f,t,d,'triangle',.16);tone(f/2,t,d,'sine',.08)})}
+function tick(){tone(1250,0,.05,'square',.04)}
+function ding(){tone(880,0,.3,'sine',.18);tone(1320,.09,.4,'sine',.12)}
+function buzz(){tone(98,0,.75,'sawtooth',.16);tone(104,0,.75,'sawtooth',.1)}
+function fanfare(){[[523,0,.2],[659,.18,.2],[784,.36,.2],[1047,.54,.6],[784,.9,.18],[1047,1.06,.9]].forEach(([f,t,d])=>{tone(f,t,d,'triangle',.17);tone(f*1.5,t,d,'sine',.05)})}
+
+/* ---------- stage ---------- */
+const PH=[{s:15,m:'📊 מסתכלים על התרשים. 15 שניות, בלי הסברים מהמארחים!'},{s:30,m:'❓ המגיש/ה קורא/ת את שאלה 1. עונים בבוחן של המארחת.'},{s:30,m:'❓ שאלה 2. עונים בבוחן של המארחת.'},{s:30,m:'❓ שאלה 3, האחרונה בסבב.'},{s:20,m:'✅ לוחצים "שליחה" ומדווחים בקול: כמה תשובות נכונות קיבלתם?'}];
+let host=-1,ph=-1,left=30,tot=30,iv=null;const C=2*Math.PI*52;
+const ringVal=document.getElementById('ringVal');if(ringVal){ringVal.style.strokeDasharray=C;ringVal.style.strokeDashoffset=0}
+function stopT(){clearInterval(iv);iv=null}
+function renderHosts(){const el=document.getElementById('hostChips');if(!el)return;
+ el.innerHTML=S.teams.map((t,i)=>`<button class="hostChip${i===host?' on':''}${S.hosted.includes(i)?' done':''}" data-host="${i}">${nm(i)}</button>`).join('');
+ el.querySelectorAll('[data-host]').forEach(b=>b.onclick=()=>{host=Number(b.dataset.host);ph=-1;stopT();left=tot=30;renderHosts();renderStage()});
+ renderStage()}
+function renderStage(){const hn=document.getElementById('hostName');if(!hn)return;
+ hn.innerHTML='<small>ההפקה המארחת</small>'+(host>=0?nm(host):'בוחרים מארחת');
+ document.querySelectorAll('#phases span').forEach(s=>{const k=Number(s.dataset.ph);s.classList.toggle('now',k===ph);s.classList.toggle('past',k<ph||ph>=PH.length)});
+ const msg=document.getElementById('stageMsg'),btn=document.querySelector('[data-act="stageNext"]');
+ if(host<0){msg.textContent='לוחצים על שם ההפקה המארחת, או מגרילים.';btn.textContent='▶ מתחילים'}
+ else if(ph<0){msg.textContent='המגיש/ה עולה לבמה. כל ההפקות פותחות את הבוחן של '+S.teams[host].name+'.';btn.textContent='▶ מתחילים: התרשים'}
+ else if(ph<PH.length){msg.textContent=PH[ph].m;btn.textContent=ph<3?'▶ שאלה הבאה':ph===3?'▶ שליחה':'🏁 סיום הסבב'}
+ else{msg.textContent='🎉 הסבב הסתיים! מעבירים את הציונים לטבלה "כמה ענו נכון?" ובוחרים מארחת חדשה.';btn.textContent='↺ שוב את הסבב'}
+ const ring=document.getElementById('ring');document.getElementById('ringNum').textContent=Math.max(0,left);
+ document.getElementById('ringLbl').textContent=ph>=0&&ph<PH.length?(iv?'שניות':(left<=0?'נגמר הזמן!':'עצירה')):'שניות';
+ if(ringVal)ringVal.style.strokeDashoffset=C*(1-Math.max(0,left)/tot);
+ ring.classList.toggle('hot',left<=5&&left>0&&!!iv);ring.classList.toggle('over',left<=0)}
+function startT(sec){stopT();left=tot=sec;renderStage();iv=setInterval(()=>{left--;if(left<=5&&left>0)tick();if(left<=0){stopT();buzz();const r=document.getElementById('ring');r.classList.remove('pulse');void r.offsetWidth;r.classList.add('pulse')}renderStage()},1000);renderStage()}
+function stageNext(){if(host<0){drawHost();return}
+ if(ph>=PH.length){ph=-1;left=tot=30;stopT();renderStage();return}
+ ph++;if(ph>=PH.length){stopT();if(!S.hosted.includes(host)){S.hosted.push(host);save()}left=0;fanfare();renderHosts();return}
+ ding();startT(PH[ph].s)}
+function stagePause(){const b=document.querySelector('[data-act="stagePause"]');if(ph<0||ph>=PH.length||left<=0)return;
+ if(iv){stopT();b.textContent='▶ המשך'}else{b.textContent='⏸ עצירה';iv=setInterval(()=>{left--;if(left<=5&&left>0)tick();if(left<=0){stopT();buzz()}renderStage()},1000)}renderStage()}
+function drawHost(){const pool=S.teams.map((t,i)=>i).filter(i=>!S.hosted.includes(i));const P=pool.length?pool:S.teams.map((t,i)=>i);
+ let k=0;const steps=10+Math.floor(Math.random()*P.length);stopT();ph=-1;left=tot=30;
+ const go=()=>{host=P[k%P.length];renderHosts();tick();if(k>=steps){ding();return}k++;setTimeout(go,80+k*12)};go()}
+
+/* ---------- awards confetti ---------- */
+const cup=document.getElementById('cupCard');let fired=false;
+if(cup)new MutationObserver(()=>{const on=cup.classList.contains('show');if(on&&!fired){fired=true;renderAwards();fanfare();confetti()}if(!on)fired=false}).observe(cup,{attributes:true,attributeFilter:['class']});
+function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const box=document.createElement('div');box.className='confetti';const cols=['#f4a259','#5bb5a2','#8c7ae6','#e76f86','#4c8bd6','#e3a82b','#0f766e'];
+ for(let i=0;i<110;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'vw';p.style.background=cols[i%cols.length];p.style.animationDuration=(2.2+Math.random()*2.2)+'s';p.style.animationDelay=(Math.random()*.6)+'s';p.style.transform='rotate('+Math.random()*360+'deg)';box.appendChild(p)}
+ document.body.appendChild(box);setTimeout(()=>box.remove(),5600)}
+
+/* ---------- Nightingale rose (illustration from her 1854–55 data, rates per 1,000 per year) ---------- */
+(function rose(){const svg=document.getElementById('roseSvg');if(!svg)return;
+ const dis=[1.4,6.2,4.7,150,328.5,312.2,197,340.6,631.5,1022.8,822.8,480.3],wnd=[0,0,0,0,.4,32.1,51.7,115.8,41.7,30.7,16.3,12.8],oth=[7,4.6,2.5,9.6,11.9,27.7,50.1,42.8,48,120,140.1,68.6];
+ const lab=['אפר׳','מאי','יוני','יולי','אוג׳','ספט׳','אוק׳','נוב׳','דצמ׳','ינו׳','פבר׳','מרץ'];
+ const cx=160,cy=160,k=124/Math.sqrt(1022.8),pt=(r,a)=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];let h='';
+ for(let m=0;m<12;m++){const a0=(-90+m*30)*Math.PI/180,a1=(-90+(m+1)*30)*Math.PI/180;
+  [[dis[m],'#7fa7c9'],[oth[m],'#3d4654'],[wnd[m],'#e76f86']].sort((x,y)=>y[0]-x[0]).forEach(([v,c])=>{if(v<=0)return;const r=k*Math.sqrt(v),[x1,y1]=pt(r,a0),[x2,y2]=pt(r,a1);
+   h+=`<path d="M${cx} ${cy}L${x1.toFixed(1)} ${y1.toFixed(1)}A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}Z" fill="${c}" fill-opacity=".88" stroke="#fff" stroke-width=".8"/>`});
+  const [lx,ly]=pt(144,(a0+a1)/2);h+=`<text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="middle" font-size="12" fill="#5b6574" font-family="Heebo,Arial">${lab[m]}</text>`}
+ svg.innerHTML=`<circle cx="${cx}" cy="${cy}" r="124" fill="none" stroke="#ece8e1" stroke-dasharray="3 4"/>`+h})();
+
+/* ---------- match rows ---------- */
+document.querySelectorAll('.mRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{
+ r.querySelectorAll('button').forEach(x=>x.classList.remove('pick'));b.classList.add('pick');r.classList.add('done');
+ r.classList.toggle('ok',b.dataset.v===r.dataset.ans);r.classList.toggle('no',b.dataset.v!==r.dataset.ans);if(b.dataset.v===r.dataset.ans)ding()}));
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',async()=>{const txt=b.parentElement.querySelector('.ptext').innerText.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)}));
+
+/* ---------- saved editable cells ---------- */
+function loadCells(){document.querySelectorAll('[contenteditable][data-k]').forEach(el=>{const v=S.cells[el.dataset.k];if(typeof v==='string'&&v.trim()!=='')el.innerText=v})}
+
+renderAll();renderTopics();loadCells();renderStage();
+})();
+</script>
+</body>
+</html>

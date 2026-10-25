@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · שעשועון הנתונים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- שעשועון הנתונים: lesson additions ---------- */
+.cc small{line-height:1.35}
+.tcards .cc b{font-size:12pt}.tcards .cc small{font-size:8.4pt}
+.side .cc small{font-size:8.8pt;padding:0 1mm}
+.dnote{font-size:8.6pt;margin-top:1.6mm;background:var(--warn-bg);border-radius:2mm;padding:1.2mm 2mm}
+.dsrc{font-size:7.8pt;color:var(--dim);margin-top:1.2mm}
+.signcard{display:flex;flex-direction:column;gap:3.5mm;padding:7mm 8mm}
+.signcard .sh{display:flex;justify-content:space-between;align-items:baseline;gap:4mm}
+.signcard .sh b{font-family:var(--display);font-weight:800;font-size:20pt}
+.signcard .sh span{color:var(--muted);font-size:10pt}
+.srow{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;flex:1}
+.srow>div{border:1.2px solid var(--line2);border-radius:3mm;padding:3.5mm 2.5mm;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.5mm;position:relative;overflow:hidden}
+.srow>div::before{content:"";position:absolute;inset:0 0 auto 0;height:1.6mm;background:var(--c)}
+.srow>div:nth-child(1){--c:var(--orange)}.srow>div:nth-child(2){--c:var(--mint)}.srow>div:nth-child(3){--c:var(--violet)}.srow>div:nth-child(4){--c:var(--rose)}.srow>div:nth-child(5){--c:var(--sky)}
+.srow i{font-style:normal;font-size:28pt;line-height:1;margin-top:2mm}
+.srow b{font-family:var(--display);font-weight:800;font-size:15pt}
+.srow small{color:var(--muted);font-size:10.5pt;line-height:1.35}
+.srow em{font-style:normal;font-size:9.6pt;font-weight:700;color:var(--ink);background:var(--paper);border-radius:2mm;padding:1.5mm 2mm;margin-top:auto}
+.srow .tick{font-size:10pt;font-weight:700;color:var(--muted)}
+.sfoot{font-size:9.6pt;background:var(--paper);border-radius:2.5mm;padding:2mm 3mm}
+.trap .tchk{display:flex;flex-wrap:wrap;gap:1.5mm 3mm;font-size:9.4pt;font-weight:700}
+.ans{display:flex;flex-direction:column;gap:3mm;padding:7mm 7mm}
+.ans .eh{display:flex;justify-content:space-between;align-items:center;gap:4mm}
+.ans .eh b{font-family:var(--display);font-weight:800;font-size:13pt}
+.ans .eh>span{font-size:9pt;color:var(--muted)}
+.ans table.tb td{text-align:center;font-size:10pt;letter-spacing:.5mm}
+.ans table.tb td.e{height:10mm}
+.anote{font-size:9pt;color:var(--muted)}
+table.mx td.dg{background:repeating-linear-gradient(135deg,#ece8e1 0 2mm,#fff 2mm 4mm)}
+table.mx td{height:7.5mm}
+.cert{padding:7mm;display:flex}
+.cin{flex:1;border:2.2mm solid var(--cs);outline:1px solid var(--c);outline-offset:-4mm;border-radius:4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2mm;padding:6mm 10mm;position:relative}
+.cem{font-size:34pt;line-height:1}
+.ck{font-family:var(--display);font-weight:600;font-size:10pt;color:var(--muted);letter-spacing:.2mm}
+.cin h3{font-family:var(--display);font-weight:800;font-size:28pt;line-height:1.05;color:var(--ink)}
+.cfor{font-size:11pt;color:var(--muted)}
+.cname{width:110mm;border-bottom:1.6px solid var(--ink);height:12mm}
+.cwhy{font-size:10.5pt;max-width:130mm}
+.csig{display:flex;gap:14mm;font-size:9.6pt;margin-top:3mm;color:var(--muted)}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,.cert,.ans,.signcard,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · שעשועון הנתונים<small>90 דקות · מה המספרים אומרים?</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · למדריך</div><div class="r">לא לחלק</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6 הפקות. בכיתה אחרת: לפי מספר ההפקות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד (5), נורמות ורמזור</td><td>סט להפקה (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה</td><td>1 להפקה (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5–6</td><td>דף ההפקה (2 עמודים)</td><td>1 להפקה + 2 רזרבה (8)</td><td>רגיל · עמוד 6 גם ב-A3</td><td>לא</td></tr>
+      <tr><td>7</td><td>כרטיסי נושא (12)</td><td>סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>8</td><td>מאגר נתונים פתוח</td><td>3</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>9</td><td>כרטיס חמשת סימני היושר</td><td>3 עמודים (6 כרטיסים)</td><td>בריסטול</td><td>לחצי</td></tr>
+      <tr><td>10</td><td>דפי מבחן ההטעיה</td><td>2 עמודים (8)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>11</td><td>מחוון עם הערכה עצמית</td><td>1 להפקה + 1 (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>דף תשובות לשעשועון (גיבוי)</td><td>3 עמודים (6)</td><td>רגיל</td><td>לחצי</td></tr>
+      <tr><td>13</td><td>כרטיסי משימות צד (6)</td><td>סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>14</td><td>שורת AI</td><td>2 עמודים (8)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>15</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>17–18</td><td>תעודות (4 פרסים)</td><td>1 סט</td><td>בריסטול / נייר עבה</td><td>לחצי</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 על כל שולחן הפקה</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + כרטיס נורמות ורמזור</li><li>כרטיס המשימה ודף ההפקה</li><li>כרטיס חמשת סימני היושר</li><li>מחוון</li><li>2 טושים, עיפרון, מחק, סרגל</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>כרטיסי נושא ומאגר הנתונים</li><li>דפי מבחן ההטעיה ודפי התשובות</li><li>קופסת משימות צד</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד, תעודות ופרס קטן (אופציונלי)</li><li>רמקול למצגת</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>💻 להכין בדיגיטל (פירוט במערך, פרק "הכנה")</h3><p>טופס "הגשת סבב" · מסמך "לוח השידור" (Google Docs עם טבלה, הרשאת עריכה לזמן השיעור) · כרטיס יציאה ב-Forms (רשות) · חזרה גנרלית: סקר ← גיליון ← תרשים ← בוחן עם ציון מיידי.</p></div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS 1–4 ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · שעשועון הנתונים</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור לאורך הקו המקווקו. כל תלמיד/ה מקבל/ת כרטיס אחד. בהפקה של 4: המפיק/ה הוא גם הסוקר/ת.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ceo">
+      <div class="rh"><span class="ic">🎬</span><div><b>מפיק/ה</b><small>הזמן, ההחלטות ושאלת הסקר</small></div></div>
+      <p class="mis">המשימה שלי: שההפקה מתחילה מהר, עומדת באבני הדרך ומגיעה לשידור מוכנה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מנסח/ת עם כולם את שאלת הסקר: שאלה אחת, 3–6 תשובות.</li><li>שומר/ת על אבני הדרך: "עד דקה 8 הסקר באוויר".</li><li>עושה ניסיון בבוחן, ומוחק/ת את תשובת הניסיון.</li><li>בשעשועון: מדווח/ת בקול כמה נכונות קיבלנו.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכולם ניסו.</li></ul>
+      <div class="say">💬 "מה המטרה שלנו עכשיו?" · "עוד לא שמענו את ___." · "בואו נחליט ונתקדם."</div>
+      <p class="no">✗ לא מחליט/ה לבד, ולא עושה את העבודה במקום אחרים.</p>
+      <p class="bonus">✓ הצלחתי כש: הגשנו בזמן, וכולם דיברו בשעשועון</p>
+    </article>
+    <article class="role r-res">
+      <div class="rh"><span class="ic">📋</span><div><b>סוקר/ת</b><small>הסקר והנתונים</small></div></div>
+      <p class="mis">המשימה שלי: לאסוף תשובות אמיתיות מהכיתה, ולוודא שהנתונים נקיים.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בונה את הסקר ב-Forms. איסוף אימיילים כבוי, בלי שמות.</li><li>מפרסם/ת ומדביק/ה את הקישור המקוצר בלוח השידור.</li><li>בודק/ת כפילויות: מישהו ענה פעמיים? מוחקים שורה.</li><li>מדביק/ה בלוח השידור גם את קישורי התרשים והבוחן.</li></ul>
+      <div class="say">💬 "זה נתון או ניחוש?" · "כמה ענו עד עכשיו?" · "מאיפה המספר הזה?"</div>
+      <p class="no">✗ לא ממציא/ה מספרים, ולא שואל/ת על אנשים בשמם.</p>
+      <p class="bonus">✓ הצלחתי כש: יש לנו 20+ תשובות אמיתיות, בלי כפילויות</p>
+    </article>
+    <article class="role r-bld">
+      <div class="rh"><span class="ic">📊</span><div><b>גרפיקאי/ת נתונים</b><small>הטבלה והתרשים</small></div></div>
+      <p class="mis">המשימה שלי: להפוך תשובות לתרשים ישר, שכל אחד מבין בלי הסבר.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מסדר/ת טבלה ב-Sheets: תשובה · מספר תלמידים.</li><li>בוחר/ת סוג תרשים: עמודות, קו או עוגה.</li><li>בונה תרשים עם 5 הסימנים: כותרת, צירים, יחידות, אפס, מקור.</li><li>מתקן/ת אחרי מבחן ההטעיה. יש זמן? גרסת Flourish.</li></ul>
+      <div class="say">💬 "הציר מתחיל ב-0?" · "מה כתוב בציר האנכי?" · "זה מסתכם ל-100%?"</div>
+      <p class="no">✗ לא בונה לבד בלי לשאול את ההפקה.</p>
+      <p class="bonus">✓ הצלחתי כש: השכנים הבינו את התרשים בדיוק כמו שהתכוונו</p>
+    </article>
+    <article class="role r-pre">
+      <div class="rh"><span class="ic">❓</span><div><b>כותב/ת השאלות</b><small>הסבב של השעשועון</small></div></div>
+      <p class="mis">המשימה שלי: 3 שאלות שאפשר לענות עליהן רק מהתרשים, ושמאתגרות את המתחרים.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בספרינט 1: עונה על כל הסקרים ורושם/ת רעיונות לשאלות.</li><li>בונה בוחן ב-Forms: "הפיכה לבוחן" + מפתח תשובות.</li><li>סולם: קריאה · השוואה · חלק מהשלם.</li><li>מסיחים חכמים: תשובות שגויות שנראות נכונות.</li></ul>
+      <div class="say">💬 "אפשר לענות על זה בלי התרשים?" · "איזו תשובה שגויה תבלבל?"</div>
+      <p class="no">✗ לא כותב/ת שאלה שהתשובה עליה לא בתרשים.</p>
+      <p class="bonus">✓ הצלחתי כש: הרבה ענו נכון, אבל רק מי שקרא את התרשים</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLE 5 + norms + light + signs ===================== -->
+<section class="page" id="p-roles2" data-label="מגיש/ה ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ הכרטיס החמישי, כרטיס הנורמות, רמזור ה-AI וכרטיס הסבב נשארים על השולחן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ai">
+      <div class="rh"><span class="ic">🎤</span><div><b>מגיש/ה</b><small>האינפוגרפיקה והבמה</small></div></div>
+      <p class="mis">המשימה שלי: שהמסקנה שלנו תהיה ברורה במשפט אחד, ושהסבב שלנו ירוץ על הבמה כמו בטלוויזיה.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>בונה אינפוגרפיקה ב-Slides: כותרת-מסקנה, תרשים, אייקונים, מקור.</li><li>מגיש/ה בטופס "הגשת סבב" עם שם הקובץ הנכון.</li><li>ממלא/ת את שורת ה-AI: מה ה-AI עשה · מה אנחנו עשינו.</li><li>בשעשועון: קורא/ת את השאלות בקול, בלי לרמוז.</li></ul>
+      <div class="say">💬 "מה המסקנה במשפט אחד?" · "כולם ראו את הגרסה הסופית?"</div>
+      <p class="no">✗ לא מגיש/ה בלי שההפקה ראתה את התוצר.</p>
+      <p class="bonus">✓ הצלחתי כש: הסבב רץ בזמן, וכולם הבינו את השאלות</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות ההפקה</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל ההפקה סיימה.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את ההפקה לפני שקוראים למדריך, ורק המפיק/ה קורא/ת.</li>
+        <li>בשעשועון: לא עוזרים להפקות אחרות ולא מציצים.</li>
+      </ol>
+      <p class="bonus">🎬 בצוות של 6: שני גרפיקאים, אחד ב-Sheets ואחד ב-Flourish</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI</b><small>היום ב-Gemini</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>מבחן ההטעיה וכרטיס היציאה.</div>
+        <div class="y"><b>🟡 AI לבדיקה ולרעיונות</b>ספרינט 1: את הספירה והחישוב עושים בעצמנו.</div>
+        <div class="g"><b>🟢 AI כשותף שבודקים</b>ספרינט 2: בדיקת שאלות והצעת כותרות. כל מספר נבדק ב-Sheets.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט ובסקר לא כותבים שמות ופרטים אישיים.</p>
+    </article>
+    <article class="role" style="--c:#f4a259;--cs:#fdf0e3">
+      <div class="rh"><span class="ic">✅</span><div><b>חמשת סימני היושר</b><small>בודקים לפני השידור</small></div></div>
+      <ul class="check" style="font-size:10.4pt;gap:2.4mm">
+        <li><b>כותרת</b> · על מה התרשים, ואפילו המסקנה</li>
+        <li><b>צירים</b> · לכל ציר יש שם</li>
+        <li><b>יחידות</b> · תלמידים? שעות? אחוזים?</li>
+        <li><b>אפס</b> · בעמודות הציר האנכי מתחיל ב-0</li>
+        <li><b>מקור</b> · מי ענה, כמה ענו ומתי</li>
+      </ul>
+      <p class="bonus">🕵️ עבר את מבחן ההטעיה בלי תיקון = 2 נקודות</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · כרטיס המשימה</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📺 ערוץ הילדים מציג</span><h2>גביע <span>"מה המספרים אומרים?"</span></h2></div><p>ערוץ הילדים משיק שעשועון חדש. כל הפקה מביאה סבב שאלות על תרשים אמיתי שאספה בעצמה. תרשים שמטעה את המתחרים נפסל מהשידור.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 מה מגישים</h3><ul class="check"><li>📊 תרשים מנתונים שאספתם (Sheets או Flourish), עם 5 סימני היושר</li><li>🖼️ אינפוגרפיקה: שקף אחד עם המסקנה במשפט</li><li>❓ בוחן ב-Forms: 3 שאלות שהתשובות שלהן בתרשים</li><li>🤖 שורת AI: מה ה-AI עשה · מה אנחנו עשינו</li></ul></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.6pt"><li>נתונים מהסקר בכיתה או מהמאגר. לא ממציאים מספרים.</li><li>כותרת, צירים עם יחידות, ובעמודות ציר מ-0.</li><li>על כל שאלה עונים רק מתוך התרשים.</li><li>תרשים מטעה נפסל עד שמתקנים.</li><li>בשעשועון: 30 שניות לשאלה, מכשיר אחד להפקה.</li><li>בסקר לא שואלים על פרטים אישיים או על אנשים בשמם.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>על מה</th><th style="width:32mm">נקודות</th></tr></thead><tbody>
+      <tr><td>תשובה נכונה בסבב של הפקה אחרת</td><td>2 לכל תשובה</td></tr>
+      <tr><td>בהירות: כל תשובה נכונה של הפקה אחרת בסבב שלכם</td><td>1 (עד 6)</td></tr>
+      <tr><td>תרשים עם כותרת, צירים, יחידות ומקור</td><td>4</td></tr>
+      <tr><td>תרשים שעבר את "מבחן ההטעיה" בלי תיקון</td><td>2</td></tr>
+      <tr><td>אינפוגרפיקה עם מסקנה אחת במשפט</td><td>2</td></tr>
+      <tr><td>ציון המפיקים לפי המחוון</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">מנצחים: הכי הרבה נקודות. בתיקו: יותר נקודות בהירות. פרסים: 🔍 הכי ברור · 🧠 אלופי המספרים · 😲 הנתון המפתיע.</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>⏱ אבני הדרך</h3><table class="tb" style="font-size:9pt"><tbody>
+      <tr><td style="width:26mm"><b>ספרינט 1 · 8′</b></td><td>הסקר באוויר, קישור בלוח השידור</td></tr>
+      <tr><td><b>ספרינט 1 · 13′</b></td><td>כולם ענו על כל הסקרים</td></tr>
+      <tr><td><b>ספרינט 1 · 20′</b></td><td>טבלה + תרשים ראשון</td></tr>
+      <tr><td><b>ספרינט 2 · 6′</b></td><td>3 שאלות + מפתח תשובות</td></tr>
+      <tr><td><b>ספרינט 2 · 15′</b></td><td>אינפוגרפיקה, ניסיון, הגשה</td></tr>
+    </tbody></table></div>
+    <div class="stack" style="gap:2.5mm">
+      <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">🌱 בסיס</span><p style="margin-top:1mm;font-size:9pt">שאלת הסקר מכרטיס הנושא, הקלדת הספירה ידנית, ושאלות לפי התבנית בדף ההפקה.</p></div>
+      <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">🌿 רגיל</span><p style="margin-top:1mm;font-size:9pt">שאלה משלכם, 5 סימני היושר ו-3 שאלות לפי הסולם.</p></div>
+      <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">🚀 אלופים</span><p style="margin-top:1mm;font-size:9pt">COUNTIF ואחוזים שמסתכמים ל-100%, מסיחים חכמים, וגרסת Flourish.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. WORKSHEET p1 ===================== -->
+<section class="page" id="p-work" data-label="דף ההפקה 1">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · דף ההפקה (1 מתוך 2)</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟡 ספרינט 1 · 20 דקות</span><h2>הסקר <span>והנתונים</span></h2></div><p>הדף הזה הוא גם הגיבוי: אם אין מחשב, סופרים כאן הצבעות בהרמת ידיים.</p></div>
+  <div class="stack grow">
+    <div class="box"><h3>1. שאלת הסקר (שאלה אחת שאפשר לספור)</h3><div class="lines h2"></div>
+      <p style="font-size:9pt;color:var(--muted)">✓ שאלה ברורה · ✓ 3–6 תשובות · ✓ כל אחד בוחר תשובה אחת · ✗ בלי שמות ובלי פרטים אישיים</p></div>
+    <div class="box"><h3>2. טבלת הספירה</h3>
+      <table class="tb">
+        <thead><tr><th style="width:42mm">תשובה</th><th>סימון בקווים (||||)</th><th style="width:24mm">מספר</th><th style="width:24mm">אחוז</th></tr></thead>
+        <tbody><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr><tr><td class="e"></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"><b>סה״כ עונים</b></td><td></td><td></td><td><b>100%</b></td></tr></tbody>
+      </table>
+      <p style="font-size:9pt;color:var(--muted);margin-top:1.5mm">אחוז = מספר ÷ סה״כ × 100. בדיקה: כל האחוזים יחד = 100% (בערך, בגלל עיגול).</p></div>
+    <div class="grid2">
+      <div class="box"><h3>3. איזה תרשים? (סמנו)</h3><ul class="check"><li>📊 עמודות: משווים בין תשובות</li><li>📈 קו: שינוי לאורך זמן</li><li>🥧 עוגה: חלקים משלם, תשובה אחת לכל עונה</li></ul><p style="font-size:9pt;margin-top:2mm">למה? <span class="fill l"></span></p></div>
+      <div class="box"><h3>4. בדיקת נתונים</h3><ul class="check"><li>אין תשובות כפולות (מחקנו ___)</li><li>כתבנו כמה ענו: ___</li><li>המקור: סקר בכיתה ___, תאריך ___</li><li>כל מספר נבדק פעמיים</li></ul></div>
+    </div>
+    <div class="box soft"><h3>5. מה גילינו? המסקנה במשפט אחד, עם מספר</h3><p style="font-size:9pt;color:var(--muted)">לדוגמה: "כדורגל מוביל: 9 מתוך 26 בחרו בו". בלי "כולם" ובלי "תמיד".</p><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 6. WORKSHEET p2 ===================== -->
+<section class="page" id="p-work2" data-label="דף ההפקה 2">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · דף ההפקה (2 מתוך 2)</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟢 ספרינט 2 · 15 דקות</span><h2>התרשים <span>והסבב</span></h2></div></div>
+  <div class="sketch" data-label="6. סקיצת התרשים (בלי מחשב: זה התרשים). כותרת · צירים · יחידות · אפס · מקור" style="height:100mm"></div>
+  <div class="box" style="margin-top:4mm"><h3>7. שלוש שאלות לסבב (סמנו ✓ ליד התשובה הנכונה)</h3>
+    <table class="tb" style="font-size:9.2pt">
+      <thead><tr><th style="width:24mm">דרגה</th><th>השאלה</th><th style="width:22mm">א</th><th style="width:22mm">ב</th><th style="width:22mm">ג</th></tr></thead>
+      <tbody>
+        <tr><td><b>🥉 קריאה</b></td><td style="height:13mm"></td><td></td><td></td><td></td></tr>
+        <tr><td><b>🥈 השוואה</b></td><td style="height:13mm"></td><td></td><td></td><td></td></tr>
+        <tr><td><b>🥇 חלק מהשלם</b></td><td style="height:13mm"></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8.8pt;color:var(--muted);margin-top:1.5mm">פתיחים: "כמה בחרו ב___?" · "מה קיבל הכי הרבה?" · "בכמה יותר ___ מאשר ___?" · "אילו שתי תשובות קיבלו אותו מספר?" · "בערך איזה חלק מהעונים בחר ___?"</p></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>✓ צ׳קליסט לפני השידור</h3><ul class="check"><li>5 סימני היושר בתרשים</li><li>בוחן: "הפיכה לבוחן" + מפתח תשובות</li><li>שאלת "איזו הפקה אתם?" בהתחלה</li><li>ניסיון בבוחן, ואז מחיקת התשובה</li><li>קישורים בלוח השידור ובטופס ההגשה</li></ul></div>
+    <div class="box"><h3>🤖 שורת AI</h3><p style="font-size:9.4pt">מה ה-AI עשה:</p><div class="lines h1"></div><p style="font-size:9.4pt;margin-top:1mm">מה אנחנו עשינו (ואיזו טעות שלו תפסנו):</p><div class="lines h1"></div></div>
+  </div>
+  <p style="margin-top:3mm;font-size:9pt;color:var(--muted)">שם לכל קובץ: <b>הפקת [שם] · שעשועון · [נושא הסקר]</b></p>
+</section>
+
+<!-- ===================== 7. TOPIC CARDS ===================== -->
+<section class="page" id="p-topics" data-label="כרטיסי נושא">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי נושא לסקר · 12 נושאים</div><div class="r">סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה. המפיק/ה שולף/ת כרטיס (או שמגרילים בשקף 6). בכל כרטיס: שאלה מוכנה ותשובות לדוגמה, לרמת בסיס.</p>
+  <div class="cutgrid cards tcards">
+    <div class="cc k-cust"><span class="cat">נושא 1</span><span class="em">🐶</span><b>חיית מחמד חלומית</b><small>"איזו חיית מחמד הכי היית רוצה?"<br>כלב · חתול · דג · ארנב · תוכי · אחר</small></div>
+    <div class="cc k-prob"><span class="cat">נושא 2</span><span class="em">😴</span><b>כמה ישנתי אתמול</b><small>"כמה שעות ישנת בלילה שעבר?"<br>פחות מ-7 · 7–8 · 8–9 · יותר מ-9</small></div>
+    <div class="cc k-tech"><span class="cat">נושא 3</span><span class="em">⚽</span><b>הספורט האהוב</b><small>"איזה ספורט את/ה הכי אוהב/ת?"<br>כדורגל · כדורסל · שחייה · ריקוד · אחר</small></div>
+    <div class="cc k-cust"><span class="cat">נושא 4</span><span class="em">🥣</span><b>ארוחת הבוקר של היום</b><small>"מה אכלת הבוקר?"<br>כריך · דגני בוקר · פרי · משהו אחר · לא אכלתי</small></div>
+    <div class="cc k-prob"><span class="cat">נושא 5</span><span class="em">🚌</span><b>איך הגעתי היום</b><small>"איך הגעת היום לבית הספר?"<br>ברגל · אוטובוס · רכב · אופניים/קורקינט</small></div>
+    <div class="cc k-tech"><span class="cat">נושא 6</span><span class="em">🍕</span><b>התוספת האהובה</b><small>"איזו תוספת הכי טעימה על פיצה?"<br>זיתים · תירס · פטריות · בצל · בלי תוספת</small></div>
+    <div class="cc k-cust"><span class="cat">נושא 7</span><span class="em">📚</span><b>ספרים החודש</b><small>"כמה ספרים קראת החודש?"<br>0 · 1 · 2 · 3 ויותר</small></div>
+    <div class="cc k-prob"><span class="cat">נושא 8</span><span class="em">🌦️</span><b>העונה האהובה</b><small>"מה העונה האהובה עליך?"<br>חורף · אביב · קיץ · סתיו</small></div>
+    <div class="cc k-tech"><span class="cat">נושא 9</span><span class="em">🎵</span><b>סגנון המוזיקה</b><small>"איזה סגנון מוזיקה את/ה הכי אוהב/ת?"<br>פופ · ראפ/היפ-הופ · רוק · מזרחית · אחר</small></div>
+    <div class="cc k-cust"><span class="cat">נושא 10</span><span class="em">🎮</span><b>סוג המשחק</b><small>"איזה סוג משחק את/ה הכי אוהב/ת?"<br>ספורט · הרפתקה · פאזל · בנייה · קופסה</small></div>
+    <div class="cc k-prob"><span class="cat">נושא 11</span><span class="em">🦸</span><b>כוח-על</b><small>"איזה כוח-על היית בוחר/ת?"<br>תעופה · היעלמות · מהירות · קריאת מחשבות</small></div>
+    <div class="cc k-tech"><span class="cat">נושא 12</span><span class="em">🌍</span><b>מאגר נתונים פתוח</b><small>בוחרים מאגר מהדף המודפס (עמוד 8). הנתונים אמיתיים, עם מקור.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 8. OPEN DATA ===================== -->
+<section class="page" id="p-data" data-label="מאגר נתונים">
+  <div class="ph"><div class="l"><i>TIE</i>מאגר נתונים פתוח · נתונים אמיתיים עם מקור</div><div class="r">גיבוי להפקות</div></div>
+  <div class="pt"><div><span class="kick">🌍 בשביל הפקה שבחרה מאגר, או שהסקר שלה לא קיבל מספיק תשובות</span><h2>ארבעה מאגרים <span>אמיתיים</span></h2></div><p>מעתיקים לגיליון, בונים תרשים ומוסיפים את המקור. גם כאן חלים 5 סימני היושר.</p></div>
+  <div class="grid2 grow" style="align-content:start">
+    <div class="box"><h3>🏅 מדליות של ישראל באולימפיאדות הקיץ</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th>משחקים</th><th>מדליות</th></tr></thead><tbody>
+        <tr><td>1992 ברצלונה</td><td>2</td></tr><tr><td>1996 אטלנטה</td><td>1</td></tr><tr><td>2000 סידני</td><td>1</td></tr><tr><td>2004 אתונה</td><td>2</td></tr><tr><td>2008 בייג׳ינג</td><td>1</td></tr><tr><td>2012 לונדון</td><td>0</td></tr><tr><td>2016 ריו דה ז׳ניירו</td><td>2</td></tr><tr><td>2020 טוקיו (נערכו ב-2021)</td><td>4</td></tr><tr><td>2024 פריז</td><td>7</td></tr>
+      </tbody></table>
+      <p class="dnote">💡 תרשים: קו או עמודות לפי שנה. רעיון לשאלה: "באילו משחקים ישראל לא זכתה במדליה?"</p>
+      <p class="dsrc">מקור: ויקיפדיה, "ישראל במשחקים האולימפיים"; olympics.com</p></div>
+    <div class="box"><h3>🏔️ חמשת ההרים הגבוהים בעולם</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th>הר</th><th>גובה (מטרים)</th></tr></thead><tbody>
+        <tr><td>אוורסט</td><td>8,849</td></tr><tr><td>K2</td><td>8,611</td></tr><tr><td>קנצ׳נג׳ונגה</td><td>8,586</td></tr><tr><td>לוטסה</td><td>8,516</td></tr><tr><td>מקאלו</td><td>8,485</td></tr>
+      </tbody></table>
+      <p class="dnote">💡 עמודות מ-0: כמעט אין הבדל! ציר מ-8,400: ההבדל נראה ענק. זה מבחן ההטעיה המושלם. מותר להראות את שתי הגרסאות, ולכתוב איזו ישרה.</p>
+      <p class="dsrc">מקור: ויקיפדיה, "רשימת ההרים הגבוהים בעולם"</p></div>
+    <div class="box"><h3>🪐 כמה ימים נמשכת שנה בכל כוכב לכת</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th>כוכב לכת</th><th>ימים (של כדור הארץ)</th></tr></thead><tbody>
+        <tr><td>כוכב חמה</td><td>88</td></tr><tr><td>נוגה</td><td>225</td></tr><tr><td>כדור הארץ</td><td>365</td></tr><tr><td>מאדים</td><td>687</td></tr><tr><td>צדק</td><td>4,333</td></tr><tr><td>שבתאי</td><td>10,759</td></tr><tr><td>אורנוס</td><td>30,687</td></tr><tr><td>נפטון</td><td>60,190</td></tr>
+      </tbody></table>
+      <p class="dnote">💡 אלופים: המספרים ענקיים. אולי כדאי תרשים רק לארבעת הקרובים, או לחשב בשנים (חלקי 365)?</p>
+      <p class="dsrc">מקור: NASA, Planetary Fact Sheet (מעוגל ליום)</p></div>
+    <div class="box"><h3>🏟️ כמה שחקנים על המגרש מכל קבוצה</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th>ענף</th><th>שחקנים</th></tr></thead><tbody>
+        <tr><td>כדורגל</td><td>11</td></tr><tr><td>כדורסל</td><td>5</td></tr><tr><td>כדורעף</td><td>6</td></tr><tr><td>כדוריד</td><td>7</td></tr><tr><td>כדור מים</td><td>7</td></tr><tr><td>הוקי קרח</td><td>6</td></tr><tr><td>בייסבול</td><td>9</td></tr><tr><td>רוגבי (איחוד)</td><td>15</td></tr>
+      </tbody></table>
+      <p class="dnote">💡 עמודות. רעיון לשאלה: "באילו שני ענפים יש אותו מספר שחקנים?"</p>
+      <p class="dsrc">מקור: חוקי המשחק של ההתאחדויות הבינלאומיות (FIFA, FIBA ועוד)</p></div>
+  </div>
+</section>
+
+<!-- ===================== 9. FIVE SIGNS DESK CARD ===================== -->
+<section class="page" id="p-signs" data-label="חמשת סימני היושר">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס שולחן · חמשת סימני היושר</div><div class="r">2 בעמוד · לחתוך לחצי</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="signcard">
+      <div class="sh"><b>✅ חמשת סימני היושר</b><span>תרשים שעובר את כולם עולה לשידור</span></div>
+      <div class="srow">
+        <div><i>🏷️</i><b>כותרת</b><small>על מה התרשים, ואפילו המסקנה. בלי "כולם".</small><em>❓ האם מבינים מהכותרת מה בדקו?</em><span class="tick">☐ יש</span></div>
+        <div><i>↔️</i><b>צירים</b><small>לכל ציר יש שם.</small><em>❓ מה כתוב מתחת, ומה בצד?</em><span class="tick">☐ יש</span></div>
+        <div><i>📏</i><b>יחידות</b><small>תלמידים? שעות? אחוזים?</small><em>❓ מה המספרים סופרים?</em><span class="tick">☐ יש</span></div>
+        <div><i>0️⃣</i><b>אפס</b><small>בעמודות, הציר האנכי מתחיל ב-0.</small><em>❓ איפה מתחיל הציר האנכי?</em><span class="tick">☐ יש</span></div>
+        <div><i>🔗</i><b>מקור</b><small>מי ענה, כמה ומתי.</small><em>❓ כמה ענו, ואיפה?</em><span class="tick">☐ יש</span></div>
+      </div>
+      <div class="sfoot"><span>🚫 <b>מטעה:</b> ציר חתוך · עוגה שלא מסתכמת ל-100% · כותרת מגזימה · סוג תרשים לא מתאים</span></div>
+      <div class="sfoot"><span>📊 עמודות = השוואה · 📈 קו = שינוי בזמן · 🥧 עוגה = חלקים משלם (תשובה אחת לכל עונה)</span></div>
+    </div>
+    <div class="signcard">
+      <div class="sh"><b>✅ חמשת סימני היושר</b><span>תרשים שעובר את כולם עולה לשידור</span></div>
+      <div class="srow">
+        <div><i>🏷️</i><b>כותרת</b><small>על מה התרשים, ואפילו המסקנה. בלי "כולם".</small><em>❓ האם מבינים מהכותרת מה בדקו?</em><span class="tick">☐ יש</span></div>
+        <div><i>↔️</i><b>צירים</b><small>לכל ציר יש שם.</small><em>❓ מה כתוב מתחת, ומה בצד?</em><span class="tick">☐ יש</span></div>
+        <div><i>📏</i><b>יחידות</b><small>תלמידים? שעות? אחוזים?</small><em>❓ מה המספרים סופרים?</em><span class="tick">☐ יש</span></div>
+        <div><i>0️⃣</i><b>אפס</b><small>בעמודות, הציר האנכי מתחיל ב-0.</small><em>❓ איפה מתחיל הציר האנכי?</em><span class="tick">☐ יש</span></div>
+        <div><i>🔗</i><b>מקור</b><small>מי ענה, כמה ומתי.</small><em>❓ כמה ענו, ואיפה?</em><span class="tick">☐ יש</span></div>
+      </div>
+      <div class="sfoot"><span>🚫 <b>מטעה:</b> ציר חתוך · עוגה שלא מסתכמת ל-100% · כותרת מגזימה · סוג תרשים לא מתאים</span></div>
+      <div class="sfoot"><span>📊 עמודות = השוואה · 📈 קו = שינוי בזמן · 🥧 עוגה = חלקים משלם (תשובה אחת לכל עונה)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10. MISLEADING TEST SLIPS ===================== -->
+<section class="page" id="p-trap" data-label="מבחן ההטעיה">
+  <div class="ph"><div class="l"><i>TIE</i>מבחן ההטעיה · נקודת ביקורת</div><div class="r">4 בעמוד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כל הפקה ממלאת דף אחד על התרשים של ההפקה השכנה, בלי לשמוע הסבר.</p>
+  <div class="cutgrid exits">
+    <div class="ex trap"><div class="eh"><b>🕵️ מבחן ההטעיה</b><span>6 דקות</span></div>
+      <p>אנחנו: <span class="fill s"></span> · בודקים את: <span class="fill s"></span></p>
+      <p class="q">מהתרשים הבנו ש...</p><div class="lines h2"></div>
+      <div class="tchk"><span>☐ כותרת</span><span>☐ צירים</span><span>☐ יחידות</span><span>☐ אפס</span><span>☐ מקור</span></div>
+      <p class="q">משהו שמבלבל אותנו (או שחסר):</p><div class="lines h2"></div>
+      <p class="lbl">ההפקה הנבדקת: ☐ זה בדיוק מה שהתכוונו · ☐ מתקנים</p></div>
+    <div class="ex trap"><div class="eh"><b>🕵️ מבחן ההטעיה</b><span>6 דקות</span></div>
+      <p>אנחנו: <span class="fill s"></span> · בודקים את: <span class="fill s"></span></p>
+      <p class="q">מהתרשים הבנו ש...</p><div class="lines h2"></div>
+      <div class="tchk"><span>☐ כותרת</span><span>☐ צירים</span><span>☐ יחידות</span><span>☐ אפס</span><span>☐ מקור</span></div>
+      <p class="q">משהו שמבלבל אותנו (או שחסר):</p><div class="lines h2"></div>
+      <p class="lbl">ההפקה הנבדקת: ☐ זה בדיוק מה שהתכוונו · ☐ מתקנים</p></div>
+    <div class="ex trap"><div class="eh"><b>🕵️ מבחן ההטעיה</b><span>6 דקות</span></div>
+      <p>אנחנו: <span class="fill s"></span> · בודקים את: <span class="fill s"></span></p>
+      <p class="q">מהתרשים הבנו ש...</p><div class="lines h2"></div>
+      <div class="tchk"><span>☐ כותרת</span><span>☐ צירים</span><span>☐ יחידות</span><span>☐ אפס</span><span>☐ מקור</span></div>
+      <p class="q">משהו שמבלבל אותנו (או שחסר):</p><div class="lines h2"></div>
+      <p class="lbl">ההפקה הנבדקת: ☐ זה בדיוק מה שהתכוונו · ☐ מתקנים</p></div>
+    <div class="ex trap"><div class="eh"><b>🕵️ מבחן ההטעיה</b><span>6 דקות</span></div>
+      <p>אנחנו: <span class="fill s"></span> · בודקים את: <span class="fill s"></span></p>
+      <p class="q">מהתרשים הבנו ש...</p><div class="lines h2"></div>
+      <div class="tchk"><span>☐ כותרת</span><span>☐ צירים</span><span>☐ יחידות</span><span>☐ אפס</span><span>☐ מקור</span></div>
+      <p class="q">משהו שמבלבל אותנו (או שחסר):</p><div class="lines h2"></div>
+      <p class="lbl">ההפקה הנבדקת: ☐ זה בדיוק מה שהתכוונו · ☐ מתקנים</p></div>
+  </div>
+</section>
+
+<!-- ===================== 11. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · המחוון של המפיקים</div><div class="r">הפקה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📋 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נקבע <span>ציון המפיקים</span></h2></div><p>בהגשה מסמנים הערכה עצמית. המדריך קובע את הציון הסופי בזמן הסבב שלכם בשעשועון.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">נתונים<small>אמיתיים ומסודרים</small></td><td>מספרים בלי מקור או ממוצאים</td><td>נתונים אמיתיים אבל לא מסודרים</td><td>טבלה מסודרת עם מקור וכמה עונים</td><td>טבלה מסודרת, מקור, ובדיקה של טעויות או כפילויות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">תרשים ישר וברור<small>5 סימני היושר</small></td><td>בלי כותרת או צירים</td><td>יש כותרת, חסרות יחידות או אפס</td><td>כותרת, צירים, יחידות, אפס וסוג תרשים מתאים</td><td>כל אלה, וכותרת שאומרת את המסקנה בלי להגזים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">שאלות הסבב<small>עונים רק מהתרשים</small></td><td>שאלות שלא קשורות לתרשים</td><td>שאלות שאפשר לנחש בלי התרשים</td><td>3 שאלות שהתשובה עליהן בתרשים</td><td>3 שאלות בדרגות קושי עולות, כולל השוואה בין שני נתונים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כתוב "השתמשנו ב-AI&rlm;"</td><td>כתוב מה ה-AI הציע ומה בדקנו בעצמנו</td><td>כתוב מה ה-AI הציע, איזו טעות חישוב שלו תפסנו ומה שינינו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>ציון המפיקים = <b>סכום ארבעת הקריטריונים</b>: מינימום 4, מקסימום 16 נקודות בלוח הניקוד.</p><p style="margin-top:2mm">הערכה עצמית שלנו: <span class="fill s"></span> / 16</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: הפקת "הכוכבים", נושא "הספורט האהוב" (נתונים לדוגמה)</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> כותרת "הספורט האהוב בכיתה", צירים "ספורט" ו"מספר תלמידים", ציר מ-0, "מקור: סקר בכיתה, 26 עונים". שאלות: "כמה בחרו כדורסל?", "מה קיבל הכי הרבה?", "כמה בחרו שחייה?" (כולן קריאה).</p><p style="font-size:9.2pt"><b>🚀 רמה 4:</b> כותרת "כדורגל מוביל: 9 מתוך 26 בחרו בו". שאלות: קריאה, "בכמה יותר בחרו כדורגל מאשר שחייה?", "בערך איזה חלק בחר כדורגל?". שורת AI: "Gemini כתב 38%, בדקנו ב-Sheets: 35%".</p></div></div>
+</section>
+
+<!-- ===================== 12. ANSWER SHEET (backup) ===================== -->
+<section class="page" id="p-answers" data-label="דף תשובות">
+  <div class="ph"><div class="l"><i>TIE</i>דף תשובות לשעשועון · גיבוי בלי מכשירים</div><div class="r">2 בעמוד · לחתוך לחצי</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="ans">
+      <div class="eh"><b>📺 דף התשובות של הפקת <span class="fill"></span></b><span>מקיפים א / ב / ג</span></div>
+      <table class="tb">
+        <thead><tr><th style="width:44mm">ההפקה המארחת</th><th>שאלה 1</th><th>שאלה 2</th><th>שאלה 3</th><th style="width:22mm">נכונות</th></tr></thead>
+        <tbody>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+        </tbody>
+      </table>
+      <p class="anote">אחרי כל סבב המארחת מקריאה את התשובות הנכונות, ואתם סופרים. כל תשובה נכונה = 2 נקודות לכם ונקודת בהירות למארחת.</p>
+    </div>
+    <div class="ans">
+      <div class="eh"><b>📺 דף התשובות של הפקת <span class="fill"></span></b><span>מקיפים א / ב / ג</span></div>
+      <table class="tb">
+        <thead><tr><th style="width:44mm">ההפקה המארחת</th><th>שאלה 1</th><th>שאלה 2</th><th>שאלה 3</th><th style="width:22mm">נכונות</th></tr></thead>
+        <tbody>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+          <tr><td class="e"></td><td>א · ב · ג</td><td>א · ב · ג</td><td>א · ב · ג</td><td></td></tr>
+        </tbody>
+      </table>
+      <p class="anote">אחרי כל סבב המארחת מקריאה את התשובות הנכונות, ואתם סופרים. כל תשובה נכונה = 2 נקודות לכם ונקודת בהירות למארחת.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 13. SIDE TASKS ===================== -->
+<section class="page" id="p-side" data-label="משימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי משימות צד · למי שסיים</div><div class="r">סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולשים בקופסה על שולחן המדריך. הפקה שסיימה שולפת כרטיס. משימה 3 היא מועמדות לפרס "הנתון המפתיע".</p>
+  <div class="cutgrid cards side">
+    <div class="cc k-tech"><span class="cat">⭐ משימת צד 1</span><span class="em">🔄</span><b>תרשים שני</b><small>אותם נתונים בסוג תרשים אחר. איזה מהשניים ברור יותר? כתבו משפט אחד שמסביר למה.</small></div>
+    <div class="cc k-cust"><span class="cat">⭐ משימת צד 2</span><span class="em">✨</span><b>גרסת Flourish</b><small><bdi dir="ltr">flourish.studio → New visualization → Column chart</bdi><br>מדביקים את הנתונים, מוסיפים כותרת ומקור, ומפרסמים.</small></div>
+    <div class="cc k-prob"><span class="cat">⭐ משימת צד 3</span><span class="em">😲</span><b>הנתון המפתיע</b><small>מה הפתיע אתכם בתוצאות? ולמה ציפיתם לאחרת? משפט אחד, עם מספר.</small></div>
+    <div class="cc k-tech"><span class="cat">⭐ משימת צד 4</span><span class="em">🃏</span><b>הגרסה השקרנית</b><small>בנו בכוונה גרסה מטעה של התרשים שלכם, וכתבו מה הטריק. לא מגישים אותה!</small></div>
+    <div class="cc k-cust"><span class="cat">⭐ משימת צד 5</span><span class="em">🔥</span><b>שאלת שובר שוויון</b><small>שאלה רביעית, קשה במיוחד, על התרשים שלכם. אם יהיה תיקו, היא תכריע.</small></div>
+    <div class="cc k-prob"><span class="cat">⭐ משימת צד 6</span><span class="em">🔍</span><b>בודקים את ה-AI</b><small>בקשו מ-Gemini לחשב את האחוזים בטבלה שלכם. השוו לחישוב שלכם ב-Sheets. מצאתם הבדל? רשמו בשורת ה-AI.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 14. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים לפני ההגשה, ומעתיקים את שתי השורות לטופס "הגשת סבב".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · שעשועון הנתונים</b><span>הפקה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ואיזו טעות שלו תפסנו)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · שעשועון הנתונים</b><span>הפקה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ואיזו טעות שלו תפסנו)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · שעשועון הנתונים</b><span>הפקה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ואיזו טעות שלו תפסנו)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · שעשועון הנתונים</b><span>הפקה: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ואיזו טעות שלו תפסנו)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI בתוצר הזה</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 86–88, בזמן שהמדריך סוגר את הניקוד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שעשועון הנתונים</span></div><p>הפקה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איך תזהו תרשים מטעה בחדשות או בפרסומת? 2 סימנים:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להפקה:</p>
+      <div class="tags"><span>סקר</span><span>טבלה</span><span>תרשים</span><span>שאלות</span><span>אינפוגרפיקה</span><span>הגשה בבמה</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שעשועון הנתונים</span></div><p>הפקה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איך תזהו תרשים מטעה בחדשות או בפרסומת? 2 סימנים:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להפקה:</p>
+      <div class="tags"><span>סקר</span><span>טבלה</span><span>תרשים</span><span>שאלות</span><span>אינפוגרפיקה</span><span>הגשה בבמה</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שעשועון הנתונים</span></div><p>הפקה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איך תזהו תרשים מטעה בחדשות או בפרסומת? 2 סימנים:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להפקה:</p>
+      <div class="tags"><span>סקר</span><span>טבלה</span><span>תרשים</span><span>שאלות</span><span>אינפוגרפיקה</span><span>הגשה בבמה</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שעשועון הנתונים</span></div><p>הפקה: <span class="fill"></span></p>
+      <p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div>
+      <p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div>
+      <p class="q">איך תזהו תרשים מטעה בחדשות או בפרסומת? 2 סימנים:</p><div class="lines h2"></div>
+      <div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+      <p class="lbl">היום תרמתי להפקה:</p>
+      <div class="tags"><span>סקר</span><span>טבלה</span><span>תרשים</span><span>שאלות</span><span>אינפוגרפיקה</span><span>הגשה בבמה</span></div>
+      <p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 16. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>שעשועון הנתונים · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מקור האמת. התוצאות עוברות ללוח הניקוד במצגת (שקף 36)</span><h2>דף <span>הניקוד</span></h2></div></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:30mm">הפקה</th><th>תשובות נכונות<br><small>×2</small></th><th>בהירות<br><small>עד 6</small></th><th>תרשים<br><small>4</small></th><th>מבחן ההטעיה<br><small>2</small></th><th>אינפוגרפיקה<br><small>2</small></th><th>מחוון<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:13mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>✅ כמה ענו נכון? (שורה = ההפקה שענתה · עמודה = המארחת · 0–3 בכל משבצת)</h3>
+    <table class="tb mx" style="font-size:9pt">
+      <thead><tr><th style="width:30mm">עונה ↓ · מארחת ←</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th style="background:var(--teal-soft)">סה״כ ×2</th></tr></thead>
+      <tbody>
+        <tr><td class="e"></td><td class="dg"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td class="dg"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td></td><td class="dg"></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td></td><td></td><td class="dg"></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td></td><td></td><td></td><td class="dg"></td><td></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td class="dg"></td><td></td><td></td></tr>
+        <tr><td class="e"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="dg"></td><td></td></tr>
+        <tr><td class="e"><b>🔍 בהירות (עד 6)</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🕵️ מבחן ההטעיה (דקה 48): מי עבר / מי תקוע?</h3><div class="lines h2"></div></div>
+    <div class="box"><h3>🏆 פרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🏆 גביע: <span class="fill s"></span></p><p>🔍 הכי ברור: <span class="fill s"></span></p><p>🧠 אלופי המספרים: <span class="fill s"></span></p><p>😲 הנתון המפתיע: <span class="fill s"></span></p></div></div>
+  </div>
+  <p style="margin-top:3mm;font-size:9pt;color:var(--muted)">בתיקו: יותר נקודות בהירות (לפני התקרה של 6). תרשים שנשאר מטעה בזמן השידור: הסבב רץ, בלי נקודות בהירות.</p>
+</section>
+
+<!-- ===================== 17–18. CERTIFICATES ===================== -->
+<section class="page" id="p-cert1" data-label="תעודות 1">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · גביע והכי ברור</div><div class="r">2 בעמוד · לחתוך לחצי</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="cert" style="--c:#e3a82b;--cs:#fdf3d7"><div class="cin"><span class="cem">🏆</span><p class="ck">ערוץ הילדים · "מה המספרים אומרים?"</p><h3>גביע השעשועון</h3><p class="cfor">מוענק להפקת</p><div class="cname"></div><p class="cwhy">על הניקוד הגבוה ביותר: תרשים ישר, שאלות חכמות ותשובות נכונות</p><div class="csig"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+    <div class="cert" style="--c:#4c8bd6;--cs:#e7f0fa"><div class="cin"><span class="cem">🔍</span><p class="ck">ערוץ הילדים · "מה המספרים אומרים?"</p><h3>הכי ברור</h3><p class="cfor">מוענק להפקת</p><div class="cname"></div><p class="cwhy">על התרשים שהכי הרבה מתחרים הצליחו לקרוא נכון</p><div class="csig"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+  </div>
+</section>
+<section class="page" id="p-cert2" data-label="תעודות 2">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות · אלופי המספרים והנתון המפתיע</div><div class="r">2 בעמוד · לחתוך לחצי</div></div>
+  <div class="cutgrid" style="grid-template-rows:1fr 1fr;flex:1">
+    <div class="cert" style="--c:#8c7ae6;--cs:#efecfb"><div class="cin"><span class="cem">🧠</span><p class="ck">ערוץ הילדים · "מה המספרים אומרים?"</p><h3>אלופי המספרים</h3><p class="cfor">מוענק להפקת</p><div class="cname"></div><p class="cwhy">על הכי הרבה תשובות נכונות בסבבים של הפקות אחרות</p><div class="csig"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+    <div class="cert" style="--c:#e76f86;--cs:#fce9ed"><div class="cin"><span class="cem">😲</span><p class="ck">ערוץ הילדים · "מה המספרים אומרים?"</p><h3>הנתון המפתיע</h3><p class="cfor">מוענק להפקת</p><div class="cname"></div><p class="cwhy">על הגילוי שהכי הפתיע את כל ההפקות, בהצבעה</p><div class="csig"><span>תאריך: <span class="fill s"></span></span><span>המדריך/ה: <span class="fill"></span></span></div></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

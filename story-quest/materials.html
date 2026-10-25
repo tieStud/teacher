@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>חומרים להדפסה · סיפור בחר-את-הסוף | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== סיפור בחר-את-הסוף · materials additions ===== */
+.ph .l i.k{background:#6a55c9}
+.pt h2 span{color:#6a55c9}
+.kick.v{color:#6a55c9;background:#efecfb}
+.r-ed{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-wr{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ar{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-il{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.r-rd{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.role .std{font-size:8.6pt;color:var(--muted);font-weight:500}
+/* shelf cards */
+.shelfs{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.shelf{--b:#4c8bd6;position:relative;display:flex;flex-direction:column;justify-content:center;gap:2.2mm;padding:5mm 7mm;padding-inline-start:13mm;overflow:hidden}
+.shelf::before{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:6mm;background:var(--b)}
+.shelf::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:6mm;width:1.2mm;background:repeating-linear-gradient(180deg,#fff 0 2mm,transparent 2mm 4mm);opacity:.6}
+.shelf .no{position:absolute;left:4mm;top:3.5mm;width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:var(--b);color:#fff;font-family:var(--display);font-weight:800;font-size:10pt}
+.shelf .tt{font-family:var(--display);font-weight:700;font-size:8.5pt;color:var(--muted);letter-spacing:.2px}
+.shelf p{font-size:11pt;line-height:1.35}
+.shelf p b{font-family:var(--display)}
+.shelf .prob{color:var(--rose-ink);font-weight:700}
+/* map page */
+.mapsheet{flex:1;position:relative;border:1.4px dashed var(--line2);border-radius:4mm;background:radial-gradient(circle,#e3ddd2 .7px,transparent 1px) 0 0/6mm 6mm}
+.mapsheet svg{position:absolute;inset:0;width:100%;height:100%}
+.legend3{display:flex;flex-wrap:wrap;gap:3mm;font-size:9pt;margin-bottom:3mm}
+.legend3 span{display:inline-flex;align-items:center;gap:1.6mm;border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* plan table */
+table.plan{width:100%;border-collapse:collapse;font-size:9pt;table-layout:fixed}
+table.plan th,table.plan td{border:1px solid var(--line2);padding:1.6mm 2mm;text-align:right;vertical-align:top}
+table.plan th{font-family:var(--display);font-weight:600;background:var(--paper2)}
+table.plan td{height:17.5mm}
+table.plan td.n{text-align:center;font-family:var(--display);font-weight:800;color:var(--dim)}
+table.plan td small{color:var(--dim);font-size:7.6pt}
+/* syntax sheet */
+.syn2{display:grid;grid-template-columns:1fr 1fr;gap:3.5mm}
+.cbox{border:1px solid var(--line2);border-radius:3mm;padding:3mm 3.5mm;background:#fff}
+.cbox h3{font-family:var(--display);font-weight:700;font-size:11pt;margin-bottom:1.5mm}
+.cbox p{font-size:9.4pt;color:var(--ink)}
+.cbox .muted{color:var(--muted);font-size:8.8pt}
+.cl{direction:ltr;text-align:left;font-family:Menlo,Consolas,"Heebo",sans-serif;font-size:10pt;background:#f4f8f7;border:1px solid #d6e2df;border-radius:2mm;padding:1.8mm 2.6mm;margin:1.4mm 0;line-height:1.6}
+.cl.r{direction:rtl;text-align:right}
+.cl bdi{font-family:Menlo,Consolas,"Courier New",monospace;color:#6a55c9;font-weight:700}
+.cl .lk{color:#0f766e;font-weight:700;font-family:"Heebo",Arial,sans-serif}
+.tbar{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm;direction:ltr;font-family:Arial,sans-serif;font-size:8.6pt}
+.tbar div{border:1px solid var(--line2);border-radius:2mm;padding:1.6mm 2mm;background:#f7f7f8}
+.tbar b{display:block;font-size:9.4pt;margin-bottom:.6mm}
+/* help cards */
+.helps{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);flex:1}
+.hc{--c:#8c7ae6;--cs:#efecfb;display:flex;flex-direction:column;gap:1.6mm;padding:5mm 4.5mm;position:relative;font-size:9.4pt}
+.hc::before{content:"";position:absolute;inset:0 0 auto 0;height:1.8mm;background:var(--c)}
+.hc .tag{align-self:flex-start;font-family:var(--display);font-weight:700;font-size:8pt;background:var(--cs);border-radius:999px;padding:.3mm 2.4mm;margin-top:1mm}
+.hc .em{font-size:20pt;line-height:1}
+.hc b{font-family:var(--display);font-weight:800;font-size:12pt}
+.hc ul{margin:0;padding-inline-start:4mm}
+.h-side{--c:#e3a82b;--cs:#fdf3d7}.h-open{--c:#5bb5a2;--cs:#e3f1ee}.h-end{--c:#e76f86;--cs:#fce9ed}
+/* rota + slips */
+.slips{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.slip{display:flex;flex-direction:column;gap:1.1mm;padding:3mm 4.5mm;font-size:9pt}
+.slip .eh{display:flex;justify-content:space-between;align-items:center}
+.slip .eh b{font-family:var(--display);font-weight:800;font-size:11.5pt}
+.slip .scale{display:flex;gap:2mm;align-items:center}
+.slip .scale i{font-style:normal;display:inline-grid;place-items:center;width:5.6mm;height:5.6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+/* certificates */
+.certs{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.cert{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2.6mm;padding:7mm;position:relative}
+.cert::before{content:"";position:absolute;inset:4mm;border:1.4px solid #d9cdb8;border-radius:3mm;pointer-events:none}
+.cert::after{content:"";position:absolute;inset:5.6mm;border:.6px dashed #e3d7bf;border-radius:2mm;pointer-events:none}
+.cert .em{font-size:30pt;line-height:1}
+.cert .k{font-family:var(--display);font-weight:600;font-size:8.5pt;color:#6a55c9;letter-spacing:.3px}
+.cert b{font-family:var(--display);font-weight:800;font-size:16pt;line-height:1.1}
+.cert p{font-size:9.4pt;color:var(--muted);max-width:70mm}
+.cert .nm{width:62mm;border-bottom:1.3px solid var(--ink);height:8mm}
+.cert .sg{font-size:8.4pt;color:var(--dim)}
+/* passage cards */
+.pcards{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);flex:1}
+.pc{display:flex;flex-direction:column;gap:1.6mm;padding:4mm 5mm;font-size:9.4pt}
+.pc .hd{display:flex;justify-content:space-between;align-items:center}
+.pc .hd b{font-family:var(--display);font-weight:800;font-size:12pt}
+.pc .numb{display:inline-grid;place-items:center;min-width:12mm;height:9mm;border:1.4px solid var(--ink);border-radius:2mm;font-family:var(--display);font-weight:800}
+.pc .go{display:flex;gap:2mm;align-items:center;font-weight:700}
+.pc .go .fill{flex:1}
+/* door sign */
+.door{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7mm;border:2px solid #d9cdb8;border-radius:6mm;background:radial-gradient(70% 50% at 50% 30%,#f6f1ff,transparent 70%),#fffdf8;position:relative}
+.door .em{font-size:80pt;line-height:1}
+.door h2{font-family:var(--display);font-weight:800;font-size:44pt;line-height:1.05}
+.door h2 span{color:#6a55c9}
+.door p{font-size:16pt;color:var(--muted);max-width:150mm;line-height:1.4}
+.door .small{font-size:12pt;color:var(--dim)}
+table.tb.sm th,table.tb.sm td{padding:1.1mm 2mm;font-size:8.8pt}
+#p-mission .box{padding:2.8mm 3.5mm}#p-mission .box h3{margin-bottom:1mm}#p-mission .pt p{font-size:9.4pt}#p-mission ol.clean li{margin-bottom:.2mm;font-size:9.4pt}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · סיפור בחר-את-הסוף<small>ליל הספרייה · 90 דקות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס. את דף המפה מדפיסים בהגדלה ל-A3 אם אפשר.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>סיפור בחר-את-הסוף · דף הדפסה</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6 צוותים. לכיתה גדולה או קטנה יותר: לפי מספר הצוותים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3–4</td><td>כרטיסי תפקיד, נורמות, רמזור ומילון</td><td>1 סט לצוות (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>5</td><td>כרטיסי מדף</td><td>1 סט לכיתה (8 כרטיסים)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>6</td><td>דף מפת סיפור</td><td>1 לצוות + 2 רזרבה (8)</td><td>A3 אם אפשר</td><td>לא</td></tr>
+      <tr><td>7</td><td>דף תכנון קטעים</td><td>2 לצוות (12)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>דף תחביר Twine</td><td>1 לשולחן (6)</td><td>רגיל / למינציה</td><td>לא</td></tr>
+      <tr><td>9</td><td>כרטיסי עזרה ומשימות צד</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>10</td><td>מחוון</td><td>1 לצוות + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>סבב הקוראים + פתקי קורא</td><td>1 למדריך + 3 עמודים לגיבוי</td><td>רגיל</td><td>כן (הפתקים)</td></tr>
+      <tr><td>12</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>13</td><td>כרטיסי יציאה</td><td>7 עמודים (28 כרטיסים)</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>14</td><td>דף ניקוד למדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>תעודות</td><td>1</td><td>בריסטול</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>ספר על כרטיסיות (רק בלי מכשירים)</td><td>3 לצוות (18)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>17</td><td>שלט "הספרייה נעולה"</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 על כל שולחן</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד, נורמות, רמזור ומילון</li><li>כרטיס המשימה ומחוון</li><li>דף מפת סיפור A3 ו-2 דפי תכנון</li><li>דף תחביר Twine</li><li>2 טושים בצבעים שונים, עיפרון</li><li>מעטפת צוות לדפים</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>קופסת כרטיסי המדף, הפוכים</li><li>קופסת כרטיסי עזרה ומשימות צד</li><li>פתקי קורא (גיבוי לטופס)</li><li>כרטיסי יציאה ורצועות שורת AI</li><li>דף הניקוד ועט</li><li>מעטפה סגורה עם 4 התעודות</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>מניחים 3–4 דפים זה על זה, מיישרים וגוזרים יחד. כרטיסי המדף נכנסים לקופסה הפוכים. את שלט הדלת תולים לפני שהתלמידים נכנסים.</p></div>
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>סיפור בחר-את-הסוף · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick v">🌙 ליל הספרייה</span><h2>הספר <span>שלא ננעל</span></h2></div><p>בלילה, כשהספרייה העירונית נסגרת, הספרים כותבים את עצמם, אבל רק אם הקורא/ת בוחר/ת את הדרך. הספרנית הראשית מבקשת מכל צוות להשאיר עד הבוקר ספר אחד שאפשר לשחק בו, עם לפחות שלושה סופים. ספר שאף קורא/ת לא מצליח/ה לסיים יישאר נעול על המדף לעד.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>ספר ב-Twine שקוראים זרים מצליחים למצוא בו כמה שיותר סופים, בלי להיתקע. עם תמונת שער מ-Gemini, ומפורסם כקובץ HTML.</p></div>
+    <div class="box"><h3>📜 החוקים</h3><ol class="clean"><li>לפחות 10 קטעים, 3 סופים ו-2 נקודות בחירה. כל קטע עד 60 מילים.</li><li>אין קישור שבור ואין קטע בלי יציאה, חוץ מהסופים.</li><li>כל סוף מסומן "סוף:" ושם.</li><li>Gemini לתמונות ולביקורת. את הקטעים כותב הצוות.</li><li>הקוראים: בלי הסבר, 6 דקות.</li><li>טופס אחרי כל סוף, בכנות.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:2.6mm"><h3>🔢 הניקוד (ידוע מראש)</h3>
+    <table class="tb sm"><thead><tr><th>מה</th><th style="width:36mm">נקודות</th></tr></thead><tbody>
+      <tr><td>⭐ כל סוף שקוראים מצוות אחר מצאו</td><td>3 לסוף · עד 9</td></tr>
+      <tr><td>🧩 10 קטעים ו-2 נקודות בחירה לפחות</td><td>4</td></tr>
+      <tr><td>🔗 אפס קישורים שבורים בבדיקת הקוראים</td><td>3</td></tr>
+      <tr><td>🗝️ משתנה או פריט שעובד (בונוס)</td><td>3</td></tr>
+      <tr><td>🔍 כל טופס שמילאנו כקוראים, על סוף שמצאנו</td><td>1 לטופס · עד 3</td></tr>
+      <tr><td>📊 המחוון (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:1.6mm;font-size:9pt;color:var(--muted)">🏆 מנצח: הכי הרבה נקודות. תיקו: יותר סופים שנמצאו, ואז ציון הקוראים. עוד פרסים: 😱 הסוף הכי מפתיע · 🗺️ המפה הכי מסועפת · 🔍 הקוראים הכי חרוצים.</p></div>
+  <div class="box" style="margin-top:2.6mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb sm"><tbody>
+      <tr><td style="width:34mm"><b>📖 עורך/ת ראשי/ת</b></td><td>מפת הסיפור, 3 הסופים והזמן. רק הוא/היא קורא/ת למדריך.</td></tr>
+      <tr><td><b>✍️ כותב/ת</b></td><td>הקטעים: עד 60 מילים, בגוף שני ("אתם פותחים…"), כל קטע נגמר במתח.</td></tr>
+      <tr><td><b>🗺️ אדריכל/ית ענפים</b></td><td>בונה ב-Twine, בודק/ת ב-Details שיש 0 קישורים שבורים, מפרסם/ת לקובץ.</td></tr>
+      <tr><td><b>🎨 מאייר/ת</b></td><td>שער ועד 2 תמונות ב-Gemini, ביקורת עלילה, שורת ה-AI.</td></tr>
+      <tr><td><b>🔎 קורא/ת בודק/ת</b></td><td>משחק/ת בכל גרסה, מגיע/ה לכל הסופים, מגיש/ה בטופס.</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:2.6mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.4mm;font-size:9pt">שלד המפה המוכן בדף המפה, פתיחות לקטעים, 8–10 קטעים עד 40 מילים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.4mm;font-size:9pt">10 קטעים, 2 צמתים, 3 סופים בטונים שונים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.4mm;font-size:9pt">התכנסות, פריט עם (set:) ו-(if:), וסוף רביעי נסתר. עד 40 מילים לקטע.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLE CARDS 1–4 ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>כרטיסי תפקיד · ליל הספרייה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. הכרטיסים עוברים לאדם שיושב משמאל. בסוגריים: שם התפקיד הקבוע בסבב.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ed">
+      <div class="rh"><span class="ic">📖</span><div><b>עורך/ת ראשי/ת</b><small>מחזיק/ה את המפה ואת הזמן <span class="std">(🧭 מנכ״ל/ית)</span></small></div></div>
+      <p class="mis">המשימה שלי: שהספר שלנו יהיה שלם בזמן, עם 3 סופים שונים באמת.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>מוביל/ה את מפת הסיפור על ה-A3 ב-5 הדקות הראשונות.</li><li>מחליט/ה עם הצוות: מה השאלה שהסיפור פותח, ומה 3 הסופים.</li><li>שומר/ת על הטיימר: "נשארו 5 דקות".</li><li>מחליט/ה איזה תיקון מהקוראים או מ-Gemini עושים.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שכל הצוות ניסה.</li></ul>
+      <div class="say">💬 "מה הקורא רוצה לגלות?" · "עוד לא שמענו את ___." · "שני סופים? נכתוב את שניהם."</div>
+      <p class="no">✗ לא כותב/ת את כל הספר לבד.</p>
+      <p class="bonus">✓ הצלחתי כש: הקוראים מצאו לפחות 2 סופים, והגשנו בזמן</p>
+    </article>
+    <article class="role r-wr">
+      <div class="rh"><span class="ic">✍️</span><div><b>כותב/ת</b><small>הקול של הספר <span class="std">(🎤 מתעד/ת)</span></small></div></div>
+      <p class="mis">המשימה שלי: קטעים קצרים שגורמים לקורא/ת ללחוץ על הבא.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>כותב/ת את הקטעים בדף התכנון: עד 60 מילים לקטע.</li><li>בגוף שני: "אתם פותחים את הדלת…".</li><li>כל קטע נגמר במתח, ובשתי בחירות שיש להן מחיר.</li><li>לכל סוף טון אחר: מפחיד, מצחיק, מפתיע.</li></ul>
+      <div class="say">💬 "מה רואים? מה מרגישים? מה שתי האפשרויות?" · "אפשר לקצר?"</div>
+      <p class="no">✗ לא מעתיק/ה קטעים מ-Gemini. את הקטעים כותב הצוות.</p>
+      <p class="bonus">✓ הצלחתי כש: קורא/ת מצוות אחר צעק/ה "מה?!" באחד הסופים</p>
+    </article>
+    <article class="role r-ar">
+      <div class="rh"><span class="ic">🗺️</span><div><b>אדריכל/ית ענפים</b><small>הבונה של הספר <span class="std">(🛠️ בונה)</span></small></div></div>
+      <p class="mis">המשימה שלי: שכל קישור מוביל לקטע אמיתי, ושאין מבוי סתום.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>"נהג/ת" של Twine: בונה קטעים וקישורים לפי המפה.</li><li>נותן/ת לכל קטע שם ברור וזהה בדיוק לקישור.</li><li>בודק/ת ב-<b>Story ← Details</b>: 0 קישורים שבורים.</li><li>מפרסם/ת לקובץ (<b>Publish to File</b>) בסוף כל ספרינט.</li></ul>
+      <div class="say">💬 "לאן החץ הזה מוביל?" · "יש פה קטע ריק." · "רגע, אני מפרסם/ת."</div>
+      <p class="no">✗ לא בונה לבד בלי לשאול את הצוות, ולא בגלישה בסתר.</p>
+      <p class="bonus">✓ הצלחתי כש: אף קורא לא דיווח על קישור שבור</p>
+    </article>
+    <article class="role r-il">
+      <div class="rh"><span class="ic">🎨</span><div><b>מאייר/ת</b><small>התמונות והמבקר החכם <span class="std">(🤖 אחראי/ת AI)</span></small></div></div>
+      <p class="mis">המשימה שלי: שער שמושך לפתוח, ו-Gemini שעוזר לבדוק, לא לכתוב.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>תמונת שער ועד 2 תמונות ב-Gemini, באותו סגנון, בלי טקסט.</li><li>מעתיק/ה מ-<b>Build ← Proof</b> ושואל/ת את Gemini: "איפה החור בעלילה?"</li><li>מקריא/ה לצוות מה הוא מצא. הצוות מחליט.</li><li>ממלא/ת את שורת ה-AI: מה הציע, מה קיבלנו, מה דחינו.</li></ul>
+      <div class="say">💬 "מה מזה אנחנו לא מקבלים?" · "אותו סגנון כמו התמונה הקודמת."</div>
+      <p class="no">✗ לא מבקש/ת מ-Gemini לכתוב קטעים. בלי פרטים אישיים בפרומפט.</p>
+      <p class="bonus">✓ הצלחתי כש: תיקנו חור עלילה שמצאנו, וכתבנו מה דחינו ולמה</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. ROLE CARD 5 + NORMS + LIGHT + GLOSSARY ===================== -->
+<section class="page" id="p-roles2" data-label="תפקיד 5 ונורמות">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>כרטיסי תפקיד · המשך</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, נורמות, רמזור ומילון. שלושת האחרונים נשארים על השולחן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-rd">
+      <div class="rh"><span class="ic">🔎</span><div><b>קורא/ת בודק/ת</b><small>הקורא/ת הזר/ה הראשון/ה <span class="std">(🔍 חוקר/ת)</span></small></div></div>
+      <p class="mis">המשימה שלי: לשחק בספר כאילו אני רואה אותו בפעם הראשונה, ולהגיש אותו.</p>
+      <h4>מה אני עושה היום</h4>
+      <ul><li>אחרי כל 3 קטעים: <b>Build ← Play</b>, ומסמנ/ת ✓ על המפה.</li><li>מגיע/ה לכל סוף, ובודק/ת שהוא מסומן "סוף:".</li><li>מעלה ל-Drive ומגיש/ה בטופס "הגשת ספר".</li><li>בהחלפת הקוראים: ממלא/ת את טופס הקוראים על כל סוף שמצאנו.</li><li>בטקס: מציג/ה את הספר במשפט אחד.</li></ul>
+      <div class="say">💬 "פה נתקעתי." · "הבחירה הזאת לא ברורה." · "הגעתי לכל 3 הסופים ✓"</div>
+      <p class="no">✗ לא ממלא/ת טופס על סוף שלא הגעתי אליו.</p>
+      <p class="bonus">✓ הצלחתי כש: הספר הוגש בזמן, ומילאנו 3 טפסים כקוראים</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות הצוות</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל הצוות סיים.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים רעיונות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>שואלים את הצוות לפני שקוראים למדריך, ורק העורך/ת קורא/ת.</li>
+      </ol>
+      <p style="font-size:9pt;color:var(--muted)">בצוות של 4: האדריכל/ית לוקח/ת גם את הבדיקה. בצוות של 3: העורך/ת כותב/ת גם.</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>הקטעים, הסופים, המפה, כרטיס היציאה.</div>
+        <div class="y"><b>🟡 AI כמבקר</b>Gemini מוצא חורים בעלילה. הצוות מחליט ומתקן.</div>
+        <div class="g"><b>🟢 AI כשותף</b>תמונת השער ותמונות לקטעים.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: בפרומפט כותבים על הסיפור, לא על עצמנו.</p>
+    </article>
+    <article class="role" style="--c:#8c7ae6;--cs:#efecfb">
+      <div class="rh"><span class="ic">📚</span><div><b>מילון הכותבים</b><small>חמש מילים</small></div></div>
+      <ul style="font-size:9.8pt;display:grid;gap:1.4mm">
+        <li><b>קטע:</b> מסך אחד בסיפור, עד 60 מילים.</li>
+        <li><b>בחירה:</b> קישור שהקורא/ת לוחץ/ת עליו: [[ ]].</li>
+        <li><b>ענף:</b> מסלול שנפתח מבחירה.</li>
+        <li><b>התכנסות:</b> שני ענפים שנפגשים באותו קטע.</li>
+        <li><b>סוף:</b> קטע בלי קישורים, עם "סוף:" בכותרת.</li>
+        <li><b>מבוי סתום:</b> קטע בלי יציאה שהוא לא סוף. אסור!</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 5. SHELF CARDS ===================== -->
+<section class="page" id="p-shelf" data-label="כרטיסי מדף">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>כרטיסי מדף · מקום · חפץ · בעיה</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור, לקפל לשניים אם רוצים שלא יראו, ולשים בקופסה הפוכים. העורך/ת שולף/ת אחד. שליפה חוזרת: פעם אחת. כרטיסים 7–8 רזרבה.</p>
+  <div class="cutgrid shelfs">
+    <div class="shelf" style="--b:#4c8bd6"><span class="no">1</span><span class="tt">כרטיס מדף</span><p>📍 <b>מרתף הספרייה</b></p><p>🗝️ מפתח עם המספר 13</p><p class="prob">❗ הדלת למעלה ננעלה מבחוץ</p></div>
+    <div class="shelf" style="--b:#e76f86"><span class="no">2</span><span class="tt">כרטיס מדף</span><p>📍 <b>חדר המפות</b></p><p>🧭 מצפן שמצביע על מדף, לא על הצפון</p><p class="prob">❗ ספר נעלם והשאיר רווח שזוהר</p></div>
+    <div class="shelf" style="--b:#f4a259"><span class="no">3</span><span class="tt">כרטיס מדף</span><p>📍 <b>פינת הילדים</b></p><p>🧸 דובי שמדבר רק בחידות</p><p class="prob">❗ כל השעונים נעצרו על 23:59</p></div>
+    <div class="shelf" style="--b:#5bb5a2"><span class="no">4</span><span class="tt">כרטיס מדף</span><p>📍 <b>הגג של הספרייה</b></p><p>🔭 טלסקופ ישן</p><p class="prob">❗ כוכב חדש נדלק כשסוגרים ספר</p></div>
+    <div class="shelf" style="--b:#8c7ae6"><span class="no">5</span><span class="tt">כרטיס מדף</span><p>📍 <b>חדר הארכיון</b></p><p>📼 קלטת בלי שם</p><p class="prob">❗ השם שלכם נמחק מכל כרטיסי הספרייה</p></div>
+    <div class="shelf" style="--b:#d46bb3"><span class="no">6</span><span class="tt">כרטיס מדף</span><p>📍 <b>תיבת ההחזרות</b></p><p>✉️ מכתב שהוחזר באיחור של 100 שנה</p><p class="prob">❗ המכתב ממוען אליכם</p></div>
+    <div class="shelf" style="--b:#0f766e"><span class="no">7</span><span class="tt">כרטיס מדף · רזרבה</span><p>📍 <b>המעלית הישנה</b></p><p>🔦 פנס שמאיר רק דברים בלתי נראים</p><p class="prob">❗ המעלית עוצרת בקומה שלא קיימת</p></div>
+    <div class="shelf" style="--b:#e3a82b"><span class="no">8</span><span class="tt">כרטיס מדף · רזרבה</span><p>📍 <b>חדר הקריאה השקט</b></p><p>🦉 ינשוף מפוחלץ שמזיז את הראש</p><p class="prob">❗ מי שמדבר בקול נהיה שקוף לדקה</p></div>
+  </div>
+</section>
+
+<!-- ===================== 6. STORY MAP ===================== -->
+<section class="page" id="p-map" data-label="מפת סיפור">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>סיפור בחר-את-הסוף · מפת הסיפור</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick v">🔴 ספרינט 1 · 5 הדקות הראשונות · בלי AI</span><h2>מפת <span>הסיפור</span> של: <span class="fill"></span></h2></div></div>
+  <div class="grid2" style="margin-bottom:3mm">
+    <p>❓ השאלה שהסיפור פותח: <span class="fill l"></span></p>
+    <p>📍 כרטיס מדף מספר: <span class="fill s"></span> &nbsp; 🗝️ פריט (אלופים): <span class="fill s"></span></p>
+  </div>
+  <div class="legend3"><span>⭕ קטע (שם קצר בפנים)</span><span>➜ בחירה</span><span>⭐ סוף</span><span>🔁 התכנסות</span><span>✓ הקורא/ת הבודק/ת הגיע/ה לכאן</span><span>שלד מקווקו לבסיס: אפשר לעבוד עליו או להתעלם</span></div>
+  <div class="mapsheet">
+    <svg viewBox="0 0 700 660" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs><marker id="mh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d3ccc0"/></marker></defs>
+      <g fill="none" stroke="#d3ccc0" stroke-width="2" stroke-dasharray="6 6">
+        <path d="M350 92 C350 130 190 130 190 168" marker-end="url(#mh)"/><path d="M350 92 C350 130 510 130 510 168" marker-end="url(#mh)"/>
+        <path d="M190 232 C190 262 110 262 110 292" marker-end="url(#mh)"/><path d="M190 232 C190 262 280 262 280 292" marker-end="url(#mh)"/>
+        <path d="M510 232 V292" marker-end="url(#mh)"/>
+        <path d="M110 356 V416" marker-end="url(#mh)"/><path d="M280 356 C280 386 120 386 120 416" marker-end="url(#mh)"/><path d="M280 356 C280 386 330 386 330 416" marker-end="url(#mh)"/>
+        <path d="M510 356 V416" marker-end="url(#mh)"/>
+        <path d="M110 480 V540" marker-end="url(#mh)"/><path d="M510 480 V540" marker-end="url(#mh)"/>
+      </g>
+      <g fill="#fff" stroke="#cfc8bc" stroke-width="2" stroke-dasharray="7 5">
+        <ellipse cx="350" cy="60" rx="78" ry="32"/>
+        <ellipse cx="190" cy="200" rx="78" ry="32"/><ellipse cx="510" cy="200" rx="78" ry="32"/>
+        <ellipse cx="110" cy="324" rx="78" ry="32"/><ellipse cx="280" cy="324" rx="78" ry="32"/><ellipse cx="510" cy="324" rx="78" ry="32"/>
+        <ellipse cx="110" cy="448" rx="78" ry="32"/><ellipse cx="510" cy="448" rx="78" ry="32"/>
+      </g>
+      <g fill="#fffaf0" stroke="#e3c77a" stroke-width="2" stroke-dasharray="7 5">
+        <ellipse cx="110" cy="572" rx="80" ry="34"/><ellipse cx="350" cy="448" rx="80" ry="34"/><ellipse cx="510" cy="572" rx="80" ry="34"/>
+      </g>
+      <g font-family="Heebo,Arial" font-size="15" fill="#b9b2a6" text-anchor="middle">
+        <text x="350" y="65">1 · התחלה</text><text x="190" y="205">2</text><text x="510" y="205">3</text><text x="110" y="329">4</text><text x="280" y="329">5</text><text x="510" y="329">6</text><text x="110" y="453">7</text><text x="510" y="453">8</text>
+        <text x="110" y="577">⭐ סוף</text><text x="350" y="453">⭐ סוף</text><text x="510" y="577">⭐ סוף</text>
+      </g>
+    </svg>
+  </div>
+  <div class="grid3" style="margin-top:3mm;font-size:9.4pt">
+    <p>⭐ סוף 1 (טון: <span class="fill s"></span>): <span class="fill"></span></p>
+    <p>⭐ סוף 2 (טון: <span class="fill s"></span>): <span class="fill"></span></p>
+    <p>⭐ סוף 3 (טון: <span class="fill s"></span>): <span class="fill"></span></p>
+  </div>
+  <p style="margin-top:2.5mm;font-size:9pt;color:var(--muted)">✏️ אחרי ההצצה למפה: מה שינינו בגלל הצוות השכן? <span class="fill xl"></span></p>
+</section>
+
+<!-- ===================== 7. PASSAGE PLAN ===================== -->
+<section class="page" id="p-plan" data-label="דף תכנון קטעים">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>סיפור בחר-את-הסוף · תכנון קטעים</div><div class="r">צוות: <span class="fill"></span> · דף <span class="fill s"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick v">✍️ הכותב/ת כותב/ת · האדריכל/ית בונה · הקורא/ת מסמנ/ת ✓</span><h2>תכנון <span>הקטעים</span></h2></div><p>שם הקטע כאן = השם ב-Twine, בדיוק. כל קטע: מה רואים · מה מרגישים · שתי אפשרויות. עד 60 מילים.</p></div>
+  <table class="plan">
+    <colgroup><col style="width:8mm"><col style="width:30mm"><col><col style="width:44mm"><col style="width:12mm"></colgroup>
+    <thead><tr><th>#</th><th>שם הקטע</th><th>מה קורה (עד 60 מילים)</th><th>בחירות ← לאיזה קטע</th><th>✓</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><small>התחלה</small></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">2</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">3</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">4</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">5</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">6</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">7</td><td></td><td></td><td><small>[[ ]] ←<br>[[ ]] ←</small></td><td></td></tr>
+      <tr><td class="n">⭐</td><td><small>סוף:</small></td><td></td><td><small>אין קישורים</small></td><td></td></tr>
+      <tr><td class="n">⭐</td><td><small>סוף:</small></td><td></td><td><small>אין קישורים</small></td><td></td></tr>
+      <tr><td class="n">⭐</td><td><small>סוף:</small></td><td></td><td><small>אין קישורים</small></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>✓ צ׳קליסט לפני הגשה</h3><ul class="check" style="font-size:9.4pt"><li>10 קטעים לפחות, 2 צמתים, 3 סופים</li><li>Story ← Details: 0 קישורים שבורים</li><li>כל סוף מתחיל ב"סוף:"</li><li>הגענו לכל סוף ב-Play</li><li>Publish to File ← Drive ← טופס</li></ul></div>
+    <div class="box"><h3>🟡 מה Gemini מצא, ומה עשינו</h3><div class="lines h3"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 8. TWINE SYNTAX ===================== -->
+<section class="page" id="p-syntax" data-label="דף תחביר Twine">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>Twine · דף תחביר לשולחן</div><div class="r">twinery.org ← Use it online</div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🧰 נשאר על השולחן כל השיעור</span><h2>Twine <span>בדף אחד</span></h2></div></div>
+  <div class="syn2">
+    <div class="cbox"><h3>1 · פותחים</h3><p>twinery.org ← <b>Use it online</b> ← <b>Skip</b> ← <b>+ New</b> ← שם ← <b>Create</b>.</p><p class="muted">לא בגלישה בסתר ולא במצב אורח: שם הכול נמחק בסגירה.</p></div>
+    <div class="cbox"><h3>2 · עברית מימין</h3><p><b>Story ← Stylesheet</b>, ומדביקים:</p><div class="cl">tw-story { direction: rtl; font-family: Arial, sans-serif; }</div></div>
+    <div class="cbox"><h3>3 · קישור רגיל (מומלץ)</h3><div class="cl r"><span class="lk">[[להדליק את הפנס]]</span></div><p class="muted">הטקסט על הכפתור = שם הקטע החדש. Twine יוצר אותו לבד.</p></div>
+    <div class="cbox"><h3>4 · קישור עם שם אחר</h3><div class="cl r"><span class="lk">[[לברוח-&gt;המסדרון]]</span></div><p class="muted">על הכפתור "לברוח", מוביל לקטע "המסדרון". החץ תמיד מצביע אל שם הקטע.</p></div>
+    <div class="cbox"><h3>5 · סוף</h3><div class="cl r"><span class="lk">[[סוף: הפנס שראה הכול]]</span></div><p class="muted">בקטע הסוף עצמו: טקסט בלי שום קישור. לכל סוף טון אחר.</p></div>
+    <div class="cbox"><h3>6 · פריט (אלופים, +3)</h3><div class="cl r"><bdi dir="ltr">(set: $key to false)</bdi> ← בקטע הראשון<br><bdi dir="ltr">(set: $key to true)</bdi> ← בקטע "המפתח"<br><bdi dir="ltr">(if: $key is true)</bdi>[נפתח! <span class="lk">[[להיכנס]]</span>]<br><bdi dir="ltr">(else:)</bdi>[נעול. <span class="lk">[[לחזור]]</span>]</div></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>🧭 הסרגל העליון בתוך הסיפור</h3>
+    <div class="tbar">
+      <div><b>Passage</b>+ New · Edit · Rename · Delete · Test From Here · Start Story Here</div>
+      <div><b>Story</b>Details (כמה קטעים וקישורים שבורים) · Stylesheet · Find and Replace</div>
+      <div><b>Build</b>Test · <b>Play</b> · Proof (כל הקטעים בדף אחד) · <b>Publish to File</b></div>
+      <div><b>Twine</b>Preferences · Story Formats · About</div>
+    </div></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box soft"><h3>💾 שמירה</h3><p style="font-size:9.4pt">הספר נשמר <b>רק בדפדפן הזה, במחשב הזה</b>. מפרסמים לקובץ: בסוף ספרינט 1, לפני ההגשה, ולפני שסוגרים. להמשך במחשב אחר: <b>Library ← Import</b>.</p></div>
+    <div class="box soft"><h3>🐞 תקלות נפוצות</h3><ul class="clean" style="font-size:9.2pt"><li>קטע ריק חדש? רווח או אות שונה בשם הקישור.</li><li>העברית משמאל? שורת ה-Stylesheet חסרה.</li><li>שורת קוד נראית הפוכה בעורך? בודקים ב-Play.</li><li>המשתנה לא עובד? Story ← Details: הפורמט צריך להיות Harlowe.</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 9. HELP + SIDE TASK CARDS ===================== -->
+<section class="page" id="p-help" data-label="כרטיסי עזרה ומשימות צד">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>כרטיסי עזרה ומשימות צד</div><div class="r">1 סט לכיתה · בקופסה אצל המדריך</div></div>
+  <p class="cutnote">✂ לגזור. צוות תקוע מקבל כרטיס עזרה ירוק או ורוד. צוות שסיים שולף משימת צד צהובה.</p>
+  <div class="cutgrid helps">
+    <div class="hc h-side"><span class="tag">⚡ משימת צד</span><span class="em">🕳️</span><b>סוף נסתר</b><p>כתבו סוף רביעי שמגיעים אליו רק בדרך אחת. אל תספרו לאף צוות. בדקו בטופס אם מישהו מצא.</p></div>
+    <div class="hc h-side"><span class="tag">⚡ משימת צד · +3</span><span class="em">🗝️</span><b>פריט שמשנה</b><p>מפתח, פנס או חבר: <span dir="ltr">(set:)</span> בקטע שבו מוצאים אותו, ו-<span dir="ltr">(if:)</span> בקטע שבו הוא משנה משהו. דף התחביר, סעיף 6.</p></div>
+    <div class="hc h-side"><span class="tag">⚡ משימת צד</span><span class="em">🖼️</span><b>תמונה לכל סוף</b><p>שלוש תמונות ב-Gemini באותו סגנון של השער, אחת לכל סוף, בתיקיית הצוות.</p></div>
+    <div class="hc h-side"><span class="tag">⚡ משימת צד</span><span class="em">🎧</span><b>פסקול</b><p>בכל קטע שורה בסוגריים: "(נשמעת מוזיקה של קופסת נגינה)". אווירה בלי קבצים.</p></div>
+    <div class="hc h-side"><span class="tag">⚡ משימת צד</span><span class="em">⚖️</span><b>מחיר לכל בחירה</b><p>שכתבו כל בחירה כך שיהיה בה מחיר: "להדליק את הפנס, ולהסתכן שיראו אתכם".</p></div>
+    <div class="hc h-side"><span class="tag">⚡ משימת צד</span><span class="em">🧪</span><b>מבחן הזר</b><p>הביאו תלמיד/ה מצוות אחר לדקה של Play. רשמו איפה היסס/ה, ותקנו.</p></div>
+    <div class="hc h-open"><span class="tag">🧰 עזרה · פתיחות</span><b>נתקעתם באמצע קטע?</b><ul><li>פתאום…</li><li>רק אז שמתם לב ש…</li><li>מאחוריכם נשמע…</li><li>על הרצפה מונח…</li><li>השעון מצלצל פעם אחת…</li></ul></div>
+    <div class="hc h-open"><span class="tag">🧰 עזרה · קטע טוב</span><b>3 שאלות לכל קטע</b><ul><li>👀 מה רואים?</li><li>💓 מה מרגישים?</li><li>🔀 מה שתי האפשרויות, ומה כל אחת עולה?</li></ul><p>ואז עוצרים. רגע לפני שמשהו קורה.</p></div>
+    <div class="hc h-end"><span class="tag">⭐ עזרה · סופים</span><b>4 סוגים של סוף</b><ul><li>😲 ההפתעה: ההצלה היא מלכודת.</li><li>🔁 התשובה לשאלה מההתחלה.</li><li>😂 המצחיק: זה היה החתול.</li><li>🕳️ הנסתר: רק עם פריט.</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 10. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>סיפור בחר-את-הסוף · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>הספר</span></h2></div><p>בהצצה למפה מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך/ה קובע/ת את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">מבנה מסועף<small>ענפים, סופים, פריט</small></td><td>סיפור בקו ישר, בחירות שלא משנות כלום</td><td>2 ענפים, חלק מהבחירות מובילות לאותו מקום</td><td>10 קטעים, 3 סופים, כל בחירה משנה משהו</td><td>ענפים שמתחברים מחדש בחוכמה, משתנה או פריט, וסוף נסתר שקשה למצוא</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">כתיבה ואווירה<small>גוף שני, מתח, טון</small></td><td>קטעים ארוכים או לא ברורים</td><td>הסיפור מובן אבל שטוח</td><td>גוף שני, אווירה מסתורית ובחירות מעניינות</td><td>כל קטע נגמר במתח, לכל סוף טון אחר, ותמונות שמתאימות לאווירה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">בדיקה ותיקון<small>קוראים זרים, נתונים</small></td><td>לא נבדק, יש קישורים שבורים</td><td>נבדק פעם אחת על ידי הצוות</td><td>נבדק על ידי קוראים זרים ותוקן</td><td>תוקן לפי נתוני הטופס (איפה נתקעו) ויש תיעוד של שינוי שנעשה בגללם</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">צוות ושקיפות AI<small>תפקידים, מה Gemini עשה</small></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב "השתמשנו ב-AI"</td><td>כל תפקיד ביצע את החלק שלו, כתוב איזה חור עלילה Gemini מצא</td><td>כתוב מה Gemini הציע, מה קיבלנו ומה דחינו ולמה, והקטעים כולם של הצוות</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום ארבע השורות = הנקודות בלוח: <b>בין 4 ל-16</b>. למשל 3+3+2+4 = 12 נקודות.</p></div>
+    <div class="box soft"><h3>🔧 השינוי שעשינו בגלל הקוראים</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "השעון שנעצר" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> 11 קטעים, 2 צמתים, 3 סופים בטונים שונים (מפחיד, טוב, מפתיע). הקוראים מצאו 2 מתוך 3. בשורת ה-AI: "Gemini מצא ש'לרוץ' ו'ללכת' מובילות לאותו קטע; שינינו."</p><p style="font-size:9.2pt"><b>🚀 רמה 4:</b> בנוסף: מפתח קטן שנאסף בקטע 4 פותח סוף נסתר. מהטופס התברר שאף אחד לא מצא סוף אחד כי הבחירה אליו נקראה "לחכות". הצוות שינה ל"לסובב את המחוגים אחורה" ותיעד. "Gemini הציע דמות של ספרן; דחינו, כי הסיפור על הקורא לבד."</p></div></div>
+</section>
+
+<!-- ===================== 11. READER ROTATION + SLIPS ===================== -->
+<section class="page" id="p-rota" data-label="סבב קוראים ופתקים">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>החלפת קוראים · סבב ופתקי קורא</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="grid2" style="grid-template-columns:1.05fr 1fr;margin-bottom:3mm">
+    <div class="box"><h3>🔄 מי קורא את מי (גם בשקף 36)</h3>
+      <table class="tb" style="font-size:9.4pt"><thead><tr><th>צוות הקוראים</th><th>קורא את הספר של</th><th>שולחן</th></tr></thead><tbody>
+        <tr><td>1 <span class="fill s"></span></td><td>2 <span class="fill s"></span></td><td></td></tr>
+        <tr><td>2 <span class="fill s"></span></td><td>3 <span class="fill s"></span></td><td></td></tr>
+        <tr><td>3 <span class="fill s"></span></td><td>4 <span class="fill s"></span></td><td></td></tr>
+        <tr><td>4 <span class="fill s"></span></td><td>5 <span class="fill s"></span></td><td></td></tr>
+        <tr><td>5 <span class="fill s"></span></td><td>6 <span class="fill s"></span></td><td></td></tr>
+        <tr><td>6 <span class="fill s"></span></td><td>1 <span class="fill s"></span></td><td></td></tr>
+      </tbody></table></div>
+    <div class="box soft"><h3>📜 החוקים לקוראים</h3><ol class="clean" style="font-size:9.4pt"><li>הספר פתוח ב-Play. אין הסבר ואין שאלות לכותבים.</li><li>6 דקות. מנסים למצוא כמה שיותר סופים.</li><li>אחרי כל סוף: טופס הקוראים (או הפתק הזה).</li><li>שם הסוף בדיוק כמו בכותרת.</li><li>אחר כך מתחילים מחדש ובוחרים אחרת.</li><li>טופס על סוף שלא הגעתם אליו לא נספר.</li></ol></div>
+  </div>
+  <p class="cutnote">✂ פתקי קורא: גיבוי לטופס, אם אין מחשב או אינטרנט. פתק אחד לכל סוף. 6 בעמוד.</p>
+  <div class="cutgrid slips">
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+    <div class="slip"><div class="eh"><b>📖 פתק קורא</b><span>סוף מספר <span class="fill s"></span></span></div><p>צוות הקוראים: <span class="fill"></span></p><p>הספר של צוות: <span class="fill"></span></p><p>⭐ שם הסוף: <span class="fill l"></span></p><p>⏱️ דקות מההתחלה: <span class="fill s"></span></p><p>🔗 קישור שבור? ☐ לא ☐ כן, איפה: <span class="fill s"></span></p><p>🧱 איפה רצינו לבחור אחרת: <span class="fill"></span></p><div class="scale"><span>ציון לספר:</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div></div>
+  </div>
+</section>
+
+<!-- ===================== 12. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>שורת AI · מצורפת לספר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לטופס "הגשת ספר".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · ליל הספרייה</b><span>צוות: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה (תמונות · ביקורת: מה הציע)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (מה קיבלנו, מה דחינו ולמה)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · ליל הספרייה</b><span>צוות: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה (תמונות · ביקורת: מה הציע)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (מה קיבלנו, מה דחינו ולמה)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · ליל הספרייה</b><span>צוות: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה (תמונות · ביקורת: מה הציע)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (מה קיבלנו, מה דחינו ולמה)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI · ליל הספרייה</b><span>צוות: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה (תמונות · ביקורת: מה הציע)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (מה קיבלנו, מה דחינו ולמה)</b><div class="lines"></div></div></div><div class="foot"><span>כלי: ☐ Gemini תמונות ☐ Gemini צ׳אט</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 13. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ליל הספרייה</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו בחירה בסיפור שלנו הכי משנה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>מפה</span><span>כתיבה</span><span>בנייה ב-Twine</span><span>תמונות</span><span>בדיקה</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ליל הספרייה</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו בחירה בסיפור שלנו הכי משנה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>מפה</span><span>כתיבה</span><span>בנייה ב-Twine</span><span>תמונות</span><span>בדיקה</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ליל הספרייה</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו בחירה בסיפור שלנו הכי משנה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>מפה</span><span>כתיבה</span><span>בנייה ב-Twine</span><span>תמונות</span><span>בדיקה</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ליל הספרייה</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">איזו בחירה בסיפור שלנו הכי משנה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>מפה</span><span>כתיבה</span><span>בנייה ב-Twine</span><span>תמונות</span><span>בדיקה</span><span>עזרתי לצוות אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 14. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>סיפור בחר-את-הסוף · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוחות במצגת (שקפים 39–42)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקסימום 38. תיקו: יותר סופים שנמצאו, ואז ציון הקוראים.</p></div>
+  <table class="tb" style="font-size:8.8pt">
+    <thead><tr><th style="width:24mm">צוות</th><th>הצצה (דק׳ 50)<br><small>6 קטעים · 2 ענפים · סוף</small></th><th>סופים שנמצאו<br><small>×3 · עד 9</small></th><th>10+2<br><small>4</small></th><th>0 שבורים<br><small>3</small></th><th>פריט<br><small>3</small></th><th>טפסי קריאה<br><small>עד 3</small></th><th>מחוון<br><small>מ·כ·ב·צ (4–16)</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:12mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td>☐ ☐ ☐</td><td></td><td></td><td></td><td></td><td></td><td>_ _ _ _</td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:1.5mm">מחוון: מ = מבנה · כ = כתיבה · ב = בדיקה ותיקון · צ = צוות ושקיפות AI. "0 שבורים" = אף קורא לא דיווח על קישור שבור.</p>
+  <div class="box" style="margin-top:3.5mm"><h3>📈 מהטופס: תוצאות החלפת הקוראים</h3>
+    <table class="tb sm"><thead><tr><th style="width:24mm">ספר של צוות</th><th>שמות הסופים שהקוראים מצאו</th><th style="width:18mm">קישורים שבורים</th><th style="width:18mm">דקות לסוף 1</th><th style="width:16mm">ציון 1–5</th><th style="width:20mm">😱 קולות</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:3mm">
+    <div class="box"><h3>🏆 הפרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🏆 שלא ננעל: <span class="fill s"></span></p><p>😱 הכי מפתיע: <span class="fill s"></span></p><p>🗺️ הכי מסועפת: <span class="fill s"></span></p><p>🔍 קוראים חרוצים: <span class="fill s"></span></p></div></div>
+    <div class="box"><h3>⏱ בהצצה למפה: מי תקוע?</h3><div class="lines h1"></div><h3 style="margin-top:1.5mm">📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. CERTIFICATES ===================== -->
+<section class="page" id="p-cert" data-label="תעודות">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>תעודות · ליל הספרייה</div><div class="r">1 עמוד · נכנס למעטפה של הספרנית</div></div>
+  <p class="cutnote">✂ לגזור לרבעים ולשים במעטפה סגורה. כותבים את שם הצוות והספר בטקס.</p>
+  <div class="cutgrid certs">
+    <div class="cert"><span class="em">🏆</span><span class="k">הספרייה העירונית · ליל הכותבים</span><b>הספר שלא ננעל</b><p>הניקוד הכולל הגבוה ביותר: ספר שקוראים זרים פיצחו, בלי להיתקע.</p><div class="nm"></div><span class="sg">הספר · הצוות · חתימת הספרנית הראשית</span></div>
+    <div class="cert"><span class="em">😱</span><span class="k">הספרייה העירונית · ליל הכותבים</span><b>הסוף הכי מפתיע</b><p>הסוף שגרם לקוראים לצעוק "מה?!", לפי הצבעת הכיתה.</p><div class="nm"></div><span class="sg">הספר · הצוות · חתימת הספרנית הראשית</span></div>
+    <div class="cert"><span class="em">🗺️</span><span class="k">הספרייה העירונית · ליל הכותבים</span><b>המפה הכי מסועפת</b><p>הכי הרבה צמתים, התכנסויות וסופים שהקוראים מצאו.</p><div class="nm"></div><span class="sg">הספר · הצוות · חתימת הספרנית הראשית</span></div>
+    <div class="cert"><span class="em">🔍</span><span class="k">הספרייה העירונית · ליל הכותבים</span><b>הקוראים הכי חרוצים</b><p>הכי הרבה טפסי קוראים תקינים, על סופים שבאמת נמצאו.</p><div class="nm"></div><span class="sg">הצוות · חתימת הספרנית הראשית</span></div>
+  </div>
+</section>
+
+<!-- ===================== 16. PASSAGE CARDS (no devices) ===================== -->
+<section class="page" id="p-cards" data-label="ספר על כרטיסיות">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>ספר על כרטיסיות · בלי מכשירים</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ קטע אחד לכל כרטיסייה. המספר = העיגול במפה. סוף: כותבים "סוף:" ולא מפנים לשום כרטיס. בהחלפת הקוראים הערימה עוברת מסודרת לפי מספרים.</p>
+  <div class="cutgrid pcards">
+    <div class="pc"><div class="hd"><b>📖 קטע</b><span class="numb">#</span></div><p>שם הקטע: <span class="fill l"></span></p><div class="lines h4"></div><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p></div>
+    <div class="pc"><div class="hd"><b>📖 קטע</b><span class="numb">#</span></div><p>שם הקטע: <span class="fill l"></span></p><div class="lines h4"></div><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p></div>
+    <div class="pc"><div class="hd"><b>📖 קטע</b><span class="numb">#</span></div><p>שם הקטע: <span class="fill l"></span></p><div class="lines h4"></div><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p></div>
+    <div class="pc"><div class="hd"><b>📖 קטע</b><span class="numb">#</span></div><p>שם הקטע: <span class="fill l"></span></p><div class="lines h4"></div><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p><p class="go">🔀 בחירה: <span class="fill"></span><span style="white-space:nowrap">← כרטיס <span class="fill s"></span></span></p></div>
+    <div class="pc"><div class="hd"><b>⭐ סוף</b><span class="numb">#</span></div><p>סוף: <span class="fill l"></span></p><div class="lines h5"></div><p style="color:var(--muted)">טון: ☐ טוב ☐ מפחיד ☐ מצחיק ☐ מפתיע</p></div>
+    <div class="pc"><div class="hd"><b>⭐ סוף</b><span class="numb">#</span></div><p>סוף: <span class="fill l"></span></p><div class="lines h5"></div><p style="color:var(--muted)">טון: ☐ טוב ☐ מפחיד ☐ מצחיק ☐ מפתיע</p></div>
+  </div>
+</section>
+
+<!-- ===================== 17. DOOR SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט לדלת">
+  <div class="ph"><div class="l"><i class="k">🗝️</i>שלט לדלת הכיתה</div><div class="r">1 · תולים לפני השיעור</div></div>
+  <div class="door">
+    <span class="em">🗝️</span>
+    <h2>הספרייה<br><span>נעולה הלילה</span></h2>
+    <p>בפנים, צוותי הכותבים משאירים עד הבוקר<br>ספר שאפשר לשחק בו.<br>ספר שאף קורא/ת לא מצליח/ה לסיים יישאר נעול על המדף. לעד.</p>
+    <p class="small">🌙 ליל הספרייה · Tech It Easy</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

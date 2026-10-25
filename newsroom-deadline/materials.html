@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · חדר החדשות: דד-ליין | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* lesson additions */
+.r-ed{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-img{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-clm{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.r-anc{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-vid{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.vgrid{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.vc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:6mm;position:relative}
+.vc .st{font-family:var(--display);font-weight:800;font-size:40pt;border:2.2mm solid currentColor;border-radius:5mm;padding:1mm 7mm;transform:rotate(-6deg);line-height:1.15}
+.vc p{font-size:10.5pt;color:var(--muted);max-width:70mm}
+.vc small{position:absolute;bottom:4mm;font-size:8pt;color:var(--dim)}
+.vc.t{color:#15803d}.vc.m{color:#b26a00}.vc.f{color:#c8323c}.vc.w{color:#2f6db5}
+.vc.t p,.vc.m p,.vc.f p,.vc.w p{color:var(--muted)}
+.deskT td{height:18mm}
+.deskT td.n{font-family:var(--display);font-weight:800;font-size:11pt;text-align:center;vertical-align:middle;width:16mm}
+.vopts{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm 2mm;font-size:8.6pt}
+.vopts span::before{content:"☐ "}
+.sb{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.fr{border:1.2px solid var(--line2);border-radius:2.5mm;overflow:hidden;display:flex;flex-direction:column}
+.fr .scr{height:16mm;background:repeating-linear-gradient(45deg,#faf8f4 0 3mm,#f4f1ea 3mm 6mm);display:flex;align-items:flex-start;justify-content:flex-start;padding:1.5mm 2mm;font-size:8pt;color:var(--dim);font-weight:700}
+.fr .cap{padding:1.5mm 2mm;font-size:8.4pt;border-top:1px solid var(--line2)}
+.fr .cap .lines{min-height:8.5mm}
+.fl{border:1.2px solid var(--line2);border-radius:3mm;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+.fl .fh{display:flex;justify-content:space-between;align-items:center;background:#c8323c;color:#fff;font-family:var(--display);font-weight:800;padding:1.5mm 3mm;font-size:11pt}
+.fl .fh span{font-family:var(--body);font-weight:700;font-size:8.5pt}
+.fl .acc{display:flex;gap:2mm;align-items:center;padding:2mm 3mm 0;font-size:8.6pt;color:var(--muted)}
+.fl .acc b{color:var(--ink);font-family:var(--display)}
+.fl .tx{padding:1.5mm 3mm;font-size:9.6pt}
+.fl .pic{flex:1;margin:0 3mm 3mm;border:1.4px dashed var(--line2);border-radius:2mm;display:grid;place-items:center;text-align:center;color:var(--dim);font-size:8.6pt;padding:3mm;min-height:40mm}
+.fl svg{display:block;width:100%;height:auto}
+.ev{padding:4mm 4mm;display:flex;flex-direction:column;gap:2mm;font-size:10.6pt;line-height:1.45}
+.ev .eh{display:flex;justify-content:space-between;font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--muted)}
+.ev .eq{font-weight:700;color:var(--teal);font-size:9.6pt}
+.ev b{font-family:var(--display)}
+.evs{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cert{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2.6mm;padding:6mm;position:relative}
+.cert::before{content:"";position:absolute;inset:3.5mm;border:1.4px solid #e3a82b;border-radius:3mm;pointer-events:none}
+.cert .em{font-size:30pt;line-height:1}
+.cert .k{font-size:8.5pt;color:var(--muted);font-weight:700;letter-spacing:.2px}
+.cert b{font-family:var(--display);font-weight:800;font-size:17pt;line-height:1.1}
+.cert p{font-size:9.4pt;color:var(--muted);max-width:75mm}
+.cert .nm{width:62mm;border-bottom:1.4px solid var(--ink);height:9mm}
+.cert .sig{display:flex;gap:10mm;font-size:8pt;color:var(--dim)}
+.keyT td{font-size:9pt}
+.vt{display:inline-block;font-family:var(--display);font-weight:800;border:1.4px solid currentColor;border-radius:1.5mm;padding:0 2mm;font-size:9pt}
+.vt.t{color:#15803d}.vt.m{color:#b26a00}.vt.f{color:#c8323c}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · חדר החדשות: דד-ליין<small>שיעור-אירוע של 90 דקות · חשיבה ביקורתית</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- 1. PRINT SHEET -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות: דד-ליין</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-6 מערכות. כמויות לכיתה אחרת: לפי מספר המערכות.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, שלוש השאלות, נורמות ורמזור</td><td>1 למערכת (6)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה והניקוד</td><td>1 למערכת (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>דף הדסק</td><td>1 למערכת + 2 רזרבה (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6</td><td>כרטיסי פסק דין (4 בעמוד)</td><td>1 למערכת (6)</td><td>בריסטול</td><td>כן, לרבעים</td></tr>
+      <tr><td>7</td><td>תסריט וסטוריבורד למהדורה</td><td>1 למערכת (6)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>8</td><td>חבילת המבזקים (גיבוי ובלי מכשירים)</td><td>1 למערכת, רק אם צריך</td><td>רגיל, צבע</td><td>כן, לרבעים</td></tr>
+      <tr><td>9</td><td>מעטפות ראיות (בלי מכשירים)</td><td>1 סט, רק אם צריך</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>10</td><td>דף התשובות</td><td>1 למדריך</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>מחוון</td><td>1 למערכת + 1 למדריך (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>12</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>13</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>14</td><td>דף ניקוד למדריך</td><td>1 (+1 למורה המלווה)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>15</td><td>תעודות הפרסים</td><td>1–2</td><td>בריסטול</td><td>כן, לרבעים</td></tr>
+      <tr><td>16</td><td>שלט מערכת</td><td>1 למערכת (6)</td><td>בריסטול</td><td>קיפול</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📦 על כל דסק (שולחן מערכת)</h3>
+      <ul class="check"><li>5 כרטיסי תפקיד + כרטיס שלוש השאלות</li><li>שלט מערכת מקופל</li><li>כרטיס משימה, דף דסק, דף תסריט ומחוון</li><li>4 כרטיסי פסק דין</li><li>מעטפת מערכת ו-2 עטים</li><li>לפחות מחשב אחד עם Chrome (ל-Vids)</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 אצל המדריך</h3>
+      <ul class="check"><li>4 קובצי המבזקים על שולחן העבודה (לא בתיקייה!)</li><li>קישור/QR לתיקיית המבזקים ולטופס על הלוח</li><li>צילומי גיבוי מהחזרה הגנרלית</li><li>דף ניקוד, דף תשובות ועט</li><li>תעודות ופרסים קטנים</li><li>רמקולים פתוחים לצליל האזעקה</li></ul></div>
+  </div>
+</section>
+
+<!-- 2. ROLE CARDS 1-4 -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · חדר החדשות</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. כל אחד מקריא בקול את "המשימה שלי" לפני שמתחילים.</p>
+  <div class="cutgrid roles">
+    <article class="role r-ed">
+      <div class="rh"><span class="ic">🗞️</span><div><b>עורך/ת ראשי/ת</b><small>מה עולה לשידור</small></div></div>
+      <p class="mis">המשימה שלי: להחליט מה נבדק, מי בודק ומה עולה לשידור, ולעמוד בדד-ליין.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>כשנוחת מבזק: מחליט/ה מי לוקח אותו.</li><li>ממלא/ת את דף הדסק: פסק דין, ראיה 1, ראיה 2, מי בדק.</li><li>שואל/ת על כל ראיה: "זה מוכיח, או רק נראה?"</li><li>מחליט/ה "עוד בבדיקה" כשאין 2 ראיות.</li><li><b>רק אני</b> קורא/ת למדריך, אחרי שהמערכת ניסתה.</li></ul>
+      <div class="say">💬 "איזו משלוש השאלות עוד לא בדקנו?" · "זה מספיק כדי לשדר?"</div>
+      <p class="no">✗ לא פוסק/ת לבד ולא לפי תחושה.</p>
+      <p class="bonus">✓ הצלחתי כש: כל פסק דין שלנו נשען על 2 ראיות, והגשנו בזמן</p>
+    </article>
+    <article class="role r-img">
+      <div class="rh"><span class="ic">🔍</span><div><b>בודק/ת תמונות</b><small>מאיפה התמונה הגיעה</small></div></div>
+      <p class="mis">המשימה שלי: לגלות מאיפה תמונה הגיעה, מתי הופיעה לראשונה ובאיזה הקשר.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מוריד/ה את הקובץ המקורי מתיקיית המבזקים.</li><li>חיפוש לפי תמונה ב-Lens ← "התאמות מדויקות" ← הפרסום הכי ישן.</li><li>מעלה ל-Gemini ושואל/ת: "האם נוצרה ב-AI של Google?"</li><li>שומר/ת צילום מסך: "מבזק X · ראיה Y".</li></ul>
+      <div class="say">💬 "מתי היא הופיעה לראשונה?" · "Gemini לא זיהה? אז צריך עוד ראיה."</div>
+      <p class="no">✗ לא פוסק/ת "AI" או "אמיתי" לפי איך שהתמונה נראית.</p>
+      <p class="bonus">✓ הצלחתי כש: מצאתי מקור ראשון או הוכחה שאין כזה</p>
+    </article>
+    <article class="role r-clm">
+      <div class="rh"><span class="ic">📚</span><div><b>בודק/ת טענות</b><small>ציטוטים ומספרים</small></div></div>
+      <p class="mis">המשימה שלי: לבדוק ציטוטים, מספרים וטענות בשני מקורות לפחות.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מחפש/ת ב-Fact Check Explorer, בעברית ובאנגלית.</li><li>מוצא/ת מקור רשמי למספרים (למשל הלמ״ס).</li><li>בגרף: מאיפה מתחיל הציר? כמה אחוז זה באמת?</li><li>מעתיק/ה כל קישור לדף הדסק.</li></ul>
+      <div class="say">💬 "מי בדק את זה כבר?" · "זה נתון רשמי או מישהו ברשת?"</div>
+      <p class="no">✗ לא סומך/ת על תשובה של AI בלי מקור.</p>
+      <p class="bonus">✓ הצלחתי כש: הבאתי מקור שסותר את הטענה, או מאשר אותה</p>
+    </article>
+    <article class="role r-anc">
+      <div class="rh"><span class="ic">🎙️</span><div><b>מגיש/ה</b><small>הקול של המערכת</small></div></div>
+      <p class="mis">המשימה שלי: לכתוב ולהקליט מהדורה ברורה ואמינה, עד 120 מילים.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>בספרינט 1: עוזר/ת לבדוק ולשמור צילומי מסך.</li><li>בספרינט 2: כותב/ת תסריט לפי דף התסריט.</li><li>אפשר לקצר עם Gemini, בלי עובדות חדשות.</li><li>מקליט/ה קריינות ב-Vids, קול בלבד.</li></ul>
+      <div class="say">💬 "מה בדקנו ומה מצאנו?" · "אפשר להגיד את זה פשוט יותר?"</div>
+      <p class="no">✗ לא מגזים/ה ולא משדר/ת משהו שלא נבדק.</p>
+      <p class="bonus">✓ הצלחתי כש: הצופים הבינו איך בודקים, לא רק מה התשובה</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3. ROLE 5 + 3 questions + norms + traffic light -->
+<section class="page" id="p-roles2" data-label="עורך/ת וידאו ושלוש השאלות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי, כרטיס שלוש השאלות (נשאר במרכז השולחן), נורמות ורמזור.</p>
+  <div class="cutgrid roles">
+    <article class="role r-vid">
+      <div class="rh"><span class="ic">✂️</span><div><b>עורך/ת וידאו</b><small>בונה את המהדורה</small></div></div>
+      <p class="mis">המשימה שלי: לבנות את המהדורה ב-Vids ולהגיש אותה בזמן.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>פותח/ת תיקייה "מערכת [שם]" ב-Drive ומשתף/ת עם כולם.</li><li>vids.new ← לרוחב ← סרטון ריק. סצנה לכל ידיעה.</li><li>צילום מסך + חותמת: אמת / מטעה / מפוברק.</li><li>משתף/ת "צפייה" ומגיש/ה בטופס "הגשת מהדורה".</li></ul>
+      <div class="say">💬 "יש לנו צילום מסך של הבדיקה?" · "כמה שניות זה יצא?"</div>
+      <p class="no">✗ לא מגיש/ה בלי שכל המערכת ראתה את המהדורה.</p>
+      <p class="bonus">✓ הצלחתי כש: המהדורה נפתחה לכולם ועמדה ב-60–90 שניות</p>
+    </article>
+    <article class="role" style="--c:#c8323c;--cs:#fcebec;--c-ink:#c8323c">
+      <div class="rh"><span class="ic">❓</span><div><b>שלוש השאלות</b><small>לפני כל פסק דין</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:2mm">
+        <li><b>👤 מי פרסם?</b> יש שם, אתר או גוף שאפשר לבדוק? מי מרוויח מזה שתאמינו?</li>
+        <li><b>📅 מתי ואיפה הופיע לראשונה?</b> מחפשים את הפרסום הכי ישן. 🔧 Google Lens</li>
+        <li><b>🌐 מה אומרים אחרים?</b> בודקי עובדות, אתרי חדשות, מקור רשמי. 🔧 Fact Check Explorer</li>
+      </ol>
+      <div class="say">🚥 נורות אדומות: רגש חזק · אין מקור · אין תאריך או מקום · פרטים מוזרים · "שתפו לפני שימחקו!"</div>
+      <p class="bonus">⚖️ אמת = קרה · מטעה = אמיתי בהקשר שגוי · מפוברק = לא קרה</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות המערכת</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>אף אחד לא סיים עד שכל המערכת סיימה.</li>
+        <li>מותר לבקש עזרה, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שמחליטים, כל אחד אומר משהו.</li>
+        <li>מבקרים ראיות, לא אנשים: אדיב · ספציפי · מועיל.</li>
+        <li>המבזקים הם חומר אימון. לא משתפים אותם מחוץ לכיתה.</li>
+      </ol>
+      <p class="bonus">🔄 מערכת של 4: המגיש/ה גם עורך/ת וידאו. של 6: שני בודקי טענות.</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI היום</b><small>מופיע בשקף של כל שלב</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>התארגנות, ישיבת מערכת, כרטיס יציאה.</div>
+        <div class="y"><b>🟡 AI לבדיקה ולטיוטות</b>SynthID ב-Gemini, שאלות לבדיקה, קיצור התסריט. אנחנו מחליטים.</div>
+        <div class="g"><b>🟢 תמיד בודקים</b>כל מה ש-Gemini אמר צריך עוד ראיה מבחוץ.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">טיפ: לא מעלים תמונות של אנשים שאתם מכירים, ולא כותבים פרטים אישיים.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 4. MISSION CARD -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · כרטיס המשימה</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📰 האתגר של הערב</span><h2>המערכת <span>המדויקת</span></h2></div><p>ערב חדשות. מבזקים נוחתים מכל עבר, והצופים רוצים לדעת מה נכון. בשעה 20:00 בדיוק עולה המהדורה. מערכת שמשדרת זיוף מאבדת את האמון.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>פסק דין נכון לכל אחד מ-4 המבזקים, עם 2 ראיות לכל אחד, ומהדורה של 60–90 שניות ב-Google Vids שמלמדת את הצופים לבדוק בעצמם.</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.6pt"><li>כל מבזק: אמת, מטעה או מפוברק.</li><li>פסק דין בלי 2 ראיות לא נספר.</li><li>"Gemini לא זיהה AI" זו לא הוכחה שהתמונה אמיתית.</li><li>מהדורה: 3 ידיעות לפחות, 60–90 שניות.</li><li>לא משתפים את המבזקים מחוץ לכיתה.</li><li>שידור שגוי מוריד. "עוד בבדיקה" עם הסבר לא מוריד.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:40mm">נקודות</th></tr></thead><tbody>
+      <tr><td>פסק דין נכון למבזק</td><td>5 לכל מבזק (עד 20)</td></tr>
+      <tr><td>ראיה תקפה: קישור או צילום מסך שמוכיח</td><td>1 לכל ראיה (עד 8)</td></tr>
+      <tr><td>פסק דין שגוי ששודר במהדורה</td><td>‎−2</td></tr>
+      <tr><td>"עוד בבדיקה" עם הסבר מה חסר</td><td>1</td></tr>
+      <tr><td>מהדורה של 60–90 שניות עם 3 ידיעות</td><td>4</td></tr>
+      <tr><td>מחוון המדריך (4 קריטריונים × 1–4)</td><td>עד 16</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">פרסים: 🏆 המערכת המדויקת · 🧾 תיק הראיות הכי חזק · 🎙️ המגיש/ה הכי אמין/ה · ⚡ הבדיקה הכי מהירה. שובר שוויון: יותר ראיות תקפות.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>🗓️ סדר הערב</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:22mm"><b>19:16</b></td><td>🚨 מבזק 1 נוחת · ספרינט 1 מתחיל (18 דקות)</td><td style="width:22mm"><b>19:25</b></td><td>🚨 מבזק 2</td></tr>
+      <tr><td><b>19:34</b></td><td>☕ ישיבת מערכת: פסקי דין על 1–2</td><td><b>19:42</b></td><td>🚨 מבזק 3 · ספרינט 2</td></tr>
+      <tr><td><b>19:48</b></td><td>🚨 מבזק 4 · בונים מהדורה במקביל</td><td><b>20:00</b></td><td>📡 הגשה ושידור</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">3 מבזקים בבדיקה מלאה, והרביעי "עוד בבדיקה". תבניות המשפט בדף הדסק ובדף התסריט.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">4 פסקי דין עם 2 ראיות לכל אחד, ומהדורה עם 3 ידיעות.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">ראיה שלישית מסוג אחר לכל מבזק, ופינת "איך בודקים בעצמכם" במהדורה.</p></div>
+  </div>
+</section>
+
+<!-- 5. DESK SHEET -->
+<section class="page" id="p-desk" data-label="דף הדסק">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · דף הדסק</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🗞️ העורך/ת הראשי/ת ממלא/ת · 🟡 AI לבדיקה</span><h2>דף <span>הדסק</span></h2></div><p>ראיה = משהו שאפשר לפתוח ולבדוק: קישור, צילום מסך, תאריך, מקור רשמי. "נראה לנו" ו"יש מלא לייקים" לא נספרים.</p></div>
+  <table class="tb deskT">
+    <thead><tr><th style="width:16mm">מבזק</th><th style="width:40mm">פסק דין</th><th>ראיה 1 (מה מצאנו + איפה)</th><th>ראיה 2 (מה מצאנו + איפה)</th><th style="width:20mm">מי בדק</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1<br>🖼️</td><td><div class="vopts"><span>אמת</span><span>מטעה</span><span>מפוברק</span><span>עוד בבדיקה</span></div></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">2<br>💬</td><td><div class="vopts"><span>אמת</span><span>מטעה</span><span>מפוברק</span><span>עוד בבדיקה</span></div></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">3<br>📊</td><td><div class="vopts"><span>אמת</span><span>מטעה</span><span>מפוברק</span><span>עוד בבדיקה</span></div></td><td></td><td></td><td></td></tr>
+      <tr><td class="n">4<br>🖼️</td><td><div class="vopts"><span>אמת</span><span>מטעה</span><span>מפוברק</span><span>עוד בבדיקה</span></div></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🔵 עוד בבדיקה? מה חסר לנו</h3><p style="font-size:9pt;color:var(--muted)">"עוד לא בדקנו ___ כי ___. כדי לפסוק צריך ___."</p><div class="lines h3"></div></div>
+    <div class="box"><h3>🚥 נורות אדומות שמצאנו</h3><p style="font-size:9pt;color:var(--muted)">מבזק · איזו נורה (רגש חזק, אין מקור, אין תאריך, פרטים מוזרים, "שתפו מהר")</p><div class="lines h3"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>✍️ תבנית ראיה</h3><p style="font-size:9.4pt">"מצאנו ש<span class="fill"></span> באתר / בכלי <span class="fill"></span>, וזה מוכיח ש<span class="fill"></span>."</p></div>
+    <div class="box soft"><h3>☕ ישיבת מערכת (דקה 46)</h3><p style="font-size:9.4pt">"הראיה הכי חזקה שלנו היא <span class="fill"></span> כי <span class="fill"></span>."</p><p style="font-size:9pt;margin-top:1.5mm">השאלה של השכנים: <span class="fill l"></span></p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🤖 שורת AI</h3><div class="grid2"><div><p style="font-size:9.2pt">מה שאלנו את Gemini ומה הוא ענה:</p><div class="lines h2"></div></div><div><p style="font-size:9.2pt">איפה התשובה שלו לא הספיקה, ומה בדקנו במקומה:</p><div class="lines h2"></div></div></div></div>
+</section>
+
+<!-- 6. VERDICT CARDS -->
+<section class="page" id="p-verdict" data-label="כרטיסי פסק דין">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי פסק דין · מרימים בחשיפה</div><div class="r">סט אחד למערכת</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. בכל חשיפה: "הרימו את כרטיס פסק הדין שלכם!" וכל המערכות מרימות יחד.</p>
+  <div class="cutgrid vgrid">
+    <div class="vc t"><span class="st">אמת</span><p>זה קרה, במקום ובזמן שכתובים, והמספרים נכונים.</p><small>חדר החדשות · Tech It Easy</small></div>
+    <div class="vc m"><span class="st">מטעה</span><p>משהו אמיתי (תמונה, מספר, ציטוט) בהקשר שגוי או בהצגה מעוותת.</p><small>חדר החדשות · Tech It Easy</small></div>
+    <div class="vc f"><span class="st">מפוברק</span><p>לא קרה אף פעם: נוצר ב-AI, נערך, או הומצא. גם ציטוט שמעולם לא נאמר.</p><small>חדר החדשות · Tech It Easy</small></div>
+    <div class="vc w"><span class="st" style="font-size:30pt">עוד בבדיקה</span><p>אין לנו עדיין 2 ראיות. אומרים מה חסר, ולא משדרים טעות.</p><small>חדר החדשות · Tech It Easy</small></div>
+  </div>
+</section>
+
+<!-- 7. SCRIPT + STORYBOARD -->
+<section class="page" id="p-script" data-label="תסריט וסטוריבורד">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · תסריט המהדורה</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <div class="pt" style="margin-bottom:3mm"><div><span class="kick">🎙️ מגיש/ה · ✂️ עורך/ת וידאו · עד 120 מילים · 60–90 שניות</span><h2>המהדורה <span>של 20:00</span></h2></div><p>הדף הזה הוא גם הגיבוי: אם Vids לא עובד, המגיש/ה קורא/ת את התסריט בשידור חי.</p></div>
+  <div class="stack" style="gap:3mm">
+    <div class="box"><h3>🎵 שם המהדורה (עד 3 מילים): <span class="fill l"></span></h3></div>
+    <div class="box"><h3>🎵 פתיח · 10 שניות</h3><p style="font-size:9.6pt">"ערב טוב, אתם צופים ב<span class="fill"></span>. הערב בדקנו 4 מבזקים, והנה מה שמצאנו."</p></div>
+    <div class="box"><h3>🚨 ידיעה 1 · 20 שניות</h3><p style="font-size:9.4pt;line-height:1.95">המבזק: <span class="fill l"></span> · מה בדקנו: <span class="fill l"></span><br>מה מצאנו: <span class="fill xl"></span> · פסק הדין: <span class="fill"></span></p></div>
+    <div class="box"><h3>🚨 ידיעה 2 · 20 שניות</h3><p style="font-size:9.4pt;line-height:1.95">המבזק: <span class="fill l"></span> · מה בדקנו: <span class="fill l"></span><br>מה מצאנו: <span class="fill xl"></span> · פסק הדין: <span class="fill"></span></p></div>
+    <div class="box"><h3>🚨 ידיעה 3 · 20 שניות</h3><p style="font-size:9.4pt;line-height:1.95">המבזק: <span class="fill l"></span> · מה בדקנו: <span class="fill l"></span><br>מה מצאנו: <span class="fill xl"></span> · פסק הדין: <span class="fill"></span></p></div>
+    <div class="grid2"><div class="box"><h3>💡 טיפ לצופים · 10 שניות</h3><p style="font-size:9.4pt">"בפעם הבאה שאתם רואים <span class="fill"></span>, בדקו <span class="fill"></span>."</p></div><div class="box"><h3>👋 סיום · 5 שניות</h3><p style="font-size:9.4pt">"לפני שמשתפים, בודקים. היינו <span class="fill"></span>, לילה טוב."</p></div></div>
+  </div>
+  <h3 class="sec" style="margin-top:3mm">🎬 סטוריבורד ל-Vids: מה רואים על המסך</h3>
+  <div class="sb">
+    <div class="fr"><div class="scr">1 · פתיח: שם המהדורה</div><div class="cap"><div class="lines h1"></div></div></div>
+    <div class="fr"><div class="scr">2 · ידיעה 1: מבזק + בדיקה + חותמת</div><div class="cap"><div class="lines h1"></div></div></div>
+    <div class="fr"><div class="scr">3 · ידיעה 2: מבזק + בדיקה + חותמת</div><div class="cap"><div class="lines h1"></div></div></div>
+    <div class="fr"><div class="scr">4 · ידיעה 3: מבזק + בדיקה + חותמת</div><div class="cap"><div class="lines h1"></div></div></div>
+    <div class="fr"><div class="scr">5 · טיפ לצופים</div><div class="cap"><div class="lines h1"></div></div></div>
+    <div class="fr"><div class="scr">6 · סיום: שם המערכת</div><div class="cap"><div class="lines h1"></div></div></div>
+  </div>
+  <ul class="check" style="margin-top:3mm;grid-template-columns:repeat(3,1fr);font-size:9pt"><li>60–90 שניות</li><li>צילום מסך של בדיקה בכל ידיעה</li><li>קריינות שלנו, קול בלבד</li><li>חותמת פסק דין גדולה</li><li>שיתוף "צפייה" לכל מי שיש קישור</li><li>שם: "מערכת [שם] · מהדורה"</li></ul>
+</section>
+
+<!-- 8. FLASH PACK (print) -->
+<section class="page" id="p-flashes" data-label="חבילת המבזקים">
+  <div class="ph"><div class="l"><i>TIE</i>חבילת המבזקים · גיבוי וגרסה בלי מכשירים</div><div class="r">חומר אימון · לא לשתף</div></div>
+  <p class="cutnote">✂ לגזור לרבעים ולחלק לפי לוח הזמנים. במבזקים 1 ו-4 מדביקים את הצילום המודפס בצבע מהקובץ שהמדריך הכין.</p>
+  <div class="cutgrid" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1">
+    <div class="fl" style="border:0;border-radius:0"><div class="fh">🚨 מבזק 1 · תמונה<span>19:16</span></div><div class="acc">📢 <b>חדשות הרגע 24/7</b> · לפני 12 דקות</div><div class="tx">🚨 עכשיו: <b>שלג ירד בחוף אילת!</b> ❄️🌴 תמונה מהבוקר. אף אחד לא מדבר על זה! שתפו לפני שימחקו!!</div><div class="pic">📎 כאן מדביקים את הצילום<br>"מבזק 1"</div><div class="acc" style="padding-bottom:2.5mm">❤️ 18.2K · 🔁 9.4K</div></div>
+    <div class="fl" style="border:0;border-radius:0"><div class="fh">🚨 מבזק 2 · ציטוט<span>19:25</span></div><div class="acc">✨ <b>השראה יומית</b> · לפני שעה</div><div class="tx">הציטוט הזה שינה לי את החיים 🙏 תייגו מישהו שצריך לשמוע את זה!</div><div class="pic" style="border-style:solid;background:#f6efe2;color:#3b2f22;font-family:var(--display);font-weight:700;font-size:11pt;line-height:1.4">"כל אחד הוא גאון. אבל אם תשפטו דג לפי היכולת שלו לטפס על עץ, הוא יחיה כל חייו בתחושה שהוא טיפש."<br><span style="font-size:9.5pt;color:#6b5a43">— אלברט איינשטיין</span><span style="direction:ltr;font-family:var(--body);font-weight:500;font-style:italic;font-size:7.8pt;color:#6b5a43;margin-top:2mm">"Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that it is stupid."</span></div><div class="acc" style="padding-bottom:2.5mm">❤️ 52K · 🔁 31K</div></div>
+    <div class="fl" style="border:0;border-radius:0"><div class="fh">🚨 מבזק 3 · גרף<span>19:42</span></div><div class="acc">📈 <b>מספרים שלא מספרים לכם</b> · לפני 3 שעות</div><div class="tx">😱 <b>זינוק מטורף באוכלוסיית ישראל!</b> תסתכלו על הגרף ותגידו לי שזה נורמלי.</div>
+      <div style="padding:0 3mm 2mm"><svg viewBox="0 0 600 330" direction="ltr" style="direction:ltr"><rect width="600" height="330" fill="#fff"/><text x="300" y="28" font-family="Rubik,Arial" font-size="19" font-weight="700" fill="#1f2a37" text-anchor="middle">אוכלוסיית ישראל (מיליוני תושבים)</text><g font-family="Heebo,Arial" font-size="14" fill="#5b6574" text-anchor="end"><text x="78" y="300">10.05</text><text x="78" y="213">10.10</text><text x="78" y="127">10.15</text><text x="78" y="45">10.20</text></g><g stroke="#e7e3dc" stroke-width="1.5"><line x1="88" y1="295" x2="560" y2="295"/><line x1="88" y1="208" x2="560" y2="208"/><line x1="88" y1="122" x2="560" y2="122"/><line x1="88" y1="40" x2="560" y2="40"/></g><line x1="88" y1="40" x2="88" y2="295" stroke="#8a93a1" stroke-width="2"/><rect x="160" y="260" width="120" height="35" rx="6" fill="#8fb3d9"/><rect x="370" y="74" width="120" height="221" rx="6" fill="#c8323c"/><g font-family="Rubik,Arial" font-weight="800" text-anchor="middle"><text x="220" y="250" font-size="18" fill="#2f6db5">10.07</text><text x="430" y="64" font-size="18" fill="#c8323c">10.18</text><text x="220" y="318" font-size="17" fill="#1f2a37">2024</text><text x="430" y="318" font-size="17" fill="#1f2a37">2025</text></g><text x="300" y="175" font-family="Rubik,Arial" font-size="20" font-weight="800" fill="#c8323c" text-anchor="middle">זינוק!</text><text x="555" y="18" font-family="Heebo,Arial" font-size="12" fill="#8a93a1" text-anchor="end">מקור: הלמ״ס</text></svg></div>
+      <div class="acc" style="padding-bottom:2.5mm">❤️ 7.9K · 🔁 5.2K</div></div>
+    <div class="fl" style="border:0;border-radius:0"><div class="fh">🚨 מבזק 4 · תמונה<span>19:48</span></div><div class="acc">🌏 <b>עולם מוזר</b> · לפני 5 שעות</div><div class="tx">האגם הזה באוסטרליה <b>ורוד באמת</b>. לא פוטושופ ולא AI 🌸 אגם הילייר, באי מידל שמול חופי מערב אוסטרליה.</div><div class="pic">📎 כאן מדביקים את הצילום<br>"מבזק 4"</div><div class="acc" style="padding-bottom:2.5mm">❤️ 64K · 🔁 12K</div></div>
+  </div>
+</section>
+
+<!-- 9. EVIDENCE ENVELOPES -->
+<section class="page" id="p-evidence" data-label="מעטפות ראיות">
+  <div class="ph"><div class="l"><i>TIE</i>מעטפות ראיות · גרסה בלי מכשירים</div><div class="r">למדריך · מחלקים לפי בקשה</div></div>
+  <p class="cutnote">✂ לגזור ולשים במעטפה לכל מבזק. מערכת מקבלת כרטיס רק אחרי שכתבה על פתק איזו שאלה היא בודקת. כרטיס אחד לכל בקשה.</p>
+  <div class="cutgrid evs">
+    <div class="ev"><div class="eh"><span>מבזק 1</span><span>🔍 Lens</span></div><p class="eq">עונה על: מתי ואיפה הופיע לראשונה?</p><p>חיפוש לפי תמונה: <b>אין שום פרסום קודם</b> של התמונה. אף אתר חדשות לא מציג אותה.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 1</span><span>🤖 Gemini</span></div><p class="eq">עונה על: מי יצר את התמונה?</p><p>Gemini: "בתמונה נמצא SynthID. <b>היא נוצרה או נערכה בכלי AI של Google</b>."</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 1</span><span>📰 חדשות</span></div><p class="eq">עונה על: מה אומרים אחרים?</p><p>חיפוש "שלג אילת היום" באתרי חדשות ותחזית: <b>אין שום דיווח</b>. החשבון שפרסם לא מציין מי צילם.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 2</span><span>📚 Quote Investigator</span></div><p class="eq">עונה על: מי באמת אמר את זה?</p><p>אתר שחוקר ציטוטים (2013): <b>אין שום עדות שאיינשטיין אמר את זה</b>. לא מופיע באוסף ציטוטי איינשטיין של אוניברסיטת פרינסטון.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 2</span><span>📅 תאריכים</span></div><p class="eq">עונה על: מתי הופיע לראשונה?</p><p>איינשטיין מת ב-<b>1955</b>. הנוסח הזה מופיע לראשונה בערך ב-<b>2004</b>, בספר עזרה עצמית.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 2</span><span>✅ Fact Check Explorer</span></div><p class="eq">עונה על: מישהו כבר בדק?</p><p>בדיקת עובדות של <b>USA Today (2021)</b>: איינשטיין לא אמר את הציטוט.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 3</span><span>📏 הציר</span></div><p class="eq">עונה על: הגרף הוגן?</p><p>הציר מתחיל ב-<b>10.05 מיליון</b>, לא ב-0. עמודת 2025 גבוהה פי 6 בערך, אבל המספרים כמעט זהים.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 3</span><span>🧮 חשבון</span></div><p class="eq">עונה על: כמה זה באמת?</p><p>10.18 פחות 10.07 = <b>כ-110 אלף איש</b>. זה בערך <b>1.1%</b> בשנה.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 3</span><span>🏛️ הלמ״ס</span></div><p class="eq">עונה על: מה המקור הרשמי?</p><p>הלשכה המרכזית לסטטיסטיקה: בסוף 2025 גרו בישראל <b>כ-10.18 מיליון</b> תושבים, גידול של 1.1%.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 4</span><span>🔍 Lens</span></div><p class="eq">עונה על: מתי ואיפה הופיע לראשונה?</p><p>הצילום מופיע בוויקישיתוף ובאתרי תיירות. יש צילומים של האגם <b>מ-2011</b>, לפני מחוללי תמונות AI.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 4</span><span>🌏 מקורות</span></div><p class="eq">עונה על: מה אומרים אחרים?</p><p>אגם הילייר, אי מידל, מערב אוסטרליה. מדענים: הצבע מ<b>מיקרואורגניזמים</b> שחיים במים מלוחים מאוד.</p></div>
+    <div class="ev"><div class="eh"><span>מבזק 4</span><span>🤖 Gemini</span></div><p class="eq">עונה על: מי יצר את התמונה?</p><p>Gemini: "<b>לא נמצא SynthID</b>." (שימו לב: זה לבד לא מוכיח שהתמונה אמיתית.)</p></div>
+  </div>
+</section>
+
+<!-- 10. ANSWER KEY -->
+<section class="page" id="p-key" data-label="דף התשובות">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · דף התשובות</div><div class="r">🧑‍🏫 למדריך בלבד</div></div>
+  <div class="pt"><div><span class="kick">🔒 לא מראים עד החשיפה</span><h2>דף <span>התשובות</span></h2></div><p>הפירוט המלא והמקורות נמצאים במערך. כאן: מה נכון, מה נספר כראיה, ומה התשובה כשמתווכחים.</p></div>
+  <table class="tb keyT">
+    <thead><tr><th style="width:24mm">מבזק</th><th style="width:22mm">פסק דין</th><th>ראיות שנספרות</th><th style="width:48mm">טעות נפוצה</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b> שלג באילת</td><td><span class="vt f">מפוברק</span></td><td>SynthID ב-Gemini · אין פרסום קודם ב-Lens · אין דיווח בחדשות או בתחזית</td><td>"מטעה". אבל זו לא תמונה אמיתית מהקשר אחר</td></tr>
+      <tr><td><b>2</b> הדג והעץ</td><td><span class="vt f">מפוברק</span></td><td>Quote Investigator · USA Today 2021 · איינשטיין מת ב-1955, הנוסח מ-2004 בערך</td><td>"מטעה". עם הסבר מדויק אפשר לתת 2 במקום 5</td></tr>
+      <tr><td><b>3</b> הגרף</td><td><span class="vt m">מטעה</span></td><td>הציר מתחיל ב-10.05 · החשבון: כ-1.1% · נתון הלמ״ס (כ-10.18 מיליון בסוף 2025)</td><td>"מפוברק". הנתונים אמיתיים, ההצגה מעוותת</td></tr>
+      <tr><td><b>4</b> האגם הוורוד</td><td><span class="vt t">אמת</span></td><td>צילומים ישנים בוויקישיתוף ובאתרי תיירות · המקום קיים והצבע מוסבר מדעית</td><td>"מפוברק כי נראה AI". "מוזר מדי" זו לא ראיה</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>שקף 2 · חמש הכותרות</h3><ol class="clean" style="font-size:9.2pt"><li>תמנון, 3 לבבות: אמת.</li><li>החומה הסינית מהחלל: המצאה.</li><li>80% מרופאי השיניים: אמיתי אבל מטעה (Colgate, בריטניה, 2007).</li><li>ברק לא פוגע פעמיים: המצאה (האמפייר סטייט, כ-20 בשנה).</li><li>ניקולס קייג׳ וטביעות: אמיתי אבל מטעה (צירוף מקרים).</li></ol></div>
+    <div class="box"><h3>שקף 28 · עמוד שער</h3><ol class="clean" style="font-size:9.2pt"><li>דבורים מזהות פרצופים: אמת.</li><li>כלבים בשחור-לבן: לא נכון (רואים כחול וצהוב).</li><li>אי חתולים ביפן: אמת.</li><li>פרפרים טועמים ברגליים: אמת.</li><li>כריש בכביש מוצף: ברוב המקרים מפוברק.</li><li>בננה היא ברי, תות לא: אמת.</li></ol></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>חידון ומלכודת</h3><p style="font-size:9.4pt">שקף 15: רק המשפט השני נכון. שקף 16 = ב · שקף 17 = ג · שקף 18 = ב.</p></div>
+    <div class="box soft"><h3>רמזים לישיבת המערכת (אחד למערכת תקועה)</h3><p style="font-size:9.2pt">מבזק 1: "העליתם את הקובץ המקורי ל-Gemini?" · מבזק 2: "מתי איינשטיין חי, ומתי הופיע הציטוט הכי ישן?" · מבזק 3: "מאיפה מתחיל הציר?" · מבזק 4: "מאיזו שנה הצילום הכי ישן?"</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>⏱ הבדיקה הכי מהירה: מי הביא ראשון פסק דין נכון + 2 ראיות?</h3><table class="tb"><thead><tr><th>מבזק</th><th>מערכת</th><th>שעה</th><th>מבזק</th><th>מערכת</th><th>שעה</th></tr></thead><tbody><tr><td>1</td><td class="e"></td><td></td><td>3</td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td>4</td><td></td><td></td></tr></tbody></table></div>
+</section>
+
+<!-- 11. RUBRIC -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · המחוון</div><div class="r">מערכת: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>המערכת</span></h2></div><p>בישיבת המערכת מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך קובע את הרמה הסופית, וכל רמה היא נקודות (1–4 לכל קריטריון, עד 16).</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:11%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">פסקי דין<small>אמת · מטעה · מפוברק</small></td><td>ניחוש בלי בדיקה</td><td>חלק מהפסקים נכונים, בלי הסבר</td><td>רוב הפסקים נכונים ומוסברים</td><td>כל הפסקים נכונים, כולל הבחנה בין "מטעה" (אמיתי בהקשר שגוי) ל"מפוברק"</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">ראיות ומקורות<small>מה מוכיח</small></td><td>אין ראיות</td><td>ראיה אחת לכל מבזק</td><td>2 ראיות לכל מבזק, עם קישור</td><td>ראיות מסוגים שונים (מקור ראשון, תאריך, חיפוש לפי תמונה) ומקור שסותר את הטענה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">המהדורה<small>Vids · 60–90 שניות</small></td><td>לא הוגשה או לא ברורה</td><td>יש מהדורה אבל בלי ראיות על המסך</td><td>60–90 שניות, 3 ידיעות, קריינות ברורה וצילומי מסך</td><td>מהדורה שמלמדת את הצופה איך לבדוק בעצמו, בקצב טוב ובלי להגזים</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">עבודת צוות ושקיפות AI<small>מי עשה מה</small></td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב "השתמשנו ב-AI"</td><td>כל תפקיד ביצע את החלק שלו, כתוב מה שאלנו את Gemini ומה ענה</td><td>כתוב איפה תשובת Gemini לא הספיקה ומה בדקנו במקומה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>סכום הרמות בארבעת הקריטריונים: 4–16 נקודות, שנכנסות ללוח הניקוד של הערב יחד עם פסקי הדין, הראיות והמהדורה.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: ראיה ברמה 2 מול רמה 4 (על מבזק אחר, מקרה האפיפיור)</h3>
+    <div class="grid2"><p style="font-size:9.4pt"><b>🌿 רמה 2:</b> "התמונה נראית מזויפת, המעיל מבריק מדי." ראיה אחת, וגם היא תחושה.</p><p style="font-size:9.4pt"><b>🚀 רמה 4:</b> "חיפוש לפי תמונה מוביל לפוסט בפורום של Midjourney מ-24.3.2023 (צילום מסך). שירות הצילום של הוותיקן אמר ל-AFP שהתמונה מזויפת (קישור). Gemini לא מצא SynthID, וזה הגיוני כי Midjourney הוא לא כלי של Google."</p></div></div>
+</section>
+
+<!-- 12. AI LINE -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת למהדורה</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את שתי השורות לטופס "הגשת מהדורה".</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מערכת: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה (מה שאלנו את Gemini, מה ענה)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ומה בדקנו במקום ה-AI)</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini ☐ Lens ☐ Fact Check Explorer ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מערכת: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה (מה שאלנו את Gemini, מה ענה)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ומה בדקנו במקום ה-AI)</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini ☐ Lens ☐ Fact Check Explorer ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מערכת: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה (מה שאלנו את Gemini, מה ענה)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ומה בדקנו במקום ה-AI)</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini ☐ Lens ☐ Fact Check Explorer ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>מערכת: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה (מה שאלנו את Gemini, מה ענה)</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו (ומה בדקנו במקום ה-AI)</b><div class="lines"></div></div></div><div class="foot"><span>כלים: ☐ Gemini ☐ Lens ☐ Fact Check Explorer ☐ Vids</span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- 13. EXIT TICKETS -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בסוף השיעור, כל אחד לבד, 3 דקות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>חדר החדשות</span></div><p>מערכת: <span class="fill"></span></p><p class="q">מה ההבדל בין מטעה למפוברק? דוגמה משלי:</p><div class="lines h2"></div><p class="q">שני דברים שאבדוק בפעם הבאה שאראה תמונה מפתיעה:</p><div class="lines h2"></div><p class="q">המבזק שכמעט עבד עליי, ולמה:</p><div class="lines h1"></div><div class="scale"><span>כמה אני בטוח/ה ביכולת שלי לבדוק?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><div class="tags"><span>בדקתי</span><span>הגשתי</span><span>כתבתי</span><span>הקלטתי</span><span>עזרתי למערכת אחרת</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>חדר החדשות</span></div><p>מערכת: <span class="fill"></span></p><p class="q">מה ההבדל בין מטעה למפוברק? דוגמה משלי:</p><div class="lines h2"></div><p class="q">שני דברים שאבדוק בפעם הבאה שאראה תמונה מפתיעה:</p><div class="lines h2"></div><p class="q">המבזק שכמעט עבד עליי, ולמה:</p><div class="lines h1"></div><div class="scale"><span>כמה אני בטוח/ה ביכולת שלי לבדוק?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><div class="tags"><span>בדקתי</span><span>הגשתי</span><span>כתבתי</span><span>הקלטתי</span><span>עזרתי למערכת אחרת</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>חדר החדשות</span></div><p>מערכת: <span class="fill"></span></p><p class="q">מה ההבדל בין מטעה למפוברק? דוגמה משלי:</p><div class="lines h2"></div><p class="q">שני דברים שאבדוק בפעם הבאה שאראה תמונה מפתיעה:</p><div class="lines h2"></div><p class="q">המבזק שכמעט עבד עליי, ולמה:</p><div class="lines h1"></div><div class="scale"><span>כמה אני בטוח/ה ביכולת שלי לבדוק?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><div class="tags"><span>בדקתי</span><span>הגשתי</span><span>כתבתי</span><span>הקלטתי</span><span>עזרתי למערכת אחרת</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>חדר החדשות</span></div><p>מערכת: <span class="fill"></span></p><p class="q">מה ההבדל בין מטעה למפוברק? דוגמה משלי:</p><div class="lines h2"></div><p class="q">שני דברים שאבדוק בפעם הבאה שאראה תמונה מפתיעה:</p><div class="lines h2"></div><p class="q">המבזק שכמעט עבד עליי, ולמה:</p><div class="lines h1"></div><div class="scale"><span>כמה אני בטוח/ה ביכולת שלי לבדוק?</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><div class="tags"><span>בדקתי</span><span>הגשתי</span><span>כתבתי</span><span>הקלטתי</span><span>עזרתי למערכת אחרת</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- 14. SCORE SHEET -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>חדר החדשות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוח הניקוד בשקף 42</span><h2>דף <span>הניקוד</span></h2></div><p>מלאו בזמן השידור מגיליון התשובות של הטופס. נקודות של השיעור הזה בלבד. מקסימום 48.</p></div>
+  <table class="tb" style="font-size:9pt">
+    <thead><tr><th style="width:24mm">מערכת</th><th>מבזק 1<br><small>5</small></th><th>מבזק 2<br><small>5</small></th><th>מבזק 3<br><small>5</small></th><th>מבזק 4<br><small>5</small></th><th>ראיות<br><small>עד 8</small></th><th>שידור שגוי<br><small>‎−2</small></th><th>בבדיקה<br><small>1</small></th><th>מהדורה<br><small>4</small></th><th>מחוון<br><small>4–16</small></th><th style="background:var(--teal-soft)">סה״כ</th><th style="width:12mm">מקום</th></tr></thead>
+    <tbody>
+      <tr><td class="e">🦊</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦉</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐬</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🦁</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐝</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">🐢</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>☕ ישיבת מערכת (דקה 46): לסימון בלבד, לא מגלים</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:24mm">מערכת</th><th>מבזק 1 ✓/✗</th><th>מבזק 2 ✓/✗</th><th>ראיות תקפות</th><th>תקועה? רמז שניתן</th></tr></thead>
+    <tbody><tr><td class="e">🦊</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦉</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐬</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🦁</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐝</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">🐢</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🎙️ הצבעת קהל: המגיש/ה הכי אמין/ה</h3><table class="tb" style="font-size:9pt"><tbody><tr><td>🦊</td><td class="e"></td><td>🦉</td><td></td><td>🐬</td><td></td></tr><tr><td>🦁</td><td class="e"></td><td>🐝</td><td></td><td>🐢</td><td></td></tr></tbody></table></div>
+    <div class="box"><h3>🏆 הפרסים הערב</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9.4pt"><p>🏆 מדויקת: <span class="fill s"></span></p><p>🧾 ראיות: <span class="fill s"></span></p><p>🎙️ מגיש/ה: <span class="fill s"></span></p><p>⚡ מהירה: <span class="fill s"></span></p></div></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>🪤 המבזק שהכי הטעה (שקף 44)</h3><div class="lines h1"></div></div>
+    <div class="box soft"><h3>📨 דוח קצר למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+<!-- 15. CERTIFICATES -->
+<section class="page" id="p-cert" data-label="תעודות">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות הפרסים · חדר החדשות</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כותבים את שם המערכת ומחלקים בטקס.</p>
+  <div class="cutgrid" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1">
+    <div class="cert"><span class="em">🏆</span><span class="k">חדר החדשות: דד-ליין · Tech It Easy</span><b>המערכת המדויקת</b><p>הניקוד הכולל הגבוה ביותר: פסקי דין נכונים, ראיות חזקות ומהדורה אמינה.</p><div class="nm"></div><div class="sig"><span>תאריך: ________</span><span>המדריך/ה: ________</span></div></div>
+    <div class="cert"><span class="em">🧾</span><span class="k">חדר החדשות: דד-ליין · Tech It Easy</span><b>תיק הראיות הכי חזק</b><p>ראיות מסוגים שונים, כולל מקור שסותר את הטענה. ככה עובדים בודקי עובדות.</p><div class="nm"></div><div class="sig"><span>תאריך: ________</span><span>המדריך/ה: ________</span></div></div>
+    <div class="cert"><span class="em">🎙️</span><span class="k">חדר החדשות: דד-ליין · Tech It Easy</span><b>המגיש/ה הכי אמין/ה</b><p>לפי הצבעת הקהל: מדבר/ת ברור, מראה הוכחות, לא מגזים/ה.</p><div class="nm"></div><div class="sig"><span>תאריך: ________</span><span>המדריך/ה: ________</span></div></div>
+    <div class="cert"><span class="em">⚡</span><span class="k">חדר החדשות: דד-ליין · Tech It Easy</span><b>הבדיקה הכי מהירה</b><p>הראשונים שהביאו פסק דין נכון עם 2 ראיות. מהירים ומדויקים.</p><div class="nm"></div><div class="sig"><span>תאריך: ________</span><span>המדריך/ה: ________</span></div></div>
+  </div>
+</section>
+
+<!-- 16. TABLE SIGN -->
+<section class="page" id="p-sign" data-label="שלט מערכת">
+  <div class="ph"><div class="l"><i>TIE</i>שלט מערכת · מקפלים לאורך הקו האמצעי</div><div class="r">1 למערכת</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">📰</span><b>מערכת</b><div class="nm"></div><p style="color:var(--muted)">חדר החדשות · Tech It Easy</p></div>
+    <div><span class="em">📰</span><b>מערכת</b><div class="nm"></div><p style="color:var(--muted)">חדר החדשות · Tech It Easy</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם המערכת משני הצדדים</p>
+</section>
+
+</main>
+
+<script>
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

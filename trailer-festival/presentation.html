@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>פסטיבל הטריילרים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== פסטיבל הטריילרים — lesson additions (kit styles above are untouched) · light theme, festival gold + crimson ===== */
+:root{--gold:#d9a21b;--gold-ink:#8a5a00;--gold-soft:#fdf5df;--crimson:#be3455;--crimson-soft:#fce9ed}
+.slide.tight h2{font-size:clamp(30px,3.9vw,56px);margin:10px 0 10px}
+.slide.tight .lead{font-size:clamp(17px,1.6vw,23px);line-height:1.5;margin-bottom:6px}
+.slide .tableWrap{flex:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;max-width:1200px}.row2>*{min-width:0}
+.gold{color:var(--gold-ink)}.crim{color:var(--crimson)}
+/* ---------- hero: marquee + envelope + statue ---------- */
+.hero .heroGrid h2{font-size:clamp(44px,5.8vw,90px)}
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;align-items:center}
+.marqueeTag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:14px;font-family:var(--display);font-weight:700;font-size:17px;color:var(--gold-ink);
+ background:var(--gold-soft);border:1px solid #efd9a0;position:relative}
+.bulbs{position:relative;border-radius:30px;padding:22px;background:#fff;border:1px solid #f0dcaa;box-shadow:var(--shadow)}
+.bulbs::before{content:"";position:absolute;inset:7px;border-radius:24px;pointer-events:none;border:6px dotted #e3a82b;animation:bulb 1.4s steps(2) infinite}
+@keyframes bulb{50%{border-color:#f3d27a}}
+.stage{position:relative;height:clamp(230px,30vh,330px);display:grid;place-items:center}
+.envelope{position:relative;width:min(300px,80%);aspect-ratio:1.55;border-radius:14px;background:linear-gradient(180deg,#fffaf0,#f6ead0);border:1px solid #e6d3a8;box-shadow:0 18px 40px -18px rgba(138,90,0,.45);transform:rotate(-5deg)}
+.envelope::before{content:"";position:absolute;inset:0 0 38% 0;background:linear-gradient(180deg,#f3e2bb,#ecd6a6);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:14px 14px 0 0}
+.envelope::after{content:"";position:absolute;inset:auto 0 0 0;height:62%;background:linear-gradient(0deg,#f7ebd2,#fbf3e2);clip-path:polygon(0 100%,50% 18%,100% 100%);border-radius:0 0 14px 14px}
+.seal{position:absolute;z-index:2;left:50%;top:56%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-size:30px;
+ background:radial-gradient(circle at 35% 30%,#e0607d,var(--crimson) 60%,#93203b);box-shadow:0 0 0 5px rgba(190,52,85,.18),0 6px 14px rgba(147,32,59,.35)}
+.envelope .stamp{position:absolute;z-index:2;right:12px;bottom:10px;font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.12em;color:#9a6a12;border:1.5px dashed #c79b3e;border-radius:8px;padding:2px 8px;background:rgba(255,255,255,.6)}
+.statue{position:absolute;left:4%;bottom:-6px;width:min(110px,26%);filter:drop-shadow(0 10px 14px rgba(138,90,0,.25))}
+.strip{position:absolute;right:-10px;top:8px;width:min(190px,45%);transform:rotate(9deg);opacity:.95}
+.redcarpet{height:16px;border-radius:99px;margin-top:20px;max-width:640px;background:linear-gradient(90deg,#f5c9d3,var(--crimson) 40%,var(--crimson) 60%,#f5c9d3)}
+/* ---------- audio trailers (slide 2) ---------- */
+.trailers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1240px}
+.tcard{position:relative;border:1px solid var(--line);border-radius:22px;padding:16px 16px 14px;background:var(--card);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.tcard::before{content:"";position:absolute;inset:0 0 auto 0;height:12px;background:repeating-linear-gradient(90deg,#2b2f36 0 14px,#fff 14px 18px,#2b2f36 18px 32px);opacity:.85}
+.tcard .th{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.tcard .th b{font-family:var(--display);font-weight:800;font-size:22px}
+.playBtn{border:1px solid var(--teal-deep);border-radius:999px;padding:8px 16px;font-weight:700;color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));font-size:17px}
+.playBtn.on{background:var(--crimson);border-color:#93203b}
+.wave{display:flex;align-items:flex-end;gap:3px;height:34px}
+.wave i{flex:1;border-radius:3px;background:var(--line);height:20%;transition:height .12s}
+.tcard.playing .wave i{background:var(--accent)}
+.tline{min-height:3.1em;font-family:var(--display);font-weight:700;font-size:clamp(17px,1.65vw,22px);line-height:1.4;color:var(--ink);border-radius:12px;background:var(--paper2);padding:8px 12px}
+.tline:empty::before{content:"🔇 המשפט יופיע בזמן ההשמעה";color:var(--dim);font-weight:500;font-family:var(--body);font-size:16px}
+.gchips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.gchips button{border:1px solid var(--line);border-radius:12px;padding:7px 8px;background:var(--paper);color:var(--ink);font-weight:700;font-size:16px;transition:.15s}
+.gchips button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.gchips button.ok{background:var(--good);border-color:var(--good);color:#fff}
+.gchips button.no{background:var(--bad-bg);border-color:#efb69b;color:var(--bad)}
+.gnote{display:none;font-size:15px;color:var(--muted);line-height:1.4}
+.tcard.done .gnote{display:block}
+.volHint{margin-top:10px;color:var(--dim);font-size:15px}
+/* ---------- agenda / chips ---------- */
+.agenda{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;max-width:1200px}
+.agenda span{padding:7px 13px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
+.agenda i{font-style:normal;color:var(--dim);font-weight:700}
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cards.five .card{padding:16px 14px}.cards.five .card strong{font-size:20px}.cards.five .card p{font-size:16px}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card .q{display:block;margin-top:8px;font-weight:700;color:var(--accent-ink);font-size:16px}
+.timerRow{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.timerRow .timer{margin-top:12px}
+.bigTimer .timer{padding:12px 18px 12px 24px}.bigTimer .timer output{font-size:clamp(56px,8vw,112px)}
+.light{display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:17px;border:1px solid var(--line)}
+.light.y{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.light.g{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.light.r{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+.miles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:1150px}
+.mile{border:1px solid var(--line);border-radius:18px;padding:13px 18px;background:var(--card);box-shadow:var(--shadow-sm)}
+.mile small{display:block;font-family:var(--display);font-weight:700;color:var(--accent-ink);font-size:15px;margin-bottom:3px}
+.mile p{margin:0;font-size:clamp(16px,1.6vw,21px);line-height:1.45}
+.rolesLine{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;max-width:1200px}
+.rolesLine span{padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:clamp(14px,1.35vw,17px);box-shadow:var(--shadow-sm)}
+.rolesLine b{font-family:var(--display)}
+/* ---------- draw machine (slide 6) ---------- */
+.drawBar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.drawBar select{font:inherit;font-weight:700;font-size:18px;padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.drawBtn{font-size:19px;padding:11px 20px}
+.kit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1240px;perspective:1200px}
+.kcard{position:relative;height:clamp(170px,24vh,230px)}
+.kcard .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+.kcard.flip .in{transform:rotateY(180deg)}
+.kface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:14px;box-shadow:var(--shadow)}
+.kback{background:repeating-linear-gradient(45deg,var(--kc-soft) 0 12px,#fff 12px 24px);border-color:var(--kc-line)}
+.kback .em{font-size:44px;line-height:1}
+.kback b{font-family:var(--display);font-weight:800;font-size:22px;color:var(--kc-ink)}
+.kfront{background:#fff;transform:rotateY(180deg);border-top:6px solid var(--kc)}
+.kfront small{font-family:var(--display);font-weight:700;color:var(--kc-ink);font-size:15px;background:var(--kc-soft);border-radius:999px;padding:2px 12px}
+.kfront .val{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.1vw,30px);line-height:1.2;color:var(--ink)}
+.kfront .em{font-size:34px;line-height:1}
+.k-g{--kc:#be3455;--kc-soft:#fce9ed;--kc-line:#f2c2cd;--kc-ink:#9d2846}
+.k-c{--kc:#4c8bd6;--kc-soft:#e7f0fa;--kc-line:#c3d8f2;--kc-ink:#2f6db5}
+.k-o{--kc:#f4a259;--kc-soft:#fdf0e3;--kc-line:#f3d2ae;--kc-ink:#b0560a}
+.k-l{--kc:#8c7ae6;--kc-soft:#efecfb;--kc-line:#d5ccf6;--kc-ink:#6a55c9}
+.kcard.sealed .kback b::after{content:" 🤫"}
+.drawLog{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;max-width:1240px}
+.drawLog span{font-size:14.5px;padding:5px 10px;border-radius:10px;background:var(--paper2);border:1px solid var(--line)}
+.drawLog b{font-family:var(--display)}
+/* ---------- three acts timeline ---------- */
+.acts{display:grid;grid-template-columns:15fr 20fr 20fr 5fr;margin-top:18px;max-width:1220px;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.acts>div{padding:12px 12px 14px;min-width:0;border-inline-start:1px solid rgba(255,255,255,.6)}
+.acts b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(17px,1.8vw,24px)}
+.acts small{display:block;font-weight:700;font-size:14px;opacity:.85;font-variant-numeric:tabular-nums}
+.acts .a1{background:#e3f1ee;color:#0b5c56}.acts .a2{background:#fdf3d7;color:#7a4b00}.acts .a3{background:#fce9ed;color:#8f2140}.acts .a4{background:#2b2f36;color:#fff;text-align:center;padding-inline:4px}
+.acts .a4 b{font-size:clamp(14px,1.3vw,18px)}
+.actRows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px;max-width:1220px}
+.actRows .card p{font-size:17px}
+.actRows .ex{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-style:italic;color:var(--ink);font-size:16px}
+/* ---------- logline ---------- */
+.formula{margin-top:16px;max-width:1150px;border-radius:20px;padding:18px 22px;border:2px dashed var(--accent-line);background:var(--accent-soft);font-family:var(--display);font-weight:700;font-size:clamp(22px,2.6vw,36px);line-height:1.5}
+.formula .blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--accent-ink);color:var(--accent-ink);text-align:center;padding:0 6px}
+.formula small{display:block;font-family:var(--body);font-weight:500;font-size:16px;color:var(--muted);margin-top:4px}
+/* ---------- vote with explanation ---------- */
+.vote.opens .voteItem{text-align:right}
+.vote.opens .voteItem strong{font-size:18px;line-height:1.4;font-weight:600;font-family:var(--body);min-height:5.6em;text-align:right}
+.vote.opens .voteItem .tagL{font-family:var(--display);font-weight:800;font-size:22px;color:var(--accent-ink)}
+.vote.opens .voteCtl{justify-content:flex-start}
+/* ---------- case facts ---------- */
+.facts{display:grid;gap:9px;margin-top:14px;max-width:1150px}
+.fact{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:11px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px);line-height:1.45}
+.fact .em{flex:none;font-size:26px;line-height:1.2}
+.askBox{margin-top:14px;max-width:1150px;border-radius:18px;padding:13px 20px;font-size:clamp(18px,1.85vw,24px);line-height:1.45;border:1px solid var(--accent-line);border-inline-start:5px solid var(--accent);background:var(--accent-soft)}
+.askBox b{color:var(--accent-ink)}
+.src{margin-top:10px;color:var(--dim);font-size:14px;direction:ltr;text-align:right}
+/* ---------- prompts with copy + fill-ins ---------- */
+.prompt{position:relative;padding-left:128px}
+.prompt.small{font-size:clamp(16px,1.55vw,20px);margin-top:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.fillin{background:var(--hl);border-radius:6px;padding:0 5px;outline:none;box-shadow:inset 0 -2px 0 #e3b341}
+.fillin:focus{box-shadow:0 0 0 2px var(--teal)}
+.lockChip{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:8px 14px;border-radius:14px;background:#eef3fb;border:1px solid #c3d8f2;color:#1f4f8a;font-weight:700;font-size:clamp(15px,1.5vw,19px)}
+.editHint{color:var(--dim);font-size:15px;margin-top:8px}
+/* ---------- style frames ---------- */
+.frames{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;max-width:420px}
+.fr{aspect-ratio:16/9;border-radius:10px;display:grid;place-items:center;font-size:clamp(26px,3vw,42px);position:relative;overflow:hidden;border:1px solid rgba(31,42,55,.12)}
+.fr small{position:absolute;z-index:2;inset:auto 0 0 0;font-size:13px;font-weight:700;padding:2px 4px;background:rgba(255,255,255,.82);color:var(--ink);text-align:center;line-height:1.3}
+.fr.s1{background:linear-gradient(180deg,#9aa7b4,#5d6b78)}.fr.s2{background:#ffe14d;border:3px solid #222}.fr.s3{background:repeating-linear-gradient(0deg,#5cb85c 0 8px,#4cae4c 8px 16px)}.fr.s4{background:radial-gradient(circle at 30% 30%,#ffd1e0,#f7a8c4 60%,#fbe3ec)}
+.fr.u{background:linear-gradient(180deg,#24406b 0%,#5a5f9c 45%,#f0a35e 100%)}
+.fr.u::after{content:"";position:absolute;inset:auto -10% -30% -10%;height:55%;border-radius:50%;background:rgba(14,24,48,.45)}
+.fr.u>span{position:relative;z-index:1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+/* ---------- shot types ---------- */
+.shot{display:flex;gap:12px;align-items:center}
+.shotIc{flex:none;width:86px;aspect-ratio:16/10;border-radius:10px;border:2px solid #2b2f36;background:#f4f1ea;position:relative;overflow:hidden;display:grid;place-items:center}
+.shotIc span{display:block;line-height:1}
+.cards.shots .card{padding:14px 16px}.cards.shots .card strong{margin:0 0 2px;font-size:20px}.cards.shots .card p{font-size:16px}
+.cards.shots .card .kw{display:inline-block;margin-top:6px;font-size:14px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 10px}
+/* ---------- vids steps ---------- */
+.steps.vids .step p{font-size:16px}
+.ui{display:inline-block;font-family:var(--display);font-weight:700;font-size:.95em;background:#eef3fb;border:1px solid #c3d8f2;color:#1f4f8a;border-radius:7px;padding:0 6px;white-space:nowrap}
+.noteLine{margin-top:12px;max-width:1200px;color:var(--muted);font-size:clamp(15px,1.45vw,18px)}
+.noteLine b{color:var(--ink)}
+/* ---------- posters ---------- */
+.poster{margin-top:8px;aspect-ratio:3/1.55;border-radius:14px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:12px;background:linear-gradient(180deg,#24406b,#5a5f9c 50%,#f0a35e);border:1px solid rgba(31,42,55,.15)}
+.poster .em{position:absolute;top:18%;left:50%;transform:translateX(-50%);font-size:clamp(40px,4.4vw,64px);filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.poster .ttl{position:relative;font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,34px);color:#fff;letter-spacing:-.01em;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.poster .ttl.bad{font-family:"Times New Roman",serif;font-style:italic;letter-spacing:.06em;color:#ffe8c7;transform:skewX(-8deg)}
+.poster small{position:relative;color:#fff;font-weight:700;font-size:13px;opacity:.95;margin-top:2px}
+/* ---------- scoring + rubric tables ---------- */
+table.t td.pts{font-family:var(--display);font-weight:800;color:var(--accent-ink);white-space:nowrap;text-align:center}
+table.t.rub{font-size:clamp(13px,1.25vw,17px)}
+table.t.rub th,table.t.rub td{padding:8px 11px;vertical-align:top}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+.winline{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;max-width:1200px}
+.winline span{padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,19px);font-weight:500}
+.winline b{font-family:var(--display)}
+.compactT table.t th,.compactT table.t td{padding:6px 14px}
+/* ---------- storyboard filmstrip ---------- */
+.film{margin-top:14px;max-width:1260px;border-radius:16px;background:#2b2f36;padding:16px 10px;position:relative}
+.film::before,.film::after{content:"";position:absolute;left:10px;right:10px;height:8px;background:repeating-linear-gradient(90deg,#fbfaf7 0 12px,transparent 12px 26px);border-radius:2px}
+.film::before{top:4px}.film::after{bottom:4px}
+.frames8{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pan{background:#fff;border-radius:10px;padding:8px 10px;min-width:0;display:flex;flex-direction:column;gap:4px}
+.pan .top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.pan .top b{font-family:var(--display);color:#fff;background:var(--accent-ink);border-radius:7px;padding:0 7px}
+.pan .art{height:clamp(44px,6.4vh,70px);border-radius:8px;display:grid;place-items:center;font-size:clamp(24px,2.6vw,36px);background:linear-gradient(180deg,#24406b,#5a5f9c 55%,#f0a35e)}
+.pan p{margin:0;font-size:clamp(12.5px,1.15vw,15px);line-height:1.35;color:var(--ink)}
+.pan p i{font-style:normal;color:var(--muted)}
+.kitLine{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.kitLine span{font-size:15px;font-weight:700;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+/* ---------- checkpoint pairs ---------- */
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pairs span{font-family:var(--display);font-weight:700;padding:6px 12px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font-size:16px}
+/* ---------- drama meter ---------- */
+.meter{margin-top:16px;max-width:900px;display:grid;gap:8px}
+.meterBar{height:38px;border-radius:999px;background:var(--paper2);border:1px solid var(--line);overflow:hidden;position:relative}
+.meterBar i{position:absolute;inset:0 auto 0 0;width:0;border-radius:999px;background:linear-gradient(90deg,#5bb5a2,#e3a82b 55%,#be3455);transition:width .08s}
+.meterBar em{position:absolute;top:0;bottom:0;width:3px;background:var(--ink);left:0;font-style:normal}
+.meterInfo{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-weight:700;color:var(--muted)}
+.voices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px;max-width:1150px}
+.voices div{border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px)}
+.voices b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,25px)}
+/* ---------- narration counter ---------- */
+.vo{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-top:14px;max-width:1220px}
+.vo textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:clamp(17px,1.7vw,22px);line-height:1.5;background:#fffef9;color:var(--ink)}
+.vo textarea:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent)}
+.voStats{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.voStats span{padding:6px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-weight:700}
+.voStats span.ok{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}.voStats span.over{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.tips{display:grid;gap:8px}
+.tips div{border:1px solid var(--line);border-radius:14px;padding:9px 14px;background:var(--card);font-size:clamp(15px,1.5vw,19px);box-shadow:var(--shadow-sm)}
+/* ---------- submission ---------- */
+.linkBox{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:10px 18px;border-radius:16px;border:1.5px dashed var(--accent-line);background:var(--accent-soft);font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,30px)}
+.linkBox .fillin{background:#fff;box-shadow:inset 0 -2px 0 var(--accent);direction:ltr;unicode-bidi:isolate;padding:0 8px}
+.fname{font-family:var(--display);font-weight:700;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:2px 10px}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;max-width:1200px}
+.checks span{padding:7px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(15px,1.45vw,18px);font-weight:500}
+.checks span::before{content:"☐ ";color:var(--accent-ink);font-weight:700}
+/* ---------- screening (now showing) ---------- */
+.nowWrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;margin-top:14px;max-width:1240px;align-items:stretch}
+.nowShowing{position:relative;border-radius:26px;padding:26px 24px 22px;text-align:center;background:#fff;border:1px solid #f0dcaa;box-shadow:var(--shadow)}
+.nowShowing::before{content:"";position:absolute;inset:7px;border-radius:20px;pointer-events:none;border:6px dotted #e3a82b;animation:bulb 1.4s steps(2) infinite}
+.nowShowing small{display:block;font-family:var(--display);font-weight:700;letter-spacing:.14em;color:var(--crimson);font-size:16px}
+.nowShowing .studio{font-family:var(--display);font-weight:800;font-size:clamp(34px,4.6vw,66px);line-height:1.1;margin:6px 0}
+.nowShowing .film{all:unset;display:block;font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,30px);color:var(--gold-ink)}
+.nowShowing .filmIn{font:inherit;font-family:var(--display);font-weight:700;font-size:clamp(20px,2.1vw,28px);text-align:center;border:1px dashed #e6d3a8;border-radius:12px;padding:4px 10px;background:var(--gold-soft);color:var(--gold-ink);width:min(440px,90%)}
+.nowShowing .nav2{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.screenSide{display:flex;flex-direction:column;gap:10px}
+.screenSide .timer{margin-top:0}
+.order{display:flex;flex-wrap:wrap;gap:6px}
+.order span{font-size:14.5px;font-weight:700;padding:4px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper2);color:var(--muted);cursor:pointer}
+.order span.cur{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.order span.seen{color:var(--ink);background:#fff}
+/* ---------- live tables ---------- */
+.liveBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.liveBar .ghost{padding:6px 12px;font-size:15px}
+table.t.live{font-size:clamp(14px,1.35vw,18px)}
+table.t.live th{font-size:clamp(12.5px,1.15vw,15.5px);padding:7px 7px;line-height:1.25;text-align:center}
+table.t.live td{padding:5px 7px;text-align:center;vertical-align:middle}
+table.t.live td:first-child{text-align:right}
+table.t.live input{width:100%;min-width:52px;max-width:90px;font:inherit;font-weight:700;padding:4px 6px;border:1px solid var(--line);border-radius:9px;background:#fffef9;color:var(--ink);text-align:center}
+table.t.live input.nm{max-width:190px;min-width:120px;text-align:right;font-family:var(--display)}
+table.t.live input:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:0;background:#fff}
+table.t.live .calc{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+table.t.live .tot{font-family:var(--display);font-weight:800;font-size:1.25em;color:var(--accent-ink)}
+table.t.live tr.r1 td{background:#fff6d9}table.t.live tr.r2 td{background:#f4f5f7}table.t.live tr.r3 td{background:#fdf0e6}
+.stp{display:inline-flex;align-items:center;gap:4px}
+.stp button,.tg{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-weight:800;min-width:28px;height:30px;padding:0 6px;font-size:16px;line-height:1}
+.stp button:hover,.tg:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.stp output{min-width:22px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.tg.on{background:var(--good-bg);border-color:#86cfa0;color:var(--good)}
+.slide.liveS h2{font-size:clamp(26px,3vw,42px);margin:6px 0 4px}
+.slide.liveS .lead{margin-bottom:0}
+.slide.liveS .kicker{font-size:15px;padding:5px 12px}
+.slide.liveS .tableWrap{margin-top:8px}
+.tvote{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.tvote .voteItem{padding:10px 10px 12px}.tvote .voteItem .emoji{font-size:26px}.tvote .voteItem strong{font-size:18px;min-height:2.3em;margin:2px 0 6px;display:grid;place-items:center}
+.scoreLine{margin-top:8px;font-weight:700;color:var(--muted)}
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px;max-width:1240px}
+.award{position:relative;border-radius:22px;padding:18px 14px 16px;text-align:center;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:6px}
+.award.main{border-color:#efd9a0;background:linear-gradient(180deg,#fffaf0,#fff)}
+.award .em{font-size:46px;line-height:1}
+.award .ttl{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.7vw,23px);line-height:1.2}
+.award .why{color:var(--muted);font-size:15px;line-height:1.35;min-height:2.7em}
+.award .win{margin-top:auto;font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);color:var(--gold-ink);background:var(--gold-soft);border:1px solid #efd9a0;border-radius:14px;padding:6px 12px;width:100%}
+.award select{font:inherit;font-family:var(--display);font-weight:800;font-size:clamp(17px,1.6vw,22px);color:var(--gold-ink);background:var(--gold-soft);border:1px dashed #e0c27a;border-radius:14px;padding:6px 8px;width:100%;text-align:center}
+.award svg{width:64px;height:auto}
+/* ---------- exit ---------- */
+.qList{display:grid;gap:9px;margin-top:14px;max-width:1150px;counter-reset:q}
+.qList div{counter-increment:q;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:11px 16px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.7vw,22px)}
+.qList div::before{content:counter(q);flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--accent-ink);color:#fff;font-family:var(--display);font-weight:800}
+/* ---------- credits roll ---------- */
+.creditsBox{position:relative;margin-top:12px;width:min(760px,100%);height:clamp(230px,36vh,360px);overflow:hidden;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+ -webkit-mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent)}
+.credits{position:absolute;inset:auto 0 auto 0;top:100%;text-align:center;display:grid;gap:4px;padding:10px 20px}
+.creditsBox.roll .credits{animation:roll 26s linear forwards}
+@keyframes roll{from{top:100%;transform:translateY(0)}to{top:0;transform:translateY(-100%)}}
+.credits h4{margin:14px 0 0;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.14em;color:var(--muted)}
+.credits p{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(20px,2.1vw,28px)}
+.credits .big{font-size:clamp(28px,3vw,44px)}
+.teaser{margin-top:14px;max-width:900px;text-align:right;border:1px solid var(--line);border-top:4px solid var(--sky);border-radius:20px;padding:14px 20px;background:var(--card);box-shadow:var(--shadow)}
+.teaser small{display:block;font-family:var(--display);font-weight:700;color:var(--sky-ink);margin-bottom:4px}
+.teaser p{margin:2px 0 0;color:var(--muted);font-size:clamp(15px,1.5vw,19px)}
+.note{color:var(--dim);font-size:15px;margin-top:8px}
+@media (max-height:800px){
+ .slide.tight h2{font-size:clamp(28px,3.4vw,46px);margin:8px 0 8px}
+ .stage{height:clamp(200px,28vh,260px)}
+ .tcard{padding:12px 12px 10px;gap:7px}.tline{min-height:2.9em;padding:6px 10px}.wave{height:26px}.gchips button{padding:5px 6px;font-size:15px}
+ .kcard{height:clamp(150px,22vh,190px)}
+ .fact{padding:7px 14px}.facts{gap:6px}.askBox{padding:9px 16px;margin-top:10px}
+ .formula{padding:12px 18px;margin-top:10px}
+ .acts>div{padding:8px 10px 10px}.actRows .card p{font-size:15.5px}
+ .pan .art{height:40px}.pan{padding:6px 8px;gap:3px}.film{padding:14px 8px}
+ table.t.live td{padding:3px 6px}table.t.live input{padding:3px 5px}
+ .qList div{padding:8px 12px}.qList{gap:6px}
+ .bigTimer .timer output{font-size:clamp(48px,7vw,90px)}
+ .vo textarea{min-height:120px}
+ .award{padding:12px 10px}.award .em{font-size:38px}
+}
+@media (max-width:900px){.heroGrid,.row2,.miles,.nowWrap,.vo{grid-template-columns:1fr}.trailers,.awards,.kit{grid-template-columns:1fr 1fr}.cards.five,.cards.three,.cards.six,.actRows,.voices{grid-template-columns:1fr 1fr}.frames8{grid-template-columns:1fr 1fr}}
+</style>
+<style>
+.creditsIdle{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:4px;text-align:center;font-family:var(--display)}
+.creditsIdle b{font-size:clamp(38px,4.6vw,66px);font-weight:800;letter-spacing:.06em;color:var(--crimson)}
+.creditsIdle span{color:var(--muted);font-weight:600}
+.creditsBox.roll .creditsIdle{display:none}
+.cards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-height:800px){.compactT table.t th,.compactT table.t td{padding:4px 12px}.compactT .winline{margin-top:6px}.compactT .winline span{padding:5px 10px}}
+@media (max-width:900px){.cards.four{grid-template-columns:1fr 1fr}}
+.slide.s7 .big{font-size:clamp(24px,3vw,42px)}
+.slide.s12 .fact{padding:8px 16px;font-size:clamp(16px,1.55vw,20px)}
+</style></head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🎬</div><div><b>פסטיבל הטריילרים</b><small>טריילר לסרט שלא קיים · מההגרלה ועד השטיח האדום</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+
+<!-- ================= 1. פתיחה ================= -->
+<section class="slide hero" data-topic="פתיחה" data-title="פסטיבל הטריילרים" data-accent="#e3a82b">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🎬 פסטיבל ״סרטים שעוד לא צולמו״ · ערב הפתיחה</span>
+      <h2>פסטיבל <span class="crim">הטריילרים</span></h2>
+      <p class="lead">הערב נפתחת קטגוריה חדשה: <b>טריילרים לסרטים שלא קיימים</b>. כל אולפן מקבל מעטפה חתומה, ויש לו שיעור אחד להפוך אותה לטריילר שכל האולם ירצה לראות.</p>
+      <div class="tags"><span>🎲 הגרלה</span><span>✍️ תסריט</span><span>🎨 שוטים</span><span>✂️ עריכה</span><span>🔴 שטיח אדום</span><span>🏆 פסל הזהב</span></div>
+      <div class="redcarpet" aria-hidden="true"></div>
+    </div>
+    <div class="bulbs" aria-hidden="true">
+      <div class="stage">
+        <svg class="strip" viewBox="0 0 200 74"><rect width="200" height="74" rx="6" fill="#2b2f36"/><g fill="#fbfaf7"><rect x="8" y="5" width="10" height="7" rx="1.5"/><rect x="30" y="5" width="10" height="7" rx="1.5"/><rect x="52" y="5" width="10" height="7" rx="1.5"/><rect x="74" y="5" width="10" height="7" rx="1.5"/><rect x="96" y="5" width="10" height="7" rx="1.5"/><rect x="118" y="5" width="10" height="7" rx="1.5"/><rect x="140" y="5" width="10" height="7" rx="1.5"/><rect x="162" y="5" width="10" height="7" rx="1.5"/><rect x="184" y="5" width="10" height="7" rx="1.5"/><rect x="8" y="62" width="10" height="7" rx="1.5"/><rect x="30" y="62" width="10" height="7" rx="1.5"/><rect x="52" y="62" width="10" height="7" rx="1.5"/><rect x="74" y="62" width="10" height="7" rx="1.5"/><rect x="96" y="62" width="10" height="7" rx="1.5"/><rect x="118" y="62" width="10" height="7" rx="1.5"/><rect x="140" y="62" width="10" height="7" rx="1.5"/><rect x="162" y="62" width="10" height="7" rx="1.5"/><rect x="184" y="62" width="10" height="7" rx="1.5"/></g><rect x="8" y="17" width="56" height="40" rx="3" fill="#5a5f9c"/><rect x="72" y="17" width="56" height="40" rx="3" fill="#f0a35e"/><rect x="136" y="17" width="56" height="40" rx="3" fill="#be3455"/><circle cx="36" cy="37" r="9" fill="#fde68a"/><path d="M80 52 L94 30 L106 46 L112 38 L122 52 Z" fill="#7a4b00" opacity=".7"/><text x="164" y="44" font-size="20" text-anchor="middle" fill="#fff" font-family="Rubik,Arial" font-weight="800">?</text></svg>
+        <div class="envelope"><div class="seal">🎬</div><span class="stamp">חתום · סודי</span></div>
+        <svg class="statue" viewBox="0 0 60 150"><defs><linearGradient id="gg1" x1="0" x2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset=".55" stop-color="#d9a21b"/><stop offset="1" stop-color="#a87510"/></linearGradient></defs><circle cx="30" cy="14" r="9" fill="url(#gg1)"/><path d="M22 24 Q30 21 38 24 L40 40 Q38 46 36 50 L35 95 Q33 104 30 106 Q27 104 25 95 L24 50 Q22 46 20 40 Z" fill="url(#gg1)"/><path d="M21 28 Q22 44 30 46 Q38 44 39 28" stroke="#b9860f" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="14" y="106" width="32" height="10" rx="2" fill="url(#gg1)"/><rect x="8" y="116" width="44" height="24" rx="3" fill="#2b2f36"/><rect x="8" y="123" width="44" height="3" fill="#d9a21b"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="פתיחה" data-title="איזה ז׳אנר זה?" data-accent="#be3455">
+  <span class="kicker">🎧 טריילרים בלי תמונה</span>
+  <h2>איזה <span class="crim">ז׳אנר</span> זה?</h2>
+  <p class="lead">אין תמונה. יש רק מוזיקה ומשפט אחד. מקשיבים, ואז כל צוות בוחר ז׳אנר.</p>
+  <div class="trailers">
+    <div class="tcard" data-tr="0" data-ans="אימה">
+      <div class="th"><b>טריילר 1</b><button class="playBtn" data-play="0">▶ השמעה</button></div>
+      <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tline"></div>
+      <div class="gchips"><button>קומדיה</button><button>אימה</button><button>סרט ספורט</button><button>מחזמר</button></div>
+      <div class="gnote">צליל נמוך שלא נגמר, דופק של לב, צווחה גבוהה, שקט… ומכה. ככה נשמעת אימה.</div>
+    </div>
+    <div class="tcard" data-tr="1" data-ans="קומדיה">
+      <div class="th"><b>טריילר 2</b><button class="playBtn" data-play="1">▶ השמעה</button></div>
+      <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tline"></div>
+      <div class="gchips"><button>דרמה מרגשת</button><button>ריגול</button><button>קומדיה</button><button>אימה</button></div>
+      <div class="gnote">מנגינה קופצנית בסולם מז׳ור, משרוקית שעולה ויורדת ו״בה-דום-טסס״ בסוף: מבטיחים לנו לצחוק.</div>
+    </div>
+    <div class="tcard" data-tr="2" data-ans="מדע בדיוני">
+      <div class="th"><b>טריילר 3</b><button class="playBtn" data-play="2">▶ השמעה</button></div>
+      <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tline"></div>
+      <div class="gchips"><button>תעלומה בלשית</button><button>מדע בדיוני</button><button>קומדיה</button><button>מחזמר</button></div>
+      <div class="gnote">סינתיסייזר שפועם, ״בראאאם״ ענק, צליל שעולה ועולה, שנייה של שקט ומכה: חלל ועתיד.</div>
+    </div>
+  </div>
+  <p class="volHint">🔊 מגבירים את הרמקולים. כל טריילר נמשך כ-10 שניות.</p>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="מה גרם לכם לדעת?">
+  <span class="kicker">🕵️ מה גרם לכם לדעת?</span>
+  <h2>ארבעה כלים של <span class="cyan">טריילר</span></h2>
+  <div class="cards four">
+    <div class="card reveal"><div class="emoji">🎵</div><strong>מוזיקה</strong><p>אילו כלים, נמוך או גבוה, עצוב או שמח. עוד לפני שרואים משהו, כבר מרגישים.</p></div>
+    <div class="card reveal"><div class="emoji">🥁</div><strong>קצב</strong><p>איטי ומאיים, קופצני, או דוהר ומאיץ. הקצב אומר לנו מה לצפות.</p></div>
+    <div class="card reveal"><div class="emoji">💬</div><strong>מילה אחת</strong><p>״חצות״, ״העוגה ברחה״, ״כוכב אחד״. מילה נכונה שווה משפט שלם.</p></div>
+    <div class="card reveal"><div class="emoji">🤫</div><strong>שקט לפני הסוף</strong><p>רגע של שקט, ואז מכה. ככה הקהל עוצר את הנשימה.</p></div>
+  </div>
+  <div class="askBox reveal">🎯 <b>היום התפקיד שלכם הפוך:</b> לבנות טריילר שהקהל יזהה את הז׳אנר שלו. בשטיח האדום כל הכיתה תנחש, ותקבלו נקודה על כל צוות שצדק.</div>
+  <div class="clickHint">לוחצים ״הבא״ כדי לחשוף</div>
+</section>
+
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל אולפן יהיו <span class="cyan">טריילר, כרזה והקרנת בכורה</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🎞️</div><strong>טריילר של 45–60 שניות</strong><p>ב-Google Vids: לפחות 6 שוטים, 3 כתוביות, קריינות בקול שלכם, מוזיקה מהמאגר ושם הסרט בסוף.</p></div>
+    <div class="card"><div class="emoji">🖼️</div><strong>כרזה</strong><p>תמונת רקע ושם הסרט בעברית, כקובץ PNG. כמו כרזה אמיתית בקולנוע.</p></div>
+    <div class="card"><div class="emoji">🔴</div><strong>בכורה על השטיח האדום</strong><p>הקהל מנחש את הז׳אנר, חבר השופטים מנקד, והקהל מצביע לטריילר האהוב.</p></div>
+  </div>
+  <div class="agenda"><span>🎲 הגרלה</span><i>←</i><span>🎓 סודות הטריילר</span><i>←</i><span>🎬 ספרינט 1</span><i>←</i><span>👀 הקרנת טיזר</span><i>←</i><span>✂️ ספרינט 2</span><i>←</i><span>📨 הגשה</span><i>←</i><span>🔴 השטיח האדום</span><i>←</i><span>🏆 טקס</span></div>
+</section>
+
+<!-- ================= 2. האולפן ================= -->
+<section class="slide tight" data-topic="האולפן" data-title="התפקידים באולפן">
+  <span class="kicker">🎬 האולפן שלכם</span>
+  <h2>חמישה תפקידים, <span class="cyan">סרט אחד</span></h2>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎬</div><strong>במאי/ת</strong><p>מחזיק/ה את החזון ואת הזמן, מכריע/ה בוויכוחים. רק הבמאי/ת קורא/ת למדריך.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>תסריטאי/ת</strong><p>כותב/ת את הלוגליין, את סדר השוטים בלוח התכנון ואת הקריינות (עד 40 מילים).</p></div>
+    <div class="card"><div class="emoji">🎨</div><strong>אמן/ית חזותי/ת</strong><p>יוצר/ת את השוטים: תמונות ב-Gemini, צילום חפצים או ציורים. שומר/ת את הפרומפטים.</p></div>
+    <div class="card"><div class="emoji">✂️</div><strong>עורך/ת</strong><p>בונה את הטריילר ב-Vids: סדר, חיתוך, כתוביות, מוזיקה והקלטת הקריינות.</p></div>
+    <div class="card"><div class="emoji">📣</div><strong>יחצ״ן/ית</strong><p>מעצב/ת את הכרזה, מגיש/ה בטופס ומציג/ה את הסרט במשפט אחד על השטיח האדום.</p></div>
+  </div>
+  <div class="timerRow">
+    <div class="task" style="margin-top:12px"><strong>משימה ראשונה: שם לאולפן</strong><p>2–3 מילים, כותבים על השלט שעל השולחן. (״אולפני ירח״, ״הפקות פופקורן״…)</p></div>
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="האולפן" data-title="ההגרלה" data-accent="#be3455">
+  <button class="helpBtn" data-help="draw" aria-label="הוראות">?</button>
+  <span class="kicker">🎲 ההגרלה</span>
+  <h2>ערכת <span class="crim">ההפקה</span> שלכם</h2>
+  <p class="lead">ארבעה קלפים, בלי החלפות. כל הארבעה חייבים להופיע בטריילר. <b>הז׳אנר סודי:</b> הוא מגיע במעטפה חתומה, ורק האולפן שלכם יודע אותו.</p>
+  <div class="drawBar">
+    <select id="drawTeam" aria-label="איזה אולפן מגריל"></select>
+    <button class="btn drawBtn" id="drawGo">✉️ פותחים את המעטפה</button>
+    <button class="ghost" id="drawClear">↺ קלפים חדשים</button>
+  </div>
+  <div class="kit" id="kit">
+    <div class="kcard k-g sealed"><div class="in"><div class="kface kback"><span class="em">🎭</span><b>ז׳אנר</b><span style="font-size:15px;color:var(--muted)">במעטפה החתומה שעל השולחן</span></div><div class="kface kfront"></div></div></div>
+    <div class="kcard k-c" data-k="c"><div class="in"><div class="kface kback"><span class="em">🧍</span><b>דמות</b></div><div class="kface kfront"><small>דמות</small><span class="em">🧍</span><span class="val">—</span></div></div></div>
+    <div class="kcard k-o" data-k="o"><div class="in"><div class="kface kback"><span class="em">🔑</span><b>חפץ</b></div><div class="kface kfront"><small>חפץ</small><span class="em">🔑</span><span class="val">—</span></div></div></div>
+    <div class="kcard k-l" data-k="l"><div class="in"><div class="kface kback"><span class="em">💬</span><b>משפט</b></div><div class="kface kfront"><small>משפט שחייב להישמע</small><span class="em">💬</span><span class="val">—</span></div></div></div>
+  </div>
+  <div class="drawLog" id="drawLog"></div>
+</section>
+
+<!-- ================= 3. סודות הטריילר ================= -->
+<section class="slide tight s7" data-topic="סודות הטריילר" data-title="טריילר זה לא סרט קצר">
+  <span class="kicker">🎓 סוד 1</span>
+  <h2>טריילר זה <span class="cyan">לא</span> סרט קצר</h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ סרט קצר: מספר הכול</span>התחלה, אמצע וסוף.<br>״מאיה מגלה שהפסלים זזים, מוצאת את המפתח, נועלת את הדלת, <b>וכולם חוזרים הביתה בשלום</b>.״</div>
+    <div class="box good"><span class="label">✓ טריילר: משאיר שאלה</span>מי? מה יקרה? איך זה ייגמר?<br>״בכל לילה מאיה סופרת את הפסלים. <b>אבל הלילה… יש אחד מיותר.</b>״</div>
+  </div>
+  <p class="big reveal" style="margin-top:20px">המטרה: שהקהל <span class="mark-hl">ירצה לראות</span> את הסרט, לא שירגיש שכבר ראה אותו.</p>
+</section>
+
+<section class="slide tight" data-topic="סודות הטריילר" data-title="שלוש מערכות ב-60 שניות">
+  <span class="kicker">🎓 סוד 2 · המבנה</span>
+  <h2>שלוש מערכות ב-<span class="cyan">60 שניות</span></h2>
+  <div class="acts" aria-label="ציר זמן של טריילר">
+    <div class="a1"><small>0–15 שנ׳</small><b>🌍 עולם</b></div>
+    <div class="a2"><small>15–35 שנ׳</small><b>⚠️ בעיה</b></div>
+    <div class="a3"><small>35–55 שנ׳</small><b>🔥 הסלמה</b></div>
+    <div class="a4"><small>55–60</small><b>🎬 שם</b></div>
+  </div>
+  <div class="actRows">
+    <div class="card reveal"><div class="emoji">🌍</div><strong>עולם</strong><p>איפה אנחנו ומי הדמות. שוט רחב, מוזיקה שקטה, משפט אחד.</p><span class="ex">״מוזיאון העיר. 23:58. מאיה, שומרת הלילה.״</span></div>
+    <div class="card reveal"><div class="emoji">⚠️</div><strong>בעיה</strong><p>משהו משתבש. החפץ מופיע. השאלה של הסרט נולדת.</p><span class="ex">״מטרייה אדומה רטובה. אבל בחוץ לא ירד גשם.״</span></div>
+    <div class="card reveal"><div class="emoji">🔥</div><strong>הסלמה</strong><p>שוטים קצרים יותר, מוזיקה חזקה יותר, ואז שקט ומשפט חזק.</p><span class="ex">פנס מהבהב · דלת נטרקת · שעון · שקט… ״זה היה פה כל הזמן.״</span></div>
+  </div>
+  <p class="note reveal">🎬 בסוף: מסך שחור לשנייה, שם הסרט, ו״בקרוב״. בלי לגלות איך זה נגמר.</p>
+</section>
+
+<section class="slide tight" data-topic="סודות הטריילר" data-title="הלוגליין">
+  <span class="kicker">✍️ סוד 3 · הלוגליין</span>
+  <h2>כל הסרט <span class="cyan">במשפט אחד</span></h2>
+  <div class="formula">בעולם שבו <span class="blank">___</span>, <span class="blank">___</span> חייב/ת <span class="blank">___</span> לפני ש<span class="blank">___</span>.<small>עולם · דמות · משימה · שעון מתקתק. בלי הסוף!</small></div>
+  <div class="revealList">
+    <div class="revealCard reveal">🏛️ במוזיאון שבו הפסלים זזים בלילה, שומרת לילה חדשה חייבת למצוא את המפתח האבוד לפני שהשמש זורחת.</div>
+    <div class="revealCard reveal">⏰ בבית ספר שבו כל השעונים עצרו, תלמיד חדש חייב לגלות מי עצר אותם לפני שהצלצול יחזור לעולם.</div>
+    <div class="revealCard reveal">🧪 <b>מבחן הלוגליין:</b> יש בעיה ברורה? יש שאלה שנשארת פתוחה? הסוף לא מופיע? שלושה ✓ ואפשר להתחיל.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="סודות הטריילר" data-title="כלל 3 השניות" data-accent="#e3a82b">
+  <span class="kicker">⏱️ סוד 4 · כלל 3 השניות</span>
+  <h2>איזו פתיחה <span class="gold">תופסת</span> אתכם?</h2>
+  <p class="lead">בשלוש השניות הראשונות הקהל מחליט אם להמשיך לצפות. מצביעים בידיים, סופרים.</p>
+  <div class="vote opens">
+    <div class="voteItem"><span class="tagL">א</span><strong>לוגו האולפן, 5 שניות של שקט, ואז כתובית: ״סרט של אולפני ירח״.</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><span class="tagL">ב</span><strong>תקריב על מפתח ישן שרועד על שולחן. קול לוחש: ״אל תפתחו את זה לפני חצות.״</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+    <div class="voteItem"><span class="tagL">ג</span><strong>קריין מסביר: ״זה סרט על שומרת לילה שעובדת במוזיאון ויש לה בעיה.״</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div></div>
+  </div>
+  <div class="askBox reveal">✓ <b>ב תופסת:</b> תמונה חזקה, צליל ושאלה פתוחה, כבר בשנייה הראשונה. א מבזבזת את 3 השניות, ג מסבירה במקום להראות.</div>
+</section>
+
+<section class="slide tight" data-topic="סודות הטריילר" data-title="מה לא מראים">
+  <span class="kicker">🤫 סוד 5 · מה לא מראים</span>
+  <h2>אמת או <span class="red">המצאה</span>?</h2>
+  <div class="tf">
+    <div class="tfRow" data-true="0"><span>טריילר טוב מראה את הסוף, כדי שהקהל יידע שהסרט שווה.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. מגלים את הבעיה, לא את הפתרון. הסוף הוא הסיבה לקנות כרטיס.</div></div>
+    <div class="tfRow" data-true="1"><span>בהרבה טריילרים יש רגע של שקט ממש לפני הסוף.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. השקט גורם למשפט או למכה שאחריו להרגיש חזקים פי שניים.</div></div>
+    <div class="tfRow" data-true="0"><span>כמה שיותר מילים בכתובית, יותר טוב. ככה הקהל מבין הכול.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">המצאה. כתובית של 3–5 מילים נקראת בשנייה. משפט ארוך אף אחד לא מספיק לקרוא.</div></div>
+    <div class="tfRow" data-true="1"><span>אפשר להראות חפץ חשוב בלי להסביר מה הוא עושה.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. חפץ בלי הסבר יוצר סקרנות: ״למה מראים לנו את המטרייה הזאת?״</div></div>
+    <div class="tfRow" data-true="1"><span>שם הסרט מופיע בדרך כלל בסוף הטריילר.</span><div class="tfBtns"><button data-v="1">✓ אמת</button><button data-v="0">✗ המצאה</button></div><div class="tfNote">אמת. ככה השם הוא הדבר האחרון שנשאר בראש.</div></div>
+  </div>
+</section>
+
+<section class="slide tight s12" data-topic="סודות הטריילר" data-title="פרויקט 48 השעות">
+  <span class="kicker">🌍 מקרה אמיתי</span>
+  <h2>פרויקט <span class="cyan">48 השעות</span></h2>
+  <div class="facts">
+    <div class="fact"><span class="em">🗓️</span><span>תחרות סרטים שהתחילה בוושינגטון ב-<b>2001</b>. יצר אותה מארק רופרט, שמפיק אותה עם ליז לנגסטון.</span></div>
+    <div class="fact"><span class="em">🎲</span><span>כל צוות מקבל <b>ז׳אנר, דמות, חפץ ומשפט דיאלוג</b>, וכולם חייבים להופיע בסרט.</span></div>
+    <div class="fact"><span class="em">⏱️</span><span>יש <b>48 שעות</b> לכתוב, לצלם ולערוך סרט קצר.</span></div>
+    <div class="fact"><span class="em">🌍</span><span>ב-2009 השתתפו כמעט <b>40,000</b> יוצרים, שעשו כ-<b>3,000</b> סרטים ב-<b>76</b> ערים.</span></div>
+    <div class="fact"><span class="em">🏆</span><span>הסרט הזוכה בכל עיר מוקרן בפסטיבל הגמר, <b>Filmapalooza</b>.</span></div>
+  </div>
+  <div class="askBox reveal">🤔 <b>שאלה לצוות:</b> למה דווקא אילוצים, ז׳אנר וחפץ שלא בחרתם, עוזרים ליצור <b>מהר</b> יותר? (וההגרלה שלכם בנויה בדיוק כך. רק שיש לכם שיעור אחד, לא 48 שעות 😅)</div>
+  <p class="src">en.wikipedia.org/wiki/48_Hour_Film_Project · 48hourfilm.com</p>
+</section>
+
+<section class="slide quiz" data-topic="סודות הטריילר" data-title="ראשים ממוספרים 1" data-answer="2">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 1 מתוך 3</span>
+  <h2>מה מגיע <span class="cyan">בסוף</span> הטריילר?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>הסוף של הסיפור, כדי שיהיה ברור</span></button>
+    <button class="option"><span class="letter">ב</span><span>שם הסרט, ואולי ״בקרוב״</span></button>
+    <button class="option"><span class="letter">ג</span><span>רשימת כל השחקנים והצוות</span></button>
+    <button class="option"><span class="letter">ד</span><span>סיכום של כל העלילה בכתובית</span></button>
+  </div>
+  <div class="explain">✓ נכון! שם הסרט הוא מה שנשאר בראש כשהמסך נהיה שחור.</div>
+</section>
+
+<section class="slide quiz" data-topic="סודות הטריילר" data-title="ראשים ממוספרים 2" data-answer="3">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 2 מתוך 3</span>
+  <h2>איזה משפט שייך לשלב <span class="red">ההסלמה</span>?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>״הכירו את מאיה, שומרת הלילה.״</span></button>
+    <button class="option"><span class="letter">ב</span><span>״המוזיאון נבנה בשנת 1920.״</span></button>
+    <button class="option"><span class="letter">ג</span><span>״השעון מתקתק, האורות כבים, והדלת נטרקת.״</span></button>
+    <button class="option"><span class="letter">ד</span><span>״ובסוף מאיה מוצאת את המפתח וכולם שמחים.״</span></button>
+  </div>
+  <div class="explain">✓ נכון! הסלמה: הכול מאיץ ומחמיר. א שייך לעולם, ב סתם מידע, ו-ד מגלה את הסוף.</div>
+</section>
+
+<section class="slide quiz" data-topic="סודות הטריילר" data-title="ראשים ממוספרים 3" data-answer="1">
+  <span class="kicker">🔢 ראשים ממוספרים · שאלה 3 מתוך 3</span>
+  <h2>איזו כתובית הכי מתאימה <span class="cyan">לטריילר</span>?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>״אף אחד לא יאמין לה.״</span></button>
+    <button class="option"><span class="letter">ב</span><span>״מאיה עובדת במוזיאון כבר שלוש שנים ומכירה כל פסל ופסל.״</span></button>
+    <button class="option"><span class="letter">ג</span><span>״בסרט הזה תראו הרבה דברים מעניינים ומפחידים.״</span></button>
+    <button class="option"><span class="letter">ד</span><span>״סוף.״</span></button>
+  </div>
+  <div class="explain">✓ נכון! 4 מילים, נקראות בשנייה, ומשאירות שאלה: למה לא יאמינו לה?</div>
+</section>
+
+<!-- ================= 4. ארגז הכלים ================= -->
+<section class="slide tight" data-topic="ארגז הכלים" data-title="פרומפט לשוט" data-accent="#4c8bd6">
+  <span class="kicker">🎨 Gemini · איך מבקשים שוט</span>
+  <h2>פרומפט של <span class="cyan">צלם קולנוע</span></h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">צור תמונה: שוט קולנועי רחב, <span class="fillin" contenteditable="true">מוזיאון ריק בלילה, פסלים גבוהים וגשם על החלונות</span>, תאורה דרמטית של שעת דמדומים, סגנון סרט אנימציה תלת-ממדי, בלי טקסט ובלי אנשים אמיתיים, יחס 16:9.</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">אותו סגנון בדיוק כמו התמונה הקודמת. עכשיו תקריב על <span class="fillin" contenteditable="true">מטרייה אדומה רטובה</span> שמונחת על הרצפה, אור כחול חלש מלמעלה.</span></div>
+  <div class="lockChip">🔒 מילות הסגנון הקבועות שלכם נכנסות לכל פרומפט, בלי לשנות אף מילה.</div>
+  <p class="editHint">✎ אפשר ללחוץ על החלקים הצהובים ולשנות אותם. סוג שוט + מה רואים + תאורה + סגנון + ״בלי טקסט״ + 16:9.</p>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="אותו סגנון בכל השוטים" data-accent="#4c8bd6">
+  <span class="kicker">🎨 עקביות</span>
+  <h2>טריילר אחד = <span class="cyan">סגנון אחד</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ ארבעה שוטים, ארבעה עולמות</span>
+      <div class="frames"><div class="fr s1">🏛️<small>ריאליסטי</small></div><div class="fr s2">🧍‍♀️<small>קומיקס</small></div><div class="fr s3">☂️<small>פיקסלים</small></div><div class="fr s4">🚪<small>צבעי מים</small></div></div>
+      <p style="margin:10px 0 0;font-size:.85em">נראה כמו ארבעה סרטים שונים. הקהל מתבלבל.</p></div>
+    <div class="box good"><span class="label">✓ אותן מילות סגנון בכל פרומפט</span>
+      <div class="frames"><div class="fr u"><span>🏛️</span><small>רחב</small></div><div class="fr u"><span>🧍‍♀️</span><small>בינוני</small></div><div class="fr u"><span>☂️</span><small>תקריב</small></div><div class="fr u"><span>🚪</span><small>מלמטה</small></div></div>
+      <p style="margin:10px 0 0;font-size:.85em">אותה תאורה, אותם צבעים, אותו סגנון. מרגיש כמו סרט אחד.</p></div>
+  </div>
+  <div class="lockChip">🔒 דוגמה למילות סגנון: ״סגנון סרט אנימציה תלת-ממדי, תאורת דמדומים, צבעים כחול וכתום, בלי טקסט״</div>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="שפת המצלמה" data-accent="#4c8bd6">
+  <span class="kicker">🎥 שפת המצלמה</span>
+  <h2>שישה שוטים שכל <span class="cyan">טריילר</span> צריך</h2>
+  <div class="cards six shots">
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:22px">🏙️</span></div><div><strong>שוט רחב</strong><p>מראה את העולם. מעולה לפתיחה.</p><span class="kw">״שוט רחב של…״</span></div></div></div>
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:32px">🧍</span></div><div><strong>שוט בינוני</strong><p>הדמות ומה היא עושה.</p><span class="kw">״שוט בינוני של…״</span></div></div></div>
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:48px">😮</span></div><div><strong>תקריב</strong><p>רגש: פחד, הפתעה, צחוק.</p><span class="kw">״תקריב על הפנים של…״</span></div></div></div>
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:52px">🔑</span></div><div><strong>תקריב על חפץ</strong><p>רמז. כאן החפץ מההגרלה מבריק.</p><span class="kw">״תקריב קיצוני על…״</span></div></div></div>
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:18px;transform:translateY(8px)">🧍</span></div><div><strong>מבט מלמעלה</strong><p>הדמות נראית קטנה ובסכנה.</p><span class="kw">״צילום מלמעלה על…״</span></div></div></div>
+    <div class="card"><div class="shot"><div class="shotIc"><span style="font-size:44px;transform:translateY(-4px)">🗿</span></div><div><strong>מבט מלמטה</strong><p>משהו ענק, חזק או מאיים.</p><span class="kw">״צילום מלמטה על…״</span></div></div></div>
+  </div>
+  <p class="noteLine">📸 <b>אין תמונות AI?</b> מצלמים חפצים מהכיתה מזווית דרמטית (פנס של טלפון, שולחן ריק), או מציירים על דף ומצלמים. זה נחשב שוט לכל דבר.</p>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="Vids בחמישה צעדים" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="vids" aria-label="הוראות">?</button>
+  <span class="kicker">✂️ Google Vids</span>
+  <h2>Vids בחמישה <span class="cyan">צעדים</span></h2>
+  <div class="steps vids">
+    <div class="step"><strong>פותחים</strong><p>‏<span class="ui">vids.new</span> ← <span class="ui">לרוחב</span> ← <span class="ui">סרטון ריק</span></p></div>
+    <div class="step"><strong>תמונות</strong><p>מעלים את השוטים, סצנה לכל שוט, ומסדרים לפי לוח התכנון. 3–8 שניות לסצנה.</p></div>
+    <div class="step"><strong>כתוביות</strong><p>מוסיפים טקסט: 3–5 מילים בכל כתובית. לפחות 3 כתוביות.</p></div>
+    <div class="step"><strong>קריינות</strong><p>סמל ההקלטה ← <span class="ui">קריינות</span>. קול בלבד, בקול שלכם, בעברית.</p></div>
+    <div class="step"><strong>מוזיקה</strong><p><span class="ui">מאגר</span> ← <span class="ui">מוזיקה</span> ← מאזינים ← מוסיפים. מנמיכים כשיש קריינות.</p></div>
+  </div>
+  <p class="noteLine">💻 עובדים ב-<b>Chrome</b> (או Edge/Firefox), לא בטלפון. בסוף: <span class="ui">שיתוף</span> ← <b>צפייה</b> לכל מי שיש לו את הקישור, או ייצוא ל-Drive כ-MP4.</p>
+</section>
+
+<section class="slide tight" data-topic="ארגז הכלים" data-title="טקסט עברי? רק ב-Canva" data-accent="#e76f86">
+  <span class="kicker">🖼️ מלכודת הכרזה</span>
+  <h2>טקסט בעברית? <span class="red">לא בתוך תמונת AI</span></h2>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ שם הסרט בתוך הפרומפט</span>
+      <div class="poster"><span class="em">☂️</span><span class="ttl bad">המטירה של חצת</span><small>אותיות חסרות, מהופכות או משובשות</small></div></div>
+    <div class="box good"><span class="label">✓ תמונה בלי טקסט + שם ב-Canva</span>
+      <div class="poster"><span class="em">☂️</span><span class="ttl">המטרייה של חצות</span><small>בקרוב · אולפני ירח</small></div></div>
+  </div>
+  <p class="noteLine">🧭 ‏<span class="ui">canva.com/he_il</span> ← מחפשים ״כרזה״ ← מעלים את תמונת הרקע ← <span class="ui">טקסט</span> ← <span class="ui">שתף</span> ← <span class="ui">הורדה</span> ← PNG. רכיב עם 👑 בתשלום: מדלגים עליו.</p>
+</section>
+
+<!-- ================= 5. האתגר ================= -->
+<section class="slide tight" data-topic="האתגר" data-title="האתגר: פסל הזהב" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="החוקים המלאים">?</button>
+  <span class="kicker">🏆 האתגר</span>
+  <h2>פסל הזהב <span class="gold">של הפסטיבל</span></h2>
+  <div class="task"><strong>המטרה: טריילר שגורם לקהל לרצות לראות סרט שלא קיים</strong>
+    <ol>
+      <li>כל ארבעת רכיבי ההגרלה בטריילר. המשפט נשמע בקריינות או מופיע ככתובית.</li>
+      <li>45–60 שניות. טריילר ארוך יותר נעצר בשנייה 60.</li>
+      <li>בלי אנשים אמיתיים בתמונות, ובלי לוגו או דמות מסרט קיים.</li>
+      <li>מוזיקה רק מהמאגר של Vids, או מוזיקה שיצרתם בעצמכם.</li>
+      <li>מגישים בטופס עד שהטיימר נגמר. מה שלא הוגש, לא מוקרן.</li>
+      <li>בהקרנה לא אומרים את הז׳אנר בקול. כל צוות כותב ניחוש על פתק.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="slide tight compactT" data-topic="האתגר" data-title="טבלת הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד, לפני שמתחילים</span>
+  <h2>ככה <span class="gold">סופרים</span> נקודות</h2>
+  <div class="tableWrap"><table class="t">
+    <thead><tr><th>על מה</th><th>נקודות</th></tr></thead>
+    <tbody>
+      <tr><td>👀 הקרנת טיזר: לוח תכנון, לוגליין ו-3 שוטים ב-Vids (נקודה לכל אחד)</td><td class="pts">עד 3</td></tr>
+      <tr><td>🎲 כל רכיב הגרלה שמופיע בטריילר</td><td class="pts">2 × 4 = 8</td></tr>
+      <tr><td>⏱️ אורך 45–60 שניות</td><td class="pts">3</td></tr>
+      <tr><td>🖼️ כרזה עם שם הסרט</td><td class="pts">3</td></tr>
+      <tr><td>🎭 כל צוות בקהל שניחש נכון את הז׳אנר שלכם</td><td class="pts">1 (עד 5)</td></tr>
+      <tr><td>🕵️ כל ז׳אנר שאתם ניחשתם נכון אצל אחרים</td><td class="pts">1</td></tr>
+      <tr><td>⚖️ חבר השופטים לפי המחוון (4 קריטריונים × 1–4)</td><td class="pts">עד 16</td></tr>
+      <tr><td>👏 הצבעת הקהל: מקום 1 / 2 / 3</td><td class="pts">5 / 3 / 2</td></tr>
+    </tbody>
+  </table></div>
+  <div class="winline"><span>🏆 <b>פסל הזהב:</b> הכי הרבה נקודות</span><span>⚖️ <b>בתיקו:</b> ציון השופטים, ואז הצבעת הקהל</span><span>🎙️🌀👏 עוד 3 פרסים</span></div>
+</section>
+
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">⚖️ איך השופטים יחליטו</span>
+  <h2>המחוון: <span class="gold">4 קריטריונים</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th>🌱 1</th><th>🌿 2</th><th>🌳 3</th><th>🚀 4</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>פתיחה ומתח</td><td>אין פתיחה שתופסת, מסביר הכול מההתחלה</td><td>יש פתיחה, אבל המתח לא נבנה</td><td>תופס ב-3 השניות הראשונות, שאלה נשארת פתוחה</td><td>מתח שעולה לאורך הטריילר וסוף שגורם לרצות עוד</td></tr>
+      <tr class="reveal"><td>ערכת ההפקה</td><td>1–2 רכיבים מופיעים</td><td>כל הרכיבים, אבל ״מודבקים״</td><td>כל הרכיבים חלק מהסיפור</td><td>חלק מהסיפור, ולפחות אחד הוא הטוויסט</td></tr>
+      <tr class="reveal"><td>עריכה וסאונד</td><td>שוטים בלי סדר, בלי כתוביות או מוזיקה</td><td>יש סדר, מוזיקה או כתוביות (לא שתיהן)</td><td>6+ שוטים, כתוביות, קריינות ומוזיקה מתאימה</td><td>חיתוכים בקצב המוזיקה, קריינות ברורה, כתוביות קצרות וחזקות</td></tr>
+      <tr class="reveal"><td>צוות ושקיפות AI</td><td>אחד עשה הכול, לא ברור מה ה-AI עשה</td><td>כולם עשו משהו, כתוב ״השתמשנו ב-AI״</td><td>כל תפקיד עשה את שלו, כתוב מה ה-AI יצר ומה שיניתם</td><td>עזרתם זה לזה, ויש דוגמה לתמונת AI שפסלתם ולמה</td></tr>
+    </tbody>
+  </table></div>
+  <div class="clickHint">לוחצים ״הבא״ כדי לחשוף שורה</div>
+</section>
+
+<!-- ================= 6. ספרינט 1 ================= -->
+<section class="slide tight bigTimer" data-topic="ספרינט 1" data-title="ספרינט 1: תסריט ושוטים">
+  <span class="kicker">🎬 ספרינט 1 · תסריט ושוטים</span>
+  <h2>מהמעטפה <span class="cyan">ללוח התכנון</span></h2>
+  <div class="timerRow"><div class="timer" data-seconds="1200"><output>20:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div><span class="light y">🟡 תסריט: Gemini לרעיונות, אתם מחליטים</span><br><span class="light g">🟢 תמונות: Gemini יוצר, אתם בודקים ופוסלים</span></div></div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 10</small><p>לוגליין של משפט אחד ✓ לוח תכנון של 6–8 משבצות, עם מקום לכל אחד מ-4 רכיבי ההגרלה.</p></div>
+    <div class="mile"><small>עד סוף הספרינט</small><p>לפחות 3 שוטים כבר בתוך Vids, בסגנון אחד. הפרומפטים שמורים בדף.</p></div>
+  </div>
+  <div class="rolesLine"><span>🎬 <b>במאי/ת:</b> זמן והחלטות</span><span>✍️ <b>תסריטאי/ת:</b> לוגליין ולוח</span><span>🎨 <b>אמן/ית:</b> שוטים</span><span>✂️ <b>עורך/ת:</b> פותח/ת Vids</span><span>📣 <b>יחצ״ן/ית:</b> 5 שמות לסרט</span></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="לוח תכנון: דוגמה">
+  <span class="kicker">🗂️ לוח תכנון · דוגמה פתורה</span>
+  <h2>8 משבצות, <span class="cyan">55 שניות</span></h2>
+  <div class="kitLine"><span>🎭 תעלומה</span><span>🧍 שומרת לילה במוזיאון</span><span>☂️ מטרייה</span><span>💬 ״זה היה פה כל הזמן.״</span></div>
+  <div class="film"><div class="frames8">
+    <div class="pan"><div class="top"><b>1</b>0–5 שנ׳</div><div class="art">🏛️</div><p>רחב: מוזיאון בלילה, גשם.<br><i>כתובית:</i> ״מוזיאון העיר. 23:58״</p></div>
+    <div class="pan"><div class="top"><b>2</b>5–11</div><div class="art">🔦</div><p>בינוני: מאיה עם פנס.<br><i>קריינות:</i> ״בכל לילה, מאיה סופרת את הפסלים.״</p></div>
+    <div class="pan"><div class="top"><b>3</b>11–17</div><div class="art">☂️</div><p>תקריב: מטרייה אדומה רטובה.<br><i>קריינות:</i> ״אבל בחוץ לא ירד גשם.״</p></div>
+    <div class="pan"><div class="top"><b>4</b>17–24</div><div class="art">👣</div><p>מלמעלה: עקבות רטובים לדלת נעולה.<br><i>כתובית:</i> ״מי נכנס?״</p></div>
+    <div class="pan"><div class="top"><b>5</b>24–32</div><div class="art">🗿</div><p>מלמטה: פסל ענק. הצל שלו זז.<br><i>מוזיקה מתחזקת</i></p></div>
+    <div class="pan"><div class="top"><b>6</b>32–40</div><div class="art">⚡</div><p>חיתוכים מהירים: פנס, דלת, שעון.<br><i>כתובית:</i> ״לילה אחד.״</p></div>
+    <div class="pan"><div class="top"><b>7</b>40–48</div><div class="art">🤫</div><p>שקט. תקריב על מאיה.<br><i>לוחשת:</i> ״זה היה פה כל הזמן.״</p></div>
+    <div class="pan"><div class="top"><b>8</b>48–55</div><div class="art">🎬</div><p>מסך שחור, ואז השם:<br><b>״המטרייה של חצות״</b> · בקרוב</p></div>
+  </div></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 1" data-title="פרומפטים לספרינט" data-accent="#4c8bd6">
+  <span class="kicker">🟡 פרומפטים לתסריט</span>
+  <h2>Gemini מציע, <span class="cyan">אתם בוחרים</span></h2>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">אנחנו כותבים טריילר לסרט <span class="fillin" contenteditable="true">[ז׳אנר]</span> על <span class="fillin" contenteditable="true">[דמות]</span>. תן לנו 3 לוגליינים של משפט אחד, כל אחד עם בעיה ברורה ושאלה שנשארת פתוחה. בלי לגלות את הסוף.</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">תן 5 שמות לסרט <span class="fillin" contenteditable="true">[ז׳אנר]</span> על <span class="fillin" contenteditable="true">[דמות]</span> עם <span class="fillin" contenteditable="true">[חפץ]</span>, עד 3 מילים כל אחד, בעברית.</span></div>
+  <div class="prompt small"><button class="ghost copyBtn">📋 העתקה</button><span class="ptext">הנה רשימת השוטים שלנו לפי הסדר: <span class="fillin" contenteditable="true">[רשימה]</span>. איפה הטריילר מגלה יותר מדי? הצע להוציא או להזיז שוט אחד.</span></div>
+  <p class="editHint">🧠 לא לוקחים את התשובה הראשונה: מערבבים, משנים מילה, מוסיפים את החפץ שלכם. ✎ החלקים הצהובים ניתנים לעריכה.</p>
+</section>
+
+<!-- ================= 7. הקרנת טיזר ================= -->
+<section class="slide tight" data-topic="הקרנת טיזר" data-title="הקרנת טיזר" data-accent="#8c7ae6">
+  <span class="kicker">👀 נקודת ביקורת</span>
+  <h2>הקרנת <span class="violet">טיזר</span> לאולפן השכן</h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">🗂️</div><strong>מה מראים</strong><p>לוח תכנון של 6–8 משבצות, לוגליין של משפט אחד ו-3 שוטים שכבר בתוך Vids.</p></div>
+    <div class="card"><div class="emoji">🎭</div><strong>האולפן השכן מנחש</strong><p>כותבים על פתק: ״לדעתנו זה ___״. רק אחר כך מגלים. ניחשו נכון? אתם בכיוון.</p></div>
+    <div class="card"><div class="emoji">💬</div><strong>משוב בשני משפטים</strong><p>״אני אוהב/ת ש…״ · ״הלוואי ש…״. ספציפי ואדיב. מחליפים תפקידים אחרי 4 דקות.</p></div>
+  </div>
+  <div class="timerRow"><div class="timer" data-seconds="480"><output>08:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div class="pairs" id="pairs"></div></div>
+</section>
+
+<section class="slide tight center" data-topic="הקרנת טיזר" data-title="הקול של הטריילר" data-accent="#e3a82b">
+  <span class="kicker">🧍 קמים! דקה של תנועה</span>
+  <h2>״בעולם <span class="gold">שבו…</span>״</h2>
+  <p class="lead">כולם עומדים ואומרים ״בעולם שבו…״ שלוש פעמים, כל פעם בקול אחר.</p>
+  <div class="voices" style="text-align:right">
+    <div><b>1. 🤫 לחישה</b>כאילו מישהו מקשיב.</div>
+    <div><b>2. 🎙️ קול עמוק</b>קריין של טריילר, הכי נמוך שאפשר.</div>
+    <div><b>3. 💥 אפי!</b>הכי דרמטי בעולם, עם ידיים.</div>
+  </div>
+  <div class="meter" style="text-align:right;margin-inline:auto;width:min(900px,100%)">
+    <div class="meterInfo"><button class="ghost" id="micBtn">🎙️ מד הדרמה</button><span id="micMsg">לוחצים, מאשרים מיקרופון, וצועקים ״בעולם שבו…״</span></div>
+    <div class="meterBar"><i id="micFill"></i><em id="micPeak"></em></div>
+  </div>
+</section>
+
+<!-- ================= 8. ספרינט 2 ================= -->
+<section class="slide tight bigTimer" data-topic="ספרינט 2" data-title="ספרינט 2: עריכה וסאונד">
+  <span class="kicker">✂️ ספרינט 2 · עריכה וסאונד</span>
+  <h2>מהלוח <span class="cyan">למסך</span></h2>
+  <div class="timerRow"><div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+    <div><span class="light g">🟢 Gemini בודק: ״האם הטריילר מגלה יותר מדי?״</span><br><span class="light r">🔴 הקריינות: בקול שלכם, ולא בקול של AI</span></div></div>
+  <div class="miles">
+    <div class="mile"><small>עד דקה 8</small><p>כל השוטים בסדר הנכון ✓ הקריינות מוקלטת ✓ המשפט מההגרלה נשמע או כתוב.</p></div>
+    <div class="mile"><small>עד סוף הספרינט</small><p>מוזיקה, 3 כתוביות, שם הסרט, 45–60 שניות ✓ כרזה ב-Canva ✓ צפייה אחת מההתחלה עד הסוף.</p></div>
+  </div>
+  <div class="rolesLine"><span>✂️ <b>עורך/ת:</b> חיתוך ומוזיקה</span><span>✍️ <b>תסריטאי/ת:</b> מקליט/ה קריינות</span><span>🎨 <b>אמן/ית:</b> שוטים חסרים</span><span>📣 <b>יחצ״ן/ית:</b> כרזה וטופס</span><span>🎬 <b>במאי/ת:</b> שעון וצפייה</span></div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="סודות של עורכים">
+  <span class="kicker">🎞️ סודות של עורכים</span>
+  <h2>שישה טריקים <span class="cyan">מחדר העריכה</span></h2>
+  <div class="revealList">
+    <div class="revealCard reveal">🥁 <b>חותכים על הביט.</b> מחליפים שוט בדיוק כשיש תוף או מכה במוזיקה.</div>
+    <div class="revealCard reveal">⏩ <b>מקצרים לקראת הסוף.</b> בהתחלה שוט של 6 שניות, בהסלמה שוטים של שנייה-שתיים.</div>
+    <div class="revealCard reveal">🤫 <b>שקט לפני הסוף.</b> חותכים את המוזיקה לשנייה, ואז המשפט החזק.</div>
+    <div class="revealCard reveal">🔤 <b>כתובית של 3–5 מילים.</b> גדולה, במרכז, על רקע כהה.</div>
+    <div class="revealCard reveal">🔉 <b>מוזיקה מתחת לקול.</b> כשמישהו מדבר, מנמיכים את המוזיקה כדי שישמעו כל מילה.</div>
+    <div class="revealCard reveal">⬛ <b>מסך שחור לפני השם.</b> שנייה של שחור, ואז שם הסרט. הכי קולנועי שיש.</div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="מונה הקריינות">
+  <span class="kicker">🎙️ קריינות</span>
+  <h2>עד <span class="cyan">40 מילים</span>, בקול שלכם</h2>
+  <div class="vo">
+    <div>
+      <textarea id="voText" aria-label="טקסט הקריינות">בכל לילה, מאיה סופרת את הפסלים. אבל בחוץ לא ירד גשם. מי נכנס? לילה אחד. זה היה פה כל הזמן.</textarea>
+      <div class="voStats"><span id="voWords">0 מילים</span><span id="voSecs">≈ 0 שניות</span><span id="voVerdict">—</span></div>
+      <p class="editHint">✎ מדביקים כאן את הקריינות שלכם ובודקים. קריינות של טריילר נאמרת לאט: בערך 2 מילים בשנייה.</p>
+    </div>
+    <div class="tips">
+      <div>🤫 מקליטים בפינה שקטה, או במסדרון.</div>
+      <div>📏 המכשיר במרחק של כף יד מהפה.</div>
+      <div>🐢 לאט ממה שנראה לכם. עוצרים בין משפטים.</div>
+      <div>🎭 אפשר לחלק: קריין/ית + דמות שאומרת את המשפט מההגרלה.</div>
+      <div>🔁 לא יצא טוב? מקליטים שוב. זה לוקח 20 שניות.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד">
+  <span class="kicker">⭐ סיימתם? משימות צד</span>
+  <h2>לאולפנים <span class="cyan">שרצים מהר</span></h2>
+  <div class="cards three">
+    <div class="card"><div class="emoji">📱</div><strong>גרסה אנכית</strong><p>טיזר של 15 שניות ב-Vids בכיוון ״לאורך״, כמו סרטון ברשת.</p></div>
+    <div class="card"><div class="emoji">🌍</div><strong>גרסה בינלאומית</strong><p>כתוביות באנגלית לכל הכתוביות בטריילר.</p></div>
+    <div class="card"><div class="emoji">⚡</div><strong>טיזר של 10 שניות</strong><p>רק השוט הכי חזק, המשפט ושם הסרט.</p></div>
+    <div class="card"><div class="emoji">🎹</div><strong>פסקול מקורי</strong><p>מלחינים ב-Song Maker של Chrome Music Lab ומחליפים את המוזיקה.</p></div>
+    <div class="card"><div class="emoji">🎞️</div><strong>הסרט השני</strong><p>לוגליין לסרט ההמשך: אותה דמות, חפץ חדש.</p></div>
+    <div class="card"><div class="emoji">🤝</div><strong>עוזרים לאולפן שכן</strong><p>בודקים לו את 4 רכיבי ההגרלה ואת האורך.</p></div>
+  </div>
+</section>
+
+<!-- ================= 9. הגשה ================= -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשה" data-accent="#2f9e80">
+  <span class="kicker">📨 הגשה</span>
+  <h2>מה שלא הוגש, <span class="green">לא מוקרן</span></h2>
+  <div class="linkBox">🔗 הטופס: <span class="fillin" contenteditable="true">forms.gle/……</span></div>
+  <p class="noteLine">📣 היחצ״ן/ית מגיש/ה. שם הקובץ: <span class="fname">אולפן [שם] · טריילר · [שם הסרט]</span></p>
+  <div class="checks">
+    <span>שם האולפן ושם הסרט</span><span>קישור ל-Vids בהרשאת ״צפייה״ (או MP4 ב-Drive)</span><span>קישור לכרזה (PNG)</span><span>4 רכיבי ההגרלה, ובאיזו שנייה כל אחד</span><span>45–60 שניות</span><span>🤖 מה ה-AI עשה · מה אנחנו עשינו</span><span>תמונה אחת שפסלנו, ולמה</span>
+  </div>
+  <div class="task" style="margin-top:12px"><strong>בדיקה לפני שליחה (30 שניות)</strong><p>פותחים את הקישור בחלון גלישה בסתר: נפתח? יופי. לא נפתח? <span class="ui">שיתוף</span> ← ״כל מי שיש לו את הקישור״ ← צפייה.</p></div>
+</section>
+
+<!-- ================= 10. השטיח האדום ================= -->
+<section class="slide tight" data-topic="השטיח האדום" data-title="איך זה עובד" data-accent="#be3455">
+  <span class="kicker">🔴 השטיח האדום</span>
+  <h2>ככה נראית <span class="crim">הקרנת בכורה</span></h2>
+  <div class="steps">
+    <div class="step"><strong>🎤 משפט אחד</strong><p>היחצ״ן/ית מציג/ה את הסרט. בלי לומר את הז׳אנר!</p></div>
+    <div class="step"><strong>🎬 הקרנה</strong><p>עד 60 שניות. שקט מוחלט באולם.</p></div>
+    <div class="step"><strong>📝 ניחוש</strong><p>כל אולפן בקהל כותב על פתק: ״הז׳אנר: ___״.</p></div>
+    <div class="step"><strong>🙋 חשיפה</strong><p>״הז׳אנר שלנו הוא…״. מי שצדק מרים את הפתק.</p></div>
+    <div class="step"><strong>❓ שאלה</strong><p>שאלה אחת מהקהל, ומחיאות כפיים.</p></div>
+  </div>
+  <div class="winline"><span>⚖️ <b>חבר השופטים</b> ממלא מחוון לכל טריילר</span><span>👏 <b>בסוף כולם:</b> כל אחד מצביע לטריילר אהוב, לא של האולפן שלו</span></div>
+</section>
+
+<section class="slide tight" data-topic="השטיח האדום" data-title="עכשיו מוקרן" data-accent="#be3455">
+  <span class="kicker">🎬 הקרנה</span>
+  <h2>עכשיו <span class="crim">מוקרן</span></h2>
+  <div class="nowWrap">
+    <div class="nowShowing">
+      <small>NOW SHOWING · עכשיו מוקרן</small>
+      <div class="studio" id="nowStudio">אולפן 1</div>
+      <input class="filmIn" id="nowFilm" placeholder="שם הסרט" aria-label="שם הסרט">
+      <div class="nav2"><button class="ghost" id="scrPrev">→ האולפן הקודם</button><button class="btn" id="scrNext">האולפן הבא ←</button></div>
+    </div>
+    <div class="screenSide">
+      <div class="timer" data-seconds="90" id="scrTimer"><output>01:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+      <div class="mile"><small>90 שניות לכל אולפן</small><p>משפט · הקרנה · פתקים · חשיפה. השאלה מהקהל אחרי הטיימר, אם יש זמן.</p></div>
+      <div class="order" id="scrOrder"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide tight liveS" data-topic="השטיח האדום" data-title="ניחושי הז׳אנר" data-accent="#be3455">
+  <span class="kicker">🎭 ניחושי הז׳אנר</span>
+  <h2>מי העביר את <span class="crim">הז׳אנר</span>, ומי זיהה?</h2>
+  <p class="lead">אחרי כל הקרנה סופרים פתקים מורמים. הנקודות עוברות לבד ללוח הניקוד.</p>
+  <div class="tableWrap"><table class="t live" id="guessTable"></table></div>
+</section>
+
+<section class="slide tight liveS" data-topic="השטיח האדום" data-title="הצבעת הקהל" data-accent="#e3a82b">
+  <span class="kicker">👏 פרס הקהל</span>
+  <h2>איזה טריילר <span class="gold">הכי בא לכם לראות</span>?</h2>
+  <p class="lead">כל אחד מצביע פעם אחת, לא לאולפן שלו. מקום 1 / 2 / 3 מקבלים 5 / 3 / 2 נקודות.</p>
+  <div class="vote tvote" id="teamVote"></div>
+</section>
+
+<!-- ================= 11. טקס הפרסים ================= -->
+<section class="slide tight liveS" data-topic="טקס הפרסים" data-title="לוח הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 לוח הניקוד</span>
+  <h2>לוח הניקוד <span class="gold">של הפסטיבל</span></h2>
+  <div class="liveBar"><button class="ghost" data-act="addTeam">＋ אולפן</button><button class="ghost" data-act="delTeam">− אולפן</button><button class="ghost" data-act="resetAll">↺ איפוס לכיתה חדשה</button></div>
+  <div class="tableWrap"><table class="t live" id="scoreTable"></table></div>
+  <p class="scoreLine" id="scoreLine"></p>
+</section>
+
+<section class="slide tight" data-topic="טקס הפרסים" data-title="והפסל הולך ל..." data-accent="#e3a82b">
+  <span class="kicker">🏆 טקס הפרסים</span>
+  <h2>והפסל <span class="gold">הולך ל…</span></h2>
+  <div class="awards">
+    <div class="award reveal"><span class="em">🌀</span><span class="ttl">הטוויסט של הפסטיבל</span><span class="why">השימוש הכי מפתיע בחפץ מההגרלה</span><select data-award="twist"></select></div>
+    <div class="award reveal"><span class="em">🎙️</span><span class="ttl">הקריינות הכי מצמררת</span><span class="why">הקול שגרם לאולם לשתוק</span><select data-award="voice"></select></div>
+    <div class="award reveal"><span class="em">👏</span><span class="ttl">פרס הקהל</span><span class="why">הכי הרבה קולות בהצבעה</span><span class="win" id="winAud">—</span></div>
+    <div class="award main reveal"><svg viewBox="0 0 60 150" aria-hidden="true"><defs><linearGradient id="gg2" x1="0" x2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset=".55" stop-color="#d9a21b"/><stop offset="1" stop-color="#a87510"/></linearGradient></defs><circle cx="30" cy="14" r="9" fill="url(#gg2)"/><path d="M22 24 Q30 21 38 24 L40 40 Q38 46 36 50 L35 95 Q33 104 30 106 Q27 104 25 95 L24 50 Q22 46 20 40 Z" fill="url(#gg2)"/><path d="M21 28 Q22 44 30 46 Q38 44 39 28" stroke="#b9860f" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="14" y="106" width="32" height="10" rx="2" fill="url(#gg2)"/><rect x="8" y="116" width="44" height="24" rx="3" fill="#2b2f36"/><rect x="8" y="123" width="44" height="3" fill="#d9a21b"/></svg><span class="ttl">🏆 פסל הזהב</span><span class="why">הניקוד הכולל הגבוה ביותר</span><span class="win" id="winGold">—</span></div>
+  </div>
+  <div class="clickHint">לוחצים ״הבא״ לכל פרס · את שני הפרסים הראשונים בוחר חבר השופטים</div>
+</section>
+
+<!-- ================= 12. סיום ================= -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#e76f86">
+  <span class="kicker">🎟️ כרטיס יציאה</span>
+  <h2>לפני שהאורות נדלקים</h2>
+  <span class="light r">🔴 כותבים לבד, בלי AI</span>
+  <div class="qList">
+    <div>דבר אחד שלמדתי היום על טריילרים.</div>
+    <div>החלטה אחת שהבמאי/ת שלנו קיבל/ה, ולמה.</div>
+    <div>מה ה-AI עשה בטריילר שלנו, ומה אנחנו שינינו?</div>
+    <div>מ-0 עד 5: כמה הטריילר שלנו העביר את הז׳אנר? מה הייתי משנה עם עוד 10 דקות?</div>
+  </div>
+</section>
+
+<section class="slide center" data-topic="סיום" data-title="כתוביות סיום">
+  <span class="kicker">🎬 סוף</span>
+  <h2>הפסטיבל <span class="crim">ננעל</span></h2>
+  <div class="creditsBox" id="creditsBox"><div class="creditsIdle"><b>THE END</b><span>תודה שבאתם לפסטיבל 🍿</span></div><div class="credits" id="credits"></div></div>
+  <div style="display:flex;gap:10px;justify-content:center;margin-top:12px"><button class="btn" id="rollBtn">▶ כתוביות סיום</button></div>
+  <div class="teaser" style="margin-inline:auto"><small>🍿 בבית, אם בא לכם</small><p>מקרינים את הטריילר למשפחה ושואלים: ״איזה ז׳אנר זה?״ · מצלמים גרסה עם חפץ אמיתי מהבית · ממשיכים ל״הסרט השני״.</p></div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-draw"><h3>איך עובדת ההגרלה?</h3><ol><li>על כל שולחן יש מעטפה חתומה עם <b>קלף ז׳אנר</b>. רק האולפן שלכם פותח ורואה אותו. לא מספרים לאף אחד!</li><li>הבמאי/ת ניגש/ת למסך, בוחר/ת את שם האולפן ולוחץ/ת ״פותחים את המעטפה״.</li><li>שלושה קלפים מתהפכים: <b>דמות, חפץ ומשפט</b>. התסריטאי/ת מעתיק/ה אותם ללוח התכנון.</li><li>אין החלפות. הקלפים שיצאו לא יוצאים שוב לאולפן אחר.</li><li>אם יש לכם מעטפה עם ארבעה קלפים מודפסים, עובדים לפיה ולא לפי המסך.</li></ol></template>
+<template id="help-vids"><h3>Google Vids: צעד אחרי צעד</h3><ol><li>נכנסים ל-<b>vids.new</b> בחשבון Google שלכם, בדפדפן Chrome.</li><li>בוחרים <b>לרוחב</b> ואז <b>סרטון ריק</b> (או תבנית, ומוחקים את הטקסט באנגלית).</li><li>מעלים את השוטים: כל שוט בסצנה משלו. גוררים סצנות כדי לשנות סדר, ומקצרים כל סצנה ל-3–8 שניות.</li><li><b>כתוביות:</b> מוסיפים תיבת טקסט, 3–5 מילים, גדול וברור.</li><li><b>קריינות:</b> סמל ההקלטה ← <b>קריינות</b> ← מאשרים מיקרופון ← מקליטים. אפשר להקליט כמה פעמים.</li><li><b>מוזיקה:</b> סרגל הצד <b>מאגר</b> ← <b>מוזיקה</b> ← מאזינים ← לוחצים להוספה. מנמיכים את העוצמה כשיש קריינות.</li><li>צופים מההתחלה עד הסוף ובודקים: 45–60 שניות?</li><li><b>שיתוף</b> ← ״כל מי שיש לו את הקישור״ ← <b>צפייה</b> ← מעתיקים קישור לטופס.</li></ol></template>
+<template id="help-rules"><h3>החוקים המלאים של פסל הזהב</h3><ol><li>כל ארבעת רכיבי ההגרלה (ז׳אנר, דמות, חפץ ומשפט) מופיעים בטריילר. המשפט נשמע בקריינות או מופיע ככתובית, מילה במילה.</li><li>אורך 45–60 שניות. בהקרנה, טריילר ארוך נעצר בשנייה 60, וקצר מ-45 לא מקבל את נקודות האורך.</li><li>לפחות 6 שוטים, 3 כתוביות, קריינות בקול שלכם, מוזיקה ושם הסרט בסוף.</li><li>בלי אנשים אמיתיים בתמונות (גם לא אתם), ובלי לוגו, דמות או שם של סרט קיים.</li><li>מוזיקה רק מהמאגר של Vids או מוזיקה שיצרתם בעצמכם.</li><li>היחצ״ן/ית מגיש/ה בטופס עד שהטיימר נגמר. מה שלא הוגש, לא מוקרן.</li><li>בהקרנה לא אומרים את הז׳אנר בקול. כל אולפן כותב ניחוש על פתק, ומרים אותו רק אחרי החשיפה.</li><li>בהצבעת הקהל לא מצביעים לאולפן שלכם.</li><li>תיקו בניקוד הכולל: מנצח ציון חבר השופטים, ואם עדיין תיקו, הצבעת הקהל.</li></ol></template>
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== פסטיבל הטריילרים — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) audio "trailers without picture" (Web Audio synth, no files) + genre guess chips (slide 2)
+   2) the draw machine: character / object / line, no repeats between studios (slide 6)
+   3) one shared state for the studios (names, draws, guesses, votes, points), saved in this browser:
+      pairs (27), screening (35), genre guesses (36), audience vote (37), scoreboard (38), awards (39), credits (41)
+   4) copy buttons, narration word counter, drama meter (microphone, optional). */
+(()=>{
+/* ---------- the cards (same lists as materials.html) ---------- */
+const CH=[['🔦','שומר/ת לילה במוזיאון'],['🤖','רובוט שירות ששכח את הזיכרון שלו'],['👵','סבתא שהייתה פעם אלופת קראטה'],['🎒','תלמיד/ה חדש/ה שאף אחד לא מכיר'],['🐈','חתול רחוב שמבין בני אדם'],['🍳','שף/ית שאיבד/ה את חוש הטעם'],['🧑‍🚀','אסטרונאוט/ית שחזר/ה אחרי 100 שנה'],['🎩','מורה מחליף/ה מסתורי/ת'],['👻','רוח רפאים ביישנית'],['🧤','שוער/ת של קבוצה שכונתית'],['🧪','ממציא/ה מבולבל/ת'],['🐕','כלב שמירה פחדן']];
+const OB=[['🗝️','מפתח ישן'],['💧','בקבוק מים'],['☂️','מטרייה'],['⏰','שעון מעורר'],['👟','נעל אחת'],['📔','מחברת עם מנעול'],['🎾','כדור טניס'],['👓','משקפיים'],['📺','שלט רחוק'],['🫙','צנצנת ריקה'],['🗺️','מפה מקופלת'],['🩷','מחק ורוד']];
+const LN=['״אל תפתחו את זה לפני חצות.״','״זה לא מה שזה נראה.״','״יש לנו בדיוק עשר דקות.״','״מישהו הזיז את זה.״','״אני חושב/ת שזה עוקב אחרינו.״','״פעם אחרונה שאני עוזר/ת לך.״','״מי השאיר את האור דולק?״','״זה היה פה כל הזמן.״','״תסמכו עליי, יש לי תוכנית.״','״אף אחד לא יאמין לנו.״','״זה עדיין עובד?״','״למה דווקא היום?״'];
+
+/* ---------- state ---------- */
+const LS='tie-trailer-v1:'+location.pathname;
+const blank=n=>({name:n,film:'',tz:0,el:0,len:0,poster:0,got:0,gave:0,jury:'',votes:0});
+const fresh=()=>({teams:[1,2,3,4,5,6].map(i=>blank('אולפן '+i)),draws:{},scr:0,awards:{twist:'',voice:''}});
+let S=null;try{S=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(!S||!Array.isArray(S.teams)||!S.teams.length)S=fresh();
+S.draws=S.draws||{};S.awards=S.awards||{twist:'',voice:''};S.scr=S.scr||0;
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}};
+const num=v=>{if(v===''||v===null||v===undefined)return null;const x=parseFloat(String(v).replace(',','.'));return isFinite(x)?x:null};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+
+/* ---------- 1. audio trailers ---------- */
+let AC=null,master=null,playing=-1,stopT=null,typeT=null,waveT=null;
+const LINES=['״בבית הספר הזה… אף אחד לא נשאר אחרי השעה שש.״','״הוא רצה רק לנצח בתחרות האפייה. הוא לא תכנן שהעוגה תברח.״','״כשהשמש כבתה… נשאר רק כוכב אחד שאפשר לברוח אליו.״'];
+function ac(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}
+function newMaster(){const c=ac();if(!c)return null;const m=c.createGain();m.gain.value=.85;const comp=c.createDynamicsCompressor();m.connect(comp);comp.connect(c.destination);return m}
+function env(g,t0,dur,peak,att,rel){g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(peak,t0+att);g.gain.setValueAtTime(peak,Math.max(t0+att,t0+dur-rel));g.gain.exponentialRampToValueAtTime(.0001,t0+dur)}
+function tone(type,f,t0,dur,peak,o={}){const c=AC;const os=c.createOscillator();os.type=type;os.frequency.setValueAtTime(f,t0);if(o.to)os.frequency.exponentialRampToValueAtTime(o.to,t0+(o.glide||dur));if(o.det)os.detune.value=o.det;
+ const g=c.createGain();env(g,t0,dur,peak,o.att??.01,o.rel??Math.min(.15,dur/2));let src=os;if(o.lp){const f2=c.createBiquadFilter();f2.type='lowpass';f2.frequency.value=o.lp;os.connect(f2);src=f2}src.connect(g);g.connect(master);os.start(t0);os.stop(t0+dur+.05)}
+function noise(t0,dur,peak,o={}){const c=AC;const n=Math.max(1,Math.floor(c.sampleRate*dur));const b=c.createBuffer(1,n,c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+ const s=c.createBufferSource();s.buffer=b;const f=c.createBiquadFilter();f.type=o.type||'lowpass';f.frequency.value=o.f||1200;if(o.fTo)f.frequency.exponentialRampToValueAtTime(o.fTo,t0+dur);const g=c.createGain();env(g,t0,dur,peak,o.att??.005,o.rel??dur*.8);s.connect(f);f.connect(g);g.connect(master);s.start(t0);s.stop(t0+dur)}
+const kick=(t,p=.9)=>tone('sine',140,t,.45,p,{to:42,glide:.35,att:.004,rel:.35});
+const braam=(t,d=2.2,p=.16)=>{[55,82.4,110].forEach((f,i)=>{tone('sawtooth',f,t,d,p,{det:-9,lp:520,att:.04,rel:.9});tone('sawtooth',f,t,d,p*.8,{det:9,lp:520,att:.04,rel:.9})});kick(t,.9);noise(t,.5,.25,{f:300})};
+const SCORES=[
+ t=>{ /* horror ~11s */
+  tone('sawtooth',55,t,9,.22,{lp:260,att:2,rel:.25});tone('sawtooth',58.3,t+.5,8.5,.14,{lp:240,att:2,rel:.25});
+  for(let i=0;i<7;i++){const b=t+1.4+i*(.95-i*.05);kick(b,.75);kick(b+.2,.45)}
+  tone('sawtooth',1760,t+6.4,2.3,.045,{to:1890,att:1.2,rel:.2,lp:5000});tone('sine',2490,t+7.2,1.5,.03,{att:.8,rel:.2});
+  braam(t+9.7,1.6,.18);noise(t+9.7,1.4,.35,{f:2500,fTo:200});return 11.6},
+ t=>{ /* comedy ~9s */
+  const mel=[523,659,784,659,523,587,698,587,523,659,784,1047];const sp=.21;
+  [0,2.75].forEach((o,k)=>mel.forEach((f,i)=>{if(k&&i>9)return;tone('square',f,t+o+i*sp,.14,.11,{lp:2600,att:.005,rel:.06})}));
+  for(let i=0;i<24;i++)tone('triangle',i%2?196:131,t+i*sp,.16,.26,{att:.005,rel:.08});
+  tone('sine',600,t+2.55,.45,.18,{to:1700,att:.02,rel:.05});tone('sine',1700,t+3.0,.4,.16,{to:520,att:.01,rel:.05});
+  tone('sine',220,t+5.4,.35,.25,{to:880,glide:.3,att:.01,rel:.05});tone('sine',880,t+5.75,.3,.2,{to:300,att:.01,rel:.05});
+  tone('sine',220,t+7.1,.22,.6,{to:110,att:.003,rel:.15});tone('sine',170,t+7.33,.25,.6,{to:85,att:.003,rel:.15});kick(t+7.62,.6);noise(t+7.62,.9,.22,{type:'highpass',f:7000});return 8.8},
+ t=>{ /* sci-fi ~11s */
+  const arp=[220,261.6,329.6,440,329.6,261.6];for(let i=0;i<46;i++)tone('sawtooth',arp[i%6]*(i>=24?1.122:1),t+.4+i*.125,.11,.07,{lp:1500,att:.004,rel:.05});
+  braam(t+.9);braam(t+3.9);braam(t+6.4,1.8);
+  tone('sawtooth',180,t+6.6,2.2,.06,{to:2200,att:.3,rel:.05,lp:6000});noise(t+6.6,2.2,.18,{type:'bandpass',f:400,fTo:7000,att:1.6,rel:.05});
+  braam(t+9.3,2,.2);tone('sine',36,t+9.3,2,.5,{att:.01,rel:1});return 11.4}
+];
+function stopAudio(){if(master){try{const m=master;m.gain.cancelScheduledValues(AC.currentTime);m.gain.setTargetAtTime(.0001,AC.currentTime,.06);setTimeout(()=>{try{m.disconnect()}catch(e){}},400)}catch(e){}master=null}
+ clearTimeout(stopT);clearTimeout(typeT);clearInterval(waveT);
+ document.querySelectorAll('.tcard').forEach(c=>{c.classList.remove('playing');c.querySelectorAll('.wave i').forEach(i=>i.style.height='')});
+ document.querySelectorAll('.playBtn').forEach(b=>{b.classList.remove('on');b.textContent='▶ השמעה'});playing=-1}
+function typeLine(el,txt){el.textContent='';let i=0;const step=()=>{el.textContent=txt.slice(0,++i);if(i<txt.length)typeT=setTimeout(step,55)};step()}
+function play(k){const was=playing;stopAudio();if(was===k)return;master=newMaster();const card=document.querySelector('.tcard[data-tr="'+k+'"]');const line=card.querySelector('.tline');
+ if(!master){typeLine(line,LINES[k]);return}
+ const len=SCORES[k](AC.currentTime+.08);playing=k;card.classList.add('playing');const b=card.querySelector('.playBtn');b.classList.add('on');b.textContent='■ עצירה';
+ line.textContent='';typeT=setTimeout(()=>typeLine(line,LINES[k]),k===1?600:1500);
+ const bars=[...card.querySelectorAll('.wave i')];waveT=setInterval(()=>bars.forEach(i=>i.style.height=(15+Math.random()*85)+'%'),130);
+ stopT=setTimeout(()=>{clearInterval(waveT);card.classList.remove('playing');bars.forEach(i=>i.style.height='');b.classList.remove('on');b.textContent='↻ שוב';master=null;playing=-1},len*1000+300)}
+document.querySelectorAll('.playBtn').forEach(b=>b.addEventListener('click',()=>play(Number(b.dataset.play))));
+document.querySelectorAll('.tcard').forEach(c=>c.querySelectorAll('.gchips button').forEach(b=>b.addEventListener('click',()=>{
+ c.querySelectorAll('.gchips button').forEach(x=>x.classList.remove('ok','no'));const ok=b.textContent.trim()===c.dataset.ans;
+ b.classList.add(ok?'ok':'no');if(!ok)[...c.querySelectorAll('.gchips button')].find(x=>x.textContent.trim()===c.dataset.ans)?.classList.add('ok');c.classList.add('done')})));
+document.getElementById('nextBtn').addEventListener('click',()=>{if(playing>=0&&!document.querySelector('.tcard.playing')?.closest('.slide.active'))stopAudio()});
+document.getElementById('prevBtn').addEventListener('click',()=>{if(playing>=0)stopAudio()});
+document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','PageUp','PageDown'].includes(e.key)&&playing>=0)setTimeout(()=>{if(!document.querySelector('.tcard.playing')?.closest('.slide.active'))stopAudio()},50)});
+
+/* ---------- 2. draw machine ---------- */
+const kc=k=>document.querySelector('#kit .kcard[data-k="'+k+'"]');
+function setFront(k,em,val){const c=kc(k);c.querySelector('.kfront .em').textContent=em;c.querySelector('.kfront .val').textContent=val}
+function showDraw(ti,animate){const d=S.draws[ti];['c','o','l'].forEach(k=>kc(k).classList.remove('flip'));if(!d)return;
+ const fill=()=>{setFront('c',CH[d.c][0],CH[d.c][1]);setFront('o',OB[d.o][0],OB[d.o][1]);setFront('l','💬',LN[d.l]);['c','o','l'].forEach((k,i)=>setTimeout(()=>kc(k).classList.add('flip'),animate?150+i*450:0))};
+ if(animate)setTimeout(fill,380);else fill()}
+function pick(n,used){const free=[...Array(n).keys()].filter(i=>!used.includes(i));const pool=free.length?free:[...Array(n).keys()];return pool[Math.floor(Math.random()*pool.length)]}
+function doDraw(){const ti=Number($('drawTeam').value);if(!S.teams[ti])return;const others=Object.entries(S.draws).filter(([k])=>Number(k)!==ti).map(([,v])=>v);
+ S.draws[ti]={c:pick(CH.length,others.map(v=>v.c)),o:pick(OB.length,others.map(v=>v.o)),l:pick(LN.length,others.map(v=>v.l))};save();showDraw(ti,true);renderLog()}
+function renderLog(){const el=$('drawLog');if(!el)return;el.innerHTML=Object.keys(S.draws).filter(k=>S.teams[k]).sort((a,b)=>a-b).map(k=>{const d=S.draws[k];return `<span><b>${esc(S.teams[k].name)}:</b> ${CH[d.c][0]} ${esc(CH[d.c][1])} · ${OB[d.o][0]} ${esc(OB[d.o][1])} · ${esc(LN[d.l])}</span>`}).join('')}
+$('drawGo').addEventListener('click',doDraw);
+$('drawClear').addEventListener('click',()=>['c','o','l'].forEach(k=>kc(k).classList.remove('flip')));
+$('drawTeam').addEventListener('change',()=>showDraw(Number($('drawTeam').value),false));
+
+/* ---------- 3. points ---------- */
+function audPts(){const v=S.teams.map(t=>num(t.votes)||0);return v.map(x=>{if(x<=0)return 0;const place=1+v.filter(y=>y>x).length;return [0,5,3,2][place]||0})}
+function totals(){const ap=audPts();return S.teams.map((t,i)=>{const pres=Math.min(5,num(t.got)||0),gave=num(t.gave)||0,jury=Math.min(16,Math.max(0,num(t.jury)||0));
+ return {pres,gave,jury,aud:ap[i],tot:(num(t.tz)||0)+(num(t.el)||0)*2+(num(t.len)||0)+(num(t.poster)||0)+pres+gave+jury+ap[i]}})}
+function order(T){return [...T.keys()].sort((a,b)=>T[b].tot-T[a].tot||T[b].jury-T[a].jury||T[b].aud-T[a].aud)}
+
+/* ---------- builders ---------- */
+const nameText=i=>`<span data-c="name" data-i="${i}">${esc(S.teams[i].name)}</span>`;
+const stp=(i,f,max)=>`<span class="stp"><button data-step="${f}" data-i="${i}" data-d="-1" aria-label="פחות">−</button><output data-c="${f}" data-i="${i}">${S.teams[i][f]||0}</output><button data-step="${f}" data-i="${i}" data-d="1" data-max="${max}" aria-label="יותר">+</button></span>`;
+const tg=(i,f)=>`<button class="tg" data-tog="${f}" data-i="${i}"></button>`;
+function renderSelects(){const sel=$('drawTeam');if(sel){const v=sel.value;sel.innerHTML=S.teams.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');if(v!==''&&S.teams[v])sel.value=v}
+ document.querySelectorAll('select[data-award]').forEach(s=>{s.innerHTML='<option value="">— בוחרים אולפן —</option>'+S.teams.map(t=>`<option>${esc(t.name)}</option>`).join('');s.value=S.awards[s.dataset.award]||''})}
+function renderPairs(){const el=$('pairs');if(!el)return;const n=S.teams.length,out=[];for(let i=0;i<n;i+=2){if(i+1<n)out.push(esc(S.teams[i].name)+' ⇄ '+esc(S.teams[i+1].name));else out[out.length-1]+=' ⇄ '+esc(S.teams[i].name)}el.innerHTML=out.map(x=>`<span>${x}</span>`).join('')}
+function renderGuess(){const el=$('guessTable');if(!el)return;const mx=Math.max(1,S.teams.length-1);
+ el.innerHTML='<thead><tr><th>אולפן</th><th>כמה אולפנים ניחשו<br>את הז׳אנר שלכם</th><th>נקודות<br>(עד 5)</th><th>כמה ז׳אנרים אתם<br>ניחשתם נכון</th><th>נקודות</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr><td>${nameText(i)}</td><td>${stp(i,'got',mx)}</td><td class="calc" data-c="pres" data-i="${i}"></td><td>${stp(i,'gave',mx)}</td><td class="calc" data-c="gavep" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+function renderVote(){const el=$('teamVote');if(!el)return;
+ el.innerHTML=S.teams.map((t,i)=>`<div class="voteItem" data-vi="${i}"><div class="emoji">🎬</div><strong>${nameText(i)}</strong><div class="voteCtl"><button data-step="votes" data-i="${i}" data-d="-1">−</button><output data-c="votes" data-i="${i}">${t.votes||0}</output><button data-step="votes" data-i="${i}" data-d="1" data-max="99">+</button></div><div class="bar"><i data-c="vbar" data-i="${i}"></i></div></div>`).join('')}
+function renderScore(){const el=$('scoreTable');if(!el)return;
+ el.innerHTML='<thead><tr><th>אולפן</th><th>טיזר<br>עד 3</th><th>רכיבי הגרלה<br>× 2</th><th>אורך<br>3</th><th>כרזה<br>3</th><th>ז׳אנר<br>נוחש + ניחשנו</th><th>שופטים<br>4–16</th><th>קהל<br>5·3·2</th><th>סה״כ</th></tr></thead><tbody>'+
+ S.teams.map((t,i)=>`<tr data-srow="${i}"><td><input type="text" class="nm" data-i="${i}" data-f="name" value="${esc(t.name)}" aria-label="שם האולפן"></td><td>${stp(i,'tz',3)}</td><td>${stp(i,'el',4)}</td><td>${tg(i,'len')}</td><td>${tg(i,'poster')}</td><td class="calc" data-c="genre" data-i="${i}"></td><td><input type="number" inputmode="numeric" min="0" max="16" data-i="${i}" data-f="jury" value="${esc(t.jury)}" aria-label="ציון שופטים"></td><td class="calc" data-c="aud" data-i="${i}"></td><td class="tot" data-c="tot" data-i="${i}"></td></tr>`).join('')+'</tbody>'}
+function renderScreen(){if(!$('nowStudio'))return;S.scr=Math.min(Math.max(0,S.scr),S.teams.length-1);const t=S.teams[S.scr];$('nowStudio').textContent=t.name;
+ if(document.activeElement!==$('nowFilm'))$('nowFilm').value=t.film||'';
+ $('scrOrder').innerHTML=S.teams.map((x,i)=>`<span data-go="${i}" class="${i===S.scr?'cur':i<S.scr?'seen':''}">${i+1}. ${esc(x.name)}</span>`).join('')}
+
+function update(){const T=totals(),ord=order(T),rank={};ord.forEach((i,k)=>rank[i]=k);const any=T.some(x=>x.tot>0);const maxV=Math.max(1,...S.teams.map(t=>num(t.votes)||0));
+ document.querySelectorAll('[data-c]').forEach(el=>{const i=Number(el.dataset.i),t=S.teams[i];if(!t)return;const c=el.dataset.c;
+  if(c==='name')el.textContent=t.name;
+  else if(c==='pres')el.textContent=T[i].pres||'—';
+  else if(c==='gavep')el.textContent=T[i].gave||'—';
+  else if(c==='genre')el.textContent=(T[i].pres+T[i].gave)||'—';
+  else if(c==='aud')el.textContent=T[i].aud||'—';
+  else if(c==='tot')el.textContent=(any&&rank[i]<3&&T[i].tot>0?['🥇 ','🥈 ','🥉 '][rank[i]]:'')+T[i].tot;
+  else if(c==='vbar')el.style.width=((num(t.votes)||0)/maxV*100)+'%';
+  else if(['tz','el','got','gave','votes'].includes(c))el.textContent=t[c]||0});
+ document.querySelectorAll('.tg[data-tog]').forEach(b=>{const v=S.teams[Number(b.dataset.i)][b.dataset.tog];b.classList.toggle('on',!!v);b.textContent=v?'✓ 3':'0'});
+ document.querySelectorAll('input[data-f]').forEach(el=>{if(el!==document.activeElement)el.value=S.teams[Number(el.dataset.i)]?.[el.dataset.f]??''});
+ const topV=Math.max(0,...S.teams.map(t=>num(t.votes)||0));
+ document.querySelectorAll('#teamVote .voteItem').forEach(v=>{const n=num(S.teams[Number(v.dataset.vi)].votes)||0;v.classList.toggle('lead1',topV>0&&n===topV)});
+ document.querySelectorAll('#scoreTable tr[data-srow]').forEach(r=>{const i=Number(r.dataset.srow);r.className=any&&T[i].tot>0&&rank[i]<3?'r'+(rank[i]+1):''});
+ const line=$('scoreLine');if(line)line.textContent=any?('🏆 מוביל/ה כרגע: '+S.teams[ord[0]].name+' · בתיקו מכריע ציון השופטים, ואז הקהל'):'הנקודות מהניחושים ומההצבעה עוברות לכאן לבד. ציון השופטים: סכום 4 הקריטריונים (ממוצע אם יש כמה שופטים).';
+ if($('winGold'))$('winGold').textContent=any?S.teams[ord[0]].name:'—';
+ if($('winAud')){const tops=S.teams.filter(t=>topV>0&&(num(t.votes)||0)===topV).map(t=>t.name);$('winAud').textContent=tops.length?tops.join(' + '):'—'}}
+function renderAll(){renderSelects();renderPairs();renderGuess();renderVote();renderScore();renderScreen();renderLog();update()}
+
+/* ---------- events ---------- */
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.matches('input[data-f]')){const t=S.teams[Number(el.dataset.i)];if(!t)return;t[el.dataset.f]=el.value;save();if(el.dataset.f==='name'){renderSelects();renderPairs();renderScreen();renderLog()}update();return}
+ if(el.id==='nowFilm'){S.teams[S.scr].film=el.value;save();return}
+ if(el.id==='voText')countVO()});
+document.addEventListener('change',e=>{const el=e.target;if(el.matches('select[data-award]')){S.awards[el.dataset.award]=el.value;save()}});
+document.addEventListener('click',e=>{const go=e.target.closest('[data-go]');if(go){S.scr=Number(go.dataset.go);save();renderScreen();resetScr();return}
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.step){const t=S.teams[Number(b.dataset.i)];const f=b.dataset.step;const max=Number(b.dataset.max||b.parentElement.querySelector('[data-max]')?.dataset.max||99);
+  t[f]=Math.max(0,Math.min(max,(num(t[f])||0)+Number(b.dataset.d)));save();update();return}
+ if(b.dataset.tog){const t=S.teams[Number(b.dataset.i)];t[b.dataset.tog]=t[b.dataset.tog]?0:3;save();update();return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==='addTeam'&&S.teams.length<10){S.teams.push(blank('אולפן '+(S.teams.length+1)));save();renderAll()}
+ if(a==='delTeam'&&S.teams.length>2){const k=S.teams.length-1,last=S.teams[k];const used=last.tz||last.el||last.votes||last.jury!==''||S.draws[k];
+  if(!used||confirm('למחוק את "'+last.name+'" עם הנתונים שלו?')){S.teams.pop();delete S.draws[k];save();renderAll()}}
+ if(a==='resetAll'&&confirm('לאפס את כל הניקוד, ההגרלות וההצבעות? (לכיתה חדשה)')){const names=S.teams.map(t=>t.name);S=fresh();S.teams=names.map(n=>blank(n));save();renderAll();['c','o','l'].forEach(k=>kc(k).classList.remove('flip'))}});
+function resetScr(){document.querySelector('#scrTimer [data-t=reset]')?.click()}
+$('scrPrev').addEventListener('click',()=>{if(S.scr>0){S.scr--;save();renderScreen();resetScr()}});
+$('scrNext').addEventListener('click',()=>{if(S.scr<S.teams.length-1){S.scr++;save();renderScreen();resetScr()}});
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.copyBtn').forEach(b=>b.addEventListener('click',async()=>{const txt=b.parentElement.querySelector('.ptext').innerText.replace(/\s+/g,' ').trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)}));
+
+/* ---------- narration counter ---------- */
+function countVO(){const tx=$('voText');if(!tx)return;const w=tx.value.trim().split(/\s+/).filter(x=>/[\p{L}\p{N}]/u.test(x)).length;const sec=Math.round(w/2);
+ $('voWords').textContent=w+' מילים';$('voSecs').textContent='≈ '+sec+' שניות';const v=$('voVerdict');
+ v.className=w>40?'over':w>0?'ok':'';v.textContent=w>40?'✂️ ארוך מדי: קצרו ל-40':w>=12?'✓ מתאים לטריילר':w>0?'✓ קצר וחזק':'—'}
+countVO();
+
+/* ---------- drama meter (optional microphone) ---------- */
+let micOn=false,peak=0;
+$('micBtn').addEventListener('click',async()=>{if(micOn)return;const msg=$('micMsg');
+ try{const st=await navigator.mediaDevices.getUserMedia({audio:true});const c=ac();const src=c.createMediaStreamSource(st);const an=c.createAnalyser();an.fftSize=1024;src.connect(an);const d=new Uint8Array(an.fftSize);micOn=true;msg.textContent='מקשיב… מי מגיע לאדום?';
+  const loop=()=>{an.getByteTimeDomainData(d);let s=0;for(const x of d){const v=(x-128)/128;s+=v*v}const lv=Math.min(1,Math.sqrt(s/d.length)*4.2);peak=Math.max(peak*.996,lv);$('micFill').style.width=(lv*100)+'%';$('micPeak').style.left='calc('+(peak*100)+'% - 2px)';requestAnimationFrame(loop)};loop()}
+ catch(e){msg.textContent='אין גישה למיקרופון. לא נורא: הכיתה היא מד הדרמה 😉'}});
+
+/* ---------- credits ---------- */
+$('rollBtn').addEventListener('click',()=>{const T=totals(),ord=order(T),any=T.some(x=>x.tot>0);
+ const rows=['<p class="big">🎬 פסטיבל הטריילרים</p>','<h4>הפקות הערב</h4>',...S.teams.map(t=>`<p>${esc(t.name)}${t.film?' · ״'+esc(t.film)+'״':''}</p>`),
+  any?`<h4>פסל הזהב</h4><p>🏆 ${esc(S.teams[ord[0]].name)}</p>`:'',S.awards.voice?`<h4>הקריינות הכי מצמררת</h4><p>🎙️ ${esc(S.awards.voice)}</p>`:'',S.awards.twist?`<h4>הטוויסט של הפסטיבל</h4><p>🌀 ${esc(S.awards.twist)}</p>`:'',
+  '<h4>כלים</h4><p>Gemini · Google Vids · Canva · Google Forms</p>','<h4>תודה מיוחדת</h4><p>לקהל, שלא אמר את הז׳אנר בקול</p>','<h4>&nbsp;</h4><p>אף פסל במוזיאון לא נפגע במהלך ההפקה</p>','<h4>&nbsp;</h4><p class="big">Tech It Easy</p>'];
+ $('credits').innerHTML=rows.join('');const box=$('creditsBox');box.classList.remove('roll');void box.offsetWidth;box.classList.add('roll')});
+
+renderAll();
+})();
+</script>
+</body>
+</html>

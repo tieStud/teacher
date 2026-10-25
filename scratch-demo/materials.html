@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · ג׳אם הארקייד | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+<style>
+/* ===== ג׳אם הארקייד · materials additions ===== */
+.r-prg{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-art{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-snd{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-tst{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+.r-prd{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+/* scratch blocks for print */
+.scr{display:inline-flex;flex-direction:column;align-items:flex-start;direction:rtl;font:700 8.4pt/1.2 var(--body)}
+.b,.c,.rp{--c:#3f7fe0}
+.b{background:var(--c);color:#fff;padding:1mm 2.2mm;border-radius:1.3mm;display:flex;align-items:center;gap:1.2mm;white-space:nowrap;border:.6px solid rgba(0,0,0,.25)}
+.b.hat{border-radius:3.6mm 3.6mm 1.3mm 1.3mm;padding-top:2.2mm;min-width:30mm}
+.b i,.rp i{font-style:normal;background:#fff;color:#1f2a37;border-radius:999px;padding:0 1.6mm;min-width:4mm;text-align:center}
+.b i.n,.rp i.n{direction:ltr;unicode-bidi:isolate}
+.b i.dd,.rp i.dd{background:rgba(255,255,255,.22);color:#fff;border:.6px solid rgba(255,255,255,.7);border-radius:1mm;padding:0 1.2mm}
+.b i.dd::after,.rp i.dd::after{content:" ▾";font-size:.75em}
+.rp{display:inline-flex;align-items:center;gap:1mm;background:var(--c);color:#fff;border:.6px solid rgba(0,0,0,.25);padding:.1mm 2mm;border-radius:999px}
+.rp.q{clip-path:polygon(2mm 0,calc(100% - 2mm) 0,100% 50%,calc(100% - 2mm) 100%,2mm 100%,0 50%);border-radius:0;padding:.4mm 2.8mm}
+.c{display:flex;flex-direction:column;align-items:flex-start}
+.c>.b{border-end-start-radius:0}
+.c>.in{display:flex;flex-direction:column;align-items:flex-start;border-inline-start:3.6mm solid var(--c);min-height:4mm;padding:.3mm 0}
+.c>.mid{border-radius:0 0 0 1.3mm;padding:.8mm 2.2mm}
+.c>.ce{width:14mm;height:2.6mm;background:var(--c);border-radius:0 0 1.3mm 1.3mm;border:.6px solid rgba(0,0,0,.25);border-top:0}
+.mo{--c:#3f7fe0}.lo{--c:#7a5ce0}.so{--c:#ad4aad}.ev{--c:#bd8400}.ct{--c:#c66f00}.se{--c:#2a8cb5}.op{--c:#3a963a}.va{--c:#d96500}
+.gf{display:inline-block;width:3.4mm;height:3.4mm;vertical-align:-.7mm;border-radius:.8mm;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M15 2v16' stroke='%23236b2a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M14 3c-3-1.5-5 1.5-9 0v7c4 1.5 6-1.5 9 0z' fill='%234cbf56' stroke='%23236b2a' stroke-width='1.2'/%3E%3C/svg%3E") center/80% no-repeat}
+.codeBox{border:1px dashed var(--line2);border-radius:2.5mm;padding:2.2mm 2.6mm;background:repeating-linear-gradient(0deg,#f7f8fa 0 1px,transparent 1px 4mm),repeating-linear-gradient(90deg,#f7f8fa 0 1px,transparent 1px 4mm);display:flex;flex-direction:column;gap:1.4mm;align-items:flex-start}
+.codeBox .on{font:700 8pt var(--display);color:var(--muted);background:#fff;border:1px solid var(--line2);border-radius:999px;padding:.2mm 2.4mm}
+/* recipe cards */
+.recipe{border:1.2px solid var(--line2);border-radius:3.5mm;padding:3.2mm 3.8mm;display:flex;flex-direction:column;gap:2mm;position:relative;overflow:hidden}
+.recipe::before{content:"";position:absolute;inset:0 0 auto 0;height:1.8mm;background:var(--rc,var(--orange))}
+.recipe .rh{display:flex;align-items:center;justify-content:space-between;gap:3mm;margin-top:.8mm}
+.recipe .rh b{font-family:var(--display);font-weight:800;font-size:15pt}
+.recipe .rh span.em{font-size:20pt;line-height:1}
+.recipe .lvl{font:700 8.6pt var(--display);color:var(--orange-ink);background:#fdf0e3;border-radius:999px;padding:.3mm 2.4mm}
+.recipe .idea{font-size:9.4pt;color:var(--muted)}
+.recipe .cols{display:grid;grid-template-columns:1fr 1fr;gap:3mm;align-items:start}
+.recipe .tips{display:grid;grid-template-columns:1fr 1fr;gap:3mm;font-size:8.8pt}
+.recipe .tips div{background:var(--paper);border-radius:2mm;padding:1.8mm 2.4mm}
+.recipe .tips b{font-family:var(--display)}
+.rc-blue{--rc:#4c8bd6}.rc-rose{--rc:#e76f86}.rc-violet{--rc:#8c7ae6}.rc-mint{--rc:#5bb5a2}.rc-orange{--rc:#f4a259}
+/* theme cards */
+.themes{grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;flex:1}
+.k-theme{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}.k-twist{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+/* cheat sheet */
+.cheat{display:grid;grid-template-columns:1fr 1fr;gap:3mm;flex:1}
+.cat{border:1px solid var(--line2);border-radius:3mm;padding:2.4mm 3mm;display:flex;flex-direction:column;gap:1.2mm;align-items:flex-start;break-inside:avoid}
+.cat h3{font-family:var(--display);font-size:10.5pt;font-weight:800;display:flex;align-items:center;gap:2mm;margin-bottom:.6mm}
+.cat h3 i{width:3.6mm;height:3.6mm;border-radius:50%;background:var(--c);display:inline-block}
+.cat .scr{gap:1.1mm}
+.cat .scr .b+.b{margin-top:0}
+.cat small{color:var(--muted);font-size:8pt;font-weight:500}
+/* bug notes */
+.bugs{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.bug{padding:3.4mm 4mm;display:flex;flex-direction:column;gap:1.3mm;font-size:9pt}
+.bug .bh{display:flex;justify-content:space-between;align-items:center}
+.bug .bh b{font-family:var(--display);font-weight:800;font-size:11.5pt}
+.bug .q{font-weight:700}
+.bug .lines{min-height:7mm;height:7mm;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(7mm - 1px),#cfc8bc calc(7mm - 1px),#cfc8bc 7mm)}
+.bug .ft{display:flex;justify-content:space-between;font-size:8.4pt;color:var(--muted);margin-top:auto}
+/* high score sheet */
+.hs th,.hs td{text-align:center!important}
+.hs td.e{height:8.6mm}
+.hs .st{display:flex;gap:1mm;justify-content:center;font-size:10pt;color:#c9a227}
+.howto{border:2px solid var(--ink);border-radius:4mm;padding:4mm 5mm;display:grid;grid-template-columns:1.2fr 1fr;gap:4mm}
+.howto .big{font-family:var(--display);font-weight:800;font-size:22pt;border-bottom:1.6px solid var(--ink);min-height:13mm}
+.keys{display:flex;gap:2mm;flex-wrap:wrap}
+.keys span{border:1.4px solid var(--ink);border-radius:2mm;padding:1mm 3mm;font:800 11pt var(--display);background:#fff}
+/* certificates */
+.certs{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.cert{padding:7mm 6mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2.6mm;position:relative}
+.cert::before{content:"";position:absolute;inset:3.5mm;border:1.4px solid #e3a82b;border-radius:3mm;pointer-events:none}
+.cert .em{font-size:30pt;line-height:1}
+.cert .t{font-family:var(--display);font-weight:800;font-size:16pt}
+.cert .s{font-size:9pt;color:var(--muted)}
+.cert .fill{min-width:58mm}
+.gddGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm}
+.scene{border:1.2px dashed var(--line2);border-radius:2.5mm;min-height:30mm;position:relative;background:#fff}
+.scene::before{content:attr(data-label);position:absolute;top:1.5mm;right:2.5mm;font-size:8.4pt;color:var(--dim);font-weight:700}
+.lvlbox{border:1px solid var(--line2);border-radius:3mm;padding:2.4mm 3mm;border-top:1.6mm solid var(--lc)}
+.lvlbox h3{font-family:var(--display);font-size:10.5pt;font-weight:800;margin-bottom:1.2mm}
+.lvlbox .check{font-size:8.8pt}
+/* fit tweaks */
+.recipe .scr{font-size:7.5pt}
+.recipe .b{padding:.75mm 1.8mm}
+.recipe .b.hat{padding-top:1.7mm;min-width:24mm}
+.recipe .c>.ce{height:2mm}
+.recipe .c>.in{border-inline-start-width:3mm;min-height:3mm}
+.recipe{padding:2.6mm 3.4mm;gap:1.6mm}
+.recipe .codeBox{padding:1.8mm 2.2mm;gap:1mm}
+.recipe .tips{font-size:8.4pt;gap:2.4mm}
+.recipe .tips div{padding:1.4mm 2.2mm}
+.recipe .idea{font-size:9pt}
+.recipe .rh b{font-size:13.5pt}
+.cat .scr{flex-direction:row;flex-wrap:wrap;gap:1.3mm;align-items:center}
+.cat .scr .b,.cat .scr .rp{margin:0}
+.cheat{gap:2.6mm}
+.cat{padding:2.2mm 2.8mm}
+#p-score td.e{height:7.4mm}
+#p-mission .box{padding:3mm 3.6mm}
+#p-mission table.tb{font-size:9pt}
+#p-mission table.tb td{padding:1.4mm 2mm}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · ג׳אם הארקייד<small>גיים ג׳אם בסקראץ׳ · 90 דקות</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>ג׳אם הארקייד</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-7 אולפנים של 4. לכיתה אחרת: לפי מספר האולפנים.</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2–3</td><td>כרטיסי תפקיד, כרטיס מפיק/ה, רמזור ונורמות</td><td>1 סט לאולפן (7)</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>4</td><td>כרטיס המשימה</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>כרטיס עיצוב המשחק</td><td>1 לאולפן + 2 (9)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>6</td><td>כרטיסי נושא וטוויסט (גיבוי למכונה)</td><td>1 סט לכיתה</td><td>בריסטול</td><td>כן</td></tr>
+      <tr><td>7–9</td><td>כרטיסי מתכון: תופסים, הקלקה, מבוך, מרדף, מתחמקים, סצנות וסוף</td><td>2 סטים לכיתה</td><td>רגיל</td><td>לחצאים</td></tr>
+      <tr><td>10</td><td>שליף הלבנים</td><td>1 לאולפן (7)</td><td>רגיל, צבעוני</td><td>לא</td></tr>
+      <tr><td>11</td><td>פתקי באג (8 בעמוד)</td><td>1 לאולפן (7)</td><td>רגיל</td><td>כן</td></tr>
+      <tr><td>12</td><td>שלט "איך משחקים" + לוח השיאים</td><td>1 לאולפן (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>13</td><td>מחוון</td><td>1 לאולפן + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>14</td><td>שורת AI (4 בעמוד)</td><td>2 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>15</td><td>כרטיסי יציאה (4 בעמוד)</td><td>8 עמודים</td><td>רגיל</td><td>לרבעים</td></tr>
+      <tr><td>16</td><td>דף הניקוד של המדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>17</td><td>תעודות פרס (4 בעמוד)</td><td>2 עמודים (8 פרסים)</td><td>בריסטול</td><td>לרבעים</td></tr>
+      <tr><td>18</td><td>שלט שולחן</td><td>1 לאולפן (7)</td><td>בריסטול</td><td>קיפול</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 בשקית של כל אולפן</h3>
+      <ul class="check"><li>4 כרטיסי תפקיד (+ מפיק/ה באולפן של 5)</li><li>שלט שולחן, כרטיס משימה, כרטיס עיצוב משחק</li><li>שליף הלבנים ומחוון</li><li>8 פתקי באג, לוח שיאים, 4 רצועות AI</li><li>3 עטים, 1 טוש</li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>5 ערמות כרטיסי מתכון (וסצנות וסוף)</li><li>כרטיסי נושא וטוויסט בשתי שקיות</li><li>דיסק-און-קי עם קובץ הדוגמה "משלוח דחוף"</li><li>דף הניקוד, תעודות ופרסים קטנים</li><li>כרטיסי יציאה</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🗂️ שקיות מוכנות מראש</h3><p>כדאי לסדר את כל דפי האולפן בשקית לפי סדר השימוש: כרטיסי תפקיד ← משימה ← עיצוב משחק ← שליף ← פתקי באג ← לוח שיאים ← מחוון ← רצועות AI. כרטיסי המתכון נשארים אצל המדריך ומחולקים אחרי הבחירה (שקף 7), כך שכל אולפן מקבל רק את המתכון שבחר.</p></div>
+</section>
+
+<!-- ===================== 2. ROLE CARDS ===================== -->
+<section class="page" id="p-roles" data-label="כרטיסי תפקיד">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · אולפן משחקים</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ להדפיס על בריסטול ולגזור. כל אחד באולפן מקבל כרטיס אחד.</p>
+  <div class="cutgrid roles">
+    <article class="role r-prg">
+      <div class="rh"><span class="ic">💻</span><div><b>מתכנת/ת</b><small>הופך/ת רעיונות ללבנים</small></div></div>
+      <p class="mis">המשימה שלי: שהמשחק יעבוד. הגיבור זז, העולם מגיב, והניקוד נספר.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>נוהג/ת במחשב הבנייה ובונה לפי כרטיס המתכון.</li><li>מקריא/ה בקול כל לבנה שאני מוסיף/ה.</li><li>מכניס/ה למשחק דמויות וצלילים מהסטודיו ("העלו דמות").</li><li>שומר/ת: <b>קובץ ← הורידו למחשב</b>, כל 10 דקות.</li></ul>
+      <div class="say">💬 "איזה כובע מתחיל את זה?" · "זה בתוך הלולאה או לפניה?" · "בוא/י נבדוק עכשיו."</div>
+      <p class="no">✗ לא בונה 10 דקות בלי לבדוק, ולא מתעלם/ת מהבודק/ת.</p>
+      <p class="bonus">✓ הצלחתי כש: המשחק מתחיל נקי מהדגל, ויש בו אירוע, לולאה, תנאי ומשתנה</p>
+    </article>
+    <article class="role r-art">
+      <div class="rh"><span class="ic">🎨</span><div><b>אמן/ית</b><small>איך המשחק נראה</small></div></div>
+      <p class="mis">המשימה שלי: שכל מי שמסתכל על המסך יבין את הנושא בלי הסבר.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>גיבור, מכשולים ורקעים: מהספרייה ומשנה, מצייר/ת, או Gemini.</li><li>2 תלבושות לגיבור = אנימציה.</li><li>מסך פתיחה עם "איך משחקים", ומסך סיום.</li><li>שומר/ת על 3–4 צבעים קבועים בכל המשחק.</li></ul>
+      <div class="say">💬 "מה השחקן צריך להבין בשנייה הראשונה?" · "זה מתאים לנושא?"</div>
+      <p class="no">✗ בלי דמויות מסרטים או ממשחקים, ובלי 20 דקות על דמות אחת.</p>
+      <p class="bonus">✓ הצלחתי כש: שחקנים בארקייד ניחשו את הנושא בלי הסבר</p>
+    </article>
+    <article class="role r-snd">
+      <div class="rh"><span class="ic">🔊</span><div><b>מעצב/ת סאונד</b><small>איך המשחק נשמע</small></div></div>
+      <p class="mis">המשימה שלי: שהשחקן ישמע שהצליח או נכשל, עוד לפני שהוא רואה.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>צליל לכל פעולה: תנועה, ניקוד, פגיעה, ניצחון.</li><li>לפחות צליל אחד מוקלט (הקלטה) או ערוך (רובוט, הד, מהר יותר).</li><li>מוזיקת רקע ב-Song Maker, אם יש זמן.</li><li>בודק/ת שהצלילים לא מעצבנים אחרי דקה.</li></ul>
+      <div class="say">💬 "מה השחקן שומע כשהוא תופס?" · "זה חזק מדי?" · "צריך פה צליל?"</div>
+      <p class="no">✗ בלי רעש בלי הפסקה, ולא מקליט/ה אנשים בלי רשות.</p>
+      <p class="bonus">✓ הצלחתי כש: מישהו בארקייד חייך כששמע את הצליל</p>
+    </article>
+    <article class="role r-tst">
+      <div class="rh"><span class="ic">🧪</span><div><b>בודק/ת</b><small>השחקן הראשון של המשחק</small></div></div>
+      <p class="mis">המשימה שלי: שהבאגים יימצאו אצלנו, ולא בארקייד.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>ממלא/ת את כרטיס עיצוב המשחק ומסמן/ת את השלבים.</li><li>משחק/ת כל 5 דקות ורושם/ת באגים.</li><li>בסבב הבדיקות: משחק/ת אצל אולפן אחר וכותב/ת פתקי באג.</li><li>מתעד/ת כל תיקון: לפני ואחרי. שומר/ת על הזמן.</li></ul>
+      <div class="say">💬 "מה עשיתי · מה ציפיתי · מה קרה." · "בוא/י נשחק שוב מההתחלה."</div>
+      <p class="no">✗ לא מתקן/ת במקום המתכנת/ת, ולא אומר/ת "זה גרוע" בלי להסביר מה.</p>
+      <p class="bonus">✓ הצלחתי כש: תיקנו 2 באגים ותיעדנו את שניהם</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3. PRODUCER + LIGHT + NORMS ===================== -->
+<section class="page" id="p-roles2" data-label="מפיק/ה, רמזור ונורמות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי תפקיד · המשך</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <p class="cutnote">✂ כרטיס חמישי (רק באולפן של 5), רמזור ה-AI, נורמות האולפן וגודל האולפן. נשארים בשקית האולפן.</p>
+  <div class="cutgrid roles">
+    <article class="role r-prd">
+      <div class="rh"><span class="ic">🎬</span><div><b>מפיק/ה</b><small>רק באולפן של 5</small></div></div>
+      <p class="mis">המשימה שלי: שהאולפן עומד בזמנים, ושהסטודיו ומחשב הבנייה מדברים.</p>
+      <h4>מה אני עושה</h4>
+      <ul><li>מחזיק/ה את הטיימר: "נשארו 5 דקות", "שמירה!".</li><li>מעביר/ה דמויות וצלילים מהסטודיו למחשב הבנייה.</li><li>ממלא/ת את טופס ההגשה, כולל שורת ה-AI.</li><li>מארגן/ת את העמדה בארקייד ואת ספירת הכוכבים.</li></ul>
+      <div class="say">💬 "מה הדבר הבא שחייב לעבוד?" · "מה אפשר לוותר עליו?"</div>
+      <p class="no">✗ לא מחליט/ה לבד מה יהיה במשחק.</p>
+      <p class="bonus">✓ הצלחתי כש: הגשנו בזמן, והעמדה בארקייד הייתה מוכנה ראשונה</p>
+    </article>
+    <article class="role" style="--c:#4c8bd6;--cs:#e7f0fa">
+      <div class="rh"><span class="ic">🚦</span><div><b>רמזור ה-AI</b><small>מופיע בכל שקף ספרינט</small></div></div>
+      <div class="tl" style="flex-direction:column;gap:2mm">
+        <div class="r"><b>🔴 בלי AI</b>סבב הבדיקות, פתקי באג וכרטיס יציאה: חושבים וכותבים לבד.</div>
+        <div class="y"><b>🟡 AI לרעיונות ולאמנות</b>ספרינט 1: Gemini מציע דמויות ומצייר, ואנחנו בוחרים ומשנים.</div>
+        <div class="g"><b>🟢 AI כחבר לבאגים</b>ספרינט 2: Gemini נותן רמזים, ואנחנו בודקים שהלבנה שהציע באמת קיימת.</div>
+      </div>
+      <p style="font-size:8.8pt;color:var(--muted)">את הקוד בונים אתם. טיפ: בפרומפט לא כותבים פרטים אישיים, ולא מעלים תמונות של אנשים אמיתיים.</p>
+    </article>
+    <article class="role" style="--c:#0f766e;--cs:#e3f1ee">
+      <div class="rh"><span class="ic">🤝</span><div><b>נורמות האולפן</b><small>חלות על כולם</small></div></div>
+      <ol class="clean" style="font-size:10pt;display:grid;gap:1.6mm">
+        <li>משחק קטן שעובד עדיף על משחק גדול שנשבר.</li>
+        <li>בודקים כל 5 דקות, ושומרים כל 10.</li>
+        <li>מבקרים את המשחק, לא את האנשים: מה עשיתי · מה ציפיתי · מה קרה.</li>
+        <li>מותר לבקש עזרה מאולפן אחר, וחובה לעזור למי שמבקש.</li>
+        <li>לפני שקוראים למדריך, מנסים את ארבע הדרכים לתפוס באג.</li>
+      </ol>
+      <p class="bonus">🤝 עזרתם לאולפן אחר? סמנו את זה בכרטיס היציאה</p>
+    </article>
+    <article class="role" style="--c:#8a93a1;--cs:#f4f1ea">
+      <div class="rh"><span class="ic">👥</span><div><b>גודל האולפן ותורות</b><small>מה עושים כשאין 4</small></div></div>
+      <ul style="font-size:9.8pt;display:grid;gap:1.4mm">
+        <li><b>אולפן של 3:</b> האמן/ית לוקח/ת גם את הסאונד.</li>
+        <li><b>אולפן של 5:</b> מוסיפים מפיק/ה.</li>
+        <li><b>מחשב אחד לאולפן:</b> תורות נהיגה של 4 דקות: 💻 ← 🎨 ← 🔊 ← 🧪. מי שלא נוהג/ת מתכנן/ת על נייר את התור הבא.</li>
+        <li><b>שני מחשבים:</b> מחשב בנייה + מחשב סטודיו. דמות עוברת כך: קליק ימני על הדמות ← <b>יצוא</b> ← דרייב או מייל ← במחשב הבנייה <b>העלו דמות</b>.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 4. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>ג׳אם הארקייד · כרטיס המשימה</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🕹️ גיים ג׳אם בסקראץ׳</span><h2>ג׳אם <span>הארקייד</span></h2></div><p>בסוף השיעור נפתח בכיתה ארקייד. כל המשחקים בו עוד לא קיימים: כל אולפן בונה אחד, בנושא שהוגרל, והכיתה משחקת, שוברת שיאים ומדרגת.</p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>משחק סקראץ׳ שעובד, בנושא שהוגרל, שנבדק על ידי אולפן אחר ותוקן, ושאנשים רוצים לשחק בו שוב.</p>
+      <h3 style="margin-top:2.5mm">🗂️ הנושא שלנו</h3><p>🎯 נושא: <span class="fill"></span></p><p style="margin-top:1.5mm">🌀 טוויסט: <span class="fill"></span></p><p style="margin-top:1.5mm">🧩 מתכון: <span class="fill"></span></p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.6pt"><li>אולפן אחד, משחק אחד: שני ספרינטים, וביניהם סבב בדיקות.</li><li>המשחק מתאים לנושא. הטוויסט = בונוס.</li><li>סקראץ׳ בלי חשבון. שומרים כל 10 דקות.</li><li>בסבב הבדיקות כותבים דוחות באגים אמיתיים.</li><li>Gemini לרעיונות, לאמנות ולבאגים. את הקוד בונים אתם.</li><li>רק דמויות מקוריות.</li><li>בארקייד: 20 שניות ראשונות בלי הסבר בעל פה.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb"><thead><tr><th>מה</th><th style="width:30mm">נקודות</th></tr></thead><tbody>
+      <tr><td>🟢🟡🔴 כל שלב שהושלם (הרשימות בכרטיס עיצוב המשחק)</td><td>5 לשלב</td></tr>
+      <tr><td>🎲 חצי מהשחקנים ניחשו את הנושא (ועוד 2 על הטוויסט)</td><td>3 עד 5</td></tr>
+      <tr><td>🐞 באג שמצאנו אצל אולפן אחר והוא אישר (עד 3) · 🔧 באג שתיקנו והראינו לפני ואחרי (עד 2)</td><td>1 · 2</td></tr>
+      <tr><td>📤 הגשה בזמן · 📊 רמת המחוון × 2</td><td>3 · 2 עד 8</td></tr>
+      <tr><td>🕹️ ממוצע הכוכבים בארקייד: מקום 1 / 2 / 3 / השאר</td><td>8 / 5 / 3 / 1</td></tr>
+      <tr><td>🏅 פרס קטגוריה · 🎟️ כל האולפן מילא כרטיס יציאה</td><td>3 · 2</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">הכי הרבה נקודות = 🏆 גביע הארקייד. שובר שוויון: יותר "שוב!" בלוח השיאים. ויש עוד 7 פרסים: שחקנים, אמנות, סאונד, ציידי באגים, רק עוד סיבוב, טוויסט, קאמבק.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb"><tbody>
+      <tr><td style="width:30mm"><b>💻 מתכנת/ת</b></td><td>ספרינט 1: גיבור שזז + עולם בלולאה. ספרינט 2: משתנה, תנאי, ניצחון/הפסד, מסרים.</td></tr>
+      <tr><td><b>🎨 אמן/ית</b></td><td>ספרינט 1: גיבור ורקע לפי הנושא. ספרינט 2: מסך פתיחה עם "איך משחקים" ומסך סיום.</td></tr>
+      <tr><td><b>🔊 סאונד</b></td><td>ספרינט 1: 3 צלילים (תנועה, ניקוד, פגיעה). ספרינט 2: צליל מוקלט או ערוך, ומוזיקה.</td></tr>
+      <tr><td><b>🧪 בודק/ת</b></td><td>כרטיס העיצוב, משחק כל 5 דקות, פתקי באג בסבב הבדיקות, תיעוד "לפני ואחרי".</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">"תופסים" או "הקלקה מהירה" כמו במתכון, דמויות מהספרייה בצבעי הנושא. מטרה: שלבים 1 ו-2.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">מתכון לבחירה, הנושא מעצב את הדמויות ואת המטרה, ושלושה שלבים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">"מתחמקים" עם כפילים, או כל מתכון + טוויסט + משימת צד. משחק שמנצחים בו רק אם מבינים את הטוויסט.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 5. GAME DESIGN CARD ===================== -->
+<section class="page" id="p-gdd" data-label="כרטיס עיצוב המשחק">
+  <div class="ph"><div class="l"><i>TIE</i>ג׳אם הארקייד · כרטיס עיצוב המשחק</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧪 אצל הבודק/ת · 3 הדקות הראשונות בלי מחשב</span><h2>המשחק: <span class="fill"></span></h2></div><p>הדף הזה הוא גם הגיבוי: אם אין מחשב, המשחק נבנה כאן (ג׳אם על נייר).</p></div>
+  <div class="stack grow">
+    <div class="grid3">
+      <div class="box"><h3>🦸 הגיבור</h3><div class="lines h1"></div><p style="font-size:8.8pt;color:var(--muted)">שולטים בו עם: ☐ חיצים ☐ עכבר ☐ מקש: ___</p></div>
+      <div class="box"><h3>🎯 המטרה</h3><div class="lines h1"></div><p style="font-size:8.8pt;color:var(--muted)">מה מפריע: <span class="fill s"></span></p></div>
+      <div class="box"><h3>🏁 הסוף</h3><p style="font-size:9pt">מנצחים כש: <span class="fill"></span></p><p style="font-size:9pt;margin-top:2mm">מפסידים כש: <span class="fill"></span></p></div>
+    </div>
+    <div class="grid2">
+      <div class="box"><h3>🎨 הדמויות</h3>
+        <table class="tb" style="font-size:8.8pt"><thead><tr><th>דמות</th><th>מה היא עושה</th><th style="width:30mm">מאיפה</th></tr></thead>
+        <tbody><tr><td class="e"></td><td></td><td>ספרייה · ציור · Gemini</td></tr><tr><td class="e"></td><td></td><td>ספרייה · ציור · Gemini</td></tr><tr><td class="e"></td><td></td><td>ספרייה · ציור · Gemini</td></tr></tbody></table></div>
+      <div class="box"><h3>🔊 הצלילים והמשתנים</h3>
+        <table class="tb" style="font-size:8.8pt"><thead><tr><th>מתי</th><th>איזה צליל</th></tr></thead>
+        <tbody><tr><td class="e">ניקוד</td><td></td></tr><tr><td class="e">פגיעה</td><td></td></tr><tr><td class="e">ניצחון</td><td></td></tr></tbody></table>
+        <p style="font-size:9pt;margin-top:1.5mm">משתנים: ☐ ניקוד ☐ חיים ☐ זמן ☐ אחר: <span class="fill s"></span></p></div>
+    </div>
+    <div class="gddGrid"><div class="scene" data-label="🎬 מסך פתיחה"></div><div class="scene" data-label="🎮 המשחק"></div><div class="scene" data-label="🏆 מסך סיום"></div></div>
+    <div class="grid3">
+      <div class="lvlbox" style="--lc:#2f9e6a"><h3>🟢 שלב 1 · הליבה</h3><ul class="check"><li>מתחיל בדגל, גיבור בנקודת התחלה</li><li>שליטה בגיבור</li><li>מטרה/מכשול זזים בלולאה</li><li>שמירה ראשונה</li></ul></div>
+      <div class="lvlbox" style="--lc:#e3a82b"><h3>🟡 שלב 2 · הניקוד</h3><ul class="check"><li>משתנה שמתאפס בדגל</li><li>"אם… אז" שמשנה אותו</li><li>ניצחון או הפסד</li><li>המשתנה על הבמה</li></ul></div>
+      <div class="lvlbox" style="--lc:#e76f86"><h3>🔴 שלב 3 · הליטוש</h3><ul class="check"><li>2 רקעים (פתיחה/משחק/סיום)</li><li>2 צלילים, אחד מוקלט/ערוך</li><li>דמות מקורית אחת</li><li>"איך משחקים" במסך הפתיחה</li></ul></div>
+    </div>
+    <div class="box"><h3>🔧 יומן התיקונים (אחרי סבב הבדיקות)</h3>
+      <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:8mm">#</th><th>הבאג: מה קרה</th><th>מה שינינו בקוד</th><th style="width:22mm">✓ המדריך</th></tr></thead>
+      <tbody><tr><td class="e">1</td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td></tr></tbody></table></div>
+  </div>
+</section>
+
+<!-- ===================== 6. THEME & TWIST CARDS ===================== -->
+<section class="page" id="p-themes" data-label="כרטיסי נושא וטוויסט">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי נושא וטוויסט · גיבוי למכונה</div><div class="r">1 סט לכיתה</div></div>
+  <p class="cutnote">✂ לגזור ולמיין לשתי שקיות: כתום = נושא (חובה) · סגול = טוויסט (בונוס). כל אולפן שולף אחד מכל שקית, בלי להחזיר.</p>
+  <div class="cutgrid cards themes">
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🌋</span><b>הרצפה היא לבה</b><small>אסור לגעת בקרקע</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🙃</span><b>הכול הפוך</b><small>למעלה זה למטה</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🐜</span><b>קטן אבל חזק</b><small>הגיבור הכי קטן במשחק</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🎈</span><b>כל הזמן גדל</b><small>משהו גדל ולא מפסיק</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">⏰</span><b>נגמר הזמן</b><small>מרוץ נגד השעון</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🌗</span><b>יום ולילה</b><small>משהו משתנה כשמחשיך</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🍕</span><b>משלוח דחוף</b><small>להביא משהו בזמן</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🐉</span><b>לא להעיר את הדרקון</b><small>בשקט, בשקט…</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🧲</span><b>נדבקים</b><small>דברים נדבקים זה לזה</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🌊</span><b>המים עולים</b><small>חייבים לברוח למעלה</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">👽</span><b>אורחים מהחלל</b><small>מישהו נחת אצלנו</small></div>
+    <div class="cc k-theme"><span class="cat">🎯 נושא</span><span class="em">🧹</span><b>בלגן בחדר</b><small>לסדר לפני שאמא חוזרת</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🖱️</span><b>רק עכבר</b><small>בלי מקלדת בכלל</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">⌨️</span><b>מקש אחד בלבד</b><small>רק רווח, לכל דבר</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🤫</span><b>בלי מילים</b><small>רק ציורים וצלילים</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">😈</span><b>הגיבור הוא ה"רע"</b><small>משחקים בצד השני</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">⏱️</span><b>סיבוב של 30 שניות</b><small>לא יותר</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🎨</span><b>רק 3 צבעים</b><small>בכל המשחק</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🏫</span><b>קורה בבית הספר</b><small>כיתה, חצר או מסדרון</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🐱</span><b>החתול חייב להופיע</b><small>החתול של סקראץ׳ בתפקיד</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🔊</span><b>צליל הוא רמז</b><small>שומעים לפני שרואים</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🐇</span><b>הכול מאיץ</b><small>כל רגע קצת יותר מהר</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🍳</span><b>גיבור מהמטבח</b><small>חפץ מהמטבח הוא הגיבור</small></div>
+    <div class="cc k-twist"><span class="cat">🌀 טוויסט</span><span class="em">🎁</span><b>הפתעה בסוף</b><small>משהו שאף אחד לא מצפה לו</small></div>
+  </div>
+</section>
+
+<!-- ===================== 7. RECIPES A ===================== -->
+<section class="page" id="p-rec1" data-label="מתכונים: תופסים, הקלקה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי מתכון · 1 מתוך 3</div><div class="r">✂ לגזור לשניים</div></div>
+  <div class="stack grow">
+    <article class="recipe rc-blue grow">
+      <div class="rh"><div><b>🧺 תופסים</b> <span class="lvl">★ קל להתחלה</span></div><span class="em">🍎</span></div>
+      <p class="idea">דברים נופלים מלמעלה. הגיבור זז ימינה ושמאלה בתחתית ותופס אותם. דמויות: <b>סל</b> (הגיבור) ו<b>פרי</b> (נופל).</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על הסל</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b mo">קפוץ אל x: <i class="n">0</i> y: <i class="n">-140</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">מקש <i class="dd">חץ ימני</i> נלחץ?</span> אז</div><div class="in"><div class="b mo">שנה את ערך x ב <i class="n">10</i></div></div><div class="ce"></div></div>
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">מקש <i class="dd">חץ שמאלי</i> נלחץ?</span> אז</div><div class="in"><div class="b mo">שנה את ערך x ב <i class="n">-10</i></div></div><div class="ce"></div></div>
+          </div><div class="ce"></div></div></div></div>
+        <div class="codeBox"><span class="on">על הפרי</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">ניקוד</i> ל <i class="n">0</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="b mo">קפוץ אל x: <span class="rp op">בחר מספר אקראי בין <i class="n">-220</i> ל <i class="n">220</i></span> y: <i class="n">180</i></div>
+            <div class="c ct"><div class="b ct">חזור עד ש <span class="rp q se">נוגע ב <i class="dd">סל</i> ?</span> או <span class="rp q op"><span class="rp mo">מיקום על ציר y</span> &lt; <i class="n">-170</i></span></div><div class="in"><div class="b mo">שנה את ערך y ב <i class="n">-5</i></div></div><div class="ce"></div></div>
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע ב <i class="dd">סל</i> ?</span> אז</div><div class="in"><div class="b va">שנה <i class="dd">ניקוד</i> ב <i class="n">1</i></div><div class="b so">נגן צליל <i class="dd">Pop</i></div></div><div class="ce"></div></div>
+          </div><div class="ce"></div></div></div></div>
+      </div>
+      <div class="tips"><div><b>🟡 שלב 2:</b> בתוך הלולאה של הפרי: "אם ניקוד = 10 אז ← שדר מסר ניצחון". את התנאי של הרצפה בונים מהלבנה הירוקה "קטן מ" (מפעילים) ומ"מיקום על ציר y" (תנועה).</div><div><b>🌀 טוויסט "רק עכבר":</b> במקום שני ה"אם" של הסל: "לעולמים ← קבע את ערך x ל (מיקום עכבר בציר x)". <b>יותר קשה?</b> מהירות הנפילה במשתנה.</div></div>
+    </article>
+    <article class="recipe rc-rose grow">
+      <div class="rh"><div><b>👆 הקלקה מהירה</b> <span class="lvl">★ קל להתחלה</span></div><span class="em">🐹</span></div>
+      <p class="idea">משהו קופץ במקומות אקראיים ונעלם. לוחצים עליו לפני שהוא נעלם. דמות: <b>מטרה</b>. על הבמה: שעון של 30 שניות.</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על המטרה</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">ניקוד</i> ל <i class="n">0</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="b lo">הסתר</div>
+            <div class="b ct">חכה <span class="rp op">בחר מספר אקראי בין <i class="n">0.3</i> ל <i class="n">1.2</i></span> שניות</div>
+            <div class="b mo">קפוץ אל <i class="dd">מיקום אקראי</i></div>
+            <div class="b lo">הצג</div>
+            <div class="b ct">חכה <i class="n">0.9</i> שניות</div>
+          </div><div class="ce"></div></div></div>
+          <div class="scr" style="margin-top:2mm"><div class="b ev hat">כאשר לוחצים על דמות זו</div><div class="b va">שנה <i class="dd">ניקוד</i> ב <i class="n">1</i></div><div class="b so">נגן צליל <i class="dd">Pop</i></div><div class="b lo">הסתר</div></div></div>
+        <div class="codeBox"><span class="on">על הבמה: השעון</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">זמן</i> ל <i class="n">30</i></div>
+          <div class="c ct"><div class="b ct">חזור <i class="n">30</i> פעמים</div><div class="in"><div class="b ct">חכה <i class="n">1</i> שניות</div><div class="b va">שנה <i class="dd">זמן</i> ב <i class="n">-1</i></div></div><div class="ce"></div></div>
+          <div class="b ev">שדר מסר <i class="dd">נגמר</i></div></div>
+          <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">זה כבר שלב 2: משתנה זמן + סוף. נשאר רק מסך "נגמר" (כרטיס "סצנות וסוף").</p></div>
+      </div>
+      <div class="tips"><div><b>🟡 שלב 2:</b> "חכה 0.9" הופך ל"חכה (מהירות)", ובכל 5 נקודות המהירות קטנה.</div><div><b>🌀 טוויסט "צליל הוא רמז":</b> לפני "הצג", נגנו צליל, כך שהשחקן שומע לפני שהוא רואה. <b>יותר קשה?</b> מטרה שנייה שאסור ללחוץ עליה (‎-2).</div></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 8. RECIPES B ===================== -->
+<section class="page" id="p-rec2" data-label="מתכונים: מבוך, מרדף">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי מתכון · 2 מתוך 3</div><div class="r">✂ לגזור לשניים</div></div>
+  <div class="stack grow">
+    <article class="recipe rc-violet grow">
+      <div class="rh"><div><b>🌀 מבוך</b> <span class="lvl">★★ בינוני</span></div><span class="em">🗝️</span></div>
+      <p class="idea">מובילים את הגיבור בחיצים עד ליעד, בלי לגעת בקירות. <b>הרקע:</b> מציירים קירות בצבע אחד (כלי המלבן בעורך הרקע). דמויות: <b>גיבור</b> ו<b>יעד</b>.</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על הגיבור</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b lo">קבע גודל ל <i class="n">30</i> %</div>
+          <div class="b mo">קפוץ אל x: <i class="n">-200</i> y: <i class="n">150</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">מקש <i class="dd">חץ ימני</i> נלחץ?</span> אז</div><div class="in"><div class="b mo">שנה את ערך x ב <i class="n">3</i></div></div><div class="ce"></div></div>
+            <div class="b ct" style="background:#fff;color:var(--muted);border-style:dashed">… ועוד 3 כאלה: שמאלי (x ‎-3), מעלה (y 3), מטה (y ‎-3)</div>
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע בצבע <i class="dd">■ הקירות</i> ?</span> אז</div><div class="in"><div class="b so">נגן צליל <i class="dd">Ouch</i></div><div class="b mo">קפוץ אל x: <i class="n">-200</i> y: <i class="n">150</i></div></div><div class="ce"></div></div>
+          </div><div class="ce"></div></div></div></div>
+        <div class="codeBox"><span class="on">עוד על הגיבור (שלב 2)</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">פסילות</i> ל <i class="n">0</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע ב <i class="dd">יעד</i> ?</span> אז</div><div class="in"><div class="b ev">שדר מסר <i class="dd">ניצחון</i></div></div><div class="ce"></div></div>
+          </div><div class="ce"></div></div></div>
+          <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">ובתוך ה"אם נוגע בצבע" של הקירות: "שנה פסילות ב 1".</p></div>
+      </div>
+      <div class="tips"><div><b>⚠️ שימו לב:</b> בוחרים את הצבע בלבנה "נוגע בצבע" עם הטפטפת: לוחצים על הריבוע הצבעוני ← על הטפטפת ← על הקיר בבמה.</div><div><b>🌀 טוויסט "יום ולילה":</b> רקע שני כהה, והקירות נראים רק כשלוחצים רווח. <b>יותר קשה?</b> אויב שזז הלוך ושוב במסדרון.</div></div>
+    </article>
+    <article class="recipe rc-mint grow">
+      <div class="rh"><div><b>🏃 מרדף</b> <span class="lvl">★★ בינוני</span></div><span class="em">⭐</span></div>
+      <p class="idea">אוספים כוכבים כשמישהו רודף אחריכם. דמויות: <b>גיבור</b> (עם העכבר), <b>רודף</b>, <b>כוכב</b>.</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על הגיבור · על הרודף</span>
+          <div class="scr"><div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="c ct"><div class="b ct">לעולמים</div><div class="in"><div class="b mo">קפוץ אל <i class="dd">מצביע העכבר</i></div></div><div class="ce"></div></div></div>
+          <div class="scr" style="margin-top:2mm"><div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="b mo">קפוץ אל x: <i class="n">200</i> y: <i class="n">150</i></div><div class="b ct">חכה <i class="n">1</i> שניות</div>
+            <div class="c ct"><div class="b ct">לעולמים</div><div class="in"><div class="b mo">פנה לכיוון של <i class="dd">גיבור</i></div><div class="b mo">זוז <i class="n">2</i> צעדים</div>
+              <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע ב <i class="dd">גיבור</i> ?</span> אז</div><div class="in"><div class="b ev">שדר מסר <i class="dd">נגמר</i></div></div><div class="ce"></div></div></div><div class="ce"></div></div></div></div>
+        <div class="codeBox"><span class="on">על הכוכב</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">ניקוד</i> ל <i class="n">0</i></div>
+          <div class="c ct"><div class="b ct">לעולמים</div><div class="in">
+            <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע ב <i class="dd">גיבור</i> ?</span> אז</div><div class="in"><div class="b va">שנה <i class="dd">ניקוד</i> ב <i class="n">1</i></div><div class="b so">נגן צליל <i class="dd">Coin</i></div><div class="b mo">קפוץ אל <i class="dd">מיקום אקראי</i></div></div><div class="ce"></div></div>
+          </div><div class="ce"></div></div></div></div>
+      </div>
+      <div class="tips"><div><b>🟡 שלב 2:</b> "זוז 2 צעדים" של הרודף הופך ל"זוז (מהירות) צעדים", ובכל כוכב: "שנה מהירות ב 0.3".</div><div><b>🌀 טוויסט "הגיבור הוא ה'רע'":</b> אתם הרודף, והדמות שבורחת זזה לבד למקום אקראי ("גלוש 1 שניות אל מיקום אקראי").</div></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 9. RECIPES C ===================== -->
+<section class="page" id="p-rec3" data-label="מתכונים: מתחמקים, סצנות">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי מתכון · 3 מתוך 3</div><div class="r">✂ לגזור לשניים</div></div>
+  <div class="stack grow">
+    <article class="recipe rc-orange grow">
+      <div class="rh"><div><b>☄️ מתחמקים</b> <span class="lvl">★★★ לאלופים</span></div><span class="em">🛸</span></div>
+      <p class="idea">מטאוריטים נופלים, והשחקן זז ימינה ושמאלה ומתחמק. מטאוריט אחד מייצר הרבה <b>כפילים</b>. דמויות: <b>שחקן</b> (כמו הסל בכרטיס "תופסים") ו<b>מטאוריט</b>.</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על המטאוריט</span>
+          <div class="scr"><div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="b lo">הסתר</div>
+            <div class="c ct"><div class="b ct">לעולמים</div><div class="in"><div class="b ct">יצירת כפיל של <i class="dd">עצמי</i></div><div class="b ct">חכה <span class="rp op">בחר מספר אקראי בין <i class="n">0.4</i> ל <i class="n">1.2</i></span> שניות</div></div><div class="ce"></div></div></div>
+          <div class="scr" style="margin-top:2mm"><div class="b ct hat">כאשר מופעל ככפיל</div>
+            <div class="b mo">קפוץ אל x: <span class="rp op">בחר מספר אקראי בין <i class="n">-220</i> ל <i class="n">220</i></span> y: <i class="n">180</i></div><div class="b lo">הצג</div>
+            <div class="c ct"><div class="b ct">חזור עד ש <span class="rp q op"><span class="rp mo">מיקום על ציר y</span> &lt; <i class="n">-170</i></span></div><div class="in"><div class="b mo">שנה את ערך y ב <i class="n">-6</i></div>
+              <div class="c ct"><div class="b ct">אם <span class="rp q se">נוגע ב <i class="dd">שחקן</i> ?</span> אז</div><div class="in"><div class="b va">שנה <i class="dd">חיים</i> ב <i class="n">-1</i></div><div class="b ct">מחק כפיל זה</div></div><div class="ce"></div></div></div><div class="ce"></div></div>
+            <div class="b ct">מחק כפיל זה</div></div></div>
+        <div class="codeBox"><span class="on">על הבמה</span><div class="scr">
+          <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div>
+          <div class="b va">קבע <i class="dd">חיים</i> ל <i class="n">3</i></div>
+          <div class="b ct">חכה עד ש <span class="rp q op">חיים = 0</span></div>
+          <div class="b ev">שדר מסר <i class="dd">נגמר</i></div></div>
+          <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">למה "מחק כפיל זה" אחרי הפגיעה? כדי שמטאוריט אחד לא יוריד את כל החיים בבת אחת.</p></div>
+      </div>
+      <div class="tips"><div><b>🟡 שלב 2:</b> משתנה "ניקוד" שעולה בכל שנייה ששרדתם (לולאה על הבמה עם "חכה 1 שניות").</div><div><b>🌀 טוויסט "הכול מאיץ":</b> "שנה את ערך y ב (0 − מהירות)", ומהירות שעולה כל 5 שניות.</div></div>
+    </article>
+    <article class="recipe rc-blue grow">
+      <div class="rh"><div><b>🎬 סצנות וסוף</b> <span class="lvl">לכל המתכונים · שלב 3</span></div><span class="em">🏆</span></div>
+      <p class="idea">מסך פתיחה עם כפתור, מסך ניצחון ומסך "נגמר". צריך 3 רקעים: <b>פתיחה</b>, <b>משחק</b>, <b>ניצחת</b> (ו<b>נגמר</b>), ודמות כפתור <b>התחל</b>.</p>
+      <div class="cols">
+        <div class="codeBox"><span class="on">על הכפתור "התחל"</span>
+          <div class="scr"><div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="b lo">הצג</div></div>
+          <div class="scr" style="margin-top:2mm"><div class="b ev hat">כאשר לוחצים על דמות זו</div><div class="b lo">הסתר</div><div class="b lo">קבע רקע ל <i class="dd">משחק</i></div><div class="b ev">שדר מסר <i class="dd">התחלה</i></div></div>
+          <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">בדמויות של המשחק: מחליפים את "כאשר לוחצים על הדגל" של הלולאה ב<b>"כאשר מתקבל מסר התחלה"</b>.</p></div>
+        <div class="codeBox"><span class="on">על הבמה</span>
+          <div class="scr"><div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="b lo">קבע רקע ל <i class="dd">פתיחה</i></div></div>
+          <div class="scr" style="margin-top:2mm"><div class="b ev hat">כאשר מתקבל מסר <i class="dd">ניצחון</i></div><div class="b lo">קבע רקע ל <i class="dd">ניצחת</i></div><div class="b so">נגן צליל <i class="dd">Win</i> עד לסיום</div><div class="b ct">עצור <i class="dd">הכול</i></div></div>
+          <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">אותו דבר ל"נגמר". ובכל דמות: "כאשר הרקע משתנה ל ניצחת ← הסתר".</p></div>
+      </div>
+      <div class="tips"><div><b>🎵 מוזיקת רקע:</b> על הבמה: "כאשר מתקבל מסר התחלה ← לעולמים ← נגן צליל (מוזיקה) עד לסיום".</div><div><b>📖 איך משחקים:</b> על רקע הפתיחה כותבים בכלי הטקסט (T) של עורך הרקע, או מציירים חיצים ועכבר.</div></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 10. CHEAT SHEET ===================== -->
+<section class="page" id="p-cheat" data-label="שליף הלבנים">
+  <div class="ph"><div class="l"><i>TIE</i>שליף הלבנים · סקראץ׳ בעברית</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧩 השמות המדויקים, כמו במסך</span><h2>שליף <span>הלבנים</span></h2></div><p>הצבע של כל לבנה הוא הצבע של הקטגוריה שלה בסקראץ׳. Gemini הציע לבנה שלא מופיעה כאן? חפשו אותה בקטגוריה. אם היא לא קיימת, תפסתם אותו בטעות.</p></div>
+  <div class="cheat">
+    <div class="cat" style="--c:#bd8400"><h3><i></i>אירועים · מתי הקוד רץ</h3><div class="scr">
+      <div class="b ev hat">כאשר לוחצים על <span class="gf"></span></div><div class="b ev hat">כאשר נלחץ מקש <i class="dd">רווח</i></div><div class="b ev hat">כאשר לוחצים על דמות זו</div>
+      <div class="b ev hat">כאשר מתקבל מסר <i class="dd">התחלה</i></div><div class="b ev hat">כאשר הרקע משתנה ל <i class="dd">ניצחת</i></div><div class="b ev">שדר מסר <i class="dd">ניצחון</i></div></div></div>
+    <div class="cat" style="--c:#c66f00"><h3><i></i>בקרה · לולאות ותנאים</h3><div class="scr">
+      <div class="b ct">חכה <i class="n">1</i> שניות</div><div class="b ct">חזור <i class="n">10</i> פעמים</div><div class="b ct">לעולמים</div><div class="b ct">אם <span class="rp q se">…</span> אז · אחרת</div>
+      <div class="b ct">חכה עד ש <span class="rp q op">…</span></div><div class="b ct">חזור עד ש <span class="rp q op">…</span></div><div class="b ct">עצור <i class="dd">הכול</i></div>
+      <div class="b ct">יצירת כפיל של <i class="dd">עצמי</i></div><div class="b ct hat">כאשר מופעל ככפיל</div><div class="b ct">מחק כפיל זה</div></div></div>
+    <div class="cat" style="--c:#3f7fe0"><h3><i></i>תנועה</h3><div class="scr">
+      <div class="b mo">זוז <i class="n">10</i> צעדים</div><div class="b mo">קפוץ אל x: <i class="n">0</i> y: <i class="n">0</i></div><div class="b mo">קפוץ אל <i class="dd">מיקום אקראי</i> / <i class="dd">מצביע העכבר</i></div>
+      <div class="b mo">שנה את ערך x ב <i class="n">10</i></div><div class="b mo">שנה את ערך y ב <i class="n">10</i></div><div class="b mo">קבע את ערך x ל <i class="n">0</i></div>
+      <div class="b mo">פנה לכיוון של <i class="dd">גיבור</i></div><div class="b mo">בנגיעה במסגרת שנה כיוון</div><div class="b mo">גלוש <i class="n">1</i> שניות אל x: <i class="n">0</i> y: <i class="n">0</i></div></div></div>
+    <div class="cat" style="--c:#7a5ce0"><h3><i></i>מראה</h3><div class="scr">
+      <div class="b lo">אמור <i>שלום!</i> למשך <i class="n">2</i> שניות</div><div class="b lo">הצג</div><div class="b lo">הסתר</div><div class="b lo">התלבושת הבאה</div>
+      <div class="b lo">קבע רקע ל <i class="dd">פתיחה</i></div><div class="b lo">קבע גודל ל <i class="n">50</i> %</div><div class="b lo">שנה גודל ב <i class="n">10</i></div><div class="b lo">קבע אפקט <i class="dd">רוח רפאים</i> ל <i class="n">50</i></div></div></div>
+    <div class="cat" style="--c:#2a8cb5"><h3><i></i>חיישנים · שאלות כן/לא</h3><div class="scr">
+      <span class="rp q se">נוגע ב <i class="dd">סמן העכבר</i> ?</span><span class="rp q se">נוגע בצבע <i class="dd">■</i> ?</span><span class="rp q se">מקש <i class="dd">רווח</i> נלחץ?</span>
+      <span class="rp se">מיקום עכבר בציר x</span></div>
+      <h3 style="margin-top:2mm;--c:#3a963a"><i style="background:#3a963a"></i>מפעילים</h3><div class="scr">
+      <span class="rp op">בחר מספר אקראי בין <i class="n">1</i> ל <i class="n">10</i></span><span class="rp q op">… &gt; …</span><span class="rp q op">… &lt; …</span><span class="rp q op">… = …</span><span class="rp q op">… וגם …</span><span class="rp q op">… או …</span></div></div>
+    <div class="cat" style="--c:#d96500"><h3><i></i>משתנים · הזיכרון</h3><div class="scr">
+      <div class="b va" style="background:#fff;color:var(--ink);border:1px dashed #d96500">יצירת משתנה ← שם ← לכל הדמויות</div><div class="b va">קבע <i class="dd">ניקוד</i> ל <i class="n">0</i></div><div class="b va">שנה <i class="dd">ניקוד</i> ב <i class="n">1</i></div><div class="b va">הצג משתנה <i class="dd">ניקוד</i></div></div>
+      <h3 style="margin-top:2mm"><i style="background:#ad4aad"></i>צלילים</h3><div class="scr"><div class="b so">נגן צליל <i class="dd">Pop</i></div><div class="b so">נגן צליל <i class="dd">Pop</i> עד לסיום</div><div class="b so">הפסק את כל הצלילים</div></div></div>
+  </div>
+  <div class="grid2" style="margin-top:3mm">
+    <div class="box soft"><h3>📐 הבמה</h3><p style="font-size:9pt">x מ-‎-240 (שמאל) עד 240 (ימין) · y מ-‎-180 (למטה) עד 180 (למעלה) · האמצע: x 0, y 0.</p></div>
+    <div class="box soft"><h3>🩺 נתקעתם?</h3><p style="font-size:9pt">קוראים בקול · מאטים עם "חכה" · בתוך או מחוץ ללולאה? · מסמנים ✓ ליד המשתנה ורואים אותו על הבמה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 11. BUG NOTES ===================== -->
+<section class="page" id="p-bugs" data-label="פתקי באג">
+  <div class="ph"><div class="l"><i>TIE</i>פתקי באג · 8 בעמוד</div><div class="r">🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור. כותבים פתק לכל באג בסבב הבדיקות ובארקייד, ומשאירים אותו ליד המחשב של האולפן הנבדק.</p>
+  <div class="cutgrid bugs">
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">מה עשיתי:</p><div class="lines"></div><p class="q">מה ציפיתי שיקרה:</p><div class="lines"></div><p class="q">מה קרה בפועל:</p><div class="lines"></div><div class="ft"><span>מצא/ה (אולפן): <span class="fill s"></span></span><span>☐ אושר כבאג · ☐ תוקן</span></div></div>
+    <div class="bug"><div class="bh"><b>💚 אני אוהב/ת</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">הכי אהבתי במשחק:</p><div class="lines"></div><p class="q">הלוואי ש…</p><div class="lines"></div><p class="q">אני תוהה…</p><div class="lines"></div><div class="ft"><span>מאת (אולפן): <span class="fill s"></span></span><span>משוב, לא באג</span></div></div>
+    <div class="bug"><div class="bh"><b>💚 אני אוהב/ת</b><span>למשחק של אולפן: <span class="fill s"></span></span></div><p class="q">הכי אהבתי במשחק:</p><div class="lines"></div><p class="q">הלוואי ש…</p><div class="lines"></div><p class="q">אני תוהה…</p><div class="lines"></div><div class="ft"><span>מאת (אולפן): <span class="fill s"></span></span><span>משוב, לא באג</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 12. HOW TO PLAY + HIGH SCORES ===================== -->
+<section class="page" id="p-hs" data-label="איך משחקים + לוח שיאים">
+  <div class="ph"><div class="l"><i>TIE</i>הארקייד · שלט עמדה ולוח שיאים</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="howto">
+    <div><span class="kick">🕹️ עמדה מספר <span class="fill s"></span></span><p style="font-size:9pt;color:var(--muted)">שם המשחק:</p><div class="big"></div><p style="font-size:9pt;color:var(--muted);margin-top:2mm">המטרה (משפט אחד):</p><div class="lines h1"></div></div>
+    <div><p style="font-size:9pt;color:var(--muted)">שולטים עם (סמנו או ציירו):</p><div class="keys" style="margin-top:1.5mm"><span>←</span><span>→</span><span>↑</span><span>↓</span><span>רווח</span><span>🖱️ עכבר</span></div><div class="sketch" data-label="ציור קטן של הגיבור" style="height:24mm;margin-top:2.5mm"></div></div>
+  </div>
+  <div class="pt" style="margin-top:4mm;margin-bottom:2mm"><div><h2>לוח <span>השיאים</span></h2></div><p>כל שחקן כותב שורה אחת אחרי שהוא משחק. לא מדרגים את המשחק של האולפן שלכם.</p></div>
+  <table class="tb hs" style="font-size:9.4pt">
+    <thead><tr><th style="width:8mm">#</th><th>שם פרטי</th><th style="width:20mm">הניקוד שלי</th><th style="width:40mm">כמה כיף? (הקיפו)</th><th>מה הנושא לדעתי?</th><th style="width:18mm">שוב! ✓</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">8</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">9</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">10</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">11</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">12</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">13</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+      <tr><td class="e">14</td><td></td><td></td><td><div class="st">☆ ☆ ☆ ☆ ☆</div></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box soft" style="margin-top:3mm"><h3>🧮 ספירה בסוף הארקייד (המפעיל/ה האחרון/ה)</h3>
+    <div class="grid3" style="grid-template-columns:repeat(5,1fr);font-size:9.2pt;gap:2mm"><p>⭐ סך הכוכבים: <span class="fill s"></span></p><p>👥 שחקנים: <span class="fill s"></span></p><p>➗ ממוצע: <span class="fill s"></span></p><p>🔁 "שוב!": <span class="fill s"></span></p><p>🎲 ניחשו נושא: <span class="fill s"></span></p></div></div>
+</section>
+
+<!-- ===================== 13. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>ג׳אם הארקייד · המחוון</div><div class="r">אולפן: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדד <span>המשחק</span></h2></div><p>בסבב הבדיקות מסמנים איפה אתם עכשיו. בסוף, הערכה עצמית בעמודה "אנחנו". המדריך/ה קובע/ת את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:10%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">🎮 המשחק עובד<small>מתחילים, משחקים, מסיימים</small></td><td>לא מתחיל בדגל הירוק, או שאי אפשר לעשות בו כלום</td><td>הגיבור זז, אבל אין מטרה או ניקוד</td><td>שליטה, מטרה, וניקוד שמתאפס ועולה</td><td>וגם ניצחון או הפסד שמעביר למסך סיום, ואף שחקן לא מצא באג שעוצר את המשחק</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🧠 מושגי תכנות<small>אירוע · לולאה · תנאי · משתנה</small></td><td>אירוע אחד ותזוזה, בלי לולאה</td><td>אירוע ולולאה</td><td>אירוע, לולאה, תנאי ומשתנה, כל אחד במקום הנכון</td><td>וגם מסרים בין דמויות, כפילים או משתנה שני (חיים, זמן, מהירות)</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🎨 אמנות, סאונד ונושא<small>מה רואים ושומעים</small></td><td>החתול הרגיל, בלי צלילים, הנושא לא נראה</td><td>דמויות מהספרייה, צליל אחד, הנושא מוסבר רק בעל פה</td><td>דמות מקורית אחת, 2 צלילים, וחצי מהשחקנים ניחשו את הנושא</td><td>סגנון אחיד, צליל מוקלט או מוזיקה, והשחקנים ניחשו נושא וטוויסט</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🧪 בדיקות וצוות<small>באגים, תיקונים ותפקידים</small></td><td>לא נבדק, או שאחד עשה הכול</td><td>שיחקו רק בעצמם; חלק מהתפקידים עבדו</td><td>סבב בדיקות, באג אחד תוקן, כל תפקיד תרם חלק שרואים</td><td>2 באגים תוקנו ותועדו (לפני ואחרי), שורת AI מלאה, כל האולפן הפעיל עמדה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 2: <b>רמה 1 = 2 · רמה 2 = 4 · רמה 3 = 6 · רמה 4 = 8</b> נקודות בלוח הניקוד.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לתקן עכשיו</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "משלוח דחוף" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.2pt"><b>🌳 רמה 3:</b> קטנוע עוקב אחרי העכבר, פיצות נופלות, הניקוד מתאפס ועולה, ב-10 מופיע "ניצחת". צליל בתפיסה וצליל ניצחון. תוקן באג: הניקוד קפץ בכמה נקודות בכל תפיסה. 4 מתוך 6 שחקנים ניחשו "משלוחים".</p><p style="font-size:9.2pt"><b>🚀 רמה 4:</b> וגם מסך פתיחה עם כפתור ו"איך משחקים" בציור, שעון של 30 שניות ומסך "הלקוח רעב!", צליל "דינג!" שהוקלט ונערך, 4 צבעים קבועים, 2 תיקונים מתועדים. 5 מתוך 6 ניחשו "משלוח", ו-2 גם "רק עכבר".</p></div></div>
+</section>
+
+<!-- ===================== 14. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת להגשה</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בזמן הספרינטים, ומעתיקים את שתי השורות לטופס ההגשה.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · משחק: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה</b><p style="font-size:8.4pt;color:var(--muted)">רעיון · דמות · רמז לבאג</p><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><p style="font-size:8.4pt;color:var(--muted)">כל הקוד · מה שינינו ממה שהציע</p><div class="lines"></div></div></div><div class="foot"><span>☐ תפסנו את Gemini בטעות: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · משחק: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה</b><p style="font-size:8.4pt;color:var(--muted)">רעיון · דמות · רמז לבאג</p><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><p style="font-size:8.4pt;color:var(--muted)">כל הקוד · מה שינינו ממה שהציע</p><div class="lines"></div></div></div><div class="foot"><span>☐ תפסנו את Gemini בטעות: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · משחק: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה</b><p style="font-size:8.4pt;color:var(--muted)">רעיון · דמות · רמז לבאג</p><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><p style="font-size:8.4pt;color:var(--muted)">כל הקוד · מה שינינו ממה שהציע</p><div class="lines"></div></div></div><div class="foot"><span>☐ תפסנו את Gemini בטעות: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>אולפן: <span class="fill"></span> · משחק: <span class="fill"></span></span></div><div class="cols"><div class="col ai-c"><b>🤖 מה Gemini עשה</b><p style="font-size:8.4pt;color:var(--muted)">רעיון · דמות · רמז לבאג</p><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><p style="font-size:8.4pt;color:var(--muted)">כל הקוד · מה שינינו ממה שהציע</p><div class="lines"></div></div></div><div class="foot"><span>☐ תפסנו את Gemini בטעות: <span class="fill"></span></span><span>☐ לא השתמשנו ב-AI</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 15. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 87–90, כל אחד לבד. כל הנוכחים באולפן מילאו = 2 נקודות לאולפן.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ג׳אם הארקייד</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">באג אחד שמצאנו, ואיך תיקנו אותו:</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>קוד</span><span>אמנות</span><span>סאונד</span><span>בדיקות</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ג׳אם הארקייד</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">באג אחד שמצאנו, ואיך תיקנו אותו:</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>קוד</span><span>אמנות</span><span>סאונד</span><span>בדיקות</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ג׳אם הארקייד</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">באג אחד שמצאנו, ואיך תיקנו אותו:</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>קוד</span><span>אמנות</span><span>סאונד</span><span>בדיקות</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>ג׳אם הארקייד</span></div><p>אולפן: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h2"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">באג אחד שמצאנו, ואיך תיקנו אותו:</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לאולפן:</p><div class="tags"><span>קוד</span><span>אמנות</span><span>סאונד</span><span>בדיקות</span><span>עזרתי לאולפן אחר</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 16. SCORING SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>ג׳אם הארקייד · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · התוצאות עוברות ללוח הניקוד במצגת</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מקסימום תיאורטי: 51.</p></div>
+  <table class="tb" style="font-size:8.6pt">
+    <thead><tr><th style="width:24mm">אולפן</th><th>🟢 1<br><small>5</small></th><th>🟡 2<br><small>5</small></th><th>🔴 3<br><small>5</small></th><th>🎲 נושא<br><small>3–5</small></th><th>🐞 מצאנו<br><small>עד 3</small></th><th>🔧 תיקנו<br><small>עד 4</small></th><th>📤 הגשה<br><small>3</small></th><th>📊 מחוון<br><small>2–8</small></th><th>🕹️ ארקייד<br><small>8/5/3/1</small></th><th>🏅 פרס<br><small>3</small></th><th>🎟️ יציאה<br><small>2</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>🎲 הגרלת הנושאים</h3>
+    <table class="tb" style="font-size:8.8pt"><thead><tr><th style="width:24mm">אולפן</th><th>נושא</th><th>טוויסט</th><th>מתכון</th><th style="width:34mm">שלב 1 בדקה 46 ✓</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🏅 פרסים</h3><div class="grid2" style="gap:1.5mm 3mm;font-size:9pt"><p>🏆 גביע: <span class="fill s"></span></p><p>⭐ שחקנים: <span class="fill s"></span></p><p>🎨 אמנות: <span class="fill s"></span></p><p>🔊 סאונד: <span class="fill s"></span></p><p>🐞 באגים: <span class="fill s"></span></p><p>🔁 עוד סיבוב: <span class="fill s"></span></p><p>🤯 טוויסט: <span class="fill s"></span></p><p>📈 קאמבק: <span class="fill s"></span></p></div></div>
+    <div class="box"><h3>⏱ סבב הבדיקות: מי תקוע?</h3><div class="lines h2"></div></div>
+  </div>
+</section>
+
+<!-- ===================== 17. CERTIFICATES ===================== -->
+<section class="page" id="p-cert" data-label="תעודות פרס">
+  <div class="ph"><div class="l"><i>TIE</i>תעודות פרס · 4 בעמוד</div><div class="r">להדפיס 2 עמודים</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. כותבים את שם הפרס ואת שם האולפן בטקס הפרסים.</p>
+  <div class="cutgrid certs">
+    <div class="cert"><span class="em">🏆</span><span class="t">ג׳אם הארקייד</span><span class="s">תעודת פרס</span><p>הפרס: <span class="fill"></span></p><p>מוענק לאולפן: <span class="fill"></span></p><p>על המשחק: <span class="fill"></span></p><span class="s">Tech It Easy · חתימה: <span class="fill s"></span></span></div>
+    <div class="cert"><span class="em">⭐</span><span class="t">ג׳אם הארקייד</span><span class="s">תעודת פרס</span><p>הפרס: <span class="fill"></span></p><p>מוענק לאולפן: <span class="fill"></span></p><p>על המשחק: <span class="fill"></span></p><span class="s">Tech It Easy · חתימה: <span class="fill s"></span></span></div>
+    <div class="cert"><span class="em">🎨</span><span class="t">ג׳אם הארקייד</span><span class="s">תעודת פרס</span><p>הפרס: <span class="fill"></span></p><p>מוענק לאולפן: <span class="fill"></span></p><p>על המשחק: <span class="fill"></span></p><span class="s">Tech It Easy · חתימה: <span class="fill s"></span></span></div>
+    <div class="cert"><span class="em">🐞</span><span class="t">ג׳אם הארקייד</span><span class="s">תעודת פרס</span><p>הפרס: <span class="fill"></span></p><p>מוענק לאולפן: <span class="fill"></span></p><p>על המשחק: <span class="fill"></span></p><span class="s">Tech It Easy · חתימה: <span class="fill s"></span></span></div>
+  </div>
+</section>
+
+<!-- ===================== 18. TABLE SIGN ===================== -->
+<section class="page" id="p-sign" data-label="שלט שולחן">
+  <div class="ph"><div class="l"><i>TIE</i>שלט שולחן · מקפלים לאורך הקו האמצעי</div><div class="r">1 לאולפן</div></div>
+  <div class="tent">
+    <div class="top"><span class="em">🕹️</span><b>אולפן</b><div class="nm"></div><p style="color:var(--muted)">ג׳אם הארקייד · Tech It Easy</p></div>
+    <div><span class="em">🕹️</span><b>אולפן</b><div class="nm"></div><p style="color:var(--muted)">ג׳אם הארקייד · Tech It Easy</p></div>
+  </div>
+  <p class="fold">✂ לגזור את המסגרת · לקפל בקו האמצעי · לכתוב את שם האולפן והאמוג׳י משני הצדדים</p>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>

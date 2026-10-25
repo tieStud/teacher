@@ -1,0 +1,1561 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>חדר העריכה: מצגת פיץ׳ ובדיקת המספרים | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+/* ===== TIE deck kit v2 · light theme "בהיר ורגוע" (2026-10-25) — same layout as Elections (topbar · deck · nav · contents rail) =====
+   Edit only the brand text, the <main id="deck"> slides and the HELP templates. Do not edit the engine.
+   Accent: every slide gets --accent (default teal). data-accent="#hex" recolors one slide; the old neon hexes
+   (#31e8ff #43e6a6 #9b7cff #ff6d83 #ff7ad9 #ff9f6e #ffd166 #6fa8ff) are mapped below to calm equivalents.
+   Use --accent for fills/stripes and --accent-ink for text on paper (auto-darkened, always readable). */
+:root{
+  --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#efebe4;
+  --ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+  --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+  --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+  --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;--hl:#fde68a;
+  /* readable text versions of the category colors */
+  --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;--pink-ink:#b4367f;
+  /* legacy names (old decks / lesson CSS) → light-theme values */
+  --text:var(--ink);--cyan:var(--teal);--green:var(--good);--yellow:var(--orange-ink);--red:var(--rose-ink);--pink:var(--pink-ink);
+  --brand:var(--teal);--accent-ink:var(--teal);--accent-soft:var(--teal-soft);--accent-line:#bfdcd7;
+  --shadow-sm:0 1px 2px rgba(31,42,55,.04),0 4px 14px rgba(31,42,55,.05);
+  --shadow:0 6px 18px rgba(31,42,55,.06);
+  --shadow-hover:0 10px 26px rgba(31,42,55,.10);
+  --shadow-lg:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.18);
+  --display:"Rubik",Arial,"Segoe UI",sans-serif;--body:"Heebo",Arial,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--body);color:var(--ink);background-color:var(--paper);background-image:
+ radial-gradient(900px 520px at 100% -10%,rgba(15,118,110,.035),transparent 62%),
+ radial-gradient(900px 520px at -5% 110%,rgba(244,162,89,.06),transparent 60%)}
+button,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:3px;border-radius:10px}
+::selection{background:var(--hl);color:var(--ink)}
+.app{width:min(1540px,97vw);height:100dvh;margin:auto;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) 250px;
+ grid-template-rows:auto minmax(0,1fr) 50px;grid-template-areas:"head rail" "deck rail" "nav rail";gap:10px 24px;overflow:hidden;direction:ltr}
+.app>*{direction:rtl}
+/* ---------- top bar ---------- */
+.topbar{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 14px;border:1px solid var(--line);
+ border-radius:18px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.3px;color:#fff;
+ background:linear-gradient(145deg,#14897f,var(--teal) 55%,var(--teal-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(15,118,110,.22);transition:.35s}
+.brand b{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.brand small{display:block;color:var(--muted);font-size:14.5px;margin-top:1px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.ghost{border:1px solid var(--line);border-radius:12px;padding:9px 15px;font-weight:700;color:var(--ink);background:var(--card);transition:background .18s,border-color .18s,color .18s,box-shadow .18s,transform .18s}
+.ghost:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--teal-deep);background:#fbfefd;box-shadow:var(--shadow-sm)}
+.btn{border:1px solid var(--teal-deep);color:#fff;background:linear-gradient(180deg,#13857b,var(--teal));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px rgba(15,118,110,.22)}
+.btn:hover{background:linear-gradient(180deg,var(--teal),var(--teal-deep));transform:translateY(-1px)}
+.btn:disabled,.ghost:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+/* ---------- deck + slides ---------- */
+.deck{grid-area:deck;min-height:0;position:relative}
+.slide{
+ --accent-ink:color-mix(in oklab,var(--accent) 62%,#1f2a37);
+ --accent-soft:color-mix(in srgb,var(--accent) 11%,#fff);--accent-wash:color-mix(in srgb,var(--accent) 8%,#fff);--accent-line:color-mix(in srgb,var(--accent) 32%,#fff);
+ display:none;height:100%;min-height:0;padding:clamp(22px,3.3vw,54px);border:1px solid var(--line);border-radius:28px;position:relative;overflow:auto;color:var(--ink);
+ background:
+  radial-gradient(circle at 3% 103%,var(--accent-wash) 0 170px,color-mix(in srgb,var(--accent) 4%,#fff) 171px 222px,transparent 223px),
+  linear-gradient(180deg,#ffffff,#fdfcf9 70%,#fbfaf6);
+ box-shadow:var(--shadow-lg)}
+/* per-slide accent: data-accent wins; old neon accents → calm light-theme colors */
+.slide:not([data-accent]){--accent:var(--teal)} /* (a data-accent slide inherits the engine's root --accent = its own hex) */
+.slide[data-accent="#31e8ff" i]{--accent:#0f766e}
+.slide[data-accent="#43e6a6" i]{--accent:#2f9e80}
+.slide[data-accent="#9b7cff" i]{--accent:#8c7ae6}
+.slide[data-accent="#ff6d83" i]{--accent:#e76f86}
+.slide[data-accent="#ff7ad9" i]{--accent:#d46bb3}
+.slide[data-accent="#ff9f6e" i]{--accent:#f4a259}
+.slide[data-accent="#ffd166" i]{--accent:#e3a82b}
+.slide[data-accent="#6fa8ff" i]{--accent:#4c8bd6}
+@supports (color:oklch(from red l c h)){.slide{--accent-ink:oklch(from var(--accent) min(l,.5) c h)}}
+.slide.active{display:flex;flex-direction:column;justify-content:safe center;animation:slideIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.center{align-items:center;text-align:center}
+.kicker{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:8px;padding:7px 15px 7px 14px;border-radius:999px;font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.1px;
+ border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+h1,h2,h3,p{margin-top:0}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.2vw,76px);line-height:1.08;letter-spacing:-.02em;margin:16px 0 14px;max-width:1150px;text-wrap:balance;color:var(--ink)}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,34px);margin:0 0 10px;color:var(--ink)}
+.lead{font-size:clamp(18px,1.9vw,27px);line-height:1.6;color:var(--muted);max-width:1050px}
+.lead b,.lead strong{color:var(--ink)}
+.big{font-family:var(--display);font-size:clamp(28px,3.8vw,54px);font-weight:800;line-height:1.28;letter-spacing:-.01em;max-width:1150px;text-wrap:balance}
+.cyan{color:var(--teal)}.violet{color:var(--violet-ink)}.green{color:var(--good)}.yellow{color:var(--orange-ink)}.red{color:var(--rose-ink)}.pink{color:var(--pink-ink)}.orange{color:var(--orange-ink)}
+.mark-hl{background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 92%,transparent 92%);padding:0 4px;border-radius:2px}
+/* ---------- hero (opening slide) ---------- */
+.hero h2{font-size:clamp(46px,7vw,104px);letter-spacing:-.03em}
+.hero::before{content:"";position:absolute;left:34px;top:30px;width:min(340px,30%);height:230px;pointer-events:none;
+ background:radial-gradient(circle,#d9d3c7 1.4px,transparent 1.9px) 0 0/22px 22px;
+ -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent);mask-image:radial-gradient(closest-side,#000 30%,transparent);opacity:.9}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .tags span{padding:9px 17px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:18px;color:var(--ink);box-shadow:var(--shadow-sm)}
+/* ---------- cards (white, category stripe) ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.card{--stripe:var(--orange);position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:20px 20px 20px;background:var(--card);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--stripe)}
+.cards>.card:nth-child(6n+2){--stripe:var(--mint)}.cards>.card:nth-child(6n+3){--stripe:var(--violet)}.cards>.card:nth-child(6n+4){--stripe:var(--rose)}
+.cards>.card:nth-child(6n+5){--stripe:var(--sky)}.cards>.card:nth-child(6n+6){--stripe:var(--teal)}
+.card .emoji{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;font-size:30px;line-height:1;background:color-mix(in srgb,var(--stripe) 13%,#fff);border:1px solid color-mix(in srgb,var(--stripe) 22%,#fff)}
+.card strong{display:block;font-family:var(--display);font-weight:700;font-size:23px;margin:10px 0 6px;color:var(--ink)}
+.card p{color:var(--muted);line-height:1.5;margin:0;font-size:18px}
+/* ---------- steps (numbered sequence) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px;counter-reset:st}
+.step{padding:20px 18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);counter-increment:st;position:relative}
+.step::before{content:counter(st);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;margin-bottom:12px;font-family:var(--display);font-weight:800;font-size:19px;
+ color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 28%,transparent)}
+.step strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin-bottom:4px;color:var(--ink)}.step p{color:var(--muted);margin:0;line-height:1.45}
+/* ---------- compare (two boxes) ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:20px;padding:20px 22px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(17px,1.8vw,24px);line-height:1.55;color:var(--ink)}
+.box .label{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.3px;line-height:1.5;margin-bottom:7px;padding:2px 11px;border-radius:999px;color:var(--muted);background:var(--paper2)}
+.box.bad{border-color:#f2cdbb;background:linear-gradient(180deg,#fff8f4,#fff)}.box.bad .label{color:var(--bad);background:var(--bad-bg)}
+.box.good{border-color:#bfe3cb;background:linear-gradient(180deg,#f3fbf6,#fff)}.box.good .label{color:var(--good);background:var(--good-bg)}
+/* ---------- prompt (text to type into an AI) ---------- */
+.prompt{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:18px 22px;margin-top:22px;background:#f8f6f1;
+ font-size:clamp(18px,2vw,27px);line-height:1.6;max-width:1150px;color:var(--ink);box-shadow:inset 0 1px 2px rgba(31,42,55,.04)}
+.prompt::before{content:"💬 ";}
+/* ---------- challenge / task box ---------- */
+.task{border:1px solid #f0dcaa;border-inline-start:5px solid #e3a82b;background:linear-gradient(180deg,#fffaf0,#fffdf8);border-radius:20px;padding:20px 24px;margin-top:22px;max-width:1150px;box-shadow:var(--shadow)}
+.task strong{font-family:var(--display);font-weight:700;font-size:24px;color:#8a5300;display:block;margin-bottom:6px}
+.task p,.task li{font-size:20px;color:var(--ink);line-height:1.55;margin:0}
+.task ol,.task ul{margin:6px 0 0;padding-inline-start:24px;display:grid;gap:5px}
+.task li::marker{color:#b7791f;font-weight:700}
+/* ---------- progressive reveal: every .reveal opens on "הבא" before the slide advances ---------- */
+.reveal{opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.reveal.show{opacity:1;transform:none;filter:none}
+.revealList{display:grid;gap:10px;margin-top:20px;max-width:1150px}
+.revealCard{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:16px;padding:13px 20px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(18px,1.9vw,25px);line-height:1.45;color:var(--ink)}
+.clickHint{margin-top:18px;color:var(--dim);font-weight:700;font-size:16px}
+.clickHint::before{content:"▸ ";color:var(--accent-ink)}
+/* ---------- quiz ---------- */
+.quiz .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:1200px}
+.option{display:flex;gap:14px;align-items:flex-start;text-align:right;border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--card);box-shadow:var(--shadow-sm);
+ color:var(--ink);font-size:clamp(17px,1.8vw,23px);line-height:1.45;transition:border-color .2s,box-shadow .2s,transform .2s,background .2s}
+.option:hover{border-color:var(--accent-line);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.option .letter{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.option.right{border-color:#86cfa0;background:var(--good-bg);box-shadow:0 0 0 3px rgba(21,128,61,.10)}.option.right .letter{background:var(--good);border-color:var(--good);color:#fff}
+.option.wrong{border-color:#efb69b;background:var(--bad-bg);animation:shake .35s}.option.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.explain{display:none;margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid #bfe3cb;background:var(--good-bg);color:#14532d;font-size:20px;line-height:1.5;max-width:1150px}
+.quiz.solved .explain{display:block;animation:slideIn .35s ease}
+/* ---------- true / false statements ---------- */
+.tf{display:grid;gap:10px;margin-top:18px;max-width:1150px}
+.tfRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(17px,1.8vw,23px);transition:.2s}
+.tfRow .tfBtns{display:flex;gap:6px}
+.tfRow button{border:1px solid var(--line);border-radius:10px;padding:7px 13px;background:var(--paper);color:var(--ink);font-weight:700;transition:.15s}
+.tfRow button[data-v="1"]:hover{border-color:#86cfa0;color:var(--good);background:#f6fcf8}.tfRow button[data-v="0"]:hover{border-color:#efb69b;color:var(--bad);background:#fffaf7}
+.tfRow .tfNote{grid-column:1/-1;display:none;color:var(--muted);font-size:17px}
+.tfRow.done .tfNote{display:block}
+.tfRow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}.tfRow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+/* ---------- vote with counters + bars ---------- */
+.vote{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.voteItem{border:1px solid var(--line);border-radius:20px;padding:16px;background:var(--card);box-shadow:var(--shadow);text-align:center;transition:border-color .25s,box-shadow .25s}
+.voteItem .emoji{font-size:38px}.voteItem strong{display:block;font-family:var(--display);font-weight:700;font-size:21px;margin:6px 0 10px;color:var(--ink)}
+.voteCtl{display:flex;align-items:center;justify-content:center;gap:10px}
+.voteCtl button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:22px;font-weight:700;line-height:1;transition:.15s}
+.voteCtl button:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.voteCtl output{min-width:42px;font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bar{height:10px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .4s}
+.voteItem.lead1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow-hover)}
+/* ---------- timer ---------- */
+.timer{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 12px 8px 18px;border-radius:16px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);width:max-content}
+.timer output{font-family:var(--display);font-size:clamp(30px,3.6vw,48px);font-weight:800;font-variant-numeric:tabular-nums;min-width:4ch;text-align:center;color:var(--ink)}
+.timer.running output{color:var(--accent-ink)}.timer.over output{color:var(--bad)}
+.timer.over{border-color:#efb69b;background:#fffaf7}
+/* ---------- table ---------- */
+.tableWrap{overflow:auto;margin-top:18px;border:1px solid var(--line);border-radius:18px;max-width:1200px;background:var(--card);box-shadow:var(--shadow)}
+table.t{border-collapse:collapse;width:100%;font-size:clamp(16px,1.7vw,22px);color:var(--ink)}
+table.t th,table.t td{padding:12px 16px;border-bottom:1px solid var(--line2);text-align:right}
+table.t tr:last-child td{border-bottom:0}
+table.t th{font-family:var(--display);color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--line)}
+table.t td[contenteditable]{background:#fffef9;min-width:70px}
+table.t td[contenteditable]:focus{outline:2px solid color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;background:#fff}
+/* ---------- code / password slide ---------- */
+.codeBig{font-family:var(--display);font-size:clamp(70px,12vw,170px);font-weight:800;letter-spacing:.08em;color:var(--accent-ink);line-height:1.05}
+/* ---------- image ---------- */
+.figure{margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);max-width:min(900px,100%);background:var(--card);box-shadow:var(--shadow)}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{padding:9px 14px;color:var(--muted);font-size:14px;background:var(--paper2);border-top:1px solid var(--line)}
+/* ---------- help (instructions for the class, in a popup) ---------- */
+.helpBtn{position:absolute;left:22px;top:22px;width:46px;height:46px;border-radius:50%;border:1px solid #efd9a0;background:var(--warn-bg);color:var(--warn);font-family:var(--display);font-weight:800;font-size:21px;z-index:2;box-shadow:var(--shadow-sm);transition:.18s}
+.helpBtn:hover{transform:scale(1.06);box-shadow:var(--shadow-hover)}
+.modal{position:fixed;inset:0;background:rgba(31,42,55,.34);backdrop-filter:blur(3px);display:none;place-items:center;z-index:100;padding:20px}.modal.show{display:grid}
+.modalBox{width:min(660px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:22px;background:var(--card);padding:26px 28px;box-shadow:0 30px 80px -20px rgba(31,42,55,.35);direction:rtl;color:var(--ink);animation:slideIn .3s ease}
+.modalBox h3{font-size:28px}.modalBox ol,.modalBox ul{line-height:1.75;color:var(--ink);font-size:19px}
+.modalBox li::marker{color:var(--brand);font-weight:700}
+.modalClose{float:left}
+/* ---------- bottom nav ---------- */
+.nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:6px 8px;border:1px solid var(--line);border-radius:16px;
+ background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm)}
+.navSide{display:flex;gap:8px}.counter{color:var(--muted);font-family:var(--display);font-weight:600;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.progress{flex:1;height:6px;border-radius:99px;background:#ece8e1;overflow:hidden;max-width:520px}
+.progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .35s}
+/* ---------- contents rail (built automatically from data-topic / data-title) ---------- */
+.rail{grid-area:rail;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 4px;overflow:auto}
+.railGroup{--tci:color-mix(in oklab,var(--tc,var(--brand)) 62%,#1f2a37);display:grid;gap:4px}
+@supports (color:oklch(from red l c h)){.railGroup{--tci:oklch(from var(--tc,var(--brand)) min(l,.6) c h)}}
+.railTopic{position:relative;padding:7px 12px 7px 10px;border-radius:12px;border:1px solid transparent;font-family:var(--display);font-size:18px;line-height:1.2;font-weight:600;cursor:pointer;
+ color:var(--ink);opacity:.32;filter:blur(2.5px);transition:opacity .3s,filter .3s,background .3s,border-color .3s,box-shadow .3s,color .3s}
+.railTopic::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:9px;vertical-align:middle;background:var(--tci);opacity:.55;transform:translateY(-1px)}
+.railGroup.seen .railTopic{filter:none;opacity:.62;color:var(--muted)}
+.railGroup.active .railTopic{filter:none;opacity:1;color:var(--ink);font-weight:700;background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.railGroup.active .railTopic::before{opacity:1;box-shadow:0 0 0 4px color-mix(in srgb,var(--tci) 16%,transparent)}
+.railGroup:hover .railTopic{filter:none;opacity:1}
+.railSub{display:none;margin:2px 15px 4px 0;padding-right:13px;border-right:2px solid color-mix(in srgb,var(--tci) 28%,var(--line));gap:2px}
+.railGroup.active .railSub{display:grid}
+.railItem{font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:8px;transition:.2s}
+.railItem:hover{color:var(--ink);background:rgba(31,42,55,.04)}
+.railItem.active{color:var(--ink);font-weight:700}.railItem.active::before{content:"● ";color:var(--tci)}
+/* short projectors (1366×768, 1280×720): tighter vertical rhythm, same look */
+@media (max-height:800px){
+ .app{padding:8px 0;gap:8px 22px;grid-template-rows:auto minmax(0,1fr) 46px}
+ .topbar{padding:6px 10px 6px 12px}.mark{width:38px;height:38px;border-radius:11px;font-size:15px}.brand b{font-size:19px}.brand small{font-size:13.5px}
+ .btn,.ghost{padding:7px 13px}
+ .slide{padding:20px 32px}
+ h2{font-size:clamp(30px,4.2vw,58px);margin:10px 0 10px}
+ .hero h2{font-size:clamp(44px,6.4vw,92px)}
+ .big{font-size:clamp(26px,3.4vw,46px)}
+ .lead{font-size:clamp(17px,1.6vw,22px);line-height:1.5}
+ .kicker{font-size:14px;padding:5px 12px}
+ .cards{margin-top:14px;gap:12px}.card{padding:16px 16px 14px}.card .emoji{width:46px;height:46px;border-radius:13px;font-size:25px}.card strong{font-size:20px;margin:8px 0 4px}.card p{font-size:16px}
+ .steps{margin-top:14px;gap:10px}.step{padding:14px}.step::before{width:34px;height:34px;margin-bottom:8px;font-size:17px}.step strong{font-size:19px}
+ .revealList{margin-top:12px;gap:8px}.revealCard{padding:10px 16px;font-size:clamp(17px,1.7vw,22px)}
+ .tf{gap:7px;margin-top:10px}.tfRow{padding:8px 14px;font-size:clamp(16px,1.7vw,21px)}.tfRow button{padding:5px 10px}.tfRow .tfNote{font-size:15px}
+ .quiz .options{margin-top:12px;gap:9px}.option{padding:10px 14px;font-size:clamp(16px,1.6vw,20px)}.option .letter{width:32px;height:32px}
+ .explain{margin-top:10px;padding:10px 14px;font-size:17px}
+ .compare{margin-top:12px;gap:12px}.box{padding:12px 16px;font-size:clamp(16px,1.6vw,21px)}
+ .prompt{padding:12px 18px;margin-top:12px;font-size:clamp(17px,1.7vw,22px)}
+ .task{margin-top:12px;padding:14px 18px}.task strong{font-size:21px}.task p,.task li{font-size:18px}
+ .vote{margin-top:12px}.voteItem{padding:12px}.voteItem .emoji{font-size:30px}.voteItem strong{margin:4px 0 8px}
+ .timer{margin-top:12px;padding:6px 10px 6px 14px}.timer output{font-size:32px}
+ .tableWrap{margin-top:12px}table.t th,table.t td{padding:8px 14px}
+ .hero::before{height:180px}
+}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "deck" "nav"}.rail{display:none}}
+@media (max-width:760px){.quiz .options,.compare{grid-template-columns:1fr}.brand small{display:none}.slide{border-radius:20px}.hero::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ===== מצגת פיץ׳ ובדיקת המספרים · חדר העריכה (RICH90) — lesson additions; the kit styles above are untouched ===== */
+.slide.tight h2{font-size:clamp(30px,4vw,56px);margin:10px 0 8px}
+.tightLead{margin:0 0 4px}
+.note{margin-top:16px;padding:11px 18px;border-radius:14px;border:1px solid #efd9a0;background:var(--warn-bg);color:#6b4500;font-size:clamp(16px,1.6vw,21px);line-height:1.5;max-width:1150px}
+.note.bad{border-color:#f2cdbb;background:var(--bad-bg);color:#8a2f0a}
+.note.good{border-color:#bfe3cb;background:var(--good-bg);color:#14532d}
+.note.teal{border-color:var(--accent-line);background:var(--accent-soft);color:var(--teal-deep)}
+.center .note,.center .cards,.center .revealList{margin-inline:auto}
+.center .revealList{width:min(100%,960px)}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start;max-width:1200px}
+.row2.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.taskRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;max-width:1180px}
+.taskRow .timer{margin-bottom:2px}
+.sideStack{display:grid;gap:10px;justify-items:start}
+.light{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-family:var(--display);font-weight:700;font-size:17px;border:1px solid var(--line);background:var(--card)}
+.light.y{background:var(--warn-bg);border-color:#efd9a0;color:var(--warn)}
+.light.g{background:var(--good-bg);border-color:#bfe3cb;color:var(--good)}
+.light.r{background:var(--bad-bg);border-color:#f2cdbb;color:var(--bad)}
+.milestones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:1180px}
+.milestones div{border:1px dashed var(--accent-line);background:var(--accent-wash,#f6fbfa);border-radius:16px;padding:12px 16px;font-size:clamp(16px,1.6vw,21px);line-height:1.45}
+.milestones b{display:block;font-family:var(--display);color:var(--accent-ink);font-size:.9em;margin-bottom:2px}
+/* hero: red-pen slide */
+.heroGrid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:center}
+.journey{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:20px;max-width:900px}
+.journey span{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-weight:700;font-size:clamp(14px,1.3vw,17px);box-shadow:var(--shadow-sm)}
+.journey i{font-style:normal;color:var(--dim);font-weight:700}
+.journey span.now{background:var(--teal);border-color:var(--teal-deep);color:#fff;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.redpen{position:relative;width:360px;height:300px;flex:none}
+.redpen .sheet{position:absolute;inset:18px 10px 40px 30px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow-lg);transform:rotate(-4deg);padding:22px 24px;display:flex;flex-direction:column;gap:8px}
+.redpen .sheet.back{transform:rotate(5deg) translate(-10px,8px);background:#fbfaf7;box-shadow:var(--shadow)}
+.redpen .sheet::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;border-radius:14px 14px 0 0;background:var(--orange)}
+.redpen .st{font:800 24px var(--display);color:var(--ink)}
+.redpen .big95{font:800 64px var(--display);color:var(--sky-ink);line-height:1;margin-top:6px}
+.redpen .sub{color:var(--muted);font-size:16px}
+.redpen svg{position:absolute;right:18px;top:64px;width:210px;height:110px;overflow:visible}
+.redpen svg path{fill:none;stroke:#d9363e;stroke-width:4;stroke-linecap:round;stroke-dasharray:640;stroke-dashoffset:640;animation:penDraw 1.3s .5s ease forwards}
+@keyframes penDraw{to{stroke-dashoffset:0}}
+.redpen .postit{position:absolute;left:-6px;bottom:0;width:170px;padding:12px 14px;background:#fde68a;border-radius:4px;box-shadow:0 10px 22px rgba(31,42,55,.16);transform:rotate(6deg);font:700 18px var(--display);color:#5a3f00;line-height:1.3}
+.redpen .postit small{display:block;font:500 13px var(--body);color:#6b4f00;margin-top:4px}
+/* email from the fund */
+.mail{max-width:980px;margin-top:14px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-lg);overflow:hidden}
+.mail .mh{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 20px;background:var(--paper2);border-bottom:1px solid var(--line)}
+.mail .av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:#fff;font:800 17px var(--display)}
+.mail .from b{display:block;font-family:var(--display);font-size:19px}.mail .from small{color:var(--muted);font-size:15px}
+.mail .flag{font-size:14px;font-weight:700;color:var(--bad);background:var(--bad-bg);border-radius:999px;padding:3px 12px}
+.mail .mb{padding:16px 22px 18px;font-size:clamp(17px,1.75vw,23px);line-height:1.55}
+.mail .mb p{margin:0 0 8px}
+.mail .mb .rule{display:flex;gap:10px;align-items:baseline;padding:8px 12px;margin:6px 0;border-radius:12px;background:#fff8f4;border:1px solid #f2cdbb}
+.mail .mb .rule b{color:var(--bad)}
+.mail .sign{color:var(--muted);font-size:.85em}
+/* mini slide mock-ups */
+.mini{container-type:inline-size;aspect-ratio:16/9;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:var(--shadow-sm);padding:6% 7%;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden;position:relative;text-align:right}
+.mini .mt{font-family:var(--display);font-weight:800;color:var(--ink);line-height:1.12;font-size:8.5cqi}
+.mini .ms{color:var(--muted);line-height:1.35;font-size:5.4cqi}
+.mini .me{font-size:14cqi;line-height:1}
+.mini .num{position:absolute;top:4cqi;left:5cqi;font:700 5cqi var(--display);color:var(--dim)}
+.mini.busy{justify-content:flex-start;gap:4px;padding:4% 5%;background:linear-gradient(135deg,#fff7e8,#fdeef3 60%,#eef4ff)}
+.mini.busy .mt{font-size:5.2cqi;color:#be3455;text-decoration:underline}
+.mini.busy ul{margin:0;padding-inline-start:5cqi;display:grid;gap:.6cqi}
+.mini.busy li{font-size:3.6cqi;line-height:1.3;color:#2f6db5}
+.mini.busy li:nth-child(2n){color:#6a55c9}.mini.busy li b{color:#c2410c;font-size:4.4cqi}
+.mini .clutter{position:absolute;font-size:7cqi;opacity:.9}
+.mini .c1{bottom:3cqi;left:4cqi}.mini .c2{bottom:4cqi;left:16cqi;transform:rotate(-14deg)}.mini .c3{top:2cqi;left:3cqi}.mini .c4{bottom:2cqi;left:28cqi}
+.mini.clear{align-items:center;text-align:center;gap:8px}
+.mini.clear .mt{font-size:10.5cqi}.mini.clear .ms{font-size:6cqi;max-width:80%}.mini.clear .me{font-size:15cqi}
+.pairVote{grid-template-columns:1fr 1fr;max-width:1000px}
+.pairVote .voteItem{padding:14px 14px 12px}
+.pairVote .mini{max-width:420px;margin:0 auto;transition:filter .35s}
+.pairVote.hid .mini{filter:blur(16px) saturate(.4)}
+.pairVote .voteItem strong{margin:8px 0 6px}
+.ctlRow{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:6px}
+.ctlRow .lead{margin:0;font-size:clamp(16px,1.6vw,21px)}
+.flashBtn{font-size:19px;padding:11px 20px}
+.flashCount{font:800 34px var(--display);color:var(--accent-ink);min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+/* today's mission: 3 deliverables */
+.deliv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px;max-width:1180px}
+.deliv .card{padding:18px 20px}
+.deliv .card .k{display:inline-block;font:700 14px var(--display);color:var(--muted);background:var(--paper2);border-radius:999px;padding:2px 10px;margin-top:8px}
+/* roles today */
+.roles5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
+.roles5 .card{padding:16px 14px}
+.roles5 .card strong{font-size:20px;margin:8px 0 4px}
+.roles5 .card p{font-size:16px}
+.roles5 .deskTag{display:block;margin-top:8px;font:700 14px var(--display);color:color-mix(in oklab,var(--stripe) 58%,#1f2a37);background:color-mix(in srgb,var(--stripe) 12%,#fff);border-radius:10px;padding:4px 8px}
+/* link slot */
+.linkSlot{display:inline-block;min-width:min(520px,80%);padding:10px 18px;border:2px dashed var(--accent-line);border-radius:14px;background:#fff;font:800 clamp(22px,2.6vw,36px) var(--display);color:var(--accent-ink);direction:ltr;text-align:center}
+.linkSlot:empty::before{content:attr(data-ph);color:var(--dim);font-weight:600;font-size:.7em}
+.linkRow{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:14px}
+.fname{display:inline-block;padding:8px 14px;border-radius:12px;background:var(--paper2);border:1px solid var(--line);font:700 clamp(16px,1.6vw,21px) var(--display);color:var(--ink)}
+/* story puzzle */
+.puzzle{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-top:16px;max-width:1200px}
+.ptile{position:relative;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:16px 10px 14px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;color:var(--ink);font:inherit}
+.ptile:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.ptile .pe{display:block;font-size:34px;line-height:1}
+.ptile b{display:block;font-family:var(--display);font-size:clamp(16px,1.5vw,21px);margin-top:8px}
+.ptile small{display:block;color:var(--muted);font-size:clamp(13px,1.1vw,15px);margin-top:3px;line-height:1.3}
+.ptile .pn{position:absolute;top:-12px;right:-8px;width:34px;height:34px;border-radius:50%;display:none;place-items:center;font:800 17px var(--display);color:#fff;background:var(--accent-ink);box-shadow:0 4px 10px rgba(31,42,55,.18)}
+.ptile.picked .pn{display:grid}
+.ptile.picked{border-color:var(--accent-line);background:var(--accent-soft)}
+.ptile.ok{border-color:#86cfa0;background:var(--good-bg)}.ptile.ok .pn{background:var(--good)}
+.ptile.no{border-color:#efb69b;background:var(--bad-bg)}.ptile.no .pn{background:var(--bad)}
+.ptile .fix{display:none;margin-top:6px;font:700 13px var(--display);color:var(--bad)}
+.ptile.no .fix{display:block}
+.pctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.pmsg{font:700 clamp(16px,1.6vw,21px) var(--display);color:var(--muted)}
+.pmsg.win{color:var(--good)}
+/* filmstrip example */
+.film{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1200px}
+.film .mini{aspect-ratio:16/10;padding:6% 7%;gap:5px;box-shadow:var(--shadow)}
+.film .mini::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c,var(--teal))}
+.film .mini .mt{font-size:10cqi}.film .mini .ms{font-size:7cqi}.film .mini .me{font-size:12cqi}
+.film .mini .lab{position:absolute;bottom:4cqi;left:5cqi;font-size:5.6cqi;font-weight:700;border-radius:99px;padding:.4cqi 2.6cqi}
+/* label chips */
+.lb{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 11px;font-weight:700;font-size:.82em;white-space:nowrap;border:1px solid transparent;vertical-align:middle}
+.lb.src,.lab.src{background:var(--good-bg);color:var(--good);border-color:#bfe3cb}
+.lb.calc,.lab.calc{background:#e7f0fa;color:var(--sky-ink);border-color:#c9dbf2}
+.lb.fic,.lab.fic{background:var(--warn-bg);color:var(--warn);border-color:#efd9a0}
+.lb.todo,.lab.todo{background:#efecfb;color:var(--violet-ink);border-color:#d9d2f6}
+.lb.orph,.lab.orph{background:var(--bad-bg);color:var(--bad);border-color:#f2cdbb}
+.labels4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px;max-width:1200px}
+.labels4 .card strong{font-size:22px}
+.labels4 .card .ex{margin-top:8px;padding:8px 10px;border-radius:12px;background:var(--paper);border:1px solid var(--line2);font-size:16px;line-height:1.4;color:var(--ink)}
+.labels4 .card:nth-child(1){--stripe:var(--good)}.labels4 .card:nth-child(2){--stripe:var(--sky)}.labels4 .card:nth-child(3){--stripe:#e3a82b}.labels4 .card:nth-child(4){--stripe:var(--violet)}
+.orphan{display:flex;gap:14px;align-items:center;margin-top:16px;max-width:1200px;padding:12px 18px;border-radius:16px;border:1.5px dashed #efb69b;background:#fffaf7;font-size:clamp(17px,1.7vw,22px);line-height:1.45}
+.orphan .oi{font-size:38px;line-height:1}
+/* label game */
+.lgame{display:grid;gap:9px;margin-top:14px;max-width:1200px}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px 14px;background:var(--card);box-shadow:var(--shadow-sm);font-size:clamp(16px,1.65vw,21px);transition:.2s}
+.lrow .lbtns{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.lrow .lbtns button{border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--paper);color:var(--ink);font-weight:700;font-size:15px;transition:.15s}
+.lrow .lbtns button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.lrow .lnote{grid-column:1/-1;display:none;color:var(--muted);font-size:16px}
+.lrow.done .lnote{display:block}
+.lrow.done.ok{border-color:#86cfa0;background:linear-gradient(180deg,#f2fbf5,#fff)}
+.lrow.done.no{border-color:#efb69b;background:linear-gradient(180deg,#fff6f1,#fff)}
+.lrow button.pick{outline:2px solid var(--ink);outline-offset:1px}
+/* case study: Better Place */
+.caseGrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:20px;align-items:start;max-width:1220px;margin-top:10px}
+.vision{border:1px solid var(--line);border-radius:20px;padding:18px 20px;background:linear-gradient(180deg,#f3f8ff,#fff);box-shadow:var(--shadow)}
+.vision>b{display:block;font-family:var(--display);font-size:20px;margin-bottom:6px;color:var(--sky-ink)}
+.vision p{margin:0 0 6px;font-size:clamp(16px,1.55vw,20px);line-height:1.5}
+.vision .q{margin-top:8px;font-style:italic;color:var(--muted);font-size:16px}
+.facts4{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fact{border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:var(--card);box-shadow:var(--shadow-sm)}
+.fact .fn{font:800 clamp(28px,3.1vw,44px) var(--display);color:var(--accent-ink);line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fact .fn small{font-size:.5em;font-weight:700}
+.fact .fl{color:var(--ink);font-size:clamp(15px,1.4vw,18px);line-height:1.4;margin-top:4px}
+.fact.bad .fn{color:var(--bad)}
+.srcLine{font-size:13px;color:var(--dim);margin-top:8px}
+.askQ{margin-top:12px;max-width:1220px;padding:12px 18px;border-radius:16px;background:var(--accent-soft);border:1px solid var(--accent-line);font:700 clamp(18px,1.9vw,25px) var(--display);color:var(--ink)}
+/* AI chat bubble mock */
+.chat{display:flex;gap:12px;align-items:flex-start;margin-top:12px;max-width:1000px}
+.chat .av{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font:800 18px var(--display);color:#fff;background:linear-gradient(145deg,#4c8bd6,#6a55c9)}
+.chat .bubble{border:1px solid var(--line);background:#fff;border-radius:18px;border-start-start-radius:4px;padding:12px 18px;font-size:clamp(17px,1.8vw,24px);line-height:1.5;box-shadow:var(--shadow-sm)}
+.chat .bubble small{display:block;color:var(--dim);font-size:14px;font-weight:700;margin-bottom:2px}
+.chat .bubble .sus{background:linear-gradient(transparent 56%,#f9c9b6 56%,#f9c9b6 92%,transparent 92%);padding:0 3px}
+/* prompt with copy button */
+.prompt{position:relative;padding-left:124px}
+.prompt.small{font-size:clamp(16px,1.55vw,21px);margin-top:12px}
+.copyBtn{position:absolute;left:12px;top:12px;font-size:15px;padding:7px 11px}
+.copyBtn.done{border-color:#86cfa0;color:var(--good);background:var(--good-bg)}
+.pLabel{display:block;font:700 14px var(--display);color:var(--accent-ink);margin-bottom:2px}
+/* rubric table + score table */
+table.t.rub td,table.t.rub th{font-size:clamp(14px,1.3vw,17px);padding:9px 12px;vertical-align:top}
+table.t.rub td:first-child{font-family:var(--display);font-weight:700;white-space:nowrap}
+table.t.rub th.l1{background:#fbf3ee}table.t.rub th.l2{background:#fdf8ea}table.t.rub th.l3{background:#eef7f2}table.t.rub th.l4{background:#e8f3f1}
+table.t.score td,table.t.score th{padding:8px 14px;font-size:clamp(15px,1.45vw,19px)}
+table.t.score td.pts{font-family:var(--display);font-weight:800;white-space:nowrap;color:var(--accent-ink)}
+table.t.score td.neg{color:var(--bad)}
+table.t.score tr.sep td{background:var(--paper);font-family:var(--display);font-weight:700;color:var(--muted);font-size:15px;padding:5px 14px}
+/* challenge rules */
+.chal{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;max-width:1200px;margin-top:8px}
+.chal .task{margin-top:0}
+.goalBox{border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:20px;padding:16px 20px}
+.goalBox b{display:block;font-family:var(--display);font-size:20px;color:var(--accent-ink);margin-bottom:4px}
+.goalBox p{margin:0 0 8px;font-size:clamp(16px,1.6vw,20px);line-height:1.5}
+.deckList{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.deckList span{padding:4px 10px;border-radius:10px;background:#fff;border:1px solid var(--line);font-weight:700;font-size:15px}
+.deckList span.x{border-style:dashed;color:var(--muted)}
+/* jigsaw desks */
+.desks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.desk{--c:var(--teal);position:relative;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:16px 14px 14px;overflow:hidden}
+.desk::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
+.desk .di{font-size:32px;line-height:1}
+.desk b{display:block;font-family:var(--display);font-size:19px;margin:6px 0 2px}
+.desk .who{display:inline-block;font:700 13px var(--display);color:#fff;background:var(--c);border-radius:999px;padding:2px 10px;margin-bottom:6px}
+.desk p{margin:0;color:var(--muted);font-size:15px;line-height:1.4}
+.desk .own{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.desk .own span{font-size:13px;font-weight:700;background:var(--paper);border:1px solid var(--line2);border-radius:8px;padding:2px 7px;color:var(--ink)}
+.d1{--c:#8c7ae6}.d2{--c:#15803d}.d3{--c:#0f766e}.d4{--c:#f4a259}.d5{--c:#e76f86}
+.jsteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;max-width:1220px}
+.jsteps div{border:1px solid var(--line);border-radius:16px;padding:12px 16px;background:#fff;box-shadow:var(--shadow-sm);font-size:clamp(15px,1.5vw,19px);line-height:1.45}
+.jsteps b{display:block;font-family:var(--display);color:var(--accent-ink);font-size:.95em}
+.order{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.order span{padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:clamp(15px,1.5vw,19px);box-shadow:var(--shadow-sm)}
+.order i{font-style:normal;color:var(--dim);font-weight:800}
+/* spinner (expert check) */
+.spin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:18px;margin-top:14px;max-width:1220px;align-items:stretch}
+.spinBox{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;text-align:center}
+.spinTeam{font:800 clamp(26px,3vw,40px) var(--display);color:var(--ink);min-height:1.3em}
+.spinDesk{font:700 clamp(17px,1.7vw,22px) var(--display);color:var(--accent-ink);min-height:1.3em}
+.spinBox.rolling .spinTeam,.spinBox.rolling .spinDesk{opacity:.55}
+.qBox{border:1px solid var(--accent-line);border-radius:22px;background:var(--accent-soft);padding:18px 22px;display:flex;flex-direction:column;gap:10px}
+.qBox .qq{font:700 clamp(19px,2vw,27px) var(--display);line-height:1.35;color:var(--ink);min-height:2.6em}
+.qBox .qa{display:none;padding:10px 14px;border-radius:14px;background:var(--good-bg);border:1px solid #bfe3cb;color:#14532d;font-size:clamp(16px,1.6vw,20px);line-height:1.45}
+.qBox.showA .qa{display:block}
+.qBox .qbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.spinRule{color:var(--muted);font-size:15px}
+/* tool steps (compact) */
+.tsteps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;margin-top:14px;max-width:1220px;counter-reset:ts}
+.tstep{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:16px;background:#fff;padding:11px 14px;box-shadow:var(--shadow-sm);counter-increment:ts}
+.tstep::before{content:counter(ts);width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font:800 16px var(--display);color:#fff;background:var(--accent-ink)}
+.tstep b{display:block;font-family:var(--display);font-size:clamp(16px,1.5vw,19px)}
+.tstep span{color:var(--muted);font-size:clamp(14px,1.3vw,16.5px);line-height:1.4}
+.url{direction:ltr;unicode-bidi:isolate;font-family:var(--display);font-weight:700;color:var(--accent-ink)}
+/* checker tool */
+.chk{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;margin-top:12px;max-width:1220px}
+.chkIn{display:grid;gap:8px}
+.chkIn label{font:700 15px var(--display);color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.chkIn label output{font-weight:800;border-radius:999px;padding:0 10px;background:var(--paper2);color:var(--muted)}
+.chkIn label output.ok{background:var(--good-bg);color:var(--good)}.chkIn label output.over{background:var(--bad-bg);color:var(--bad)}
+.chkIn input,.chkIn textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-size:clamp(16px,1.5vw,19px);color:var(--ink);background:#fff;resize:none}
+.chkIn textarea{height:96px;line-height:1.45}
+.chkIn input:focus,.chkIn textarea:focus,.auditCalc input:focus,.auditCalc select:focus{outline:2px solid color-mix(in srgb,var(--teal) 50%,transparent);outline-offset:1px}
+.chkOut{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.chkOut h3{font-size:20px;margin:0}
+.numList{display:grid;gap:6px;max-height:220px;overflow:auto}
+.numList div{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:12px;border:1px solid var(--line2);background:#fff;font-size:16px}
+.numList div b{font-family:var(--display);font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+.numList .empty{color:var(--dim);border-style:dashed;justify-content:center}
+.chkSum{font:700 17px var(--display);padding:8px 12px;border-radius:12px;background:var(--paper2)}
+.chkSum.ok{background:var(--good-bg);color:var(--good)}.chkSum.bad{background:var(--bad-bg);color:var(--bad)}
+/* scoreboard */
+.sb{display:grid;gap:7px;margin-top:12px;max-width:1150px}
+.sbRow{display:grid;grid-template-columns:44px minmax(150px,230px) minmax(0,1fr) 62px auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:7px 12px;box-shadow:var(--shadow-sm);transition:border-color .3s,box-shadow .3s}
+.sbRow.r1{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.14),var(--shadow)}
+.sbRank{font:800 22px var(--display);text-align:center}
+.sbName{display:flex;gap:8px;align-items:center;font:700 clamp(17px,1.6vw,21px) var(--display);min-width:0}
+.sbName [contenteditable]{outline:none;border-bottom:1px dashed transparent;min-width:3ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbName [contenteditable]:hover,.sbName [contenteditable]:focus{border-bottom-color:var(--dim)}
+.sbBar{height:12px;border-radius:99px;background:var(--paper2);overflow:hidden}
+.sbBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--teal));transition:width .45s}
+.sbPts{font:800 26px var(--display);text-align:center;font-variant-numeric:tabular-nums}
+.sbBtns{display:flex;gap:4px}
+.sbBtns button{border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font-weight:700;font-size:14px;padding:4px 8px;min-width:38px}
+.sbBtns button:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.sbBtns button.minus{color:var(--bad)}
+.sbTools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.sbTools .ghost{padding:6px 12px;font-size:15px}
+.hintS{color:var(--dim);font-size:14px;font-weight:700}
+/* audit calculator */
+.auditCalc{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;margin-top:12px;max-width:1220px}
+.acForm{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;display:grid;gap:9px}
+.acPair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
+.acPair .arr{font:800 22px var(--display);color:var(--dim);padding-bottom:8px}
+.acF{display:grid;gap:3px}
+.acF label{font:700 14px var(--display);color:var(--muted)}
+.auditCalc select,.auditCalc input{border:1px solid var(--line);border-radius:11px;padding:7px 10px;font-size:17px;color:var(--ink);background:#fff;width:100%}
+.acNums{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.acNums input{text-align:center;font-family:var(--display);font-weight:800;font-size:20px}
+.acPrev{font-size:16px;line-height:1.5;padding:8px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line2)}
+.acPrev b{font-family:var(--display)}
+.acPrev .plus{color:var(--good)}.acPrev .minus{color:var(--bad)}
+.acLog{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:6px;max-height:330px;overflow:auto}
+.acLog h3{font-size:19px;margin:0 0 2px}
+.acLog .le{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 10px;border-radius:12px;border:1px solid var(--line2);font-size:15px;line-height:1.4}
+.acLog .le button{font-size:13px;padding:3px 9px}
+.acLog .empty{color:var(--dim);font-size:15px}
+.timers2{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:6px}
+.timers2 .timer{margin-top:0}
+.timers2 .tl{font:700 15px var(--display);color:var(--muted)}
+/* golden-slide vote */
+.gvote{display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:10px;margin-top:12px;max-width:1220px}
+.gItem{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm);padding:10px 10px 12px;text-align:center;transition:border-color .25s,box-shadow .25s}
+.gItem.top{border-color:#e3b341;box-shadow:0 0 0 4px rgba(227,168,43,.16),var(--shadow)}
+.gItem b{display:block;font:700 18px var(--display);margin:2px 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gItem .gc{display:flex;align-items:center;justify-content:center;gap:8px}
+.gItem .gc button{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:var(--paper);font-size:20px;font-weight:700;color:var(--ink)}
+.gItem .gc output{min-width:36px;font:800 26px var(--display);font-variant-numeric:tabular-nums}
+.gItem .gbar{height:8px;border-radius:99px;background:var(--paper2);overflow:hidden;margin-top:8px}
+.gItem .gbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f4c95d,#e3a82b);transition:width .4s}
+.gItem .prize{display:block;margin-top:6px;font:800 15px var(--display);color:#8a5300;min-height:1.2em}
+.gctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.gctl .msg{color:var(--muted);font-weight:700}
+/* awards */
+.awards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px;max-width:1220px}
+.award{border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);padding:12px 14px;text-align:center}
+.award .ai{font-size:30px;line-height:1}
+.award b{display:block;font:700 18px var(--display);margin:6px 0 2px}
+.award small{display:block;color:var(--muted);font-size:14px;line-height:1.35}
+.award .who{margin-top:8px;min-height:1.6em;border-bottom:2px dashed var(--line);font:800 19px var(--display);color:var(--accent-ink);outline:none}
+.award .who:empty::before{content:"לחצו לכתוב";color:var(--dim);font-weight:500;font-size:15px}
+/* movement */
+.moveQ{display:grid;gap:10px;margin-top:14px;max-width:1100px}
+.moveQ .mq{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow-sm);padding:10px 16px;font-size:clamp(17px,1.75vw,23px)}
+.moveQ .mq .n{font:800 20px var(--display);color:var(--accent-ink)}
+.moveQ .mq .ans{font:700 16px var(--display);white-space:nowrap}
+/* side tasks */
+.sideCards .card strong{font-size:20px}
+.sideCards .card .pts{display:inline-block;margin-top:8px;font:800 14px var(--display);color:#8a5300;background:var(--warn-bg);border-radius:999px;padding:2px 10px}
+/* submission checklist */
+.subGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:10px;max-width:1220px}
+.checkList{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.checkList li{display:flex;gap:10px;align-items:flex-start;font-size:clamp(15px,1.5vw,19px);line-height:1.4;cursor:pointer;user-select:none}
+.checkList li::before{content:"";flex:none;width:22px;height:22px;border:2px solid var(--dim);border-radius:6px;margin-top:1px;background:#fff}
+.checkList li.on::before{content:"✓";display:grid;place-items:center;color:#fff;background:var(--good);border-color:var(--good);font-weight:800;font-size:15px}
+.panel{border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:14px 18px}
+.panel h3{font-size:20px;margin:0 0 8px}
+.aiLine{margin-top:10px;padding:10px 14px;border-radius:14px;background:#fce9ed;border:1px solid #f3c9d2;font-size:clamp(15px,1.5vw,19px);line-height:1.45}
+/* closing */
+.verdict{max-width:1000px;margin:14px auto 0;padding:18px 22px;border-radius:20px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-lg);text-align:right;font-size:clamp(17px,1.8vw,24px);line-height:1.55}
+.verdict .stamp{display:inline-block;transform:rotate(-6deg);border:3px solid var(--good);color:var(--good);border-radius:10px;padding:2px 12px;font:800 20px var(--display);margin-bottom:6px}
+.teaser{margin-top:14px;padding:14px 20px;border-radius:18px;border:1.5px dashed var(--teal);background:var(--teal-soft);color:var(--teal-deep);font:700 clamp(18px,1.9vw,25px) var(--display);text-align:right;max-width:1000px;margin-inline:auto}
+.qList{display:grid;gap:8px;margin-top:12px;max-width:1100px}
+.qList div{padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;font-size:clamp(17px,1.7vw,22px);box-shadow:var(--shadow-sm)}
+.qList div b{color:var(--accent-ink);font-family:var(--display)}
+@media (max-height:800px){
+ .redpen{width:300px;height:250px}.redpen .big95{font-size:52px}.redpen svg{top:60px}
+ .mail .mb{padding:12px 18px 14px}.mail .mh{padding:10px 16px}
+ .ptile{padding:12px 8px 10px}.ptile .pe{font-size:28px}
+ .roles5 .card{padding:12px 12px}.roles5 .card p{font-size:15px}
+ .desk{padding:12px 12px 10px}.desk p{font-size:14px}
+ .fact{padding:10px 14px}.lrow{padding:7px 12px}
+ .sbRow{padding:5px 10px}.sbPts{font-size:22px}
+ .tstep{padding:8px 12px}
+ .chkIn textarea{height:80px}
+ .note{margin-top:10px;padding:8px 14px}
+ table.t.score td,table.t.score th{padding:6px 12px}
+ table.t.rub td,table.t.rub th{padding:7px 10px}
+}
+@media (max-width:1100px){.heroGrid{grid-template-columns:1fr}.redpen{display:none}.puzzle{grid-template-columns:repeat(4,minmax(0,1fr))}.film{grid-template-columns:repeat(3,minmax(0,1fr))}.roles5,.desks{grid-template-columns:repeat(3,minmax(0,1fr))}.labels4,.awards{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.row2,.row2.wide,.chal,.caseGrid,.chk,.auditCalc,.spin,.subGrid,.deliv,.milestones,.jsteps,.tsteps{grid-template-columns:1fr}.pairVote{grid-template-columns:1fr}.puzzle,.roles5,.desks,.film{grid-template-columns:1fr 1fr}.prompt{padding-left:22px;padding-top:56px}.taskRow{grid-template-columns:1fr}.sbRow{grid-template-columns:34px minmax(0,1fr) 50px;}.sbRow .sbBar{display:none}.sbBtns{grid-column:1/-1;justify-content:flex-end}.acNums{grid-template-columns:repeat(3,1fr)}}
+
+.cards.five{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:14px}
+.cards.five .card{padding:14px 14px 12px}.cards.five .card strong{font-size:19px;margin:6px 0 3px}.cards.five .card p{font-size:15.5px}
+.cards.five .card .emoji{width:44px;height:44px;font-size:24px;border-radius:13px}
+.scoreRow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:1220px;margin-top:8px}
+.scoreRow .tableWrap{margin-top:0}
+table.t.score td small{display:block;color:var(--muted);font-size:.78em;margin-top:2px}
+.lgame{gap:7px}
+@media (max-width:1100px){.cards.five{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.cards.five,.scoreRow{grid-template-columns:1fr}}
+.compare.small{margin-top:12px}.compare.small .box{font-size:clamp(15px,1.5vw,19px);padding:12px 16px}
+.sb.compact{grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:10px}
+.sb.compact .sbRow{grid-template-columns:34px minmax(0,1fr) 54px;padding:4px 10px}
+.sb.compact .sbBar,.sb.compact .sbBtns{display:none}
+.sb.compact .sbPts{font-size:22px}.sb.compact .sbRank{font-size:19px}
+.awards .award{padding:10px 12px}
+.prompt.small+.prompt.small{margin-top:10px}
+.nw{white-space:nowrap}
+.box small{display:block;margin-top:6px;color:var(--muted);font-size:.78em}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mark">🖊️</div><div><b>חדר העריכה</b><small>מצגת פיץ׳ ובדיקת המספרים</small></div></div>
+  <div class="actions"><button class="ghost" id="homeBtn">↺ התחלה</button><button class="ghost" id="fullBtn">⛶ מסך מלא</button></div>
+</header>
+
+<aside class="rail" id="rail" aria-label="תוכן עניינים"></aside>
+
+<main class="deck" id="deck">
+<!-- 1 -->
+<section class="slide hero" data-topic="פתיחה" data-title="חדר העריכה">
+  <div class="heroGrid">
+    <div>
+      <span class="kicker">🖥️ Tech It Easy · שלב 8 מתוך 10: פיץ׳ · שיעור 23</span>
+      <h2>חדר <span class="cyan">העריכה</span></h2>
+      <p class="lead">בשיעור הבא נכנסים לטנק הכרישים. היום כל צוות בונה <b>מצגת פיץ׳</b> שמשקיעה מבינה ב-3 דקות, ובודק את המספרים של צוות אחר <b>עם עט אדום</b>.</p>
+      <div class="journey" aria-label="המסע של הקורס"><span>🔍 רעיון</span><i>←</i><span>🧪 מחקר</span><i>←</i><span>🎯 בעיה ופתרון</span><i>←</i><span>💎 הצעת ערך</span><i>←</i><span>💰 מודל עסקי</span><i>←</i><span>🛠️ אב-טיפוס</span><i>←</i><span>🎨 מיתוג</span><i>←</i><span class="now">🎤 פיץ׳ · אתם כאן</span><i>←</i><span>🔁 שיפור</span><i>←</i><span>🏁 יום ההדגמה</span></div>
+    </div>
+    <div class="redpen" aria-hidden="true">
+      <div class="sheet back"></div>
+      <div class="sheet"><div class="st">קופסת הפסקה</div><div class="big95">95%</div><div class="sub">מהתלמידים אוהבים את הרעיון!!!</div></div>
+      <svg viewBox="0 0 200 110"><path d="M150 18 C 196 30, 192 92, 104 100 C 30 106, 4 72, 22 40 C 40 10, 110 4, 160 26"/></svg>
+      <div class="postit">מאיפה המספר הזה? 🤨<small>— ועדת ההשקעות</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide tight" data-topic="פתיחה" data-title="מייל מהוועדה" data-accent="#e76f86">
+  <span class="kicker">📨 הגיע הבוקר</span>
+  <h2>מייל מ<span class="red">ועדת ההשקעות</span></h2>
+  <div class="mail">
+    <div class="mh"><div class="av">TIE</div><div class="from"><b>ועדת ההשקעות · החממה של Tech It Easy</b><small>אל: כל הצוותים · נושא: לפני טנק הכרישים, שלושה דברים שאנחנו בודקים</small></div><span class="flag">🔴 חשוב</span></div>
+    <div class="mb">
+      <p>שלום לכל הצוותים,</p>
+      <p>בשיעור הבא אנחנו באים לשמוע אתכם. לפני כן נקרא את המצגות שלכם, <b>ונקרא עם עט אדום</b>:</p>
+      <div class="rule reveal"><b>①</b><span>כל מספר בלי מקור מסומן באדום, והמצגת חוזרת אליכם.</span></div>
+      <div class="rule reveal"><b>②</b><span>אם לא הבנו מה אתם עושים בתוך 3 דקות, זה כאילו לא קרה.</span></div>
+      <div class="rule reveal"><b>③</b><span>בסוף המצגת תגידו לנו בדיוק מה אתם מבקשים: מה, כמה ולמה.</span></div>
+      <p class="sign reveal">בהצלחה בחדר העריכה! 🖊️ ועדת ההשקעות</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide tight" data-topic="פתיחה" data-title="מבחן 5 השניות" data-accent="#f4a259">
+  <button class="helpBtn" data-help="flash" aria-label="הוראות">?</button>
+  <span class="kicker">👀 מבחן 5 השניות</span>
+  <h2>איזה שקף <span class="yellow">תזכרו?</span></h2>
+  <div class="ctlRow">
+    <button class="btn flashBtn" id="flashBtn">▶ 5 שניות להסתכל</button>
+    <span class="flashCount" id="flashCount" aria-live="polite"></span>
+    <p class="lead">אחר כך: מה זכרתם? מילה, מספר, תמונה? ואז מצביעים.</p>
+  </div>
+  <div class="vote pairVote hid" id="pairVote">
+    <div class="voteItem">
+      <div class="mini busy">
+        <div class="mt">הפרויקט שלנו: קופסת הפסקה – מה זה, למה זה חשוב ואיך זה יעבוד בבית הספר שלנו</div>
+        <ul>
+          <li>בהפסקות הרבה תלמידים משתעממים ואין להם מה לעשות, ולפעמים יש ריבים על כדורים</li>
+          <li>הרעיון: ארגז עם משחקים, כדורים, חבלים, קלפים ועוד הרבה דברים</li>
+          <li>כל כיתה מקבלת תור, ותלמיד אחראי רושם מי לקח מה</li>
+          <li>אפשר גם למכור חטיפים ולקנות בכסף עוד ציוד</li>
+          <li><b>95% מהתלמידים אוהבים את הרעיון!!!</b></li>
+        </ul>
+        <span class="clutter c1">⚽</span><span class="clutter c2">🎲</span><span class="clutter c3">⭐</span><span class="clutter c4">🏀</span>
+      </div>
+      <strong>שקף א׳</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div>
+    </div>
+    <div class="voteItem">
+      <div class="mini clear"><div class="me">📦⚽</div><div class="mt">הפסקה בלי שעמום</div><div class="ms">ארגז משחקים שמשאילים בהפסקה ומחזירים בצלצול.</div></div>
+      <strong>שקף ב׳</strong><div class="voteCtl"><button data-d="-1">−</button><output>0</output><button data-d="1">+</button></div><div class="bar"><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-topic="פתיחה" data-title="המשימה של היום">
+  <span class="kicker">🎯 המשימה של היום</span>
+  <h2>בסוף השיעור לכל צוות <span class="cyan">יהיו שלושה דברים</span></h2>
+  <div class="deliv">
+    <div class="card"><div class="emoji">🖥️</div><strong>מצגת פיץ׳ של 10 שקפים</strong><p>שער, 7 שקפים שמספרים את הסיפור, שקף מקורות ושקף שקיפות AI. עם הערות דובר.</p><span class="k">Google Slides</span></div>
+    <div class="card"><div class="emoji">🧪</div><strong>בוחן בהירות</strong><p>בוחן שה-AI בונה רק מהמצגת שלכם. צוות אחר פותר אותו. נכשל? השקף לא ברור.</p><span class="k">Gemini Notebook</span></div>
+    <div class="card"><div class="emoji">🔍</div><strong>דף בדיקת מספרים</strong><p>אתם בודקים כל מספר במצגת של צוות אחר, וצוות אחר בודק את שלכם.</p><span class="k">עט אדום</span></div>
+  </div>
+  <div class="note teal reveal">🖊️ והכלל של חדר העריכה: <b>אין מספרים יתומים.</b> כל מספר במצגת מגיע עם תווית שאומרת מאיפה הוא בא.</div>
+</section>
+
+<!-- 5 -->
+<section class="slide tight" data-topic="צוותים" data-title="התפקיד שלך היום" data-accent="#8c7ae6">
+  <span class="kicker">👥 העבירו את כרטיסי התפקיד לאדם שמשמאל</span>
+  <h2>התפקיד שלך <span class="violet">היום</span></h2>
+  <div class="roles5 cards">
+    <div class="card" style="--stripe:#0f766e"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>שומר/ת על הזמן. אחראי/ת על שקפי הכסף, הצוות והבקשה.</p><span class="deskTag">שולחן הכסף והבקשה</span></div>
+    <div class="card" style="--stripe:#15803d"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>שקף הראיות ושקף המקורות. בודק/ת כל מספר.</p><span class="deskTag">שולחן המספרים</span></div>
+    <div class="card" style="--stripe:#f4a259"><div class="emoji">🛠️</div><strong>בונה</strong><p>השער ועיצוב כל המצגת. שומר/ת על כלל <span class="nw">6-15-1</span>.</p><span class="deskTag">שולחן העיצוב</span></div>
+    <div class="card" style="--stripe:#8c7ae6"><div class="emoji">🎤</div><strong>מציג/ה ומתעד/ת</strong><p>שקפי הבעיה, הלקוח והפתרון, והערות הדובר. מגיש/ה בסוף.</p><span class="deskTag">שולחן הסיפור</span></div>
+    <div class="card" style="--stripe:#e76f86"><div class="emoji">🤖</div><strong>אחראי/ת AI</strong><p>ניסוחים ותמונות, שקף שקיפות ה-AI ובוחן ה-Notebook.</p><span class="deskTag">שולחן ה-AI</span></div>
+  </div>
+  <div class="taskRow">
+    <p class="lead" style="margin:12px 0 0">צוות של 4: הבונה לוקח/ת גם את ה-AI. מי שאחראי/ת על שקף, בונה אותו, אבל כל הצוות עובד באותו קובץ.</p>
+    <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide tight" data-topic="צוותים" data-title="פותחים את התבנית" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="open" aria-label="הוראות">?</button>
+  <span class="kicker">🗂️ קובץ אחד לכל הצוות</span>
+  <h2>פותחים את <span class="violet">תבנית המצגת</span></h2>
+  <div class="linkRow"><span class="lead" style="margin:0">🔗 הקישור לתבנית:</span><span class="linkSlot" contenteditable="true" spellcheck="false" id="tplSlot" data-ph="כאן ייכתב הקישור הקצר"></span></div>
+  <div class="tsteps">
+    <div class="tstep"><div><b>הבונה פותח/ת את הקישור</b><span>לוחצים ״יצירת עותק״. רק אחד בצוות, השאר מחכים.</span></div></div>
+    <div class="tstep"><div><b>נותנים לקובץ שם</b><span><span class="fname">צוות [שם הסטארט-אפ] · שיעור 23 · מצגת פיץ׳</span></span></div></div>
+    <div class="tstep"><div><b>משתפים</b><span>״שיתוף״ ← המיילים של חברי הצוות ושל המדריך ← ״עורך״.</span></div></div>
+    <div class="tstep"><div><b>כולם נכנסים</b><span>מהמייל, או מ-Drive ← ״פריטים ששותפו איתי״.</span></div></div>
+  </div>
+  <div class="taskRow">
+    <div class="note" style="margin-top:12px">🔒 בשקפים ובשם הקובץ כותבים את שם הסטארט-אפ, בלי שמות מלאים שלכם ובלי תמונות של אנשים אמיתיים.</div>
+    <div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide tight" data-topic="המבנה" data-title="סדרו את הסיפור" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="puzzle" aria-label="הוראות">?</button>
+  <span class="kicker">🧩 משחק פתיחה</span>
+  <h2>סדרו את <span class="cyan">הסיפור</span></h2>
+  <p class="lead tightLead">המשקיעה שומעת את הסיפור לפי הסדר. לחצו על הקלפים לפי הסדר שבו הייתם מספרים אותו.</p>
+  <div class="puzzle" id="puzzle">
+    <button class="ptile" data-pos="5"><span class="pn"></span><span class="pe">🪙</span><b>מודל הכנסה</b><small>מאיפה מגיע הכסף?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="7"><span class="pn"></span><span class="pe">🙏</span><b>הבקשה</b><small>מה אתם רוצים ממני?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="1"><span class="pn"></span><span class="pe">😟</span><b>הבעיה</b><small>מה כואב, ולמי?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="4"><span class="pn"></span><span class="pe">📋</span><b>הראיות</b><small>למה להאמין לכם?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="6"><span class="pn"></span><span class="pe">👥</span><b>הצוות</b><small>למה דווקא אתם?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="3"><span class="pn"></span><span class="pe">💡</span><b>הפתרון</b><small>מה המוצר עושה?</small><span class="fix"></span></button>
+    <button class="ptile" data-pos="2"><span class="pn"></span><span class="pe">🧒</span><b>הלקוח</b><small>למי בדיוק זה כואב?</small><span class="fix"></span></button>
+  </div>
+  <div class="pctl"><button class="btn" id="pzCheck">✓ בדיקה</button><button class="ghost" id="pzReset">↺ מחדש</button><button class="ghost" id="pzShow">👀 הסדר שלנו</button><span class="pmsg" id="pzMsg">בחרו 7 קלפים לפי הסדר.</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide tight" data-topic="המבנה" data-title="הדוגמה: קופסת הפסקה" data-accent="#4c8bd6">
+  <span class="kicker">📦 דוגמה פתורה</span>
+  <h2>10 השקפים של <span class="cyan">קופסת הפסקה</span></h2>
+  <div class="film">
+    <div class="mini" style="--c:var(--teal)"><span class="num">שער</span><div class="me">📦</div><div class="mt">קופסת הפסקה</div><div class="ms">הפסקה בלי שעמום.</div></div>
+    <div class="mini" style="--c:var(--rose)"><span class="num">1</span><div class="me">😴</div><div class="mt">משעמם בהפסקה</div><div class="ms">מי שמביא כדור מהבית קובע מי משחק.</div></div>
+    <div class="mini" style="--c:var(--sky)"><span class="num">2</span><div class="me">🧒</div><div class="mt">תלמידי ד׳–ו׳</div><div class="ms">שרוצים לשחק ואין להם ציוד.</div></div>
+    <div class="mini" style="--c:var(--mint)"><span class="num">3</span><div class="me">⚽</div><div class="mt">ארגז להשאלה</div><div class="ms">לוקחים בהפסקה, מחזירים בצלצול.</div></div>
+    <div class="mini" style="--c:var(--good)"><span class="num">4</span><div class="me">📋</div><div class="mt">12 מתוך 20</div><div class="ms">אמרו בסקר שלנו: ״משעמם לי בהפסקה״.</div><span class="lab src">📋 מקור</span></div>
+    <div class="mini" style="--c:var(--violet)"><span class="num">5</span><div class="me">🪙</div><div class="mt">20 ₪ לכיתה בשנה</div><div class="ms">20 ₪ × 30 כיתות = 600 ₪ בשנה.</div><span class="lab calc">🧮 חישוב</span></div>
+    <div class="mini" style="--c:var(--orange)"><span class="num">6</span><div class="me">👥</div><div class="mt">4 תפקידים, צוות אחד</div><div class="ms">מחקר, בנייה, כסף והצגה.</div></div>
+    <div class="mini" style="--c:var(--rose)"><span class="num">7</span><div class="me">🙏</div><div class="mt">300 ₪ וחודש ניסיון</div><div class="ms">לציוד ראשון, לפי מחירון של חנות ספורט.</div><span class="lab src">📋 מקור</span></div>
+    <div class="mini" style="--c:var(--dim)"><span class="num">מקורות</span><div class="me">📚</div><div class="mt">מאיפה המספרים</div><div class="ms">סקר · ראיון עם אב הבית · מחירון.</div></div>
+    <div class="mini" style="--c:var(--pink-ink)"><span class="num">AI</span><div class="me">🤖</div><div class="mt">מה ה-AI עשה</div><div class="ms">הציע כותרות. אנחנו בחרנו, תיקנו ובדקנו.</div></div>
+  </div>
+  <div class="note">⚠️ הנתונים של קופסת הפסקה הם דוגמה בדיונית. שימו לב לתוויות: <b>במצגת שלכם כל מספר מקבל תווית כזו.</b></div>
+</section>
+
+<!-- 9 -->
+<section class="slide tight" data-topic="המבנה" data-title="כלל 6-15-1" data-accent="#4c8bd6">
+  <span class="kicker">✂️ פחות זה יותר</span>
+  <h2>כלל <span class="cyan"><span class="nw">6-15-1</span></span></h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🏷️</div><strong>6 מילים בכותרת</strong><p>כותרת שאומרת <b>מסקנה</b>, לא נושא. קוראים אותה בשנייה.</p></div>
+    <div class="card"><div class="emoji">💬</div><strong>15 מילים במשפט</strong><p>משפט אחד שהמשקיעה צריכה לזכור. לא רשימה.</p></div>
+    <div class="card"><div class="emoji">🖼️</div><strong>ויזואל 1</strong><p>אימוג׳י, אייקון, איור או מספר ענק. לא קולאז׳.</p></div>
+  </div>
+  <div class="compare">
+    <div class="box bad"><span class="label">✗ כותרת נושא</span>״הבעיה״<small>אז מה הבעיה? צריך לקרוא הכול כדי לדעת.</small></div>
+    <div class="box good reveal"><span class="label">✓ כותרת מסקנה</span>״משעמם בהפסקה״<small>שנייה אחת, וכבר יודעים מה הבעיה.</small></div>
+  </div>
+  <div class="note teal reveal">📝 ומה עם כל מה שרציתם להגיד? <b>הוא עובר להערות הדובר</b>, מתחת לשקף. שם כותבים מה אומרים בקול.</div>
+</section>
+
+<!-- 10 -->
+<section class="slide tight" data-topic="המספרים" data-title="Better Place" data-accent="#4c8bd6">
+  <span class="kicker">📉 מקרה בוחן מישראל</span>
+  <h2>Better Place: חזון ענק, <span class="cyan">מציאות קטנה</span></h2>
+  <div class="caseGrid">
+    <div class="vision">
+      <b>🔋 החזון</b>
+      <p>ב-2007 שי אגסי השיק חברה עם רעיון גדול: רשת טעינה ו<b>תחנות להחלפת סוללות</b> לרכב חשמלי.</p>
+      <p>בדצמבר 2008 נפתחה עמדת הטעינה הראשונה, בפי גלילות. התחזית: הרבה מאוד נהגים יעברו לרכב החשמלי שלה.</p>
+      <p class="q">לחצו ״הבא״ ותראו מה קרה באמת.</p>
+    </div>
+    <div class="facts4">
+      <div class="fact reveal"><div class="fn"><small>כ-</small><span class="countUp" data-to="850">0</span><small> מיליון $</small></div><div class="fl">הושקעו בחברה (בערך)</div></div>
+      <div class="fact reveal"><div class="fn"><span class="countUp" data-to="21">0</span></div><div class="fl">תחנות החלפה בישראל בשיא, בספטמבר 2012</div></div>
+      <div class="fact bad reveal"><div class="fn"><small>פחות מ-</small><span class="countUp" data-to="1000" data-sep="1">0</span></div><div class="fl">רכבים שלה בישראל, ועוד כ-400 בדנמרק</div></div>
+      <div class="fact bad reveal"><div class="fn"><span class="countUp" data-to="450000" data-sep="1">0</span><small> $</small></div><div class="fl">המחיר שבו נמכרו הנכסים, אחרי פשיטת הרגל ב-2013</div></div>
+    </div>
+  </div>
+  <div class="askQ reveal">🤔 Better Place טעתה ברעיון, או בתחזית ובביצוע? <span style="font-weight:500">היום יש מיליוני רכבים חשמליים. ואיזה מספר במצגת שלכם הוא תחזית שעוד לא נבדקה?</span></div>
+  <p class="srcLine">מקור: ויקיפדיה, הערך Better Place. בין הסיבות לכישלון: ניהול כושל, ניסיונות ביותר מדי מדינות, השקעה עצומה בתשתית, ומעט מאוד לקוחות לעומת התחזית.</p>
+</section>
+
+<!-- 11 -->
+<section class="slide tight" data-topic="המספרים" data-title="ומה אם ה-AI המציא?" data-accent="#8c7ae6">
+  <span class="kicker">🤖 זהירות, AI</span>
+  <h2>ומה אם <span class="violet">ה-AI המציא?</span></h2>
+  <p class="lead tightLead">ChatGPT וכלים דומים עלולים לכתוב תשובות שגויות שנשמעות משכנעות, <b>כולל מקורות ומחקרים שלא קיימים.</b></p>
+  <div class="chat"><div class="av">AI</div><div class="bubble"><small>דוגמה: ככה זה יכול להיראות</small>״לפי <span class="sus">מחקר בינלאומי גדול מ-2024</span>, <span class="sus">73% מהתלמידים</span> משתעממים בהפסקה ומעדיפים משחקים מאורגנים.״</div></div>
+  <div class="revealList">
+    <div class="revealCard reveal">🛑 <b>עוצרים:</b> איזה מחקר? של מי? כמה אנשים שאלו? אם אין תשובה, זה דגל אדום.</div>
+    <div class="revealCard reveal">🔎 <b>מחפשים בעצמנו:</b> מצאתם את המקור באתר אמין? כותבים אותו ליד המספר ובשקף המקורות.</div>
+    <div class="revealCard reveal">🗑️ <b>לא מצאתם?</b> מוחקים. ״לפי Gemini״ הוא לא מקור.</div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide tight" data-topic="המספרים" data-title="אין מספרים יתומים" data-accent="#15803d">
+  <span class="kicker">🖊️ הכלל של חדר העריכה</span>
+  <h2>לכל מספר <span class="green">יש תווית</span></h2>
+  <div class="labels4 cards">
+    <div class="card"><div class="emoji">📋</div><strong>מקור</strong><p>בדקנו בעצמנו, או מצאנו באתר אמין.</p><div class="ex">״12 מתוך 20 תלמידי ו׳ בסקר שלנו, אוקטובר״</div></div>
+    <div class="card"><div class="emoji">🧮</div><strong>חישוב</strong><p>חישבנו, ומראים את התרגיל.</p><div class="ex">״20 ₪ × 30 כיתות = 600 ₪ בשנה״</div></div>
+    <div class="card"><div class="emoji">🏷️</div><strong>בדיוני</strong><p>דוגמה להמחשה, וכתוב שהיא בדיונית.</p><div class="ex">״נועה (דמות בדיונית) משאילה כדור 3 פעמים בשבוע״</div></div>
+    <div class="card"><div class="emoji">⏳</div><strong>עוד לא בדקנו</strong><p>כנים: עוד אין לנו נתון, וזו התוכנית.</p><div class="ex">״כמה כיתות יצטרפו? נשאל 5 מורים בשבוע הבא״</div></div>
+  </div>
+  <div class="orphan reveal"><span class="oi">🟥</span><span><b>מספר יתום</b> = מספר בלי אף תווית. בביקורת של היום, כל מספר יתום שהבודקים מוצאים <b>מוריד לכם 2 נקודות.</b></span></div>
+</section>
+
+<!-- 13 -->
+<section class="slide tight" data-topic="המספרים" data-title="איזו תווית?" data-accent="#15803d">
+  <span class="kicker">🕵️ משחק התוויות</span>
+  <h2>איזו תווית <span class="green">מגיעה לו?</span></h2>
+  <div class="lgame">
+    <div class="lrow" data-ans="src"><span>״8 מתוך 15 תלמידים שראיינו בהפסקה אמרו שאין להם עם מה לשחק.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">📋 מקור: ראיונות שעשיתם. רואים כמה אנשים שאלתם.</div></div>
+    <div class="lrow" data-ans="calc"><span>״20 ₪ לכיתה × 30 כיתות = 600 ₪ בשנה.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">🧮 חישוב: התרגיל כתוב, וכל אחד יכול לבדוק אותו. (ומאיפה ה-30? גם לו צריך מקור!)</div></div>
+    <div class="lrow" data-ans="orph"><span>״80% מבני הנוער ירצו את המוצר שלנו.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">🟥 יתום: מי בדק? איפה? כמה שאלו? נשמע מרשים, אבל אין לו בית.</div></div>
+    <div class="lrow" data-ans="fic"><span>״דוגמה: יואב, תלמיד בדיוני בכיתה ה׳, משאיל חבל קפיצה פעמיים בשבוע.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">🏷️ בדיוני: מותר, כל עוד כתוב בבירור שזו דוגמה.</div></div>
+    <div class="lrow" data-ans="todo"><span>״כמה הורים יתרמו ציוד? נשלח שאלה בקבוצת ההורים בשבוע הבא.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">⏳ עוד לא בדקנו: תשובה כנה, ומשקיעים אוהבים לשמוע תוכנית.</div></div>
+    <div class="lrow" data-ans="orph"><span>״לפי Gemini, השוק שלנו שווה מיליון שקל.״</span><div class="lbtns"><button data-l="src">📋 מקור</button><button data-l="calc">🧮 חישוב</button><button data-l="fic">🏷️ בדיוני</button><button data-l="todo">⏳ עוד לא</button><button data-l="orph">🟥 יתום</button></div><div class="lnote">🟥 יתום: AI הוא לא מקור. הוא ניחש, ואולי המציא.</div></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide quiz" data-topic="המספרים" data-title="בדיקת הבנה 1" data-answer="2" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · 30 שניות להתייעץ</span>
+  <h2>המשקיעה שואלת: ״<span class="cyan">למה שאאמין לכם?</span>״ איזה שקף עונה?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>שקף הפתרון: מה המוצר עושה.</span></button>
+    <button class="option"><span class="letter">ב</span><span>שקף הראיות: מה כבר בדקנו, ועם מי.</span></button>
+    <button class="option"><span class="letter">ג</span><span>שקף הצוות: כמה אנחנו מוכשרים.</span></button>
+    <button class="option"><span class="letter">ד</span><span>שקף הבקשה: כמה כסף אנחנו צריכים.</span></button>
+  </div>
+  <div class="explain">✓ נכון! שקף הראיות הוא הלב של המצגת: סקר, ראיונות, ניסוי. ובגלל זה הוא גם השקף שהכי הרבה מספרים בו, וכל אחד צריך תווית.</div>
+</section>
+
+<!-- 15 -->
+<section class="slide quiz" data-topic="המספרים" data-title="בדיקת הבנה 2" data-answer="3" data-accent="#0f766e">
+  <span class="kicker">🔢 ראשים ממוספרים · 30 שניות להתייעץ</span>
+  <h2>Gemini קיצר את שקף הלקוח והוסיף: ״<span class="cyan">70% מבני הנוער</span> מרגישים כך״. מה עושים?</h2>
+  <div class="options">
+    <button class="option"><span class="letter">א</span><span>משאירים. Gemini יודע הרבה.</span></button>
+    <button class="option"><span class="letter">ב</span><span>כותבים לידו ״לפי Gemini״.</span></button>
+    <button class="option"><span class="letter">ג</span><span>מוחקים, או מחפשים מקור אמיתי ובודקים אותו בעצמנו.</span></button>
+    <button class="option"><span class="letter">ד</span><span>משנים ל-75%, כדי שיישמע חזק יותר.</span></button>
+  </div>
+  <div class="explain">✓ נכון! ״לפי Gemini״ הוא לא מקור, וה-AI עלול להמציא מספרים. בפרומפט כותבים מראש: ״אל תוסיף מספרים שלא כתבנו״.</div>
+</section>
+
+<!-- 16 -->
+<section class="slide tight" data-topic="האתגר" data-title="מבחן המספרים" data-accent="#e3a82b">
+  <button class="helpBtn" data-help="rules" aria-label="הוראות">?</button>
+  <span class="kicker">🏁 האתגר של היום</span>
+  <h2>מבחן <span class="yellow">המספרים</span></h2>
+  <div class="chal">
+    <div class="task"><strong>📏 החוקים</strong><ol>
+      <li>בונים 10 שקפים לפי התבנית.</li>
+      <li>כל שקף סיפור לפי <span class="nw">6-15-1</span>. מה שאומרים בקול נכנס להערות הדובר.</li>
+      <li>לכל מספר יש תווית: 📋 מקור · 🧮 חישוב · 🏷️ בדיוני · ⏳ עוד לא בדקנו. לפחות 3 מספרים עם תווית במצגת.</li>
+      <li>בסוף ספרינט 2 בונים מהמצגת בוחן ב-Gemini Notebook.</li>
+      <li>בביקורת: צוות אחר פותר את הבוחן שלכם ובודק כל מספר. ואתם עושים אותו דבר אצלו.</li>
+      <li>מחלוקת על מספר? יש לכם 30 שניות להראות את המקור.</li>
+    </ol></div>
+    <div class="goalBox">
+      <b>🎯 המטרה</b>
+      <p>מצגת שמשקיעה מבינה ב-3 דקות, ושכל מספר בה עומד בבדיקה.</p>
+      <div class="deckList"><span>שער</span><span>1 בעיה</span><span>2 לקוח</span><span>3 פתרון</span><span>4 ראיות</span><span>5 מודל הכנסה</span><span>6 צוות</span><span>7 בקשה</span><span class="x">מקורות</span><span class="x">שקיפות AI</span></div>
+      <b style="margin-top:12px">🏆 איך מנצחים</b>
+      <p>הכי הרבה נקודות בלוח. בשוויון: פחות מספרים יתומים, ואחר כך יותר מספרים עם תווית.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide tight" data-topic="האתגר" data-title="הניקוד" data-accent="#e3a82b">
+  <span class="kicker">🧮 הניקוד, ידוע מראש</span>
+  <h2>על מה <span class="yellow">מקבלים נקודות</span></h2>
+  <div class="row2 scoreRow">
+    <div class="tableWrap"><table class="t score">
+      <thead><tr><th>במהלך השיעור ובסוף</th><th>נקודות</th></tr></thead>
+      <tbody>
+        <tr><td>🎡 גלגל המומחים: תשובה נכונה של מי שלא ישב בשולחן</td><td class="pts">1</td></tr>
+        <tr><td>⏱️ נקודת ביקורת: 10 כותרות ו-4 שקפים מלאים, בזמן</td><td class="pts">3</td></tr>
+        <tr><td>🏃 משימת צד שהושלמה</td><td class="pts">1 (עד 2)</td></tr>
+        <tr><td>📤 הגשה לפי המפרט</td><td class="pts">5</td></tr>
+        <tr><td>📊 רמה במחוון × 3</td><td class="pts">3–12</td></tr>
+        <tr><td>🥇 שקף הזהב: מקום 1 / 2 / 3</td><td class="pts">8 / 5 / 3</td></tr>
+        <tr><td>🎟️ כרטיס יציאה מכל הנוכחים</td><td class="pts">2</td></tr>
+      </tbody></table></div>
+    <div class="tableWrap"><table class="t score">
+      <thead><tr><th>בביקורת</th><th>נקודות</th></tr></thead>
+      <tbody>
+        <tr><td>🖊️ כל מספר שבדקתם ורשמתם בדף <small>לבודקים</small></td><td class="pts">1 (עד 6)</td></tr>
+        <tr><td>🟥 מספר יתום שמצאתם <small>+1 לבודקים · −2 למציגים</small></td><td class="pts">+1 · <span class="neg">−2</span></td></tr>
+        <tr><td>🧼 מצגת נקייה: אף יתום, ולפחות 3 מספרים עם תווית <small>למציגים</small></td><td class="pts">3</td></tr>
+        <tr><td>🧪 הבודקים ענו נכון על 70% מהבוחן או יותר <small>למציגים</small></td><td class="pts">3</td></tr>
+        <tr><td>🤖 שאלה בבוחן על משהו שלא כתוב במצגת, וזיהיתם <small>לבודקים</small></td><td class="pts">1 (עד 2)</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide tight" data-topic="האתגר" data-title="המחוון" data-accent="#e3a82b">
+  <span class="kicker">📊 המחוון, מודפס גם על השולחן</span>
+  <h2>איך נראית <span class="yellow">מצגת מצוינת</span></h2>
+  <div class="tableWrap"><table class="t rub">
+    <thead><tr><th>קריטריון</th><th class="l1">🌱 1 מתחיל</th><th class="l2">🌿 2 מתפתח</th><th class="l3">🌳 3 מיומן</th><th class="l4">🚀 4 מצטיין</th></tr></thead>
+    <tbody>
+      <tr class="reveal"><td>מבנה וסיפור</td><td>שקפים בלי סדר, או שחסרים שקפי סיפור</td><td>כל 7 שקפי הסיפור קיימים, אבל לא ברור איך אחד מוביל לשני</td><td>7 שקפים בסדר של הסיפור, וכותרות שאומרות מסקנה</td><td>מי שקרא רק את הכותרות יכול לספר את הסיפור, והבקשה אומרת מה, כמה ולמה</td></tr>
+      <tr class="reveal"><td>מספרים ומקורות</td><td>יש מספר יתום, או מספר ״לפי AI״</td><td>לחלק מהמספרים יש תווית</td><td>לכל מספר יש תווית, ושקף המקורות מלא</td><td>לכל מספר יש תווית ומקור מדויק (מי, כמה, מתי), ולפחות אחד נבדק בעצמנו</td></tr>
+      <tr class="reveal"><td>עיצוב</td><td>שקפים עמוסים שקשה לקרוא</td><td>חלק מהשקפים לפי <span class="nw">6-15-1</span></td><td>כל שקפי הסיפור לפי <span class="nw">6-15-1</span>, עם ויזואל אחד</td><td>מעט טקסט, הוויזואל מסביר את המסר, והמספר החשוב בולט מרחוק</td></tr>
+      <tr class="reveal"><td>שקיפות AI</td><td>לא ברור מה ה-AI עשה</td><td>כתוב רק ״השתמשנו ב-AI״</td><td>כתוב באיזה כלי, למה, ומה בדקנו</td><td>כתוב מה ה-AI הציע, מה שמרנו, מה שינינו, וטעות של AI שתפסנו</td></tr>
+    </tbody></table></div>
+  <p class="clickHint">רמה × 3 = נקודות בלוח (3 עד 12)</p>
+</section>
+
+<!-- 19 -->
+<section class="slide tight" data-topic="פאזל המומחים" data-title="5 שולחנות מומחים" data-accent="#8c7ae6">
+  <button class="helpBtn" data-help="jigsaw" aria-label="הוראות">?</button>
+  <span class="kicker">🧩 פאזל המומחים · <span class="light r" style="font-size:14px;padding:1px 10px">🔴 בלי AI</span></span>
+  <h2>כל אחד הולך <span class="violet">לשולחן שלו</span></h2>
+  <div class="desks">
+    <div class="desk d1"><div class="di">📖</div><b>שולחן הסיפור</b><span class="who">🎤 מציגים</span><p>כותרות מסקנה, בעיה לפני פתרון, הערות דובר.</p><div class="own"><span>1 בעיה</span><span>2 לקוח</span><span>3 פתרון</span></div></div>
+    <div class="desk d2"><div class="di">🔢</div><b>שולחן המספרים</b><span class="who">🔍 חוקרים</span><p>ארבע התוויות, איך כותבים נתון, שקף המקורות.</p><div class="own"><span>4 ראיות</span><span>מקורות</span></div></div>
+    <div class="desk d3"><div class="di">💰</div><b>שולחן הכסף והבקשה</b><span class="who">🧭 מנכ״לים</span><p>מודל הכנסה עם תרגיל, שקף צוות, בקשה מדויקת.</p><div class="own"><span>5 הכנסה</span><span>6 צוות</span><span>7 בקשה</span></div></div>
+    <div class="desk d4"><div class="di">🎨</div><b>שולחן העיצוב</b><span class="who">🛠️ בונים</span><p><span class="nw">6-15-1</span>, מספר ענק, צבעים אחידים, שער עם לוגו.</p><div class="own"><span>שער</span><span>כל השקפים</span></div></div>
+    <div class="desk d5"><div class="di">🤖</div><b>שולחן ה-AI</b><span class="who">🤖 אחראי AI</span><p>פרומפטים בטוחים, תמונות, בוחן Notebook, שקף AI.</p><div class="own"><span>שקיפות AI</span><span>הבוחן</span></div></div>
+  </div>
+  <div class="taskRow">
+    <div class="jsteps">
+      <div><b>1 · קוראים (2 דק׳)</b>את כרטיס המומחה, כל אחד לבד.</div>
+      <div><b>2 · מסכימים (3 דק׳)</b>עונים יחד על 3 השאלות שבכרטיס.</div>
+      <div><b>3 · מתכוננים (דקה)</b>כל אחד כותב ״המשפט שאני מביא לצוות״.</div>
+    </div>
+    <div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide tight" data-topic="פאזל המומחים" data-title="חוזרים ומלמדים" data-accent="#8c7ae6">
+  <span class="kicker">🏠 חוזרים לצוות הבית</span>
+  <h2>כל מומחה מלמד <span class="violet">45 שניות</span></h2>
+  <div class="order"><span>📖 סיפור</span><i>←</i><span>🔢 מספרים</span><i>←</i><span>💰 כסף ובקשה</span><i>←</i><span>🎨 עיצוב</span><i>←</i><span>🤖 AI</span></div>
+  <div class="cards">
+    <div class="card"><div class="emoji">🗣️</div><strong>המומחה מלמד</strong><p>את המשפט שהביא, ודוגמה אחת מהכרטיס. בלי לקרוא מהדף.</p></div>
+    <div class="card"><div class="emoji">✍️</div><strong>הצוות רושם</strong><p>מילה אחת לכל מומחה, במשבצת שלו בכרטיס המשימה.</p></div>
+    <div class="card"><div class="emoji">❓</div><strong>שואלים שאלה</strong><p>לא הבנתם? שואלים עכשיו. בעוד 4 דקות זה כבר מבחן.</p></div>
+  </div>
+  <div class="taskRow">
+    <div class="note">🎡 אחר כך: <b>גלגל המומחים.</b> מי שעונה הוא דווקא מי שלא ישב בשולחן. ככה בודקים שהמומחה לימד טוב.</div>
+    <div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide tight" data-topic="פאזל המומחים" data-title="גלגל המומחים" data-accent="#8c7ae6" id="spinSlide">
+  <span class="kicker">🎡 בדיקה מהירה · תשובה נכונה = נקודה</span>
+  <h2>גלגל <span class="violet">המומחים</span></h2>
+  <div class="spin">
+    <div class="spinBox" id="spinBox">
+      <div class="spinTeam" id="spinTeam">🎡</div>
+      <div class="spinDesk" id="spinDesk">לחצו לסובב</div>
+      <button class="btn flashBtn" id="spinBtn">🎡 סיבוב</button>
+      <p class="spinRule">עונה מי שלא ישב בשולחן הזה. 10 שניות להתייעץ בצוות.</p>
+    </div>
+    <div class="qBox" id="qBox">
+      <div class="qq" id="qText">השאלה תופיע כאן.</div>
+      <div class="qa" id="qAns"></div>
+      <div class="qbtns"><button class="ghost" id="qShow">👀 תשובה</button><button class="btn" id="qPlus" disabled>✓ נכון: +1 לצוות</button><span class="hintS" id="qLeft"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="ספרינט 1: שלד" data-accent="#0f766e">
+  <button class="helpBtn" data-help="sprint1" aria-label="הוראות">?</button>
+  <span class="kicker">🛠️ ספרינט 1 · 16 דקות</span>
+  <h2>קודם שלד, <span class="cyan">אחר כך בשר</span></h2>
+  <div class="taskRow">
+    <div class="sideStack">
+      <span class="light y">🟡 AI לרעיונות ולטיוטות: אתם מחליטים ועורכים</span>
+      <div class="milestones" style="margin-top:4px">
+        <div><b>⏱️ עד דקה 8</b>10 כותרות מסקנה בכל 10 השקפים, גם אם השקף עוד ריק.</div>
+        <div><b>🏁 עד סוף הספרינט</b>4 שקפים מלאים לפי <span class="nw">6-15-1</span>: בעיה, לקוח, פתרון וראיות.</div>
+      </div>
+    </div>
+    <div class="timer" data-seconds="960"><output>16:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה</strong><p>שקפים 1–3. כותרת מסקנה לכל אחד.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>שקף 4: הנתונים מהסקר ומהראיונות שלכם, כל אחד עם תווית.</p></div>
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>שקפים 5–7: מחיר מהשיעורים הקודמים, תרגיל, בקשה.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>שער, לוגו וצבעים אחידים לכל המצגת.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>AI</strong><p>3 הצעות כותרת מ-Gemini לשקף שתקוע.</p></div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="עזרה ב-Slides" data-accent="#0f766e">
+  <span class="kicker">🧰 Google Slides · <span class="url">slides.google.com</span></span>
+  <h2>שש פעולות <span class="cyan">שתצטרכו היום</span></h2>
+  <div class="tsteps">
+    <div class="tstep"><div><b>📝 הערות דובר</b><span>התיבה שמתחת לשקף: ״לחצו כדי להוסיף הערות דובר״. לא רואים אותה? בתפריט ״תצוגה״ מפעילים את הערות הדובר.</span></div></div>
+    <div class="tstep"><div><b>🔢 מספר ענק</b><span>״הוספה ← תיבת טקסט״, גופן 60 ומעלה. מספר אחד בשקף, והתווית ממש לידו.</span></div></div>
+    <div class="tstep"><div><b>😀 אימוג׳י</b><span>ב-Windows: מקש Windows ונקודה.<br>ב-Mac: ‏Control, ‏Command ורווח.<br>ב-Chromebook: חיפוש, ‏Shift ורווח.</span></div></div>
+    <div class="tstep"><div><b>🔷 צורה או חץ</b><span>״הוספה ← צורה״. טוב לתרשים פשוט של ״לפני ואחרי״.</span></div></div>
+    <div class="tstep"><div><b>🎨 צבעים לכל המצגת</b><span>״שקף ← עריכת עיצוב״: משנים פעם אחת, וזה חל על כל השקפים.</span></div></div>
+    <div class="tstep"><div><b>🎤 תצוגת מציג</b><span>החץ שליד ״מצגת״ ← מצב ״מציג״. רואים את הערות הדובר, והקהל רואה רק את השקף.</span></div></div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide tight" data-topic="ספרינט 1" data-title="Gemini: כותרות" data-accent="#8c7ae6">
+  <span class="kicker">✂️ Gemini · <span class="url">gemini.google.com</span></span>
+  <h2>טקסט ארוך? <span class="violet">3 כותרות מסקנה</span></h2>
+  <div class="prompt small"><span class="pLabel">פרומפט לכותרות</span><span class="ptext">הנה הטקסט של שקף [שם השקף] בפיץ׳ של הסטארט-אפ שלנו: [הדביקו]. הצע 3 כותרות של עד 6 מילים שאומרות מסקנה, ומשפט אחד של עד 15 מילים. אל תוסיף מספרים, נתונים או מקורות שלא כתבנו.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="compare small">
+    <div class="box bad"><span class="label">לפני</span>״בהפסקות הרבה מאוד תלמידים לא יודעים מה לעשות, אין מספיק כדורים, ומי שמביא כדור מהבית מחליט מי משחק, וזה לא הוגן.״</div>
+    <div class="box good"><span class="label">אחרי</span><b>משעמם בהפסקה</b><br>״אין מספיק ציוד, ומי שמביא כדור מהבית קובע מי משחק.״</div>
+  </div>
+  <div class="note">👀 בוחרים כותרת אחת <b>ומשנים בה לפחות מילה אחת</b>, כדי שתישמע כמוכם. ורושמים בשקף ה-AI: ״Gemini הציע כותרות, אנחנו בחרנו ושינינו״.</div>
+</section>
+
+<!-- 25 -->
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="מבחן 30 השניות" data-accent="#e76f86">
+  <button class="helpBtn" data-help="peer" aria-label="הוראות">?</button>
+  <span class="kicker">⏱️ נקודת ביקורת</span>
+  <h2>מבחן <span class="red">30 השניות</span></h2>
+  <div class="row2 wide">
+    <div class="task" style="margin-top:6px"><strong>מתחלפים עם הצוות שלידכם:</strong><ol>
+      <li>מדפדפים במצגת שלהם. רק הכותרות, 30 שניות!</li>
+      <li>אחד מכם משלים בקול את המשפט שלמטה.</li>
+      <li>נותנים ביקורת אחת: אדיבה, ספציפית ומועילה.</li>
+    </ol></div>
+    <div class="panel" style="margin-top:6px"><h3>🧑‍🏫 בזמן הזה המדריך עובר</h3><p style="margin:0;font-size:18px;line-height:1.5">ובודק בכל צוות: <b>10 כותרות</b> ו-<b>4 שקפים מלאים</b>? זה 3 נקודות.</p></div>
+  </div>
+  <div class="note teal" style="font:700 clamp(19px,2.1vw,28px) var(--display)">״הסטארט-אפ שלכם עוזר ל______ ש______, בעזרת ______.״</div>
+  <div class="timers2"><span class="tl">דפדוף:</span><div class="timer" data-seconds="30"><output>00:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="tl">כל הסבב:</span><div class="timer" data-seconds="360"><output>06:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+</section>
+
+<!-- 26 -->
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="לוח הניקוד" data-accent="#e3a82b" id="sbSlide1">
+  <span class="kicker">🏆 לוח הניקוד · אחרי נקודת הביקורת</span>
+  <h2>מי מוביל <span class="yellow">בחצי הדרך?</span></h2>
+  <div class="sb"></div>
+  <div class="sbTools"><button class="ghost" data-sb="addTeam">＋ צוות</button><button class="ghost" data-sb="removeTeam">− צוות אחרון</button><button class="ghost" data-sb="resetAll">↺ איפוס לשיעור חדש</button><span class="hintS">לחיצה על שם הצוות משנה אותו</span></div>
+</section>
+
+<!-- 27 -->
+<section class="slide tight" data-topic="נקודת ביקורת" data-title="דקה של תנועה" data-accent="#5bb5a2">
+  <span class="kicker">🕺 דקה של תנועה</span>
+  <h2>יתום? <span class="green">קמים!</span> יש תווית? יושבים.</h2>
+  <div class="moveQ">
+    <div class="mq"><span class="n">1</span><span>״כמעט כל שבוע נעלם כדור,״ סיפר לנו אב הבית בראיון.</span><span class="ans reveal">🪑 יושבים · 📋 מקור</span></div>
+    <div class="mq"><span class="n">2</span><span>״עד 2030 מיליון ילדים ישתמשו בקופסה שלנו.״</span><span class="ans reveal">🧍 קמים · 🟥 יתום</span></div>
+    <div class="mq"><span class="n">3</span><span>״15 ₪ לחבל × 4 חבלים = 60 ₪.״</span><span class="ans reveal">🪑 יושבים · 🧮 חישוב</span></div>
+    <div class="mq"><span class="n">4</span><span>״9 מתוך 10 מומחים ממליצים על הארגז שלנו.״</span><span class="ans reveal">🧍 קמים · 🟥 יתום</span></div>
+  </div>
+</section>
+
+<!-- 28 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="ספרינט 2: מלבישים" data-accent="#15803d">
+  <button class="helpBtn" data-help="sprint2" aria-label="הוראות">?</button>
+  <span class="kicker">🎨 ספרינט 2 · 13 דקות</span>
+  <h2>מלבישים, כותבים <span class="green">ובודקים</span></h2>
+  <div class="taskRow">
+    <div class="sideStack">
+      <span class="light g">🟢 AI כשותף: בונים איתו, ותמיד בודקים</span>
+      <div class="milestones" style="margin-top:4px">
+        <div><b>⏱️ עד דקה 9</b>כל 10 השקפים מלאים, הערות דובר בכל שקף סיפור, שקף מקורות ושקף AI.</div>
+        <div><b>🧪 דקות 9–13</b>האחראי/ת על ה-AI בונה בוחן ב-Gemini Notebook. כל השאר: בודק השקף.</div>
+      </div>
+    </div>
+    <div class="timer" data-seconds="780"><output>13:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="cards five">
+    <div class="card"><div class="emoji">🎤</div><strong>מציג/ה</strong><p>הערות דובר: 25–40 מילים לכל שקף סיפור.</p></div>
+    <div class="card"><div class="emoji">🔍</div><strong>חוקר/ת</strong><p>שקף המקורות: מה, מי, מתי, ולאתר גם קישור.</p></div>
+    <div class="card"><div class="emoji">🧭</div><strong>מנכ״ל/ית</strong><p>הבקשה: מה, כמה, למה. מוסיף/ה את המדריך כ״עורך״.</p></div>
+    <div class="card"><div class="emoji">🛠️</div><strong>בונה</strong><p>ויזואל אחד לכל שקף. מספר חשוב בגופן ענק.</p></div>
+    <div class="card"><div class="emoji">🤖</div><strong>AI</strong><p>תמונה אחת, שקף שקיפות AI, ובסוף הבוחן.</p></div>
+  </div>
+</section>
+
+<!-- 29 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="Gemini: הערות ותמונה" data-accent="#8c7ae6">
+  <span class="kicker">🤖 שני פרומפטים לספרינט 2</span>
+  <h2>הערות דובר <span class="violet">ותמונה לשקף</span></h2>
+  <div class="prompt small"><span class="pLabel">📝 הערות דובר</span><span class="ptext">כתוב הערות דובר לשקף [שם השקף] בפיץ׳ של הסטארט-אפ שלנו. זה מה שכתוב בשקף: [הדביקו]. עד 40 מילים, במשפטים קצרים, כמו תלמידים שמדברים מול משקיעה. השתמש רק במה שכתבנו, ואל תוסיף מספרים, נתונים או מקורות.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="prompt small"><span class="pLabel">🖼️ תמונה (Gemini ← ״תמונות״)</span><span class="ptext">צור איור פשוט וצבעוני בסגנון אייקון שטוח לשקף ״[שם השקף]״: [מה המוצר עושה, במשפט]. רקע לבן, בלי אנשים אמיתיים ובלי טקסט בתמונה.</span><button class="copyBtn ghost">📋 העתקה</button></div>
+  <div class="note">✍️ טקסט בעברית בתוך תמונה יוצא בדרך כלל משובש, ולכן את המילים כותבים בשקף. ואת הערות הדובר קוראים בקול ומתקנים, עד שהן נשמעות כמוכם.</div>
+</section>
+
+<!-- 30 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="בודק השקף" data-accent="#15803d">
+  <span class="kicker">🔬 בודק השקף · מקלידים ורואים מיד</span>
+  <h2>עובר את <span class="green">חדר העריכה?</span></h2>
+  <div class="chk">
+    <div class="chkIn">
+      <label for="ckH">🏷️ כותרת <output id="ckHo">0 / 6</output></label>
+      <input id="ckH" type="text" autocomplete="off" value="משעמם בהפסקה">
+      <label for="ckS">💬 המשפט בשקף <output id="ckSo">0 / 15</output></label>
+      <input id="ckS" type="text" autocomplete="off" value="12 מתוך 20 תלמידים בסקר שלנו אמרו שמשעמם להם בהפסקה.">
+      <label for="ckN">📝 הערות הדובר <output id="ckNo">0 מילים</output></label>
+      <textarea id="ckN">שאלנו תלמידים מה הם עושים בהפסקה. רובם אמרו שאין להם עם מה לשחק. 95% מהילדים בארץ מרגישים ככה.</textarea>
+    </div>
+    <div class="chkOut">
+      <h3>🔢 המספרים שמצאתי</h3>
+      <div class="numList" id="ckList"></div>
+      <div class="chkSum" id="ckSum"></div>
+      <p class="hintS" style="margin:0">הבודק מוצא רק מספרים שכתובים בספרות. את המספרים במילים בודקים בעיניים.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 31 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="בוחן ב-Notebook" data-accent="#4c8bd6">
+  <button class="helpBtn" data-help="notebook" aria-label="הוראות">?</button>
+  <span class="kicker">🧪 Gemini Notebook · <span class="url">notebook.google.com</span></span>
+  <h2>בונים <span class="cyan">בוחן בהירות</span></h2>
+  <div class="tsteps">
+    <div class="tstep"><div><b>נוטבוק חדש</b><span>״יצירת נוטבוק חדש״.</span></div></div>
+    <div class="tstep"><div><b>מעלים את המצגת</b><span>״העלאת מקור״ ← Google Drive ← המצגת שלכם.</span></div></div>
+    <div class="tstep"><div><b>יוצרים בוחן</b><span>בחלונית התוצרים (״סטודיו״): ״בחנים״. אם אפשר לבחור, מעט שאלות ברמה בינונית.</span></div></div>
+    <div class="tstep"><div><b>מציצים, לא פותרים</b><span>בודקים שהבוחן נוצר. לא עונים עליו בעצמכם, הוא מחכה לצוות הבודק.</span></div></div>
+  </div>
+  <div class="note good">💡 הבוחן נבנה <b>רק מהמצגת שלכם.</b> אם הצוות הבודק נכשל בשאלה, כנראה שהשקף שלה לא ברור. ואם יש שאלה על משהו שבכלל לא כתוב במצגת? ה-AI המציא, והבודקים מרוויחים נקודה.</div>
+  <div class="note">🔁 שיניתם את המצגת אחרי שהעליתם אותה? המקור לא מתעדכן לבד: מסנכרנים אותו עם Drive או מעלים שוב.</div>
+</section>
+
+<!-- 32 -->
+<section class="slide tight" data-topic="ספרינט 2" data-title="משימות צד" data-accent="#f4a259">
+  <span class="kicker">🏃 סיימתם מוקדם? כל משימה = נקודה (עד 2)</span>
+  <h2>משימות <span class="yellow">צד</span></h2>
+  <div class="cards five sideCards">
+    <div class="card"><div class="emoji">❓</div><strong>שקף ״עוד לא יודעים״</strong><p>3 שאלות שעוד אין לכם תשובה עליהן, ואיך תבדקו כל אחת.</p><span class="pts">+1</span></div>
+    <div class="card"><div class="emoji">⏱️</div><strong>המצגת ב-30 שניות</strong><p>קוראים בקול רק את 10 הכותרות. הסיפור מובן? עברתם.</p><span class="pts">+1</span></div>
+    <div class="card"><div class="emoji">📊</div><strong>תרשים אמיתי</strong><p>תרשים מתשובות הסקר שלכם ב-Forms: סמל ההעתקה על התרשים ← הדבקה בשקף.</p><span class="pts">+1</span></div>
+    <div class="card"><div class="emoji">🛡️</div><strong>שקף גיבוי</strong><p>השאלה הכי קשה שהכרישים ישאלו, והתשובה שלכם, בשקף נסתר בסוף.</p><span class="pts">+1</span></div>
+    <div class="card"><div class="emoji">🔴</div><strong>הצוות האדום</strong><p>3 סיבות שהמיזם עלול להיכשל, כמו Better Place, ומה עושים עם כל אחת.</p><span class="pts">+1</span></div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide tight" data-topic="הגשה" data-title="הגשה" data-accent="#0f766e">
+  <span class="kicker">📤 הגשה · 2 דקות</span>
+  <h2>מגישים <span class="cyan">לפני הביקורת</span></h2>
+  <div class="subGrid">
+    <div class="panel">
+      <h3>1. הטופס ״הגשת תוצר״</h3>
+      <div class="linkRow" style="margin-top:0"><span class="linkSlot" contenteditable="true" spellcheck="false" id="formSlot" data-ph="הקישור הקצר לטופס"></span></div>
+      <p style="margin:10px 0 4px;font-size:17px">שם הקובץ:</p><span class="fname">צוות [שם הסטארט-אפ] · שיעור 23 · מצגת פיץ׳</span>
+      <p style="margin:10px 0 0;font-size:17px">והקישור למצגת נכנס גם לשקף של שיעור 23 ביומן הסטארט-אפ.</p>
+      <div class="aiLine">🤖 <b>שורת AI בטופס:</b> מה ה-AI עשה ___ · מה אנחנו עשינו ___</div>
+    </div>
+    <div class="panel">
+      <h3>2. צ׳קליסט (לחצו לסמן)</h3>
+      <ul class="checkList" id="subCheck">
+        <li>10 שקפים: שער, 7 שקפי סיפור, מקורות, שקיפות AI</li>
+        <li>כל שקף סיפור לפי <span class="nw">6-15-1</span></li>
+        <li>הערות דובר בכל שקף סיפור</li>
+        <li>לפחות 3 מספרים, ולכל מספר תווית</li>
+        <li>שקף מקורות: מה, מי, מתי</li>
+        <li>שקף AI: הציע · שמרנו · שינינו · טעות שתפסנו</li>
+        <li>המדריך שותף כ״עורך״</li>
+        <li>הבוחן ב-Notebook מוכן ופתוח</li>
+      </ul>
+    </div>
+  </div>
+  <div class="timer" data-seconds="120"><output>02:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 34 -->
+<section class="slide tight" data-topic="הביקורת" data-title="איך עובדת הביקורת" data-accent="#c2410c">
+  <button class="helpBtn" data-help="audit" aria-label="הוראות">?</button>
+  <span class="kicker">🖊️ העט האדום עובר אליכם</span>
+  <h2>הביקורת: <span class="red">בוחן וציד מספרים</span></h2>
+  <div class="tsteps">
+    <div class="tstep"><div><b>עוברים שולחן</b><span>כל צוות עובר לשולחן של הצוות שמולו. המנכ״ל/ית נשאר/ת בבית כ״שומר/ת המקורות״.</span></div></div>
+    <div class="tstep"><div><b>🧪 בוחן · 3 דקות</b><span>פותרים יחד את הבוחן שמחכה על המסך. רושמים בדף: כמה נכון מתוך כמה.</span></div></div>
+    <div class="tstep"><div><b>🔍 ציד מספרים · 4 דקות</b><span>עוברים שקף שקף. כל מספר נרשם בדף: שקף, המספר, התווית, ✓ עובר או 🟥 יתום.</span></div></div>
+    <div class="tstep"><div><b>✍️ דקה לחתימה</b><span>חותמים על הדף, ושומר/ת המקורות חותם/ת שראה/תה. הדף עובר למדריך.</span></div></div>
+  </div>
+  <div class="row2" style="margin-top:12px">
+    <div class="note">⚖️ <b>מחלוקת?</b> שומר/ת המקורות מראה/ה את המקור תוך 30 שניות. הראה/תה? המספר לא יתום.</div>
+    <div class="note good">💛 <b>אדיב · ספציפי · מועיל:</b> ״בשקף 4 המספר 30 בלי תווית״, ולא ״המצגת שלכם מלאה שקרים״.</div>
+  </div>
+</section>
+
+<!-- 35 -->
+<section class="slide tight" data-topic="הביקורת" data-title="תחנת הביקורת" data-accent="#c2410c" id="auditSlide">
+  <span class="kicker">⏱️ תחנת הביקורת</span>
+  <h2>3 דקות בוחן, <span class="red">4 דקות ציד</span></h2>
+  <div class="timers2"><span class="tl">🧪 בוחן</span><div class="timer" data-seconds="180"><output>03:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div><span class="tl">🔍 ציד מספרים</span><div class="timer" data-seconds="240"><output>04:00</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div></div>
+  <div class="auditCalc">
+    <div class="acForm">
+      <div class="acPair">
+        <div class="acF"><label for="acP">🎤 הצוות שנבדק</label><select id="acP"></select></div>
+        <span class="arr">🔍</span>
+        <div class="acF"><label for="acA">🖊️ הצוות הבודק</label><select id="acA"></select></div>
+      </div>
+      <div class="acNums">
+        <div class="acF"><label for="acN">מספרים שנבדקו</label><input id="acN" type="number" min="0" max="40" value="0"></div>
+        <div class="acF"><label for="acK">מתוכם יתומים</label><input id="acK" type="number" min="0" max="40" value="0"></div>
+        <div class="acF"><label for="acX">נכון בבוחן</label><input id="acX" type="number" min="0" max="30" value="0"></div>
+        <div class="acF"><label for="acY">שאלות בבוחן</label><input id="acY" type="number" min="0" max="30" value="0"></div>
+        <div class="acF"><label for="acH">שאלות מומצאות</label><input id="acH" type="number" min="0" max="10" value="0"></div>
+      </div>
+      <div class="acPrev" id="acPrev"></div>
+      <div><button class="btn" id="acApply">✓ החלת הניקוד</button></div>
+    </div>
+    <div class="acLog"><h3>📒 יומן הביקורת</h3><div id="acLog"></div></div>
+  </div>
+</section>
+
+<!-- 36 -->
+<section class="slide tight" data-topic="הביקורת" data-title="לוח הניקוד" data-accent="#e3a82b" id="sbSlide2">
+  <span class="kicker">🏆 לוח הניקוד · אחרי הביקורת</span>
+  <h2>העט האדום <span class="yellow">שינה את הטבלה?</span></h2>
+  <div class="sb"></div>
+  <div class="sbTools"><span class="hintS">הגשה (5) ורמה במחוון (×3) נכנסות כאן, בלחיצה על הכפתורים.</span></div>
+</section>
+
+<!-- 37 -->
+<section class="slide tight" data-topic="שקף הזהב" data-title="שקף הזהב" data-accent="#e3a82b" id="goldSlide">
+  <button class="helpBtn" data-help="gold" aria-label="הוראות">?</button>
+  <span class="kicker">🥇 הגמר</span>
+  <h2>שקף <span class="yellow">הזהב</span></h2>
+  <div class="taskRow">
+    <p class="lead" style="margin:0">כל צוות מציג את <b>השקף הכי טוב שלו</b> ב-30 שניות. אחר כך מצביעים ביד, ואסור להצביע לצוות של עצמכם. <b>8 / 5 / 3</b> לשלושת הראשונים.</p>
+    <div class="timer" data-seconds="30"><output>00:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+  </div>
+  <div class="gvote" id="gvote"></div>
+  <div class="gctl"><button class="btn" id="gApply">🥇 חלוקת 8 / 5 / 3</button><span class="msg" id="gMsg"></span></div>
+</section>
+
+<!-- 38 -->
+<section class="slide tight" data-topic="שקף הזהב" data-title="פרסים ולוח סופי" data-accent="#e3a82b" id="sbSlide3">
+  <span class="kicker">🏆 הטבלה הסופית</span>
+  <h2>אלופי <span class="yellow">חדר העריכה</span></h2>
+  <div class="awards">
+    <div class="award"><div class="ai">🏆</div><b>אלופי חדר העריכה</b><small>הכי הרבה נקודות</small><div class="who" contenteditable="true" spellcheck="false"></div></div>
+    <div class="award"><div class="ai">🦅</div><b>עין הנץ</b><small>הבודקים שמצאו הכי הרבה בצדק</small><div class="who" contenteditable="true" spellcheck="false"></div></div>
+    <div class="award"><div class="ai">🧼</div><b>אפס יתומים</b><small>מצגת נקייה עם הכי הרבה תוויות</small><div class="who" contenteditable="true" spellcheck="false"></div></div>
+    <div class="award"><div class="ai">💡</div><b>הכי ברורים</b><small>הציון הגבוה בבוחן הבהירות</small><div class="who" contenteditable="true" spellcheck="false"></div></div>
+  </div>
+  <div class="sb compact"></div>
+</section>
+
+<!-- 39 -->
+<section class="slide tight" data-topic="סיום" data-title="תחקיר" data-accent="#0f766e">
+  <span class="kicker">🧠 תחקיר · שאלות של אסטרטגיה</span>
+  <h2>מה למדנו <span class="cyan">בחדר העריכה?</span></h2>
+  <div class="qList">
+    <div class="reveal"><b>1.</b> איזה מספר היה הכי קשה למצוא לו מקור? מה עשיתם בסוף?</div>
+    <div class="reveal"><b>2.</b> באיזו שאלה בבוחן הצוות הבודק נכשל? מה זה אומר על השקף שלה?</div>
+    <div class="reveal"><b>3.</b> איפה ה-AI עזר לכם היום, ואיפה הייתם צריכים לתקן אותו?</div>
+    <div class="reveal"><b>4.</b> אילו התוויות של היום היו מצילות את המצגת של Better Place?</div>
+  </div>
+</section>
+
+<!-- 40 -->
+<section class="slide tight" data-topic="סיום" data-title="כרטיס יציאה" data-accent="#c2410c">
+  <span class="kicker"><span class="light r" style="font-size:14px;padding:1px 10px">🔴 בלי AI</span> כל אחד לבד</span>
+  <h2>כרטיס <span class="red">יציאה</span></h2>
+  <div class="linkRow"><span class="lead" style="margin:0">🔗 הטופס:</span><span class="linkSlot" contenteditable="true" spellcheck="false" id="exitSlot" data-ph="הקישור הקצר לכרטיס היציאה"></span><span class="lead" style="margin:0">או על הנייר</span></div>
+  <div class="qList">
+    <div><b>1.</b> דבר אחד שלמדתי היום.</div>
+    <div><b>2.</b> שאלה אחת שנשארה לי.</div>
+    <div><b>3.</b> כמה הבנתי? 0 עד 5.</div>
+    <div><b>4.</b> מה ההבדל בין מספר עם התווית ״חישוב״ למספר יתום? תנו דוגמה מהמצגת שלכם.</div>
+  </div>
+  <div class="timer" data-seconds="150"><output>02:30</output><button class="ghost" data-t="toggle">▶ התחלה</button><button class="ghost" data-t="reset">↺</button></div>
+</section>
+
+<!-- 41 -->
+<section class="slide center" data-topic="סיום" data-title="הוועדה החליטה">
+  <span class="kicker">📨 תשובה מוועדת ההשקעות</span>
+  <h2>המצגות <span class="cyan">עברו עריכה</span></h2>
+  <div class="verdict">
+    <span class="stamp">✓ מוזמנים לטנק הכרישים</span>
+    <p style="margin:6px 0 0">״קראנו עם עט אדום, ומה שמצאתם היום כבר תוקן. מצגת שכל מספר בה עומד בבדיקה היא מצגת שאפשר לסמוך עליה. נתראה בשבוע הבא.״</p>
+  </div>
+  <div class="teaser reveal">⏭️ בשיעור הבא: <b>🦈 טנק הכרישים.</b> משקיעים עם כסף משחק יקשיבו לפיץ׳ שלכם, יקראו את המצגת ויחליטו במי להשקיע. תביאו את המצגת של היום.</div>
+</section>
+
+</main>
+
+<nav class="nav">
+  <div class="navSide"><button class="ghost" id="prevBtn">→ הקודם</button></div>
+  <div class="progress"><i id="progressFill"></i></div>
+  <span class="counter" id="counter">1 / 1</span>
+  <div class="navSide"><button class="btn" id="nextBtn">הבא ←</button></div>
+</nav>
+</div>
+
+<!-- Help popups: <template id="help-KEY"> opened by <button class="helpBtn" data-help="KEY"> -->
+<template id="help-flash"><h3>מבחן 5 השניות</h3><ol><li>לוחצים על ״▶ 5 שניות להסתכל״. שני השקפים נחשפים ל-5 שניות בדיוק, ואז מיטשטשים שוב.</li><li>כל אחד חושב לבד: מה זכרתי? מילה, מספר, תמונה?</li><li>כמה תלמידים אומרים בקול מה זכרו מכל שקף.</li><li>מצביעים: איזה שקף זכרתם טוב יותר? לוחצים + לכל יד מורמת.</li></ol></template>
+<template id="help-open"><h3>פותחים את תבנית המצגת</h3><ol><li>רק הבונה פותח/ת את הקישור שעל השקף, ולוחץ/ת ״יצירת עותק״.</li><li>משנים את שם הקובץ: צוות [שם הסטארט-אפ] · שיעור 23 · מצגת פיץ׳.</li><li>לוחצים ״שיתוף״ למעלה, מקלידים את המיילים של חברי הצוות ושל המדריך, ובוחרים ״עורך״.</li><li>חברי הצוות פותחים את המצגת מהמייל, או ב-Drive תחת ״פריטים ששותפו איתי״.</li><li>לא מצליחים להיכנס? עובדים בינתיים על המכשיר של חבר לצוות, ולא עוצרים את כולם.</li></ol></template>
+<template id="help-puzzle"><h3>סדרו את הסיפור</h3><ol><li>הכיתה אומרת איזה קלף לדעתה בא ראשון. לוחצים עליו, והוא מקבל את המספר 1.</li><li>ממשיכים עד 7. טעיתם? לוחצים שוב על הקלף האחרון שנבחר כדי לבטל אותו.</li><li>״✓ בדיקה״: קלף ירוק נמצא במקום, קלף כתום מראה לאן הוא שייך.</li><li>יש עוד סדרים טובים לסיפור. מה שחשוב: הבעיה לפני הפתרון, והבקשה בסוף.</li></ol></template>
+<template id="help-rules"><h3>מבחן המספרים: החוקים בקצרה</h3><ol><li>10 שקפים: שער, בעיה, לקוח, פתרון, ראיות, מודל הכנסה, צוות, בקשה, מקורות, שקיפות AI.</li><li>כל שקף סיפור: כותרת עד 6 מילים, משפט עד 15 מילים, ויזואל אחד. כל השאר בהערות הדובר.</li><li>כל מספר מקבל תווית: מקור, חישוב, בדיוני או עוד לא בדקנו. מספר בלי תווית הוא ״יתום״.</li><li>בסוף ספרינט 2 בונים בוחן ב-Gemini Notebook מתוך המצגת.</li><li>בביקורת עוברים לשולחן של צוות אחר: 3 דקות בוחן, 4 דקות ציד מספרים, דקה לחתימה.</li><li>ההגשה בטופס היא לפני הביקורת. מה שלא הוגש, לא נכנס לניקוד ההגשה.</li></ol></template>
+<template id="help-jigsaw"><h3>פאזל המומחים</h3><ol><li>כל אחד הולך לשולחן של התפקיד שלו, עם כרטיס המשימה ועט. מכל צוות יש בכל שולחן נציג אחד.</li><li>בשולחן מקבלים כרטיס מומחה. 2 דקות קוראים לבד.</li><li>3 דקות: עונים יחד על 3 השאלות שבכרטיס. כולם בשולחן צריכים להסכים על התשובה.</li><li>דקה אחרונה: כל אחד כותב ״המשפט שאני מביא לצוות״.</li><li>חוזרים הביתה. כל מומחה מלמד 45 שניות, בלי לקרוא מהדף.</li><li>צוות של 4: הבונה הולך/ת לשולחן ה-AI, וכרטיס העיצוב נקרא בצוות בדקה הראשונה של הספרינט.</li></ol></template>
+<template id="help-sprint1"><h3>ספרינט 1: שלד וכותרות</h3><ol><li>8 הדקות הראשונות: כותבים כותרת מסקנה בכל 10 השקפים. עדיין בלי עיצוב.</li><li>אחר כך כל אחד ממלא את השקפים של השולחן שלו, באותו קובץ.</li><li>הנתונים מגיעים מהשיעורים הקודמים: הסקר, הראיונות, המחיר והתקציב. פתחו את יומן הסטארט-אפ.</li><li>כל מספר מקבל תווית כבר עכשיו. אין לכם נתון? כותבים ״עוד לא בדקנו, וזו התוכנית״.</li><li>תקועים? פרומפט הכותרות בשקף הבא, או קוראים למדריך (רק המנכ״ל/ית).</li></ol></template>
+<template id="help-peer"><h3>מבחן 30 השניות</h3><ol><li>כל צוות עובר למכשיר של הצוות שלידו.</li><li>לוחצים ▶ בטיימר הקצר. מדפדפים במצגת שלהם וקוראים רק את הכותרות.</li><li>כשהזמן נגמר, אחד מכם משלים בקול: ״הסטארט-אפ שלכם עוזר ל___ ש___, בעזרת ___״.</li><li>נותנים ביקורת אחת לפי הכרטיס: אדיבה, ספציפית ומועילה.</li><li>חוזרים. מה שלא הבינו, מתקנים בספרינט 2.</li></ol></template>
+<template id="help-sprint2"><h3>ספרינט 2: מלבישים ובודקים</h3><ol><li>הערות דובר בכל שקף סיפור: 25–40 מילים, מה אומרים בקול.</li><li>שקף המקורות: לכל מקור כותבים מה זה, מי, מתי, ולאתר גם קישור.</li><li>שקף שקיפות AI: מה ה-AI הציע, מה שמרנו, מה שינינו, וטעות שתפסנו.</li><li>בודקים שקפים בבודק השקף, או זה לזה בצוות.</li><li>בדקה 9 האחראי/ת על ה-AI עובר/ת ל-Gemini Notebook ובונה את הבוחן.</li><li>המנכ״ל/ית מוסיף/ה את המדריך כ״עורך״ לפני ההגשה.</li></ol></template>
+<template id="help-notebook"><h3>בוחן ב-Gemini Notebook</h3><ol><li>נכנסים ל-notebook.google.com עם חשבון ה-Google שלכם.</li><li>״יצירת נוטבוק חדש״ ← ״העלאת מקור״ ← Google Drive ← בוחרים את המצגת של הצוות.</li><li>בחלונית התוצרים (נקראת גם ״סטודיו״) לוחצים ״בחנים״. אם יש אפשרות לבחור, מעט שאלות ורמה בינונית.</li><li>מחכים שהבוחן ייווצר, ובודקים שהוא נפתח. לא פותרים אותו בעצמכם.</li><li>Notebook לא נפתח? ב-Gemini: ״צור בוחן של 5 שאלות אמריקאיות רק מתוך הטקסט הזה: [כל הטקסט מהמצגת]. בלי שאלות על דברים שלא כתובים בו.״</li></ol></template>
+<template id="help-audit"><h3>הביקורת</h3><ol><li>כל צוות עובר לשולחן של הצוות שמולו, עם דף בדיקת המספרים ועט. המנכ״ל/ית נשאר/ת בבית כ״שומר/ת המקורות״.</li><li>בוחן, 3 דקות: פותרים יחד, והחוקר/ת רושם/ת בדף כמה נכון מתוך כמה. שאלה על משהו שלא כתוב במצגת? מסמנים ״מומצאת״.</li><li>ציד מספרים, 4 דקות: עוברים על כל השקפים. לכל מספר שורה בדף: שקף, המספר, התווית, ✓ או 🟥.</li><li>שומר/ת המקורות לא עוזר/ת ולא מסביר/ה. רק במחלוקת מראה/ה מקור תוך 30 שניות.</li><li>דקה אחרונה: שני הצוותים חותמים על הדף, והוא עובר למדריך.</li></ol></template>
+<template id="help-gold"><h3>שקף הזהב</h3><ol><li>כל צוות בוחר שקף אחד, הכי טוב שלו, ואומר למדריך את מספר השקף.</li><li>המציג/ה מסביר/ה אותו ב-30 שניות, עם הטיימר.</li><li>אחרי כל הצוותים: הכיתה מצביעה ביד לכל צוות. אסור להצביע לצוות של עצמכם, ומותר להצביע ל-2 צוותים לכל היותר.</li><li>לוחצים + לפי מספר הידיים, ואז ״חלוקת 8 / 5 / 3״.</li></ol></template>
+
+<div class="modal" id="modal"><div class="modalBox"><button class="ghost modalClose" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+
+<script>
+/* ===== TIE deck engine v1 (do not edit per lesson) ===== */
+(()=>{
+const slides=[...document.querySelectorAll('#deck .slide')];
+const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
+const counter=document.getElementById('counter'),fill=document.getElementById('progressFill');
+const KEY='tie-deck:'+location.pathname;let idx=0;
+try{idx=Math.min(slides.length-1,Math.max(0,Number(sessionStorage.getItem(KEY)||0)))}catch(e){}
+const palette=['#ffd166','#31e8ff','#9b7cff','#ff9f6e','#43e6a6','#ff7ad9','#6fa8ff','#ff6d83'];
+// rail
+const rail=document.getElementById('rail');const groups=[];
+slides.forEach((s,i)=>{const t=s.dataset.topic||'·';let g=groups[groups.length-1];if(!g||g.name!==t){g={name:t,slides:[]};groups.push(g)}g.slides.push(i)});
+groups.forEach((g,gi)=>{const el=document.createElement('div');el.className='railGroup';el.style.setProperty('--tc',palette[gi%palette.length]);
+ const top=document.createElement('div');top.className='railTopic';top.textContent=g.name;top.onclick=()=>show(g.slides[0]);el.appendChild(top);
+ const sub=document.createElement('div');sub.className='railSub';
+ if(g.slides.length>1)g.slides.forEach(i=>{const it=document.createElement('div');it.className='railItem';it.dataset.i=i;it.textContent=slides[i].dataset.title||('שקף '+(i+1));it.onclick=()=>show(i);sub.appendChild(it)});
+ el.appendChild(sub);rail.appendChild(el);g.el=el;
+ g.slides.forEach(i=>slides[i].dataset.group=gi)});
+function pending(s){return [...s.querySelectorAll('.reveal:not(.show)')]}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ const s=slides[idx];document.documentElement.style.setProperty('--accent',s.dataset.accent||'#31e8ff');
+ const gi=Number(s.dataset.group);groups.forEach((g,k)=>{g.el.classList.toggle('active',k===gi);if(k<=gi)g.el.classList.add('seen')});
+ rail.querySelectorAll('.railItem').forEach(it=>it.classList.toggle('active',Number(it.dataset.i)===idx));
+ counter.textContent=(idx+1)+' / '+slides.length;fill.style.width=((idx+1)/slides.length*100)+'%';
+ prev.disabled=idx===0;next.disabled=idx===slides.length-1&&!pending(s).length;
+ try{sessionStorage.setItem(KEY,idx)}catch(e){}}
+function go(d){const s=slides[idx];if(d>0){const p=pending(s);if(p.length){p[0].classList.add('show');next.disabled=idx===slides.length-1&&!pending(s).length;return}}
+show(idx+d)}
+prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+document.getElementById('homeBtn').onclick=()=>{slides.forEach(s=>s.querySelectorAll('.reveal').forEach(r=>r.classList.remove('show')));show(0)};
+document.getElementById('fullBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,[contenteditable]'))return;if(modal.classList.contains('show')){if(e.key==='Escape')closeModal();return}
+ if(['ArrowLeft','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+ if(e.key==='f'||e.key==='F')document.getElementById('fullBtn').click();
+ const s=slides[idx];if(s.classList.contains('quiz')&&['1','2','3','4'].includes(e.key))s.querySelectorAll('.option')[Number(e.key)-1]?.click()});
+// quiz
+slides.filter(s=>s.classList.contains('quiz')).forEach(q=>{const ans=Number(q.dataset.answer);q.querySelectorAll('.option').forEach((b,i)=>b.onclick=()=>{
+ if(q.classList.contains('solved'))return;if(i+1===ans){b.classList.add('right');q.classList.add('solved')}else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong')}})});
+// true / false
+document.querySelectorAll('.tfRow').forEach(r=>r.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{r.classList.add('done');r.classList.toggle('ok',b.dataset.v===r.dataset.true);r.classList.toggle('no',b.dataset.v!==r.dataset.true)}));
+// vote
+document.querySelectorAll('.vote').forEach(v=>{const items=[...v.querySelectorAll('.voteItem')];const upd=()=>{const n=items.map(it=>Number(it.querySelector('output').textContent));const max=Math.max(1,...n),top=Math.max(...n);
+ items.forEach((it,i)=>{it.querySelector('.bar i').style.width=(n[i]/max*100)+'%';it.classList.toggle('lead1',top>0&&n[i]===top)})};
+ items.forEach(it=>it.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>{const o=it.querySelector('output');o.textContent=Math.max(0,Number(o.textContent)+Number(b.dataset.d));upd()}));upd()});
+// timer
+document.querySelectorAll('.timer').forEach(t=>{const total=Number(t.dataset.seconds||60);let left=total,iv=null;const o=t.querySelector('output'),tg=t.querySelector('[data-t=toggle]');
+ const fmt=s=>String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');const r=()=>{o.textContent=(left<0?'-':'')+fmt(left);t.classList.toggle('over',left<=0)};
+ tg.onclick=()=>{if(iv){clearInterval(iv);iv=null;t.classList.remove('running');tg.textContent='▶ המשך'}else{iv=setInterval(()=>{left--;r()},1000);t.classList.add('running');tg.textContent='⏸ עצירה'}};
+ t.querySelector('[data-t=reset]').onclick=()=>{clearInterval(iv);iv=null;left=total;t.classList.remove('running');tg.textContent='▶ התחלה';r()};r()});
+// help modal
+const modal=document.getElementById('modal'),body=document.getElementById('modalBody');
+function closeModal(){modal.classList.remove('show')}
+document.querySelectorAll('.helpBtn').forEach(b=>b.onclick=()=>{const tp=document.getElementById('help-'+b.dataset.help);if(!tp)return;body.innerHTML=tp.innerHTML;modal.classList.add('show')});
+document.getElementById('modalClose').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};
+show(idx);
+})();
+</script>
+<script>
+/* ===== חדר העריכה · מצגת פיץ׳ ובדיקת המספרים — lesson add-on (runs after the engine; the engine is untouched) =====
+   1) 5-second flash   2) story puzzle   3) count-up facts   4) label game   5) live scoreboard (points, saved in this browser)
+   6) expert spinner   7) slide checker (word limits + orphan numbers)   8) audit calculator + log   9) golden-slide vote
+   10) link slots, awards, checklist, copy buttons */
+(()=>{
+const SK='tie-pd90:'+location.pathname;
+const EMO=['🦊','🦉','🐬','🦁','🐝','🐢','🐙','🦄','🐧'];
+const NAMES=['שועלים','ינשופים','דולפינים','אריות','דבורים','צבים','תמנונים','חדי-קרן','פינגווינים'];
+const fresh=()=>({teams:Array.from({length:7},(_,i)=>({e:EMO[i],n:NAMES[i],p:0})),log:[],gold:{v:{},applied:null},used:[],slots:{},aw:{}});
+let st=null;try{st=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
+if(!st||!Array.isArray(st.teams)||!st.teams.length)st=fresh();
+st.log=st.log||[];st.gold=st.gold||{v:{},applied:null};st.used=st.used||[];st.slots=st.slots||{};st.aw=st.aw||{};
+const save=()=>{try{localStorage.setItem(SK,JSON.stringify(st))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const words=t=>String(t||'').trim().split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+const label=i=>st.teams[i]?st.teams[i].e+' '+st.teams[i].n:'—';
+const $=id=>document.getElementById(id);
+const deck=$('deck');
+const onShow=(id,fn)=>{const s=$(id);if(s)new MutationObserver(()=>{if(s.classList.contains('active'))fn()}).observe(s,{attributes:true,attributeFilter:['class']})};
+// keep arrow keys inside a focused <select> from changing slides
+window.addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='SELECT')e.stopPropagation()},true);
+
+/* ---------- 1. five-second flash ---------- */
+const fBtn=$('flashBtn'),fPair=$('pairVote'),fCnt=$('flashCount');let fIv=null;
+if(fBtn)fBtn.onclick=()=>{clearInterval(fIv);let left=5;fPair.classList.remove('hid');fCnt.textContent=left;fBtn.disabled=true;
+  fIv=setInterval(()=>{left--;if(left>0){fCnt.textContent=left}else{clearInterval(fIv);fPair.classList.add('hid');fCnt.textContent='✓';fBtn.disabled=false;fBtn.textContent='↺ שוב 5 שניות'}},1000)};
+
+/* ---------- 2. story puzzle ---------- */
+const pz=$('puzzle');
+if(pz){const tiles=[...pz.querySelectorAll('.ptile')];let picks=[];const msg=$('pzMsg');
+  const paint=()=>tiles.forEach(t=>{const k=picks.indexOf(t);t.classList.toggle('picked',k>=0);t.querySelector('.pn').textContent=k>=0?k+1:'';});
+  const clearMarks=()=>tiles.forEach(t=>{t.classList.remove('ok','no');t.querySelector('.fix').textContent=''});
+  tiles.forEach(t=>t.onclick=()=>{clearMarks();msg.classList.remove('win');const k=picks.indexOf(t);
+    if(k<0&&picks.length<7)picks.push(t);else if(k===picks.length-1)picks.pop();
+    paint();msg.textContent=picks.length<7?'נבחרו '+picks.length+' מתוך 7.':'מוכנים? לחצו ״בדיקה״.'});
+  $('pzCheck').onclick=()=>{if(picks.length<7){msg.textContent='קודם בוחרים את כל 7 הקלפים.';return}
+    let ok=0;tiles.forEach(t=>{const right=picks.indexOf(t)+1===Number(t.dataset.pos);t.classList.toggle('ok',right);t.classList.toggle('no',!right);if(right)ok++;else t.querySelector('.fix').textContent='המקום שלו: '+t.dataset.pos});
+    msg.classList.toggle('win',ok===7);msg.textContent=ok===7?'🎉 7 מתוך 7! מהכאב אל הבקשה.':ok+' מתוך 7 במקום. בעיה לפני פתרון, ובקשה בסוף.'};
+  $('pzReset').onclick=()=>{picks=[];clearMarks();paint();msg.classList.remove('win');msg.textContent='בחרו 7 קלפים לפי הסדר.'};
+  $('pzShow').onclick=()=>{picks=[...tiles].sort((a,b)=>a.dataset.pos-b.dataset.pos);clearMarks();paint();tiles.forEach(t=>t.classList.add('ok'));msg.classList.add('win');msg.textContent='הסדר שלנו: בעיה · לקוח · פתרון · ראיות · הכנסה · צוות · בקשה.'};
+}
+
+/* ---------- 3. count-up when a fact is revealed ---------- */
+const fmtN=(n,sep)=>sep?Math.round(n).toLocaleString('en-US'):String(Math.round(n));
+document.querySelectorAll('.countUp').forEach(c=>{const host=c.closest('.reveal');if(!host)return;const to=Number(c.dataset.to),pre=c.dataset.pre||'',sep=!!c.dataset.sep;let raf=0;
+  const set=v=>{c.textContent=pre+fmtN(v,sep)};set(0);
+  new MutationObserver(()=>{cancelAnimationFrame(raf);if(!host.classList.contains('show')){set(0);return}
+    const t0=performance.now(),dur=1100;const step=t=>{const k=Math.min(1,(t-t0)/dur);set(to*(1-Math.pow(1-k,3)));if(k<1)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)})
+   .observe(host,{attributes:true,attributeFilter:['class']})});
+
+/* ---------- 4. label game ---------- */
+document.querySelectorAll('.lrow').forEach(r=>r.querySelectorAll('button[data-l]').forEach(b=>b.onclick=()=>{
+  r.querySelectorAll('button').forEach(x=>x.classList.remove('pick'));b.classList.add('pick');
+  r.classList.add('done');const ok=b.dataset.l===r.dataset.ans;r.classList.toggle('ok',ok);r.classList.toggle('no',!ok)}));
+
+/* ---------- 5. scoreboard ---------- */
+function addPts(i,d){if(st.teams[i])st.teams[i].p+=d}
+function renderSB(){const pts=st.teams.map(t=>t.p),max=Math.max(1,...pts.map(p=>Math.max(0,p)));const sorted=[...new Set(pts)].sort((a,b)=>b-a);
+  document.querySelectorAll('.sb').forEach(sb=>{if(sb.contains(document.activeElement)&&document.activeElement.isContentEditable)return;
+    const compact=sb.classList.contains('compact');const order=st.teams.map((t,i)=>i);if(compact){order.sort((a,b)=>st.teams[b].p-st.teams[a].p);sb.style.gridTemplateRows='repeat('+Math.ceil(order.length/2)+',auto)';sb.style.gridAutoFlow='column'}
+    sb.innerHTML=order.map(i=>{const t=st.teams[i];const r=sorted.indexOf(t.p)+1;const medal=t.p>0?(['🥇','🥈','🥉'][r-1]||r):'·';
+      return '<div class="sbRow'+(r===1&&t.p>0?' r1':'')+'" data-i="'+i+'"><span class="sbRank">'+medal+'</span>'+
+      '<span class="sbName"><span aria-hidden="true">'+t.e+'</span><span contenteditable="true" spellcheck="false" data-name="'+i+'">'+esc(t.n)+'</span></span>'+
+      '<span class="sbBar"><i style="width:'+(Math.max(0,t.p)/max*100)+'%"></i></span><span class="sbPts">'+t.p+'</span>'+
+      '<span class="sbBtns"><button class="minus" data-add="-1" aria-label="מינוס 1">−1</button><button data-add="1">+1</button><button data-add="2">+2</button><button data-add="3">+3</button><button data-add="5">+5</button><button data-add="6">+6</button></span></div>'}).join('')})}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.sbBtns button');
+  if(b){addPts(Number(b.closest('.sbRow').dataset.i),Number(b.dataset.add));save();renderAll();return}
+  const tool=e.target.closest('[data-sb]');if(!tool)return;const a=tool.dataset.sb;
+  if(a==='addTeam'&&st.teams.length<EMO.length){const k=st.teams.length;st.teams.push({e:EMO[k],n:NAMES[k],p:0})}
+  if(a==='removeTeam'&&st.teams.length>2){const last=st.teams.length-1;st.teams.pop();
+    st.log=st.log.filter(x=>x.P!==last&&x.A!==last);delete st.gold.v[last];if(st.gold.applied)st.gold.applied=st.gold.applied.filter(x=>x.i!==last)}
+  if(a==='resetAll'&&confirm('לאפס את כל הניקוד, הביקורת וההצבעה לשיעור חדש? שמות הצוותים נשמרים.')){const names=st.teams.map(t=>t.n);const keepSlots=st.slots;st=fresh();st.slots=keepSlots;st.teams.forEach((t,i)=>{if(names[i])t.n=names[i]})}
+  save();renderAll(true)});
+document.addEventListener('input',e=>{const n=e.target.closest&&e.target.closest('[data-name]');if(n){st.teams[Number(n.dataset.name)].n=n.textContent.trim()||NAMES[Number(n.dataset.name)];save()}});
+document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('[data-name]'))setTimeout(()=>renderAll(true),0)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.closest&&e.target.closest('[data-name],.linkSlot,.award .who')){e.preventDefault();e.target.blur()}});
+
+/* ---------- 6. expert spinner ---------- */
+const DESKS=['📖 שולחן הסיפור','🔢 שולחן המספרים','💰 שולחן הכסף והבקשה','🎨 שולחן העיצוב','🤖 שולחן ה-AI'];
+const QB=[
+ [0,'מה ההבדל בין כותרת נושא לכותרת מסקנה? תנו דוגמה.','כותרת נושא אומרת על מה השקף (״הבעיה״). כותרת מסקנה אומרת מה גילינו (״משעמם בהפסקה״).'],
+ [0,'למה שקף הבעיה בא לפני שקף הפתרון?','כי המשקיעה צריכה להרגיש את הכאב לפני שהיא שומעת על הפתרון. בלי בעיה, הפתרון לא מעניין.'],
+ [0,'איפה כותבים את מה שאומרים בקול, ובערך כמה מילים?','בהערות הדובר, מתחת לשקף. 25 עד 40 מילים לכל שקף סיפור.'],
+ [1,'מה זה ״מספר יתום״?','מספר בלי אף תווית: לא מקור, לא חישוב, לא בדיוני ולא ״עוד לא בדקנו״.'],
+ [1,'למה ״12 מתוך 20״ עדיף על ״60%״?','כי רואים כמה אנשים באמת שאלו. ״60%״ יכול להיות גם 3 מתוך 5.'],
+ [1,'מה כותבים בשקף כשעוד אין לנו נתון?','״עוד לא בדקנו, וזו התוכנית״: מה נבדוק, עם מי ומתי.'],
+ [2,'מה ארבעת החלקים של בקשה טובה?','מה מבקשים, כמה, למה (על מה הכסף ילך), ולאיזה ניסיון או עד מתי.'],
+ [2,'איזו תווית מקבל ״600 ₪ בשנה״, ומה חייב להופיע לידו?','חישוב. ולידו התרגיל עצמו: 20 ₪ × 30 כיתות = 600 ₪.'],
+ [2,'מה מראים בשקף הצוות, ומה לא שמים בו?','מי עושה מה, ולמה אתם הצוות הנכון. בלי שמות מלאים ובלי תמונות של אנשים אמיתיים.'],
+ [3,'מה אומר כלל 6-15-1?','עד 6 מילים בכותרת, משפט אחד של עד 15 מילים, וויזואל אחד.'],
+ [3,'איך גורמים למשקיעה לזכור מספר חשוב?','מספר אחד ענק בשקף (גופן 60 ומעלה), והתווית שלו ממש לידו.'],
+ [3,'איפה משנים צבעים וגופנים לכל המצגת בבת אחת?','״שקף ← עריכת עיצוב״.'],
+ [4,'איזה משפט חייב להופיע בכל פרומפט שמבקש ניסוח לשקף?','״אל תוסיף מספרים, נתונים או מקורות שלא כתבנו.״'],
+ [4,'איך בונים בוחן ב-Gemini Notebook, בשלושה צעדים?','נוטבוק חדש ← מעלים את המצגת מ-Drive ← ״בחנים״ בחלונית התוצרים.'],
+ [4,'מה כותבים בשקף שקיפות ה-AI?','מה ה-AI הציע, מה שמרנו, מה שינינו, וטעות של AI שתפסנו.']];
+let cur=null;
+const spinBtn=$('spinBtn');
+function qLeft(){const l=QB.length-st.used.length;$('qLeft').textContent=l>0?'נשארו '+l+' שאלות':'כל השאלות נשאלו · הסיבוב הבא מתחיל מחדש'}
+if(spinBtn){qLeft();spinBtn.onclick=()=>{if(st.used.length>=QB.length)st.used=[];
+  const free=QB.map((q,i)=>i).filter(i=>!st.used.includes(i));const qi=free[Math.floor(Math.random()*free.length)];const ti=Math.floor(Math.random()*st.teams.length);
+  const box=$('spinBox'),qb=$('qBox');box.classList.add('rolling');qb.classList.remove('showA');spinBtn.disabled=true;$('qPlus').disabled=true;
+  let n=0;const iv=setInterval(()=>{$('spinTeam').textContent=label(Math.floor(Math.random()*st.teams.length));$('spinDesk').textContent=DESKS[Math.floor(Math.random()*5)];
+    if(++n>=12){clearInterval(iv);box.classList.remove('rolling');cur={qi,ti};st.used.push(qi);save();
+      $('spinTeam').textContent=label(ti);$('spinDesk').textContent=DESKS[QB[qi][0]];$('qText').textContent=QB[qi][1];$('qAns').textContent='✓ '+QB[qi][2];
+      spinBtn.disabled=false;$('qPlus').disabled=false;$('qPlus').textContent='✓ נכון: +1 ל'+st.teams[ti].n;qLeft()}},90)};
+  $('qShow').onclick=()=>$('qBox').classList.toggle('showA');
+  $('qPlus').onclick=()=>{if(!cur)return;addPts(cur.ti,1);save();renderAll();$('qPlus').disabled=true;$('qPlus').textContent='✓ נוספה נקודה'}}
+
+/* ---------- 7. slide checker ---------- */
+const NUM=/\d[\d,.]*(?:\s*%)?(?:\s*מתוך\s*\d[\d,.]*)?/g;
+function sentenceAt(t,i,len){let a=i,b=i+len;while(a>0&&!/[.!?\n]/.test(t[a-1]))a--;while(b<t.length&&!/[.!?\n]/.test(t[b]))b++;return t.slice(a,b)}
+function labelOf(s){
+  if(/עוד לא בדקנו|נבדוק|נשאל|נשלח שאלה|זו התוכנית/.test(s))return['todo','⏳ עוד לא בדקנו'];
+  if(/בדיוני|להמחשה/.test(s))return['fic','🏷️ בדיוני'];
+  if(/[×=*]|חישוב/.test(s))return['calc','🧮 חישוב'];
+  if(/gemini|ג׳מיני|ג'מיני|chatgpt|צ׳אט|\bAI\b|בינה מלאכותית/i.test(s))return['orph','🟥 AI הוא לא מקור'];
+  if(/סקר|ראיון|ראיינו|שאלנו|ספרנו|מדדנו|בדקנו|לפי|מקור|מחירון|אתר|ויקיפדיה/.test(s))return['src','📋 מקור'];
+  return['orph','🟥 יתום']}
+function runChk(){if(!$('ckH'))return;
+  const lim=(id,o,max,min)=>{const w=words($(id).value);const out=$(o);out.textContent=max?(w+' / '+max):(w+' מילים');out.classList.toggle('ok',w>0&&(!max||w<=max)&&(!min||w>=min));out.classList.toggle('over',max?w>max:w>40)};
+  lim('ckH','ckHo',6);lim('ckS','ckSo',15);lim('ckN','ckNo',0,25);
+  const found=[];['ckH','ckS','ckN'].forEach(id=>{const t=$(id).value;let m;NUM.lastIndex=0;while((m=NUM.exec(t))){const v=m[0].trim().replace(/[.,]$/,'');if(!/\d/.test(v))continue;found.push({v,l:labelOf(sentenceAt(t,m.index,m[0].length))})}});
+  $('ckList').innerHTML=found.length?found.map(f=>'<div><b>'+esc(f.v)+'</b><span class="lb '+f.l[0]+'">'+f.l[1]+'</span></div>').join(''):'<div class="empty">אין מספרים בשקף הזה</div>';
+  const orph=found.filter(f=>f.l[0]==='orph').length,ok=found.length-orph;const s=$('ckSum');
+  s.className='chkSum'+(found.length?(orph?' bad':' ok'):'');
+  s.textContent=found.length?(orph?('🟥 '+orph+' יתומים · '+ok+' עם תווית. תקנו לפני הביקורת!'):('✓ '+ok+' מספרים, וכולם עם תווית')):'אין מספרים: בשקף הראיות כדאי שיהיו.'}
+['ckH','ckS','ckN'].forEach(id=>{const el=$(id);if(el)el.addEventListener('input',runChk)});runChk();
+
+/* ---------- 8. audit calculator ---------- */
+const acP=$('acP'),acA=$('acA');
+const nv=id=>Math.max(0,Math.floor(Number($(id).value)||0));
+function fillSel(){if(!acP)return;const vp=acP.value,va=acA.value;const opts=st.teams.map((t,i)=>'<option value="'+i+'">'+esc(t.e+' '+t.n)+'</option>').join('');
+  acP.innerHTML=opts;acA.innerHTML=opts;acP.value=vp&&st.teams[vp]?vp:'0';acA.value=va&&st.teams[va]?va:(st.teams.length>1?'1':'0')}
+function calc(){const P=Number(acP.value),A=Number(acA.value);let n=nv('acN'),k=Math.min(nv('acK'),n),x=nv('acX'),y=nv('acY'),h=Math.min(nv('acH'),2);x=Math.min(x,y);
+  const checks=Math.min(n,6),clean=(k===0&&n>=3)?3:0,quiz=(y>0&&x/y>=0.7)?3:0;
+  const dA=checks+k+h,dP=-2*k+clean+quiz;return{P,A,n,k,x,y,h,checks,clean,quiz,dA,dP}}
+const sgn=v=>(v>0?'+':'')+v;
+function preview(){if(!acP)return;const c=calc();const pv=$('acPrev');
+  if(c.P===c.A){pv.innerHTML='⚠️ בחרו שני צוותים שונים.';$('acApply').disabled=true;return}$('acApply').disabled=false;
+  const pa=[];pa.push(c.checks+' בדיקות');if(c.k)pa.push(c.k+' יתומים');if(c.h)pa.push(c.h+' שאלות מומצאות');
+  const pp=[];if(c.k)pp.push(c.k+' יתומים (−'+2*c.k+')');if(c.clean)pp.push('מצגת נקייה (+3)');if(c.quiz)pp.push('בוחן '+Math.round(c.x/c.y*100)+'% (+3)');else if(c.y)pp.push('בוחן '+Math.round(c.x/c.y*100)+'% (מתחת ל-70%)');
+  pv.innerHTML='🖊️ <b>'+esc(label(c.A))+'</b>: <b class="'+(c.dA>=0?'plus':'minus')+'">'+sgn(c.dA)+'</b> ('+pa.join(' · ')+')<br>🎤 <b>'+esc(label(c.P))+'</b>: <b class="'+(c.dP>=0?'plus':'minus')+'">'+sgn(c.dP)+'</b>'+(pp.length?' ('+pp.join(' · ')+')':'')}
+function renderLog(){const el=$('acLog');if(!el)return;
+  el.innerHTML=st.log.length?st.log.map((x,j)=>'<div class="le"><span>🖊️ '+esc(label(x.A))+' בדקו את '+esc(label(x.P))+': '+sgn(x.dA)+' / '+sgn(x.dP)+'<br><small style="color:var(--muted)">'+x.n+' מספרים · '+x.k+' יתומים · בוחן '+x.x+'/'+x.y+'</small></span><button class="ghost" data-undo="'+j+'">↺ ביטול</button></div>').reverse().join(''):'<p class="empty">עוד לא נרשמה ביקורת. אחרי כל דף בדיקה: ממלאים משמאל ולוחצים ״החלת הניקוד״.</p>'}
+if(acP){['acP','acA','acN','acK','acX','acY','acH'].forEach(id=>$(id).addEventListener('input',preview));
+  $('acApply').onclick=()=>{const c=calc();if(c.P===c.A)return;addPts(c.A,c.dA);addPts(c.P,c.dP);st.log.push({P:c.P,A:c.A,dA:c.dA,dP:c.dP,n:c.n,k:c.k,x:c.x,y:c.y});
+    ['acN','acK','acX','acY','acH'].forEach(id=>$(id).value=0);save();renderAll()};
+  $('acLog').addEventListener('click',e=>{const b=e.target.closest('[data-undo]');if(!b)return;const j=Number(b.dataset.undo);const x=st.log[j];if(!x)return;addPts(x.A,-x.dA);addPts(x.P,-x.dP);st.log.splice(j,1);save();renderAll()})}
+
+/* ---------- 9. golden-slide vote ---------- */
+const gv=$('gvote');
+function renderGold(){if(!gv)return;const v=st.gold.v;const n=st.teams.map((t,i)=>Number(v[i]||0));const max=Math.max(1,...n),top=Math.max(...n);
+  const prize={};(st.gold.applied||[]).forEach(x=>prize[x.i]=x.pts);
+  gv.innerHTML=st.teams.map((t,i)=>'<div class="gItem'+(top>0&&n[i]===top?' top':'')+'"><b>'+esc(t.e+' '+t.n)+'</b><div class="gc"><button data-gv="'+i+'" data-d="-1" aria-label="פחות">−</button><output>'+n[i]+'</output><button data-gv="'+i+'" data-d="1" aria-label="עוד">+</button></div><div class="gbar"><i style="width:'+(n[i]/max*100)+'%"></i></div><span class="prize">'+(prize[i]?'🥇 +'+prize[i]:'')+'</span></div>').join('');
+  $('gApply').textContent=st.gold.applied?'↺ ביטול החלוקה':'🥇 חלוקת 8 / 5 / 3';
+  $('gMsg').textContent=st.gold.applied?'הנקודות נוספו ללוח. בשוויון, שני הצוותים מקבלים את אותו פרס.':'בשוויון: שני הצוותים מקבלים את אותו פרס.'}
+if(gv){gv.addEventListener('click',e=>{const b=e.target.closest('[data-gv]');if(!b||st.gold.applied)return;const i=b.dataset.gv;st.gold.v[i]=Math.max(0,Number(st.gold.v[i]||0)+Number(b.dataset.d));save();renderGold()});
+  $('gApply').onclick=()=>{if(st.gold.applied){st.gold.applied.forEach(x=>addPts(x.i,-x.pts));st.gold.applied=null}
+    else{const n=st.teams.map((t,i)=>Number(st.gold.v[i]||0));const ap=[];n.forEach((c,i)=>{if(c<=0)return;const rank=1+n.filter(o=>o>c).length;const pts=[8,5,3][rank-1];if(pts)ap.push({i,pts})});
+      if(!ap.length){$('gMsg').textContent='עוד אין הצבעות.';return}st.gold.applied=ap;ap.forEach(x=>addPts(x.i,x.pts))}
+    save();renderAll()}}
+
+/* ---------- 10. link slots, awards, checklist, copy ---------- */
+['tplSlot','formSlot','exitSlot'].forEach(id=>{const s=$(id);if(!s)return;s.textContent=st.slots[id]||'';s.addEventListener('input',()=>{st.slots[id]=s.textContent.trim();save()})});
+document.querySelectorAll('.award .who').forEach((w,k)=>{w.textContent=st.aw[k]||'';w.addEventListener('input',()=>{st.aw[k]=w.textContent.trim();save()})});
+document.querySelectorAll('.checkList li').forEach(li=>li.onclick=()=>li.classList.toggle('on'));
+document.querySelectorAll('.copyBtn').forEach(b=>b.onclick=async()=>{const txt=b.parentElement.querySelector('.ptext').textContent.trim();let ok=false;
+ try{await navigator.clipboard.writeText(txt);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(e2){}}
+ b.textContent=ok?'✓ הועתק':'סמנו והעתיקו';b.classList.toggle('done',ok);setTimeout(()=>{b.textContent='📋 העתקה';b.classList.remove('done')},1800)});
+
+function renderAll(rebuild){renderSB();if(rebuild)fillSel();preview();renderLog();renderGold()}
+['sbSlide1','sbSlide2','sbSlide3','goldSlide','auditSlide','spinSlide'].forEach(id=>onShow(id,()=>renderAll(id==='auditSlide')));
+fillSel();renderAll(true);
+})();
+</script>
+</body>
+</html>

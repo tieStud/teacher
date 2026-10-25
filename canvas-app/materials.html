@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>חומרים להדפסה · יריד האפליקציות | Tech It Easy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{
+ --paper:#fbfaf7;--paper2:#f4f1ea;--card:#ffffff;--line:#e7e3dc;--line2:#d9d3c8;--ink:#1f2a37;--muted:#5b6574;--dim:#8a93a1;
+ --teal:#0f766e;--teal-soft:#e3f1ee;--teal-deep:#0b5c56;
+ --orange:#f4a259;--mint:#5bb5a2;--violet:#8c7ae6;--rose:#e76f86;--sky:#4c8bd6;
+ --orange-ink:#c2630f;--violet-ink:#6a55c9;--rose-ink:#be3455;--sky-ink:#2f6db5;--mint-ink:#23826f;
+ --good:#15803d;--good-bg:#e7f6ec;--bad:#c2410c;--bad-bg:#fdebe3;--warn:#a16207;--warn-bg:#fdf3d7;
+ --cut:#a39b8e;
+ --display:"Rubik",Arial,sans-serif;--body:"Heebo",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:10.5pt;line-height:1.45;counter-reset:pg}
+h1,h2,h3,h4,p{margin:0}
+/* ---------- screen toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px max(16px,calc(50% - 560px));background:rgba(251,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.toolbar .mark{width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.toolbar .brand small{display:block;color:var(--muted);font-family:var(--body);font-weight:500;font-size:13px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.toc a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.printBtn{border:1px solid var(--teal-deep);background:var(--teal);color:#fff;font:700 15px var(--body);border-radius:12px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(15,118,110,.22)}
+.hint{width:100%;color:var(--muted);font-size:13px}
+/* ---------- A4 sheet ---------- */
+.sheets{padding:28px 16px 60px}
+.page{counter-increment:pg;position:relative;width:210mm;height:297mm;margin:0 auto 26px;background:#fff;padding:11mm 12mm 12mm;overflow:hidden;
+ box-shadow:0 1px 2px rgba(31,42,55,.05),0 18px 50px -18px rgba(31,42,55,.22);border-radius:3px;display:flex;flex-direction:column}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1.2px solid var(--line2);font-size:9pt;color:var(--muted)}
+.ph .l{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;color:var(--ink);font-size:10pt}
+.ph .l i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:2mm;background:var(--teal);color:#fff;font-size:7.5pt;font-weight:800}
+.ph .r{display:flex;align-items:center;gap:12px}
+.ph .r::after{content:"עמוד " counter(pg);font-weight:700;color:var(--dim)}
+.fill{display:inline-block;min-width:32mm;border-bottom:1px solid var(--ink);height:1.1em;vertical-align:bottom}
+.fill.s{min-width:16mm}.fill.l{min-width:60mm}.fill.xl{min-width:95mm}
+.pt{display:block;margin-bottom:4.5mm}
+.pt h2{font-family:var(--display);font-weight:800;font-size:21pt;line-height:1.1;letter-spacing:-.01em}
+.pt h2 span{color:var(--teal)}
+.pt h2 .fill{border-bottom-width:1.6px;min-width:70mm;height:.95em}
+.pt p{color:var(--muted);font-size:10pt;max-width:165mm;margin-top:1.2mm}
+.kick{display:inline-block;font-family:var(--display);font-weight:600;font-size:8.5pt;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:1mm 3mm;margin-bottom:2mm}
+.box{border:1px solid var(--line2);border-radius:3.5mm;padding:3.5mm 4mm;background:#fff}
+.box h3,.sec{font-family:var(--display);font-weight:700;font-size:11.5pt;margin-bottom:1.6mm}
+.soft{background:var(--paper)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.stack{display:grid;gap:4mm}
+.grow{flex:1}
+ul.clean,ol.clean{margin:0;padding-inline-start:5mm}
+ul.clean li,ol.clean li{margin-bottom:.6mm}
+ul.clean li::marker,ol.clean li::marker{color:var(--teal);font-weight:700}
+.lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8.5mm - 1px),#cfc8bc calc(8.5mm - 1px),#cfc8bc 8.5mm);min-height:17mm}
+.lines.h3{height:25.5mm}.lines.h4{height:34mm}.lines.h5{height:42.5mm}.lines.h2{height:17mm}.lines.h1{height:8.5mm;min-height:8.5mm}
+.sketch{border:1.2px dashed var(--line2);border-radius:3mm;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm),repeating-linear-gradient(90deg,#f6f3ee 0 1px,transparent 1px 5mm);position:relative}
+.sketch::before{content:attr(data-label);position:absolute;top:2mm;right:3mm;font-size:8.5pt;color:var(--dim);font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:1.3mm}
+.check li{display:flex;gap:2.5mm;align-items:flex-start}
+.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.3px solid var(--ink);border-radius:1mm;margin-top:.6mm}
+table.tb{width:100%;border-collapse:collapse;font-size:9.5pt}
+table.tb th,table.tb td{border:1px solid var(--line2);padding:1.8mm 2.2mm;text-align:right;vertical-align:top}
+table.tb th{font-family:var(--display);font-weight:600;background:var(--paper2);color:var(--ink);font-size:9pt}
+table.tb td.e{height:9mm}
+.pill{display:inline-block;border-radius:999px;padding:.3mm 2.4mm;font-size:8.5pt;font-weight:700}
+/* ---------- cut lines ---------- */
+.cutgrid{display:grid;border-top:1.2px dashed var(--cut);border-right:1.2px dashed var(--cut);position:relative}
+.cutgrid>*{border-left:1.2px dashed var(--cut);border-bottom:1.2px dashed var(--cut)}
+.cutgrid::before{content:"✂";position:absolute;top:-3.4mm;right:4mm;background:#fff;padding:0 1mm;color:var(--cut);font-size:11pt;line-height:1}
+.cutnote{font-size:8.5pt;color:var(--dim);margin-bottom:2mm}
+/* ---------- role cards ---------- */
+.roles{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.role{--c:var(--teal);--cs:var(--teal-soft);padding:5mm 5.5mm;display:flex;flex-direction:column;gap:2.2mm;position:relative;overflow:hidden;font-size:10.3pt}
+.role::before{content:"";position:absolute;inset:0 0 auto 0;height:2.2mm;background:var(--c)}
+.role .rh{display:flex;align-items:center;gap:3mm;margin-top:1.5mm}
+.role .ic{width:12mm;height:12mm;border-radius:3mm;background:var(--cs);display:grid;place-items:center;font-size:17pt;flex:none}
+.role .rh b{display:block;font-family:var(--display);font-weight:800;font-size:14pt;line-height:1.1}
+.role .rh small{color:var(--muted);font-size:9pt;font-weight:500}
+.role .mis{font-weight:700;font-size:10.3pt}
+.role h4{font-family:var(--display);font-weight:700;font-size:9.4pt;color:var(--c-ink,var(--teal))}
+.role ul{margin:0;padding-inline-start:4.2mm}
+.role li{margin-bottom:.4mm}
+.role .say{background:var(--cs);border-radius:2mm;padding:2mm 2.6mm;font-size:9.6pt}
+.role .no{color:var(--bad);font-size:9pt}
+.role .bonus{margin-top:auto;font-size:9pt;font-weight:700;border-top:1px solid var(--line);padding-top:1.6mm}
+.r-ceo{--c:#0f766e;--cs:#e3f1ee;--c-ink:#0f766e}
+.r-res{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}
+.r-bld{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+.r-pre{--c:#8c7ae6;--cs:#efecfb;--c-ink:#6a55c9}
+.r-ai{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}
+/* ---------- challenge cards ---------- */
+.cards{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;flex:1}
+.cc{--c:var(--teal);--cs:var(--teal-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4mm;position:relative;gap:1.5mm}
+.cc .cat{position:absolute;top:3mm;right:3mm;font-family:var(--display);font-weight:700;font-size:8pt;color:var(--c-ink,var(--c));background:var(--cs);border-radius:999px;padding:.4mm 2.4mm}
+.cc .no{position:absolute;top:3mm;left:3.5mm;font-size:8pt;color:var(--dim);font-weight:700}
+.cc .em{font-size:24pt;line-height:1}
+.cc b{font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.15}
+.cc small{color:var(--muted);font-size:8.6pt}
+.cc::after{content:"";position:absolute;inset:auto 0 0 0;height:1.6mm;background:var(--c)}
+.k-cust{--c:#4c8bd6;--cs:#e7f0fa;--c-ink:#2f6db5}.k-prob{--c:#e76f86;--cs:#fce9ed;--c-ink:#be3455}.k-tech{--c:#f4a259;--cs:#fdf0e3;--c-ink:#c2630f}
+/* ---------- rubric ---------- */
+table.rub{width:100%;border-collapse:separate;border-spacing:0;font-size:9pt;table-layout:fixed}
+table.rub th,table.rub td{border-bottom:1px solid var(--line2);border-left:1px solid var(--line2);padding:2.2mm 2.2mm;vertical-align:top;text-align:right}
+table.rub tr>*:first-child{border-right:1px solid var(--line2)}
+table.rub thead th{font-family:var(--display);font-weight:700;font-size:9.4pt;border-top:1px solid var(--line2)}
+table.rub thead th:first-child{border-start-start-radius:3mm}
+table.rub thead th:last-child{border-start-end-radius:3mm}
+table.rub td.crit{font-family:var(--display);font-weight:700;font-size:9.6pt;background:var(--paper)}
+table.rub td.crit small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:8.4pt;margin-top:.8mm}
+.lv1{background:#fbf3ee}.lv2{background:#fdf8ea}.lv3{background:#eef7f2}.lv4{background:#e8f3f1}
+table.rub td.self{vertical-align:middle}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:1.2mm;justify-items:center}
+.sc i{font-style:normal;display:grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt;font-weight:700}
+.lvl{display:flex;gap:2.5mm;flex-wrap:wrap;margin-top:3mm;font-size:9pt}
+.lvl span{border:1px solid var(--line2);border-radius:999px;padding:.6mm 3mm;background:#fff}
+/* ---------- traffic light + AI ---------- */
+.tl{display:flex;gap:3mm}
+.tl div{flex:1;border-radius:3mm;padding:2.5mm 3mm;font-size:9pt;border:1px solid var(--line2)}
+.tl b{display:block;font-family:var(--display);font-size:10pt}
+.tl .r{background:#fdebe3}.tl .y{background:#fdf3d7}.tl .g{background:#e7f6ec}
+.aiw{display:flex;flex-direction:column;gap:2.2mm;padding:4.5mm 5mm}
+.aiw .head{display:flex;align-items:center;justify-content:space-between;gap:3mm;font-size:9.4pt}
+.aiw .head b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.aiw .cols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1}
+.aiw .col{border-radius:3mm;padding:2.6mm 3mm;display:flex;flex-direction:column;gap:1.4mm}
+.aiw .col b{font-family:var(--display);font-weight:700;font-size:10.5pt}
+.aiw .col .lines{flex:1;min-height:17mm}
+.aiw .ai-c{background:#fce9ed}.aiw .we-c{background:#e3f1ee}
+.aiw .foot{display:flex;justify-content:space-between;font-size:8.6pt;color:var(--muted)}
+/* ---------- exit ticket ---------- */
+.exits{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.ex{padding:5mm;display:flex;flex-direction:column;gap:2mm;font-size:9.4pt}
+.ex .eh{display:flex;justify-content:space-between;align-items:center}
+.ex .eh b{font-family:var(--display);font-weight:800;font-size:12.5pt}
+.ex .q{font-weight:700}
+.ex .scale{display:flex;gap:2.2mm;font-size:9pt;align-items:center;flex-wrap:wrap}
+.ex .scale i{font-style:normal;display:inline-grid;place-items:center;width:6mm;height:6mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8pt}
+.ex .tags{display:flex;flex-wrap:wrap;gap:1.6mm;font-size:8.6pt}
+.ex .tags span::before{content:"☐ "}
+.ex .lbl{font-weight:700;font-size:9pt;margin-top:auto}
+.ex .red{font-size:8.4pt;color:var(--bad);font-weight:700}
+/* ---------- table sign ---------- */
+.tent{flex:1;display:grid;grid-template-rows:1fr 1fr;border:1.2px dashed var(--cut);border-radius:2mm;position:relative}
+.tent::after{content:"קיפול";position:absolute;inset:50% 0 auto 0;border-top:1.4px dashed var(--teal);text-align:center;font-size:8pt;color:var(--teal);line-height:0;padding-top:0}
+.tent>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4mm;text-align:center;padding:8mm}
+.tent .top{transform:rotate(180deg)}
+.tent .em{font-size:48pt;line-height:1}
+.tent b{font-family:var(--display);font-weight:800;font-size:30pt}
+.tent .nm{width:130mm;border-bottom:1.6px solid var(--ink);height:16mm}
+.fold{font-size:8.5pt;color:var(--dim);text-align:center;margin-top:2mm}
+
+/* ---------- canvas-app additions ---------- */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.sp{border:1px solid var(--line2);border-radius:3.5mm;padding:2.6mm 3.5mm;background:#fff;border-inline-start:2.2mm solid var(--c,var(--teal))}
+.sp b{display:block;font-family:var(--display);font-weight:800;font-size:11.5pt}
+.sp small{display:block;color:var(--muted);font-size:8.5pt;margin-bottom:.5mm}
+.sp.s1{--c:#f4a259}.sp.s2{--c:#4c8bd6}.sp.s3{--c:#5bb5a2}.sp.s4{--c:#e76f86;grid-row:span 2}.sp.s5{--c:#8c7ae6}
+.sp.s4{grid-column:2;grid-row:2 / span 2}
+.phoneSk{border:2.2mm solid #273444;border-radius:7mm;min-height:52mm;position:relative;background:repeating-linear-gradient(0deg,#f6f3ee 0 1px,transparent 1px 5mm)}
+.phoneSk span{position:absolute;top:2mm;right:0;left:0;text-align:center;font-size:8.5pt;color:var(--dim);font-weight:700}
+.sign{border:1.4px dashed var(--teal);border-radius:3.5mm;padding:3mm 4mm;display:flex;flex-direction:column;justify-content:space-between;background:var(--teal-soft)}
+.sign b{font-family:var(--display);font-size:11pt;color:var(--teal-deep)}
+.sign span{font-size:9pt}
+/* bug slips */
+.bugs{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);flex:1}
+.bug{padding:3.5mm 4mm;display:flex;flex-direction:column;gap:3.8mm;font-size:9.4pt;position:relative}
+.bug::before{content:"";position:absolute;inset:0 0 auto 0;height:1.4mm;background:#e76f86}
+.bug .bh{display:flex;justify-content:space-between;align-items:baseline;gap:2mm;margin-top:1mm;white-space:nowrap}
+.bug .bh b{font-family:var(--display);font-weight:800;font-size:11.5pt}
+.bug .bh span{font-size:8.4pt;color:var(--muted)}
+.bug p{margin:0}.bug p .fill.xl{min-width:62mm}
+.bug .bh .fill.s{min-width:9mm}
+.bug .bf{margin-top:auto;display:flex;flex-direction:column;gap:1mm;font-size:8.4pt;color:var(--muted)}
+/* track + red + side cards */
+.tracks,.quads{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1}
+.trk,.rteam,.side{padding:4mm 4.5mm;display:flex;flex-direction:column;gap:1.4mm;font-size:9.2pt;position:relative}
+.trk::before,.rteam::before,.side::before{content:"";position:absolute;inset:0 0 auto 0;height:2mm;background:var(--c,var(--teal))}
+.k1{--c:#5bb5a2}.k2{--c:#4c8bd6}.k3{--c:#f4a259}.k4{--c:#8c7ae6}.rteam{--c:#e76f86}.side{--c:#e3a82b}
+.th{display:flex;align-items:center;gap:2.5mm;margin:1.2mm 0 1mm}
+.th>span{font-size:18pt;width:11mm;height:11mm;display:grid;place-items:center;border-radius:3mm;background:color-mix(in srgb,var(--c) 14%,#fff)}
+.th b{display:block;font-family:var(--display);font-weight:800;font-size:13pt;line-height:1.1}
+.th small{color:var(--muted);font-size:8.4pt}
+.trk p,.side p{margin:0;line-height:1.4}
+.trk p.tex{margin-top:auto;background:#fffbe6;border-radius:2mm;padding:1.6mm 2.2mm;font-size:8.8pt}
+.side p{margin-bottom:1.6mm}
+.mini-ex{margin-top:2mm;background:#fdebe3;border-radius:2mm;padding:2mm 2.6mm;font-size:8.8pt;line-height:1.45}
+.sevs{margin:1.5mm 0 0;font-size:8.6pt;color:var(--muted);line-height:1.45}
+.tip2{margin-top:auto !important;font-size:8.8pt;font-weight:700;color:var(--rose-ink)}
+/* booth signs */
+.booths{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:6mm}
+.booth{border:1.2px dashed var(--cut);border-radius:3mm;display:flex;overflow:hidden;border-top:3mm solid #f4a259}
+.bfold{text-align:center;font-size:8pt;color:var(--teal);border-bottom:1.4px dashed var(--teal);padding:8mm 0 1mm}
+.bin{padding:6mm 7mm;display:flex;flex-direction:column;justify-content:space-between;gap:4mm;flex:1}
+.bt{display:flex;gap:5mm;align-items:center}
+.bicon{flex:none;width:34mm;height:34mm;border:1.4px dashed var(--line2);border-radius:6mm;display:grid;place-items:center;color:var(--dim);font-size:9pt}
+.bt small{color:var(--muted);font-size:9pt}
+.bt p{margin:0;font-size:10.5pt;line-height:2}
+.bname{font-family:var(--display);font-weight:800;font-size:15pt !important}
+.btask{border:1.4px solid #f0dcaa;background:#fffaf0;border-radius:3mm;padding:2.5mm 4mm}
+.btask b{font-family:var(--display);font-size:11.5pt;color:#8a5300}
+.brules{display:flex;flex-wrap:wrap;gap:2.5mm;font-size:10pt}
+.brules span{border:1px solid var(--line2);border-radius:999px;padding:.8mm 3mm;background:var(--paper)}
+/* rating slips */
+.rates{grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr);flex:1}
+.rt{padding:3mm 4mm;display:flex;flex-direction:column;gap:1.6mm;font-size:9.2pt;position:relative}
+.rt::before{content:"";position:absolute;inset:0 0 auto 0;height:1.2mm;background:#e3a82b}
+.rt .rh{display:flex;justify-content:space-between;align-items:center;margin-top:.8mm}
+.rt .rh b{font-family:var(--display);font-weight:800;font-size:11pt}
+.rt p{margin:0}
+.stars{display:flex;gap:2.4mm;align-items:center}
+.stars i{font-style:normal;display:inline-grid;place-items:center;width:7mm;height:7mm;border:1.2px solid var(--ink);border-radius:50%;font-size:8.5pt;font-weight:700}
+.stars small{color:var(--dim);font-size:8pt}
+/* score sheet */
+table.sct{font-size:8.4pt}
+table.sct th{font-size:7.8pt;padding:1.4mm 1mm;text-align:center}
+table.sct td{text-align:center;height:8.6mm}
+table.tb.fairT td,table.tb.fairT td.e{height:7.4mm;padding-top:1mm;padding-bottom:1mm}
+td.sev{font-size:7.5pt;white-space:nowrap;text-align:center}
+/* ---------- print ---------- */
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .toolbar{display:none}
+ .sheets{padding:0}
+ .page{margin:0;box-shadow:none;border-radius:0;break-after:page;page-break-after:always}
+ .page:last-child{break-after:auto;page-break-after:auto}
+ .box,.role,.cc,.ex,.aiw,table,tr{break-inside:avoid}
+}
+@media screen and (max-width:860px){
+ .sheets{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="brand"><span class="mark">TIE</span><div>חומרים להדפסה · יריד האפליקציות<small>שיעור 17 · שלב 6: אב-טיפוס · האקתון וייב-קודינג</small></div></div>
+  <nav class="toc" id="toc" aria-label="עמודים"></nav>
+  <button class="printBtn" type="button" onclick="window.print()">🖨️ הדפסה</button>
+  <div class="hint">בהדפסה: A4 · שוליים "ללא" · להפעיל "גרפיקת רקע". מה שרואים כאן בדף הוא בדיוק מה שיודפס.</div>
+</header>
+
+<main class="sheets">
+<!-- ===================== 1. PRINT SHEET ===================== -->
+<section class="page" id="p-print" data-label="דף הדפסה">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · שיעור 17</div><div class="r">למדריך</div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · לא לחלק</span><h2>מה מדפיסים <span>ומה מכינים</span></h2></div><p>כיתה של 28 תלמידים ב-7 צוותים. בכיתה אחרת: לפי מספר הצוותים. הצוותים ממוספרים עם כיוון השעון, כי הבאג באש והיריד עובדים "שמאלה".</p></div>
+  <table class="tb">
+    <thead><tr><th>עמוד</th><th>מה</th><th>כמה עותקים</th><th>נייר</th><th>גזירה</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>כרטיס המשימה</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>3</td><td>כרטיס האפיון (דף עבודה א)</td><td>1 לצוות + 3 רזרבה (10)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>4</td><td>יומן בדיקות ותיקונים (דף עבודה ב)</td><td>1 לצוות (7)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>5</td><td>פתקי באג</td><td>3 עמודים (24 פתקים)</td><td>רגיל, עדיף ורוד</td><td>כן, 8 בעמוד</td></tr>
+      <tr><td>6</td><td>כרטיסי מסלול: 4 אפיונים לדוגמה</td><td>2 סטים לכיתה</td><td>בריסטול</td><td>כן, לרבעים</td></tr>
+      <tr><td>7</td><td>צ׳קליסט הצוות האדום ומשימות צד</td><td>2 עמודים</td><td>בריסטול</td><td>כן, לרבעים</td></tr>
+      <tr><td>8</td><td>שלט הדוכן ליריד</td><td>4 עמודים (8 שלטים)</td><td>בריסטול</td><td>לחצי</td></tr>
+      <tr><td>9</td><td>פתקי דירוג ליריד</td><td>9 עמודים (90 פתקים)</td><td>רגיל, עדיף צהוב</td><td>כן, 10 בעמוד</td></tr>
+      <tr><td>10</td><td>מחוון</td><td>1 לצוות + 1 למדריך (8)</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>11</td><td>שורת AI</td><td>2 עמודים (8 רצועות)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>12</td><td>כרטיסי יציאה</td><td>8 עמודים (32)</td><td>רגיל</td><td>כן, לרבעים</td></tr>
+      <tr><td>13</td><td>ציד באגים על נייר (בלי מקרן / משימת צד)</td><td>1 לצוות לפי הצורך</td><td>רגיל</td><td>לא</td></tr>
+      <tr><td>14</td><td>דף הניקוד של המדריך</td><td>1</td><td>רגיל</td><td>לא</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>📦 על כל שולחן</h3>
+      <ul class="check"><li>כרטיס משימה, כרטיס אפיון, יומן בדיקות ומחוון</li><li>3 פתקי באג וצ׳קליסט צוות אדום (לצוות שיוצא לבדוק)</li><li>שלט דוכן ריק</li><li>2 טושים, עט, מעטפת צוות</li><li>שלט שולחן עם <b>מספר הצוות</b></li></ul></div>
+    <div class="box soft"><h3>🧑‍🏫 על שולחן המדריך</h3>
+      <ul class="check"><li>עט לחתימות על כרטיסי האפיון</li><li>כרטיסי מסלול (2 סטים) לצוותים תקועים</li><li>קופסת משימות צד</li><li>פתקי דירוג (3 לכל מבקר/ת), רצועות שורת AI, כרטיסי יציאה</li><li>דף הניקוד</li><li>צילומי מסך מהחזרה הגנרלית (גיבוי)</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>✂ גזירה מהירה</h3><p>פתקי באג ופתקי דירוג: מניחים 3–4 דפים זה על זה וגוזרים יחד. שלטי הדוכן: גוזרים לחצי ומקפלים כל חצי לאורך הקו כך שהשלט עומד על השולחן.</p></div>
+</section>
+
+<!-- ===================== 2. MISSION CARD ===================== -->
+<section class="page" id="p-mission" data-label="כרטיס המשימה">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · שיעור 17 · כרטיס המשימה</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">⚡ שלב 6: אב-טיפוס · האקתון וייב-קודינג</span><h2>יריד <span>האפליקציות</span></h2></div><p>היום אתם חברת תוכנה. אתם מתארים, ה-AI בונה. צוות אחר ינסה לשבור לכם את האפליקציה, ובסוף הכיתה תנסה אותה ביריד. <b>מי שמתאר הכי טוב, בונה הכי טוב.</b></p></div>
+  <div class="grid2">
+    <div class="box"><h3>🎯 המטרה</h3><p>אפליקציה עם <b>תכונה מרכזית אחת</b> שמשתמש זר מצליח להשתמש בה לבד, ומשתפים אותה בקישור.</p>
+      <h3 style="margin-top:2.5mm">🗺️ חמש התחנות</h3><p style="font-size:9.2pt;line-height:1.6">📐 אפיון 6 דק׳ · 🛠️ בנייה 14 · 🐞 באג באש 8 · 🔧 תיקון 15 · 🎪 יריד 8</p></div>
+    <div class="box"><h3>📏 החוקים</h3><ol class="clean" style="font-size:9.4pt"><li>תכונה מרכזית אחת. שנייה רק אחרי 3 בדיקות.</li><li>קודם אפיון חתום, אחר כך Canvas.</li><li>אפס פרטים אישיים: שם, טלפון, כתובת, תמונה.</li><li>תיקון = דבר אחד + "אל תשנה שום דבר אחר".</li><li>באג באש: רק דרך האפליקציה. מארחים שותקים.</li><li>ביריד: לא מדרגים את עצמנו ולא עוזרים.</li></ol></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>🏆 הניקוד (ידוע מראש)</h3>
+    <table class="tb" style="font-size:9.2pt"><thead><tr><th>מה</th><th style="width:24mm">נקודות</th><th>מה</th><th style="width:24mm">נקודות</th></tr></thead><tbody>
+      <tr><td>📐 כרטיס אפיון מלא וחתום</td><td>3</td><td>🐞 באג שמצאנו אצל צוות אחר</td><td>1 לבאג, עד 3</td></tr>
+      <tr><td>🚀 גרסה 0.1 רצה בבאג באש</td><td>2</td><td>🔧 באג שמצאו אצלנו, תוקן ונבדק שוב</td><td>1 לבאג, עד 3</td></tr>
+      <tr><td>🧪 3 בדיקות ידניות מתועדות</td><td>3</td><td>📊 רמה במחוון × 3</td><td>3–12</td></tr>
+      <tr><td>🎯 2 שינויים ב"בחירה ושאלה"</td><td>2</td><td>⭐ יריד: מקומות 1–3 בממוצע כוכבים</td><td>8 / 5 / 3</td></tr>
+      <tr><td>🔗 הקישור נפתח במכשיר אחר</td><td>2</td><td>🏅 תואר מיוחד</td><td>3</td></tr>
+      <tr><td>📤 הגשה בזמן (טופס + יומן)</td><td>2</td><td>🎟 כרטיסי יציאה של כל הצוות</td><td>2</td></tr>
+    </tbody></table>
+    <p style="margin-top:2mm;font-size:9pt;color:var(--muted)">🏆 אלופי ההאקתון: הכי הרבה נקודות. שובר שוויון: ממוצע הכוכבים ביריד. תארים: 🐞 ציידי הבאגים · 🔧 מתקני העל · 📐 האפיון החד · 🤝 רוח צוות.</p></div>
+  <div class="box" style="margin-top:4mm"><h3>👥 מה כל תפקיד עושה היום</h3>
+    <table class="tb" style="font-size:9.2pt"><tbody>
+      <tr><td style="width:30mm"><b>🧭 מנכ״ל/ית</b></td><td>בחירת התכונה, הכרטיס לחתימה, ובדקה 12 של הבנייה: "לא מוסיפים יותר".</td></tr>
+      <tr><td><b>🔍 חוקר/ת</b></td><td>מחשב/ת ביד ומריץ/ה את 3 הבדיקות. בבאג באש: "האקר/ית" אצל הצוות שמשמאל.</td></tr>
+      <tr><td><b>🛠️ בונה</b></td><td>על המקלדת ב-Canvas. אחרי כל שינוי מנסה הכול שוב. ביריד: מארח/ת בדוכן.</td></tr>
+      <tr><td><b>🎤 מציג/ה</b></td><td>"לפני ואחרי", שלט הדוכן, הגשה בטופס. ביריד: מארח/ת וסוכם/ת כוכבים.</td></tr>
+      <tr><td><b>🤖 AI</b></td><td>פרומפט מהכרטיס, בקשות תיקון, "בחירה ושאלה", אייקון, שורת AI. בבאג באש: "האקר/ית".</td></tr>
+    </tbody></table></div>
+  <div class="grid3" style="margin-top:4mm">
+    <div class="box soft"><span class="pill" style="background:#e7f6ec;color:#15803d">בסיס</span><p style="margin-top:1.5mm;font-size:9.2pt">לוקחים כרטיס מסלול (מחשבון מומלץ) ומשנים רק שמות, מספרים וצבעים.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdf3d7;color:#a16207">רגיל</span><p style="margin-top:1.5mm;font-size:9.2pt">אפיון משלכם למיזם שלכם, עם 3 דוגמאות בדיקה.</p></div>
+    <div class="box soft"><span class="pill" style="background:#fdebe3;color:#c2410c">אלופים</span><p style="margin-top:1.5mm;font-size:9.2pt">+ הודעה ידידותית לקלט שגוי, ו"מבחן התאום": צוות אחר בונה מהכרטיס שלכם ויוצא דומה.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 3. SPEC CARD (worksheet A) ===================== -->
+<section class="page" id="p-spec" data-label="כרטיס האפיון">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · דף עבודה א</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🔴 ספרינט 1א · 6 דקות · בלי AI</span><h2>כרטיס <span>האפיון</span></h2></div><p>בלי חתימה של המדריך לא פותחים Canvas. אם אין מחשב, הכרטיס והסקיצה הם האפליקציה.</p></div>
+  <div class="box"><h3>המסלול שלנו (סמנו)</h3><div class="grid2" style="grid-template-columns:repeat(4,1fr);font-size:9.6pt"><p>☐ 🧮 מחשבון</p><p>☐ 🧭 שאלון התאמה</p><p>☐ 📋 לוח מעקב</p><p>☐ ⏱️ כלי חי / משחקון</p></div>
+    <p style="margin-top:2mm">שם האפליקציה: <span class="fill l"></span> &nbsp; למי היא: <span class="fill l"></span></p></div>
+  <div class="spec-grid" style="margin-top:3.5mm">
+    <div class="sp s1"><b>🎯 מטרה</b><small>מה המשתמש יודע או יכול לעשות אחרי שהשתמש באפליקציה?</small><div class="lines h2"></div></div>
+    <div class="sp s2"><b>⌨️ קלט</b><small>מה בדיוק מקלידים או לוחצים? כמה שדות? איזה סוג (מספר, בחירה)?</small><div class="lines h2"></div></div>
+    <div class="sp s3"><b>📤 פלט</b><small>מה בדיוק מופיע על המסך? מספר? צבע? הודעה?</small><div class="lines h2"></div></div>
+    <div class="sp s4"><b>📏 3 כללים</b><small>מה מותר, מה אסור, מה קורה במקרה מיוחד</small><p style="line-height:2.2;font-size:9.6pt">1. <span class="fill xl"></span><br>2. <span class="fill xl"></span><br>3. <span class="fill xl"></span></p></div>
+    <div class="sp s5"><b>🎨 עיצוב</b><small>צבעים, סגנון, אימוג׳י. תמיד: עברית מימין לשמאל, כפתורים גדולים לטלפון</small><div class="lines h1"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:3.5mm;grid-template-columns:1.35fr 1fr">
+    <div class="box"><h3>🧪 3 דוגמאות בדיקה (מחשבים ביד!)</h3>
+      <table class="tb" style="font-size:9pt"><thead><tr><th style="width:8mm">#</th><th>מה מקלידים / לוחצים</th><th>מה צריך לצאת</th></tr></thead><tbody>
+        <tr><td>1</td><td class="e"></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td></tr><tr><td>3 <small>קצה</small></td><td class="e"></td><td></td></tr></tbody></table>
+      <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">בדיקה 3 = מקרה קצה: ריק, אפס, הכול מסומן, מספר ענק.</p></div>
+    <div class="phoneSk"><span>📱 סקיצה של המסך</span></div>
+  </div>
+  <div class="grid2" style="margin-top:3.5mm;grid-template-columns:1.35fr 1fr">
+    <div class="box soft"><h3>✓ לפני שמביאים לחתימה</h3><ul class="check" style="font-size:9.4pt"><li>5 החלקים מלאים</li><li>תכונה אחת בלבד</li><li>3 דוגמאות עם תוצאה מחושבת</li><li>אין שום שדה של פרט אישי</li></ul></div>
+    <div class="sign"><b>✍ חתימת המדריך</b><span>שעה: <span class="fill s"></span></span></div>
+  </div>
+</section>
+
+<!-- ===================== 4. TEST & FIX LOG (worksheet B) ===================== -->
+<section class="page" id="p-log" data-label="יומן בדיקות">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · דף עבודה ב</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🟢 ספרינט 1ב + ספרינט 2 · AI כשותף, ואנחנו בודקים</span><h2>יומן בדיקות <span>ותיקונים</span></h2></div><p>הדף הזה הוא ההוכחה שהאפליקציה עובדת. מה שלא כתוב כאן לא נבדק.</p></div>
+  <div class="box"><h3>🧪 3 בדיקות ידניות</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:7mm">#</th><th>מה עשינו / הקלדנו</th><th>מה צריך לצאת</th><th>מה יצא באפליקציה</th><th style="width:20mm">עבר? ✅ ❌</th></tr></thead><tbody>
+      <tr><td>1</td><td class="e"></td><td></td><td></td><td></td></tr><tr><td>2</td><td class="e"></td><td></td><td></td><td></td></tr><tr><td>3</td><td class="e"></td><td></td><td></td><td></td></tr>
+      <tr><td colspan="5" style="font-size:8.6pt;color:var(--muted)">אחרי כל תיקון: מריצים שוב את שלוש הבדיקות. תיקון אחד יכול לשבור משהו אחר.</td></tr></tbody></table></div>
+  <div class="box" style="margin-top:3.5mm"><h3>🐞 באגים מהבאג באש: לפני ואחרי</h3>
+    <table class="tb" style="font-size:9pt"><thead><tr><th style="width:7mm">#</th><th style="width:17mm">חומרה</th><th>מה הבאג (מהפתק)</th><th>מה ביקשנו מה-AI</th><th style="width:22mm">נבדק שוב ✓</th></tr></thead><tbody>
+      <tr><td>1</td><td class="sev">🟢🟡🔴</td><td class="e"></td><td></td><td></td></tr><tr><td>2</td><td class="sev">🟢🟡🔴</td><td class="e"></td><td></td><td></td></tr><tr><td>3</td><td class="sev">🟢🟡🔴</td><td class="e"></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:3.5mm">
+    <div class="box"><h3>🎯 2 שינויים ב"בחירה ושאלה"</h3><p style="font-size:9.2pt;line-height:2.4">1. סימנו את <span class="fill s"></span> ← ביקשנו <span class="fill"></span><br>2. סימנו את <span class="fill s"></span> ← ביקשנו <span class="fill"></span></p></div>
+    <div class="box"><h3>🔗 הקישור והאייקון</h3><ul class="check" style="font-size:9.3pt"><li>הקישור נפתח בדפדפן במכשיר אחר</li><li>אין באפליקציה שום שדה של פרט אישי</li><li>יש אייקון (Gemini ← "תמונות")</li><li>שלט הדוכן מוכן עם משימה אחת</li></ul></div>
+  </div>
+  <div class="box" style="margin-top:3.5mm"><h3>🔧 3 השיפורים שלנו מבדיקת עמיתים (נכנס להגשה)</h3>
+    <p style="font-size:9.3pt;line-height:2.3">1. בודקים אמרו / מצאו: <span class="fill l"></span> ← שינינו: <span class="fill l"></span><br>2. בודקים אמרו / מצאו: <span class="fill l"></span> ← שינינו: <span class="fill l"></span><br>3. בודקים אמרו / מצאו: <span class="fill l"></span> ← שינינו: <span class="fill l"></span></p></div>
+  <div class="box soft" style="margin-top:3.5mm"><h3>🤖 שורת AI</h3><p style="font-size:9.3pt">מה ה-AI עשה: <span class="fill xl"></span></p><p style="font-size:9.3pt;margin-top:2mm">מה אנחנו עשינו: <span class="fill xl"></span></p><p style="font-size:9.3pt;margin-top:2mm">טעות של ה-AI שתפסנו: <span class="fill xl"></span></p></div>
+</section>
+
+<!-- ===================== 5. BUG SLIPS ===================== -->
+<section class="page" id="p-bugs" data-label="פתקי באג">
+  <div class="ph"><div class="l"><i>TIE</i>פתקי באג · 8 בעמוד</div><div class="r">באג באש</div></div>
+  <p class="cutnote">✂ לגזור. הצוות האדום ממלא פתק לכל באג ומשאיר אותו אצל המארחים. באג נחשב כשהמארחים מצליחים לשחזר אותו מהפתק.</p>
+  <div class="cutgrid bugs">
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+    <div class="bug"><div class="bh"><b>🐞 דוח באג</b><span>אנחנו צוות <span class="fill s"></span> ← בדקנו את צוות <span class="fill s"></span></span></div><p><b>עשיתי:</b> <span class="fill xl"></span></p><p><b>ציפיתי:</b> <span class="fill xl"></span></p><p><b>קרה:</b> <span class="fill xl"></span></p><div class="bf"><span>חומרה: ☐ 🟢 קטן ☐ 🟡 מפריע ☐ 🔴 שובר</span><span>מארחים: ☐ שוחזר ☐ תוקן ונבדק</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 6. TRACK CARDS ===================== -->
+<section class="page" id="p-tracks" data-label="כרטיסי מסלול">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיסי מסלול · 4 אפיונים לדוגמה</div><div class="r">לצוות שצריך נקודת התחלה</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. צוות ברמת "בסיס" לוקח כרטיס ומשנה שמות, מספרים וצבעים כך שיתאימו למיזם שלו.</p>
+  <div class="cutgrid tracks">
+    <article class="trk k1"><div class="th"><span>🧮</span><div><b>מחשבון</b><small>הכי בטוח · קל לבדוק ביד</small></div></div>
+      <p><b>שם:</b> כמה נרוויח מהדוכן?</p><p><b>🎯 מטרה:</b> לדעת מראש אם דוכן ביריד בית הספר ירוויח.</p><p><b>⌨️ קלט:</b> מחיר ליחידה · עלות ליחידה · כמה יחידות נמכור.</p><p><b>📤 פלט:</b> רווח בש״ח, ירוק אם רווח ואדום אם הפסד.</p><p><b>📏 כללים:</b> 1. רווח = (מחיר פחות עלות) × כמות. 2. כמות שלילית או שדה ריק ← "צריך מספר חיובי". 3. "איפוס" מנקה את כל השדות.</p><p><b>🎨 עיצוב:</b> ירוק ולבן, מספר תוצאה גדול.</p><p class="tex"><b>🧪 בדיקה:</b> מחיר 5, עלות 2, כמות 10 ← 30 ₪ בירוק<br>מחיר 3, עלות 4, כמות 10 ← הפסד של 10 ₪ באדום</p></article>
+    <article class="trk k2"><div class="th"><span>🧭</span><div><b>שאלון התאמה</b><small>בינוני · צריך לתכנן מסלולים</small></div></div>
+      <p><b>שם:</b> איזה משחק מהקופסה מתאים לך?</p><p><b>🎯 מטרה:</b> לעזור לתלמיד לבחור משחק להפסקה תוך 20 שניות.</p><p><b>⌨️ קלט:</b> 4 שאלות, 3 תשובות לכל אחת (למשל: לבד / עם חבר / קבוצה).</p><p><b>📤 פלט:</b> אחת מ-3 תוצאות: כדור, קלפים או חבל קפיצה, עם משפט "למה".</p><p><b>📏 כללים:</b> 1. כל תשובה נותנת נקודות לתוצאה אחת. 2. בתיקו: הקלפים. 3. כפתור "שוב מההתחלה".</p><p><b>🎨 עיצוב:</b> שאלה אחת בכל מסך, כפתורי תשובה גדולים.</p><p class="tex"><b>🧪 בדיקה:</b> עונים 4 פעמים "קבוצה" ← כדור<br>עונים 4 פעמים "לבד" ← קלפים</p></article>
+    <article class="trk k3"><div class="th"><span>📋</span><div><b>לוח מעקב</b><small>בינוני · מצבים ומונה</small></div></div>
+      <p><b>שם:</b> קופסת הפסקה</p><p><b>🎯 מטרה:</b> התורנים יודעים בכל רגע מה בחוץ ומה בקופסה.</p><p><b>⌨️ קלט:</b> לחיצה על אחד מ-6 פריטים + בחירת כיתה מרשימה (ו׳1–ו׳4).</p><p><b>📤 פלט:</b> פריט בחוץ אדום עם הכיתה, בקופסה ירוק. מונה "בחוץ: X מתוך 6".</p><p><b>📏 כללים:</b> 1. בלי שמות, רק כיתה. 2. אי אפשר להשאיל פריט שכבר בחוץ. 3. "סוף הפסקה" מציג מה לא חזר.</p><p><b>🎨 עיצוב:</b> כתום ותכלת, כפתורים גדולים.</p><p class="tex"><b>🧪 בדיקה:</b> כדור, כיתה ו׳2 ← המונה "1 מתוך 6"<br>שוב כדור ← הודעה "הפריט כבר בחוץ"</p></article>
+    <article class="trk k4"><div class="th"><span>⏱️</span><div><b>כלי חי / משחקון</b><small>אתגר · זמן ואירועים</small></div></div>
+      <p><b>שם:</b> טיימר ההחזרה</p><p><b>🎯 מטרה:</b> להזכיר להחזיר את הציוד לפני שההפסקה נגמרת.</p><p><b>⌨️ קלט:</b> אורך ההפסקה בדקות (בחירה: 10 / 15 / 20) וכפתור "התחלה".</p><p><b>📤 פלט:</b> ספירה לאחור גדולה. 2 דקות לפני הסוף: רקע כתום והודעה "זמן להחזיר!".</p><p><b>📏 כללים:</b> 1. "עצירה" ו"איפוס". 2. לחיצה כפולה על "התחלה" לא מאיצה את השעון. 3. בסוף: "ההפסקה נגמרה".</p><p><b>🎨 עיצוב:</b> מספרים ענקיים, נראה טוב גם מרחוק.</p><p class="tex"><b>🧪 בדיקה:</b> בוחרים 10 דקות ולוחצים "התחלה"<br>אחרי 8 דקות ← רקע כתום והודעה</p></article>
+  </div>
+</section>
+
+<!-- ===================== 7. RED TEAM CHECKLIST + SIDE QUESTS ===================== -->
+<section class="page" id="p-red" data-label="צוות אדום ומשימות צד">
+  <div class="ph"><div class="l"><i>TIE</i>צ׳קליסט הצוות האדום · משימות צד</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. שני הכרטיסים העליונים יוצאים עם הצוות האדום. שני התחתונים נכנסים לקופסת משימות הצד.</p>
+  <div class="cutgrid quads">
+    <article class="rteam"><div class="th"><span>🧨</span><div><b>צ׳קליסט הצוות האדום</b><small>5 דקות · רק דרך האפליקציה</small></div></div>
+      <ul class="check" style="font-size:9.6pt"><li>🕳️ שדה ריק: לוחצים בלי להקליד</li><li>🔤 אותיות במקום מספר ("שלוש")</li><li>➖ מספר שלילי או אפס</li><li>🐘 מספר ענק (999999999)</li><li>👆👆 לחיצה כפולה מהירה</li><li>📜 טקסט ארוך מאוד / לסמן הכול</li><li>📱 חלון צר כמו טלפון</li><li>🔒 מבקשת פרט אישי?</li><li>🧮 <b>חישוב אחד ביד: נכון?</b></li></ul>
+      <div class="mini-ex"><b>דוגמה לפתק:</b> עשיתי: מחקתי את המחיר ולחצתי. ציפיתי: "צריך מספר". קרה: "NaN".</div><p class="sevs">🟢 קטן = נראה לא טוב · 🟡 מפריע = עובד אבל מבלבל · 🔴 שובר = חישוב שגוי או קריסה</p><p class="tip2">כל באג = פתק: עשיתי · ציפיתי · קרה</p></article>
+    <article class="rteam"><div class="th"><span>🧨</span><div><b>צ׳קליסט הצוות האדום</b><small>5 דקות · רק דרך האפליקציה</small></div></div>
+      <ul class="check" style="font-size:9.6pt"><li>🕳️ שדה ריק: לוחצים בלי להקליד</li><li>🔤 אותיות במקום מספר ("שלוש")</li><li>➖ מספר שלילי או אפס</li><li>🐘 מספר ענק (999999999)</li><li>👆👆 לחיצה כפולה מהירה</li><li>📜 טקסט ארוך מאוד / לסמן הכול</li><li>📱 חלון צר כמו טלפון</li><li>🔒 מבקשת פרט אישי?</li><li>🧮 <b>חישוב אחד ביד: נכון?</b></li></ul>
+      <div class="mini-ex"><b>דוגמה לפתק:</b> עשיתי: מחקתי את המחיר ולחצתי. ציפיתי: "צריך מספר". קרה: "NaN".</div><p class="sevs">🟢 קטן = נראה לא טוב · 🟡 מפריע = עובד אבל מבלבל · 🔴 שובר = חישוב שגוי או קריסה</p><p class="tip2">כל באג = פתק: עשיתי · ציפיתי · קרה</p></article>
+    <article class="side"><div class="th"><span>⭐</span><div><b>משימות צד · כרטיס א</b><small>רק אחרי ש-3 הבדיקות עוברות</small></div></div>
+      <p><b>👯 מבחן התאום:</b> תנו לצוות אחר רק את כרטיס האפיון. הם בונים ממנו ב-5 דקות. יצא דומה? מועמדים ל"אפיון החד".</p>
+      <p><b>💬 הודעת שגיאה ידידותית:</b> מה קורה כשמקלידים שטויות? במקום NaN או קריסה: "אופס, צריך מספר כאן 🙂".</p>
+      <p><b>❓ מסך "איך משתמשים":</b> 3 צעדים, אימוג׳י לכל צעד, כפתור "בואו נתחיל".</p><p><b>👍 מותאם לאגודל:</b> ב"בחירה ושאלה" מבקשים שכל כפתור יהיה גדול מספיק ללחיצה באגודל. בודקים בחלון צר.</p><p class="tip2" style="color:#8a5300">כל משימה שבוצעה נכנסת ל"3 השיפורים" ביומן.</p></article>
+    <article class="side"><div class="th"><span>⭐</span><div><b>משימות צד · כרטיס ב</b><small>רק אחרי ש-3 הבדיקות עוברות</small></div></div>
+      <p><b>2️⃣ תכונה שנייה:</b> רק אם הראשונה עברה 3 בדיקות. ואז שוב 3 בדיקות לשתיהן.</p>
+      <p><b>🧑‍🔬 צוות אדום לעצמכם:</b> 3 סיבות שמשתמש יתייאש מהאפליקציה. תקנו אחת.</p>
+      <p><b>🔍 להבין את הקוד:</b> בקשו מ-Gemini להסביר בשפה פשוטה איפה בקוד נמצא החישוב, והסבירו לצוות אחר.</p><p><b>📸 לפני ואחרי ליומן:</b> צילום מסך של הגרסה הראשונה ושל הגרסה המתוקנת, זה לצד זה, עם חץ לכל שינוי.</p><p class="tip2" style="color:#8a5300">כל משימה שבוצעה נכנסת ל"3 השיפורים" ביומן.</p></article>
+  </div>
+</section>
+
+<!-- ===================== 8. BOOTH SIGN ===================== -->
+<section class="page" id="p-booth" data-label="שלט הדוכן">
+  <div class="ph"><div class="l"><i>TIE</i>שלט הדוכן · יריד האפליקציות</div><div class="r">2 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לחצי. מניחים את השלט ליד המחשב או מדביקים אותו בסלוטייפ מתחת למסך.</p>
+  <div class="booths">
+    <div class="booth"><div class="bin">
+      <div class="bt"><div class="bicon">אייקון</div><div><small>🎪 יריד האפליקציות · דוכן מספר <span class="fill s"></span></small><p class="bname">שם האפליקציה: <span class="fill xl"></span></p><p>היא עוזרת ל<span class="fill"></span> ל<span class="fill l"></span></p></div></div>
+      <div class="btask"><b>🎯 המשימה שלכם (עד 2 דקות, לבד!)</b><div class="lines h3"></div></div>
+      <div class="brules"><span>🤐 המארחים לא עוזרים</span><span>⭐ לפני שהולכים: פתק דירוג</span><span>🔒 לא נשמר עליכם שום מידע</span></div></div></div>
+    <div class="booth"><div class="bin">
+      <div class="bt"><div class="bicon">אייקון</div><div><small>🎪 יריד האפליקציות · דוכן מספר <span class="fill s"></span></small><p class="bname">שם האפליקציה: <span class="fill xl"></span></p><p>היא עוזרת ל<span class="fill"></span> ל<span class="fill l"></span></p></div></div>
+      <div class="btask"><b>🎯 המשימה שלכם (עד 2 דקות, לבד!)</b><div class="lines h3"></div></div>
+      <div class="brules"><span>🤐 המארחים לא עוזרים</span><span>⭐ לפני שהולכים: פתק דירוג</span><span>🔒 לא נשמר עליכם שום מידע</span></div></div></div>
+  </div>
+  <p class="fold">משימה טובה אפשר להצליח או להיכשל בה: "גלו כמה נרוויח מ-40 עוגיות ב-4 ₪ שעולות 1.5 ₪" ולא "תסתכלו על האפליקציה".</p>
+</section>
+
+<!-- ===================== 9. RATING SLIPS ===================== -->
+<section class="page" id="p-rate" data-label="פתקי דירוג">
+  <div class="ph"><div class="l"><i>TIE</i>פתקי דירוג · יריד האפליקציות</div><div class="r">10 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור. כל מבקר/ת ממלא/ת פתק אחד בכל דוכן ומשאיר/ה אותו אצל המארחים. לא מדרגים את הצוות שלכם.</p>
+  <div class="cutgrid rates">
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+    <div class="rt"><div class="rh"><b>⭐ פתק דירוג</b><span>דוכן מספר <span class="fill s"></span></span></div><p>ביצעתי את המשימה: ☐ לבד ☐ עם קושי ☐ לא הצלחתי</p><div class="stars"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><small>⭐ מקיפים מספר</small></div><p>💚 אהבתי: <span class="fill l"></span></p><p>💡 הלוואי: <span class="fill l"></span></p></div>
+  </div>
+</section>
+
+<!-- ===================== 10. RUBRIC ===================== -->
+<section class="page" id="p-rubric" data-label="מחוון">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · המחוון</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">📊 מוצג לפני העבודה · נשאר על השולחן</span><h2>איך נמדדת <span>האפליקציה</span></h2></div><p>בבאג באש מסמנים איפה אתם עכשיו. בהגשה: הערכה עצמית בטופס. המדריך קובע את הרמה הסופית.</p></div>
+  <table class="rub">
+    <colgroup><col style="width:19%"><col><col><col><col><col style="width:10%"></colgroup>
+    <thead><tr><th>קריטריון</th><th class="lv1">🌱 מתחיל · 1</th><th class="lv2">🌿 מתפתח · 2</th><th class="lv3">🌳 מיומן · 3</th><th class="lv4">🚀 מצטיין · 4</th><th>אנחנו</th></tr></thead>
+    <tbody>
+      <tr><td class="crit">📐 אפיון<small>מה בונים, בדיוק</small></td><td>"אפליקציה טובה ל…". אין קלט או פלט</td><td>יש מטרה ותכונה, חסרים קלט, פלט או כללים</td><td>5 החלקים מלאים וברורים, ודוגמת בדיקה אחת</td><td>מדויק כך שצוות אחר יכול לבנות ממנו. 3 דוגמאות בדיקה, כולל מקרה קצה</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">⚙️ תפקוד<small>האפליקציה עובדת</small></td><td>לא נפתחת, או נשברת בלחיצה הראשונה</td><td>עובדת חלקית, או שהעברית הפוכה</td><td>התכונה עובדת ב-3 הבדיקות, מימין לשמאל</td><td>עובדת מהקישור במכשיר אחר, בלי שגיאות, ומתמודדת עם שדה ריק או קלט מוזר</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🔧 בדיקה ושיפור<small>תהליך</small></td><td>לא נבדקה</td><td>רק הבונים ניסו, בלי תיעוד</td><td>3 בדיקות מתועדות ובאג אחד תוקן</td><td>כל באג שדווח תוקן ונבדק שוב, עם "לפני ואחרי", ו-2 שינויים לפי משוב</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+      <tr><td class="crit">🔒 פרטיות ושקיפות AI<small>אחריות</small></td><td>שואלת שם, טלפון, כתובת או תמונה</td><td>לא שואלת, אבל לא כתוב מה ה-AI עשה</td><td>אפס פרטים אישיים + שורת AI</td><td>כתוב באפליקציה "לא נשמר עליך שום מידע", ובשורת ה-AI טעות של AI שתפסנו</td><td class="self"><div class="sc"><i>1</i><i>2</i><i>3</i><i>4</i></div></td></tr>
+    </tbody>
+  </table>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box soft"><h3>🏆 מהמחוון לנקודות</h3><p>הרמה הסופית (ממוצע מעוגל) × 3: <b>רמה 1 = 3 · רמה 2 = 6 · רמה 3 = 9 · רמה 4 = 12</b> נקודות בלוח הניקוד.</p></div>
+    <div class="box soft"><h3>💬 הדבר האחד הכי חשוב לשפר</h3><div class="lines h2"></div></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>דוגמה: "קופסת הפסקה" ברמה 3 מול רמה 4</h3>
+    <div class="grid2"><p style="font-size:9.3pt"><b>🌳 רמה 3:</b> כרטיס עם 5 חלקים ודוגמה אחת. הלוח מסמן בחוץ ובקופסה, והמונה עובד. בבאג באש נמצא שאפשר להשאיל פריט שכבר בחוץ, וזה תוקן. 3 בדיקות בטבלה. שורת AI: "Canvas כתב את הקוד. אנחנו כתבנו את האפיון ובדקנו."</p><p style="font-size:9.3pt"><b>🚀 רמה 4:</b> כל זה, ועוד: בדיקת קצה "כל 6 בחוץ ← 6 מתוך 6". שני באגים תוקנו ונבדקו שוב (גם לחיצה כפולה שספרה פעמיים). כפתורים גדולים ושורת "לא נשמר עליך שום מידע". שורת AI: "ה-AI הוסיף בעצמו מסך הרשמה עם שם. מחקנו אותו."</p></div></div>
+</section>
+
+<!-- ===================== 11. AI LINE ===================== -->
+<section class="page" id="p-ai" data-label="שורת AI">
+  <div class="ph"><div class="l"><i>TIE</i>שורת AI · מצורפת לתוצר</div><div class="r">4 בעמוד</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. מעתיקים את השורות לטופס ההגשה ולשקף ביומן.</p>
+  <div class="cutgrid" style="grid-template-rows:repeat(4,1fr);flex:1">
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור 17</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill l"></span></span><span>כלים: Canvas ☐ תמונות ☐</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור 17</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill l"></span></span><span>כלים: Canvas ☐ תמונות ☐</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור 17</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill l"></span></span><span>כלים: Canvas ☐ תמונות ☐</span></div></div>
+    <div class="aiw"><div class="head"><b>🤖 שורת AI</b><span>צוות: <span class="fill"></span> · שיעור 17</span></div><div class="cols"><div class="col ai-c"><b>🤖 מה ה-AI עשה</b><div class="lines"></div></div><div class="col we-c"><b>✋ מה אנחנו עשינו</b><div class="lines"></div></div></div><div class="foot"><span>טעות של AI שתפסנו: <span class="fill l"></span></span><span>כלים: Canvas ☐ תמונות ☐</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 12. EXIT TICKETS ===================== -->
+<section class="page" id="p-exit" data-label="כרטיס יציאה">
+  <div class="ph"><div class="l"><i>TIE</i>כרטיס יציאה · 4 בעמוד</div><div class="r">כל אחד לבד · 🔴 בלי AI</div></div>
+  <p class="cutnote">✂ לגזור לרבעים. ממלאים בדקות 85–88, כל אחד לבד. כל הנוכחים בצוות מילאו = 2 נקודות לצוות.</p>
+  <div class="cutgrid exits">
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 17</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הכי חשוב לכתוב לפני שמבקשים מ-AI לבנות אפליקציה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>אפיון</span><span>בנייה</span><span>בדיקות</span><span>באג באש</span><span>AI</span><span>הדוכן</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 17</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הכי חשוב לכתוב לפני שמבקשים מ-AI לבנות אפליקציה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>אפיון</span><span>בנייה</span><span>בדיקות</span><span>באג באש</span><span>AI</span><span>הדוכן</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 17</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הכי חשוב לכתוב לפני שמבקשים מ-AI לבנות אפליקציה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>אפיון</span><span>בנייה</span><span>בדיקות</span><span>באג באש</span><span>AI</span><span>הדוכן</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+    <div class="ex"><div class="eh"><b>🎟 כרטיס יציאה</b><span>שיעור 17</span></div><p>צוות: <span class="fill"></span></p><p class="q">דבר אחד שלמדתי היום:</p><div class="lines h1"></div><p class="q">שאלה אחת שנשארה לי:</p><div class="lines h1"></div><p class="q">מה הכי חשוב לכתוב לפני שמבקשים מ-AI לבנות אפליקציה, ולמה?</p><div class="lines h2"></div><div class="scale"><span>כמה הבנתי?</span><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p class="lbl">היום תרמתי לצוות:</p><div class="tags"><span>אפיון</span><span>בנייה</span><span>בדיקות</span><span>באג באש</span><span>AI</span><span>הדוכן</span></div><p class="red">🔴 כותבים לבד, בלי AI</p></div>
+  </div>
+</section>
+
+<!-- ===================== 13. PAPER BUG HUNT ===================== -->
+<section class="page" id="p-hunt" data-label="ציד באגים על נייר">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · ציד באגים על נייר</div><div class="r">צוות: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🐞 בלי מקרן, או משימת צד · 8 דקות</span><h2>מחשבון העוגיות <span>של היריד</span></h2></div><p>צוות בנה מחשבון רווח לדוכן עוגיות. הנה מה שקרה כשבדקו אותו. איפה האפליקציה טועה?</p></div>
+  <div class="grid2" style="grid-template-columns:1fr 1.5fr">
+    <div class="box"><h3>📐 האפיון שהצוות כתב</h3><p style="font-size:9.4pt"><b>קלט:</b> מחיר לעוגייה, עלות לעוגייה, כמה עוגיות מכרנו.<br><b>פלט:</b> "רווח: X ₪".<br><b>כללים:</b> רווח = (מחיר פחות עלות) × כמות. כמות לא יכולה להיות שלילית. "איפוס" מנקה את כל השדות.<br><b>עיצוב:</b> עברית מימין לשמאל.</p></div>
+    <div class="box"><h3>🧪 מה קרה בבדיקות</h3>
+      <table class="tb" style="font-size:9.2pt"><thead><tr><th style="width:7mm">#</th><th>מה הקלידו</th><th>מה האפליקציה הציגה</th><th style="width:16mm">באג?</th></tr></thead><tbody>
+        <tr><td>1</td><td>מחיר 5 · עלות 2 · כמות 10</td><td>רווח: 70 ₪</td><td>☐</td></tr>
+        <tr><td>2</td><td>מחיר 5 · עלות (ריק) · כמות 10</td><td>רווח: NaN ₪</td><td>☐</td></tr>
+        <tr><td>3</td><td>מחיר 5 · עלות 2 · כמות <bdi dir="ltr">-5</bdi></td><td>רווח: <bdi dir="ltr">-35</bdi> ₪</td><td>☐</td></tr>
+        <tr><td>4</td><td>לחצו "איפוס"</td><td>מחיר ועלות התרוקנו, הכמות נשארה 10</td><td>☐</td></tr>
+        <tr><td>5</td><td>מחיר 3 · עלות 4 · כמות 10</td><td>רווח: 70 ₪</td><td>☐</td></tr>
+        <tr><td>6</td><td>מחיר 4 · עלות 4 · כמות 10</td><td>רווח: 80 ₪</td><td>☐</td></tr>
+      </tbody></table>
+      <p style="font-size:8.6pt;color:var(--muted);margin-top:1mm">וגם: הכפתור כתוב באנגלית "Calculate", והתוצאה מופיעה על המסך משמאל לימין.</p></div>
+  </div>
+  <div class="box" style="margin-top:4mm"><h3>1. כמה באגים שונים מצאתם? <span class="fill s"></span> &nbsp; איזה הכי חמור, ולמה? <small style="font-weight:500;color:var(--muted)">(בונוס: למה בדיקות 1, 5 ו-6 הן אותו באג?)</small></h3><div class="lines h2"></div></div>
+  <div class="box" style="margin-top:4mm"><h3>2. דוח באג אחד, מלא</h3><p style="font-size:9.6pt;line-height:2.3"><b>עשיתי:</b> <span class="fill xl"></span><br><b>ציפיתי:</b> <span class="fill xl"></span><br><b>קרה:</b> <span class="fill xl"></span></p></div>
+  <div class="box" style="margin-top:4mm"><h3>3. בקשת התיקון שהייתם כותבים ל-Gemini</h3><p style="font-size:9pt;color:var(--muted)">❌ מה לא עובד + 🎯 מה צריך לקרות + 🛑 "אל תשנה שום דבר אחר"</p><div class="lines h2"></div></div>
+</section>
+
+<!-- ===================== 14. SCORE SHEET ===================== -->
+<section class="page" id="p-score" data-label="דף ניקוד">
+  <div class="ph"><div class="l"><i>TIE</i>יריד האפליקציות · דף ניקוד למדריך</div><div class="r">כיתה: <span class="fill"></span></div></div>
+  <div class="pt"><div><span class="kick">🧑‍🏫 למדריך · מעבירים ללוח הניקוד במצגת (שקפים 26, 35, 36)</span><h2>דף <span>הניקוד</span></h2></div><p>נקודות של השיעור הזה בלבד. מעדכנים את הלוח אחרי הבאג באש, אחרי ההגשה ואחרי היריד.</p></div>
+  <table class="tb sct">
+    <thead><tr><th style="width:15mm">צוות</th><th>אפיון<br><small>3</small></th><th>0.1 רצה<br><small>2</small></th><th>בדיקות<br><small>3</small></th><th>2 שינויים<br><small>2</small></th><th>קישור<br><small>2</small></th><th>הגשה<br><small>2</small></th><th>באגים שמצאו<br><small>עד 3</small></th><th>באגים שתוקנו<br><small>עד 3</small></th><th>מחוון ×3<br><small>3–12</small></th><th>יריד<br><small>8/5/3</small></th><th>תואר<br><small>3</small></th><th>יציאה<br><small>2</small></th><th style="background:var(--teal-soft)">סה״כ</th></tr></thead>
+    <tbody>
+      <tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:4mm"><h3>⭐ ספירת היריד</h3>
+    <table class="tb fairT" style="font-size:9pt"><thead><tr><th style="width:15mm">צוות</th><th>סכום כוכבים</th><th>מספר פתקים</th><th>ממוצע</th><th>"הצלחתי לבד"</th><th style="width:18mm">מקום</th></tr></thead>
+    <tbody><tr><td class="e">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">4</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">6</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="e">7</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box"><h3>🏅 תארים</h3><table class="tb" style="font-size:9pt"><tbody><tr><td>🐞 ציידי הבאגים</td><td style="width:16mm"></td><td>🔧 מתקני העל</td><td style="width:16mm"></td></tr><tr><td>📐 האפיון החד</td><td></td><td>🤝 רוח צוות</td><td></td></tr><tr><td colspan="3"><b>🏆 אלופי ההאקתון</b></td><td></td></tr></tbody></table></div>
+    <div class="box"><h3>⏱ חתימות על אפיון (שעה)</h3><div class="grid2" style="grid-template-columns:repeat(4,1fr);gap:1.5mm;font-size:9pt"><p>1 <span class="fill s"></span></p><p>2 <span class="fill s"></span></p><p>3 <span class="fill s"></span></p><p>4 <span class="fill s"></span></p><p>5 <span class="fill s"></span></p><p>6 <span class="fill s"></span></p><p>7 <span class="fill s"></span></p></div><p style="margin-top:2mm;font-size:9pt">צוות תקוע בבאג באש: <span class="fill"></span></p></div>
+  </div>
+  <div class="grid2" style="margin-top:4mm">
+    <div class="box soft"><h3>📝 משפט לפתיחת השיעור הבא</h3><div class="lines h1"></div></div>
+    <div class="box soft"><h3>📨 דוח למורה (3 שורות)</h3><div class="lines h1"></div></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* builds the screen TOC from the pages (hidden in print) */
+(()=>{const toc=document.getElementById('toc');if(!toc)return;
+ document.querySelectorAll('.page').forEach((p,i)=>{const a=document.createElement('a');a.href='#'+p.id;a.textContent=(i+1)+' · '+(p.dataset.label||'עמוד');toc.appendChild(a)})})();
+</script>
+</body>
+</html>
